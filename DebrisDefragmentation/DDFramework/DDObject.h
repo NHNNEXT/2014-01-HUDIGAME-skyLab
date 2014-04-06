@@ -16,7 +16,7 @@ public:
 	void SetParent( DDObject* object ) { m_pParent = object; }
 
 	void AddChild( DDObject* object );
-	void RemoveChild( DDObject* object, bool memoryDel = true );
+	void RemoveChild( DDObject* object );
 
 	inline D3DXMATRIXA16 GetMatrix() const { return m_Matrix; }
 

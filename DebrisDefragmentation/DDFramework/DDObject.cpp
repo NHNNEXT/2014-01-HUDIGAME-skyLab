@@ -59,16 +59,13 @@ void DDObject::AddChild( DDObject* object )
 	m_ChildList.push_back( object );
 }
 
-void DDObject::RemoveChild( DDObject* object, bool memoryDel /*= true */ )
+void DDObject::RemoveChild( DDObject* object )
 {
 	for ( auto& iter = m_ChildList.begin(); iter != m_ChildList.end(); iter++ )
 	{
 		if ( ( *iter ) == object )
 		{
-			if ( memoryDel == true )
-			{
-				SafeDelete( *iter );
-			}
+			SafeDelete( *iter );
 			m_ChildList.erase( iter );
 			break;
 		}
