@@ -15,9 +15,9 @@ public:
 	bool Begin();
 	bool End();
 
-	LPDIRECT3D9 GetD3D() { return m_D3D; }
-	LPDIRECT3DDEVICE9 GetDevice() { return m_D3DDevice; }
-	LPD3DXSPRITE GetSprite() { return m_Sprite; }
+	LPDIRECT3D9			GetD3D() { return m_pD3D; }
+	LPDIRECT3DDEVICE9	GetDevice() { return m_pD3DDevice; }
+	LPD3DXSPRITE		GetSprite() { return m_pSprite; }
 
 private:
 	DDRenderer();
@@ -25,9 +25,9 @@ private:
 
 	static DDRenderer* m_pInstance;
 
-	LPDIRECT3D9				m_D3D;
-	LPDIRECT3DDEVICE9		m_D3DDevice;
-	LPD3DXSPRITE			m_Sprite;
+	LPDIRECT3D9				m_pD3D;
+	LPDIRECT3DDEVICE9		m_pD3DDevice;
+	LPD3DXSPRITE			m_pSprite;
 	D3DPRESENT_PARAMETERS	m_D3DPresentParameters;
 };
 

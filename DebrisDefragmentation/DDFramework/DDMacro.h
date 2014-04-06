@@ -11,3 +11,4 @@ inline void SafeDelete( T* &p )
 		p = nullptr;
 	}
 }
+

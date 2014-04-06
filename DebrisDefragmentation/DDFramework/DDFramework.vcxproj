@@ -87,13 +87,13 @@
     <ClInclude Include="DDFramework.h" />
     <ClInclude Include="DDInputSystem.h" />
     <ClInclude Include="DDMacro.h" />
+    <ClInclude Include="DDModel.h" />
     <ClInclude Include="DDObject.h" />
     <ClInclude Include="DDPhysics.h" />
     <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
     <ClInclude Include="DDResourceManager.h" />
     <ClInclude Include="DDSceneDirector.h" />
-    <ClInclude Include="DDStd.h" />
     <ClInclude Include="DDVector3.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="DDApplication.cpp" />
     <ClCompile Include="DDInputSystem.cpp" />
+    <ClCompile Include="DDModel.cpp" />
     <ClCompile Include="DDObject.cpp" />
     <ClCompile Include="DDPhysics.cpp" />
     <ClCompile Include="DDPoint.cpp" />

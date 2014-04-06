@@ -4,8 +4,8 @@
 DDRenderer* DDRenderer::m_pInstance = nullptr;
 
 DDRenderer::DDRenderer()
-: m_D3D( NULL ),
-m_D3DDevice( NULL )
+: m_pD3D( NULL ),
+m_pD3DDevice( NULL )
 {
 }
 
@@ -36,7 +36,7 @@ bool DDRenderer::Init( HWND hWnd )
 {
 	HRESULT hr = 0;
 
-	m_D3D = Direct3DCreate9( D3D_SDK_VERSION );
+	m_pD3D = Direct3DCreate9( D3D_SDK_VERSION );
 
 	ZeroMemory( &m_D3DPresentParameters, sizeof( m_D3DPresentParameters ) );
 
@@ -51,7 +51,7 @@ bool DDRenderer::Init( HWND hWnd )
 	m_D3DPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
 	m_D3DPresentParameters.hDeviceWindow = DDApplication::GetInstance()->GetHWND();
 
-	hr = m_D3D->CheckDeviceMultiSampleType( D3DADAPTER_DEFAULT,
+	hr = m_pD3D->CheckDeviceMultiSampleType( D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL, m_D3DPresentParameters.BackBufferFormat, true, mst, NULL );
 
 	if ( SUCCEEDED( hr ) )
@@ -63,10 +63,10 @@ bool DDRenderer::Init( HWND hWnd )
 		return false;
 	}
 
-	m_D3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, DDApplication::GetInstance()->GetHWND(),
-		D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_D3DPresentParameters, &m_D3DDevice ); //D3DCREATE_SOFTWARE_VERTEXPROCESSING
+	m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, DDApplication::GetInstance()->GetHWND(),
+		D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_D3DPresentParameters, &m_pD3DDevice ); //D3DCREATE_SOFTWARE_VERTEXPROCESSING
 
-	D3DXCreateSprite( m_D3DDevice, &m_Sprite );
+	D3DXCreateSprite( m_pD3DDevice, &m_pSprite );
 
 	// m_D3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
 	// m_D3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
@@ -76,26 +76,26 @@ bool DDRenderer::Init( HWND hWnd )
 
 bool DDRenderer::Release()
 {
-	if ( m_Sprite != NULL )
-		m_Sprite->Release();
+	if ( m_pSprite != NULL )
+		m_pSprite->Release();
 
-	if ( m_D3DDevice != NULL )
-		m_D3DDevice->Release();
+	if ( m_pD3DDevice != NULL )
+		m_pD3DDevice->Release();
 
-	if ( m_D3D != NULL )
-		m_D3D->Release();
+	if ( m_pD3D != NULL )
+		m_pD3D->Release();
 
 	return true;
 }
 
 bool DDRenderer::Clear()
 {
-	if ( NULL == m_D3DDevice )
+	if ( NULL == m_pD3DDevice )
 		return false;
 
 	HRESULT hr = NULL;
 
-	hr = m_D3DDevice->Clear(
+	hr = m_pD3DDevice->Clear(
 		0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		D3DCOLOR_XRGB( 0, 0, 0 ), 1.0f, 0 );
 
@@ -107,10 +107,10 @@ bool DDRenderer::Clear()
 
 bool DDRenderer::Begin()
 {
-	if ( NULL == m_D3DDevice )
+	if ( NULL == m_pD3DDevice )
 		return false;
 
-	if ( SUCCEEDED( m_D3DDevice->BeginScene() ) )
+	if ( SUCCEEDED( m_pD3DDevice->BeginScene() ) )
 	{
 		return true;
 	}
@@ -120,16 +120,16 @@ bool DDRenderer::Begin()
 
 bool DDRenderer::End()
 {
-	if ( NULL == m_D3DDevice )
+	if ( NULL == m_pD3DDevice )
 		return false;
 
 	HRESULT hr = 0;
 
-	hr = m_D3DDevice->EndScene();
+	hr = m_pD3DDevice->EndScene();
 	if ( FAILED( hr ) )
 		return false;
 
-	hr = m_D3DDevice->Present( NULL, NULL, NULL, NULL );
+	hr = m_pD3DDevice->Present( NULL, NULL, NULL, NULL );
 	if ( FAILED( hr ) )
 		return false;
 

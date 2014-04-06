@@ -65,9 +65,6 @@
     <ClInclude Include="DDMacro.h">
       <Filter>Framework\Core</Filter>
     </ClInclude>
-    <ClInclude Include="DDStd.h">
-      <Filter>Framework\Core</Filter>
-    </ClInclude>
     <ClInclude Include="DDSceneDirector.h">
       <Filter>Framework\Core\Scene</Filter>
     </ClInclude>
@@ -87,6 +84,9 @@
       <Filter>Framework\Physics\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="DDObject.h">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DDModel.h">
       <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,6 +116,9 @@
       <Filter>Framework\Physics\DataStructure</Filter>
     </ClCompile>
     <ClCompile Include="DDObject.cpp">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DDModel.cpp">
       <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
   </ItemGroup>
