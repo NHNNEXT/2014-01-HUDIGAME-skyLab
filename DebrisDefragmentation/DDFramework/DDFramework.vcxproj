@@ -93,6 +93,7 @@
     <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
     <ClInclude Include="DDResourceManager.h" />
+    <ClInclude Include="DDScene.h" />
     <ClInclude Include="DDSceneDirector.h" />
     <ClInclude Include="DDVector3.h" />
     <ClInclude Include="stdafx.h" />
@@ -106,6 +107,7 @@
     <ClCompile Include="DDPhysics.cpp" />
     <ClCompile Include="DDPoint.cpp" />
     <ClCompile Include="DDRenderer.cpp" />
+    <ClCompile Include="DDScene.cpp" />
     <ClCompile Include="DDSceneDirector.cpp" />
     <ClCompile Include="DDVector3.cpp" />
     <ClCompile Include="stdafx.cpp">

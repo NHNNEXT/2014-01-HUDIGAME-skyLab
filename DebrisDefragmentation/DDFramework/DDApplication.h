@@ -32,7 +32,7 @@ private:
 	static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 
 	bool _CreateWindow( wchar_t* title, int width, int height );
-	bool _CreateRenderer();
+	HRESULT _CreateRenderer();
 
 	DDRenderer* m_pRenderer;
 	DDSceneDirector* m_pSceneDirector;

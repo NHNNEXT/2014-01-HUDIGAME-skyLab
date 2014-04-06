@@ -49,6 +49,11 @@ public:
 	void SetVisible( bool visible ) { m_Visible = visible; }
 
 protected:
+	void AffineTransfrom();
+	void RenderChildNodes();
+	void UpdateChildNodes(float dTime);
+
+protected:
 	DDObject* m_pParent;
 	std::list<DDObject*> m_ChildList;
 

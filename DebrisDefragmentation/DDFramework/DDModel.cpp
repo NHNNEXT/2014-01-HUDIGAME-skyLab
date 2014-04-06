@@ -26,7 +26,7 @@ DDModel::~DDModel()
 
 DDModel* DDModel::Create( wchar_t* filePath )
 {
-	DDModel* pInstance = nullptr;
+	DDModel* pInstance = new DDModel;
 	return pInstance;	
 }
 

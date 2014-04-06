@@ -2,6 +2,7 @@
 
 #include "DDConfig.h"
 #include "DDRenderer.h"
+#include "DDScene.h"
 
 class DDSceneDirector
 {
@@ -12,14 +13,18 @@ public:
 	bool Release();
 	bool Init();
 
+	void ChangeScene( DDScene* scene );
 	void UpdateScene( float dt );
 	void RenderScene();
+
+	DDScene* GetCurrentScene() { return m_pCurrentScene; }
 
 private:
 	DDSceneDirector();
 	~DDSceneDirector();
 
 	static DDSceneDirector* m_pInstance;
-	DDRenderer* m_pRenderer;
+	DDRenderer*		m_pRenderer;
+	DDScene*		m_pCurrentScene;
 };
 

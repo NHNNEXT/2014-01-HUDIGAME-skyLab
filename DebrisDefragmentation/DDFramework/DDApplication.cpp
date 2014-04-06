@@ -35,7 +35,7 @@ bool DDApplication::Init( wchar_t* title, int width, int height )
 	m_ScreenHeight = height;
 
 	// 윈도우와 렌더러 생성
-	if ( !_CreateWindow( m_pTitle, m_ScreenWidth, m_ScreenHeight ) )
+	if ( !_CreateWindow( m_pTitle, m_ScreenWidth, m_ScreenHeight ) ) 
 	{
 		// 윈도우 생성 실패
 		return false;
@@ -47,14 +47,13 @@ bool DDApplication::Init( wchar_t* title, int width, int height )
 		return false;
 	}
 
-	m_pSceneDirector = DDSceneDirector::GetInstance();
-
-	if ( m_pRenderer->Init( m_Hwnd ) )
+	if ( !m_pRenderer->Init( m_Hwnd ) )
 	{
 		// 렌더러 초기화 실패
 		return false;
 	}
 
+	m_pSceneDirector = DDSceneDirector::GetInstance();
 	if ( !m_pSceneDirector->Init() )
 	{
 		// 씬 디렉터 초기화 실패
@@ -189,7 +188,7 @@ bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
 	return true;
 }
 
-bool DDApplication::_CreateRenderer()
+HRESULT DDApplication::_CreateRenderer()
 {
 	m_pRenderer = DDRenderer::GetInstance();
 

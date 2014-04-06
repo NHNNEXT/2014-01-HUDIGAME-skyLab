@@ -12,3 +12,12 @@ inline void SafeDelete( T* &p )
 	}
 }
 
+template <typename T>
+inline void SafeArrayDelete( T* &p )
+{
+	if ( p != nullptr )
+	{
+		delete[] p;
+		p = nullptr;
+	}
+}

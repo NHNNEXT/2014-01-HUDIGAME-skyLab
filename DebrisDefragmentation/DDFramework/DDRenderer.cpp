@@ -36,13 +36,16 @@ bool DDRenderer::Init( HWND hWnd )
 {
 	HRESULT hr = 0;
 
-	m_pD3D = Direct3DCreate9( D3D_SDK_VERSION );
+	if ( NULL == ( m_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
+	{
+		return false;
+	}
 
 	ZeroMemory( &m_D3DPresentParameters, sizeof( m_D3DPresentParameters ) );
 
 	D3DMULTISAMPLE_TYPE mst = D3DMULTISAMPLE_NONE;
 
-	m_D3DPresentParameters.Windowed = true;
+	m_D3DPresentParameters.Windowed = TRUE;
 	m_D3DPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	m_D3DPresentParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	m_D3DPresentParameters.BackBufferWidth = DDApplication::GetInstance()->GetScreenWidth();
@@ -54,19 +57,27 @@ bool DDRenderer::Init( HWND hWnd )
 	hr = m_pD3D->CheckDeviceMultiSampleType( D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL, m_D3DPresentParameters.BackBufferFormat, true, mst, NULL );
 
-	if ( SUCCEEDED( hr ) )
-	{
-		m_D3DPresentParameters.MultiSampleType = mst;
-	}
-	else
+	if ( FAILED( hr ) )
 	{
 		return false;
 	}
 
-	m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, DDApplication::GetInstance()->GetHWND(),
+	m_D3DPresentParameters.MultiSampleType = mst;
+
+	hr = m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, DDApplication::GetInstance()->GetHWND(),
 		D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_D3DPresentParameters, &m_pD3DDevice ); //D3DCREATE_SOFTWARE_VERTEXPROCESSING
 
-	D3DXCreateSprite( m_pD3DDevice, &m_pSprite );
+	if ( FAILED( hr ) )
+	{
+		return false;
+	}
+
+	hr = D3DXCreateSprite( m_pD3DDevice, &m_pSprite );
+	
+	if ( FAILED( hr ) )
+	{
+		return false;
+	}
 
 	// m_D3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
 	// m_D3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
@@ -97,7 +108,7 @@ bool DDRenderer::Clear()
 
 	hr = m_pD3DDevice->Clear(
 		0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB( 0, 0, 0 ), 1.0f, 0 );
+		D3DCOLOR_XRGB( 50,50, 50 ), 1.0f, 0 );
 
 	if ( FAILED( hr ) )
 		return false;
@@ -110,12 +121,11 @@ bool DDRenderer::Begin()
 	if ( NULL == m_pD3DDevice )
 		return false;
 
-	if ( SUCCEEDED( m_pD3DDevice->BeginScene() ) )
-	{
-		return true;
-	}
+	if ( FAILED( m_pD3DDevice->BeginScene() ) )
+		return false;
+	
 
-	return false;
+	return true;
 }
 
 bool DDRenderer::End()

@@ -1,4 +1,5 @@
 #include "DDSceneDirector.h"
+#include "DDConfig.h"
 
 DDSceneDirector* DDSceneDirector::m_pInstance = nullptr;
 
@@ -39,15 +40,43 @@ bool DDSceneDirector::Init()
 
 bool DDSceneDirector::Release()
 {
+	SafeDelete( m_pCurrentScene );
 	return true;
 }
 
 void DDSceneDirector::UpdateScene( float dt )
 {
-	
+	if ( nullptr == m_pCurrentScene )
+	{
+		// error : scene 없음
+		return ;
+	}
+
+	m_pCurrentScene->Update( dt );
+
 }
 
 void DDSceneDirector::RenderScene()
 {
-	
+	if ( nullptr == m_pCurrentScene )
+	{
+		// error : scene 없음
+		return;
+	}
+
+	m_pCurrentScene->Render();
+}
+
+void DDSceneDirector::ChangeScene( DDScene* scene )
+{
+	if ( m_pCurrentScene == nullptr )
+	{
+		// error : new scene has a nullptr
+		m_pCurrentScene = scene;
+	}
+	else
+	{
+		SafeDelete( m_pCurrentScene );
+		m_pCurrentScene = scene;
+	}
 }
