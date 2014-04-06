@@ -100,6 +100,7 @@ int DDApplication::Run()
 
 	while ( true )
 	{
+		// 메세지가 있으면 메세지 처리 루틴으로
 		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
 		{
 			if ( msg.message == WM_QUIT )
@@ -109,7 +110,8 @@ int DDApplication::Run()
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
 		}
-		else{
+		else
+		{
 			// FPS 구하기
 			m_FrameCount++;
 			m_NowTime = timeGetTime();

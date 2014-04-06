@@ -54,19 +54,22 @@ void DDInputSystem::UpdateKeyState()
 
 KeyState DDInputSystem::GetKeyState( int key )
 {
+	// 직전에 안 눌려지던 키가 눌려지고 있다면
 	if ( m_PrevKeyState[key] == false && m_NowKeyState[key] == true )
 	{
 		return KEY_DOWN;
 	}
+	// 직전에 눌려져있던 키가 지금도 눌려지고 있다고
 	else if ( m_PrevKeyState[key] == true && m_NowKeyState[key] == true )
 	{
 		return KEY_PRESSED;
 	}
+	// 직전에 눌리고 있던 키가 지금은 안 눌려지고 있다면
 	else if ( m_PrevKeyState[key] == true && m_NowKeyState[key] == false )
 	{
 		return KEY_UP;
 	}
-
+	// 마지막 경우는 직전에도 안 눌려지고 지금도 안 눌려진 키
 	return KEY_NOTPRESSED;
 }
 
