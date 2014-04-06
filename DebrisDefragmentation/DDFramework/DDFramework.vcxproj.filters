@@ -33,7 +33,10 @@
     <Filter Include="Framework\Core\Input">
       <UniqueIdentifier>{597259b5-2a05-4df6-a572-6826234076ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Core\DataStructure">
+    <Filter Include="Framework\Physics">
+      <UniqueIdentifier>{05e152e2-bfcf-456a-83d7-ed37ea20543c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Physics\DataStructure">
       <UniqueIdentifier>{b3cce718-4262-4135-94f1-62c272c035f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -74,8 +77,14 @@
     <ClInclude Include="DDInputSystem.h">
       <Filter>Framework\Core\Input</Filter>
     </ClInclude>
+    <ClInclude Include="DDPhysics.h">
+      <Filter>Framework\Physics</Filter>
+    </ClInclude>
     <ClInclude Include="DDPoint.h">
-      <Filter>Framework\Core\DataStructure</Filter>
+      <Filter>Framework\Physics\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="DDVector3.h">
+      <Filter>Framework\Physics\DataStructure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,8 +103,14 @@
     <ClCompile Include="DDInputSystem.cpp">
       <Filter>Framework\Core\Input</Filter>
     </ClCompile>
+    <ClCompile Include="DDPhysics.cpp">
+      <Filter>Framework\Physics</Filter>
+    </ClCompile>
     <ClCompile Include="DDPoint.cpp">
-      <Filter>Framework\Core\DataStructure</Filter>
+      <Filter>Framework\Physics\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="DDVector3.cpp">
+      <Filter>Framework\Physics\DataStructure</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
