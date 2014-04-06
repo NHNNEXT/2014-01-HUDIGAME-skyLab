@@ -87,11 +87,8 @@
     <ClInclude Include="DDFramework.h" />
     <ClInclude Include="DDInputSystem.h" />
     <ClInclude Include="DDMacro.h" />
-<<<<<<< .mine
     <ClInclude Include="DDObject.h" />
-=======
     <ClInclude Include="DDPhysics.h" />
->>>>>>> .r8
     <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
     <ClInclude Include="DDResourceManager.h" />
@@ -104,11 +101,8 @@
   <ItemGroup>
     <ClCompile Include="DDApplication.cpp" />
     <ClCompile Include="DDInputSystem.cpp" />
-<<<<<<< .mine
     <ClCompile Include="DDObject.cpp" />
-=======
     <ClCompile Include="DDPhysics.cpp" />
->>>>>>> .r8
     <ClCompile Include="DDPoint.cpp" />
     <ClCompile Include="DDRenderer.cpp" />
     <ClCompile Include="DDSceneDirector.cpp" />
