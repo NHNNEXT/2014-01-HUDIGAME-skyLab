@@ -4,7 +4,6 @@
 DDSceneDirector* DDSceneDirector::m_pInstance = nullptr;
 
 DDSceneDirector::DDSceneDirector()
-: m_pRenderer( nullptr )
 {
 }
 
@@ -33,8 +32,6 @@ void DDSceneDirector::ReleaseInstance()
 
 bool DDSceneDirector::Init()
 {
-	m_pRenderer = DDRenderer::GetInstance();
-
 	return true;
 }
 

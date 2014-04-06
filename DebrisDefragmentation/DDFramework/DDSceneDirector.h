@@ -23,8 +23,7 @@ private:
 	DDSceneDirector();
 	~DDSceneDirector();
 
-	static DDSceneDirector* m_pInstance;
-	DDRenderer*		m_pRenderer;
+	static DDSceneDirector* m_pInstance;	
 	DDScene*		m_pCurrentScene;
 };
 

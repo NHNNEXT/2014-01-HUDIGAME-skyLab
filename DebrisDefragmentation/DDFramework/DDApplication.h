@@ -20,9 +20,9 @@ public:
 	bool Release();
 	int Run();
 
-	int GetScreenWidth() { return m_ScreenWidth; }
-	int GetScreenHeight() { return m_ScreenHeight; }
-	HWND GetHWND()		{ return m_Hwnd; }
+	int GetScreenWidth() const	{ return m_ScreenWidth; }
+	int GetScreenHeight() const	{ return m_ScreenHeight; }
+	HWND GetHWND() const		{ return m_Hwnd; }
 
 private:
 	DDApplication();

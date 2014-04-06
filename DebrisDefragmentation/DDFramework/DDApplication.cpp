@@ -66,6 +66,46 @@ bool DDApplication::Init( wchar_t* title, int width, int height )
 	return true;
 }
 
+
+bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
+{
+	WNDCLASSEX wcex;
+	wcex.cbSize = sizeof( WNDCLASSEX );
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = NULL;
+	wcex.cbWndExtra = NULL;
+	wcex.hInstance = m_hInstance;
+	wcex.hIcon = NULL;
+	wcex.hCursor = LoadCursor( NULL, IDC_ARROW );
+	wcex.hbrBackground = (HBRUSH)( COLOR_WINDOW + 1 );
+	wcex.lpszMenuName = NULL;
+	wcex.lpszClassName = L"Debris Defragmentation";
+	wcex.hIconSm = NULL;
+	wcex.hIcon = NULL;
+
+	RegisterClassEx( &wcex );
+
+	DWORD style = WS_OVERLAPPEDWINDOW;
+
+	RECT wr = { 0, 0, width, height };
+	AdjustWindowRect( &wr, WS_OVERLAPPEDWINDOW, FALSE );
+
+	m_Hwnd = CreateWindow( L"Debris Defragmentation", title, style, CW_USEDEFAULT, CW_USEDEFAULT,
+						   wr.right - wr.left, wr.bottom - wr.top, NULL, NULL, m_hInstance, NULL );
+
+	ShowWindow( m_Hwnd, SW_SHOWNORMAL );
+
+	return true;
+}
+
+bool DDApplication::_CreateRenderer()
+{
+	m_pRenderer = DDRenderer::GetInstance();
+
+	return true;
+}
+
 void DDApplication::ReleaseInstance()
 {
 	if ( m_pInstance != nullptr )
@@ -156,44 +196,6 @@ int DDApplication::Run()
 	return true;
 }
 
-bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
-{
-	WNDCLASSEX wcex;
-	wcex.cbSize = sizeof( WNDCLASSEX );
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc = WndProc;
-	wcex.cbClsExtra = NULL;
-	wcex.cbWndExtra = NULL;
-	wcex.hInstance = m_hInstance;
-	wcex.hIcon = NULL;
-	wcex.hCursor = LoadCursor( NULL, IDC_ARROW );
-	wcex.hbrBackground = (HBRUSH)( COLOR_WINDOW + 1 );
-	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = L"Debris Defragmentation";
-	wcex.hIconSm = NULL;
-	wcex.hIcon = NULL;
-
-	RegisterClassEx( &wcex );
-
-	DWORD style = WS_OVERLAPPEDWINDOW;
-
-	RECT wr = { 0, 0, width, height };
-	AdjustWindowRect( &wr, WS_OVERLAPPEDWINDOW, FALSE );
-
-	m_Hwnd = CreateWindow( L"Debris Defragmentation", title, style, CW_USEDEFAULT, CW_USEDEFAULT,
-		wr.right - wr.left, wr.bottom - wr.top, NULL, NULL, m_hInstance, NULL );
-
-	ShowWindow( m_Hwnd, SW_SHOWNORMAL );
-
-	return true;
-}
-
-bool DDApplication::_CreateRenderer()
-{
-	m_pRenderer = DDRenderer::GetInstance();
-
-	return true;
-}
 
 LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {

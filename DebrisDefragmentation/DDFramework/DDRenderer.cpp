@@ -47,6 +47,8 @@ bool DDRenderer::Init( HWND hWnd )
 
 	m_D3DPresentParameters.Windowed = TRUE;
 	m_D3DPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	m_D3DPresentParameters.EnableAutoDepthStencil = TRUE;
+	m_D3DPresentParameters.AutoDepthStencilFormat = D3DFMT_D16; // 16-bit z-buffer bit depth.
 	m_D3DPresentParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	m_D3DPresentParameters.BackBufferWidth = DDApplication::GetInstance()->GetScreenWidth();
 	m_D3DPresentParameters.BackBufferHeight = DDApplication::GetInstance()->GetScreenHeight();
@@ -108,7 +110,7 @@ bool DDRenderer::Clear()
 
 	hr = m_pD3DDevice->Clear(
 		0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB( 50,50, 50 ), 1.0f, 0 );
+		D3DCOLOR_XRGB( 250,50, 50 ), 1.0f, 0 );
 
 	if ( FAILED( hr ) )
 		return false;
