@@ -76,6 +76,9 @@ bool DDRenderer::Init( HWND hWnd )
 
 bool DDRenderer::Release()
 {
+	if ( m_Sprite != NULL )
+		m_Sprite->Release();
+
 	if ( m_D3DDevice != NULL )
 		m_D3DDevice->Release();
 

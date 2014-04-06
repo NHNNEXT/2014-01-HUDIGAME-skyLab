@@ -1,7 +1,6 @@
 #pragma once
 
 #include "DDConfig.h"
-#include <d3dx9.h>
 
 class DDRenderer
 {

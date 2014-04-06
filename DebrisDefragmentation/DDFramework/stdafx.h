@@ -7,6 +7,18 @@
 
 #include "targetver.h"
 
+#include <string>
+#include <list>
+#include <map>
+
+#include <assert.h>
+#include <time.h>
+
+#include <Windows.h>
+
+
+#include <d3dx9.h>
+
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
 

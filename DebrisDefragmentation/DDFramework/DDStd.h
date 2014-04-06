@@ -8,3 +8,6 @@
 #include <time.h>
 
 #include <Windows.h>
+
+
+#include <d3dx9.h>
