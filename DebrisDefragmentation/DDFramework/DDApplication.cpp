@@ -188,7 +188,7 @@ bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
 	return true;
 }
 
-HRESULT DDApplication::_CreateRenderer()
+bool DDApplication::_CreateRenderer()
 {
 	m_pRenderer = DDRenderer::GetInstance();
 
