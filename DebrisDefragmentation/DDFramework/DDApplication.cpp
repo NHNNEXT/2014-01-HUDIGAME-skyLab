@@ -1,4 +1,5 @@
 #include "DDApplication.h"
+#include "DDInputSystem.h"
 
 DDApplication* DDApplication::m_pInstance = nullptr;
 
@@ -130,7 +131,7 @@ int DDApplication::Run()
 			}
 			m_PrevTime = m_NowTime;
 
-			// NNInputSystem::GetInstance()->UpdateKeyState();
+			DDInputSystem::GetInstance()->UpdateKeyState();
 
 			// update scene
 			m_pSceneDirector->UpdateScene( m_DeltaTime );
@@ -144,12 +145,10 @@ int DDApplication::Run()
 				m_pRenderer->End( );
 			}
 
-			/*
-			if ( NNInputSystem::GetInstance()->GetKeyState( VK_ESCAPE ) == KEY_DOWN )
+			if ( DDInputSystem::GetInstance()->GetKeyState( VK_ESCAPE ) == KEY_DOWN )
 			{
 				PostQuitMessage( 0 );
 			}
-			*/
 		}
 	}
 

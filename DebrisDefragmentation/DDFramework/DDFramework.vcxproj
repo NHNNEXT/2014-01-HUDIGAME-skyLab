@@ -42,6 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <SourcePath>..\external\rapidjson;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -50,7 +51,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -84,8 +85,11 @@
     <ClInclude Include="DDApplication.h" />
     <ClInclude Include="DDConfig.h" />
     <ClInclude Include="DDFramework.h" />
+    <ClInclude Include="DDInputSystem.h" />
     <ClInclude Include="DDMacro.h" />
+    <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
+    <ClInclude Include="DDResourceManager.h" />
     <ClInclude Include="DDSceneDirector.h" />
     <ClInclude Include="DDStd.h" />
     <ClInclude Include="stdafx.h" />
@@ -93,6 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DDApplication.cpp" />
+    <ClCompile Include="DDInputSystem.cpp" />
+    <ClCompile Include="DDPoint.cpp" />
     <ClCompile Include="DDRenderer.cpp" />
     <ClCompile Include="DDSceneDirector.cpp" />
     <ClCompile Include="stdafx.cpp">

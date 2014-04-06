@@ -27,6 +27,15 @@
     <Filter Include="Framework\Presentation\Object">
       <UniqueIdentifier>{c1cf06c4-cb95-4d47-a94f-7ea6c63a213d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Util">
+      <UniqueIdentifier>{5040ceae-6ef2-4b79-9552-5483c3c5804a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Core\Input">
+      <UniqueIdentifier>{597259b5-2a05-4df6-a572-6826234076ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Core\DataStructure">
+      <UniqueIdentifier>{b3cce718-4262-4135-94f1-62c272c035f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -59,6 +68,15 @@
     <ClInclude Include="DDSceneDirector.h">
       <Filter>Framework\Core\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="DDResourceManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="DDInputSystem.h">
+      <Filter>Framework\Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DDPoint.h">
+      <Filter>Framework\Core\DataStructure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -72,6 +90,12 @@
     </ClCompile>
     <ClCompile Include="DDSceneDirector.cpp">
       <Filter>Framework\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DDInputSystem.cpp">
+      <Filter>Framework\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DDPoint.cpp">
+      <Filter>Framework\Core\DataStructure</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
