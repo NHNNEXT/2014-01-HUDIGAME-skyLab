@@ -71,8 +71,6 @@ bool DDModel::initModel( wchar_t* path )
 		if ( d3dxMaterials[i].pTextureFilename != NULL && lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
 		{
  			std::string bmpPath = ".\\Resources\\3DModel\\";
-// 			CHAR strTexture[MAX_PATH];
-// 			strcpy_s( strTexture, MAX_PATH, strPrefix );
 			bmpPath.append(d3dxMaterials[i].pTextureFilename );
 
 			if ( FAILED( D3DXCreateTextureFromFileA( m_pD3DDevice, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )

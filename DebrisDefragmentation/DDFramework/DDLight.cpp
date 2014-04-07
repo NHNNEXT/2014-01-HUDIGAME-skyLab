@@ -20,6 +20,8 @@ DDLight* DDLight::Create()
 
 void DDLight::Render()
 {
+	DDObject::Render();
+
 	D3DXVECTOR3 vecDir;
 	D3DLIGHT9 light;
 	ZeroMemory( &light, sizeof( D3DLIGHT9 ) );
@@ -38,7 +40,6 @@ void DDLight::Render()
 
 	DDRenderer::GetInstance()->GetDevice()->SetRenderState( D3DRS_AMBIENT, 0x00202020 );
 
-	DDObject::Render();
 }
 
 void DDLight::Update( float dTime )

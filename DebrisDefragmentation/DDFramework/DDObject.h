@@ -18,7 +18,7 @@ public:
 	void AddChild( DDObject* object );
 	void RemoveChild( DDObject* object );
 
-	inline D3DXMATRIXA16 GetMatrix() const { return m_Matrix; }
+	D3DXMATRIXA16 GetMatrix() const { return m_Matrix; }
 
 	inline DDVECTOR3 GetPosition() { return m_Position; }
 	inline float GetPositionX() const { return m_Position.x; }

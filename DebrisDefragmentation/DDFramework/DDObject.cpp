@@ -45,11 +45,7 @@ void DDObject::AffineTransfrom()
 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
 	
-	
-
-	// matrix를 affine변환이 적용된 형태로 변환
-	// scale 미적용 상태임..
-	//D3DXMatrixAffineTransformation( &m_Matrix, 2.0f, NULL, &m_pRotation, &m_Position );
+	// matrix를 affine변환이 적용된 형태로 변환	
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
 
 	// 자신의 어파인 변환 적용
@@ -60,12 +56,14 @@ void DDObject::AffineTransfrom()
 	}
 
 	// 부모의 어파인 변환을 적용
-// 	if ( FAILED( renderer->GetDevice()->MultiplyTransform( D3DTS_WORLD, &m_pParent->GetMatrix() ) ) )
-// 	{
-// 		// error
-// 		return;
-// 	}
-
+	if ( nullptr != m_pParent )
+	{
+		if ( FAILED( renderer->GetDevice()->MultiplyTransform( D3DTS_WORLD, &m_pParent->GetMatrix() ) ) )
+		{
+			// error
+			return;
+		}
+	}
 }
 
 void DDObject::RenderChildNodes()

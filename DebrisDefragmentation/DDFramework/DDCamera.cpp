@@ -33,10 +33,10 @@ void DDCamera::Render()
 	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
 
-	RenderChildNodes();
+	DDObject::Render();
 }
 
 void DDCamera::Update( float dTime )
 {
-	UpdateChildNodes( dTime );
+	DDObject::Update( dTime );
 }

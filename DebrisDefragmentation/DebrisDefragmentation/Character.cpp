@@ -8,7 +8,6 @@ Character::Character()
 
 Character::Character( wchar_t* modelPath )
 {
-//	DDModel::DDModel( modelPath );
 	m_pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	initModel( modelPath );
 	SetNormalVector();

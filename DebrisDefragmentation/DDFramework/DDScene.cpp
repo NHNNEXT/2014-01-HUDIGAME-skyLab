@@ -19,10 +19,10 @@ DDScene* DDScene::Create()
 
 void DDScene::Render()
 {	
-	RenderChildNodes();
+	DDObject::Render();
 }
 
 void DDScene::Update( float dTime )
 {
-	UpdateChildNodes( dTime );
+	DDObject::Update( dTime );
 }
