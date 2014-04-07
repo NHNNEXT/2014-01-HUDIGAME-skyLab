@@ -1,5 +1,4 @@
 #pragma once
-
 #include "DDConfig.h"
 
 class DDRenderer
