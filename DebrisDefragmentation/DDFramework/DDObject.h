@@ -62,8 +62,6 @@ protected:
 	DDVECTOR3		m_Rotation;
 	DDVECTOR3		m_Scale;
 
-	//D3DXVECTOR3 	m_Center;
-	
 	bool m_Visible;
 };
 

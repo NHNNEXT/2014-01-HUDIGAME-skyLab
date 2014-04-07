@@ -92,6 +92,12 @@
     <ClInclude Include="DDScene.h">
       <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
+    <ClInclude Include="DDLight.h">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DDCamera.h">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -125,6 +131,12 @@
       <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
     <ClCompile Include="DDScene.cpp">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DDLight.cpp">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DDCamera.cpp">
       <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
   </ItemGroup>

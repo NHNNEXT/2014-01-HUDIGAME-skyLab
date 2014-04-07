@@ -26,7 +26,7 @@ DDModel::~DDModel()
 
 DDModel* DDModel::Create( wchar_t* filePath )
 {
-	DDModel* pInstance = new DDModel;
+	DDModel* pInstance = new DDModel(filePath);
 	return pInstance;	
 }
 
@@ -34,11 +34,13 @@ bool DDModel::initModel( wchar_t* path )
 {
 	LPD3DXBUFFER pD3DXMtrlBuffer;	
 
-	wchar_t* resourcePath = L"Resources//3DModel";
-	wcscat_s( resourcePath, MAX_PATH , path );
+	std::wstring xfilePath = L".\\Resources\\3DModel\\";
+	xfilePath.append(path);
+	
+	//wcscat_s( resourcePath, MAX_PATH , path );
 
 	HRESULT hr;
-	hr = D3DXLoadMeshFromX( resourcePath, D3DXMESH_SYSTEMMEM, m_pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh );
+	hr = D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, m_pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh );
 
 	if ( FAILED( hr ) )
 	{
@@ -68,12 +70,12 @@ bool DDModel::initModel( wchar_t* path )
 		m_pMeshTexture[i] = NULL;
 		if ( d3dxMaterials[i].pTextureFilename != NULL && lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
 		{
-			const CHAR* strPrefix = "..\\";
-			CHAR strTexture[MAX_PATH];
-			strcpy_s( strTexture, MAX_PATH, strPrefix );
-			strcat_s( strTexture, MAX_PATH, d3dxMaterials[i].pTextureFilename );
+ 			std::string bmpPath = ".\\Resources\\3DModel\\";
+// 			CHAR strTexture[MAX_PATH];
+// 			strcpy_s( strTexture, MAX_PATH, strPrefix );
+			bmpPath.append(d3dxMaterials[i].pTextureFilename );
 
-			if ( FAILED( D3DXCreateTextureFromFileA( m_pD3DDevice, strTexture, &m_pMeshTexture[i] ) ) )
+			if ( FAILED( D3DXCreateTextureFromFileA( m_pD3DDevice, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )
 			{
 				/*MessageBox( NULL, L"no texture map", L"Meshes.exe", MB_OK );*/
 				// no texture error

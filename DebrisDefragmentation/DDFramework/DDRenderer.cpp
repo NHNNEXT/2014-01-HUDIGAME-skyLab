@@ -81,8 +81,9 @@ bool DDRenderer::Init( HWND hWnd )
 		return false;
 	}
 
-	// m_D3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
-	// m_D3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+	m_pD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+	m_pD3DDevice->SetRenderState( D3DRS_LIGHTING, TRUE );
+	m_pD3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
 
 	return true;
 }
@@ -110,7 +111,7 @@ bool DDRenderer::Clear()
 
 	hr = m_pD3DDevice->Clear(
 		0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB( 250,50, 50 ), 1.0f, 0 );
+		D3DCOLOR_XRGB( 0,0, 100 ), 1.0f, 0 );
 
 	if ( FAILED( hr ) )
 		return false;
