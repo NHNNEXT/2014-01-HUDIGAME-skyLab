@@ -12,9 +12,17 @@ m_Visible( true )
 	
 }
 
-
 DDObject::~DDObject()
 {
+	// Release();
+}
+
+void DDObject::Release( )
+{
+	for ( const auto& child : m_ChildList )
+	{
+		RemoveChild( child );
+	}
 }
 
 // 작성자 : 김성환
@@ -42,18 +50,34 @@ void DDObject::AffineTransfrom()
 
 	D3DXMatrixIdentity( &m_Matrix );
 
+	/*
+	// 자신의 누적된 좌표계 변환에 다시 변화를 추가한다!
 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
+
+	// matrix를 affine변환이 적용된 형태로 변환	
+	D3DXMATRIXA16 currentTransform;
+	D3DXMatrixTransformation( &currentTransform, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
 	
+	// 적용된 데이터는 초기화
+	m_Scale = DDVECTOR3(1, 1, 1);
+	m_Rotation = DDVECTOR3( 0, 0, 0 );
+	m_Position = DDVECTOR3( 0, 0, 0 );
+	
+	D3DXMatrixMultiply( &m_MatrixTransform, &m_MatrixTransform, &currentTransform );
+	*/
+
+	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
+
 	// matrix를 affine변환이 적용된 형태로 변환	
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
 
+	// 부모의 좌표계에다 내 변환된 좌표계를 누적 시킨다!
 	// 부모의 어파인 변환을 적용
 	if ( nullptr != m_pParent )
 	{
-		D3DXMATRIXA16 tmpMatrix;
-		D3DXMatrixMultiply( &tmpMatrix, &m_Matrix, &m_pParent->GetMatrix() );
-		m_Matrix = tmpMatrix;
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix( ) );
 	}
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용
@@ -62,6 +86,11 @@ void DDObject::AffineTransfrom()
 		// error 
 		return;
 	}	
+}
+
+DDVECTOR3 DDObject::GetViewDirection( )
+{
+	return DDVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
 }
 
 void DDObject::RenderChildNodes()
@@ -92,6 +121,7 @@ void DDObject::RemoveChild( DDObject* object )
 	{
 		if ( ( *iter ) == object )
 		{
+			//( *iter )->Release();
 			SafeDelete( *iter );
 			m_ChildList.erase( iter );
 			break;

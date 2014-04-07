@@ -6,7 +6,7 @@
 DDCamera::DDCamera():
 m_LookatPoint(0.0f, 0.0f, 10.0f)
 {	
-	SetPosition( 0.0f, 3.0f, -10.0f );
+	SetPosition( 0.0f, 0.0f, 0.0f );
 }
 
 
@@ -22,17 +22,25 @@ DDCamera* DDCamera::Create()
 
 void DDCamera::Render()
 {
-	DDObject::Render();
-		
-	// position으로 eyePt, 만들어야함, input받아서 lookatPT만들어야할듯.
-	
-// 	D3DXVECTOR3 vEyePt( 0.0f, 3.0f, -10.0f );
-// 	D3DXVECTOR3 vLookatPt( 0.0f, 0.0f, 0.0f );
-// 	D3DXVECTOR3 vUpVec( 0.0f, 1.0f, 0.0f );
+	D3DXQUATERNION	qRotation;
 
-	D3DXVECTOR3 vEyePt( m_Position );
-	D3DXVECTOR3 vLookatPt( m_LookatPoint );
-	D3DXVECTOR3 vUpVec( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
+	m_Matrix = m_pParent->GetMatrix();
+
+	D3DXVECTOR4 tempEye;
+	D3DXVec3Transform( &tempEye, &m_Position, &m_Matrix );
+	D3DXVECTOR3 vEyePt( D3DXVECTOR3( tempEye.x, tempEye.y, tempEye.z ) );
+
+	D3DXVECTOR4 tempLock;
+	D3DXVec3Transform( &tempLock, &m_LookatPoint, &m_Matrix );
+	D3DXVECTOR3 vLookatPt( D3DXVECTOR3( tempLock.x, tempLock.y, tempLock.z ) );
+
+	D3DXVECTOR4 tempUp;
+	D3DXVec3Transform( &tempUp, &D3DXVECTOR3(0, 1, 0), &m_Matrix );
+	D3DXVECTOR3 vUpVec( D3DXVECTOR3( tempUp.x, tempUp.y, tempUp.z ) );
+
+	//D3DXVECTOR3 vEyePt( 0, 0, -5 );
+	//D3DXVECTOR3 vLookatPt(0, 0, 0 );
+	//D3DXVECTOR3 vUpVec( 0, 1, 0 );
 	
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );

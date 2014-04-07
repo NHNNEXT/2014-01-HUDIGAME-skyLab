@@ -7,6 +7,8 @@ public:
 	DDObject();
 	virtual ~DDObject();
 
+	virtual void Release( );
+
 	virtual void Render();
 	virtual void Update(float dTime);
 	
@@ -69,11 +71,15 @@ public:
 	virtual void UpdateItSelf( float dTime ) {};
 	void UpdateChildNodes( float dTime );
 
+	// z축 방향 벡터를 월드 좌표계 기준으로 반환
+	DDVECTOR3 GetViewDirection();
+
 protected:
 	DDObject* m_pParent;
 	std::list<DDObject*> m_ChildList;
 
 	D3DXMATRIXA16	m_Matrix;
+	D3DXMATRIXA16	m_MatrixTransform;
 	DDVECTOR3		m_Position;
 	DDVECTOR3		m_Rotation;
 	DDVECTOR3		m_Scale;

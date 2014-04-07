@@ -26,3 +26,13 @@ void DDScene::Update( float dTime )
 {
 	DDObject::Update( dTime );
 }
+
+KeyState DDScene::GetKeyState( int key )
+{
+	return DDInputSystem::GetInstance()->GetKeyState( key );
+}
+
+DDPoint DDScene::GetMousePosition()
+{
+	return DDInputSystem::GetInstance( )->GetMousePosition( );
+}

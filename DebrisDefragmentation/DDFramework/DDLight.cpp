@@ -29,9 +29,12 @@ void DDLight::Render()
 	light.Diffuse.r = 1.0f;
 	light.Diffuse.g = 1.0f;
 	light.Diffuse.b = 1.0f;
-	vecDir = D3DXVECTOR3( cosf( timeGetTime() / 350.0f ),
+
+	// 조심해!
+	// 방향 바꾸는 하드 코딩 나중에 삭제할 것
+	vecDir = D3DXVECTOR3( cosf( timeGetTime() / 1000.0f ),
 						  1.0f,
-						  sinf( timeGetTime() / 350.f ) );
+						  sinf( timeGetTime() / 1000.f ) );
 
 	D3DXVec3Normalize( (D3DXVECTOR3*)&light.Direction, &vecDir );
 	light.Range = 10000.0f;

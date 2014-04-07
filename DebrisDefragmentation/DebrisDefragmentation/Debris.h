@@ -5,9 +5,14 @@ class Debris :
 {
 public:
 	Debris();
+	Debris( wchar_t* modelPath );
 	virtual ~Debris();
 
-	CREATE_FUNC( Debris );
+	static Debris* Create( wchar_t* modelPath );
 
+	void Update( float dTime );
+	void UpdateItSelf( float dTime );
+
+private:
+	float tmpTimeCounter;
 };
-

@@ -1,11 +1,38 @@
 #include "Debris.h"
+#include "DDRenderer.h"
 
-
-Debris::Debris()
+Debris::Debris( )
 {
+	tmpTimeCounter = 0;
 }
 
 
-Debris::~Debris()
+Debris::Debris( wchar_t* modelPath )
+{
+	m_pD3DDevice = DDRenderer::GetInstance( )->GetDevice( );
+	initModel( modelPath );
+	SetNormalVector( );
+}
+
+Debris::~Debris( )
 {
 }
+
+Debris* Debris::Create( wchar_t* modelPath )
+{
+	Debris* pInstance = new Debris( modelPath );
+	return pInstance;
+}
+
+void Debris::Update( float dTime )
+{
+	UpdateItSelf( dTime );
+	UpdateChildNodes( dTime );
+}
+
+void Debris::UpdateItSelf( float dTime )
+{
+	// 데브리를 정지합니다.
+}
+
+
