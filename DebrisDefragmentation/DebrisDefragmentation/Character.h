@@ -9,5 +9,11 @@ public:
 	virtual ~Character();
 
 	static Character* Create(wchar_t* modelPath);
+
+	void Update( float dTime );
+	void UpdateItSelf( float dTime );
+
+private:
+	float tmpTimeCounter;
 };
 

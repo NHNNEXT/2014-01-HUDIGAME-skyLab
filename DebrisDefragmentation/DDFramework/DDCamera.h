@@ -10,5 +10,11 @@ public:
 
 	virtual void Render();
 	virtual void Update( float dTime );
+
+	void SetLookatPoint( D3DXVECTOR3 lookatpoint );
+	void SetLookatPoint( float x, float y, float z);
+
+private : 
+	D3DXVECTOR3 m_LookatPoint;
 };
 

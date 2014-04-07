@@ -12,6 +12,9 @@ public:
 
 	CREATE_FUNC( Player );
 	void Init();
+	
+	void Update( float dTime );
+	void UpdateItSelf( float dTime );
 
 private:
 	DDCamera*	m_Camera;

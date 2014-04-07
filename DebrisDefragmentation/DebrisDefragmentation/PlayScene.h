@@ -15,6 +15,9 @@ public:
 
 	void Init();
 
+	void Update( float dTime );
+	void UpdateItSelf( float dTime );
+
 private:
 	DDLight*	m_pDirectonalLight;
 	Player*		m_pPlayer;

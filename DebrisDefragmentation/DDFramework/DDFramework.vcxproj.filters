@@ -80,9 +80,6 @@
     <ClInclude Include="DDPoint.h">
       <Filter>Framework\Physics\DataStructure</Filter>
     </ClInclude>
-    <ClInclude Include="DDVector3.h">
-      <Filter>Framework\Physics\DataStructure</Filter>
-    </ClInclude>
     <ClInclude Include="DDObject.h">
       <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
@@ -119,9 +116,6 @@
       <Filter>Framework\Physics</Filter>
     </ClCompile>
     <ClCompile Include="DDPoint.cpp">
-      <Filter>Framework\Physics\DataStructure</Filter>
-    </ClCompile>
-    <ClCompile Include="DDVector3.cpp">
       <Filter>Framework\Physics\DataStructure</Filter>
     </ClCompile>
     <ClCompile Include="DDObject.cpp">

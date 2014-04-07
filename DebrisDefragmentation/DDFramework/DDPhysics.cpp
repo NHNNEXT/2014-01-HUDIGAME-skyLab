@@ -10,17 +10,17 @@ DDPhysics::~DDPhysics()
 {
 }
 
-void DDPhysics::CalcCurrentPosition( _Inout_ DDVector3* pos, _In_ const DDVector3 &velocity, _In_ float dt )
+void DDPhysics::CalcCurrentPosition( _Inout_ DDVECTOR3* pos, _In_ const DDVECTOR3 &velocity, _In_ float dt )
 {
-	// s' = s + v * t
-	pos->SetVector(
-		pos->GetX() + ( velocity.GetX() * dt ),
-		pos->GetY() + ( velocity.GetY() * dt ),
-		pos->GetZ() + ( velocity.GetZ() * dt )
-		);
+	// s' = s + v * t	
+	
+	pos->x = pos->x + ( velocity.x * dt );
+	pos->y = pos->y + ( velocity.y * dt );
+	pos->z = pos->z + ( velocity.z * dt );
+		
 }
 
-void DDPhysics::CalcCurrentPosition( _Inout_ DDVector3* pos, _Inout_ DDVector3* velocity, _In_ const DDVector3 &acceleration, _In_ float dt )
+void DDPhysics::CalcCurrentPosition( _Inout_ DDVECTOR3* pos, _Inout_ DDVECTOR3* velocity, _In_ const DDVECTOR3 &acceleration, _In_ float dt )
 {
 	// s' = s + v * t + 1/2 * a * t^2
 
@@ -31,9 +31,9 @@ void DDPhysics::CalcCurrentPosition( _Inout_ DDVector3* pos, _Inout_ DDVector3* 
 	CalcCurrentPosition( velocity, acceleration, dt );
 
 	// 1/2 * a * t^2
-	pos->SetVector(
-		pos->GetX() + ( 0.5f * acceleration.GetX() * dt * dt ),
-		pos->GetY() + ( 0.5f * acceleration.GetY() * dt * dt ),
-		pos->GetZ() + ( 0.5f * acceleration.GetZ() * dt * dt )
-		);
+	
+	pos->x = pos->x + ( 0.5f * acceleration.x * dt * dt );
+	pos->y = pos->y + ( 0.5f * acceleration.y * dt * dt );
+	pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
+	
 }

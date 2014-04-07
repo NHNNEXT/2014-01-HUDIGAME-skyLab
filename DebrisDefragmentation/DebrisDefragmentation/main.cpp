@@ -7,6 +7,12 @@
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
+#ifdef _DEBUG
+	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	//_CrtSetBreakAlloc( );
+
+#endif 
+
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
@@ -21,6 +27,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	
 	app->Run();
 	app->Release();
+
 
 	return 0;
 }

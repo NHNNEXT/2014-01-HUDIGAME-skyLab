@@ -9,7 +9,5 @@ public:
 
 	CREATE_FUNC( Debris );
 
-	virtual void Render();
-	virtual void Update( float dTime );
 };
 

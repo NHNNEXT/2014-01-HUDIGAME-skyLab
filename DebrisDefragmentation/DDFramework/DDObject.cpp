@@ -48,22 +48,20 @@ void DDObject::AffineTransfrom()
 	// matrix를 affine변환이 적용된 형태로 변환	
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
 
-	// 자신의 어파인 변환 적용
+	// 부모의 어파인 변환을 적용
+	if ( nullptr != m_pParent )
+	{
+		D3DXMATRIXA16 tmpMatrix;
+		D3DXMatrixMultiply( &tmpMatrix, &m_Matrix, &m_pParent->GetMatrix() );
+		m_Matrix = tmpMatrix;
+	}
+
+	// 자신+부모의 어파인 변환을 월드좌표계에 적용
 	if ( FAILED( renderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
 	{
 		// error 
 		return;
-	}
-
-	// 부모의 어파인 변환을 적용
-	if ( nullptr != m_pParent )
-	{
-		if ( FAILED( renderer->GetDevice()->MultiplyTransform( D3DTS_WORLD, &m_pParent->GetMatrix() ) ) )
-		{
-			// error
-			return;
-		}
-	}
+	}	
 }
 
 void DDObject::RenderChildNodes()

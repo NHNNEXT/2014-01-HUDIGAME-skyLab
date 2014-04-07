@@ -63,6 +63,7 @@ bool DDModel::initModel( wchar_t* path )
 		return false;
 	}
 
+	// texture 불러오는 부분, bmp파일 경로를 통해 매터리얼 개수만큼 불러옴
 	for ( DWORD i = 0; i < m_dwNumMaterials; i++ )
 	{
 		m_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
