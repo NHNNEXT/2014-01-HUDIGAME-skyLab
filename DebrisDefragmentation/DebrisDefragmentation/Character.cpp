@@ -39,4 +39,7 @@ void Character::UpdateItSelf( float dTime )
 	// ** 나중에 tmp 관련 변수들 다 삭제할 것.
 	tmpTimeCounter += dTime;
 	m_Position = D3DXVECTOR3( 0.0f, 0.0f, tmpTimeCounter );
+	
+	// increasePosition test
+	IncreasePositionX( tmpTimeCounter );
 }

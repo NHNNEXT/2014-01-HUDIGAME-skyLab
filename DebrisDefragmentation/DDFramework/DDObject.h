@@ -35,6 +35,21 @@ public:
 	inline float GetRotationY() const { return m_Rotation.y; }
 	inline float GetRotationZ() const { return m_Rotation.z; }
 	
+	void IncreasePosition(DDVECTOR3 position) { m_Position += position; }
+	void IncreasePositionX(float x) { m_Position.x += x; }
+	void IncreasePositionY(float y) { m_Position.y += y; }
+	void IncreasePositionZ(float z) { m_Position.z += z; }
+
+	void IncreaseScale(DDVECTOR3 scale) { m_Scale += scale; }
+	void IncreaseScaleX(float x) { m_Scale.x += x; }
+	void IncreaseScaleY(float y) { m_Scale.y += y; }
+	void IncreaseScaleZ(float z) { m_Scale.z += z; }
+
+	void IncreaseRotation(DDVECTOR3 rotation) { m_Rotation += rotation; }
+	void IncreaseRotationX(float x) { m_Rotation.x += x; }
+	void IncreaseRotationY(float y) { m_Rotation.y += y; }
+	void IncreaseRotationZ(float z) { m_Rotation.z += z; }
+
 	inline bool IsVisible() const { return m_Visible; }
 
 	void SetPosition( float x, float y, float z ) { m_Position = DDVECTOR3( x, y, z ); }
