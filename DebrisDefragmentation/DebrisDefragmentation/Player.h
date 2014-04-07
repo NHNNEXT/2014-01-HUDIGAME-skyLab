@@ -11,9 +11,7 @@ public:
 	virtual ~Player();
 
 	CREATE_FUNC( Player );
-
-	virtual void Render();
-	virtual void Update( float dTime );
+	void Init();
 
 private:
 	DDCamera*	m_Camera;

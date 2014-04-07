@@ -3,11 +3,6 @@
 
 Player::Player()
 {
-	m_Camera = DDCamera::Create();
-	m_Character = Character::Create(L"tiger.x");
-
-	AddChild( m_Camera );
-	AddChild( m_Character );
 }
 
 
@@ -15,12 +10,11 @@ Player::~Player()
 {
 }
 
-void Player::Render()
+void Player::Init()
 {
-	DDObject::Render();
-}
+	m_Camera = DDCamera::Create();
+	m_Character = Character::Create( L"tiger.x" );
 
-void Player::Update( float dTime )
-{
-	DDObject::Update( dTime );
+	AddChild( m_Camera );
+	AddChild( m_Character );
 }

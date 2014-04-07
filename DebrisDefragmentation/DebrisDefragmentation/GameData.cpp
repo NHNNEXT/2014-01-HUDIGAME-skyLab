@@ -4,7 +4,7 @@
 
 using namespace rapidjson;
 
-const std::wstring GameData::GAME_DATA_PATH = L"game_data.json";
+const std::wstring GameData::GAME_DATA_PATH = L"..\game_data.json";
 
 GameData::GameData()
 {

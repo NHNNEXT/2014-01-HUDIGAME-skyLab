@@ -9,8 +9,5 @@ public:
 	virtual ~Character();
 
 	static Character* Create(wchar_t* modelPath);
-
-	virtual void Render();
-	virtual void Update( float dTime );
 };
 

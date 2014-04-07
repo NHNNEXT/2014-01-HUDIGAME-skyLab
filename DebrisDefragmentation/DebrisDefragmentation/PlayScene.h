@@ -13,8 +13,7 @@ public:
 
 	CREATE_FUNC( PlayScene );
 
-	virtual void Render();
-	virtual void Update( float dTime );
+	void Init();
 
 private:
 	DDLight*	m_pDirectonalLight;

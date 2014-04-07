@@ -3,13 +3,6 @@
 
 PlayScene::PlayScene()
 {
-	// init objects
-	m_pDirectonalLight = DDLight::Create();
-	m_pPlayer = Player::Create();
-
-	AddChild( m_pDirectonalLight );
-	AddChild( m_pPlayer );
-
 }
 
 
@@ -17,12 +10,14 @@ PlayScene::~PlayScene()
 {
 }
 
-void PlayScene::Render()
+void PlayScene::Init()
 {
-	DDObject::Render();
-}
+	// init objects
+	m_pDirectonalLight = DDLight::Create();
 
-void PlayScene::Update( float dTime )
-{
-	DDObject::Update( dTime );
+	m_pPlayer = Player::Create();
+	m_pPlayer->Init();
+
+	AddChild( m_pDirectonalLight );
+	AddChild( m_pPlayer );
 }

@@ -24,14 +24,3 @@ Character* Character::Create( wchar_t* modelPath )
 	Character* pInstance = new Character( modelPath );
 	return pInstance;
 }
-
-void Character::Render()
-{
-	DDObject::Render();
-}
-
-void Character::Update( float dTime )
-{
-	DDObject::Update( dTime );
-}
-
