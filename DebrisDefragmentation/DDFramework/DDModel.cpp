@@ -66,6 +66,7 @@ bool DDModel::initModel( wchar_t* path )
 	for ( DWORD i = 0; i < m_dwNumMaterials; i++ )
 	{
 		m_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
+		m_pMeshMaterials[i].Ambient = m_pMeshMaterials[i].Diffuse;
 
 		m_pMeshTexture[i] = NULL;
 		if ( d3dxMaterials[i].pTextureFilename != NULL && lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
