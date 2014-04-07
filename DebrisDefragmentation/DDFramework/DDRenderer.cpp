@@ -88,6 +88,64 @@ bool DDRenderer::Init( HWND hWnd )
 	return true;
 }
 
+// Tool 때문에 비효율적으로 Overriding 합니다.
+// 원래는 한 쪽이 다른 한 쪽을 부르는 것이 좋습니다.
+bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
+{
+	HRESULT hr = 0;
+
+	if ( NULL == ( m_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
+	{
+		return false;
+	}
+
+	ZeroMemory( &m_D3DPresentParameters, sizeof( m_D3DPresentParameters ) );
+
+	D3DMULTISAMPLE_TYPE mst = D3DMULTISAMPLE_NONE;
+
+	m_D3DPresentParameters.Windowed = TRUE;
+	m_D3DPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	m_D3DPresentParameters.EnableAutoDepthStencil = TRUE;
+	m_D3DPresentParameters.AutoDepthStencilFormat = D3DFMT_D16; // 16-bit z-buffer bit depth.
+	m_D3DPresentParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	m_D3DPresentParameters.BackBufferWidth = ScreenWidth;
+	m_D3DPresentParameters.BackBufferHeight = ScreenHeight;
+	m_D3DPresentParameters.BackBufferFormat = D3DFMT_A8R8G8B8;
+	m_D3DPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+	m_D3DPresentParameters.hDeviceWindow = hWnd;
+
+	hr = m_pD3D->CheckDeviceMultiSampleType( D3DADAPTER_DEFAULT,
+		D3DDEVTYPE_HAL, m_D3DPresentParameters.BackBufferFormat, true, mst, NULL );
+
+	if ( FAILED( hr ) )
+	{
+		return false;
+	}
+
+	m_D3DPresentParameters.MultiSampleType = mst;
+
+	hr = m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
+		D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_D3DPresentParameters, &m_pD3DDevice ); //D3DCREATE_SOFTWARE_VERTEXPROCESSING
+
+	if ( FAILED( hr ) )
+	{
+		return false;
+	}
+
+	hr = D3DXCreateSprite( m_pD3DDevice, &m_pSprite );
+
+	if ( FAILED( hr ) )
+	{
+		return false;
+	}
+
+	m_pD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+	m_pD3DDevice->SetRenderState( D3DRS_LIGHTING, TRUE );
+	m_pD3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+
+	return true;
+}
+
 bool DDRenderer::Release()
 {
 	if ( m_pSprite != NULL )

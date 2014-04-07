@@ -8,6 +8,7 @@ public:
 	static void ReleaseInstance();
 
 	bool Init( HWND hWnd );
+	bool Init( HWND hWnd, int ScreenWidth, int ScreenHeight );
 	bool Release();
 
 	bool Clear();

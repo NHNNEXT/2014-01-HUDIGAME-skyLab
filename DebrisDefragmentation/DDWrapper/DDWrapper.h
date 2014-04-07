@@ -14,9 +14,15 @@ namespace DDWrapper {
 		Renderer();
 		virtual ~Renderer();
 
-		DDRenderer* GetInstance();
+		bool Init( INT32 hWnd, int Width, int Height );
+		bool Release();
+
+		bool Clear();
+		bool BeginDraw();
+		bool EndDraw();
 
 	protected:
+		DDRenderer* GetInstance();
 		DDRenderer* m_pDDRenderer;
 		// TODO: 여기에 이 클래스에 대한 메서드를 추가합니다.
 	};
