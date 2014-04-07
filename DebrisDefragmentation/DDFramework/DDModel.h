@@ -14,12 +14,11 @@ public:
 	virtual void Render();
 	virtual void Update( float dTime );
 
-private: 
+protected:
 	bool initModel( wchar_t* path );	
 	bool SetNormalVector();
 	bool Cleanup();
 
-private:	
 	LPDIRECT3DDEVICE9	m_pD3DDevice;
 	LPD3DXMESH			m_pMesh;
 	D3DMATERIAL9*		m_pMeshMaterials;

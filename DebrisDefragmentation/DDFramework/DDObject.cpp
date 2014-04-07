@@ -6,9 +6,10 @@ DDObject::DDObject() :
 m_pParent( nullptr ),
 m_Position( .0f, .0f, .0f ),
 m_Rotation( .0f, .0f, .0f ),
-m_Scale( .0f, .0f, .0f ),
-m_Visible(true)
+m_Scale( 1.0f, 1.0f, 1.0f ),
+m_Visible( true )
 {
+	
 }
 
 
@@ -36,17 +37,20 @@ void DDObject::Update( float dTime )
 
 void DDObject::AffineTransfrom()
 {
-	D3DXQUATERNION	quaternionRotation;
+	D3DXQUATERNION	qRotation;
 	DDRenderer* renderer = DDRenderer::GetInstance();
 
 	D3DXMatrixIdentity( &m_Matrix );
 
-	// rotation에서 쿼터니언 생성
-	// D3DXQuaternionRotationYawPitchRoll( &quaternionRotation, m_Rotation.x, m_Rotation.y, m_Rotation.z );
+	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
+	
+	
 
 	// matrix를 affine변환이 적용된 형태로 변환
 	// scale 미적용 상태임..
-	// D3DXMatrixAffineTransformation( &m_Matrix, NULL, NULL, &quaternionRotation, &m_Position );
+	//D3DXMatrixAffineTransformation( &m_Matrix, 2.0f, NULL, &m_pRotation, &m_Position );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
 
 	// 자신의 어파인 변환 적용
 	if ( FAILED( renderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )

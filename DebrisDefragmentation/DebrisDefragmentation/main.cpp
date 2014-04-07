@@ -1,10 +1,8 @@
 #include "main.h"
 #include "DDApplication.h"
 #include "DDSceneDirector.h"
-#include "DDScene.h"
-#include "DDModel.h"
-#include "DDCamera.h"
-#include "DDLight.h"
+#include "PlayScene.h"
+#include "GameManager.h"
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
@@ -13,18 +11,22 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	DDApplication* app = DDApplication::GetInstance();
 	app->Init( L"Debris Defragmentation", 1000, 600 );
-	DDScene* scene = DDScene::Create();
+
+
+// 	DDScene* scene = DDScene::Create();
+	PlayScene* scene = PlayScene::Create();
 	DDModel* model = DDModel::Create( L"tiger.x" );
-	DDCamera* camera = DDCamera::Create();
-	DDLight* light = DDLight::Create();
-
-	scene->AddChild( light );
+// 	DDCamera* camera = DDCamera::Create();
+// 	DDLight* light = DDLight::Create();
+ 
+// 	scene->AddChild( light );
 	scene->AddChild( model );
-	scene->AddChild( camera );
-	DDSceneDirector::GetInstance()->ChangeScene( scene );
-
+// 	scene->AddChild( camera );
 	
-
+	
+//	GameManager::GetInstance()->SetCurrentScene( scene );
+	DDSceneDirector::GetInstance()->ChangeScene( scene );
+	
 	app->Run();
 	app->Release();
 

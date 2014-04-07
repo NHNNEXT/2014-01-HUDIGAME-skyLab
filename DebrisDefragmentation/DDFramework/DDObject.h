@@ -53,7 +53,6 @@ protected:
 	void RenderChildNodes();
 	void UpdateChildNodes(float dTime);
 
-protected:
 	DDObject* m_pParent;
 	std::list<DDObject*> m_ChildList;
 
