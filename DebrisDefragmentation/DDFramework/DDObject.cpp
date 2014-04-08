@@ -9,7 +9,9 @@ m_Rotation( .0f, .0f, .0f ),
 m_Scale( 1.0f, 1.0f, 1.0f ),
 m_Visible( true )
 {
-	
+	D3DXMatrixIdentity( &m_Matrix );
+	D3DXMatrixIdentity( &m_MatrixTransform );
+	D3DXMatrixIdentity( &m_MatrixRotation );
 }
 
 DDObject::~DDObject()
@@ -48,51 +50,40 @@ void DDObject::AffineTransfrom()
 	D3DXQUATERNION	qRotation;
 	DDRenderer* renderer = DDRenderer::GetInstance();
 
-	D3DXMatrixIdentity( &m_Matrix );
-
-	// 일단 부모의 변환을 가져온다!
-
-	// 내 중첩 변환을 적용 시킨다!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/*
-	// 자신의 누적된 좌표계 변환에 다시 변화를 추가한다!
-	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
+	D3DXMatrixIdentity( &m_Matrix );
+	// 현재 회전 값 행렬로 만들기
+	D3DXMATRIXA16	currentRotation;
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
+	D3DXMatrixTransformation( &currentRotation, NULL, NULL, NULL, NULL, &qRotation, NULL );
 
-	// matrix를 affine변환이 적용된 형태로 변환	
-	D3DXMATRIXA16 currentTransform;
-	D3DXMatrixTransformation( &currentTransform, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
-	
 	// 적용된 데이터는 초기화
-	m_Scale = DDVECTOR3(1, 1, 1);
-	m_Rotation = DDVECTOR3( 0, 0, 0 );
-	m_Position = DDVECTOR3( 0, 0, 0 );
+	m_Rotation = DDVECTOR3( .0f, .0f, .0f );
 	
-	D3DXMatrixMultiply( &m_MatrixTransform, &m_MatrixTransform, &currentTransform );
+	// 기존 회전 변환에 합치기
+	D3DXMatrixMultiply( &m_MatrixRotation, &m_MatrixRotation, &currentRotation );
+
+	// 이동과 스케일은 원래대로
+	D3DXMatrixTransformation( &m_MatrixTransform, NULL, NULL, &m_Scale, NULL, NULL, &m_Position );
+	D3DXMatrixMultiply( &m_Matrix, &m_MatrixRotation, &m_MatrixTransform );
+
+	// 부모의 좌표계에다 내 변환된 좌표계를 누적 시킨다!
+	// 부모의 어파인 변환을 적용
+	if ( nullptr != m_pParent )
+	{
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
+	}
+
+	// 자신+부모의 어파인 변환을 월드좌표계에 적용
+	if ( FAILED( renderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
+	{
+		// error 
+		return;
+	}
 	*/
+
+
+	D3DXMatrixIdentity( &m_Matrix );
 
 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
@@ -112,7 +103,7 @@ void DDObject::AffineTransfrom()
 	{
 		// error 
 		return;
-	}	
+	}
 }
 
 DDVECTOR3 DDObject::GetViewDirection( )

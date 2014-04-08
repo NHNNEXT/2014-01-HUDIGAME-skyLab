@@ -78,8 +78,9 @@ protected:
 	DDObject* m_pParent;
 	std::list<std::shared_ptr<DDObject>> m_ChildList;
 
-	D3DXMATRIXA16	m_Matrix;
-	D3DXMATRIXA16	m_MatrixTransform;
+	D3DXMATRIXA16	m_Matrix;			// world coordinate
+	D3DXMATRIXA16	m_MatrixTransform;	// local coordinate
+	D3DXMATRIXA16	m_MatrixRotation;
 	DDVECTOR3		m_Position;
 	DDVECTOR3		m_Rotation;
 	DDVECTOR3		m_Scale;

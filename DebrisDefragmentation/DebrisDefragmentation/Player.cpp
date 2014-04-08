@@ -46,6 +46,7 @@ void Player::UpdateItSelf( float dTime )
 void Player::SetAcceleration()
 {
 	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
+	// 나중에는 타이머 만들어서 써볼까?
 	m_AccelerationStart = timeGetTime();
 	m_IsAccelerating = true;
 

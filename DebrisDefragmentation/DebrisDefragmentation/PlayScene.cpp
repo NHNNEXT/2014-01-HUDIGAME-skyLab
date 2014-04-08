@@ -37,6 +37,14 @@ void PlayScene::Init()
 		
 		AddChild( tempDebris );
 	}
+
+	// 조심해! 하드 코딩
+	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것
+	if ( !SetCursorPos( 500, 500 ) )
+	{
+		// error!
+		return;
+	}
 }
 
 void PlayScene::Update( float dTime )
@@ -63,6 +71,7 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.
+	
 	DDPoint currentMousePos = GetMousePosition( );
 	m_pPlayer->RotateDicrection( 
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
@@ -70,4 +79,16 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	m_PrevMousePosition = currentMousePos;
+
+	/*
+	GetMousePosition은 스크린 상의 마우스 포인터 위치를 반환하므로
+	기준 좌표를 보정해야 함
+	DDPoint currentMousePos = GetMousePosition();
+	m_pPlayer->RotateDicrection(
+		currentMousePos.GetX() - 500,
+		currentMousePos.GetY() - 500
+		);
+
+	SetCursorPos( 500, 500 );
+	*/
 }
