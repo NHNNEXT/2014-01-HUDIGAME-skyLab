@@ -14,6 +14,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameTool", "GameTool\GameTo
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DDWrapper", "DDWrapper\DDWrapper.vcxproj", "{12AC7293-19EA-4285-AC5D-D6EB7CDE515A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3C2E53C6-E69A-4362-9F90-FEAB58AAEB4B} = {3C2E53C6-E69A-4362-9F90-FEAB58AAEB4B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
