@@ -21,13 +21,12 @@ namespace GameTool
            // new 하면 멤버변수가 싱글톤으로 할당됨
            m_Renderer = new DDWrapper.Renderer();
 
+            // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
            if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
            {
                DrawScreen();
            }
-            //모든게 끝날 때 D3D도 릴리즈 시켜줘야 합니다
-            //그러니까 이 함수는 이 자리 말고 Exit 버튼 콜백에 이식해줌 됩니다
-            //Renderer.Release();
+          
         }
 
         private async void DrawScreen()
@@ -43,6 +42,15 @@ namespace GameTool
 
                 await Task.Delay(10);
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //모든게 끝날 때 D3D도 릴리즈 시켜줘야 합니다
+            g_IsRenderable = false;
+            m_Renderer.Release();
+
+            Application.Exit();
         }
     }
 }
