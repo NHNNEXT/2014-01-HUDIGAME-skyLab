@@ -127,6 +127,8 @@ bool DDApplication::Release()
 	m_pRenderer->Release();
 	DDRenderer::ReleaseInstance();
 
+	DDInputSystem::ReleaseInstance();
+
 	ReleaseInstance();
 
 	return true;

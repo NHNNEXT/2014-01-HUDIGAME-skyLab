@@ -10,6 +10,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <memory>
 
 #include <assert.h>
 #include <time.h>

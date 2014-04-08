@@ -21,7 +21,7 @@ void DDObject::Release( )
 {
 	for ( const auto& child : m_ChildList )
 	{
-		RemoveChild( child );
+		RemoveChild( child.get() );
 	}
 }
 
@@ -138,18 +138,19 @@ void DDObject::UpdateChildNodes( float dTime )
 
 void DDObject::AddChild( DDObject* object )
 {
+	std::shared_ptr<DDObject> object_ptr( object );
 	object->SetParent( this );
-	m_ChildList.push_back( object );
+	m_ChildList.push_back( object_ptr );
 }
 
 void DDObject::RemoveChild( DDObject* object )
 {
 	for ( auto& iter = m_ChildList.begin(); iter != m_ChildList.end(); iter++ )
 	{
-		if ( ( *iter ) == object )
+		if ( ( *iter ).get() == object )
 		{
 			//( *iter )->Release();
-			SafeDelete( *iter );
+			//SafeDelete( *iter );
 			m_ChildList.erase( iter );
 			break;
 		}

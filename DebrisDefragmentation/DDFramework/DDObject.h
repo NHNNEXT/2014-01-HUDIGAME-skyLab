@@ -13,7 +13,7 @@ public:
 	virtual void Update(float dTime);
 	
 	DDObject* GetParent() { return m_pParent; }
-	const std::list<DDObject*>& GetChildList() { return m_ChildList; }
+	const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_ChildList; }
 
 	void SetParent( DDObject* object ) { m_pParent = object; }
 
@@ -76,7 +76,7 @@ public:
 
 protected:
 	DDObject* m_pParent;
-	std::list<DDObject*> m_ChildList;
+	std::list<std::shared_ptr<DDObject>> m_ChildList;
 
 	D3DXMATRIXA16	m_Matrix;
 	D3DXMATRIXA16	m_MatrixTransform;

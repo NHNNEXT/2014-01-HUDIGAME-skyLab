@@ -36,8 +36,6 @@ bool DDModel::initModel( wchar_t* path )
 
 	std::wstring xfilePath = L".\\Resources\\3DModel\\";
 	xfilePath.append(path);
-	
-	//wcscat_s( resourcePath, MAX_PATH , path );
 
 	HRESULT hr;
 	hr = D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, m_pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh );
@@ -136,6 +134,11 @@ bool DDModel::Cleanup()
 	{
 		delete[] m_pMeshMaterials;
 		m_pMeshMaterials = nullptr;
+	}
+	if ( m_pMesh != nullptr )
+	{
+		m_pMesh->Release();
+		m_pMesh = nullptr;
 	}
 
 	return true;

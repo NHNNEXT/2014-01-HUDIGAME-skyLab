@@ -20,9 +20,10 @@ protected:
 	bool Cleanup();
 
 	LPDIRECT3DDEVICE9	m_pD3DDevice;
+
 	LPD3DXMESH			m_pMesh;
-	D3DMATERIAL9*		m_pMeshMaterials;
 	LPDIRECT3DTEXTURE9* m_pMeshTexture;
+	D3DMATERIAL9*		m_pMeshMaterials;
 	DWORD				m_dwNumMaterials;
 
 };

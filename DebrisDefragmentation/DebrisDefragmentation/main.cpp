@@ -28,6 +28,5 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	app->Run();
 	app->Release();
 
-
 	return 0;
 }
