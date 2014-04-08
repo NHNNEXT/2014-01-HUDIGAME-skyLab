@@ -26,7 +26,7 @@ void DDCamera::Render()
 
 	m_Matrix = m_pParent->GetMatrix();
 
-	
+	/*
 	D3DXVECTOR4 tempEye;
 	D3DXVec3Transform( &tempEye, &m_Position, &m_Matrix );
 	D3DXVECTOR3 vEyePt( D3DXVECTOR3( tempEye.x, tempEye.y, tempEye.z ) );
@@ -35,14 +35,13 @@ void DDCamera::Render()
 	D3DXVec3Transform( &tempLook, &m_LookatPoint, &m_Matrix );
 	D3DXVECTOR3 vLookatPt( D3DXVECTOR3( tempLook.x, tempLook.y, tempLook.z ) );
 
-	D3DXVECTOR4 tempUp;
-	D3DXVec3Transform( &tempUp, &D3DXVECTOR3(0, 1, 0), &m_Matrix );
-	D3DXVECTOR3 vUpVec( D3DXVECTOR3( tempUp.x, tempUp.y, tempUp.z ) );
-	/*
+	D3DXVECTOR3 vUpVec( D3DXVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 ) );
+	*/
+	
 	D3DXVECTOR3 vEyePt( 0, 2, -5 );
 	D3DXVECTOR3 vLookatPt( D3DXVECTOR3( 0, 0, 0 ) );
 	D3DXVECTOR3 vUpVec( D3DXVECTOR3( 0, 1, 0 ) );
-	*/
+	
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );

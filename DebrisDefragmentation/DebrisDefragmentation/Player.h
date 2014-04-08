@@ -31,5 +31,8 @@ private:
 	Character*	m_Character;
 	DDVECTOR3	m_Acceleration; // 자동으로 0, 0, 0으로 초기화 되나?
 	DDVECTOR3	m_Velocity;
+
+	bool		m_IsAccelerating;
+	DWORD		m_AccelerationStart;
 };
 

@@ -2,6 +2,7 @@
 #include "DDPhysics.h"
 
 Player::Player()
+: m_IsAccelerating( false ), m_AccelerationStart( 0 )
 {
 }
 
@@ -29,18 +30,32 @@ void Player::Update( float dTime )
 
 void Player::UpdateItSelf( float dTime )
 {
+	if ( m_IsAccelerating )
+	{
+		if ( timeGetTime() - m_AccelerationStart > 500 )
+		{
+			// 가속 끝났다
+			m_IsAccelerating = false;
+			m_Acceleration = DDVECTOR3( 0, 0, 0 );
+		}
+	}
+
 	DDPhysics::CalcCurrentPosition( &m_Position, &m_Velocity, m_Acceleration, dTime );
 }
 
 void Player::SetAcceleration()
 {
+	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
+	m_AccelerationStart = timeGetTime();
+	m_IsAccelerating = true;
+
 	DDVECTOR3 normalVec( 0, 0, 0 );
 	DDVECTOR3 viewDirection( GetViewDirection() );
 	DDPhysics::GetNormalVector( &viewDirection, &normalVec );
 
 	// 조심해!
 	// 가속도 가중치 하드 코딩 수정 할 것
-	m_Acceleration += ( viewDirection * 0.1 );
+	m_Acceleration += ( viewDirection * 1.0f );
 }
 
 void Player::Stop()

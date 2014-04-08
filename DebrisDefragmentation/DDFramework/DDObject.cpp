@@ -50,6 +50,33 @@ void DDObject::AffineTransfrom()
 
 	D3DXMatrixIdentity( &m_Matrix );
 
+	// 일단 부모의 변환을 가져온다!
+
+	// 내 중첩 변환을 적용 시킨다!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*
 	// 자신의 누적된 좌표계 변환에 다시 변화를 추가한다!
 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
@@ -90,11 +117,7 @@ void DDObject::AffineTransfrom()
 
 DDVECTOR3 DDObject::GetViewDirection( )
 {
-	D3DXVECTOR3 zAxis( 0, 0, 1 );
-	D3DXVECTOR4 viewDirection;
-	D3DXVec3Transform( &viewDirection, &zAxis, &m_Matrix );
-
-	return D3DXVECTOR3( viewDirection.x, viewDirection.y, viewDirection.z );
+	return D3DXVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
 }
 
 void DDObject::RenderChildNodes()
