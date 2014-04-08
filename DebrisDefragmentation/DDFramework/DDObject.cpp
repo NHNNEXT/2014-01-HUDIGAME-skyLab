@@ -90,7 +90,11 @@ void DDObject::AffineTransfrom()
 
 DDVECTOR3 DDObject::GetViewDirection( )
 {
-	return DDVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
+	D3DXVECTOR3 zAxis( 0, 0, 1 );
+	D3DXVECTOR4 viewDirection;
+	D3DXVec3Transform( &viewDirection, &zAxis, &m_Matrix );
+
+	return D3DXVECTOR3( viewDirection.x, viewDirection.y, viewDirection.z );
 }
 
 void DDObject::RenderChildNodes()

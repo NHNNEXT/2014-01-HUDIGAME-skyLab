@@ -33,7 +33,7 @@ void PlayScene::Init()
 			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20,
 			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20
 			);
-		tempDebris->SetScale( 0.05f, 0.05f, 0.05f );
+		tempDebris->SetScale( 0.01f, 0.01f, 0.01f );
 		
 		AddChild( tempDebris );
 	}
@@ -50,12 +50,13 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 현재 w키가 눌렸는지 확인한다
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
 	// s키가 눌렸다면 정지
-	if ( KEY_DOWN == GetKeyState( *"w" ) )
+
+	if ( KEY_DOWN == GetKeyState( 0x57 ) )
 	{
 		m_pPlayer->SetAcceleration();
 	}
 
-	if ( KEY_DOWN == GetKeyState( *"s" ) )
+	if ( KEY_DOWN == GetKeyState( 0x53 ) )
 	{
 		m_pPlayer->Stop( );
 	}
