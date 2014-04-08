@@ -71,7 +71,7 @@ void DDObject::AffineTransfrom()
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
 
 	// matrix를 affine변환이 적용된 형태로 변환	
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, &m_Position, &qRotation, &m_Position );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 
 	// 부모의 좌표계에다 내 변환된 좌표계를 누적 시킨다!
 	// 부모의 어파인 변환을 적용
