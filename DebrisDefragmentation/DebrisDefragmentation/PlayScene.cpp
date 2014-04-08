@@ -27,13 +27,13 @@ void PlayScene::Init()
 	Debris* tempDebris = nullptr;
 	for ( unsigned int i = 0; i < 1000; ++i )
 	{
-		tempDebris = Debris::Create( L"debris2.x" );
+		tempDebris = Debris::Create( L"debris.x" );
 		tempDebris->SetPosition(
 			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20, 
 			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20,
 			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20
 			);
-		//tempDebris->SetScale( 2.0f, 2.0f, 2.0f );
+		tempDebris->SetScale( 0.05f, 0.05f, 0.05f );
 		
 		AddChild( tempDebris );
 	}
