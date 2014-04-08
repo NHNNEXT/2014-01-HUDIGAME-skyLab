@@ -76,6 +76,7 @@ KeyState DDInputSystem::GetKeyState( int key )
 DDPoint DDInputSystem::GetMousePosition()
 {
 	POINT pt;
+	
 	GetCursorPos( &pt );
 	ScreenToClient( DDApplication::GetInstance()->GetHWND(), &pt );
 

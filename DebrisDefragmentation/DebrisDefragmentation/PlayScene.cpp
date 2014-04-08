@@ -1,5 +1,7 @@
 #include "PlayScene.h"
 #include "Debris.h"
+#include "DDInputSystem.h"
+#include "DDApplication.h"
 
 PlayScene::PlayScene()
 {
@@ -45,6 +47,12 @@ void PlayScene::Init()
 		// error!
 		return;
 	}
+
+
+
+// 	RECT rect;
+// 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );
+// 	ClipCursor( &rect );
 }
 
 void PlayScene::Update( float dTime )
@@ -53,33 +61,33 @@ void PlayScene::Update( float dTime )
 	UpdateItSelf( dTime );
 }
 
+// 조심해!!
+// 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
 void PlayScene::UpdateItSelf( float dTime )
 {
 	// 현재 w키가 눌렸는지 확인한다
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
 	// s키가 눌렸다면 정지
-
-	if ( KEY_DOWN == GetKeyState( 0x57 ) )
+	
+	if ( KEY_DOWN == DDInputSystem::GetInstance()->GetKeyState( 0x57 ) )
 	{
 		m_pPlayer->SetAcceleration();
 	}
-
-	if ( KEY_DOWN == GetKeyState( 0x53 ) )
+	
+	if ( KEY_DOWN == DDInputSystem::GetInstance()->GetKeyState( 0x53 ) )
 	{
 		m_pPlayer->Stop( );
 	}
 
 	// 마우스 좌표 변화를 받아온다
-	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.
-	
-	DDPoint currentMousePos = GetMousePosition( );
+	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.	
+	DDPoint currentMousePos = DDInputSystem::GetInstance()->GetMousePosition( );
 	m_pPlayer->RotateDicrection( 
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
 		currentMousePos.GetY() - m_PrevMousePosition.GetY()
 		);
 
-	m_PrevMousePosition = currentMousePos;
-
+	HideMousePointer();
 	/*
 	GetMousePosition은 스크린 상의 마우스 포인터 위치를 반환하므로
 	기준 좌표를 보정해야 함
@@ -91,4 +99,19 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	SetCursorPos( 500, 500 );
 	*/
+
+}
+
+void PlayScene::HideMousePointer()
+{
+	// 마우스 커서 500, 500에 놓기
+	POINT pt = { 500, 500 };
+	::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
+	::SetCursorPos( pt.x, pt.y );
+
+	// 이전 포지션 위치를 500, 500에 놓기
+	m_PrevMousePosition = DDPoint( 500, 500 );
+
+	// 커서 숨기기
+	::ShowCursor( false );
 }

@@ -9,8 +9,6 @@ Player::Player()
 
 Player::~Player()
 {
-	RemoveChild( m_Camera );
-	RemoveChild( m_Character );
 }
 
 void Player::Init()
@@ -61,7 +59,7 @@ void Player::SetAcceleration()
 
 void Player::Stop()
 {
-	// 장비를 정지합니다.
+	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
 	m_Acceleration = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 	m_Velocity = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 }
@@ -71,6 +69,6 @@ void Player::RotateDicrection( float y, float x )
 	// 조심해!
 	// 회전 각도 가중치 하드 코딩 수정 할 것
 	// SetRotation( x / 500, y / 500, 0 );
-	IncreaseRotationY( y / 500 );
-	IncreaseRotationX( x / 500 );
+	IncreaseRotationY( y / 10 );
+	IncreaseRotationX( x / 10 );
 }
