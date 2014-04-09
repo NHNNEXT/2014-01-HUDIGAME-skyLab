@@ -34,58 +34,7 @@ void DDRenderer::ReleaseInstance()
 
 bool DDRenderer::Init( HWND hWnd )
 {
-	HRESULT hr = 0;
-
-	if ( NULL == ( m_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
-	{
-		return false;
-	}
-
-	ZeroMemory( &m_D3DPresentParameters, sizeof( m_D3DPresentParameters ) );
-
-	D3DMULTISAMPLE_TYPE mst = D3DMULTISAMPLE_NONE;
-
-	m_D3DPresentParameters.Windowed = TRUE;
-	m_D3DPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	m_D3DPresentParameters.EnableAutoDepthStencil = TRUE;
-	m_D3DPresentParameters.AutoDepthStencilFormat = D3DFMT_D16; // 16-bit z-buffer bit depth.
-	m_D3DPresentParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
-	m_D3DPresentParameters.BackBufferWidth = DDApplication::GetInstance()->GetScreenWidth();
-	m_D3DPresentParameters.BackBufferHeight = DDApplication::GetInstance()->GetScreenHeight();
-	m_D3DPresentParameters.BackBufferFormat = D3DFMT_A8R8G8B8;
-	m_D3DPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
-	m_D3DPresentParameters.hDeviceWindow = DDApplication::GetInstance()->GetHWND();
-
-	hr = m_pD3D->CheckDeviceMultiSampleType( D3DADAPTER_DEFAULT,
-		D3DDEVTYPE_HAL, m_D3DPresentParameters.BackBufferFormat, true, mst, NULL );
-
-	if ( FAILED( hr ) )
-	{
-		return false;
-	}
-
-	m_D3DPresentParameters.MultiSampleType = mst;
-
-	hr = m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, DDApplication::GetInstance()->GetHWND(),
-		D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_D3DPresentParameters, &m_pD3DDevice ); //D3DCREATE_SOFTWARE_VERTEXPROCESSING
-
-	if ( FAILED( hr ) )
-	{
-		return false;
-	}
-
-	hr = D3DXCreateSprite( m_pD3DDevice, &m_pSprite );
-	
-	if ( FAILED( hr ) )
-	{
-		return false;
-	}
-
-	m_pD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
-	m_pD3DDevice->SetRenderState( D3DRS_LIGHTING, TRUE );
-	m_pD3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
-
-	return true;
+	return Init( hWnd, DDApplication::GetInstance()->GetScreenWidth(), DDApplication::GetInstance()->GetScreenHeight() );
 }
 
 // Tool 때문에 비효율적으로 Overriding 합니다.
