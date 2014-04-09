@@ -37,8 +37,7 @@ bool DDRenderer::Init( HWND hWnd )
 	return Init( hWnd, DDApplication::GetInstance()->GetScreenWidth(), DDApplication::GetInstance()->GetScreenHeight() );
 }
 
-// Tool 때문에 비효율적으로 Overriding 합니다.
-// 원래는 한 쪽이 다른 한 쪽을 부르는 것이 좋습니다.
+// overriding
 bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
 {
 	HRESULT hr = 0;

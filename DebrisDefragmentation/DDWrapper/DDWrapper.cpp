@@ -5,7 +5,8 @@
 #include "DDWrapper.h"
 
 namespace DDWrapper
-{
+{	
+	//////////////////////////////////////////// Renderer Class //////////////////////////////	
 	// »ý¼ºÀÚ
 	Renderer::Renderer()
 		:m_pDDRenderer( GetInstance() )
@@ -54,4 +55,21 @@ namespace DDWrapper
 	{
 		return m_pDDRenderer->GetInstance()->End();
 	}
+
+
+
+	////////////////////////////////// DD Object Class //////////////////////////////
+
+
+
+	Object::~Object()
+	{
+		if ( nullptr != m_pObject )
+		{
+			m_pObject->Release();
+		}
+
+		m_pObject = nullptr;
+	}
+
 }
