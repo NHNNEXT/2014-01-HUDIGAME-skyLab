@@ -23,6 +23,9 @@
     <Filter Include="GameLogic">
       <UniqueIdentifier>{919601a6-5c8f-474d-91d8-1cd4edbe7ab9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{5c96a5c6-3ea4-43b4-b114-57b5ef9ca1ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="GameData.h">
       <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PacketType.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

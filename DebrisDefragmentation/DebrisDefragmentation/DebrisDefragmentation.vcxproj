@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)DDFramework;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DDFramework;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\external;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,6 +91,7 @@
     <ClCompile Include="PlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\PacketType.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="GameData.h" />
