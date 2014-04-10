@@ -38,11 +38,9 @@ namespace DDWrapper {
 		void Render() { m_pObject->Render(); };
 		void Update( float dTime ) { m_pObject->Update( dTime );  };
 
-		DDObject* GetParent() { return m_pObject->GetParent(); };
+		const DDObject* GetParent() { return m_pObject->GetParent(); };
 		const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_pObject->GetChildList(); };
-
-		void SetParent( DDObject* object ) { m_pObject->SetParent( object ); };
-
+		
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
 		void RemoveChild( DDObject* object ) { m_pObject->RemoveChild( object ); };
 
@@ -90,13 +88,7 @@ namespace DDWrapper {
 		void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_pObject->SetRotation( rotationX, rotationY, rotationZ );  };
 
 		void SetVisible( bool visible ) { m_pObject->SetVisible( visible ); };
-
-		void AffineTransfrom() { m_pObject->AffineTransfrom(); };
-		void RenderChildNodes() { m_pObject->RenderChildNodes(); };
-
-		void UpdateItSelf( float dTime ) { m_pObject->UpdateItSelf( dTime ); };
-		void UpdateChildNodes( float dTime ) { m_pObject->UpdateChildNodes( dTime ); };
-
+		
 		// z축 방향 벡터를 월드 좌표계 기준으로 반환
 		DDVECTOR3 GetViewDirection() { return m_pObject->GetViewDirection(); };
 	protected:

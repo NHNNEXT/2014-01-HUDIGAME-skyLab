@@ -15,10 +15,9 @@ public:
 
 	void Init();
 
-	void Update( float dTime );
-	void UpdateItSelf( float dTime );
 
 private:
+	virtual void UpdateItSelf( float dTime );
 	void HideMousePointer();
 
 	DDLight*	m_pDirectonalLight;

@@ -9,10 +9,7 @@ public:
 	DDModel( wchar_t* filePath );
 	virtual ~DDModel();
 
-	static DDModel* Create( wchar_t* filePath );
-	
-	virtual void Render();
-	virtual void Update( float dTime );
+	static DDModel* Create( wchar_t* filePath );	
 
 protected:
 	bool initModel( wchar_t* path );	
@@ -26,5 +23,7 @@ protected:
 	D3DMATERIAL9*		m_pMeshMaterials;
 	DWORD				m_dwNumMaterials;
 
+private:
+	virtual void RenderItSelf();
 };
 

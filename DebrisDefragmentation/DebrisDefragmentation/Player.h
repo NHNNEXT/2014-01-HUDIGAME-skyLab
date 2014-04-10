@@ -11,10 +11,7 @@ public:
 	virtual ~Player();
 
 	CREATE_FUNC( Player );
-	void Init();
-	
-	void Update( float dTime );
-	void UpdateItSelf( float dTime );
+	void Init();	
 
 	// 작성자 : 최경욱
 	// 현재 바라보는 방향으로 가속도 부여
@@ -27,6 +24,8 @@ public:
 	void RotateDicrection(float y, float x);
 
 private:
+	virtual void UpdateItSelf( float dTime );
+
 	DDCamera*	m_Camera;
 	Character*	m_Character;
 	DDVECTOR3	m_Acceleration; // 자동으로 0, 0, 0으로 초기화 되나?

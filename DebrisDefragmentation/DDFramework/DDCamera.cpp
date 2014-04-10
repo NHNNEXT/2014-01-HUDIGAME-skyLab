@@ -20,7 +20,7 @@ DDCamera* DDCamera::Create()
 	return pInstance;
 }
 
-void DDCamera::Render()
+void DDCamera::RenderItSelf()
 {
 	m_Matrix = m_pParent->GetMatrix();
 
@@ -48,10 +48,5 @@ void DDCamera::Render()
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
-}
-
-void DDCamera::Update( float dTime )
-{
-	DDObject::Update( dTime );
 }
 

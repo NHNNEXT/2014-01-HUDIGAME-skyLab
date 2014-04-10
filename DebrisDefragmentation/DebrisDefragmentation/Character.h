@@ -10,10 +10,9 @@ public:
 
 	static Character* Create(wchar_t* modelPath);
 
-	void Update( float dTime );
-	void UpdateItSelf( float dTime );
 
 private:
+	virtual void UpdateItSelf( float dTime );
 	float tmpTimeCounter;
 };
 

@@ -55,12 +55,6 @@ void PlayScene::Init()
 // 	ClipCursor( &rect );
 }
 
-void PlayScene::Update( float dTime )
-{	
-	UpdateChildNodes( dTime );
-	UpdateItSelf( dTime );
-}
-
 // 조심해!!
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
 void PlayScene::UpdateItSelf( float dTime )

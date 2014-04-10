@@ -25,12 +25,6 @@ Character* Character::Create( wchar_t* modelPath )
 	return pInstance;
 }
 
-void Character::Update( float dTime )
-{
-	UpdateItSelf( dTime );
-	UpdateChildNodes( dTime );
-}
-
 void Character::UpdateItSelf( float dTime )
 {
 	// player, playscene, character class에 update 및 updateitself 함수 만들었음.
@@ -42,4 +36,5 @@ void Character::UpdateItSelf( float dTime )
 	
 	// increasePosition test
 	//IncreasePositionX( tmpTimeCounter );
+	int a = 10;
 }

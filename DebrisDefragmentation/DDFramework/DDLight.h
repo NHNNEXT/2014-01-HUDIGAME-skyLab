@@ -9,7 +9,7 @@ public:
 
 	static DDLight* Create();
 
-	virtual void Render();
-	virtual void Update( float dTime );
+private:
+	virtual void RenderItSelf();
 };
 

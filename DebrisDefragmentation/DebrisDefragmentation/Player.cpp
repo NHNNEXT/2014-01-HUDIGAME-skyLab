@@ -20,12 +20,6 @@ void Player::Init()
 	AddChild( m_Character );
 }
 
-void Player::Update( float dTime )
-{
-	UpdateItSelf( dTime );
-	UpdateChildNodes( dTime );
-}
-
 void Player::UpdateItSelf( float dTime )
 {
 	if ( m_IsAccelerating )

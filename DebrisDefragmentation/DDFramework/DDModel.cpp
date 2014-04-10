@@ -144,10 +144,9 @@ bool DDModel::Cleanup()
 	return true;
 }
 
-void DDModel::Render()
-{
-	DDObject::Render();
 
+void DDModel::RenderItSelf()
+{
 	for ( DWORD i = 0; i < m_dwNumMaterials; ++i )
 	{
 		m_pD3DDevice->SetMaterial( &m_pMeshMaterials[i] );
@@ -155,9 +154,4 @@ void DDModel::Render()
 
 		m_pMesh->DrawSubset( i );
 	}
-}
-
-void DDModel::Update( float dTime )
-{
-	DDObject::Update( dTime );
 }

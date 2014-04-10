@@ -35,6 +35,7 @@ void DDObject::Render()
 	if ( m_Visible == false ) return;
 		
 	AffineTransfrom();
+	RenderItSelf();
 	RenderChildNodes();
 }
 
@@ -42,6 +43,7 @@ void DDObject::Update( float dTime )
 {
 	if ( m_Visible == false ) return;
 	
+	UpdateItSelf( dTime );
 	UpdateChildNodes( dTime );
 }
 

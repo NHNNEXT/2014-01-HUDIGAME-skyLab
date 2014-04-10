@@ -17,12 +17,7 @@ DDScene* DDScene::Create()
 	return pInstance;
 }
 
-void DDScene::Render()
-{	
-	DDObject::Render();
-}
-
-void DDScene::Update( float dTime )
+void DDScene::RenderItSelf()
 {
-	DDObject::Update( dTime );
+
 }
