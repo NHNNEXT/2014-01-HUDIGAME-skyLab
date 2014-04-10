@@ -60,9 +60,7 @@ namespace DDWrapper
 
 	////////////////////////////////// DD Object Class //////////////////////////////
 
-
-
-	Object::~Object()
+	GameObject::~GameObject()
 	{
 		if ( nullptr != m_pObject )
 		{
@@ -70,6 +68,18 @@ namespace DDWrapper
 		}
 
 		m_pObject = nullptr;
+	}
+
+	////////////////////////////////// DD Camera Class //////////////////////////////
+
+	GameCamera::~GameCamera()
+	{
+		if ( nullptr != m_pCamera )
+		{
+			m_pCamera->Release();
+		}
+
+		m_pCamera = nullptr;
 	}
 
 }

@@ -21,6 +21,12 @@ namespace GameTool
            // new 하면 멤버변수가 싱글톤으로 할당됨
            m_Renderer = new DDWrapper.Renderer();
 
+            // 방어 코드
+           if (null == m_Renderer)
+            {
+                return;
+            }
+
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
            if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
            {

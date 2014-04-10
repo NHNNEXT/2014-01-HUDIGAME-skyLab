@@ -4,17 +4,36 @@
 #include "../DDFramework/DDRenderer.h"
 #include "../DDFramework/DDObject.h"
 #include "../DDFramework//DDModel.h"
+#include "../DDFramework//DDCamera.h"
 #pragma comment( lib, "../Debug/DDFramework.lib")
 
 using namespace System;
 
 namespace DDWrapper {
+	// Wrapper 내부에 구현된 클래스들의 기본 구조
+	/*
+		public ref class 클래스 이름
+		{
+		public:
+			함수들();
+
+		private:
+			DD프레임워크 클래스* m_pClass;
+			private함수들();
+		}
+	
+	저 private 안에 들어있는 n_pClass 멤버 변수를 이용해서 public 함수들()의 구현을
+	하고 있는 모습입니다.
+	
+	참 쉽죠???
+	
+	*/
 
 	public ref class Renderer
 	{
 	public:
 		Renderer();
-		virtual ~Renderer();
+		~Renderer();
 
 		bool Init( INT32 hWnd, int Width, int Height );
 		bool Release();
@@ -28,10 +47,10 @@ namespace DDWrapper {
 		DDRenderer* m_pDDRenderer;
 	};
 
-	public ref class Object
+	public ref class GameObject
 	{
-		Object() :m_pObject( new DDObject() ) {};
-		~Object();
+		GameObject() :m_pObject( new DDObject() ) {};
+		~GameObject();
 
 		void Release() { m_pObject->Release(); delete m_pObject; m_pObject = nullptr; };
 
@@ -95,8 +114,17 @@ namespace DDWrapper {
 		DDObject* m_pObject;
 	};
 
-	public ref class DDModel
+	public ref class GameModel
 	{
+		
+	};
 
+	public ref class GameCamera
+	{
+	public:
+		GameCamera() :m_pCamera( m_pCamera->Create() ) {};
+		~GameCamera();
+	protected:
+		DDCamera* m_pCamera;
 	};
 }

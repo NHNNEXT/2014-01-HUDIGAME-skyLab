@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DDWrapper, Version=1.0.5210.41922, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="DDWrapper, Version=1.0.5213.36542, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Debug\DDWrapper.dll</HintPath>
     </Reference>
