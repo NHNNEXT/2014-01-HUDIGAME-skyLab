@@ -8,22 +8,23 @@
 */
 
 #include "DDConfig.h"
-#include <math.h>
+#include <math.h>	// agebreak : 자주 쓰이고, 변하지 않는 헤더는 PreCompiled Header에 넣는게 좋다.
 
 class DDPoint
 {
 public:
 	DDPoint() : m_X( 0.f ), m_Y( 0.f ) {}
 	DDPoint( float x, float y ) : m_X( x ), m_Y( y ) {}
-	DDPoint( DDPoint& point ) : m_X( point.GetX() ), m_Y( point.GetY() ) {}
+	DDPoint( DDPoint& point ) : m_X( point.GetX() ), m_Y( point.GetY() ) {} // agebreak : 컴파일하면 비표준 확장이라면서 워닝이 발생함. 이것을 잡아라. 교수실로 들고오면 알려줌. 
 	~DDPoint() {}
 
-	DDPoint& operator= ( const DDPoint& point );
-	DDPoint operator+( const DDPoint& point ) const;
-	DDPoint operator-( const DDPoint& point ) const;
-	DDPoint operator-( ) const;
-	DDPoint operator*( float n ) const;
-	DDPoint operator/( float n ) const;
+	// agebreak : 아래와 같이 간단하고 자주 쓰는 함수는, inline으로 선언한다
+	 DDPoint& operator=( const DDPoint& point );
+	 DDPoint operator+(const DDPoint& point) const;
+	 DDPoint operator-(const DDPoint& point) const;
+	 DDPoint operator-() const;
+	 DDPoint operator*(float n) const;
+	 DDPoint operator/(float n) const;
 
 	/*
 		input : DDPoint 2개(시작점, 끝점), float 가중치
@@ -41,7 +42,9 @@ public:
 		output : 주어진 점과 떨어진 거리
 	*/
 	inline float GetDistance( DDPoint& point ) const {
-		return sqrtf( pow( m_X - point.GetX(), 2 ) + pow( m_Y - point.GetY(), 2 ) );
+		// agebreak : 두개의 오버로딩한 함수는 아래와 같이 하나로 통일해서 사용하는 것이 좋다
+		//return sqrtf( pow( m_X - point.GetX(), 2 ) + pow( m_Y - point.GetY(), 2 ) );
+		return GetDistance(point.GetX(), point.GetY());
 	}
 
 	/*

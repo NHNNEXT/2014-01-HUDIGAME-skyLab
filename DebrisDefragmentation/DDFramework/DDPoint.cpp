@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DDPoint.h"
 
-DDPoint& DDPoint::operator= ( const DDPoint& point )
+DDPoint& DDPoint::operator=( const DDPoint& point )
 {
 	this->SetPoint( point.GetX(), point.GetY() );
 	return *this;

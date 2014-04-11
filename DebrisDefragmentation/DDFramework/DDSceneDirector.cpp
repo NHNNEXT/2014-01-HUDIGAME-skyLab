@@ -37,6 +37,7 @@ bool DDSceneDirector::Init()
 
 bool DDSceneDirector::Release()
 {
+	// agebreak : 외부에서 받아온 Scene을 내부에서 죽이는 것이 과연 옳은 디자인일까?
 	SafeDelete( m_pCurrentScene );
 	return true;
 }
@@ -73,6 +74,7 @@ void DDSceneDirector::ChangeScene( DDScene* scene )
 	}
 	else
 	{
+		// agebreak : 만약 외부에서 씬을 두개 생성해놓고, 필요할때마다 체인지 한다면??
 		SafeDelete( m_pCurrentScene );
 		m_pCurrentScene = scene;
 	}

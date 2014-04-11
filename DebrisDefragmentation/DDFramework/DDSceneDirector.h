@@ -2,8 +2,9 @@
 
 #include "DDConfig.h"
 #include "DDRenderer.h"
-#include "DDScene.h"
+#include "DDScene.h"	// agebreak : 전방 선언을 활용하면 Include 할 필요가 없다
 
+// agebreak : 씬으로 구별하고, 씬디렉터를 두는 프레임워크 구조는 좋은 구조!
 class DDSceneDirector
 {
 public:

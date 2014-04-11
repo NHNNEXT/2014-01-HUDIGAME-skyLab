@@ -4,11 +4,6 @@
 DDApplication* DDApplication::m_pInstance = nullptr;
 
 DDApplication::DDApplication()
-: m_Hwnd( nullptr ), m_hInstance( nullptr ),
-m_ScreenHeight( 0 ), m_ScreenWidth( 0 ),
-m_Fps( 0.f ), m_ElapsedTime( 0.f ), m_DeltaTime( 0.f ), m_FpsTimer( 0.f ),
-m_PrevTime( 0 ), m_NowTime( 0 ),
-m_pRenderer( nullptr ), m_pSceneDirector( nullptr ), m_DestroyWindow( false )
 {
 }
 
@@ -26,11 +21,20 @@ DDApplication* DDApplication::GetInstance()
 	return m_pInstance;
 }
 
+void DDApplication::ReleaseInstance() // agebreak : 쌍이 되는 함수는 같은 위치에 있는 것이 좋음 
+{
+	if (m_pInstance != nullptr)
+	{
+		delete m_pInstance;
+		m_pInstance = nullptr;
+	}
+}
+
 bool DDApplication::Init( wchar_t* title, int width, int height )
 {
 	m_hInstance = GetModuleHandle( 0 );
 
-	m_pTitle = title;
+	m_pTitle = title;	// agebreak : 1. 이 코드는 과연 안전한 코드일까? 2. 이 멤버 변수는 굳이 필요할까?
 	m_ScreenWidth = width;
 	m_ScreenHeight = height;
 
@@ -106,14 +110,7 @@ bool DDApplication::_CreateRenderer()
 	return true;
 }
 
-void DDApplication::ReleaseInstance()
-{
-	if ( m_pInstance != nullptr )
-	{
-		delete m_pInstance;
-		m_pInstance = nullptr;
-	}
-}
+
 
 bool DDApplication::Release()
 {
@@ -121,6 +118,8 @@ bool DDApplication::Release()
 		ReleaseInstance();
 		return true;
 	}
+
+	// agebreak : 싱글톤 = 멤버 변수라니, 이상하지 않은가?
 	m_pSceneDirector->Release();
 	DDSceneDirector::ReleaseInstance();
 
@@ -153,6 +152,7 @@ int DDApplication::Run()
 		}
 		else
 		{
+			// agebreak : FPS 구하는 내용이 여기에 구현되어 있을 필요가 있을까? 함수나 클래스로 따로 구현해서 사용하는게 좋음.
 			// FPS 구하기
 			m_FrameCount++;
 			m_NowTime = timeGetTime();
