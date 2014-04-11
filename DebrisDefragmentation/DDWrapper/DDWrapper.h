@@ -52,7 +52,7 @@ namespace DDWrapper {
 		GameObject() :m_pObject( new DDObject() ) {};
 		~GameObject();
 
-		void Release() { m_pObject->Release(); delete m_pObject; m_pObject = nullptr; };
+		void Release() { m_pObject->Release(); };
 
 		void Render() { m_pObject->Render(); };
 		void Update( float dTime ) { m_pObject->Update( dTime );  };
@@ -116,6 +116,13 @@ namespace DDWrapper {
 
 	public ref class GameModel
 	{
+	public:
+		GameModel() : m_pModel(new DDModel()) {};
+		GameModel( wchar_t* filepath ) : m_pModel( new DDModel( filepath )){};
+		~GameModel();
+	
+	protected:
+		DDModel* m_pModel;
 		
 	};
 

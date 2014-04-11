@@ -65,8 +65,9 @@ namespace DDWrapper
 		if ( nullptr != m_pObject )
 		{
 			m_pObject->Release();
+			delete m_pObject;
 		}
-
+		
 		m_pObject = nullptr;
 	}
 
@@ -77,9 +78,23 @@ namespace DDWrapper
 		if ( nullptr != m_pCamera )
 		{
 			m_pCamera->Release();
+			delete m_pCamera;
 		}
 
 		m_pCamera = nullptr;
+	}
+
+	////////////////////////////////// DD Model Class //////////////////////////////
+
+	GameModel::~GameModel()
+	{
+		if ( nullptr != m_pModel )
+		{
+			m_pModel->Release();
+			delete m_pModel;
+		}
+
+		m_pModel = nullptr;
 	}
 
 }
