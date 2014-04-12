@@ -22,8 +22,8 @@ enum PacketTypes
 struct PacketHeader
 {
 	PacketHeader() : mSize( 0 ), mType( PKT_NONE ) 	{}
-	short mSize;
-	short mType;
+	unsigned short mSize;
+	unsigned short mType;
 };
 
 
