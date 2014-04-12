@@ -15,11 +15,21 @@
 #pragma comment(lib,"ws2_32.lib")
 
 SOCKET g_AcceptedSocket = NULL;
+CRITICAL_SECTION g_AcceptedSockLock;
+CONDITION_VARIABLE g_SocketFull;
+CONDITION_VARIABLE g_SocketEmpty;
+bool g_NewSocketFlag;
 
 __declspec( thread ) int LThreadType = -1;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	// 임계영역 관련 변수 초기화 
+	InitializeConditionVariable( &g_SocketFull );
+	InitializeConditionVariable( &g_SocketEmpty );
+	InitializeCriticalSection( &g_AcceptedSockLock );
+	g_NewSocketFlag = false;
+
 	// exception 발생 경우 처리
 	SetUnhandledExceptionFilter( ExceptionFilter );
 
@@ -69,7 +79,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	/// accept loop
 	while ( true )
 	{
+		// g_AcceptedSocket 에 대한 접근을 동시에 하므로 락을 잡자
+		EnterCriticalSection( &g_AcceptedSockLock );
+		while ( g_NewSocketFlag )
+		{
+			// 그런데 아까 받은 애를 아직 안 꺼내 갔으면 기다려야 되니까 조건 변수를 쓰자
+			SleepConditionVariableCS( &g_SocketEmpty, &g_AcceptedSockLock, INFINITE );
+		}
+
 		g_AcceptedSocket = accept( listenSocket, NULL, NULL );
+
+		g_NewSocketFlag = true;
+
+		// 다 썼으면 락 풀고 신호 보내주기
+		LeaveCriticalSection( &g_AcceptedSockLock );
+		WakeConditionVariable( &g_SocketFull );
+
 		if ( g_AcceptedSocket == INVALID_SOCKET )
 		{
 			printf( "accept: invalid socket\n" );
@@ -118,12 +143,29 @@ unsigned int WINAPI ClientHandlingThread( LPVOID lpParam )
 		/// client connected
 		if ( result == WAIT_OBJECT_0 )
 		{
+			// 공유자원인 g_AcceptedSockLock에 접근할 때는 락부터 잡자
+			EnterCriticalSection( &g_AcceptedSockLock );
+			while ( !g_NewSocketFlag )
+			{
+				// 만약 지금 새로온 소켓이 없다면 메인 스레드가 새 접속을 받을 수 있게 대기
+				SleepConditionVariableCS( &g_SocketFull, &g_AcceptedSockLock, INFINITE );
+
+				// 그런데 이벤트 발생해야 여기 들어오는 거고, 메인 스레드는 여기서 소켓 정보 가져 갈 때까지 대기니까
+				// 이 조건 없이 그냥 빼가고 락 푼 다음에 조건 변수 신호만 보내주면 안 될까요?
+			}
+
 			/// 소켓 정보 구조체 할당과 초기화
 			ClientSession* client = GClientManager->CreateClient( g_AcceptedSocket );
 
 			SOCKADDR_IN clientaddr;
 			int addrlen = sizeof( clientaddr );
 			getpeername( g_AcceptedSocket, (SOCKADDR*)&clientaddr, &addrlen );
+
+			g_NewSocketFlag = false;
+
+			// 작업 끝났으니 락 풀고 소켓 빼갔다고 신호 보내기
+			LeaveCriticalSection( &g_AcceptedSockLock );
+			WakeConditionVariable( &g_SocketEmpty );
 
 			// 클라 접속 처리
 			if ( false == client->OnConnect( &clientaddr ) )
