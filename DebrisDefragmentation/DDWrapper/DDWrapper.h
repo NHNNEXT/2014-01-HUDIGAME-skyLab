@@ -7,9 +7,19 @@
 #include "../DDFramework//DDCamera.h"
 #pragma comment( lib, "../Debug/DDFramework.lib")
 
+#include <vcclr.h>
+
 using namespace System;
+using namespace System::Runtime::InteropServices;
 
 namespace DDWrapper {
+	// DDWrapper 안에서 사용할 유틸리티들
+	public ref class Utilities
+	{
+	public:
+		
+	};
+
 	// Wrapper 내부에 구현된 클래스들의 기본 구조
 	/*
 		public ref class 클래스 이름
@@ -42,14 +52,31 @@ namespace DDWrapper {
 		bool BeginDraw();
 		bool EndDraw();
 
-	protected:
 		DDRenderer* GetInstance();
+	protected:
 		DDRenderer* m_pDDRenderer;
 	};
+	
+	public ref class GameModel
+	{
+	public:
+		GameModel() : m_pModel( new DDModel() ) {};
+		GameModel( System::String^ filepath, Renderer^ renderer);
+		GameModel( wchar_t* filePath ): m_pModel(new DDModel(filePath)) {}
+		~GameModel();
+		// wrapping 된 m_pModel을 꺼내기 위한 메서드
+		DDModel* GetPointer() { return m_pModel; };
 
+	protected:
+		DDModel* m_pModel;
+	};
+
+
+	// 솔직히 이걸 바로 부를 일은 별로 없을 것 같긴 함
 	public ref class GameObject
 	{
-		GameObject() :m_pObject( new DDObject() ) {};
+	public:
+		GameObject() : m_pObject( new DDObject() ) {};
 		~GameObject();
 
 		void Release() { m_pObject->Release(); };
@@ -61,6 +88,7 @@ namespace DDWrapper {
 		const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_pObject->GetChildList(); };
 		
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
+		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
 		void RemoveChild( DDObject* object ) { m_pObject->RemoveChild( object ); };
 
 		const D3DXMATRIXA16 GetMatrix() { return m_pObject->GetMatrix(); };
@@ -112,18 +140,6 @@ namespace DDWrapper {
 		DDVECTOR3 GetViewDirection() { return m_pObject->GetViewDirection(); };
 	protected:
 		DDObject* m_pObject;
-	};
-
-	public ref class GameModel
-	{
-	public:
-		GameModel() : m_pModel(new DDModel()) {};
-		GameModel( wchar_t* filepath ) : m_pModel( new DDModel( filepath )){};
-		~GameModel();
-	
-	protected:
-		DDModel* m_pModel;
-		
 	};
 
 	public ref class GameCamera

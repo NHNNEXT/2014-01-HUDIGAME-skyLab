@@ -97,4 +97,15 @@ namespace DDWrapper
 		m_pModel = nullptr;
 	}
 
+	GameModel::GameModel( System::String^ filepath, Renderer^ renderer)
+	{
+		//pin_ptr<const wchar_t> str = PtrToStringChars( filepath );
+		//const wchar_t* str = L"tiger.x";
+		//m_pModel = new DDModel( const_cast<wchar_t*>(str) );
+		wchar_t* str = L"tiger.x";
+		
+		//m_pModel = new DDModel( str, renderer->GetInstance()->GetDevice() );
+		m_pModel = DDModel::Create( str, renderer->GetInstance()->GetDevice() );
+	}
+
 }

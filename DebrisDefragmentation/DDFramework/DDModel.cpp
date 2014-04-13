@@ -17,7 +17,12 @@ DDModel::DDModel( wchar_t* path )
 	SetNormalVector();
 }
 
-
+DDModel::DDModel( wchar_t* path, LPDIRECT3DDEVICE9 device )
+{
+	m_pD3DDevice = device;
+	initModel( path );
+	SetNormalVector();
+}
 
 DDModel::~DDModel()
 {
@@ -28,6 +33,12 @@ DDModel* DDModel::Create( wchar_t* filePath )
 {
 	DDModel* pInstance = new DDModel(filePath);
 	return pInstance;	
+}
+
+DDModel* DDModel::Create( wchar_t* filePath, LPDIRECT3DDEVICE9 device )
+{
+	DDModel* pInstance = new DDModel( filePath, device );
+	return pInstance;
 }
 
 bool DDModel::initModel( wchar_t* path )

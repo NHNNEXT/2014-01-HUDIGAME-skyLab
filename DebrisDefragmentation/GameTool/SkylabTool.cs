@@ -14,6 +14,12 @@ namespace GameTool
     {
         bool g_IsRenderable = true;
         private DDWrapper.Renderer m_Renderer = null;
+        
+        // test Scene
+        private DDWrapper.GameObject m_Scene = null;
+
+        // test model
+        private DDWrapper.GameModel m_Model = null;
 
         public skyLabTool()
         {
@@ -27,9 +33,12 @@ namespace GameTool
                 return;
             }
 
+           m_Scene = new DDWrapper.GameObject();
+       
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
            if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
            {
+               testMeshLoad();
                DrawScreen();
            }
           
@@ -43,6 +52,7 @@ namespace GameTool
                 m_Renderer.BeginDraw();
 
                 // 여기서 뭔가 그리게 됩니다
+                RenderScene();
 
                 m_Renderer.EndDraw();
 
@@ -57,6 +67,18 @@ namespace GameTool
             m_Renderer.Release();
 
             Application.Exit();
+        }
+
+        private void testMeshLoad()
+        {
+            string path = "tiger.x";
+            m_Model = new DDWrapper.GameModel(path, m_Renderer);
+            m_Scene.AddChild(m_Model);
+        }
+
+        private void RenderScene()
+        {
+            m_Scene.Render();
         }
     }
 }
