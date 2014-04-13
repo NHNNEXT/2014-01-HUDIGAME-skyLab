@@ -13,13 +13,19 @@ namespace GameTool
     public partial class skyLabTool : Form
     {
         bool g_IsRenderable = true;
+        // Renderer
         private DDWrapper.Renderer m_Renderer = null;
+        // Camera
+        private DDWrapper.GameCamera m_Camera = null;
         
         // test Scene
         private DDWrapper.GameObject m_Scene = null;
 
         // test model
         private DDWrapper.GameModel m_Model = null;
+
+        // test light
+        private DDWrapper.GameLight m_Light = null;
 
         public skyLabTool()
         {
@@ -38,6 +44,8 @@ namespace GameTool
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
            if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
            {
+               AddCamera();
+               AddLight();
                testMeshLoad();
                DrawScreen();
            }
@@ -79,6 +87,18 @@ namespace GameTool
         private void RenderScene()
         {
             m_Scene.Render();
+        }
+
+        private void AddCamera()
+        {
+            m_Camera = new DDWrapper.GameCamera();
+            m_Scene.AddChild(m_Camera);
+        }
+
+        private void AddLight()
+        {
+            m_Light = new DDWrapper.GameLight();
+            m_Scene.AddChild(m_Light);
         }
     }
 }

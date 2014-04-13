@@ -73,6 +73,12 @@ namespace DDWrapper
 
 	////////////////////////////////// DD Camera Class //////////////////////////////
 
+
+	GameCamera::GameCamera()
+	{
+		m_pCamera = GameCamera::Create();
+	}
+
 	GameCamera::~GameCamera()
 	{
 		if ( nullptr != m_pCamera )
@@ -86,6 +92,16 @@ namespace DDWrapper
 
 	////////////////////////////////// DD Model Class //////////////////////////////
 
+	GameModel::GameModel( System::String^ filepath, Renderer^ renderer )
+	{
+		pin_ptr<const wchar_t> str = PtrToStringChars( filepath );
+		//const wchar_t* str = L"tiger.x";
+		//m_pModel = new DDModel( const_cast<wchar_t*>(str) );
+		//wchar_t* str = L"tiger.x";
+
+		m_pModel = DDModel::Create( const_cast<wchar_t*>( str ), renderer->GetInstance()->GetDevice() );
+	}
+
 	GameModel::~GameModel()
 	{
 		if ( nullptr != m_pModel )
@@ -96,16 +112,23 @@ namespace DDWrapper
 
 		m_pModel = nullptr;
 	}
+	
+	////////////////////////////////// DD Light Class //////////////////////////////
 
-	GameModel::GameModel( System::String^ filepath, Renderer^ renderer)
+
+	GameLight::GameLight()
 	{
-		//pin_ptr<const wchar_t> str = PtrToStringChars( filepath );
-		//const wchar_t* str = L"tiger.x";
-		//m_pModel = new DDModel( const_cast<wchar_t*>(str) );
-		wchar_t* str = L"tiger.x";
-		
-		//m_pModel = new DDModel( str, renderer->GetInstance()->GetDevice() );
-		m_pModel = DDModel::Create( str, renderer->GetInstance()->GetDevice() );
+		m_pLight = DDLight::Create();
 	}
 
-}
+	GameLight::~GameLight()
+	{
+		if ( nullptr != m_pLight )
+		{
+			m_pLight->Release();
+			delete m_pLight;
+		}
+		m_pLight = nullptr;
+	}
+
+}	

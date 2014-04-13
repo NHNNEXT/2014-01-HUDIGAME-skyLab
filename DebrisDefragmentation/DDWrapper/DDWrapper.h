@@ -1,3 +1,6 @@
+// 작성자 : 문진상
+// 최종 수정일 : 2014. 04. 13
+// 기능 : C# 툴에서 DDFramework를 쓸 수 있게 감싸놓은 클래스
 
 // DDWrapper.h
 // warning!! 만약 lib가 출력되는 폴더가 바뀌면 아래 옵션도 바꿔야 한다
@@ -5,6 +8,7 @@
 #include "../DDFramework/DDObject.h"
 #include "../DDFramework//DDModel.h"
 #include "../DDFramework//DDCamera.h"
+#include "../DDFramework/DDLight.h"
 #pragma comment( lib, "../Debug/DDFramework.lib")
 
 #include <vcclr.h>
@@ -72,7 +76,35 @@ namespace DDWrapper {
 	};
 
 
+	public ref class GameCamera
+	{
+	public:
+		GameCamera();
+		~GameCamera();
+
+		DDCamera* GetPointer() { return m_pCamera; };
+
+	protected:
+		DDCamera* Create() { return DDCamera::Create(); };
+		DDCamera* m_pCamera;
+	};
+
+
+	public ref class GameLight
+	{
+	public:
+		GameLight();
+		~GameLight();
+
+		DDLight* GetPointer() { return m_pLight; };
+
+	protected:
+		DDLight* Create() { return DDLight::Create(); };
+		DDLight* m_pLight;
+	};
+
 	// 솔직히 이걸 바로 부를 일은 별로 없을 것 같긴 함
+	// 그런데 그것이 실제로 일어났습니다
 	public ref class GameObject
 	{
 	public:
@@ -88,7 +120,11 @@ namespace DDWrapper {
 		const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_pObject->GetChildList(); };
 		
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
+		// AddChild는 포인터를 받아야 되는데 C#은 포인터를 못 써서 만든 메소드들
+		// 별 거 아니지만 이렇게 쓸려면 Model, Camera, Light가 Object 위에 선언되어 있어야 함
 		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
+		void AddChild( DDWrapper::GameCamera^ object ) { AddChild( object->GetPointer() ); };
+		void AddChild( DDWrapper::GameLight^ object ) { AddChild( object->GetPointer() ); };
 		void RemoveChild( DDObject* object ) { m_pObject->RemoveChild( object ); };
 
 		const D3DXMATRIXA16 GetMatrix() { return m_pObject->GetMatrix(); };
@@ -142,12 +178,4 @@ namespace DDWrapper {
 		DDObject* m_pObject;
 	};
 
-	public ref class GameCamera
-	{
-	public:
-		GameCamera() :m_pCamera( m_pCamera->Create() ) {};
-		~GameCamera();
-	protected:
-		DDCamera* m_pCamera;
-	};
 }
