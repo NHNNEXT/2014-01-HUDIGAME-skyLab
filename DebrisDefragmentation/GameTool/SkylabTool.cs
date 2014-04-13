@@ -44,9 +44,9 @@ namespace GameTool
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
            if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
            {
-               AddCamera();
                AddLight();
                testMeshLoad();
+               AddCamera();
                DrawScreen();
            }
           
@@ -92,7 +92,7 @@ namespace GameTool
         private void AddCamera()
         {
             m_Camera = new DDWrapper.GameCamera();
-            m_Scene.AddChild(m_Camera);
+            m_Model.AddChild(m_Camera);
         }
 
         private void AddLight()
@@ -100,5 +100,29 @@ namespace GameTool
             m_Light = new DDWrapper.GameLight();
             m_Scene.AddChild(m_Light);
         }
+
+        private void UpdateCamera()
+        {
+            
+        }
+
+        private void ViewMouseEnver(object sender, EventArgs e)
+        {
+            this.View.Focus();
+        }
+
+        private void ViewMouseLeave(object sender, EventArgs e)
+        {
+            this.Focus();
+        }
+
+        private void ViewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                m_Scene.IncreaseRotationX(e.X);
+                m_Scene.IncreaseRotationY(e.Y);
+            }
+        } 
     }
 }

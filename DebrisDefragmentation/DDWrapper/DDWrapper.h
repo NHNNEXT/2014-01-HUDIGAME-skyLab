@@ -60,21 +60,6 @@ namespace DDWrapper {
 	protected:
 		DDRenderer* m_pDDRenderer;
 	};
-	
-	public ref class GameModel
-	{
-	public:
-		GameModel() : m_pModel( new DDModel() ) {};
-		GameModel( System::String^ filepath, Renderer^ renderer);
-		GameModel( wchar_t* filePath ): m_pModel(new DDModel(filePath)) {}
-		~GameModel();
-		// wrapping 된 m_pModel을 꺼내기 위한 메서드
-		DDModel* GetPointer() { return m_pModel; };
-
-	protected:
-		DDModel* m_pModel;
-	};
-
 
 	public ref class GameCamera
 	{
@@ -89,6 +74,22 @@ namespace DDWrapper {
 		DDCamera* m_pCamera;
 	};
 
+	public ref class GameModel
+	{
+	public:
+		GameModel() : m_pModel( new DDModel() ) {};
+		GameModel( System::String^ filepath, Renderer^ renderer );
+		GameModel( wchar_t* filePath ) : m_pModel( new DDModel( filePath ) ) {}
+		~GameModel();
+
+		void AddChild( GameCamera^ camera ) { m_pModel->AddChild( camera->GetPointer() ); };
+
+		// wrapping 된 m_pModel을 꺼내기 위한 메서드
+		DDModel* GetPointer() { return m_pModel; };
+
+	protected:
+		DDModel* m_pModel;
+	};
 
 	public ref class GameLight
 	{
