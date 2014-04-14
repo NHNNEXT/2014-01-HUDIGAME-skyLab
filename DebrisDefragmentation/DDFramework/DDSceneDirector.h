@@ -1,29 +1,39 @@
 #pragma once
 
 #include "DDConfig.h"
-#include "DDRenderer.h"
-#include "DDScene.h"	// agebreak : 전방 선언을 활용하면 Include 할 필요가 없다
+
+// agebreak : 전방 선언을 활용하면 Include 할 필요가 없다
+// 전방 선언
+class DDScene;
 
 // agebreak : 씬으로 구별하고, 씬디렉터를 두는 프레임워크 구조는 좋은 구조!
 class DDSceneDirector
 {
 public:
-	static DDSceneDirector* GetInstance();
-	static void ReleaseInstance();
+	DDSceneDirector();
+	~DDSceneDirector();
+
+	static std::shared_ptr<DDSceneDirector> Create();
 
 	bool Release();
 	bool Init();
 
-	void ChangeScene( DDScene* scene );
+	void ChangeScene( DDScene* scene );	
+
+	// 조심해!!
+	// 자식 클래스들을 쓸 수가 없음. 외부에서 만들어야하나 ㅠ 
+	void ChangeScene( std::wstring sceneName );
+	bool CreateScene( std::wstring sceneName );
+	bool DeleteScene( std::wstring sceneName );
+	// 얘네 셋
+
+	DDScene* GetCurrentScene() { return m_pCurrentScene; }
+	
 	void UpdateScene( float dt );
 	void RenderScene();
 
-	DDScene* GetCurrentScene() { return m_pCurrentScene; }
-
 private:
-	DDSceneDirector();
-	~DDSceneDirector();
-
+	std::map<std::wstring, std::shared_ptr<DDScene>> m_SceneList;
 	static DDSceneDirector* m_pInstance;	
 	DDScene*		m_pCurrentScene;
 };

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "DDCamera.h"
 #include "DDRenderer.h"
 
@@ -43,10 +42,10 @@ void DDCamera::RenderItSelf()
 
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
-	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
+	m_pRenderer->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
 
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f );
-	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
+	m_pRenderer->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
 }
 

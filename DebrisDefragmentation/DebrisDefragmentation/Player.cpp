@@ -1,5 +1,8 @@
+#include "stdafx.h"
 #include "Player.h"
 #include "DDPhysics.h"
+#include "DDCamera.h"
+#include "Character.h"
 
 Player::Player()
 : m_IsAccelerating( false ), m_AccelerationStart( 0 )

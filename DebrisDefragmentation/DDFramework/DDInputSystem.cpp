@@ -1,7 +1,5 @@
-#include "stdafx.h"
 #include "DDInputSystem.h"
 #include "DDApplication.h"
-#include <windows.h>
 
 DDInputSystem* DDInputSystem::m_pInstance = nullptr;
 

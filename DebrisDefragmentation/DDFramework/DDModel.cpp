@@ -1,6 +1,7 @@
 #include "DDConfig.h"
 #include "DDModel.h"
 #include "DDRenderer.h"
+#include "DDApplication.h"
 
 DDModel::DDModel():
 m_pMesh(NULL),
@@ -12,7 +13,7 @@ m_dwNumMaterials(0L)
 
 DDModel::DDModel( wchar_t* path )
 {
-	m_pD3DDevice = DDRenderer::GetInstance()->GetDevice();
+	m_pD3DDevice = DDApplication::GetInstance()->GetRenderer()->GetDevice();
 	initModel( path );
 	SetNormalVector();
 }

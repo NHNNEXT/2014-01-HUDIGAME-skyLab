@@ -1,10 +1,20 @@
+#include "stdafx.h"
 #include "PlayScene.h"
 #include "Debris.h"
 #include "DDInputSystem.h"
 #include "DDApplication.h"
+#include "DDLight.h"
+#include "Player.h"
 
 PlayScene::PlayScene()
 {
+	m_SceneName = L"DefaultPlayScene";
+}
+
+PlayScene::PlayScene( std::wstring sceneName )
+{
+	m_SceneName = sceneName;
+	Init();
 }
 
 
@@ -13,7 +23,7 @@ PlayScene::~PlayScene()
 }
 
 void PlayScene::Init()
-{
+{	
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
 
@@ -63,36 +73,25 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
 	// s키가 눌렸다면 정지
 	
-	if ( KEY_DOWN == DDInputSystem::GetInstance()->GetKeyState( 0x57 ) )
+	if ( KEY_DOWN == GetKeyState( 0x57 ) )
 	{
 		m_pPlayer->SetAcceleration();
 	}
 	
-	if ( KEY_DOWN == DDInputSystem::GetInstance()->GetKeyState( 0x53 ) )
+	if ( KEY_DOWN == GetKeyState( 0x53 ) )
 	{
 		m_pPlayer->Stop( );
 	}
 
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.	
-	DDPoint currentMousePos = DDInputSystem::GetInstance()->GetMousePosition( );
+	DDPoint currentMousePos = GetMousePosition( );
 	m_pPlayer->RotateDicrection( 
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
 		currentMousePos.GetY() - m_PrevMousePosition.GetY()
 		);
-
+	
 	HideMousePointer();
-	/*
-	GetMousePosition은 스크린 상의 마우스 포인터 위치를 반환하므로
-	기준 좌표를 보정해야 함
-	DDPoint currentMousePos = GetMousePosition();
-	m_pPlayer->RotateDicrection(
-		currentMousePos.GetX() - 500,
-		currentMousePos.GetY() - 500
-		);
-
-	SetCursorPos( 500, 500 );
-	*/
 
 }
 

@@ -1,9 +1,11 @@
 #include "main.h"
+#include "stdafx.h"
 #include "DDApplication.h"
-#include "DDSceneDirector.h"
 #include "PlayScene.h"
 #include "GameManager.h"
-#include "Character.h"
+#include "DDSceneDirector.h"
+
+std::shared_ptr<DDRenderer> g_pRenderer;
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
@@ -12,18 +14,23 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	//_CrtSetBreakAlloc( );
 
 #endif 
-
+	UNREFERENCED_PARAMETER( hInstance );
+	UNREFERENCED_PARAMETER( nCmdShow );
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
-
+		
 	DDApplication* app = DDApplication::GetInstance();
+	g_pRenderer = app->GetRenderer();
+	
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 
 	PlayScene* scene = PlayScene::Create();
 	scene->Init();
 
 	// GameManager::GetInstance()->SetCurrentScene( scene );
-	DDSceneDirector::GetInstance()->ChangeScene( scene );
+// 	app->GetSceneDirector()->CreateScene( L"playScene" );
+// 	app->GetSceneDirector()->ChangeScene( L"playScene");
+	app->GetSceneDirector()->ChangeScene( scene );
 	
 	app->Run();
 	app->Release();

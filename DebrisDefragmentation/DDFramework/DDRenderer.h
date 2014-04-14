@@ -4,8 +4,10 @@
 class DDRenderer
 {
 public:
-	static DDRenderer* GetInstance();
-	static void ReleaseInstance();
+	DDRenderer();
+	~DDRenderer();
+
+	static std::shared_ptr<DDRenderer> Create();
 
 	bool Init( HWND hWnd );
 	bool Init( HWND hWnd, int ScreenWidth, int ScreenHeight );
@@ -20,10 +22,6 @@ public:
 	LPD3DXSPRITE		GetSprite() { return m_pSprite; }
 
 private:
-	DDRenderer();
-	~DDRenderer();
-
-	static DDRenderer* m_pInstance;
 
 	LPDIRECT3D9				m_pD3D;
 	LPDIRECT3DDEVICE9		m_pD3DDevice;

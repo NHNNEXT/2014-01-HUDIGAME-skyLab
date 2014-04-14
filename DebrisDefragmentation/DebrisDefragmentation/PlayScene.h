@@ -1,16 +1,18 @@
 #pragma once
 #include "DDScene.h"
-#include "DDConfig.h"
-#include "DDLight.h"
-#include "Player.h"
+
+class DDLight;
+class Player;
 
 class PlayScene :
 	public DDScene
 {
 public:
 	PlayScene();
+	PlayScene( std::wstring sceneName );
 	virtual ~PlayScene();
-
+		
+	static PlayScene* Create( std::wstring sceneName );
 	CREATE_FUNC( PlayScene );
 
 	void Init();

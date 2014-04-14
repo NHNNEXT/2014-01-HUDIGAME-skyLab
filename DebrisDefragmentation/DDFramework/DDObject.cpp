@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "DDObject.h"
 #include "DDRenderer.h"
+#include "DDApplication.h"
 
 DDObject::DDObject() :
 m_pParent( nullptr ),
 m_Position( .0f, .0f, .0f ),
 m_Rotation( .0f, .0f, .0f ),
 m_Scale( 1.0f, 1.0f, 1.0f ),
-m_Visible( true )
+m_Visible( true ),
+m_pRenderer (DDApplication::GetInstance()->GetRenderer())
 {
 	D3DXMatrixIdentity( &m_Matrix );
 	D3DXMatrixIdentity( &m_MatrixTransform );
@@ -49,8 +51,7 @@ void DDObject::Update( float dTime )
 
 void DDObject::AffineTransfrom()
 {
-	D3DXQUATERNION	qRotation;
-	DDRenderer* renderer = DDRenderer::GetInstance();
+	D3DXQUATERNION	qRotation;	
 
 	/*
 	D3DXMatrixIdentity( &m_Matrix );
@@ -106,7 +107,7 @@ void DDObject::AffineTransfrom()
 	}
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용
-	if ( FAILED( renderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
+	if ( FAILED( m_pRenderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
 	{
 		// error 
 		return;

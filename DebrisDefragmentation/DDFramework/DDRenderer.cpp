@@ -1,7 +1,7 @@
 #include "DDRenderer.h"
 #include "DDApplication.h"
 
-DDRenderer* DDRenderer::m_pInstance = nullptr;
+//DDRenderer* DDRenderer::m_pInstance = nullptr;
 
 DDRenderer::DDRenderer()
 : m_pD3D( NULL ),
@@ -13,24 +13,31 @@ DDRenderer::~DDRenderer()
 {
 }
 
-DDRenderer* DDRenderer::GetInstance()
-{
-	if ( m_pInstance == nullptr )
-	{
-		m_pInstance = new DDRenderer();
-	}
 
-	return m_pInstance;
+std::shared_ptr<DDRenderer> DDRenderer::Create()
+{
+	return std::shared_ptr<DDRenderer>( new DDRenderer() );
 }
 
-void DDRenderer::ReleaseInstance()
-{
-	if ( m_pInstance != nullptr )
-	{
-		delete m_pInstance;
-		m_pInstance = nullptr;
-	}
-}
+
+// DDRenderer* DDRenderer::GetInstance()
+// {
+// 	if ( m_pInstance == nullptr )
+// 	{
+// 		m_pInstance = new DDRenderer();
+// 	}
+// 
+// 	return m_pInstance;
+// }
+// 
+// void DDRenderer::ReleaseInstance()
+// {
+// 	if ( m_pInstance != nullptr )
+// 	{
+// 		delete m_pInstance;
+// 		m_pInstance = nullptr;
+// 	}
+// }
 
 bool DDRenderer::Init( HWND hWnd )
 {

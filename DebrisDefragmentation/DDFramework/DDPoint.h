@@ -8,7 +8,8 @@
 */
 
 #include "DDConfig.h"
-#include <math.h>	// agebreak : 자주 쓰이고, 변하지 않는 헤더는 PreCompiled Header에 넣는게 좋다.
+// agebreak : 자주 쓰이고, 변하지 않는 헤더는 PreCompiled Header에 넣는게 좋다.
+// pre-compiled header로 이동
 
 class DDPoint
 {
@@ -19,12 +20,13 @@ public:
 	~DDPoint() {}
 
 	// agebreak : 아래와 같이 간단하고 자주 쓰는 함수는, inline으로 선언한다
-	 DDPoint& operator=( const DDPoint& point );
-	 DDPoint operator+(const DDPoint& point) const;
-	 DDPoint operator-(const DDPoint& point) const;
-	 DDPoint operator-() const;
-	 DDPoint operator*(float n) const;
-	 DDPoint operator/(float n) const;
+	// inline으로 변경 완료
+	DDPoint& operator=( const DDPoint& point ) { this->SetPoint( point.GetX(), point.GetY() ); return *this; }
+	DDPoint operator+( const DDPoint& point ) const { return DDPoint( this->m_X + point.GetX(), this->m_Y + point.GetY() );}
+	DDPoint operator-( const DDPoint& point ) const { return DDPoint( this->m_X - point.GetX(), this->m_Y - point.GetY() );}
+	DDPoint operator-( ) const { return DDPoint( -this->m_X, -this->m_Y ); }
+	DDPoint operator*( float n ) const { return DDPoint( this->m_X * n, this->m_Y * n ); }
+	DDPoint operator/( float n ) const { return DDPoint( this->m_X / n, this->m_Y / n ); }
 
 	/*
 		input : DDPoint 2개(시작점, 끝점), float 가중치

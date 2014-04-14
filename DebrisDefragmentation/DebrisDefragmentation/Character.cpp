@@ -1,5 +1,7 @@
+#include "stdafx.h"
 #include "Character.h"
 #include "DDRenderer.h"
+#include "DDApplication.h"
 
 
 Character::Character()
@@ -9,7 +11,7 @@ Character::Character()
 
 Character::Character( wchar_t* modelPath )
 {
-	m_pD3DDevice = DDRenderer::GetInstance()->GetDevice();
+	m_pD3DDevice = DDApplication::GetInstance()->GetRenderer()->GetDevice();
 	initModel( modelPath );
 	SetNormalVector();
 }
@@ -36,5 +38,5 @@ void Character::UpdateItSelf( float dTime )
 	
 	// increasePosition test
 	//IncreasePositionX( tmpTimeCounter );
-	int a = 10;
+	UNREFERENCED_PARAMETER(dTime);
 }

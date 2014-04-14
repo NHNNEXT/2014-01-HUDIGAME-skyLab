@@ -1,45 +1,31 @@
 #include "DDApplication.h"
 #include "DDInputSystem.h"
-
-DDApplication* DDApplication::m_pInstance = nullptr;
+#include "DDRenderer.h"
+#include "DDSceneDirector.h"
 
 DDApplication::DDApplication()
 {
+
 }
 
 DDApplication::~DDApplication()
 {
+
 }
 
-DDApplication* DDApplication::GetInstance()
-{
-	if ( m_pInstance == nullptr )
-	{
-		m_pInstance = new DDApplication();
-	}
 
-	return m_pInstance;
-}
-
-void DDApplication::ReleaseInstance() // agebreak : 쌍이 되는 함수는 같은 위치에 있는 것이 좋음 
-{
-	if (m_pInstance != nullptr)
-	{
-		delete m_pInstance;
-		m_pInstance = nullptr;
-	}
-}
-
-bool DDApplication::Init( wchar_t* title, int width, int height )
+bool DDApplication::Init( std::wstring title, int width, int height )
 {
 	m_hInstance = GetModuleHandle( 0 );
 
-	m_pTitle = title;	// agebreak : 1. 이 코드는 과연 안전한 코드일까? 2. 이 멤버 변수는 굳이 필요할까?
+	//m_pTitle = title;	// agebreak : 1. 이 코드는 과연 안전한 코드일까? 2. 이 멤버 변수는 굳이 필요할까?
+	// 변수 삭제, std::wstring으로 변경
 	m_ScreenWidth = width;
 	m_ScreenHeight = height;
 
 	// 윈도우와 렌더러 생성
-	if ( !_CreateWindow( m_pTitle, m_ScreenWidth, m_ScreenHeight ) ) 
+	//if ( !_CreateWindow( m_pTitle, m_ScreenWidth, m_ScreenHeight ) ) 
+	if ( !_CreateWindow( title, m_ScreenWidth, m_ScreenHeight ) )
 	{
 		// 윈도우 생성 실패
 		return false;
@@ -57,7 +43,7 @@ bool DDApplication::Init( wchar_t* title, int width, int height )
 		return false;
 	}
 
-	m_pSceneDirector = DDSceneDirector::GetInstance();
+	m_pSceneDirector = DDSceneDirector::Create();
 	if ( !m_pSceneDirector->Init() )
 	{
 		// 씬 디렉터 초기화 실패
@@ -71,7 +57,7 @@ bool DDApplication::Init( wchar_t* title, int width, int height )
 }
 
 
-bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
+bool DDApplication::_CreateWindow( std::wstring title, int width, int height )
 {
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof( WNDCLASSEX );
@@ -95,7 +81,7 @@ bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
 	RECT wr = { 0, 0, width, height };
 	AdjustWindowRect( &wr, WS_OVERLAPPEDWINDOW, FALSE );
 
-	m_Hwnd = CreateWindow( L"Debris Defragmentation", title, style, CW_USEDEFAULT, CW_USEDEFAULT,
+	m_Hwnd = CreateWindow( L"Debris Defragmentation", title.c_str(), style, CW_USEDEFAULT, CW_USEDEFAULT,
 						   wr.right - wr.left, wr.bottom - wr.top, NULL, NULL, m_hInstance, NULL );
 
 	ShowWindow( m_Hwnd, SW_SHOWNORMAL );
@@ -105,7 +91,7 @@ bool DDApplication::_CreateWindow( wchar_t* title, int width, int height )
 
 bool DDApplication::_CreateRenderer()
 {
-	m_pRenderer = DDRenderer::GetInstance();
+	m_pRenderer = DDRenderer::Create();
 
 	return true;
 }
@@ -121,10 +107,10 @@ bool DDApplication::Release()
 
 	// agebreak : 싱글톤 = 멤버 변수라니, 이상하지 않은가?
 	m_pSceneDirector->Release();
-	DDSceneDirector::ReleaseInstance();
+	//DDSceneDirector::ReleaseInstance();
 
 	m_pRenderer->Release();
-	DDRenderer::ReleaseInstance();
+	//DDRenderer::ReleaseInstance();
 
 	DDInputSystem::ReleaseInstance();
 
@@ -154,25 +140,7 @@ int DDApplication::Run()
 		{
 			// agebreak : FPS 구하는 내용이 여기에 구현되어 있을 필요가 있을까? 함수나 클래스로 따로 구현해서 사용하는게 좋음.
 			// FPS 구하기
-			m_FrameCount++;
-			m_NowTime = timeGetTime();
-
-			if ( m_PrevTime == 0.f )
-			{
-				m_PrevTime = m_NowTime;
-			}
-
-			m_DeltaTime = ( static_cast<float>( m_NowTime - m_PrevTime ) ) / 1000.f;
-			m_ElapsedTime += m_DeltaTime;
-			m_FpsTimer += m_DeltaTime;
-			
-			if ( m_FpsTimer > 0.1f )
-			{
-				m_Fps = ( (float)m_FrameCount ) / m_FpsTimer;
-				m_FrameCount = 0;
-				m_FpsTimer = 0.f;
-			}
-			m_PrevTime = m_NowTime;
+			ComputeFPS();
 
 			DDInputSystem::GetInstance()->UpdateKeyState();
 
@@ -231,3 +199,27 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 
 	return( DefWindowProc( hWnd, message, wParam, lParam ) );
 }
+
+void DDApplication::ComputeFPS()
+{
+	m_FrameCount++;
+	m_NowTime = timeGetTime();
+
+	if ( m_PrevTime == 0.f )
+	{
+		m_PrevTime = m_NowTime;
+	}
+
+	m_DeltaTime = ( static_cast<float>( m_NowTime - m_PrevTime ) ) / 1000.f;
+	m_ElapsedTime += m_DeltaTime;
+	m_FpsTimer += m_DeltaTime;
+
+	if ( m_FpsTimer > 0.1f )
+	{
+		m_Fps = ( (float)m_FrameCount ) / m_FpsTimer;
+		m_FrameCount = 0;
+		m_FpsTimer = 0.f;
+	}
+	m_PrevTime = m_NowTime;
+}
+

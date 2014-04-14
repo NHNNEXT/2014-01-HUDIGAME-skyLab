@@ -7,37 +7,40 @@
 */
 
 #include "DDConfig.h"
-#include "DDRenderer.h"
-#include "DDSceneDirector.h"
 
-class DDApplication
+class DDRenderer;
+class DDSceneDirector;
+
+class DDApplication : public Singleton<DDApplication>
 {
 public:
 	// agebreak : 자주 쓰는 싱글톤 패턴을 템플릿화 시켜서 간단히 쓸 수 있는 테크닉이 있음. 은자림팀의 코드를 참고 하도록
-	static DDApplication* GetInstance();
-	static void ReleaseInstance();
+	// 싱글톤 템플릿을 public 상속받는방법으로 수정함
+	DDApplication();
+	~DDApplication();
 
-	bool Init( wchar_t* title, int width, int height );
+	bool Init( std::wstring title, int width, int height );
 	bool Release();
 	int Run();
 
 	int GetScreenWidth() const	{ return m_ScreenWidth; }
 	int GetScreenHeight() const	{ return m_ScreenHeight; }
 	HWND GetHWND() const		{ return m_Hwnd; }
+	std::shared_ptr<DDRenderer>			GetRenderer()		const { return m_pRenderer; }
+	std::shared_ptr<DDSceneDirector>	GetSceneDirector()	const { return m_pSceneDirector; }
 
 private:
-	DDApplication();
-	~DDApplication();
 
-	static DDApplication* m_pInstance;
 	static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 
-	bool _CreateWindow( wchar_t* title, int width, int height );
+	bool _CreateWindow( std::wstring title, int width, int height );
 	bool _CreateRenderer();
+	void ComputeFPS();
 
 	// agebreak : 싱글톤으로 만들어 놓고, 왜 굳이 멤버 변수가 필요한가?
-	DDRenderer* m_pRenderer;
-	DDSceneDirector* m_pSceneDirector;
+	// DDRenderer, SceneDirector 싱글톤 삭제, 스마트 포인터로..
+	std::shared_ptr<DDRenderer>			m_pRenderer;
+	std::shared_ptr<DDSceneDirector>	m_pSceneDirector;
 
 	// 프로그램 윈도우 핸들
 	HWND m_Hwnd;
@@ -46,7 +49,7 @@ private:
 	HINSTANCE m_hInstance;
 
 	// agebreak : VS 2013부터 아래와 같이 초기화 가능 (C++0x)
-	wchar_t* m_pTitle = nullptr;
+	//wchar_t* m_pTitle = nullptr;
 	int m_ScreenWidth = 0;
 	int m_ScreenHeight = 0;
 

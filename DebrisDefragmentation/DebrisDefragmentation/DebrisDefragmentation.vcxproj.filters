@@ -49,6 +49,7 @@
     <ClCompile Include="GameData.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -75,5 +76,9 @@
     <ClInclude Include="..\..\PacketType.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="GameConfig.h">
+      <Filter>Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
 </Project>

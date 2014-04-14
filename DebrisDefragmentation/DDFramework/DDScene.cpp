@@ -2,8 +2,15 @@
 #include "DDScene.h"
 
 
-DDScene::DDScene()
+DDScene::DDScene():
+m_SceneName( L"DefaultSceneName" )
 {
+}
+
+DDScene::DDScene( std::wstring sceneName ):
+m_SceneName(sceneName)
+{
+
 }
 
 
@@ -11,13 +18,19 @@ DDScene::~DDScene()
 {
 }
 
-DDScene* DDScene::Create()
+DDScene* DDScene::Create(std::wstring sceneName)
 {
 	DDScene* pInstance = new DDScene();
 	return pInstance;
 }
 
-void DDScene::RenderItSelf()
-{
 
+KeyState DDScene::GetKeyState( int key )
+{
+	return DDInputSystem::GetInstance()->GetKeyState( key );
+}
+
+DDPoint DDScene::GetMousePosition()
+{
+	return DDInputSystem::GetInstance()->GetMousePosition();
 }

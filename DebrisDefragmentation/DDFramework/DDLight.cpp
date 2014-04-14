@@ -36,9 +36,9 @@ void DDLight::RenderItSelf()
 
 	D3DXVec3Normalize( (D3DXVECTOR3*)&light.Direction, &vecDir );
 	light.Range = 10000.0f;
-	DDRenderer::GetInstance()->GetDevice()->SetLight( 0, &light );
-	DDRenderer::GetInstance()->GetDevice()->LightEnable( 0, TRUE );
+	m_pRenderer->GetDevice()->SetLight( 0, &light );
+	m_pRenderer->GetDevice()->LightEnable( 0, TRUE );
 
-	DDRenderer::GetInstance()->GetDevice()->SetRenderState( D3DRS_AMBIENT, 0x00888888 );
+	m_pRenderer->GetDevice()->SetRenderState( D3DRS_AMBIENT, 0x00888888 );
 
 }

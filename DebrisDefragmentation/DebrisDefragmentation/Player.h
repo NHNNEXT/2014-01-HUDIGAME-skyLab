@@ -1,7 +1,8 @@
 #pragma once
 #include "DDObject.h"
-#include "DDCamera.h"
-#include "Character.h"
+
+class DDCamera;
+class Character;
 
 class Player :
 	public DDObject

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>		// agebreak : 프리컴파일드 헤더에 넣을것
 #include "DDResourceManager.h"
+#include "stdafx.h"
 
 class GameData
 {

@@ -1,6 +1,9 @@
 #pragma once
 #include "DDConfig.h"
 
+// 전방선언
+class DDRenderer;
+
 class DDObject
 {
 public:
@@ -75,6 +78,7 @@ protected:
 	void SetParent( DDObject* object ) { m_pParent = object; }
 
 	DDObject* m_pParent;
+	std::shared_ptr<DDRenderer> m_pRenderer;
 	std::list<std::shared_ptr<DDObject>> m_ChildList;
 
 	D3DXMATRIXA16	m_Matrix;			// world coordinate
@@ -93,7 +97,7 @@ private :
 	void UpdateChildNodes( float dTime );
 
 	// NVI virtual function
-	virtual void RenderItSelf() {};
-	virtual void UpdateItSelf( float dTime ) {};
+	virtual void RenderItSelf() {}
+	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER(dTime); }
 };
 
