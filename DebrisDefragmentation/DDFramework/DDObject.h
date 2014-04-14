@@ -1,8 +1,9 @@
 #pragma once
 #include "DDConfig.h"
+#include "DDRenderer.h"
 
 // 전방선언
-class DDRenderer;
+//class DDRenderer;
 
 class DDObject
 {

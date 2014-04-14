@@ -5,8 +5,6 @@
 #include "GameManager.h"
 #include "DDSceneDirector.h"
 
-std::shared_ptr<DDRenderer> g_pRenderer;
-
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
 #ifdef _DEBUG
@@ -20,7 +18,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	UNREFERENCED_PARAMETER( lpCmdLine );
 		
 	DDApplication* app = DDApplication::GetInstance();
-	g_pRenderer = app->GetRenderer();
 	
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 

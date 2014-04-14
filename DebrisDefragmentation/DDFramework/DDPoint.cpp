@@ -4,7 +4,7 @@
 // inline DDPoint& DDPoint::operator=( const DDPoint& point )
 // {
 // 	this->SetPoint( point.GetX(), point.GetY() );
-// 	return *this;
+// 	return *this; 
 // }
 
 // inline DDPoint DDPoint::operator+( const DDPoint& point ) const

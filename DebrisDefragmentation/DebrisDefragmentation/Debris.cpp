@@ -5,15 +5,11 @@
 
 Debris::Debris( )
 {
-	tmpTimeCounter = 0;
 }
 
 
-Debris::Debris( wchar_t* modelPath )
+Debris::Debris( wchar_t* modelPath ) : DDModel( modelPath )
 {
-	m_pD3DDevice = m_pD3DDevice = DDApplication::GetInstance()->GetRenderer()->GetDevice(); 
-	initModel( modelPath );
-	SetNormalVector( );
 }
 
 Debris::~Debris( )

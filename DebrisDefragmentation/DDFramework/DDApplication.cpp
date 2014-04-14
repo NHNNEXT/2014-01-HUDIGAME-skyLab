@@ -91,7 +91,8 @@ bool DDApplication::_CreateWindow( std::wstring title, int width, int height )
 
 bool DDApplication::_CreateRenderer()
 {
-	m_pRenderer = DDRenderer::Create();
+	// m_pRenderer»ý¼º
+	m_pRenderer = DDRenderer::Create();	
 
 	return true;
 }

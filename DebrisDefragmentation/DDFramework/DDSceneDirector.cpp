@@ -19,26 +19,6 @@ std::shared_ptr<DDSceneDirector> DDSceneDirector::Create()
 	return std::shared_ptr<DDSceneDirector>( new DDSceneDirector() );
 }
 
-
-// DDSceneDirector* DDSceneDirector::GetInstance()
-// {
-// 	if ( m_pInstance == nullptr )
-// 	{
-// 		m_pInstance = new DDSceneDirector();
-// 	}
-// 
-// 	return m_pInstance;
-// }
-// 
-// void DDSceneDirector::ReleaseInstance()
-// {
-// 	if ( m_pInstance != nullptr )
-// 	{
-// 		delete m_pInstance;
-// 		m_pInstance = nullptr;
-// 	}
-// }
-
 bool DDSceneDirector::Init()
 {
 	return true;
@@ -116,4 +96,5 @@ bool DDSceneDirector::DeleteScene( std::wstring sceneName )
 		return false;
 	}
 	m_SceneList.erase( sceneName );
+	return true;
 }

@@ -16,7 +16,7 @@ class DDPoint
 public:
 	DDPoint() : m_X( 0.f ), m_Y( 0.f ) {}
 	DDPoint( float x, float y ) : m_X( x ), m_Y( y ) {}
-	DDPoint( DDPoint& point ) : m_X( point.GetX() ), m_Y( point.GetY() ) {} // agebreak : 컴파일하면 비표준 확장이라면서 워닝이 발생함. 이것을 잡아라. 교수실로 들고오면 알려줌. 
+	DDPoint( const DDPoint& point ) : m_X( point.GetX() ), m_Y( point.GetY() ) {} // agebreak : 컴파일하면 비표준 확장이라면서 워닝이 발생함. 이것을 잡아라. 교수실로 들고오면 알려줌. 
 	~DDPoint() {}
 
 	// agebreak : 아래와 같이 간단하고 자주 쓰는 함수는, inline으로 선언한다

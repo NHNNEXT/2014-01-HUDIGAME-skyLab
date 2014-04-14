@@ -28,4 +28,3 @@ private:
 	LPD3DXSPRITE			m_pSprite;
 	D3DPRESENT_PARAMETERS	m_D3DPresentParameters;
 };
-
