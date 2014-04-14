@@ -15,24 +15,12 @@
 
 #pragma comment(lib,"ws2_32.lib")
 
-SOCKET g_AcceptedSocket = NULL;
-CRITICAL_SECTION g_AcceptedSockLock;
-CONDITION_VARIABLE g_SocketFull;
-CONDITION_VARIABLE g_SocketEmpty;
-bool g_NewSocketFlag;
-
 __declspec( thread ) int LThreadType = -1;
 
 typedef ProducerConsumerQueue<SOCKET, 100> PendingAcceptList;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	// 임계영역 관련 변수 초기화 
-	InitializeConditionVariable( &g_SocketFull );
-	InitializeConditionVariable( &g_SocketEmpty );
-	InitializeCriticalSection( &g_AcceptedSockLock );
-	g_NewSocketFlag = false;
-
 	// exception 발생 경우 처리
 	SetUnhandledExceptionFilter( ExceptionFilter );
 
@@ -40,6 +28,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Manager 생성 - 아직 DB는 사용 안 함
 	GClientManager = new ClientManager;
+	GClientManager->Init();
 
 	/// 윈속 초기화
 	WSADATA wsa;
@@ -71,14 +60,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	/// accepting list
 	PendingAcceptList pendingAcceptList;
 
-	/// auto-reset event
-	HANDLE hEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-	if ( hEvent == NULL )
-		return -1;
-
 	/// Client Logic + I/O Thread
 	DWORD dwThreadId;
-	HANDLE hThread = (HANDLE)_beginthreadex( NULL, 0, ClientHandlingThread, hEvent, 0, (unsigned int*)&dwThreadId );
+	HANDLE hThread = (HANDLE)_beginthreadex( NULL, 0, ClientHandlingThread, (LPVOID)&pendingAcceptList, 0, (unsigned int*)&dwThreadId );
 	if ( hThread == NULL )
 		return -1;
 
@@ -96,7 +80,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	CloseHandle( hThread );
-	CloseHandle( hEvent );
 
 	// 윈속 종료
 	WSACleanup( );

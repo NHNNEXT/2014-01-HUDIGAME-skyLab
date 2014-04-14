@@ -16,8 +16,6 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 	return client;
 }
 
-
-
 void ClientManager::BroadcastPacket( ClientSession* from, PacketHeader* pkt )
 {
 	///FYI: C++ STL iterator 스타일의 루프
@@ -48,6 +46,9 @@ void ClientManager::OnPeriodWork()
 		ClientPeriodWork();
 		mLastClientWorkTick = currTick;
 	}
+
+	// 게임 상태를 업데이트 하자
+	GGameLogic->Update();
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();

@@ -26,10 +26,10 @@ class ClientSession : public ObjectPool<ClientSession>
 public:
 	ClientSession( SOCKET sock )
 		: mConnected( false ), mLogon( false ), mSocket( sock ), mPlayerId( -1 ), mSendBuffer( BUFSIZE ), mRecvBuffer( BUFSIZE ), mOverlappedRequested( 0 )
-		, mPosX( 0 ), mPosY( 0 ), mPosZ( 0 ), mDbUpdateCount( 0 )
+		, /* mPosX( 0 ), mPosY( 0 ), mPosZ( 0 ), */ mDbUpdateCount( 0 )
 	{
 		memset( &mClientAddr, 0, sizeof( SOCKADDR_IN ) );
-		memset( mPlayerName, 0, sizeof( mPlayerName ) );
+		//memset( mPlayerName, 0, sizeof( mPlayerName ) );
 	}
 	~ClientSession() {}
 
@@ -57,6 +57,13 @@ public:
 	void	DecOverlappedRequest()		{ --mOverlappedRequested; }
 	bool	DoingOverlappedOperation() const { return mOverlappedRequested > 0; }
 
+	// 패킷 처리할 핸들을 만들자
+	void	HandleLoginRequest( LoginRequest& inPacket );
+	void	HandleAccelerationRequest( AccelerarionRequest& inPacket );
+	void	HandleStopRequest( StopRequest& inPacket );
+	void	HandleRotationRequest( RotationRequest& inPacket );
+	void	HandleSyncRequest( SyncRequest& inPacket );
+
 private:
 
 	bool	SendFlush(); ///< Send요청 중인것들 모아서 보냄
@@ -67,10 +74,10 @@ private:
 
 
 private:
-	double			mPosX;
-	double			mPosY;
-	double			mPosZ;
-	char			mPlayerName[MAX_NAME_LEN];
+	// double			mPosX;
+	// double			mPosY;
+	// double			mPosZ;
+	// char				mPlayerName[MAX_NAME_LEN];
 
 private:
 	bool			mConnected;

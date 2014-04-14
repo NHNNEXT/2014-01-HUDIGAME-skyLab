@@ -3,6 +3,41 @@
 #include "..\..\PacketType.h"
 #include "ClientManager.h"
 
+typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
+
+static HandlerFunc HandlerTable[PKT_MAX];
+
+// 디폴트 : 굿바이다!
+static void DefaultHandler( ClientSession* session, PacketHeader& pktBase )
+{
+	assert( false );
+	session->Disconnect();
+}
+
+struct InitializeHandlers
+{
+	InitializeHandlers()
+	{
+		for ( int i = 0; i < PKT_MAX; ++i )
+			HandlerTable[i] = DefaultHandler;
+	}
+} _init_handlers_;
+
+struct RegisterHandler
+{
+	RegisterHandler( int pktType, HandlerFunc handler )
+	{
+		HandlerTable[pktType] = handler;
+	}
+};
+
+#define REGISTER_HANDLER(PKT_TYPE)	\
+	static void Handler_##PKT_TYPE(ClientSession* session, PacketHeader& pktBase); \
+	static RegisterHandler _register_##PKT_TYPE(PKT_TYPE, Handler_##PKT_TYPE); \
+	static void Handler_##PKT_TYPE(ClientSession* session, PacketHeader& pktBase)
+
+//@}
+
 bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 {
 	memcpy( &mClientAddr, addr, sizeof( SOCKADDR_IN ) );
@@ -37,7 +72,7 @@ bool ClientSession::PostRecv( )
 	mOverlappedRecv.mObject = this;
 
 	/// 비동기 입출력 시작
-	// 다 읽어 오면 부를 함수도 등록
+	// 다 읽어 오면 부를 함수도 등록 - 그리고 그놈이 작업 끝나면 또 날 부르겠지...
 	if ( SOCKET_ERROR == WSARecv( mSocket, &buf, 1, &recvbytes, &flags, &mOverlappedRecv, RecvCompletion ) )
 	{
 		if ( WSAGetLastError( ) != WSA_IO_PENDING )
@@ -88,34 +123,19 @@ void ClientSession::OnRead( size_t len )
 			return;
 
 		/// 패킷 완성이 되는가? 
-		if ( mRecvBuffer.GetStoredSize( ) < header.mSize )
+		if ( mRecvBuffer.GetStoredSize() < header.mSize )
 			return;
 
-		/// 패킷 핸들링
-		switch ( header.mType )
+
+		if ( header.mType >= PKT_MAX || header.mType <= PKT_NONE )
 		{
-		case PKT_CS_LOGIN:
-		{
-							 LoginRequest inPacket;
-							 mRecvBuffer.Read( (char*)&inPacket, header.mSize );
-
-							 /// 로그인은 DB 작업을 거쳐야 하기 때문에 DB 작업 요청한다.
-							 // LoadPlayerDataContext* newDbJob = new LoadPlayerDataContext( mSocket, inPacket.mPlayerId );
-							 // GDatabaseJobManager->PushDatabaseJobRequest( newDbJob );
-
+			Disconnect();
+			return;
 		}
-			break;
 
-		
-
-		default:
-		{
-				   /// 여기 들어오면 이상한 패킷 보낸거다.
-				   Disconnect( );
-				   return;
-		}
-			break;
-		}
+		/// packet dispatch...
+		// 패킷을 처리하는 핸들러를 이용해서 처리하자
+		HandlerTable[header.mType]( this, header );
 	}
 }
 
@@ -133,7 +153,6 @@ bool ClientSession::SendRequest( PacketHeader* pkt )
 	}
 
 	return true;
-
 }
 
 bool ClientSession::SendFlush( )
@@ -171,13 +190,6 @@ void ClientSession::OnWriteComplete( size_t len )
 {
 	/// 보내기 완료한 데이터는 버퍼에서 제거
 	mSendBuffer.Remove( len );
-
-	/// 얼래? 덜 보낸 경우도 있나? (커널의 send queue가 꽉찼거나, Send Completion이전에 또 send 한 경우?)
-	if ( mSendBuffer.GetContiguiousBytes( ) > 0 )
-	{
-		assert( false );
-	}
-
 }
 
 bool ClientSession::Broadcast( PacketHeader* pkt )
@@ -287,3 +299,139 @@ void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 
 }
 
+
+// 각 패킷을 처리하는 핸들러를 만들자
+REGISTER_HANDLER( PKT_CS_LOGIN )
+{
+	LoginRequest inPacket = static_cast<LoginRequest&>( pktBase );
+	session->HandleLoginRequest( inPacket );
+}
+
+void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 로그인 됐으면 아이디 할당해서 보내줘야지
+	int playerId = GGameLogic->AddPlayer();
+	if ( playerId == -1 )
+	{
+		// 더 못 들어온다.
+		Disconnect();
+	}
+
+	// 접속한 아이에게 아이디를 할당해준다.
+	LoginResult outPacket;
+	outPacket.mPlayerId = playerId;
+	SendRequest( &outPacket );
+
+	// 다른 애들에게 플레이어가 추가되었다는 것을 널리 알린다.
+	// NewResult 
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
+REGISTER_HANDLER( PKT_CS_ACCELERATION )
+{
+	AccelerarionRequest inPacket = static_cast<AccelerarionRequest&>( pktBase );
+	session->HandleAccelerationRequest( inPacket );
+}
+
+void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 이걸 게임 로직에 적용하고 
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+
+	AccelerarionResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	// 게임 데이터에서 지금 플레이어 관련 데이터 받아와서 넣자
+	// 방향은 방향 전환 요청에서만 처리하는 게 좋으려나...
+
+	outPacket.mRotationX = inPacket.mRotationX;
+	outPacket.mRotationY = inPacket.mRotationY;
+	outPacket.mRotationZ = inPacket.mRotationZ;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
+REGISTER_HANDLER( PKT_CS_STOP )
+{
+	StopRequest inPacket = static_cast<StopRequest&>( pktBase );
+	session->HandleStopRequest( inPacket );
+}
+
+void ClientSession::HandleStopRequest( StopRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 이걸 게임 로직에 적용하고 
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+
+	StopResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
+REGISTER_HANDLER( PKT_CS_ROTATION )
+{
+	RotationRequest inPacket = static_cast<RotationRequest&>( pktBase );
+	session->HandleRotationRequest( inPacket );
+}
+
+void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 이걸 게임 로직에 적용하고 
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+
+	RotationResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	outPacket.mRotationX = inPacket.mRotationX;
+	outPacket.mRotationY = inPacket.mRotationY;
+	outPacket.mRotationZ = inPacket.mRotationZ;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
+REGISTER_HANDLER( PKT_CS_SYNC )
+{
+	SyncRequest inPacket = static_cast<SyncRequest&>( pktBase );
+	session->HandleSyncRequest( inPacket );
+}
+
+void ClientSession::HandleSyncRequest( SyncRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 요청받은 캐릭터 데이터를 받아와서 방송!
+
+	SyncResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}

@@ -2,6 +2,7 @@
 
 #include <map>
 #include <WinSock2.h>
+#include "GameLogic.h"
 
 class ClientSession;
 struct PacketHeader;
@@ -11,6 +12,8 @@ class ClientManager
 public:
 	ClientManager() : mLastGCTick( 0 ), mLastClientWorkTick( 0 )
 	{}
+
+	void Init() { m_GameLogic.Init(); }
 
 	ClientSession* CreateClient( SOCKET sock );
 
@@ -29,6 +32,8 @@ private:
 
 	DWORD		mLastGCTick;
 	DWORD		mLastClientWorkTick;
+
+	GameLogic	m_GameLogic;
 };
 
 extern ClientManager* GClientManager;

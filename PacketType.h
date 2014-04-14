@@ -25,6 +25,8 @@ enum PacketTypes
 	PKT_SC_SYNC = 10,
 
 	PKT_SC_NEW = 11, // 새 플레이어나 오브젝트 생성
+
+	PKT_MAX = 1024
 };
 
 #pragma pack(push, 1)
@@ -60,7 +62,7 @@ struct LoginResult : public PacketHeader
 	int		mPlayerId;
 };
 
-// 가속 - id, 위치, 속도, 방향(현재 회전 각도 - 나중에는 행렬자체를 넘겨야 할 수도 있어)
+// 가속 좀 하겠습니다.
 struct AccelerarionRequest : public PacketHeader
 {
 	AccelerarionRequest()
@@ -69,18 +71,6 @@ struct AccelerarionRequest : public PacketHeader
 		mType = PKT_CS_ACCELERATION;
 		mPlayerId = -1;
 
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
-
-		mAccelerarionX = 0.0f;
-		mAccelerarionY = 0.0f;
-		mAccelerarionZ = 0.0f;
-
 		mRotationX = 0.0f;
 		mRotationY = 0.0f;
 		mRotationZ = 0.0f;
@@ -88,23 +78,12 @@ struct AccelerarionRequest : public PacketHeader
 
 	int	mPlayerId;
 
-	double mPosX;
-	double mPosY;
-	double mPosZ;
-
-	double mVelocityX;
-	double mVelocityY;
-	double mVelocityZ;
-
-	double mAccelerarionX;
-	double mAccelerarionY;
-	double mAccelerarionZ;
-
 	double mRotationX;
 	double mRotationY;
 	double mRotationZ;
 };
 
+// 가속 - id, 위치, 속도, 방향(현재 회전 각도 - 나중에는 행렬자체를 넘겨야 할 수도 있어)
 struct AccelerarionResult : public PacketHeader
 {
 	AccelerarionResult()
@@ -238,36 +217,12 @@ struct SyncResult : public PacketHeader
 		mType = PKT_SC_SYNC;
 		mPlayerId = -1;
 
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
-
-		mAccelerarionX = 0.0f;
-		mAccelerarionY = 0.0f;
-		mAccelerarionZ = 0.0f;
-
 		mRotationX = 0.0f;
 		mRotationY = 0.0f;
 		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
-
-	double mPosX;
-	double mPosY;
-	double mPosZ;
-
-	double mVelocityX;
-	double mVelocityY;
-	double mVelocityZ;
-
-	double mAccelerarionX;
-	double mAccelerarionY;
-	double mAccelerarionZ;
 
 	double mRotationX;
 	double mRotationY;
