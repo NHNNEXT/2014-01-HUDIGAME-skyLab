@@ -86,9 +86,6 @@ public:
 		return true;
 	}
 
-	// 하나씩 하면 서로 다른 스레드가 읽기 / 쓰기는 동시에 하는 효과를 줄 수는 있을 것 같은데...
-	// 아이템 하나 쓰고 뺄 때마다 락 잡고 하는데...비용은 안 큰가...
-
 private:
 	TElem mQueueArray[QSize];
 

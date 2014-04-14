@@ -11,6 +11,7 @@
 #include "ClientManager.h"
 #include "ClientSession.h"
 #include "Exception.h"
+#include "ProducerConsumerQueue.h"
 
 #pragma comment(lib,"ws2_32.lib")
 
@@ -21,6 +22,8 @@ CONDITION_VARIABLE g_SocketEmpty;
 bool g_NewSocketFlag;
 
 __declspec( thread ) int LThreadType = -1;
+
+typedef ProducerConsumerQueue<SOCKET, 100> PendingAcceptList;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -65,6 +68,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	if ( ret == SOCKET_ERROR )
 		return -1;
 
+	/// accepting list
+	PendingAcceptList pendingAcceptList;
+
 	/// auto-reset event
 	HANDLE hEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
 	if ( hEvent == NULL )
@@ -79,34 +85,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	/// accept loop
 	while ( true )
 	{
-		// g_AcceptedSocket 에 대한 접근을 동시에 하므로 락을 잡자
-		EnterCriticalSection( &g_AcceptedSockLock );
-		while ( g_NewSocketFlag )
-		{
-			// 그런데 아까 받은 애를 아직 안 꺼내 갔으면 기다려야 되니까 조건 변수를 쓰자
-			SleepConditionVariableCS( &g_SocketEmpty, &g_AcceptedSockLock, INFINITE );
-		}
-
-		g_AcceptedSocket = accept( listenSocket, NULL, NULL );
-
-		g_NewSocketFlag = true;
-
-		// 다 썼으면 락 풀고 신호 보내주기
-		LeaveCriticalSection( &g_AcceptedSockLock );
-		WakeConditionVariable( &g_SocketFull );
-
-		if ( g_AcceptedSocket == INVALID_SOCKET )
+		SOCKET acceptedSocket = accept( listenSocket, NULL, NULL );
+		if ( acceptedSocket == INVALID_SOCKET )
 		{
 			printf( "accept: invalid socket\n" );
 			continue;
 		}
 
-		/// accept event fire!
-		if ( !SetEvent( hEvent ) )
-		{
-			printf( "SetEvent error: %d\n", GetLastError( ) );
-			break;
-		}
+		pendingAcceptList.Produce( acceptedSocket );
 	}
 
 	CloseHandle( hThread );
@@ -123,7 +109,7 @@ unsigned int WINAPI ClientHandlingThread( LPVOID lpParam )
 {
 	LThreadType = THREAD_CLIENT;
 
-	HANDLE hEvent = (HANDLE)lpParam;
+	PendingAcceptList* pAcceptList = (PendingAcceptList*)lpParam;
 
 	/// Timer
 	HANDLE hTimer = CreateWaitableTimer( NULL, FALSE, NULL );
@@ -132,53 +118,37 @@ unsigned int WINAPI ClientHandlingThread( LPVOID lpParam )
 
 	LARGE_INTEGER liDueTime;
 	liDueTime.QuadPart = -10000000; ///< 1초 후부터 동작
-	if ( !SetWaitableTimer( hTimer, &liDueTime, 10, TimerProc, NULL, TRUE ) )
+	if ( !SetWaitableTimer( hTimer, &liDueTime, 100, TimerProc, NULL, TRUE ) )
 		return -1;
 
 	while ( true )
 	{
-		/// accept or IO/Timer completion   대기
-		DWORD result = WaitForSingleObjectEx( hEvent, INFINITE, TRUE );
+		SOCKET acceptSock = NULL;
 
-		/// client connected
-		if ( result == WAIT_OBJECT_0 )
+		/// 새로 접속한 클라이언트 처리
+		if ( pAcceptList->Consume( acceptSock, false ) )
 		{
-			// 공유자원인 g_AcceptedSockLock에 접근할 때는 락부터 잡자
-			EnterCriticalSection( &g_AcceptedSockLock );
-			while ( !g_NewSocketFlag )
-			{
-				// 만약 지금 새로온 소켓이 없다면 메인 스레드가 새 접속을 받을 수 있게 대기
-				SleepConditionVariableCS( &g_SocketFull, &g_AcceptedSockLock, INFINITE );
-
-				// 그런데 이벤트 발생해야 여기 들어오는 거고, 메인 스레드는 여기서 소켓 정보 가져 갈 때까지 대기니까
-				// 이 조건 없이 그냥 빼가고 락 푼 다음에 조건 변수 신호만 보내주면 안 될까요?
-			}
-
 			/// 소켓 정보 구조체 할당과 초기화
-			ClientSession* client = GClientManager->CreateClient( g_AcceptedSocket );
+			ClientSession* client = GClientManager->CreateClient( acceptSock );
 
 			SOCKADDR_IN clientaddr;
 			int addrlen = sizeof( clientaddr );
-			getpeername( g_AcceptedSocket, (SOCKADDR*)&clientaddr, &addrlen );
-
-			g_NewSocketFlag = false;
-
-			// 작업 끝났으니 락 풀고 소켓 빼갔다고 신호 보내기
-			LeaveCriticalSection( &g_AcceptedSockLock );
-			WakeConditionVariable( &g_SocketEmpty );
+			getpeername( acceptSock, (SOCKADDR*)&clientaddr, &addrlen );
 
 			// 클라 접속 처리
 			if ( false == client->OnConnect( &clientaddr ) )
 			{
-				client->Disconnect( );
+				client->Disconnect();
 			}
 
 			continue; ///< 다시 대기로
 		}
 
-		// APC에 있던 completion이 아니라면 에러다
-		if ( result != WAIT_IO_COMPLETION )
-			return -1;
+		/// 최종적으로 클라이언트들에 쌓인 send 요청 처리
+		GClientManager->FlushClientSend();
+
+		/// APC Queue에 쌓인 작업들 처리
+		SleepEx( INFINITE, TRUE );
 	}
 
 	CloseHandle( hTimer );

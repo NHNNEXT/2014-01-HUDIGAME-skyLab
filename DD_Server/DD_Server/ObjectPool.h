@@ -8,6 +8,9 @@ class ObjectPool
 public:
 	static void* operator new( size_t objSize )
 	{
+		// new로 리턴하는 주소에 생성자로 객체를 할당하나요
+		// new 하는 시간이 오래 걸려서 미리 주소를 할당하나요
+		// 오브젝트들을 연속으로 배치하기 위해서인가요
 		if ( !mFreeList )
 		{
 			mFreeList = new uint8_t[sizeof(TOBJECT)*ALLOC_COUNT];

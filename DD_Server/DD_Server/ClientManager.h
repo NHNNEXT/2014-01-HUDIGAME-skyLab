@@ -17,11 +17,11 @@ public:
 	void BroadcastPacket( ClientSession* from, PacketHeader* pkt );
 
 	void OnPeriodWork();
+	void FlushClientSend();
 
 private:
 	void CollectGarbageSessions();
 	void ClientPeriodWork();
-	void FlushClientSend();
 
 private:
 	typedef std::map<SOCKET, ClientSession*> ClientList;

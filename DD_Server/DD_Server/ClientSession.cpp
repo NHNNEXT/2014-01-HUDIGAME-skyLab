@@ -37,6 +37,7 @@ bool ClientSession::PostRecv( )
 	mOverlappedRecv.mObject = this;
 
 	/// 비동기 입출력 시작
+	// 다 읽어 오면 부를 함수도 등록
 	if ( SOCKET_ERROR == WSARecv( mSocket, &buf, 1, &recvbytes, &flags, &mOverlappedRecv, RecvCompletion ) )
 	{
 		if ( WSAGetLastError( ) != WSA_IO_PENDING )
@@ -105,22 +106,7 @@ void ClientSession::OnRead( size_t len )
 		}
 			break;
 
-		case PKT_CS_CHAT:
-		{
-							ChatBroadcastRequest inPacket;
-							mRecvBuffer.Read( (char*)&inPacket, header.mSize );
-
-							ChatBroadcastResult outPacket;
-							outPacket.mPlayerId = inPacket.mPlayerId;
-							strcpy_s( outPacket.mName, mPlayerName );
-							strcpy_s( outPacket.mChat, inPacket.mChat );
-
-							/// 채팅은 바로 방송 하면 끝
-							if ( !Broadcast( &outPacket ) )
-								return;
-
-		}
-			break;
+		
 
 		default:
 		{
@@ -240,11 +226,8 @@ void ClientSession::LoginDone( int pid, double x, double y, double z, const char
 	LoginResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId = pid;
-	outPacket.mPosX = mPosX = x;
-	outPacket.mPosY = mPosY = y;
-	outPacket.mPosZ = mPosZ = z;
-	strcpy_s( mPlayerName, name );
-	strcpy_s( outPacket.mName, name );
+	// strcpy_s( mPlayerName, name );
+	// strcpy_s( outPacket.mName, name );
 
 	SendRequest( &outPacket );
 
@@ -275,6 +258,7 @@ void CALLBACK RecvCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 	fromClient->OnRead( cbTransferred );
 
 	/// 다시 받기
+	// 일종의 재귀??
 	if ( false == fromClient->PostRecv( ) )
 	{
 		fromClient->Disconnect( );
