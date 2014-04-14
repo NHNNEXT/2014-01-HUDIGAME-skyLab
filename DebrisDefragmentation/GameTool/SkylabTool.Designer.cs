@@ -41,12 +41,12 @@
             this.View = new System.Windows.Forms.PictureBox();
             this.CameraConfig = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.cameraZpos = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cameraYpos = new System.Windows.Forms.TextBox();
+            this.cameraXpos = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -151,12 +151,12 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.cameraZpos);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.cameraYpos);
+            this.groupBox1.Controls.Add(this.cameraXpos);
             this.groupBox1.Location = new System.Drawing.Point(6, 20);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(111, 107);
@@ -164,12 +164,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "CameraPos";
             // 
-            // textBox3
+            // cameraZpos
             // 
-            this.textBox3.Location = new System.Drawing.Point(34, 74);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(57, 21);
-            this.textBox3.TabIndex = 0;
+            this.cameraZpos.Location = new System.Drawing.Point(34, 74);
+            this.cameraZpos.Name = "cameraZpos";
+            this.cameraZpos.Size = new System.Drawing.Size(57, 21);
+            this.cameraZpos.TabIndex = 0;
             // 
             // label3
             // 
@@ -198,19 +198,19 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "X";
             // 
-            // textBox2
+            // cameraYpos
             // 
-            this.textBox2.Location = new System.Drawing.Point(34, 47);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(57, 21);
-            this.textBox2.TabIndex = 0;
+            this.cameraYpos.Location = new System.Drawing.Point(34, 47);
+            this.cameraYpos.Name = "cameraYpos";
+            this.cameraYpos.Size = new System.Drawing.Size(57, 21);
+            this.cameraYpos.TabIndex = 0;
             // 
-            // textBox1
+            // cameraXpos
             // 
-            this.textBox1.Location = new System.Drawing.Point(34, 20);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(57, 21);
-            this.textBox1.TabIndex = 0;
+            this.cameraXpos.Location = new System.Drawing.Point(34, 20);
+            this.cameraXpos.Name = "cameraXpos";
+            this.cameraXpos.Size = new System.Drawing.Size(57, 21);
+            this.cameraXpos.TabIndex = 0;
             // 
             // skyLabTool
             // 
@@ -248,9 +248,9 @@
         private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
         private System.Windows.Forms.PictureBox View;
         private System.Windows.Forms.GroupBox CameraConfig;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox cameraXpos;
+        private System.Windows.Forms.TextBox cameraYpos;
+        private System.Windows.Forms.TextBox cameraZpos;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;

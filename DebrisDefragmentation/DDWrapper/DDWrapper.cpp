@@ -9,7 +9,7 @@ namespace DDWrapper
 	//////////////////////////////////////////// Renderer Class //////////////////////////////	
 	// »ý¼ºÀÚ
 	Renderer::Renderer()
-		:m_pDDRenderer( GetInstance() )
+		:m_pDDRenderer( m_pDDRenderer->GetInstance() )
 	{
 
 	}
@@ -28,35 +28,6 @@ namespace DDWrapper
 	{
 		return m_pDDRenderer->GetInstance();
 	}
-
-
-	bool Renderer::Init( INT32 hWnd, int Width, int Height )
-	{
-		return m_pDDRenderer->GetInstance()->Init( (HWND)hWnd, Width, Height );
-	}
-
-
-	bool Renderer::Release()
-	{
-		return m_pDDRenderer->GetInstance()->Release();
-	}
-
-	bool Renderer::Clear()
-	{
-		return m_pDDRenderer->GetInstance()->Clear();
-	}
-
-	bool Renderer::BeginDraw()
-	{
-		return m_pDDRenderer->GetInstance()->Begin();
-	}
-
-	bool Renderer::EndDraw()
-	{
-		return m_pDDRenderer->GetInstance()->End();
-	}
-
-
 
 	////////////////////////////////// DD Object Class //////////////////////////////
 
@@ -99,7 +70,7 @@ namespace DDWrapper
 		//m_pModel = new DDModel( const_cast<wchar_t*>(str) );
 		//wchar_t* str = L"tiger.x";
 
-		m_pModel = DDModel::Create( const_cast<wchar_t*>( str ), renderer->GetInstance()->GetDevice() );
+		m_pModel = DDModel::Create( const_cast<wchar_t*>( str ), renderer->GetDevice() );
 	}
 
 	GameModel::~GameModel()

@@ -30,7 +30,7 @@ namespace GameTool
         public skyLabTool()
         {
            InitializeComponent();
-           // new 하면 멤버변수가 싱글톤으로 할당됨
+           // DDWrapper의 Renderer가 멤버변수로 DDRenderer*를 가지고 있음
            m_Renderer = new DDWrapper.Renderer();
 
             // 방어 코드
@@ -57,10 +57,13 @@ namespace GameTool
             while(g_IsRenderable)
             {
                 m_Renderer.Clear();
-                m_Renderer.BeginDraw();
 
-                // 여기서 뭔가 그리게 됩니다
-                RenderScene();
+                if (m_Renderer.BeginDraw())
+                {
+                    // 여기서 뭔가 그리게 됩니다
+                    RenderScene();
+                    UpdateCameraInformation();
+                }
 
                 m_Renderer.EndDraw();
 
@@ -101,9 +104,11 @@ namespace GameTool
             m_Scene.AddChild(m_Light);
         }
 
-        private void UpdateCamera()
+        private void UpdateCameraInformation()
         {
-            
+            cameraXpos.Text = m_Camera.GetPositionX().ToString();
+            cameraYpos.Text = m_Camera.GetPositionY().ToString();
+            cameraZpos.Text = m_Camera.GetPositionZ().ToString();
         }
 
         private void ViewMouseEnver(object sender, EventArgs e)

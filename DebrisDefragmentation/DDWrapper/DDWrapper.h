@@ -1,5 +1,5 @@
 // 작성자 : 문진상
-// 최종 수정일 : 2014. 04. 13
+// 최종 수정일 : 2014. 04. 14
 // 기능 : C# 툴에서 DDFramework를 쓸 수 있게 감싸놓은 클래스
 
 // DDWrapper.h
@@ -43,23 +43,36 @@ namespace DDWrapper {
 	
 	*/
 
+	////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////// Renderer ///////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+
 	public ref class Renderer
 	{
 	public:
 		Renderer();
 		~Renderer();
 
-		bool Init( INT32 hWnd, int Width, int Height );
-		bool Release();
-
-		bool Clear();
-		bool BeginDraw();
-		bool EndDraw();
-
 		DDRenderer* GetInstance();
+
+		bool Init( INT32 hWnd, int Width, int Height ) { return m_pDDRenderer->Init( reinterpret_cast<HWND>( hWnd ), Width, Height ); };
+		bool Release() { return m_pDDRenderer->Release(); };
+
+		bool Clear() { return m_pDDRenderer->Clear(); };
+		bool BeginDraw() { return m_pDDRenderer->Begin(); };
+		bool EndDraw() { return m_pDDRenderer->End(); };
+
+		LPDIRECT3DDEVICE9 GetDevice() { return m_pDDRenderer->GetDevice(); };
+		
 	protected:
 		DDRenderer* m_pDDRenderer;
 	};
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////// Camera ////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+
 
 	public ref class GameCamera
 	{
@@ -69,10 +82,18 @@ namespace DDWrapper {
 
 		DDCamera* GetPointer() { return m_pCamera; };
 
+		const float GetPositionX() { return m_pCamera->GetPositionX(); }
+		const float GetPositionY() { return m_pCamera->GetPositionY(); }
+		const float GetPositionZ() { return m_pCamera->GetPositionZ(); }
+
 	protected:
 		DDCamera* Create() { return DDCamera::Create(); };
 		DDCamera* m_pCamera;
 	};
+
+	////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////// Model /////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
 
 	public ref class GameModel
 	{
@@ -91,6 +112,10 @@ namespace DDWrapper {
 		DDModel* m_pModel;
 	};
 
+	////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////// Light ////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+
 	public ref class GameLight
 	{
 	public:
@@ -103,6 +128,10 @@ namespace DDWrapper {
 		DDLight* Create() { return DDLight::Create(); };
 		DDLight* m_pLight;
 	};
+
+	////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////// Object ////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
 
 	// 솔직히 이걸 바로 부를 일은 별로 없을 것 같긴 함
 	// 그런데 그것이 실제로 일어났습니다
@@ -178,5 +207,4 @@ namespace DDWrapper {
 	protected:
 		DDObject* m_pObject;
 	};
-
 }
