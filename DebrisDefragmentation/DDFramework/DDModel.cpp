@@ -17,7 +17,7 @@ DDModel::DDModel( wchar_t* path )
 DDModel::DDModel( wchar_t* path, LPDIRECT3DDEVICE9 device )
 {
 	//m_pD3DDevice = device;
-	initModel( path );
+	initModel( path, device );
 	SetNormalVector();
 }
 
@@ -28,8 +28,7 @@ DDModel::~DDModel()
 
 DDModel* DDModel::Create( wchar_t* filePath )
 {
-	DDModel* pInstance = new DDModel(filePath);
-	return pInstance;	
+	return Create( filePath, DDRenderer::GetInstance()->GetDevice() );
 }
 
 DDModel* DDModel::Create( wchar_t* filePath, LPDIRECT3DDEVICE9 device )
@@ -38,15 +37,14 @@ DDModel* DDModel::Create( wchar_t* filePath, LPDIRECT3DDEVICE9 device )
 	return pInstance;
 }
 
-bool DDModel::initModel( wchar_t* path )
+bool DDModel::initModel( wchar_t* path, LPDIRECT3DDEVICE9 device )
 {
-	LPD3DXBUFFER		pD3DXMtrlBuffer;	
-	LPDIRECT3DDEVICE9	pD3DDevice = DDRenderer::GetInstance()->GetDevice();
+	LPD3DXBUFFER		pD3DXMtrlBuffer;
 
 	std::wstring xfilePath = L".\\Resources\\3DModel\\";
-	xfilePath.append(path);
+	xfilePath.append( path );
 
-	if ( FAILED( D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh ) ) )
+	if ( FAILED( D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, device, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh ) ) )
 	{
 		// x file loading error
 		return false;
@@ -76,10 +74,10 @@ bool DDModel::initModel( wchar_t* path )
 		m_pMeshTexture[i] = NULL;
 		if ( d3dxMaterials[i].pTextureFilename != NULL && lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
 		{
- 			std::string bmpPath = ".\\Resources\\3DModel\\";
-			bmpPath.append(d3dxMaterials[i].pTextureFilename );
+			std::string bmpPath = ".\\Resources\\3DModel\\";
+			bmpPath.append( d3dxMaterials[i].pTextureFilename );
 
-			if ( FAILED( D3DXCreateTextureFromFileA( pD3DDevice, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )
+			if ( FAILED( D3DXCreateTextureFromFileA( device, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )
 			{
 				/*MessageBox( NULL, L"no texture map", L"Meshes.exe", MB_OK );*/
 				// no texture error
@@ -91,6 +89,11 @@ bool DDModel::initModel( wchar_t* path )
 	pD3DXMtrlBuffer->Release();
 
 	return true;
+}
+
+bool DDModel::initModel( wchar_t* path )
+{
+	return initModel( path, DDRenderer::GetInstance()->GetDevice() );
 }
 
 

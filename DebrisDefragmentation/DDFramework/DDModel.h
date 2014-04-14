@@ -14,7 +14,8 @@ public:
 	static DDModel* Create( wchar_t* filePath, LPDIRECT3DDEVICE9 renderer );
 
 protected:
-	bool initModel( wchar_t* path );	
+	bool initModel( wchar_t* path );
+	bool initModel( wchar_t* path, LPDIRECT3DDEVICE9 device );
 	bool SetNormalVector();
 	bool Cleanup();
 

@@ -86,6 +86,8 @@ namespace DDWrapper {
 		const float GetPositionY() { return m_pCamera->GetPositionY(); }
 		const float GetPositionZ() { return m_pCamera->GetPositionZ(); }
 
+		void SetPosition( float x, float y, float z ) { m_pCamera->SetPosition( x, y, z ); };
+
 	protected:
 		DDCamera* Create() { return DDCamera::Create(); };
 		DDCamera* m_pCamera;
@@ -104,6 +106,12 @@ namespace DDWrapper {
 		~GameModel();
 
 		void AddChild( GameCamera^ camera ) { m_pModel->AddChild( camera->GetPointer() ); };
+
+		const float GetPositionX() { return m_pModel->GetPositionX(); }
+		const float GetPositionY() { return m_pModel->GetPositionY(); }
+		const float GetPositionZ() { return m_pModel->GetPositionZ(); }
+
+		void SetPosition( float x, float y, float z ) { m_pModel->SetPosition( x, y, z ); };
 
 		// wrapping 된 m_pModel을 꺼내기 위한 메서드
 		DDModel* GetPointer() { return m_pModel; };

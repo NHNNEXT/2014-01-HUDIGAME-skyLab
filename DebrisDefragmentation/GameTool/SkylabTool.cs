@@ -12,7 +12,12 @@ namespace GameTool
 {
     public partial class skyLabTool : Form
     {
+        // render를 할지 말지 결정하는 bool값
         bool g_IsRenderable = true;
+
+        // Random
+        Random r = new Random();
+
         // Renderer
         private DDWrapper.Renderer m_Renderer = null;
         // Camera
@@ -82,9 +87,23 @@ namespace GameTool
 
         private void testMeshLoad()
         {
+            // test character
             string path = "tiger.x";
             m_Model = new DDWrapper.GameModel(path, m_Renderer);
             m_Scene.AddChild(m_Model);
+
+            // test Debris
+            string debrisPath = "debris.x";
+            float randX, randY, randZ;
+            for (int i = 0; i < 1000; ++i)
+            {
+                DDWrapper.GameModel debris = new DDWrapper.GameModel(debrisPath, m_Renderer);
+                randX = r.Next(-100, 100);
+                randY = r.Next(-100, 100);
+                randZ = r.Next(-100, 100);
+                debris.SetPosition(randX, randY, randZ);
+                m_Scene.AddChild(debris);
+            }
         }
 
         private void RenderScene()

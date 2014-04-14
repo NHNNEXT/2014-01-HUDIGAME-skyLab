@@ -70,7 +70,7 @@ namespace DDWrapper
 		//m_pModel = new DDModel( const_cast<wchar_t*>(str) );
 		//wchar_t* str = L"tiger.x";
 
-		m_pModel = DDModel::Create( const_cast<wchar_t*>( str ), renderer->GetDevice() );
+		m_pModel = DDModel::Create( const_cast<wchar_t*>(str), renderer->GetDevice() );
 	}
 
 	GameModel::~GameModel()
@@ -83,7 +83,7 @@ namespace DDWrapper
 
 		m_pModel = nullptr;
 	}
-	
+
 	////////////////////////////////// DD Light Class //////////////////////////////
 
 
@@ -102,4 +102,4 @@ namespace DDWrapper
 		m_pLight = nullptr;
 	}
 
-}	
+}
