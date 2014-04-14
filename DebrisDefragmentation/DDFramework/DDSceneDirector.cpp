@@ -14,10 +14,10 @@ DDSceneDirector::~DDSceneDirector()
 }
 
 
-std::shared_ptr<DDSceneDirector> DDSceneDirector::Create()
-{
-	return std::shared_ptr<DDSceneDirector>( new DDSceneDirector() );
-}
+// std::shared_ptr<DDSceneDirector> DDSceneDirector::Create()
+// {
+// 	return std::shared_ptr<DDSceneDirector>( new DDSceneDirector() );
+// }
 
 bool DDSceneDirector::Init()
 {
@@ -69,32 +69,32 @@ void DDSceneDirector::ChangeScene( DDScene* scene )
 		m_pCurrentScene = scene;
 	}
 }
-
-void DDSceneDirector::ChangeScene( std::wstring sceneName )
-{
-	m_pCurrentScene = m_SceneList[sceneName].get();
-}
-
-bool DDSceneDirector::CreateScene( std::wstring sceneName )
-{
-	// 같은 이름의 scene이 존재하면 false
-	if ( m_SceneList[sceneName] )
-	{
-		return false;
-	}
-	
-	DDScene* tmpScene = DDScene::Create( sceneName );
-	m_SceneList[sceneName] = std::shared_ptr<DDScene>( tmpScene );
-	return true;
-}
-
-bool DDSceneDirector::DeleteScene( std::wstring sceneName )
-{
-	// scene이 없으면 false
-	if ( !m_SceneList[sceneName] )
-	{
-		return false;
-	}
-	m_SceneList.erase( sceneName );
-	return true;
-}
+// 
+// void DDSceneDirector::ChangeScene( std::wstring sceneName )
+// {
+// 	m_pCurrentScene = m_SceneList[sceneName].get();
+// }
+// 
+// bool DDSceneDirector::CreateScene( std::wstring sceneName )
+// {
+// 	// 같은 이름의 scene이 존재하면 false
+// 	if ( m_SceneList[sceneName] )
+// 	{
+// 		return false;
+// 	}
+// 	
+// 	DDScene* tmpScene = DDScene::Create( sceneName );
+// 	m_SceneList[sceneName] = std::shared_ptr<DDScene>( tmpScene );
+// 	return true;
+// }
+// 
+// bool DDSceneDirector::DeleteScene( std::wstring sceneName )
+// {
+// 	// scene이 없으면 false
+// 	if ( !m_SceneList[sceneName] )
+// 	{
+// 		return false;
+// 	}
+// 	m_SceneList.erase( sceneName );
+// 	return true;
+// }

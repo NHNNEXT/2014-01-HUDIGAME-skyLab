@@ -16,11 +16,11 @@ enum KeyState
 	KEY_NOTPRESSED,
 };
 
-class DDInputSystem
+class DDInputSystem : public Singleton<DDInputSystem>
 {
 public:
-	static DDInputSystem* GetInstance();
-	static void ReleaseInstance();
+	DDInputSystem();
+	~DDInputSystem();
 
 	void UpdateKeyState();
 	KeyState GetKeyState( int key );
@@ -28,10 +28,7 @@ public:
 	bool IsPressedAnyKey();
 
 private:
-	DDInputSystem();
-	~DDInputSystem();
 
-	static DDInputSystem* m_pInstance;
 
 	bool m_PrevKeyState[256];
 	bool m_NowKeyState[256];

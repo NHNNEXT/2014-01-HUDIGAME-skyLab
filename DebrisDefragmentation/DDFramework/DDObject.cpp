@@ -3,13 +3,14 @@
 #include "DDRenderer.h"
 #include "DDApplication.h"
 
-DDObject::DDObject() :
-m_pParent( nullptr ),
-m_Position( .0f, .0f, .0f ),
-m_Rotation( .0f, .0f, .0f ),
-m_Scale( 1.0f, 1.0f, 1.0f ),
-m_Visible( true ),
-m_pRenderer (DDApplication::GetInstance()->GetRenderer())
+DDObject::DDObject() 
+// :
+// m_pParent( nullptr ),
+// m_Position( .0f, .0f, .0f ),
+// m_Rotation( .0f, .0f, .0f ),
+// m_Scale( 1.0f, 1.0f, 1.0f ),
+// m_Visible( true )
+
 {
 	D3DXMatrixIdentity( &m_Matrix );
 	D3DXMatrixIdentity( &m_MatrixTransform );
@@ -23,10 +24,10 @@ DDObject::~DDObject()
 
 void DDObject::Release( )
 {
-	for ( const auto& child : m_ChildList )
-	{
-		RemoveChild( child.get() );
-	}
+// 	for ( const auto& child : m_ChildList )
+// 	{
+// 		RemoveChild( child.get() );
+// 	}
 }
 
 // 작성자 : 김성환
@@ -107,7 +108,7 @@ void DDObject::AffineTransfrom()
 	}
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용
-	if ( FAILED( m_pRenderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
+	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
 	{
 		// error 
 		return;

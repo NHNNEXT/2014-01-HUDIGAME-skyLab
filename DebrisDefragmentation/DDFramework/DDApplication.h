@@ -8,8 +8,8 @@
 
 #include "DDConfig.h"
 
-class DDRenderer;
-class DDSceneDirector;
+// class DDRenderer;
+// class DDSceneDirector;
 
 class DDApplication : public Singleton<DDApplication>
 {
@@ -26,21 +26,19 @@ public:
 	int GetScreenWidth() const	{ return m_ScreenWidth; }
 	int GetScreenHeight() const	{ return m_ScreenHeight; }
 	HWND GetHWND() const		{ return m_Hwnd; }
-	std::shared_ptr<DDRenderer>			GetRenderer()		const { return m_pRenderer; }
-	std::shared_ptr<DDSceneDirector>	GetSceneDirector()	const { return m_pSceneDirector; }
 
 private:
 
 	static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 
 	bool _CreateWindow( std::wstring title, int width, int height );
-	bool _CreateRenderer();
+	//bool _CreateRenderer();
 	void ComputeFPS();
 
 	// agebreak : 싱글톤으로 만들어 놓고, 왜 굳이 멤버 변수가 필요한가?
-	// DDRenderer, SceneDirector 싱글톤 삭제, 스마트 포인터로..
-	std::shared_ptr<DDRenderer>			m_pRenderer;
-	std::shared_ptr<DDSceneDirector>	m_pSceneDirector;
+	// 싱글톤 객체에 직접 접근하는 방식으로 변경(getinstance비용은 있겠으나 직관적이도록...)
+// 	std::shared_ptr<DDRenderer>			m_pRenderer;
+// 	std::shared_ptr<DDSceneDirector>	m_pSceneDirector;
 
 	// 프로그램 윈도우 핸들
 	HWND m_Hwnd;

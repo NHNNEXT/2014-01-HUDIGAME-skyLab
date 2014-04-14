@@ -22,8 +22,7 @@ DDCamera* DDCamera::Create()
 void DDCamera::RenderItSelf()
 {
 	m_Matrix = m_pParent->GetMatrix();
-
-	
+		
 	D3DXVECTOR4 tempEye;
 	D3DXVec3Transform( &tempEye, &m_Position, &m_Matrix );
 	D3DXVECTOR3 vEyePt( tempEye.x, tempEye.y, tempEye.z );
@@ -42,10 +41,10 @@ void DDCamera::RenderItSelf()
 
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
-	m_pRenderer->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
 
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f );
-	m_pRenderer->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
 }
 

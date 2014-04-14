@@ -31,20 +31,20 @@ bool DDApplication::Init( std::wstring title, int width, int height )
 		return false;
 	}
 
-	if ( !_CreateRenderer() )
-	{
-		// 렌더러 생성 실패
-		return false;
-	}
+// 	if ( !_CreateRenderer() )
+// 	{
+// 		// 렌더러 생성 실패
+// 		return false;
+// 	}
 
-	if ( !m_pRenderer->Init( m_Hwnd ) )
+	if ( !DDRenderer::GetInstance()->Init( m_Hwnd ) )
 	{
 		// 렌더러 초기화 실패
 		return false;
 	}
 
-	m_pSceneDirector = DDSceneDirector::Create();
-	if ( !m_pSceneDirector->Init() )
+	
+	if ( !DDSceneDirector::GetInstance()->Init() )
 	{
 		// 씬 디렉터 초기화 실패
 		return false;
@@ -89,13 +89,13 @@ bool DDApplication::_CreateWindow( std::wstring title, int width, int height )
 	return true;
 }
 
-bool DDApplication::_CreateRenderer()
-{
-	// m_pRenderer생성
-	m_pRenderer = DDRenderer::Create();	
-
-	return true;
-}
+// bool DDApplication::_CreateRenderer()
+// {
+// 	// m_pRenderer생성
+// 	DDRenderer::GetInstance();	
+// 
+// 	return true;
+// }
 
 
 
@@ -107,13 +107,13 @@ bool DDApplication::Release()
 	}
 
 	// agebreak : 싱글톤 = 멤버 변수라니, 이상하지 않은가?
-	m_pSceneDirector->Release();
-	//DDSceneDirector::ReleaseInstance();
+	DDSceneDirector::GetInstance()->Release();
+	DDSceneDirector::ReleaseInstance();
 
-	m_pRenderer->Release();
-	//DDRenderer::ReleaseInstance();
+	DDRenderer::GetInstance()->Release();
+	DDRenderer::ReleaseInstance();
 
-	DDInputSystem::ReleaseInstance();
+	DDInputSystem::ReleaseInstance();	
 
 	ReleaseInstance();
 
@@ -146,15 +146,15 @@ int DDApplication::Run()
 			DDInputSystem::GetInstance()->UpdateKeyState();
 
 			// update scene
-			m_pSceneDirector->UpdateScene( m_DeltaTime );
+			DDSceneDirector::GetInstance()->UpdateScene( m_DeltaTime );
 
 			// display
 			if ( true ) // 프레임 수를 조절하려면 여기서 시간 제약을 둬야
 			{
-				m_pRenderer->Begin( );
-				m_pRenderer->Clear( );
-				m_pSceneDirector->RenderScene( );
-				m_pRenderer->End( );
+				DDRenderer::GetInstance()->Clear();
+				DDRenderer::GetInstance()->Begin();			
+				DDSceneDirector::GetInstance()->RenderScene();
+				DDRenderer::GetInstance()->End();
 			}
 
 			if ( DDInputSystem::GetInstance()->GetKeyState( VK_ESCAPE ) == KEY_DOWN )

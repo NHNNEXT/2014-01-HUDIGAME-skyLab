@@ -4,11 +4,11 @@
 
 // DDWrapper.h
 // warning!! 만약 lib가 출력되는 폴더가 바뀌면 아래 옵션도 바꿔야 한다
-#include "../DDFramework/DDRenderer.h"
-#include "../DDFramework/DDObject.h"
-#include "../DDFramework//DDModel.h"
-#include "../DDFramework//DDCamera.h"
-#include "../DDFramework/DDLight.h"
+#include "DDRenderer.h"
+#include "DDObject.h"
+#include "DDModel.h"
+#include "DDCamera.h"
+#include "DDLight.h"
 #pragma comment( lib, "../Debug/DDFramework.lib")
 
 #include <vcclr.h>

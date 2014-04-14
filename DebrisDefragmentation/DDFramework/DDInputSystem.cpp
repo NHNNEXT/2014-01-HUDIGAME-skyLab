@@ -1,8 +1,6 @@
 #include "DDInputSystem.h"
 #include "DDApplication.h"
 
-DDInputSystem* DDInputSystem::m_pInstance = nullptr;
-
 DDInputSystem::DDInputSystem()
 {
 	ZeroMemory( m_PrevKeyState, sizeof( m_PrevKeyState ) );
@@ -11,24 +9,6 @@ DDInputSystem::DDInputSystem()
 
 DDInputSystem::~DDInputSystem()
 {
-}
-
-DDInputSystem* DDInputSystem::GetInstance()
-{
-	if ( m_pInstance == nullptr )
-	{
-		m_pInstance = new DDInputSystem();
-	}
-
-	return m_pInstance;
-}
-void DDInputSystem::ReleaseInstance()
-{
-	if ( m_pInstance != nullptr )
-	{
-		delete m_pInstance;
-		m_pInstance = nullptr;
-	}
 }
 
 void DDInputSystem::UpdateKeyState()

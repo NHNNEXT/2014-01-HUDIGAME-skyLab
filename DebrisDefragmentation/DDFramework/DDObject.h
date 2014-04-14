@@ -78,18 +78,17 @@ public:
 protected:
 	void SetParent( DDObject* object ) { m_pParent = object; }
 
-	DDObject* m_pParent;
-	std::shared_ptr<DDRenderer> m_pRenderer;
-	std::list<std::shared_ptr<DDObject>> m_ChildList;
-
+	DDObject*		m_pParent = nullptr;
+	std::list<std::shared_ptr<DDObject>>	m_ChildList;
+		
 	D3DXMATRIXA16	m_Matrix;			// world coordinate
 	D3DXMATRIXA16	m_MatrixTransform;	// local coordinate
 	D3DXMATRIXA16	m_MatrixRotation;
-	DDVECTOR3		m_Position;
-	DDVECTOR3		m_Rotation;
-	DDVECTOR3		m_Scale;
+	DDVECTOR3		m_Position{ .0f, .0f, .0f };	// c++11에서 나온 균일한 중괄호 초기화라함.
+	DDVECTOR3		m_Rotation{ .0f, .0f, .0f };
+	DDVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
-	bool m_Visible;
+	bool			m_Visible{ true };
 
 private : 
 	// NVI 함수 내용

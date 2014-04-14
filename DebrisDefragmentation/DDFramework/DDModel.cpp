@@ -3,24 +3,20 @@
 #include "DDRenderer.h"
 #include "DDApplication.h"
 
-DDModel::DDModel():
-m_pMesh(NULL),
-m_pMeshMaterials(NULL),
-m_pMeshTexture(NULL),
-m_dwNumMaterials(0L)
+DDModel::DDModel()
 {
 }
 
 DDModel::DDModel( wchar_t* path )
 {
-	m_pD3DDevice = DDApplication::GetInstance()->GetRenderer()->GetDevice();
+	//m_pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	initModel( path );
 	SetNormalVector();
 }
 
 DDModel::DDModel( wchar_t* path, LPDIRECT3DDEVICE9 device )
 {
-	m_pD3DDevice = device;
+	//m_pD3DDevice = device;
 	initModel( path );
 	SetNormalVector();
 }
@@ -44,15 +40,13 @@ DDModel* DDModel::Create( wchar_t* filePath, LPDIRECT3DDEVICE9 device )
 
 bool DDModel::initModel( wchar_t* path )
 {
-	LPD3DXBUFFER pD3DXMtrlBuffer;	
+	LPD3DXBUFFER		pD3DXMtrlBuffer;	
+	LPDIRECT3DDEVICE9	pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 
 	std::wstring xfilePath = L".\\Resources\\3DModel\\";
 	xfilePath.append(path);
 
-	HRESULT hr;
-	hr = D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, m_pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh );
-
-	if ( FAILED( hr ) )
+	if ( FAILED( D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh ) ) )
 	{
 		// x file loading error
 		return false;
@@ -85,7 +79,7 @@ bool DDModel::initModel( wchar_t* path )
  			std::string bmpPath = ".\\Resources\\3DModel\\";
 			bmpPath.append(d3dxMaterials[i].pTextureFilename );
 
-			if ( FAILED( D3DXCreateTextureFromFileA( m_pD3DDevice, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )
+			if ( FAILED( D3DXCreateTextureFromFileA( pD3DDevice, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )
 			{
 				/*MessageBox( NULL, L"no texture map", L"Meshes.exe", MB_OK );*/
 				// no texture error
@@ -109,7 +103,7 @@ bool DDModel::SetNormalVector()
 		m_pMesh->CloneMeshFVF(
 			D3DXMESH_MANAGED,
 			m_pMesh->GetFVF() | D3DFVF_NORMAL,  //이곳에 추가
-			m_pD3DDevice,
+			DDRenderer::GetInstance()->GetDevice(),
 			&pTempMesh );
 
 		// 법선을 계산한다.
@@ -159,10 +153,11 @@ bool DDModel::Cleanup()
 
 void DDModel::RenderItSelf()
 {
+	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	for ( DWORD i = 0; i < m_dwNumMaterials; ++i )
 	{
-		m_pD3DDevice->SetMaterial( &m_pMeshMaterials[i] );
-		m_pD3DDevice->SetTexture( 0, m_pMeshTexture[i] );
+		pD3DDevice->SetMaterial( &m_pMeshMaterials[i] );
+		pD3DDevice->SetTexture( 0, m_pMeshTexture[i] );
 
 		m_pMesh->DrawSubset( i );
 	}

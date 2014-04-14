@@ -13,6 +13,5 @@ public:
 
 private:
 	virtual void UpdateItSelf( float dTime );
-	float tmpTimeCounter;
 };
 

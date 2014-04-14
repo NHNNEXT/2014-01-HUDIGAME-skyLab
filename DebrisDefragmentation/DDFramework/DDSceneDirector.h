@@ -7,13 +7,11 @@
 class DDScene;
 
 // agebreak : 씬으로 구별하고, 씬디렉터를 두는 프레임워크 구조는 좋은 구조!
-class DDSceneDirector
+class DDSceneDirector : public Singleton<DDSceneDirector>
 {
 public:
 	DDSceneDirector();
 	~DDSceneDirector();
-
-	static std::shared_ptr<DDSceneDirector> Create();
 
 	bool Release();
 	bool Init();
@@ -22,9 +20,9 @@ public:
 
 	// 조심해!!
 	// 자식 클래스들을 쓸 수가 없음. 외부에서 만들어야하나 ㅠ 
-	void ChangeScene( std::wstring sceneName );
-	bool CreateScene( std::wstring sceneName );
-	bool DeleteScene( std::wstring sceneName );
+// 	void ChangeScene( std::wstring sceneName );
+// 	bool CreateScene( std::wstring sceneName );
+// 	bool DeleteScene( std::wstring sceneName );
 	// 얘네 셋
 
 	DDScene* GetCurrentScene() { return m_pCurrentScene; }
@@ -33,8 +31,7 @@ public:
 	void RenderScene();
 
 private:
-	std::map<std::wstring, std::shared_ptr<DDScene>> m_SceneList;
-	static DDSceneDirector* m_pInstance;	
-	DDScene*		m_pCurrentScene;
+	std::map<std::wstring, std::shared_ptr<DDScene>> m_SceneList;	
+	DDScene*				m_pCurrentScene = nullptr;
 };
 

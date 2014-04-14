@@ -23,11 +23,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	PlayScene* scene = PlayScene::Create();
 	scene->Init();
-
-	// GameManager::GetInstance()->SetCurrentScene( scene );
-// 	app->GetSceneDirector()->CreateScene( L"playScene" );
-// 	app->GetSceneDirector()->ChangeScene( L"playScene");
-	app->GetSceneDirector()->ChangeScene( scene );
+	
+	DDSceneDirector::GetInstance()->ChangeScene( scene );
 	
 	app->Run();
 	app->Release();
