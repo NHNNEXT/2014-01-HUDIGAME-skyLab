@@ -233,13 +233,11 @@ void ClientSession::UpdateDone( )
 
 
 
-void ClientSession::LoginDone( int pid, double x, double y, double z, const char* name )
+void ClientSession::LoginDone( int pid )
 {
 	LoginResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId = pid;
-	// strcpy_s( mPlayerName, name );
-	// strcpy_s( outPacket.mName, name );
 
 	SendRequest( &outPacket );
 
@@ -311,7 +309,7 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// 로그인 됐으면 아이디 할당해서 보내줘야지
+	// 로그인 됐으면 플레이어 만들고
 	int playerId = GGameLogic->AddPlayer();
 	if ( playerId == -1 )
 	{
@@ -320,18 +318,10 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 	}
 
 	// 접속한 아이에게 아이디를 할당해준다.
-	LoginResult outPacket;
-	outPacket.mPlayerId = playerId;
-	SendRequest( &outPacket );
+	LoginDone( playerId );
 
-	// 다른 애들에게 플레이어가 추가되었다는 것을 널리 알린다.
-	// NewResult 
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
+	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
+	GClientManager->SyncAll();
 }
 
 REGISTER_HANDLER( PKT_CS_ACCELERATION )
@@ -345,13 +335,19 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 게임 로직에 적용하고 
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	if ( !GGameLogic->SetRotation( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) )
+	{
+		return;
+	}
 
+	if ( !GGameLogic->SetAcceleration( inPacket.mPlayerId ) )
+	{
+		return;
+	}
+
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
-
-	// 게임 데이터에서 지금 플레이어 관련 데이터 받아와서 넣자
-	// 방향은 방향 전환 요청에서만 처리하는 게 좋으려나...
 
 	outPacket.mRotationX = inPacket.mRotationX;
 	outPacket.mRotationY = inPacket.mRotationY;
@@ -375,10 +371,20 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 게임 로직에 적용하고 
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	if ( !GGameLogic->Stop( inPacket.mPlayerId ) )
+	{
+		return;
+	}
 
+	DDVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
+
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	StopResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -398,8 +404,12 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 게임 로직에 적용하고 
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	if ( !GGameLogic->SetRotation( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) )
+	{
+		return;
+	}
 
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	RotationResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
 
@@ -424,14 +434,6 @@ void ClientSession::HandleSyncRequest( SyncRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// 요청받은 캐릭터 데이터를 받아와서 방송!
-
-	SyncResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
+	// 싱크 요청이 오면 전체 동기화
+	GClientManager->SyncAll();
 }

@@ -2,7 +2,8 @@
 #include "PlayerCharacter.h"
 #include "Physics.h"
 
-PlayerCharacter::PlayerCharacter() :
+PlayerCharacter::PlayerCharacter( int playerId ) :
+m_PlayerId( playerId ),
 m_Position( .0f, .0f, .0f ), 
 m_Rotation( .0f, .0f, .0f ),
 m_Scale( 1.0f, 1.0f, 1.0f ),

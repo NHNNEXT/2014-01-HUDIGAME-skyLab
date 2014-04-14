@@ -10,7 +10,7 @@ class PlayerCharacter
 	// 게임 내 판정이 필요한 것은 모두 서버에서 관리하고
 	// 캐릭터들의 움직임을 계산하는 부분은 클라에서도 동시에 계산
 public:
-	PlayerCharacter();
+	PlayerCharacter( int playerId );
 	~PlayerCharacter();
 
 	void update( float dTime );
@@ -24,12 +24,16 @@ public:
 	void RotateDicrection( float y, float x );
 
 	// player 상태 가져오기
+	int GetPlayerId() { return m_PlayerId; }
 	DDVECTOR3 GetPosition() { return m_Position; }
 	DDVECTOR3 GetScale() { return m_Scale; }
 	DDVECTOR3 GetRotation() { return m_Rotation; }
+	DDVECTOR3 GetVelocity( ) { return m_Velocity; }
 
 private:
 	DDVECTOR3 GetViewDirection();
+
+	int				m_PlayerId = -1;
 
 	DDVECTOR3		m_Position;
 	DDVECTOR3		m_Rotation;

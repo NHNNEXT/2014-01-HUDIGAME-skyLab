@@ -13,7 +13,7 @@ public:
 	ClientManager() : mLastGCTick( 0 ), mLastClientWorkTick( 0 )
 	{}
 
-	void Init() { m_GameLogic.Init(); }
+	void Init() { GGameLogic = new GameLogic; GGameLogic->Init(); }
 
 	ClientSession* CreateClient( SOCKET sock );
 
@@ -21,6 +21,9 @@ public:
 
 	void OnPeriodWork();
 	void FlushClientSend();
+
+	// 현재 게임 상태를 접속중인 모든 클라이언트에 동기화 시킴
+	void SyncAll();
 
 private:
 	void CollectGarbageSessions();
@@ -32,8 +35,6 @@ private:
 
 	DWORD		mLastGCTick;
 	DWORD		mLastClientWorkTick;
-
-	GameLogic	m_GameLogic;
 };
 
 extern ClientManager* GClientManager;

@@ -21,18 +21,19 @@ public:
 	void Update();
 
 	// set Player data
-	void SetPosition( unsigned int playerId, float x, float y, float z );
-	void SetScale( unsigned int playerId, float scaleX, float scaleY, float scaleZ );
-	void SetRotation( unsigned int playerId, float rotationX, float rotationY, float rotationZ );
+	bool SetPosition( unsigned int playerId, float x, float y, float z );
+	bool SetScale( unsigned int playerId, float scaleX, float scaleY, float scaleZ );
+	bool SetRotation( unsigned int playerId, float rotationX, float rotationY, float rotationZ );
 
-	void SetAcceleration( unsigned int playerId );
-	void Stop( unsigned int playerId );
-	void RotateDicrection( unsigned int playerId, float y, float x );
+	bool SetAcceleration( unsigned int playerId );
+	bool Stop( unsigned int playerId );
+	bool RotateDicrection( unsigned int playerId, float y, float x );
 
 	// get Player data
 	DDVECTOR3 GetPosition( unsigned int playerId );
 	DDVECTOR3 GetScale( unsigned int playerId );
 	DDVECTOR3 GetRotation( unsigned int playerId );
+	DDVECTOR3 GetVelocity( unsigned int playerId );
 
 	// get other object data
 	// 지금은 없습니다.

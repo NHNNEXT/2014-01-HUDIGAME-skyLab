@@ -64,12 +64,14 @@ public:
 	void	HandleRotationRequest( RotationRequest& inPacket );
 	void	HandleSyncRequest( SyncRequest& inPacket );
 
+	int		GetPlayerId() { return mPlayerId; }
+
 private:
 
 	bool	SendFlush(); ///< Send요청 중인것들 모아서 보냄
 	void	OnTick();
 
-	void	LoginDone( int pid, double x, double y, double z, const char* name );
+	void	LoginDone( int pid );
 	void	UpdateDone();
 
 

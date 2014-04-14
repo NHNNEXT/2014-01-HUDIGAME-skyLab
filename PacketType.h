@@ -100,10 +100,6 @@ struct AccelerarionResult : public PacketHeader
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
 
-		mAccelerarionX = 0.0f;
-		mAccelerarionY = 0.0f;
-		mAccelerarionZ = 0.0f;
-
 		mRotationX = 0.0f;
 		mRotationY = 0.0f;
 		mRotationZ = 0.0f;
@@ -118,10 +114,6 @@ struct AccelerarionResult : public PacketHeader
 	double mVelocityX;
 	double mVelocityY;
 	double mVelocityZ;
-
-	double mAccelerarionX;
-	double mAccelerarionY;
-	double mAccelerarionZ;
 
 	double mRotationX;
 	double mRotationY;
@@ -149,9 +141,17 @@ struct StopResult : public PacketHeader
 		mSize = sizeof( StopResult );
 		mType = PKT_SC_STOP;
 		mPlayerId = -1;
+
+		mPosX = 0.0f;
+		mPosY = 0.0f;
+		mPosZ = 0.0f;
 	}
 
 	int		mPlayerId;
+
+	double mPosX;
+	double mPosY;
+	double mPosZ;
 };
 
 // 회전 좀 하겠습니다. - 나중에는 각도만이 아니라 회전 변환 행렬 전체를 보내야?
@@ -217,12 +217,28 @@ struct SyncResult : public PacketHeader
 		mType = PKT_SC_SYNC;
 		mPlayerId = -1;
 
+		mPosX = 0.0f;
+		mPosY = 0.0f;
+		mPosZ = 0.0f;
+
+		mVelocityX = 0.0f;
+		mVelocityY = 0.0f;
+		mVelocityZ = 0.0f;
+
 		mRotationX = 0.0f;
 		mRotationY = 0.0f;
 		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
+
+	double mPosX;
+	double mPosY;
+	double mPosZ;
+
+	double mVelocityX;
+	double mVelocityY;
+	double mVelocityZ;
 
 	double mRotationX;
 	double mRotationY;

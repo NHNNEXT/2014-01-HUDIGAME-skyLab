@@ -104,3 +104,43 @@ void ClientManager::FlushClientSend()
 		}
 	}
 }
+
+void ClientManager::SyncAll( )
+{
+	// 조심해!
+	// 작업 오버헤드가 너무 큰 것 같은데...
+	// 일단 이번 주는 컴퓨터를 믿고 그냥 ㄱㄱ
+	int currentSessionId = -1;
+
+	for ( ClientList::const_iterator it = mClientList.begin( ); it != mClientList.end( ); ++it )
+	{
+		ClientSession* client = it->second;
+		currentSessionId = client->GetPlayerId();
+
+		if ( currentSessionId != -1 )
+		{
+			DDVECTOR3 position = GGameLogic->GetPosition( currentSessionId );
+			DDVECTOR3 rotation = GGameLogic->GetRotation( currentSessionId );
+			DDVECTOR3 velocity = GGameLogic->GetRotation( currentSessionId );
+			// scale은 일단 생략
+
+			SyncResult outPacket;
+			outPacket.mPlayerId = currentSessionId;
+
+			outPacket.mPosX = position.x;
+			outPacket.mPosY = position.y;
+			outPacket.mPosZ = position.z;
+
+			outPacket.mRotationX = rotation.x;
+			outPacket.mRotationY = rotation.y;
+			outPacket.mRotationZ = rotation.z;
+
+			outPacket.mVelocityX = velocity.x;
+			outPacket.mVelocityY = velocity.y;
+			outPacket.mVelocityZ = velocity.z;
+
+			// 발신지에 상관없이 전체에 전송하기 위해서 from을 nullptr로...
+			BroadcastPacket( nullptr, &outPacket );
+		}
+	}
+}
