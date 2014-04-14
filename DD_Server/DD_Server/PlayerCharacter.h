@@ -1,0 +1,44 @@
+#pragma once
+
+#include "GameConfig.h"
+
+class PlayerCharacter
+{
+	// 아무래도 임시 파일이 될 듯
+	// 클라이언트의 로직 부분을 아예 분리해서 서버에서도 공유할 수 있도록 해야
+	// 로직도 두 부분으로 나눌 수 있어야 함 
+	// 게임 내 판정이 필요한 것은 모두 서버에서 관리하고
+	// 캐릭터들의 움직임을 계산하는 부분은 클라에서도 동시에 계산
+public:
+	PlayerCharacter();
+	~PlayerCharacter();
+
+	void update( float dTime );
+
+	void SetPosition( float x, float y, float z ) { m_Position = DDVECTOR3( x, y, z ); }
+	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = DDVECTOR3( scaleX, scaleY, scaleZ ); }
+	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = DDVECTOR3( rotationX, rotationY, rotationZ ); }
+
+	void SetAcceleration();
+	void Stop();
+	void RotateDicrection( float y, float x );
+
+	// player 상태 가져오기
+	DDVECTOR3 GetPosition() { return m_Position; }
+	DDVECTOR3 GetScale() { return m_Scale; }
+	DDVECTOR3 GetRotation() { return m_Rotation; }
+
+private:
+	DDVECTOR3 GetViewDirection();
+
+	DDVECTOR3		m_Position;
+	DDVECTOR3		m_Rotation;
+	DDVECTOR3		m_Scale;
+
+	DDVECTOR3		m_Acceleration; 
+	DDVECTOR3		m_Velocity;
+
+	bool		m_IsAccelerating;
+	DWORD		m_AccelerationStart;
+};
+
