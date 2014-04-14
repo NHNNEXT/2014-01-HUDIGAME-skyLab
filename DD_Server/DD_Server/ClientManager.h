@@ -12,6 +12,7 @@ class ClientManager
 public:
 	ClientManager() : mLastGCTick( 0 ), mLastClientWorkTick( 0 )
 	{}
+	~ClientManager() { delete GGameLogic; }
 
 	void Init() { GGameLogic = new GameLogic; GGameLogic->Init(); }
 
