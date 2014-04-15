@@ -25,6 +25,11 @@ void NetworkManager::Connect()
 	DDNetwork::GetInstance()->Connect( "localhost", 9001 );
 }
 
+void NetworkManager::Disconnect()
+{
+	DDNetwork::GetInstance()->Disconnect();
+}
+
 void NetworkManager::SendAcceleration()
 {
 	if ( m_MyPlayerId == -1 )
@@ -84,19 +89,14 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 	// 일단 저기서 얼마만큼 읽어와서 해당 패킷을 구성하고
 	LoginResult inPacket = reinterpret_cast<LoginResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-	
-	// 로그인 해있는 상태에서 다른 플레이어가 추가로 로그인 할 경우
-	if ( -1 != m_MyPlayerId )
-	{
-		GGameLogic->AddPlayer();	
-		//GGameLogic->GetScene()->AddChild(GGameLogic->getp)
-		return;
-	}
 
 	// 사용자의 player가 최초 로그인한 경우
 	m_MyPlayerId = inPacket.mPlayerId;
 
-	GGameLogic->AddPlayer();
+	if ( !GGameLogic->AddPlayer( m_MyPlayerId ) )
+	{
+		// 어떻게 할까요?
+	}
 }
 
 void NetworkManager::HandleAccelerationResult( DDPacketHeader& pktBase )

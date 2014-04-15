@@ -23,21 +23,18 @@ void GameLogic::Init()
 	// InitializeSRWLock( &m_SRWLock );
 }
 
-int GameLogic::AddPlayer()
+bool GameLogic::AddPlayer(int playerId)
 {
-	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
-	{
-		if ( m_PlayerList[playerId] == nullptr )
-		{
-			m_PlayerList[playerId] = new Player( playerId );
-			m_PlayerList[playerId]->Init();
+	if ( playerId < 0 || playerId >= MAX_PLAYER_NUM )
+		return false;
 
-			++m_CurrentPlayers;
-			return playerId;
-		}
-	}
+	if ( m_PlayerList[playerId] != nullptr )
+		return false;
 
-	return -1;
+	m_PlayerList[playerId] = new Player();
+	m_PlayerList[playerId]->Init();
+
+	return true;
 }
 
 void GameLogic::DeletePlayer( int playerId )
@@ -45,6 +42,8 @@ void GameLogic::DeletePlayer( int playerId )
 	if ( m_PlayerList[playerId] != nullptr )
 	{
 		delete m_PlayerList[playerId];
+		m_PlayerList[playerId] = nullptr;
+
 		--m_CurrentPlayers;
 	}
 }

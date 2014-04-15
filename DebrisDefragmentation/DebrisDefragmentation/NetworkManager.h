@@ -10,6 +10,7 @@ public:
 
 	void Init();
 	void Connect();
+	void Disconnect();
 
 	void SendAcceleration();
 	void SendStop();

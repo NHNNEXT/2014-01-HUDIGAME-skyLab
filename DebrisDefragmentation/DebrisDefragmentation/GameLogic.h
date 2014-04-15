@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "DDScene.h"
 
-const unsigned int MAX_PLAYER_NUM = 6;
+const unsigned int MAX_PLAYER_NUM = 8;
 
 class GameLogic
 {
@@ -17,7 +17,7 @@ public:
 	// 로그인 하면 추가한다.
 	// 성공하면 id를 준다.
 		
-	int				AddPlayer();
+	bool AddPlayer( int playerId );
 
 	// 조심해!!
 	// getplayer에 const 땠음.. addChild 하기위해. 캡슐화..ㅠㅠ
@@ -62,9 +62,6 @@ public:
 	// 지금은 없습니다.
 
 private:
-	// 지금은 싱글 스레드니까 락은 필요없다.
-	// SRWLOCK m_SRWLock;
-
 	DWORD m_PrevTime = 0;
 
 	// player list
