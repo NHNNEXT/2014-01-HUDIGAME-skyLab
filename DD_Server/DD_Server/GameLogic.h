@@ -45,7 +45,7 @@ private:
 	DWORD m_PrevTime = 0;
 
 	// player list
-	PlayerCharacter* m_PlayerList[MAX_PLAYER_NUM];
+	PlayerCharacter* m_PlayerList[MAX_PLAYER_NUM]; ///# std::array 추천.
 
 	// other objects
 	// 지금은 없음요

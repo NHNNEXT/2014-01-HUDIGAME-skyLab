@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Physics.h"
 
 Physics::Physics()
@@ -35,6 +35,7 @@ void Physics::CalcCurrentPosition( _Inout_ DDVECTOR3* pos, _Inout_ DDVECTOR3* ve
 	pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
 }
 
+///# 이런건 걍 리턴으로 하지 왜 인자로 꼭 출력을 받는거지?
 void Physics::GetNormalVector( _In_ DDVECTOR3* srcVec, _Out_ DDVECTOR3* normalVec )
 {
 	float length = sqrtf( srcVec->x * srcVec->x + srcVec->y * srcVec->y + srcVec->z * srcVec->z );

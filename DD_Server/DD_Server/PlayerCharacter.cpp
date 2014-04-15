@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "PlayerCharacter.h"
 #include "Physics.h"
 
@@ -23,9 +23,9 @@ void PlayerCharacter::update( float dTime )
 {
 	if ( m_IsAccelerating )
 	{
-		if ( timeGetTime() - m_AccelerationStart > 500 )
+		if ( timeGetTime() - m_AccelerationStart > 500 ) ///# ìˆ«ì ì´ë ‡ê²Œ ë°•ì•„ ë„£ëŠ”ê±°ëŠ” ê¸°ìˆ  ë¶€ì±„ë¡œ ë˜ëŒì•„ì˜´ ã…‹ã…‹
 		{
-			// °¡¼Ó ³¡³µ´Ù
+			// ê°€ì† ëë‚¬ë‹¤
 			m_IsAccelerating = false;
 			m_Acceleration = DDVECTOR3( 0, 0, 0 );
 		}
@@ -41,10 +41,10 @@ DDVECTOR3 PlayerCharacter::GetViewDirection()
 
 	D3DXMatrixIdentity( &tempMatrix );
 
-	// rotation¿¡¼­ ÄõÅÍ´Ï¾ğ »ı¼º, yaw ptich roll Àº y, x, z ¼ø¼­ÀÓ
+	// rotationì—ì„œ ì¿¼í„°ë‹ˆì–¸ ìƒì„±, yaw ptich roll ì€ y, x, z ìˆœì„œì„
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
 
-	// matrix¸¦ affineº¯È¯ÀÌ Àû¿ëµÈ ÇüÅÂ·Î º¯È¯ - »ı·« °¡´É?
+	// matrixë¥¼ affineë³€í™˜ì´ ì ìš©ëœ í˜•íƒœë¡œ ë³€í™˜ - ìƒëµ ê°€ëŠ¥?
 	D3DXMatrixTransformation( &tempMatrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 
 	return D3DXVECTOR3( tempMatrix._31, tempMatrix._32, tempMatrix._33 );
@@ -52,8 +52,8 @@ DDVECTOR3 PlayerCharacter::GetViewDirection()
 
 void PlayerCharacter::SetAcceleration()
 {
-	// °¡¼Ó ½ÃÀÛ ½ÃÁ¡ ±â·Ï - Å¸ÀÓ ½ºÅÆÇÁ·Î ¹®Á¦ ÇØ°á
-	// ³ªÁß¿¡´Â Å¸ÀÌ¸Ó ¸¸µé¾î¼­ ½áº¼±î?
+	// ê°€ì† ì‹œì‘ ì‹œì  ê¸°ë¡ - íƒ€ì„ ìŠ¤íƒ¬í”„ë¡œ ë¬¸ì œ í•´ê²°
+	// ë‚˜ì¤‘ì—ëŠ” íƒ€ì´ë¨¸ ë§Œë“¤ì–´ì„œ ì¨ë³¼ê¹Œ?
 	m_AccelerationStart = timeGetTime();
 	m_IsAccelerating = true;
 
@@ -61,19 +61,20 @@ void PlayerCharacter::SetAcceleration()
 	DDVECTOR3 viewDirection( GetViewDirection() );
 	Physics::GetNormalVector( &viewDirection, &normalVec );
 
-	// Á¶½ÉÇØ!
-	// °¡¼Óµµ °¡ÁßÄ¡ ÇÏµå ÄÚµù ¼öÁ¤ ÇÒ °Í
+	// ì¡°ì‹¬í•´!
+	// ê°€ì†ë„ ê°€ì¤‘ì¹˜ í•˜ë“œ ì½”ë”© ìˆ˜ì • í•  ê²ƒ
 	m_Acceleration += ( viewDirection * 1.0f );
 }
 
 void PlayerCharacter::Stop()
 {
-	// Àåºñ¸¦ Á¤ÁöÇÕ´Ï´Ù. ¾î ¾ÈµÇÀİ¾Æ? ¾î? Àú, Á¤Áö°¡ ¾È µÅ, Á¤Áö½ÃÅ³ ¼ö°¡ ¾ø¾î. ¾È-µÅ!
+	// ì¥ë¹„ë¥¼ ì •ì§€í•©ë‹ˆë‹¤. ì–´ ì•ˆë˜ì–ì•„? ì–´? ì €, ì •ì§€ê°€ ì•ˆ ë¼, ì •ì§€ì‹œí‚¬ ìˆ˜ê°€ ì—†ì–´. ì•ˆ-ë¼!
+	///# ì•™ëŒ€!
 	m_Acceleration = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 	m_Velocity = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 }
 
 void PlayerCharacter::RotateDicrection( float y, float x )
 {
-	SetRotation( x / 10, y / 10, 0 );
+	SetRotation( x / 10, y / 10, 0 ); ///# í•˜ë“œ ì½”ë”© ã…‹
 }

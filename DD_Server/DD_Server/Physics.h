@@ -1,38 +1,39 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameConfig.h"
 
 /*
-ÀÛ¼ºÀÚ : ÃÖ°æ¿í
-ÀÛ¼ºÀÏ : 2014. 4. 6
-³»¿ë : ¹°¸®Àû °è»ê ¼öÇà(¹°Ã¼ ¿îµ¿, È¸Àü, Ãæµ¹ µî)
+ìž‘ì„±ìž : ìµœê²½ìš±
+ìž‘ì„±ì¼ : 2014. 4. 6
+ë‚´ìš© : ë¬¼ë¦¬ì  ê³„ì‚° ìˆ˜í–‰(ë¬¼ì²´ ìš´ë™, íšŒì „, ì¶©ëŒ ë“±)
 
-ÀÏ´Ü ´ÙÀ½ ÁÖ ·ÎÁ÷ ¸¸µé±â Àü¿¡´Â º¹»çÇØ¼­ ¾¹´Ï´Ù ¤Ð
+ì¼ë‹¨ ë‹¤ìŒ ì£¼ ë¡œì§ ë§Œë“¤ê¸° ì „ì—ëŠ” ë³µì‚¬í•´ì„œ ì”ë‹ˆë‹¤ ã… 
 */
 
 class Physics
 {
 public:
+	///# static í•¨ìˆ˜ë“¤ë¡œë§Œ êµ¬ì„±ëœ í´ëž˜ìŠ¤ë©´ ìƒì„±/ì†Œë©¸ìž ë”°ìœ„ ì˜ë¯¸ê°€ ì—†ë‹¤.
 	Physics();
 	~Physics();
 
 	/*
-	input : ÇöÀç À§Ä¡, ¼Óµµ, ½Ã°£ º¯È­·®
-	output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡
-	ÁÖÀÇ : µî¼Ó¿îµ¿ÀÎ °æ¿ì »ç¿ë, °¡¼Óµµ¿¡ ÀÇÇÑ °è»êÀÌ ÇÊ¿äÇÏ¸é ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+	input : í˜„ìž¬ ìœ„ì¹˜, ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+	output : ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ìœ„ì¹˜
+	ì£¼ì˜ : ë“±ì†ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ê°€ì†ë„ì— ì˜í•œ ê³„ì‚°ì´ í•„ìš”í•˜ë©´ ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 	*/
 	static void CalcCurrentPosition( _Inout_ DDVECTOR3* pos, const DDVECTOR3 &velocity, float dt );
 
 	/*
-	input : ÇöÀç À§Ä¡, ÇöÀç ¼Óµµ, °¡¼Óµµ, ½Ã°£ º¯È­·®
-	output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡, ¾÷µ¥ÀÌÆ®µÈ ÇöÀç ¼Óµµ
-	ÁÖÀÇ : °¡¼Óµµ¿¡ ÀÇÇÑ ¿îµ¿ÀÎ °æ¿ì »ç¿ë, µî¼Ó¿îµ¿ÀÇ °æ¿ì ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+	input : í˜„ìž¬ ìœ„ì¹˜, í˜„ìž¬ ì†ë„, ê°€ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+	output : ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ìœ„ì¹˜, ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ì†ë„
+	ì£¼ì˜ : ê°€ì†ë„ì— ì˜í•œ ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ë“±ì†ìš´ë™ì˜ ê²½ìš° ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 	*/
 	static void CalcCurrentPosition( _Inout_ DDVECTOR3* pos, _Inout_ DDVECTOR3* velocity, const DDVECTOR3 &acceleration, float dt );
 
 	/*
-	input : ¿øº» º¤ÅÍ¿Í °á°ú°¡ ÀúÀåµÉ º¤ÅÍ ÁÖ¼Ò
-	output : ¿øº» º¤ÅÍÀÇ ³ë¸Ö º¤ÅÍ
+	input : ì›ë³¸ ë²¡í„°ì™€ ê²°ê³¼ê°€ ì €ìž¥ë  ë²¡í„° ì£¼ì†Œ
+	output : ì›ë³¸ ë²¡í„°ì˜ ë…¸ë©€ ë²¡í„°
 	*/
 	static void GetNormalVector( _In_ DDVECTOR3* srcVec, _Out_ DDVECTOR3* normalVec );
 };

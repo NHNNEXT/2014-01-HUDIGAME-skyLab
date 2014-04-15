@@ -13,6 +13,7 @@ public:
 	PlayerCharacter( int playerId );
 	~PlayerCharacter();
 
+	///# 코딩 컨벤션 통일
 	void update( float dTime );
 
 	void SetPosition( float x, float y, float z ) { m_Position = DDVECTOR3( x, y, z ); }
@@ -24,11 +25,12 @@ public:
 	void RotateDicrection( float y, float x );
 
 	// player 상태 가져오기
-	int GetPlayerId() { return m_PlayerId; }
-	DDVECTOR3 GetPosition() { return m_Position; }
-	DDVECTOR3 GetScale() { return m_Scale; }
-	DDVECTOR3 GetRotation() { return m_Rotation; }
-	DDVECTOR3 GetVelocity( ) { return m_Velocity; }
+	///# const의 습관화.
+	int GetPlayerId() const { return m_PlayerId; }
+	DDVECTOR3 GetPosition() const { return m_Position; }
+	DDVECTOR3 GetScale() const { return m_Scale; }
+	DDVECTOR3 GetRotation() const { return m_Rotation; }
+	DDVECTOR3 GetVelocity( ) const { return m_Velocity; }
 
 private:
 	DDVECTOR3 GetViewDirection();
