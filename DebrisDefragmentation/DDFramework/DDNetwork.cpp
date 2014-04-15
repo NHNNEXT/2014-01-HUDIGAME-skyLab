@@ -32,6 +32,8 @@ bool DDNetwork::Init( )
 		return false;
 	}
 
+	HandleInit();
+
 	return true;
 }
 
@@ -86,7 +88,6 @@ void DDNetwork::ProcessPacket( )
 			break;
 		}
 
-		// 패킷을 온전히 복사해서 넘겨줘야 하나
 		m_HandlerTable[header.mType]( header );
 	}
 }

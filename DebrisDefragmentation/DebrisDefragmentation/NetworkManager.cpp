@@ -3,6 +3,7 @@
 #include "PacketType.h"
 
 NetworkManager* GNetworkManger = nullptr;
+int m_MyPlayerId = -1;
 
 NetworkManager::NetworkManager()
 {
@@ -62,29 +63,36 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 {
 	// 일단 저기서 얼마만큼 읽어와서 해당 패킷을 구성하고
 	LoginResult inPacket = reinterpret_cast<LoginResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
+	m_MyPlayerId = inPacket.mPlayerId;
+
 }
 
 void NetworkManager::HandleAccelerationResult( DDPacketHeader& pktBase )
 {
 	AccelerarionResult inPacket = reinterpret_cast<AccelerarionResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 {
 	StopResult inPacket = reinterpret_cast<StopResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 }
 
 void NetworkManager::HandleRotationResult( DDPacketHeader& pktBase )
 {
 	RotationResult inPacket = reinterpret_cast<RotationResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 {
 	SyncResult inPacket = reinterpret_cast<SyncResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 }

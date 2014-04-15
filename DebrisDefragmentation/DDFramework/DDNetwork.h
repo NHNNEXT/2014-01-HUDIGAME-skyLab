@@ -37,6 +37,7 @@ public:
 	static void DefaultHandler( DDPacketHeader& pktBase );
 
 	void HandleInit();
+	void GetPacketData( char* data, size_t bytes ) { m_RecvBuffer.Read( data, bytes ); }
 
 private:
 	void ProcessPacket( );

@@ -13,6 +13,7 @@ public:
 	void SendRotation( double y, double x );
 
 	void RegisterHandles();
+	void SetMyPlayerId( int id ) { m_MyPlayerId - id; }
 
 	static void HandleLoginResult( DDPacketHeader& pktBase );
 	static void HandleAccelerationResult( DDPacketHeader& pktBase );
@@ -21,7 +22,7 @@ public:
 	static void HandleSyncResult( DDPacketHeader& pktBase );
 
 private:
-	int m_MyPlayerId = -1;
+	static int m_MyPlayerId;
 };
 
 extern NetworkManager* GNetworkManger;
