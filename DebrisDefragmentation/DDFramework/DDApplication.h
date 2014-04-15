@@ -61,5 +61,6 @@ private:
 	int m_FrameCount = 0;
 
 	bool m_DestroyWindow = false;
+
 };
 

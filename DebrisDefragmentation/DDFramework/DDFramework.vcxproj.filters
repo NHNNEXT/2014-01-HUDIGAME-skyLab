@@ -39,6 +39,12 @@
     <Filter Include="Framework\Physics\DataStructure">
       <UniqueIdentifier>{b3cce718-4262-4135-94f1-62c272c035f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Network">
+      <UniqueIdentifier>{bb78fb88-6695-4668-ba70-bd9f236a448f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Network\PacketHandler">
+      <UniqueIdentifier>{988b5031-0ab0-4af0-8b04-4455ef92a285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -95,6 +101,18 @@
     <ClInclude Include="DDCamera.h">
       <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
+    <ClInclude Include="DDNetwork.h">
+      <Filter>Framework\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="DDCircularBuffer.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DDPacketHandler.h">
+      <Filter>Framework\Network\PacketHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="DDPacketHeader.h">
+      <Filter>Framework\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,6 +150,12 @@
     </ClCompile>
     <ClCompile Include="DDCamera.cpp">
       <Filter>Framework\Presentation\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DDNetwork.cpp">
+      <Filter>Framework\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="DDCircularBuffer.cpp">
+      <Filter>Framework\Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

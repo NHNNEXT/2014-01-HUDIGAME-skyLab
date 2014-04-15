@@ -82,6 +82,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DDCircularBuffer.h" />
     <ClInclude Include="DDApplication.h" />
     <ClInclude Include="DDCamera.h" />
     <ClInclude Include="DDConfig.h" />
@@ -90,7 +91,10 @@
     <ClInclude Include="DDLight.h" />
     <ClInclude Include="DDMacro.h" />
     <ClInclude Include="DDModel.h" />
+    <ClInclude Include="DDNetwork.h" />
     <ClInclude Include="DDObject.h" />
+    <ClInclude Include="DDPacketHeader.h" />
+    <ClInclude Include="DDPacketHandler.h" />
     <ClInclude Include="DDPhysics.h" />
     <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
@@ -101,11 +105,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DDCircularBuffer.cpp" />
     <ClCompile Include="DDApplication.cpp" />
     <ClCompile Include="DDCamera.cpp" />
     <ClCompile Include="DDInputSystem.cpp" />
     <ClCompile Include="DDLight.cpp" />
     <ClCompile Include="DDModel.cpp" />
+    <ClCompile Include="DDNetwork.cpp" />
     <ClCompile Include="DDObject.cpp" />
     <ClCompile Include="DDPhysics.cpp" />
     <ClCompile Include="DDPoint.cpp" />

@@ -1,5 +1,7 @@
 #pragma once
 
+#define WM_SOCKET 104
+
 template <typename T>
 inline void SafeDelete( T* &p )
 {

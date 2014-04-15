@@ -9,14 +9,12 @@ DDRenderer::~DDRenderer()
 {
 }
 
-
-// 프레임워크용
 bool DDRenderer::Init( HWND hWnd )
 {
 	return Init( hWnd, DDApplication::GetInstance()->GetScreenWidth(), DDApplication::GetInstance()->GetScreenHeight() );
 }
 
-// 툴용 overriding
+// overriding
 bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
 {
 	HRESULT hr = 0;
