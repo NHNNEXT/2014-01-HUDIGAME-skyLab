@@ -12,6 +12,8 @@
 
 #define BUFSIZE	1024*10
 
+typedef void( *HandlerFunc )( DDPacketHeader& pktBase );
+
 class DDNetwork : public Singleton<DDNetwork>
 {
 public:
@@ -24,11 +26,17 @@ public:
 
 	bool Init( );
 	bool Connect( const char* serverIP, int port );
+	void Disconnect();
 
 	void SetPacketHandler( short packetType, DDPacketHandler* handler );
 
 	void Write( const char* data, size_t size );
 	void Read( );
+
+	void RegisterHandler( int pktType, HandlerFunc handler );
+	static void DefaultHandler( DDPacketHeader& pktBase );
+
+	void HandleInit();
 
 private:
 	void ProcessPacket( );
@@ -40,5 +48,7 @@ private:
 	DDCircularBuffer m_RecvBuffer;
 	DDCircularBuffer m_SendBuffer;
 
-	std::map<short, DDPacketHandler*> m_PacketHandler;
+	// packet handle
+	// 조심해! 하드코딩
+	HandlerFunc m_HandlerTable[1024];
 };

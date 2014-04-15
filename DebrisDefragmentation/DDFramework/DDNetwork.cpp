@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "DDNetwork.h"
 #include "DDApplication.h"
+#include "DDPacketHeader.h"
 
 DDNetwork::DDNetwork( ) :
 m_RecvBuffer( DDCircularBuffer( BUFSIZE ) ),
 m_SendBuffer( DDCircularBuffer( BUFSIZE ) )
 {
 }
-
 
 DDNetwork::~DDNetwork()
 {
@@ -64,6 +64,10 @@ bool DDNetwork::Connect( const char* serverIP = "localhost", int port = 9001)
 	return true;
 }
 
+void DDNetwork::Disconnect()
+{
+	// 접속을 끊습니다.
+}
 
 /// 패킷처리 
 void DDNetwork::ProcessPacket( )
@@ -82,7 +86,8 @@ void DDNetwork::ProcessPacket( )
 			break;
 		}
 
-		m_PacketHandler[header.mType]->HandlingPacket( header.mType, &m_RecvBuffer, &header );
+		// 패킷을 온전히 복사해서 넘겨줘야 하나
+		m_HandlerTable[header.mType]( header );
 	}
 }
 
@@ -111,7 +116,18 @@ void DDNetwork::Read( )
 	}
 }
 
-void DDNetwork::SetPacketHandler( short packetType, DDPacketHandler* handler )
+void DDNetwork::DefaultHandler( DDPacketHeader& pktBase )
 {
-	m_PacketHandler[packetType] = handler;
+	DDNetwork::GetInstance()->Disconnect();
+}
+
+void DDNetwork::HandleInit()
+{
+	for ( int i = 0; i < 2014; ++i )
+		m_HandlerTable[i] = DefaultHandler;
+}
+
+void DDNetwork::RegisterHandler( int pktType, HandlerFunc handler )
+{
+	m_HandlerTable[pktType] = handler;
 }

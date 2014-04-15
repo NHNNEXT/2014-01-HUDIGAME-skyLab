@@ -94,7 +94,6 @@
     <ClInclude Include="DDNetwork.h" />
     <ClInclude Include="DDObject.h" />
     <ClInclude Include="DDPacketHeader.h" />
-    <ClInclude Include="DDPacketHandler.h" />
     <ClInclude Include="DDPhysics.h" />
     <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
