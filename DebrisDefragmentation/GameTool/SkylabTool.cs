@@ -38,6 +38,17 @@ namespace GameTool
 
         // test model
         private DDWrapper.GameModel m_Model = null;
+        // test model accelation & velocity
+        System.Diagnostics.Stopwatch m_StopWatch = new System.Diagnostics.Stopwatch();
+        bool g_IsAccelationInput = false;
+        float accelX = 0;
+        float accelY = 0;
+        float accelZ = 0;
+        float velocityX = 0;
+        float velocityY = 0;
+        float velocityZ = 0;
+        float previousTime = 0;
+        float currentTime = 0;
 
         // test light
         private DDWrapper.GameLight m_Light = null;
@@ -63,9 +74,7 @@ namespace GameTool
             // Direct3D 창에서 마우스 휠 이벤트 추가
            this.View.MouseWheel += new System.Windows.Forms.MouseEventHandler(CameraZoomInOut);
 
-            // Timer 가동
-           SettingTimer();
-
+           
             // Scene 추가
            m_Scene = new DDWrapper.GameObject();
        
@@ -74,6 +83,13 @@ namespace GameTool
            {
                AddLight();
                testMeshLoad();
+
+               // Timer 가동
+               SettingTimer();
+
+               // Stopwatch 가동
+               m_StopWatch.Start();
+
                AddCamera();
                DrawScreen();
            }
@@ -89,6 +105,7 @@ namespace GameTool
                 if (m_Renderer.BeginDraw())
                 {
                     // 여기서 뭔가 그리게 됩니다
+                    MovePlayer();
                     RenderScene();
                     UpdateCameraInformation();
                 }
@@ -180,13 +197,25 @@ namespace GameTool
                 m_PrevXPos = m_CurrentXPos;
                 m_PrevYPos = m_CurrentYPos;
             }
+            else
+            {
+                // 안쓰면 초기화
+                m_CurrentXPos = 0;
+                m_CurrentYPos = 0;
+                m_PrevXPos = 0;
+                m_PrevYPos = 0;
+            }
         }
 
         private void InputProc(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode  == Keys.W)
             {
-                
+                g_IsAccelationInput = true;
+            }
+            if (e.KeyCode == Keys.S)
+            {
+                StopPlayer();
             }
         } 
 
@@ -242,6 +271,49 @@ namespace GameTool
 
             string result = m_Hour.ToString() + " 시  " + m_Minute.ToString() + " 분  " + m_Second.ToString() + " 초";
             TimePass.Text = result;
+        }
+
+        private void StopPlayer()
+        {
+            accelX = 0;
+            accelY = 0;
+            accelZ = 0;
+            velocityX = 0;
+            velocityY = 0;
+            velocityZ = 0;
+        }
+
+        private void MovePlayer()
+        {
+            currentTime = m_StopWatch.ElapsedMilliseconds / 1000.0f;
+            float dt = currentTime - previousTime;
+            previousTime = currentTime;
+
+            if ( g_IsAccelationInput )
+            {
+                // 아 여기서 노말벡터 구해줘야함;; 그냥 뷰 디렉션 넣으면 ㄴㄴ해
+                accelX = m_Model.GetViewDirectionX() * 50;
+                accelY = m_Model.GetViewDirectionY() * 50;
+                accelZ = m_Model.GetViewDirectionZ() * 50;
+                
+                if ( m_Physics.AccelObject(m_Model, velocityX, velocityY, velocityZ, accelX, accelY, accelZ, dt) )
+                {
+                    velocityX += accelX * dt;
+                    velocityY += accelY * dt;
+                    velocityZ += accelZ * dt;
+                }
+                else
+                {
+                    g_IsAccelationInput = false;
+                    accelX = 0;
+                    accelY = 0;
+                    accelZ = 0;
+                }
+            }
+            else
+            {
+                m_Physics.MoveObject(m_Model, velocityX, velocityY, velocityZ, dt);
+            }
         }
     }
 }
