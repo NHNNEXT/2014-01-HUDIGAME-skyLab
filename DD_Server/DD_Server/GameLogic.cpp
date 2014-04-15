@@ -45,6 +45,11 @@ void GameLogic::DeletePlayer( int playerId )
 	}
 }
 
+bool GameLogic::IsValidId( int playerId )
+{
+	return ( m_PlayerList[playerId] != nullptr ) ? true : false;
+}
+
 void GameLogic::Update()
 {
 	DWORD currentTime = timeGetTime();
@@ -62,44 +67,75 @@ void GameLogic::Update()
 
 bool GameLogic::SetPosition( unsigned int playerId, float x, float y, float z )
 { 
-	m_PlayerList[playerId]->SetPosition( x, y, z ); 
+	if ( IsValidId( playerId ) )
+	{
+		m_PlayerList[playerId]->SetPosition( x, y, z );
 
-	return true;
+		return true;
+	}
+
+	return false;
 }
 
 bool GameLogic::SetScale( unsigned int playerId, float scaleX, float scaleY, float scaleZ )
 { 
+	if ( IsValidId( playerId ) )
+	{
+		m_PlayerList[playerId]->SetScale( scaleX, scaleY, scaleZ );
+
+		return true;
+	}
 	m_PlayerList[playerId]->SetScale( scaleX, scaleY, scaleZ );
 
-	return true;
+	return false;
 }
 
 bool GameLogic::SetRotation( unsigned int playerId, float rotationX, float rotationY, float rotationZ )
 { 
-	m_PlayerList[playerId]->SetRotation( rotationX, rotationY, rotationZ );
+	if ( IsValidId( playerId ) )
+	{
+		m_PlayerList[playerId]->SetRotation( rotationX, rotationY, rotationZ );
 
-	return true;
+		return true;
+	}
+
+	return false;
 }
 
 bool GameLogic::SetAcceleration( unsigned int playerId )
 { 
-	m_PlayerList[playerId]->SetAcceleration( );
+	if ( IsValidId( playerId ) )
+	{
+		m_PlayerList[playerId]->SetAcceleration();
 
-	return true;
+		return true;
+	}
+
+	return false;
 }
 
 bool GameLogic::Stop( unsigned int playerId )
 { 
-	m_PlayerList[playerId]->Stop( );
+	if ( IsValidId( playerId ) )
+	{
+		m_PlayerList[playerId]->Stop();
 
-	return true;
+		return true;
+	}
+
+	return false;
 }
 
 bool GameLogic::RotateDicrection( unsigned int playerId, float y, float x )
 {
-	m_PlayerList[playerId]->RotateDicrection( y, x );
+	if ( IsValidId( playerId ) )
+	{
+		m_PlayerList[playerId]->RotateDicrection( y, x );
 
-	return true;
+		return true;
+	}
+
+	return false;
 }
 
 DDVECTOR3 GameLogic::GetPosition( unsigned int playerId )

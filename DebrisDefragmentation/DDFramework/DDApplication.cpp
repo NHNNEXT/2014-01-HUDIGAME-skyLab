@@ -129,14 +129,6 @@ bool DDApplication::Release()
 
 int DDApplication::Run()
 {
-	// 조심해!!
-	// application 시작하면서 바로 접속 시도하는데
-	// 나중에는 씬에서 관리 할 수 있도록 변경할 것
-	if ( ! DDNetwork::GetInstance()->Connect( "localhost", 9001 ) )
-	{
-		return -1;
-	}
-
 	MSG msg;
 	ZeroMemory( &msg, sizeof( msg ) );
 

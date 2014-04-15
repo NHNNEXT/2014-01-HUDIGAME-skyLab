@@ -15,8 +15,21 @@ NetworkManager::~NetworkManager()
 {
 }
 
+void NetworkManager::Init()
+{
+	RegisterHandles();
+}
+
+void NetworkManager::Connect()
+{
+	DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+}
+
 void NetworkManager::SendAcceleration()
 {
+	if ( m_MyPlayerId == -1 )
+		return;
+
 	AccelerarionRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
@@ -30,6 +43,9 @@ void NetworkManager::SendAcceleration()
 
 void NetworkManager::SendStop()
 {
+	if ( m_MyPlayerId == -1 )
+		return;
+
 	StopRequest  outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
@@ -39,6 +55,9 @@ void NetworkManager::SendStop()
 
 void NetworkManager::SendRotation( double y, double x )
 {
+	if ( m_MyPlayerId == -1 )
+		return;
+
 	RotationRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
@@ -57,7 +76,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ACCELERATION, HandleAccelerationResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STOP, HandleStopResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ROTATION, HandleRotationResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SYNC, HandleLoginResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SYNC, HandleSyncResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -67,19 +86,17 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
 	// 로그인 해있는 상태에서 다른 플레이어가 추가로 로그인 할 경우
-	if ( NULL != m_MyPlayerId )
+	if ( -1 != m_MyPlayerId )
 	{
 		GGameLogic->AddPlayer();	
 		//GGameLogic->GetScene()->AddChild(GGameLogic->getp)
 		return;
 	}
-	
+
 	// 사용자의 player가 최초 로그인한 경우
 	m_MyPlayerId = inPacket.mPlayerId;
-	for ( unsigned int i = 0; i < m_MyPlayerId; ++i )
-	{		
-		GGameLogic->AddPlayer();
-	}
+
+	GGameLogic->AddPlayer();
 }
 
 void NetworkManager::HandleAccelerationResult( DDPacketHeader& pktBase )

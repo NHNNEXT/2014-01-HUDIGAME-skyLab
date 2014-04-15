@@ -20,6 +20,8 @@ public:
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
 	void Update();
 
+	bool IsValidId( int playerId );
+
 	// set Player data
 	bool SetPosition( unsigned int playerId, float x, float y, float z );
 	bool SetScale( unsigned int playerId, float scaleX, float scaleY, float scaleZ );

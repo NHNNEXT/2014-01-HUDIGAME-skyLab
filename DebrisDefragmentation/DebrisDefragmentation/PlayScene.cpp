@@ -61,7 +61,9 @@ void PlayScene::Init()
 		return;
 	}
 
-
+	GNetworkManager = new NetworkManager;
+	GNetworkManager->Init();
+	GNetworkManager->Connect();
 
 // 	RECT rect;
 // 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );

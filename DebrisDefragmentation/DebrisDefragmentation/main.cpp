@@ -18,8 +18,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	UNREFERENCED_PARAMETER( nCmdShow );
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
-		
-	GNetworkManager = new NetworkManager();	
 
 	DDApplication* app = DDApplication::GetInstance();
 	GGameLogic = new GameLogic();

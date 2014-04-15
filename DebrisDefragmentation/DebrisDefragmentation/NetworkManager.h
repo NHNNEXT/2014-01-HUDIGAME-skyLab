@@ -8,6 +8,9 @@ public:
 	NetworkManager();
 	~NetworkManager();
 
+	void Init();
+	void Connect();
+
 	void SendAcceleration();
 	void SendStop();
 	void SendRotation( double y, double x );
