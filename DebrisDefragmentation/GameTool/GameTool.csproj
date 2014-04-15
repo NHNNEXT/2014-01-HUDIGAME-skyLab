@@ -68,6 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\GameCamera.cs" />
+    <Compile Include="Class\GameLight.cs" />
+    <Compile Include="Class\GamePhysics.cs" />
+    <Compile Include="Class\GamePlayer.cs" />
     <Compile Include="SkylabTool.cs">
       <SubType>Form</SubType>
     </Compile>

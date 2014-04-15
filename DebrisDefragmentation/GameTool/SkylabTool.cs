@@ -22,6 +22,8 @@ namespace GameTool
         private DDWrapper.Renderer m_Renderer = null;
         // Camera
         private DDWrapper.GameCamera m_Camera = null;
+        // Physics
+        private DDWrapper.GamePhysics m_Physics = new DDWrapper.GamePhysics();
         
         // test Scene
         private DDWrapper.GameObject m_Scene = null;
@@ -31,6 +33,12 @@ namespace GameTool
 
         // test light
         private DDWrapper.GameLight m_Light = null;
+
+        // test mouseMovement values
+        float m_PrevXPos = 0.0f;
+        float m_CurrentXPos = 0.0f;
+        float m_PrevYPos = 0.0f;
+        float m_CurrentYPos = 0.0f;
 
         public skyLabTool()
         {
@@ -144,8 +152,22 @@ namespace GameTool
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                m_Scene.IncreaseRotationX(e.X);
-                m_Scene.IncreaseRotationY(e.Y);
+                m_CurrentXPos = e.X;
+                m_CurrentYPos = e.Y;
+
+                m_Scene.IncreaseRotationX(m_CurrentYPos - m_PrevYPos);
+                m_Scene.IncreaseRotationY(m_CurrentXPos - m_PrevXPos);
+
+                m_PrevXPos = m_CurrentXPos;
+                m_PrevYPos = m_CurrentYPos;
+            }
+        }
+
+        private void InputProc(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode  == Keys.W)
+            {
+                
             }
         } 
     }

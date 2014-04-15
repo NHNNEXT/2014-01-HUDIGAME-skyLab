@@ -47,6 +47,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cameraYpos = new System.Windows.Forms.TextBox();
             this.cameraXpos = new System.Windows.Forms.TextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -138,6 +139,7 @@
             this.View.MouseEnter += new System.EventHandler(this.ViewMouseEnver);
             this.View.MouseLeave += new System.EventHandler(this.ViewMouseLeave);
             this.View.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ViewMouseMove);
+            this.View.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.InputProc);
             // 
             // CameraConfig
             // 
@@ -255,6 +257,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
