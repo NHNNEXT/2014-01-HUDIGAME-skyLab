@@ -85,7 +85,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="GameData.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -96,9 +96,8 @@
     <ClInclude Include="..\..\PacketType.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Debris.h" />
-    <ClInclude Include="GameConfig.h" />
     <ClInclude Include="GameData.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Player.h" />

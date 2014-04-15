@@ -5,14 +5,25 @@
 #include "Character.h"
 
 Player::Player()
-: m_IsAccelerating( false ), m_AccelerationStart( 0 )
 {
+}
+
+Player::Player( int playerId )
+{
+	m_PlayerId = playerId;
 }
 
 
 Player::~Player()
 {
 }
+
+Player* Player::Create( int playerId )
+{
+	Player* pInstance = new Player( playerId );
+	return pInstance;
+}
+
 
 void Player::Init()
 {

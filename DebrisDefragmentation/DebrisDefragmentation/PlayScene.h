@@ -23,7 +23,7 @@ private:
 	void HideMousePointer();
 
 	DDLight*	m_pDirectonalLight;
-	Player*		m_pPlayer;
+//	Player*		m_pPlayer;
 
 	DDPoint		m_PrevMousePosition;
 };

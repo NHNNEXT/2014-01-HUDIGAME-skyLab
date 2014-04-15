@@ -1,9 +1,10 @@
 #include "NetworkManager.h"
 #include "DDNetwork.h"
 #include "PacketType.h"
+#include "GameLogic.h"
 
-NetworkManager* GNetworkManger = nullptr;
-int m_MyPlayerId = -1;
+NetworkManager* GNetworkManager = nullptr;
+int NetworkManager::m_MyPlayerId = -1;
 
 NetworkManager::NetworkManager()
 {
@@ -20,9 +21,9 @@ void NetworkManager::SendAcceleration()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mRotationX = 0.0f; // 일단 내 캐릭터 불러 올 수 있게 만들고 수정
-	outPacket.mRotationX = 0.0f; // 일단 내 캐릭터 불러 올 수 있게 만들고 수정
-	outPacket.mRotationX = 0.0f; // 일단 내 캐릭터 불러 올 수 있게 만들고 수정
+	outPacket.mRotationX = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationX(); 
+	outPacket.mRotationY = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationY();
+	outPacket.mRotationZ = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -42,9 +43,9 @@ void NetworkManager::SendRotation( double y, double x )
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mRotationX = 0.0f; // 일단 내 캐릭터 불러 올 수 있게 만들고 수정
-	outPacket.mRotationX = 0.0f; // 일단 내 캐릭터 불러 올 수 있게 만들고 수정
-	outPacket.mRotationX = 0.0f; // 일단 내 캐릭터 불러 올 수 있게 만들고 수정
+	outPacket.mRotationX = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationX();
+	outPacket.mRotationY = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationY();
+	outPacket.mRotationZ = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -65,8 +66,20 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 	LoginResult inPacket = reinterpret_cast<LoginResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
+	// 로그인 해있는 상태에서 다른 플레이어가 추가로 로그인 할 경우
+	if ( NULL != m_MyPlayerId )
+	{
+		GGameLogic->AddPlayer();	
+		//GGameLogic->GetScene()->AddChild(GGameLogic->getp)
+		return;
+	}
+	
+	// 사용자의 player가 최초 로그인한 경우
 	m_MyPlayerId = inPacket.mPlayerId;
-
+	for ( unsigned int i = 0; i < m_MyPlayerId; ++i )
+	{		
+		GGameLogic->AddPlayer();
+	}
 }
 
 void NetworkManager::HandleAccelerationResult( DDPacketHeader& pktBase )

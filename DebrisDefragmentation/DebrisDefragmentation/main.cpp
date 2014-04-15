@@ -4,6 +4,8 @@
 #include "PlayScene.h"
 #include "GameManager.h"
 #include "DDSceneDirector.h"
+#include "GameLogic.h"
+#include "NetworkManager.h"
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
@@ -17,8 +19,11 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
 		
+	GNetworkManager = new NetworkManager();	
+
 	DDApplication* app = DDApplication::GetInstance();
-	
+	GGameLogic = new GameLogic();
+
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 
 	PlayScene* scene = PlayScene::Create();

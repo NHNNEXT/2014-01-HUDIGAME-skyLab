@@ -56,7 +56,7 @@ bool DDNetwork::Connect( const char* serverIP = "localhost", int port = 9001)
 	SockAddr.sin_family = AF_INET;
 	SockAddr.sin_addr.s_addr = *( (unsigned long*)host->h_addr );
 
-	if ( SOCKET_ERROR == connect( m_Socket, (LPSOCKADDR)( &SockAddr ), sizeof( SockAddr ) ) )
+	if ( SOCKET_ERROR != connect( m_Socket, (LPSOCKADDR)( &SockAddr ), sizeof( SockAddr ) ) )
 	{
 		if ( GetLastError( ) != WSAEWOULDBLOCK )
 			return false;

@@ -43,15 +43,15 @@
     <ClCompile Include="Debris.cpp">
       <Filter>Scene\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>GameLogic</Filter>
-    </ClCompile>
     <ClCompile Include="GameData.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="NetworkManager.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic.cpp">
+      <Filter>GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,21 +70,18 @@
     <ClInclude Include="Debris.h">
       <Filter>Scene\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>GameLogic</Filter>
-    </ClInclude>
     <ClInclude Include="GameData.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PacketType.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="GameConfig.h">
-      <Filter>Win32</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="NetworkManager.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic.h">
+      <Filter>GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

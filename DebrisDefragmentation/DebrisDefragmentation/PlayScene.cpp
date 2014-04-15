@@ -6,6 +6,7 @@
 #include "DDLight.h"
 #include "Player.h"
 #include "NetworkManager.h"
+#include "GameLogic.h"
 
 PlayScene::PlayScene()
 {
@@ -15,7 +16,6 @@ PlayScene::PlayScene()
 PlayScene::PlayScene( std::wstring sceneName )
 {
 	m_SceneName = sceneName;
-	Init();
 }
 
 
@@ -27,12 +27,14 @@ void PlayScene::Init()
 {	
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
-
-	m_pPlayer = Player::Create();
-	m_pPlayer->Init();
 	
+	unsigned int cp = GGameLogic->GetCurrentPlayers();
+	for ( unsigned int i = 0; i < cp; ++i )
+	{
+		AddChild( GGameLogic->GetPlayer(i) );
+	}	
 	AddChild( m_pDirectonalLight );
-	AddChild( m_pPlayer );
+	
 
 	
 	// test debris
@@ -78,14 +80,14 @@ void PlayScene::UpdateItSelf( float dTime )
 	{
 		// m_pPlayer->SetAcceleration();
 		// 서버로 날리자
-		GNetworkManger->SendAcceleration();
+		GNetworkManager->SendAcceleration();
 	}
 	
 	if ( KEY_DOWN == GetKeyState( 0x53 ) )
 	{
 		// m_pPlayer->Stop( );
 		// 서버로 날려야지
-		GNetworkManger->SendStop();
+		GNetworkManager->SendStop();
 	}
 
 	// 마우스 좌표 변화를 받아온다
@@ -97,7 +99,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	//	);
 	
 	// 이것도 서버로 보내야지
-	GNetworkManger->SendRotation(
+	GNetworkManager->SendRotation(
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
 		currentMousePos.GetY() - m_PrevMousePosition.GetY()
 		);
