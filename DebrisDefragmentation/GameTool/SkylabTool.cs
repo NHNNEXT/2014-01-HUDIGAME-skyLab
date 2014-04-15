@@ -21,7 +21,10 @@ namespace GameTool
         Random r = new Random();
 
         // Timer
-        System.Windows.Forms.Timer m_timer = new Timer();
+        System.Windows.Forms.Timer m_Timer = new Timer();
+        int m_Second = 0;
+        int m_Minute = 0;
+        int m_Hour = 0;
 
         // Renderer
         private DDWrapper.Renderer m_Renderer = null;
@@ -56,9 +59,14 @@ namespace GameTool
             {
                 return;
             }
-
+            
+            // Direct3D 창에서 마우스 휠 이벤트 추가
            this.View.MouseWheel += new System.Windows.Forms.MouseEventHandler(CameraZoomInOut);
 
+            // Timer 가동
+           SettingTimer();
+
+            // Scene 추가
            m_Scene = new DDWrapper.GameObject();
        
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
@@ -205,6 +213,35 @@ namespace GameTool
         private void ResetCamera(object sender, EventArgs e)
         {
             m_Camera.SetPosition(0, 1, -5);
+        }
+
+        private void SettingTimer()
+        {
+            // 1초 주기로
+            m_Timer.Interval = 1000;
+
+            m_Timer.Tick += new EventHandler(UpdateClock);
+            m_Timer.Start();
+        }
+
+        private void UpdateClock(object sender, EventArgs e)
+        {
+            ++m_Second;
+
+            if (m_Second > 59)
+            {
+                ++m_Minute;
+                m_Second = 0;
+            }
+
+            if (m_Minute > 59)
+            {
+                ++m_Hour;
+                m_Minute = 0;
+            }
+
+            string result = m_Hour.ToString() + " 시  " + m_Minute.ToString() + " 분  " + m_Second.ToString() + " 초";
+            TimePass.Text = result;
         }
     }
 }

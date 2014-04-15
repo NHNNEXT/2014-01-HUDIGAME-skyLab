@@ -40,6 +40,7 @@
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.View = new System.Windows.Forms.PictureBox();
             this.CameraConfig = new System.Windows.Forms.GroupBox();
+            this.CameraResetBtn = new System.Windows.Forms.Button();
             this.CameraViewVector = new System.Windows.Forms.GroupBox();
             this.CameraViewVecZ = new System.Windows.Forms.TextBox();
             this.CameraViewVecY = new System.Windows.Forms.TextBox();
@@ -55,12 +56,15 @@
             this.cameraYpos = new System.Windows.Forms.TextBox();
             this.cameraXpos = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.CameraResetBtn = new System.Windows.Forms.Button();
+            this.TimerStatus = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TimePass = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.TimerStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -161,6 +165,18 @@
             this.CameraConfig.TabIndex = 2;
             this.CameraConfig.TabStop = false;
             this.CameraConfig.Text = "Camera";
+            // 
+            // CameraResetBtn
+            // 
+            this.CameraResetBtn.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.CameraResetBtn.ForeColor = System.Drawing.Color.Coral;
+            this.CameraResetBtn.Location = new System.Drawing.Point(6, 241);
+            this.CameraResetBtn.Name = "CameraResetBtn";
+            this.CameraResetBtn.Size = new System.Drawing.Size(119, 31);
+            this.CameraResetBtn.TabIndex = 5;
+            this.CameraResetBtn.Text = "Reset";
+            this.CameraResetBtn.UseVisualStyleBackColor = false;
+            this.CameraResetBtn.Click += new System.EventHandler(this.ResetCamera);
             // 
             // CameraViewVector
             // 
@@ -288,23 +304,41 @@
             this.cameraXpos.Size = new System.Drawing.Size(81, 21);
             this.cameraXpos.TabIndex = 0;
             // 
-            // CameraResetBtn
+            // TimerStatus
             // 
-            this.CameraResetBtn.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.CameraResetBtn.ForeColor = System.Drawing.Color.Coral;
-            this.CameraResetBtn.Location = new System.Drawing.Point(6, 241);
-            this.CameraResetBtn.Name = "CameraResetBtn";
-            this.CameraResetBtn.Size = new System.Drawing.Size(119, 31);
-            this.CameraResetBtn.TabIndex = 5;
-            this.CameraResetBtn.Text = "Reset";
-            this.CameraResetBtn.UseVisualStyleBackColor = false;
-            this.CameraResetBtn.Click += new System.EventHandler(this.ResetCamera);
+            this.TimerStatus.Controls.Add(this.TimePass);
+            this.TimerStatus.Controls.Add(this.label7);
+            this.TimerStatus.Location = new System.Drawing.Point(753, 28);
+            this.TimerStatus.Name = "TimerStatus";
+            this.TimerStatus.Size = new System.Drawing.Size(174, 43);
+            this.TimerStatus.TabIndex = 3;
+            this.TimerStatus.TabStop = false;
+            this.TimerStatus.Text = "Timer";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "시간 경과 :";
+            // 
+            // TimePass
+            // 
+            this.TimePass.AutoSize = true;
+            this.TimePass.Location = new System.Drawing.Point(77, 20);
+            this.TimePass.Name = "TimePass";
+            this.TimePass.Size = new System.Drawing.Size(65, 12);
+            this.TimePass.TabIndex = 1;
+            this.TimePass.Text = "00 : 00 : 00";
             // 
             // skyLabTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 684);
+            this.Controls.Add(this.TimerStatus);
             this.Controls.Add(this.CameraConfig);
             this.Controls.Add(this.View);
             this.Controls.Add(this.menuStrip1);
@@ -319,6 +353,8 @@
             this.CameraViewVector.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.TimerStatus.ResumeLayout(false);
+            this.TimerStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,6 +390,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button CameraResetBtn;
+        private System.Windows.Forms.GroupBox TimerStatus;
+        private System.Windows.Forms.Label TimePass;
+        private System.Windows.Forms.Label label7;
     }
 }
 
