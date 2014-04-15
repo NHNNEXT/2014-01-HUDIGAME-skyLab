@@ -54,6 +54,20 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 
 	mConnected = true;
 
+	// 로그인 됐으면 플레이어 만들고
+	int playerId = GGameLogic->AddPlayer();
+	if ( playerId == -1 )
+	{
+		// 더 못 들어온다.
+		Disconnect();
+	}
+
+	// 접속한 아이에게 아이디를 할당해준다.
+	LoginDone( playerId );
+
+	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
+	GClientManager->SyncAll();
+
 	return PostRecv( );
 }
 
@@ -305,6 +319,7 @@ REGISTER_HANDLER( PKT_CS_LOGIN )
 	session->HandleLoginRequest( inPacket );
 }
 
+// 지금은 접속과 동시에 같은 일을 처리하므로 쓰이지 않음 - 나중에 사용자 인증 기능같은 거 넣으면 사용
 void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );

@@ -22,7 +22,7 @@ public:
 	void Stop();
 
 	// 바라보는 방향 회전
-	void RotateDicrection(float y, float x);
+	void RotateDicrection(double y, double x);
 
 private:
 	virtual void UpdateItSelf( float dTime );

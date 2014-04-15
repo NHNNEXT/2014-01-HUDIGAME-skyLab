@@ -55,8 +55,7 @@ bool DDApplication::Init( std::wstring title, int width, int height )
 	// random seed 생성
 	srand( (unsigned int)time( NULL ) );
 
-	GDDNetwork = new DDNetwork;
-	GDDNetwork->Init();
+	DDNetwork::GetInstance()->Init();
 
 	return true;
 }
@@ -111,7 +110,8 @@ bool DDApplication::Release()
 		return true;
 	}
 
-	delete GDDNetwork;
+	DDNetwork::GetInstance()->Release();
+	DDNetwork::GetInstance()->ReleaseInstance();
 
 	// agebreak : 싱글톤 = 멤버 변수라니, 이상하지 않은가?
 	DDSceneDirector::GetInstance()->Release();
@@ -132,7 +132,7 @@ int DDApplication::Run()
 	// 조심해!!
 	// application 시작하면서 바로 접속 시도하는데
 	// 나중에는 씬에서 관리 할 수 있도록 변경할 것
-	if ( GDDNetwork->Connect( "localhost", 9001 ) )
+	if ( DDNetwork::GetInstance()->Connect( "localhost", 9001 ) )
 	{
 		return -1;
 	}
@@ -225,9 +225,9 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 							/// NAGLE Algorithm
 							/// http://en.wikipedia.org/wiki/Nagle's_algorithm
 							int opt = 1;
-							::setsockopt( GDDNetwork->m_Socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&opt, sizeof( int ) );
+							::setsockopt( DDNetwork::GetInstance()->m_Socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&opt, sizeof( int ) );
 
-							int nResult = WSAAsyncSelect( GDDNetwork->m_Socket, hWnd, WM_SOCKET, ( FD_CLOSE | FD_READ | FD_WRITE ) );
+							int nResult = WSAAsyncSelect( DDNetwork::GetInstance()->m_Socket, hWnd, WM_SOCKET, ( FD_CLOSE | FD_READ | FD_WRITE ) );
 							if ( nResult )
 							{
 								assert( false );
@@ -240,15 +240,15 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 		{
 						char inBuf[4096] = { 0, };
 
-						int recvLen = recv( GDDNetwork->m_Socket, inBuf, 4096, 0 );
+						int recvLen = recv( DDNetwork::GetInstance()->m_Socket, inBuf, 4096, 0 );
 
-						if ( !GDDNetwork->m_RecvBuffer.Write( inBuf, recvLen ) )
+						if ( !DDNetwork::GetInstance()->m_RecvBuffer.Write( inBuf, recvLen ) )
 						{
 							/// 버퍼 꽉찼다. 
 							assert( false );
 						}
 
-						GDDNetwork->ProcessPacket( );
+						DDNetwork::GetInstance()->ProcessPacket();
 
 		}
 			break;
@@ -256,19 +256,19 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 		case FD_WRITE:
 		{
 						/// 실제로 버퍼에 있는것들 꺼내서 보내기
-						 int size = GDDNetwork->m_SendBuffer.GetCurrentSize( );
+			int size = DDNetwork::GetInstance()->m_SendBuffer.GetCurrentSize();
 						if ( size > 0 )
 						{
 							char* data = new char[size];
-							GDDNetwork->m_SendBuffer.Peek( data );
+							DDNetwork::GetInstance()->m_SendBuffer.Peek( data );
 
-							int sent = send( GDDNetwork->m_Socket, data, size, 0 );
+							int sent = send( DDNetwork::GetInstance()->m_Socket, data, size, 0 );
 
 							/// 다를수 있다
 							if ( sent != size )
 								OutputDebugStringA( "sent != request\n" );
 
-							GDDNetwork->m_SendBuffer.Consume( sent );
+							DDNetwork::GetInstance()->m_SendBuffer.Consume( sent );
 
 							delete[] data;
 						}
@@ -279,7 +279,7 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 		case FD_CLOSE:
 		{
 						MessageBox( hWnd, L"Server closed connection", L"Connection closed!", MB_ICONINFORMATION | MB_OK );
-						closesocket( GDDNetwork->m_Socket );
+						closesocket( DDNetwork::GetInstance()->m_Socket );
 						SendMessage( hWnd, WM_DESTROY, NULL, NULL );
 		}
 			break;

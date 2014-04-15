@@ -12,18 +12,17 @@
 
 #define BUFSIZE	1024*10
 
-class DDNetwork
+class DDNetwork : public Singleton<DDNetwork>
 {
 public:
 	friend class DDApplication;
 
-	DDNetwork( );
-	~DDNetwork( );
+	DDNetwork();
+	~DDNetwork();
 
-	static void ReleaseInstance( );
+	bool Release();
 
 	bool Init( );
-	void Destroy( );
 	bool Connect( const char* serverIP, int port );
 
 	void SetPacketHandler( short packetType, DDPacketHandler* handler );
@@ -42,8 +41,4 @@ private:
 	DDCircularBuffer m_SendBuffer;
 
 	std::map<short, DDPacketHandler*> m_PacketHandler;
-
-
 };
-
-extern DDNetwork* GDDNetwork;

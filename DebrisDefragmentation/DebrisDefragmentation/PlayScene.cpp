@@ -5,6 +5,7 @@
 #include "DDApplication.h"
 #include "DDLight.h"
 #include "Player.h"
+#include "NetworkManager.h"
 
 PlayScene::PlayScene()
 {
@@ -75,22 +76,32 @@ void PlayScene::UpdateItSelf( float dTime )
 	
 	if ( KEY_DOWN == GetKeyState( 0x57 ) )
 	{
-		m_pPlayer->SetAcceleration();
+		// m_pPlayer->SetAcceleration();
+		// 서버로 날리자
+		GNetworkManger->SendAcceleration();
 	}
 	
 	if ( KEY_DOWN == GetKeyState( 0x53 ) )
 	{
-		m_pPlayer->Stop( );
+		// m_pPlayer->Stop( );
+		// 서버로 날려야지
+		GNetworkManger->SendStop();
 	}
 
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.	
 	DDPoint currentMousePos = GetMousePosition( );
-	m_pPlayer->RotateDicrection( 
+	// m_pPlayer->RotateDicrection( 
+	//	currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
+	//	currentMousePos.GetY() - m_PrevMousePosition.GetY()
+	//	);
+	
+	// 이것도 서버로 보내야지
+	GNetworkManger->SendRotation(
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
 		currentMousePos.GetY() - m_PrevMousePosition.GetY()
 		);
-	
+
 	HideMousePointer();
 
 }

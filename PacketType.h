@@ -35,7 +35,7 @@ struct PacketHeader
 {
 	PacketHeader() : mSize( 0 ), mType( PKT_NONE ) 	{}
 	unsigned short mSize;
-	unsigned short mType;
+	short mType;
 };
 
 

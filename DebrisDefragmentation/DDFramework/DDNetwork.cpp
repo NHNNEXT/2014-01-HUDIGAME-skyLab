@@ -2,11 +2,9 @@
 #include "DDNetwork.h"
 #include "DDApplication.h"
 
-DDNetwork* GDDNetwork = nullptr;
-
 DDNetwork::DDNetwork( ) :
-m_RecvBuffer( DDCircularBuffer( 1024 * 10 ) ),
-m_SendBuffer( DDCircularBuffer( 1024 * 10 ) )
+m_RecvBuffer( DDCircularBuffer( BUFSIZE ) ),
+m_SendBuffer( DDCircularBuffer( BUFSIZE ) )
 {
 }
 
@@ -34,6 +32,11 @@ bool DDNetwork::Init( )
 		return false;
 	}
 
+	return true;
+}
+
+bool DDNetwork::Release()
+{
 	return true;
 }
 
