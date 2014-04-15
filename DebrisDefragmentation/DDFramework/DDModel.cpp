@@ -9,14 +9,6 @@ DDModel::DDModel()
 
 DDModel::DDModel( wchar_t* path )
 {
-	//m_pD3DDevice = DDRenderer::GetInstance()->GetDevice();
-	initModel( path );
-	SetNormalVector();
-}
-
-DDModel::DDModel( wchar_t* path, LPDIRECT3DDEVICE9 device )
-{
-	//m_pD3DDevice = device;
 	initModel( path );
 	SetNormalVector();
 }
@@ -30,12 +22,6 @@ DDModel* DDModel::Create( wchar_t* filePath )
 {
 	DDModel* pInstance = new DDModel(filePath);
 	return pInstance;	
-}
-
-DDModel* DDModel::Create( wchar_t* filePath, LPDIRECT3DDEVICE9 device )
-{
-	DDModel* pInstance = new DDModel( filePath, device );
-	return pInstance;
 }
 
 bool DDModel::initModel( wchar_t* path )
@@ -81,7 +67,7 @@ bool DDModel::initModel( wchar_t* path )
 
 			if ( FAILED( D3DXCreateTextureFromFileA( pD3DDevice, bmpPath.c_str(), &m_pMeshTexture[i] ) ) )
 			{
-				/*MessageBox( NULL, L"no texture map", L"Meshes.exe", MB_OK );*/
+				//MessageBox( NULL, L"no texture map", L"Meshes.exe", MB_OK );
 				// no texture error
 				return false;
 			}

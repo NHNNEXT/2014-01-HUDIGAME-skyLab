@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// 슬슬 툴에 들어가는 함수도 너무 많아져서 메인에서 여기저기 다른 클래스로 유배보내야 함
+
 namespace GameTool
 {
     public partial class skyLabTool : Form
@@ -17,6 +19,9 @@ namespace GameTool
 
         // Random
         Random r = new Random();
+
+        // Timer
+        System.Windows.Forms.Timer m_timer = new Timer();
 
         // Renderer
         private DDWrapper.Renderer m_Renderer = null;
@@ -99,7 +104,7 @@ namespace GameTool
         {
             // test character
             string path = "tiger.x";
-            m_Model = new DDWrapper.GameModel(path, m_Renderer);
+            m_Model = new DDWrapper.GameModel(path);
             m_Scene.AddChild(m_Model);
 
             // test Debris
@@ -107,7 +112,7 @@ namespace GameTool
             float randX, randY, randZ;
             for (int i = 0; i < 1000; ++i)
             {
-                DDWrapper.GameModel debris = new DDWrapper.GameModel(debrisPath, m_Renderer);
+                DDWrapper.GameModel debris = new DDWrapper.GameModel(debrisPath);
                 randX = r.Next(-100, 100);
                 randY = r.Next(-100, 100);
                 randZ = r.Next(-100, 100);
@@ -182,19 +187,24 @@ namespace GameTool
             if (e.Delta > 0)
             {
                 m_Camera.SetPosition(
-                    m_Camera.GetPositionX() + 3 * m_Camera.GetViewDirectionX(),
-                    m_Camera.GetPositionY() + 3 * m_Camera.GetViewDirectionY(),
-                    m_Camera.GetPositionZ() + 3 * m_Camera.GetViewDirectionZ()
+                    m_Camera.GetPositionX(),
+                    m_Camera.GetPositionY(),
+                    m_Camera.GetPositionZ() + 3
                 );
             }
             else
             {
                 m_Camera.SetPosition(
-                    m_Camera.GetPositionX() - 3 * m_Camera.GetViewDirectionX(),
-                    m_Camera.GetPositionY() - 3 * m_Camera.GetViewDirectionY(),
-                    m_Camera.GetPositionZ() - 3 * m_Camera.GetViewDirectionZ()
-                );
+                   m_Camera.GetPositionX(),
+                   m_Camera.GetPositionY(),
+                   m_Camera.GetPositionZ() - 3
+               );
             }
+        }
+
+        private void ResetCamera(object sender, EventArgs e)
+        {
+            m_Camera.SetPosition(0, 1, -5);
         }
     }
 }

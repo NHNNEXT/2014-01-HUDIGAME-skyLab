@@ -107,8 +107,7 @@ namespace DDWrapper {
 	{
 	public:
 		GameModel() : m_pModel( new DDModel() ) {};
-		GameModel( System::String^ filepath, Renderer^ renderer );
-		GameModel( wchar_t* filePath ) : m_pModel( new DDModel( filePath ) ) {}
+		GameModel( System::String^ filepath );
 		~GameModel();
 
 		void AddChild( GameCamera^ camera ) { m_pModel->AddChild( camera->GetPointer() ); };

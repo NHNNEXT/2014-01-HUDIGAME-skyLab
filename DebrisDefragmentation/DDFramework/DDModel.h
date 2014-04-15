@@ -7,11 +7,9 @@ class DDModel :
 public:
 	DDModel();
 	DDModel( wchar_t* filePath );
-	DDModel( wchar_t* path, LPDIRECT3DDEVICE9 renderer );
 	virtual ~DDModel();
 
 	static DDModel* Create( wchar_t* filePath );	
-	static DDModel* Create( wchar_t* filePath, LPDIRECT3DDEVICE9 renderer );
 
 protected:
 	bool initModel( wchar_t* path );	

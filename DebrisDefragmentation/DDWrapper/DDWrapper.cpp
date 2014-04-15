@@ -6,7 +6,7 @@
 
 namespace DDWrapper
 {	
-	//////////////////////////////////////////// Renderer Class //////////////////////////////	
+	////////////////////////////////// Renderer Class //////////////////////////////////	
 	// »ý¼ºÀÚ
 	Renderer::Renderer()
 		:m_pDDRenderer( m_pDDRenderer->GetInstance() )
@@ -63,14 +63,15 @@ namespace DDWrapper
 
 	////////////////////////////////// DD Model Class //////////////////////////////
 
-	GameModel::GameModel( System::String^ filepath, Renderer^ renderer )
+	GameModel::GameModel( System::String^ filepath )
 	{
 		pin_ptr<const wchar_t> str = PtrToStringChars( filepath );
 		//const wchar_t* str = L"tiger.x";
 		//m_pModel = new DDModel( const_cast<wchar_t*>(str) );
 		//wchar_t* str = L"tiger.x";
 
-		m_pModel = DDModel::Create( const_cast<wchar_t*>(str), renderer->GetDevice() );
+		//m_pModel = DDModel::Create( const_cast<wchar_t*>(str), renderer->GetDevice() );
+		m_pModel = DDModel::Create( const_cast<wchar_t*>( str ) );
 	}
 
 	GameModel::~GameModel()
