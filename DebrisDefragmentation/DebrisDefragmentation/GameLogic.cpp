@@ -34,11 +34,17 @@ bool GameLogic::AddPlayer(int playerId)
 
 	
 	m_PlayerList[playerId] = Player::Create(playerId);
+	m_PlayerList[playerId]->Init();
+
+	m_Scene->AddChild( m_PlayerList[playerId] );
+	++m_CurrentPlayers;
+
+	// 처음 연결일 때, 현재 사용자의 플레이어일 것이므로 player ID set
 	if ( GNetworkManager->GetMyPlayerId() == -1 )
 	{
 		GNetworkManager->SetMyPlayerId( playerId );
 	}
-	m_PlayerList[playerId]->Init();
+	
 
 	return true;
 }
@@ -54,9 +60,11 @@ void GameLogic::DeletePlayer( int playerId )
 	}
 }
 
-void GameLogic::CreateScene()
+DDScene* GameLogic::CreateScene( std::wstring sceneName )
 {
-	//m_Scene = PlayScene::Create( L"play scene1" );
+	m_Scene = PlayScene::Create( sceneName );
+	m_Scene->Init();
+	return m_Scene;
 }
 
 
@@ -147,9 +155,9 @@ bool GameLogic::Stop( unsigned int playerId )
 	return true;
 }
 
-bool GameLogic::RotateDicrection( unsigned int playerId, float y, float x )
+bool GameLogic::RotateDicrection( unsigned int playerId, float x, float y )
 {
-	m_PlayerList[playerId]->RotateDicrection( y, x );
+	m_PlayerList[playerId]->RotateDicrection( x, y );
 
 	return true;
 }

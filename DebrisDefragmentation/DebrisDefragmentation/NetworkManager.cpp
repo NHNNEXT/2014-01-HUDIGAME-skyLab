@@ -131,7 +131,7 @@ void NetworkManager::HandleRotationResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GGameLogic->AddPlayer( inPacket.mPlayerId );
-	GGameLogic->RotateDicrection( inPacket.mPlayerId, inPacket.mRotationY, inPacket.mRotationX );
+	GGameLogic->RotateDicrection( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY );
 // 	GGameLogic->UpdatePlayerRotation(
 // 		inPacket.mPlayerId,
 // 		DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ )

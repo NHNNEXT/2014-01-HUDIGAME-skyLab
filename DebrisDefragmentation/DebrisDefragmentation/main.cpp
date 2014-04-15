@@ -24,8 +24,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 
-	PlayScene* scene = PlayScene::Create();
-	scene->Init();
+	DDScene* scene = GGameLogic->CreateScene(L"PlayScene1");
+	//scene->Init();
 	
 	DDSceneDirector::GetInstance()->ChangeScene( scene );
 	

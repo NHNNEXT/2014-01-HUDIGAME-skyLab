@@ -2,7 +2,7 @@
 
 #include "DDConfig.h"
 #include "Player.h"
-#include "DDScene.h"
+#include "PlayScene.h"
 
 const unsigned int MAX_PLAYER_NUM = 8;
 
@@ -22,10 +22,10 @@ public:
 	// 조심해!!
 	// getplayer에 const 땠음.. addChild 하기위해. 캡슐화..ㅠㅠ
 	// 나중에 AddPlayer안에 만들자. 
-	Player*	GetPlayer( int playerId ) { return m_PlayerList[playerId]; }
-	void			DeletePlayer( int playerId );
+	Player*		GetPlayer( int playerId ) { return m_PlayerList[playerId]; }
+	void		DeletePlayer( int playerId );
 
-	void		CreateScene();
+	DDScene*	CreateScene( std::wstring sceneName );
 	DDScene*	GetScene() const { return m_Scene; }	
 	
 	//	update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
@@ -50,7 +50,7 @@ public:
 
 	bool SetAcceleration( unsigned int playerId );
 	bool Stop( unsigned int playerId );
-	bool RotateDicrection( unsigned int playerId, float y, float x );
+	bool RotateDicrection( unsigned int playerId, float x, float y );
 
 	// get Player data
 	DDVECTOR3 GetPosition( unsigned int playerId );
@@ -70,7 +70,7 @@ private:
 
 	// other objects
 	// scene을 추후에 list등으로 만들 수도 있겠네요
-	DDScene* m_Scene = nullptr;
+	PlayScene*		m_Scene = nullptr;
 };
 
 extern GameLogic* GGameLogic;

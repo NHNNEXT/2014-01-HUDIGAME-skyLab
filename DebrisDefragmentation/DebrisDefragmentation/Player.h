@@ -25,7 +25,7 @@ public:
 	void Stop();
 
 	// 바라보는 방향 회전
-	void RotateDicrection(double y, double x);
+	void RotateDicrection(double x, double y);
 
 	DDVECTOR3 GetVelocity() const { return m_Velocity; }
 	void SetVelocity( DDVECTOR3 val ) { m_Velocity = val; }

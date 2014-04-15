@@ -72,11 +72,12 @@ void Player::Stop()
 	m_Velocity = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 }
 
-void Player::RotateDicrection( double y, double x )
+void Player::RotateDicrection( double x, double y )
 {
 	// 조심해!
 	// 회전 각도 가중치 하드 코딩 수정 할 것
 	// SetRotation( x / 500, y / 500, 0 );
-	IncreaseRotationY( y / 10 );
 	IncreaseRotationX( x / 10 );
+	IncreaseRotationY( y / 10 );
+	
 }

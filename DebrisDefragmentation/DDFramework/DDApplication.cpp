@@ -111,7 +111,7 @@ bool DDApplication::Release()
 	}
 
 	DDNetwork::GetInstance()->Release();
-	DDNetwork::GetInstance()->ReleaseInstance();
+	DDNetwork::ReleaseInstance();
 
 	// agebreak : ½Ì±ÛÅæ = ¸â¹ö º¯¼ö¶ó´Ï, ÀÌ»óÇÏÁö ¾ÊÀº°¡?
 	DDSceneDirector::GetInstance()->Release();

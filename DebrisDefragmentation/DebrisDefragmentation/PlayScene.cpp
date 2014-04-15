@@ -18,6 +18,11 @@ PlayScene::PlayScene( std::wstring sceneName )
 	m_SceneName = sceneName;
 }
 
+PlayScene* PlayScene::Create( std::wstring sceneName )
+{
+	PlayScene* pInstance = new PlayScene( sceneName );
+	return pInstance;
+}
 
 PlayScene::~PlayScene()
 {
@@ -28,11 +33,11 @@ void PlayScene::Init()
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
 	
-	unsigned int cp = GGameLogic->GetCurrentPlayers();
-	for ( unsigned int i = 0; i < cp; ++i )
-	{
-		AddChild( GGameLogic->GetPlayer(i) );
-	}	
+// 	unsigned int cp = GGameLogic->GetCurrentPlayers();
+// 	for ( unsigned int i = 0; i < cp; ++i )
+// 	{
+// 		AddChild( GGameLogic->GetPlayer(i) );
+// 	}	
 	AddChild( m_pDirectonalLight );
 	
 
@@ -101,9 +106,9 @@ void PlayScene::UpdateItSelf( float dTime )
 	//	);
 	
 	// 이것도 서버로 보내야지
-	GNetworkManager->SendRotateDirection(
-		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
-		currentMousePos.GetY() - m_PrevMousePosition.GetY()
+	GNetworkManager->SendRotateDirection(		
+		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
+		currentMousePos.GetX() - m_PrevMousePosition.GetX()
 		);
 
 	HideMousePointer();
@@ -118,7 +123,7 @@ void PlayScene::HideMousePointer()
 	::SetCursorPos( pt.x, pt.y );
 
 	// 이전 포지션 위치를 500, 500에 놓기
-	m_PrevMousePosition = DDPoint( 495, 500 );
+	m_PrevMousePosition = DDPoint( 500, 500 );
 
 	// 커서 숨기기
 	::ShowCursor( false );
