@@ -52,6 +52,8 @@ namespace GameTool
                 return;
             }
 
+           this.View.MouseWheel += new System.Windows.Forms.MouseEventHandler(CameraZoomInOut);
+
            m_Scene = new DDWrapper.GameObject();
        
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
@@ -170,5 +172,25 @@ namespace GameTool
                 
             }
         } 
+
+        private void CameraZoomInOut(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                m_Camera.SetPosition(
+                    m_Camera.GetPositionX() + m_Camera.GetViewDirectionX(),
+                    m_Camera.GetPositionY() + m_Camera.GetViewDirectionY(),
+                    m_Camera.GetPositionZ() + m_Camera.GetViewDirectionZ()
+                );
+            }
+            else
+            {
+                m_Camera.SetPosition(
+                    m_Camera.GetPositionX() - m_Camera.GetViewDirectionX(),
+                    m_Camera.GetPositionY() - m_Camera.GetViewDirectionY(),
+                    m_Camera.GetPositionZ() - m_Camera.GetViewDirectionZ()
+                );
+            }
+        }
     }
 }

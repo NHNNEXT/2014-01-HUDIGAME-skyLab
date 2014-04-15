@@ -76,7 +76,6 @@ namespace DDWrapper {
 	//////////////////////////////////// Camera ////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
 
-
 	public ref class GameCamera
 	{
 	public:
@@ -90,6 +89,10 @@ namespace DDWrapper {
 		const float GetPositionZ() { return m_pCamera->GetPositionZ(); }
 
 		void SetPosition( float x, float y, float z ) { m_pCamera->SetPosition( x, y, z ); };
+
+		const float GetViewDirectionX() { return m_pCamera->GetViewDirection().x; }
+		const float GetViewDirectionY() { return m_pCamera->GetViewDirection().y; }
+		const float GetViewDirectionZ() { return m_pCamera->GetViewDirection().z; }
 
 	protected:
 		DDCamera* Create() { return DDCamera::Create(); };
