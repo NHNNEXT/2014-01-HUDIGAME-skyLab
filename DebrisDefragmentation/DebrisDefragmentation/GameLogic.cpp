@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameLogic.h"
 #include "PlayScene.h"
+#include "NetworkManager.h"
 
 GameLogic* GGameLogic = nullptr;
 
@@ -24,14 +25,19 @@ void GameLogic::Init()
 }
 
 bool GameLogic::AddPlayer(int playerId)
-{
+{	
 	if ( playerId < 0 || playerId >= MAX_PLAYER_NUM )
 		return false;
 
 	if ( m_PlayerList[playerId] != nullptr )
 		return false;
 
-	m_PlayerList[playerId] = new Player();
+	
+	m_PlayerList[playerId] = Player::Create(playerId);
+	if ( GNetworkManager->GetMyPlayerId() == -1 )
+	{
+		GNetworkManager->SetMyPlayerId( playerId );
+	}
 	m_PlayerList[playerId]->Init();
 
 	return true;

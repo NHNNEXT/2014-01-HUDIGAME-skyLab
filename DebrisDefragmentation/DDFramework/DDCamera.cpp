@@ -25,18 +25,18 @@ void DDCamera::RenderItSelf()
 		
 	D3DXVECTOR4 tempEye;
 	D3DXVec3Transform( &tempEye, &m_Position, &m_Matrix );
-	D3DXVECTOR3 vEyePt( tempEye.x, tempEye.y, tempEye.z );
+	DDVECTOR3 vEyePt( tempEye.x, tempEye.y, tempEye.z );
 
 	D3DXVECTOR4 tempLook;
 	D3DXVec3Transform( &tempLook, &m_LookatPoint, &m_Matrix );
-	D3DXVECTOR3 vLookatPt( tempLook.x, tempLook.y, tempLook.z );
+	DDVECTOR3 vLookatPt( tempLook.x, tempLook.y, tempLook.z );
 
-	D3DXVECTOR3 vUpVec( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
+	DDVECTOR3 vUpVec( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
 	
 	/*
-	D3DXVECTOR3 vEyePt( 0, 2, -5 );
-	D3DXVECTOR3 vLookatPt( D3DXVECTOR3( 0, 0, 0 ) );
-	D3DXVECTOR3 vUpVec( D3DXVECTOR3( 0, 1, 0 ) );
+	DDVECTOR3 vEyePt( 0, 2, -5 );
+	DDVECTOR3 vLookatPt( DDVECTOR3( 0, 0, 0 ) );
+	DDVECTOR3 vUpVec( DDVECTOR3( 0, 1, 0 ) );
 	*/
 
 	D3DXMATRIXA16 matView;

@@ -58,7 +58,7 @@ void NetworkManager::SendStop()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendRotation( double y, double x )
+void NetworkManager::SendRotateDirection( double y, double x )
 {
 	if ( m_MyPlayerId == -1 )
 		return;
@@ -67,9 +67,9 @@ void NetworkManager::SendRotation( double y, double x )
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mRotationX = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationX();
-	outPacket.mRotationY = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationY();
-	outPacket.mRotationZ = GGameLogic->GetPlayer( m_MyPlayerId )->GetRotationZ();
+	outPacket.mRotationX = y;
+	outPacket.mRotationY = x;
+	outPacket.mRotationZ = .0f;
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -104,13 +104,25 @@ void NetworkManager::HandleAccelerationResult( DDPacketHeader& pktBase )
 	AccelerarionResult inPacket = reinterpret_cast<AccelerarionResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
+	GGameLogic->AddPlayer( inPacket.mPlayerId );
+	GGameLogic->UpdatePlayerMove(
+		inPacket.mPlayerId,
+		DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ),
+		DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ),
+		DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ )
+		);
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 {
 	StopResult inPacket = reinterpret_cast<StopResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
+	
+	GGameLogic->AddPlayer(inPacket.mPlayerId);
+	GGameLogic->UpdatePlayerStop(
+		inPacket.mPlayerId,
+		DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ )
+		);
 }
 
 void NetworkManager::HandleRotationResult( DDPacketHeader& pktBase )
@@ -118,6 +130,12 @@ void NetworkManager::HandleRotationResult( DDPacketHeader& pktBase )
 	RotationResult inPacket = reinterpret_cast<RotationResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
+	GGameLogic->AddPlayer( inPacket.mPlayerId );
+	GGameLogic->RotateDicrection( inPacket.mPlayerId, inPacket.mRotationY, inPacket.mRotationX );
+// 	GGameLogic->UpdatePlayerRotation(
+// 		inPacket.mPlayerId,
+// 		DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ )
+// 		);
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
@@ -125,4 +143,11 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	SyncResult inPacket = reinterpret_cast<SyncResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
+	GGameLogic->AddPlayer( inPacket.mPlayerId );
+	GGameLogic->UpdatePlayerSync(
+		inPacket.mPlayerId,
+		DDVECTOR3 (inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ),
+		DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ),
+		DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ )
+		);
 }

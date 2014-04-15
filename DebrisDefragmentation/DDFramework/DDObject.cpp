@@ -117,7 +117,7 @@ void DDObject::AffineTransfrom()
 
 DDVECTOR3 DDObject::GetViewDirection( )
 {
-	return D3DXVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
+	return DDVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
 }
 
 void DDObject::RenderChildNodes()

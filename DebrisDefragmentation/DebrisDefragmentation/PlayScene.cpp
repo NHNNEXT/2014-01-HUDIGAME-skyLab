@@ -101,13 +101,13 @@ void PlayScene::UpdateItSelf( float dTime )
 	//	);
 	
 	// 이것도 서버로 보내야지
-	GNetworkManager->SendRotation(
+	GNetworkManager->SendRotateDirection(
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
 		currentMousePos.GetY() - m_PrevMousePosition.GetY()
 		);
 
 	HideMousePointer();
-
+//	m_PrevMousePosition = currentMousePos;
 }
 
 void PlayScene::HideMousePointer()
@@ -118,7 +118,7 @@ void PlayScene::HideMousePointer()
 	::SetCursorPos( pt.x, pt.y );
 
 	// 이전 포지션 위치를 500, 500에 놓기
-	m_PrevMousePosition = DDPoint( 500, 500 );
+	m_PrevMousePosition = DDPoint( 495, 500 );
 
 	// 커서 숨기기
 	::ShowCursor( false );
