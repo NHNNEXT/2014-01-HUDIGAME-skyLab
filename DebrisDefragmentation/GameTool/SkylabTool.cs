@@ -138,6 +138,10 @@ namespace GameTool
             cameraXpos.Text = m_Camera.GetPositionX().ToString();
             cameraYpos.Text = m_Camera.GetPositionY().ToString();
             cameraZpos.Text = m_Camera.GetPositionZ().ToString();
+
+            CameraViewVecX.Text = m_Camera.GetViewDirectionX().ToString();
+            CameraViewVecY.Text = m_Camera.GetViewDirectionY().ToString();
+            CameraViewVecZ.Text = m_Camera.GetViewDirectionZ().ToString();
         }
 
         private void ViewMouseEnver(object sender, EventArgs e)
@@ -178,17 +182,17 @@ namespace GameTool
             if (e.Delta > 0)
             {
                 m_Camera.SetPosition(
-                    m_Camera.GetPositionX() + m_Camera.GetViewDirectionX(),
-                    m_Camera.GetPositionY() + m_Camera.GetViewDirectionY(),
-                    m_Camera.GetPositionZ() + m_Camera.GetViewDirectionZ()
+                    m_Camera.GetPositionX() + 3 * m_Camera.GetViewDirectionX(),
+                    m_Camera.GetPositionY() + 3 * m_Camera.GetViewDirectionY(),
+                    m_Camera.GetPositionZ() + 3 * m_Camera.GetViewDirectionZ()
                 );
             }
             else
             {
                 m_Camera.SetPosition(
-                    m_Camera.GetPositionX() - m_Camera.GetViewDirectionX(),
-                    m_Camera.GetPositionY() - m_Camera.GetViewDirectionY(),
-                    m_Camera.GetPositionZ() - m_Camera.GetViewDirectionZ()
+                    m_Camera.GetPositionX() - 3 * m_Camera.GetViewDirectionX(),
+                    m_Camera.GetPositionY() - 3 * m_Camera.GetViewDirectionY(),
+                    m_Camera.GetPositionZ() - 3 * m_Camera.GetViewDirectionZ()
                 );
             }
         }
