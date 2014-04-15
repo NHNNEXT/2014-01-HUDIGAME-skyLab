@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <map>
 #include <WinSock2.h>
@@ -52,12 +52,12 @@ public:
 	void	DatabaseJobDone( DatabaseJobContext* result );
 
 
-	/// ÇöÀç Send/Recv ¿äÃ» ÁßÀÎ »óÅÂÀÎÁö °Ë»çÇÏ±â À§ÇÔ
+	/// í˜„ì¬ Send/Recv ìš”ì²­ ì¤‘ì¸ ìƒíƒœì¸ì§€ ê²€ì‚¬í•˜ê¸° ìœ„í•¨
 	void	IncOverlappedRequest()		{ ++mOverlappedRequested; }
 	void	DecOverlappedRequest()		{ --mOverlappedRequested; }
 	bool	DoingOverlappedOperation() const { return mOverlappedRequested > 0; }
 
-	// ÆĞÅ¶ Ã³¸®ÇÒ ÇÚµéÀ» ¸¸µéÀÚ
+	// íŒ¨í‚· ì²˜ë¦¬í•  í•¸ë“¤ì„ ë§Œë“¤ì
 	void	HandleLoginRequest( LoginRequest& inPacket );
 	void	HandleAccelerationRequest( AccelerarionRequest& inPacket );
 	void	HandleStopRequest( StopRequest& inPacket );
@@ -68,7 +68,7 @@ public:
 
 private:
 
-	bool	SendFlush(); ///< Send¿äÃ» ÁßÀÎ°Íµé ¸ğ¾Æ¼­ º¸³¿
+	bool	SendFlush(); ///< Sendìš”ì²­ ì¤‘ì¸ê²ƒë“¤ ëª¨ì•„ì„œ ë³´ëƒ„
 	void	OnTick();
 
 	void	LoginDone( int pid );
@@ -96,7 +96,7 @@ private:
 	OverlappedIO	mOverlappedRecv;
 	int				mOverlappedRequested;
 
-	int				mDbUpdateCount; ///< DB¿¡ ÁÖ±âÀûÀ¸·Î ¾÷µ¥ÀÌÆ® ÇÏ±â À§ÇÑ º¯¼ö
+	int				mDbUpdateCount; ///< DBì— ì£¼ê¸°ì ìœ¼ë¡œ ì—…ë°ì´íŠ¸ í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 
 	friend class ClientManager;
 };

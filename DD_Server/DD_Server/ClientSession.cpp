@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "ClientSession.h"
 #include "..\..\PacketType.h"
 #include "ClientManager.h"
@@ -7,7 +7,7 @@ typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
 
 static HandlerFunc HandlerTable[PKT_MAX];
 
-// µğÆúÆ® : ±Â¹ÙÀÌ´Ù!
+// ë””í´íŠ¸ : êµ¿ë°”ì´ë‹¤!
 static void DefaultHandler( ClientSession* session, PacketHeader& pktBase )
 {
 	assert( false );
@@ -42,11 +42,11 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 {
 	memcpy( &mClientAddr, addr, sizeof( SOCKADDR_IN ) );
 
-	/// ¼ÒÄÏÀ» ³Íºí·¯Å·À¸·Î ¹Ù²Ù°í
+	/// ì†Œì¼“ì„ ë„Œë¸”ëŸ¬í‚¹ìœ¼ë¡œ ë°”ê¾¸ê³ 
 	u_long arg = 1;
 	ioctlsocket( mSocket, FIONBIO, &arg );
 
-	/// nagle ¾Ë°í¸®Áò ²ô±â
+	/// nagle ì•Œê³ ë¦¬ì¦˜ ë„ê¸°
 	int opt = 1;
 	setsockopt( mSocket, IPPROTO_TCP, TCP_NODELAY, (const char*)&opt, sizeof( int ) );
 
@@ -54,18 +54,18 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 
 	mConnected = true;
 
-	// ·Î±×ÀÎ µÆÀ¸¸é ÇÃ·¹ÀÌ¾î ¸¸µé°í
+	// ë¡œê·¸ì¸ ëìœ¼ë©´ í”Œë ˆì´ì–´ ë§Œë“¤ê³ 
 	int playerId = GGameLogic->AddPlayer();
 	if ( playerId == -1 )
 	{
-		// ´õ ¸ø µé¾î¿Â´Ù.
+		// ë” ëª» ë“¤ì–´ì˜¨ë‹¤.
 		Disconnect();
 	}
 
-	// Á¢¼ÓÇÑ ¾ÆÀÌ¿¡°Ô ¾ÆÀÌµğ¸¦ ÇÒ´çÇØÁØ´Ù.
+	// ì ‘ì†í•œ ì•„ì´ì—ê²Œ ì•„ì´ë””ë¥¼ í• ë‹¹í•´ì¤€ë‹¤.
 	LoginDone( playerId );
 
-	// »õ·Î ¿Â Ä£±¸°¡ ÀÖÀ¸´Ï±î ÀüÃ¼¿¡°Ô Áö±İ °ÔÀÓ »óÅÂ¸¦ ÇÑ ¹ø µ¿±âÈ­ ÇÏ¶ó°í ½ÃÅ²´Ù.
+	// ìƒˆë¡œ ì˜¨ ì¹œêµ¬ê°€ ìˆìœ¼ë‹ˆê¹Œ ì „ì²´ì—ê²Œ ì§€ê¸ˆ ê²Œì„ ìƒíƒœë¥¼ í•œ ë²ˆ ë™ê¸°í™” í•˜ë¼ê³  ì‹œí‚¨ë‹¤.
 	GClientManager->SyncAll();
 
 	return PostRecv( );
@@ -85,8 +85,8 @@ bool ClientSession::PostRecv( )
 	memset( &mOverlappedRecv, 0, sizeof( OverlappedIO ) );
 	mOverlappedRecv.mObject = this;
 
-	/// ºñµ¿±â ÀÔÃâ·Â ½ÃÀÛ
-	// ´Ù ÀĞ¾î ¿À¸é ºÎ¸¦ ÇÔ¼öµµ µî·Ï - ±×¸®°í ±×³ğÀÌ ÀÛ¾÷ ³¡³ª¸é ¶Ç ³¯ ºÎ¸£°ÚÁö...
+	/// ë¹„ë™ê¸° ì…ì¶œë ¥ ì‹œì‘
+	// ë‹¤ ì½ì–´ ì˜¤ë©´ ë¶€ë¥¼ í•¨ìˆ˜ë„ ë“±ë¡ - ê·¸ë¦¬ê³  ê·¸ë†ˆì´ ì‘ì—… ëë‚˜ë©´ ë˜ ë‚  ë¶€ë¥´ê² ì§€...
 	if ( SOCKET_ERROR == WSARecv( mSocket, &buf, 1, &recvbytes, &flags, &mOverlappedRecv, RecvCompletion ) )
 	{
 		if ( WSAGetLastError( ) != WSA_IO_PENDING )
@@ -100,12 +100,15 @@ bool ClientSession::PostRecv( )
 
 void ClientSession::Disconnect( )
 {
+	// ë‚´ ìºë¦­í„°ëŠ” ë‚´ê°€ ì§€ìš°ê³  ë‚˜ê°€ì
+	GGameLogic->DeletePlayer( mPlayerId );
+
 	if ( !IsConnected( ) )
 		return;
 
 	printf( "[DEBUG] Client Disconnected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
 
-	/// Áï°¢ ÇØÁ¦
+	/// ì¦‰ê° í•´ì œ
 
 	LINGER lingerOption;
 	lingerOption.l_onoff = 1;
@@ -128,15 +131,15 @@ void ClientSession::OnRead( size_t len )
 {
 	mRecvBuffer.Commit( len );
 
-	/// ÆĞÅ¶ ÆÄ½ÌÇÏ°í Ã³¸®
+	/// íŒ¨í‚· íŒŒì‹±í•˜ê³  ì²˜ë¦¬
 	while ( true )
 	{
-		/// ÆĞÅ¶ Çì´õ Å©±â ¸¸Å­ ÀĞ¾î¿Íº¸±â
+		/// íŒ¨í‚· í—¤ë” í¬ê¸° ë§Œí¼ ì½ì–´ì™€ë³´ê¸°
 		PacketHeader header;
 		if ( false == mRecvBuffer.Peek( (char*)&header, sizeof( PacketHeader ) ) )
 			return;
 
-		/// ÆĞÅ¶ ¿Ï¼ºÀÌ µÇ´Â°¡? 
+		/// íŒ¨í‚· ì™„ì„±ì´ ë˜ëŠ”ê°€? 
 		if ( mRecvBuffer.GetStoredSize() < header.mSize )
 			return;
 
@@ -148,7 +151,7 @@ void ClientSession::OnRead( size_t len )
 		}
 
 		/// packet dispatch...
-		// ÆĞÅ¶À» Ã³¸®ÇÏ´Â ÇÚµé·¯¸¦ ÀÌ¿ëÇØ¼­ Ã³¸®ÇÏÀÚ
+		// íŒ¨í‚·ì„ ì²˜ë¦¬í•˜ëŠ” í•¸ë“¤ëŸ¬ë¥¼ ì´ìš©í•´ì„œ ì²˜ë¦¬í•˜ì
 		HandlerTable[header.mType]( this, header );
 	}
 }
@@ -158,10 +161,10 @@ bool ClientSession::SendRequest( PacketHeader* pkt )
 	if ( !IsConnected( ) )
 		return false;
 
-	/// Send ¿äÃ»Àº ¹öÆÛ¿¡ ½×¾Æ³ù´Ù°¡ ÇÑ¹ø¿¡ º¸³½´Ù.
+	/// Send ìš”ì²­ì€ ë²„í¼ì— ìŒ“ì•„ë†¨ë‹¤ê°€ í•œë²ˆì— ë³´ë‚¸ë‹¤.
 	if ( false == mSendBuffer.Write( (char*)pkt, pkt->mSize ) )
 	{
-		/// ¹öÆÛ ¿ë·® ºÎÁ·ÀÎ °æ¿ì´Â ²÷¾î¹ö¸²
+		/// ë²„í¼ ìš©ëŸ‰ ë¶€ì¡±ì¸ ê²½ìš°ëŠ” ëŠì–´ë²„ë¦¼
 		Disconnect( );
 		return false;
 	}
@@ -174,7 +177,7 @@ bool ClientSession::SendFlush( )
 	if ( !IsConnected( ) )
 		return false;
 
-	/// º¸³¾ µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ±×³É ¸®ÅÏ
+	/// ë³´ë‚¼ ë°ì´í„°ê°€ ì—†ìœ¼ë©´ ê·¸ëƒ¥ ë¦¬í„´
 	if ( mSendBuffer.GetContiguiousBytes( ) == 0 )
 		return true;
 
@@ -188,7 +191,7 @@ bool ClientSession::SendFlush( )
 	memset( &mOverlappedSend, 0, sizeof( OverlappedIO ) );
 	mOverlappedSend.mObject = this;
 
-	// ºñµ¿±â ÀÔÃâ·Â ½ÃÀÛ
+	// ë¹„ë™ê¸° ì…ì¶œë ¥ ì‹œì‘
 	if ( SOCKET_ERROR == WSASend( mSocket, &buf, 1, &sendbytes, flags, &mOverlappedSend, SendCompletion ) )
 	{
 		if ( WSAGetLastError( ) != WSA_IO_PENDING )
@@ -202,7 +205,7 @@ bool ClientSession::SendFlush( )
 
 void ClientSession::OnWriteComplete( size_t len )
 {
-	/// º¸³»±â ¿Ï·áÇÑ µ¥ÀÌÅÍ´Â ¹öÆÛ¿¡¼­ Á¦°Å
+	/// ë³´ë‚´ê¸° ì™„ë£Œí•œ ë°ì´í„°ëŠ” ë²„í¼ì—ì„œ ì œê±°
 	mSendBuffer.Remove( len );
 }
 
@@ -221,9 +224,9 @@ bool ClientSession::Broadcast( PacketHeader* pkt )
 
 void ClientSession::OnTick( )
 {
-	/// Å¬¶óº°·Î ÁÖ±âÀûÀ¸·Î ÇØ¾ßµÉ ÀÏÀº ¿©±â¿¡
+	/// í´ë¼ë³„ë¡œ ì£¼ê¸°ì ìœ¼ë¡œ í•´ì•¼ë  ì¼ì€ ì—¬ê¸°ì—
 	/*
-	/// Æ¯Á¤ ÁÖ±â·Î DB¿¡ À§Ä¡ ÀúÀå
+	/// íŠ¹ì • ì£¼ê¸°ë¡œ DBì— ìœ„ì¹˜ ì €ì¥
 	if ( ++mDbUpdateCount == PLAYER_DB_UPDATE_CYCLE )
 	{
 		mDbUpdateCount = 0;
@@ -232,7 +235,7 @@ void ClientSession::OnTick( )
 		updatePlayer->mPosX = mPosX;
 		updatePlayer->mPosY = mPosY;
 		updatePlayer->mPosZ = mPosZ;
-		strcpy_s( updatePlayer->mComment, "updated_test" ); ///< ÀÏ´ÜÀº Å×½ºÆ®¸¦ À§ÇØ
+		strcpy_s( updatePlayer->mComment, "updated_test" ); ///< ì¼ë‹¨ì€ í…ŒìŠ¤íŠ¸ë¥¼ ìœ„í•´
 		GDatabaseJobManager->PushDatabaseJobRequest( updatePlayer );
 	}
 	*/
@@ -241,7 +244,7 @@ void ClientSession::OnTick( )
 
 void ClientSession::UpdateDone( )
 {
-	/// ÄÜÅÙÃ÷¸¦ ³Ö±â Àü±îÁö´Â µüÈ÷ ÇØÁÙ °ÍÀÌ ¾ø´Ù. ´ÜÁö Å×½ºÆ®¸¦ À§ÇØ¼­..
+	/// ì½˜í…ì¸ ë¥¼ ë„£ê¸° ì „ê¹Œì§€ëŠ” ë”±íˆ í•´ì¤„ ê²ƒì´ ì—†ë‹¤. ë‹¨ì§€ í…ŒìŠ¤íŠ¸ë¥¼ ìœ„í•´ì„œ..
 	printf( "DEBUG: Player[%d] Update Done\n", mPlayerId );
 }
 
@@ -271,18 +274,18 @@ void CALLBACK RecvCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 	if ( !fromClient->IsConnected( ) )
 		return;
 
-	/// ¿¡·¯ ¹ß»ı½Ã ÇØ´ç ¼¼¼Ç Á¾·á
+	/// ì—ëŸ¬ ë°œìƒì‹œ í•´ë‹¹ ì„¸ì…˜ ì¢…ë£Œ
 	if ( dwError || cbTransferred == 0 )
 	{
 		fromClient->Disconnect( );
 		return;
 	}
 
-	/// ¹ŞÀº µ¥ÀÌÅÍ Ã³¸®
+	/// ë°›ì€ ë°ì´í„° ì²˜ë¦¬
 	fromClient->OnRead( cbTransferred );
 
-	/// ´Ù½Ã ¹Ş±â
-	// ÀÏÁ¾ÀÇ Àç±Í??
+	/// ë‹¤ì‹œ ë°›ê¸°
+	// ì¼ì¢…ì˜ ì¬ê·€??
 	if ( false == fromClient->PostRecv( ) )
 	{
 		fromClient->Disconnect( );
@@ -300,7 +303,7 @@ void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 	if ( !fromClient->IsConnected( ) )
 		return;
 
-	/// ¿¡·¯ ¹ß»ı½Ã ÇØ´ç ¼¼¼Ç Á¾·á
+	/// ì—ëŸ¬ ë°œìƒì‹œ í•´ë‹¹ ì„¸ì…˜ ì¢…ë£Œ
 	if ( dwError || cbTransferred == 0 )
 	{
 		fromClient->Disconnect( );
@@ -312,30 +315,30 @@ void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 }
 
 
-// °¢ ÆĞÅ¶À» Ã³¸®ÇÏ´Â ÇÚµé·¯¸¦ ¸¸µéÀÚ
+// ê° íŒ¨í‚·ì„ ì²˜ë¦¬í•˜ëŠ” í•¸ë“¤ëŸ¬ë¥¼ ë§Œë“¤ì
 REGISTER_HANDLER( PKT_CS_LOGIN )
 {
 	LoginRequest inPacket = static_cast<LoginRequest&>( pktBase );
 	session->HandleLoginRequest( inPacket );
 }
 
-// Áö±İÀº Á¢¼Ó°ú µ¿½Ã¿¡ °°Àº ÀÏÀ» Ã³¸®ÇÏ¹Ç·Î ¾²ÀÌÁö ¾ÊÀ½ - ³ªÁß¿¡ »ç¿ëÀÚ ÀÎÁõ ±â´É°°Àº °Å ³ÖÀ¸¸é »ç¿ë
+// ì§€ê¸ˆì€ ì ‘ì†ê³¼ ë™ì‹œì— ê°™ì€ ì¼ì„ ì²˜ë¦¬í•˜ë¯€ë¡œ ì“°ì´ì§€ ì•ŠìŒ - ë‚˜ì¤‘ì— ì‚¬ìš©ì ì¸ì¦ ê¸°ëŠ¥ê°™ì€ ê±° ë„£ìœ¼ë©´ ì‚¬ìš©
 void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// ·Î±×ÀÎ µÆÀ¸¸é ÇÃ·¹ÀÌ¾î ¸¸µé°í
+	// ë¡œê·¸ì¸ ëìœ¼ë©´ í”Œë ˆì´ì–´ ë§Œë“¤ê³ 
 	int playerId = GGameLogic->AddPlayer();
 	if ( playerId == -1 )
 	{
-		// ´õ ¸ø µé¾î¿Â´Ù.
+		// ë” ëª» ë“¤ì–´ì˜¨ë‹¤.
 		Disconnect();
 	}
 
-	// Á¢¼ÓÇÑ ¾ÆÀÌ¿¡°Ô ¾ÆÀÌµğ¸¦ ÇÒ´çÇØÁØ´Ù.
+	// ì ‘ì†í•œ ì•„ì´ì—ê²Œ ì•„ì´ë””ë¥¼ í• ë‹¹í•´ì¤€ë‹¤.
 	LoginDone( playerId );
 
-	// »õ·Î ¿Â Ä£±¸°¡ ÀÖÀ¸´Ï±î ÀüÃ¼¿¡°Ô Áö±İ °ÔÀÓ »óÅÂ¸¦ ÇÑ ¹ø µ¿±âÈ­ ÇÏ¶ó°í ½ÃÅ²´Ù.
+	// ìƒˆë¡œ ì˜¨ ì¹œêµ¬ê°€ ìˆìœ¼ë‹ˆê¹Œ ì „ì²´ì—ê²Œ ì§€ê¸ˆ ê²Œì„ ìƒíƒœë¥¼ í•œ ë²ˆ ë™ê¸°í™” í•˜ë¼ê³  ì‹œí‚¨ë‹¤.
 	GClientManager->SyncAll();
 }
 
@@ -349,7 +352,7 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// ÀÌ°É °ÔÀÓ ·ÎÁ÷¿¡ Àû¿ëÇÏ°í 
+	// ì´ê±¸ ê²Œì„ ë¡œì§ì— ì ìš©í•˜ê³  
 	if ( !GGameLogic->SetRotation( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) )
 	{
 		return;
@@ -360,15 +363,20 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 		return;
 	}
 
-	// Àû¿ë¿¡ ¹®Á¦°¡ ¾øÀ¸¸é ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¹æ¼Û!
+	DDVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
+	// ì ìš©ì— ë¬¸ì œê°€ ì—†ìœ¼ë©´ ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë°©ì†¡!
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
 
 	outPacket.mRotationX = inPacket.mRotationX;
 	outPacket.mRotationY = inPacket.mRotationY;
 	outPacket.mRotationZ = inPacket.mRotationZ;
 
-	/// ´Ù¸¥ ¾Öµéµµ ¾÷µ¥ÀÌÆ® ÇØ¶ó
+	/// ë‹¤ë¥¸ ì• ë“¤ë„ ì—…ë°ì´íŠ¸ í•´ë¼
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
@@ -385,7 +393,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// ÀÌ°É °ÔÀÓ ·ÎÁ÷¿¡ Àû¿ëÇÏ°í 
+	// ì´ê±¸ ê²Œì„ ë¡œì§ì— ì ìš©í•˜ê³  
 	if ( !GGameLogic->Stop( inPacket.mPlayerId ) )
 	{
 		return;
@@ -393,15 +401,17 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 
 	DDVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
 
-	// Àû¿ë¿¡ ¹®Á¦°¡ ¾øÀ¸¸é ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¹æ¼Û! - Á¤Áö À§Ä¡´Â ¼­¹ö ÁÂÇ¥ ±âÁØ
+	// ì ìš©ì— ë¬¸ì œê°€ ì—†ìœ¼ë©´ ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë°©ì†¡! - ì •ì§€ ìœ„ì¹˜ëŠ” ì„œë²„ ì¢Œí‘œ ê¸°ì¤€
 	StopResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
 
 	outPacket.mPosX = position.x;
 	outPacket.mPosY = position.y;
 	outPacket.mPosZ = position.z;
 
-	/// ´Ù¸¥ ¾Öµéµµ ¾÷µ¥ÀÌÆ® ÇØ¶ó
+	/// ë‹¤ë¥¸ ì• ë“¤ë„ ì—…ë°ì´íŠ¸ í•´ë¼
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
@@ -418,13 +428,13 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// ÀÌ°É °ÔÀÓ ·ÎÁ÷¿¡ Àû¿ëÇÏ°í 
+	// ì´ê±¸ ê²Œì„ ë¡œì§ì— ì ìš©í•˜ê³  
 	if ( !GGameLogic->SetRotation( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) )
 	{
 		return;
 	}
 
-	// Àû¿ë¿¡ ¹®Á¦°¡ ¾øÀ¸¸é ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¹æ¼Û!
+	// ì ìš©ì— ë¬¸ì œê°€ ì—†ìœ¼ë©´ ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë°©ì†¡!
 	RotationResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
 
@@ -432,7 +442,7 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	outPacket.mRotationY = inPacket.mRotationY;
 	outPacket.mRotationZ = inPacket.mRotationZ;
 
-	/// ´Ù¸¥ ¾Öµéµµ ¾÷µ¥ÀÌÆ® ÇØ¶ó
+	/// ë‹¤ë¥¸ ì• ë“¤ë„ ì—…ë°ì´íŠ¸ í•´ë¼
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
@@ -449,6 +459,6 @@ void ClientSession::HandleSyncRequest( SyncRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// ½ÌÅ© ¿äÃ»ÀÌ ¿À¸é ÀüÃ¼ µ¿±âÈ­
+	// ì‹±í¬ ìš”ì²­ì´ ì˜¤ë©´ ì „ì²´ ë™ê¸°í™”
 	GClientManager->SyncAll();
 }

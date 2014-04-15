@@ -1,4 +1,4 @@
-#pragma once
+О╩©#pragma once
 
 #include "Exception.h"
 
@@ -8,9 +8,9 @@ class ObjectPool
 public:
 	static void* operator new( size_t objSize )
 	{
-		// new╥н ╦╝еого╢б аж╪р©║ ╩Щ╪╨юз╥н ╟╢ц╪╦╕ гр╢ГгоЁ╙©Д
-		// new го╢б ╫ц╟ёюл ©ю╥║ ╟и╥а╪╜ ╧л╦╝ аж╪р╦╕ гр╢ГгоЁ╙©Д
-		// ©ю╨Йа╖ф╝╣Ию╩ ©╛╪сю╦╥н ╧Хд║го╠Б ю╖гь╪╜юн╟║©Д
+		// newК║° К╕╛М└╢М∙≤К┼■ Лё╪Л├▄Л≈░ Л┐²Л└╠Л·░К║° Й╟²Л╡╢К╔╪ М∙═К▀╧М∙≤К┌≤Л ■
+		// new М∙≤К┼■ Л▀°Й╟└Л²╢ Л≤╓К·≤ Й╠╦К═╓Л└° К╞╦К╕╛ Лё╪Л├▄К╔╪ М∙═К▀╧М∙≤К┌≤Л ■
+		// Л≤╓К╦▄Л═²М┼╦К⌠╓Л²└ Л≈╟Л├█Л°╪К║° К╟╟Л╧≤М∙≤Й╦╟ Л°└М∙╢Л└°Л²╦Й╟─Л ■
 		if ( !mFreeList )
 		{
 			mFreeList = new uint8_t[sizeof(TOBJECT)*ALLOC_COUNT];
@@ -20,13 +20,13 @@ public:
 
 			for ( int i = 0; i<ALLOC_COUNT - 1; ++i )
 			{
-				/// OBJECTюг е╘╠Б╟║ ╧щ╣Е╫ц фВюнем е╘╠Б╨╦╢ы д©╬ъ гя╢ы
+				/// OBJECTЛ²≤ М│╛Й╦╟Й╟─ К╟≤К⌠°Л▀° М▐╛Л²╦М└╟ М│╛Й╦╟КЁ╢К▀╓ Л╩╓Л∙╪ М∙°К▀╓
 				pNext += sizeof( TOBJECT );
 				*ppCurr = pNext;
 				ppCurr = reinterpret_cast<uint8_t**>( pNext );
 			}
 
-			*ppCurr = 0; ///< ╦╤аЖ╦╥ю╨ 0ю╦╥н г╔╫ц
+			*ppCurr = 0; ///< К╖┬Л╖─К╖┴Л²─ 0Л°╪К║° М▒°Л▀°
 			mTotalAllocCount += ALLOC_COUNT;
 		}
 

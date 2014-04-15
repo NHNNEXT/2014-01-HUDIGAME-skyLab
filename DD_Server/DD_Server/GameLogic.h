@@ -1,7 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameConfig.h"
 #include "PlayerCharacter.h"
+#include <array>
 
 class GameLogic
 {
@@ -11,13 +12,13 @@ public:
 
 	void Init();
 
-	// ·Î±×ÀÎ ÇÏ¸é Ãß°¡ÇÑ´Ù.
-	// ¼º°øÇÏ¸é id¸¦ ÁØ´Ù.
+	// ë¡œê·¸ì¸ í•˜ë©´ ì¶”ê°€í•œë‹¤.
+	// ì„±ê³µí•˜ë©´ idë¥¼ ì¤€ë‹¤.
 	int AddPlayer();
 	
 	void DeletePlayer( int playerId );
 
-	// update - ÀÏ´Ü °¡Áö°í ÀÖ´Â ÇÃ·¹ÀÌ¾îµé »óÅÂ¸¦ ¾÷µ¥ÀÌÆ® ÇÑ´Ù.
+	// update - ì¼ë‹¨ ê°€ì§€ê³  ìˆëŠ” í”Œë ˆì´ì–´ë“¤ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸ í•œë‹¤.
 	void Update();
 
 	bool IsValidId( int playerId );
@@ -38,19 +39,22 @@ public:
 	DDVECTOR3 GetVelocity( unsigned int playerId );
 
 	// get other object data
-	// Áö±İÀº ¾ø½À´Ï´Ù.
+	// ì§€ê¸ˆì€ ì—†ìŠµë‹ˆë‹¤.
 
 private:
-	// Áö±İÀº ½Ì±Û ½º·¹µå´Ï±î ¶ôÀº ÇÊ¿ä¾ø´Ù.
+	// ì§€ê¸ˆì€ ì‹±ê¸€ ìŠ¤ë ˆë“œë‹ˆê¹Œ ë½ì€ í•„ìš”ì—†ë‹¤.
 	// SRWLOCK m_SRWLock;
 
 	DWORD m_PrevTime = 0;
 
 	// player list
-	PlayerCharacter* m_PlayerList[MAX_PLAYER_NUM];
+	// ì¡°ì‹¬í•´!
+	// ê°œë³„ ë¡œì§ì€ ê°ê°€ì˜ í´ë¼ì´ì–¸íŠ¸ ì„¸ì…˜ì— í• ë‹¹í•˜ê³ 
+	// ë¡œê·¸ì•„ì›ƒ ê¸°ëŠ¥ êµ¬í˜„í•  ê²ƒ - ì§€ê¸ˆ ì ‘ì† ëŠì–´ì§„ ì•„ì´ë“¤ ìºë¦­í„° ì‚­ì œë¥¼ ì•ˆ í•´ì¤ë‹ˆë‹¤.
+	std::array<PlayerCharacter*, MAX_PLAYER_NUM> m_PlayerList;
 
 	// other objects
-	// Áö±İÀº ¾øÀ½¿ä
+	// ì§€ê¸ˆì€ ì—†ìŒìš”
 };
 
 extern GameLogic* GGameLogic;

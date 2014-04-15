@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GameLogic.h"
 
 GameLogic* GGameLogic = nullptr;
@@ -60,7 +60,7 @@ void GameLogic::Update()
 	{
 		if ( m_PlayerList[playerId] != nullptr )
 		{
-			m_PlayerList[playerId]->update( dt );
+			m_PlayerList[playerId]->Update( dt );
 		}
 	}
 }

@@ -1,40 +1,12 @@
-========================================================================
-    CONSOLE APPLICATION : DD_Server Project Overview
-========================================================================
+* 피드백 (반영된 내용은 지우자)
 
-AppWizard has created this DD_Server application for you.
+2014. 4. 15
+- PlayerChar는 ClientSession과 1:1 맵핑
+만일 PlayerChar를 AI가 조종할 수도 있으면, 네이밍을 바꿔야 함.
+// 7주차 로직 구현과정에서 반영 예정
 
-This file contains a summary of what you will find in each of the files that
-make up your DD_Server application.
+- GameLogic이라는 전지전능한 클래스가 생길 것 같은데.. 구조적인 측면에서 적합한지?
+보통 게임 로직은 각 객체(Player, Npc 등)마다 자신에 해당되는 부분들로 들어가는데...
+// 역시 7주차 게임 로직 구현에서 반영
 
-
-DD_Server.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
-
-DD_Server.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
-
-DD_Server.cpp
-    This is the main application source file.
-
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named DD_Server.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+///# 검색 ㄱㄱ

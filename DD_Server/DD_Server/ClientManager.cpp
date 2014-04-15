@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "DD_Server.h"
 #include "..\..\PacketType.h"
 #include "ClientSession.h"
@@ -18,7 +18,7 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 
 void ClientManager::BroadcastPacket( ClientSession* from, PacketHeader* pkt )
 {
-	///FYI: C++ STL iterator ½ºÅ¸ÀÏÀÇ ·çÇÁ
+	///FYI: C++ STL iterator ìŠ¤íƒ€ì¼ì˜ ë£¨í”„
 	for ( ClientList::const_iterator it = mClientList.begin(); it != mClientList.end(); ++it )
 	{
 		ClientSession* client = it->second;
@@ -32,7 +32,7 @@ void ClientManager::BroadcastPacket( ClientSession* from, PacketHeader* pkt )
 
 void ClientManager::OnPeriodWork()
 {
-	/// Á¢¼ÓÀÌ ²÷±ä ¼¼¼Çµé ÁÖ±âÀûÀ¸·Î Á¤¸® (1ÃÊ Á¤µµ ¸¶´Ù ÇØÁÖÀÚ)
+	/// ì ‘ì†ì´ ëŠê¸´ ì„¸ì…˜ë“¤ ì£¼ê¸°ì ìœ¼ë¡œ ì •ë¦¬ (1ì´ˆ ì •ë„ ë§ˆë‹¤ í•´ì£¼ì)
 	DWORD currTick = GetTickCount();
 	if ( currTick - mLastGCTick >= 1000 )
 	{
@@ -40,20 +40,20 @@ void ClientManager::OnPeriodWork()
 		mLastGCTick = currTick;
 	}
 
-	/// Á¢¼ÓµÈ Å¬¶óÀÌ¾ğÆ® ¼¼¼Çº°·Î ÁÖ±âÀûÀ¸·Î ÇØÁà¾ß ÇÏ´Â ÀÏ (ÁÖ±â´Â ¾Ë¾Æ¼­ Á¤ÇÏ¸é µÊ - Áö±İÀº 1ÃÊ·Î ¤¾¤¾)
+	/// ì ‘ì†ëœ í´ë¼ì´ì–¸íŠ¸ ì„¸ì…˜ë³„ë¡œ ì£¼ê¸°ì ìœ¼ë¡œ í•´ì¤˜ì•¼ í•˜ëŠ” ì¼ (ì£¼ê¸°ëŠ” ì•Œì•„ì„œ ì •í•˜ë©´ ë¨ - ì§€ê¸ˆì€ 1ì´ˆë¡œ ã…ã…)
 	if ( currTick - mLastClientWorkTick >= 1000 )
 	{
 		ClientPeriodWork();
 		mLastClientWorkTick = currTick;
 	}
 
-	// °ÔÀÓ »óÅÂ¸¦ ¾÷µ¥ÀÌÆ® ÇÏÀÚ
+	// ê²Œì„ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸ í•˜ì
 	GGameLogic->Update();
 
-	/// Ã³¸® ¿Ï·áµÈ DB ÀÛ¾÷µé °¢°¢ÀÇ Client·Î dispatch
+	/// ì²˜ë¦¬ ì™„ë£Œëœ DB ì‘ì—…ë“¤ ê°ê°ì˜ Clientë¡œ dispatch
 	// DispatchDatabaseJobResults();
 
-	/// ÃÖÁ¾ÀûÀ¸·Î Å¬¶óÀÌ¾ğÆ®µé¿¡ ½×ÀÎ send ¿äÃ» Ã³¸®
+	/// ìµœì¢…ì ìœ¼ë¡œ í´ë¼ì´ì–¸íŠ¸ë“¤ì— ìŒ“ì¸ send ìš”ì²­ ì²˜ë¦¬
 	FlushClientSend();
 }
 
@@ -61,7 +61,7 @@ void ClientManager::CollectGarbageSessions()
 {
 	std::vector<ClientSession*> disconnectedSessions;
 
-	///FYI: C++ 11 ¶÷´Ù¸¦ ÀÌ¿ëÇÑ ½ºÅ¸ÀÏ
+	///FYI: C++ 11 ëŒë‹¤ë¥¼ ì´ìš©í•œ ìŠ¤íƒ€ì¼
 	std::for_each( mClientList.begin(), mClientList.end(),
 		[&]( ClientList::const_reference it )
 	{
@@ -73,7 +73,7 @@ void ClientManager::CollectGarbageSessions()
 	);
 
 
-	///FYI: C¾ğ¾î ½ºÅ¸ÀÏÀÇ ·çÇÁ
+	///FYI: Cì–¸ì–´ ìŠ¤íƒ€ì¼ì˜ ë£¨í”„
 	for ( size_t i = 0; i<disconnectedSessions.size(); ++i )
 	{
 		ClientSession* client = disconnectedSessions[i];
@@ -85,7 +85,7 @@ void ClientManager::CollectGarbageSessions()
 
 void ClientManager::ClientPeriodWork()
 {
-	/// FYI: C++ 11 ½ºÅ¸ÀÏÀÇ ·çÇÁ
+	/// FYI: C++ 11 ìŠ¤íƒ€ì¼ì˜ ë£¨í”„
 	for ( auto& it : mClientList )
 	{
 		ClientSession* client = it.second;
@@ -107,9 +107,9 @@ void ClientManager::FlushClientSend()
 
 void ClientManager::SyncAll( )
 {
-	// Á¶½ÉÇØ!
-	// ÀÛ¾÷ ¿À¹öÇìµå°¡ ³Ê¹« Å« °Í °°Àºµ¥...
-	// ÀÏ´Ü ÀÌ¹ø ÁÖ´Â ÄÄÇ»ÅÍ¸¦ ¹Ï°í ±×³É ¤¡¤¡
+	// ì¡°ì‹¬í•´!
+	// ì‘ì—… ì˜¤ë²„í—¤ë“œê°€ ë„ˆë¬´ í° ê²ƒ ê°™ì€ë°...
+	// ì¼ë‹¨ ì´ë²ˆ ì£¼ëŠ” ì»´í“¨í„°ë¥¼ ë¯¿ê³  ê·¸ëƒ¥ ã„±ã„±
 	int currentSessionId = -1;
 
 	for ( ClientList::const_iterator it = mClientList.begin( ); it != mClientList.end( ); ++it )
@@ -122,7 +122,7 @@ void ClientManager::SyncAll( )
 			DDVECTOR3 position = GGameLogic->GetPosition( currentSessionId );
 			DDVECTOR3 rotation = GGameLogic->GetRotation( currentSessionId );
 			DDVECTOR3 velocity = GGameLogic->GetRotation( currentSessionId );
-			// scaleÀº ÀÏ´Ü »ı·«
+			// scaleì€ ì¼ë‹¨ ìƒëµ
 
 			SyncResult outPacket;
 			outPacket.mPlayerId = currentSessionId;
@@ -139,7 +139,7 @@ void ClientManager::SyncAll( )
 			outPacket.mVelocityY = velocity.y;
 			outPacket.mVelocityZ = velocity.z;
 
-			// ¹ß½ÅÁö¿¡ »ó°ü¾øÀÌ ÀüÃ¼¿¡ Àü¼ÛÇÏ±â À§ÇØ¼­ fromÀ» nullptr·Î...
+			// ë°œì‹ ì§€ì— ìƒê´€ì—†ì´ ì „ì²´ì— ì „ì†¡í•˜ê¸° ìœ„í•´ì„œ fromì„ nullptrë¡œ...
 			BroadcastPacket( nullptr, &outPacket );
 		}
 	}

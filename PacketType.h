@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #define MAX_CHAT_LEN	1024
 
@@ -24,7 +24,7 @@ enum PacketTypes
 	PKT_CS_SYNC = 9,
 	PKT_SC_SYNC = 10,
 
-	PKT_SC_NEW = 11, // »õ ÇÃ·¹ÀÌ¾î³ª ¿ÀºêÁ§Æ® »ı¼º
+	PKT_SC_NEW = 11, // ìƒˆ í”Œë ˆì´ì–´ë‚˜ ì˜¤ë¸Œì íŠ¸ ìƒì„±
 
 	PKT_MAX = 1024
 };
@@ -39,7 +39,7 @@ struct PacketHeader
 };
 
 
-// ·Î±×ÀÎ ¿äÃ»
+// ë¡œê·¸ì¸ ìš”ì²­
 struct LoginRequest : public PacketHeader
 {
 	LoginRequest()
@@ -49,7 +49,7 @@ struct LoginRequest : public PacketHeader
 	}
 };
 
-// ¾ÆÀÌµğ ÇÒ´çÇØ¼­ Àü¼Û
+// ì•„ì´ë”” í• ë‹¹í•´ì„œ ì „ì†¡
 struct LoginResult : public PacketHeader
 {
 	LoginResult()
@@ -62,7 +62,7 @@ struct LoginResult : public PacketHeader
 	int		mPlayerId;
 };
 
-// °¡¼Ó Á» ÇÏ°Ú½À´Ï´Ù.
+// ê°€ì† ì¢€ í•˜ê² ìŠµë‹ˆë‹¤.
 struct AccelerarionRequest : public PacketHeader
 {
 	AccelerarionRequest()
@@ -83,7 +83,7 @@ struct AccelerarionRequest : public PacketHeader
 	double mRotationZ;
 };
 
-// °¡¼Ó - id, À§Ä¡, ¼Óµµ, ¹æÇâ(ÇöÀç È¸Àü °¢µµ - ³ªÁß¿¡´Â Çà·ÄÀÚÃ¼¸¦ ³Ñ°Ü¾ß ÇÒ ¼öµµ ÀÖ¾î)
+// ê°€ì† - id, ìœ„ì¹˜, ì†ë„, ë°©í–¥(í˜„ì¬ íšŒì „ ê°ë„ - ë‚˜ì¤‘ì—ëŠ” í–‰ë ¬ìì²´ë¥¼ ë„˜ê²¨ì•¼ í•  ìˆ˜ë„ ìˆì–´)
 struct AccelerarionResult : public PacketHeader
 {
 	AccelerarionResult()
@@ -120,7 +120,7 @@ struct AccelerarionResult : public PacketHeader
 	double mRotationZ;
 };
 
-// Àåºñ¸¦ Á¤ÁöÇÕ´Ï´Ù.
+// ì¥ë¹„ë¥¼ ì •ì§€í•©ë‹ˆë‹¤.
 struct StopRequest : public PacketHeader
 {
 	StopRequest()
@@ -133,7 +133,7 @@ struct StopRequest : public PacketHeader
 	int		mPlayerId;
 };
 
-// Àåºñ¸¦ Á¤ÁöÇØ¶ó.
+// ì¥ë¹„ë¥¼ ì •ì§€í•´ë¼.
 struct StopResult : public PacketHeader
 {
 	StopResult()
@@ -154,7 +154,7 @@ struct StopResult : public PacketHeader
 	double mPosZ;
 };
 
-// È¸Àü Á» ÇÏ°Ú½À´Ï´Ù. - ³ªÁß¿¡´Â °¢µµ¸¸ÀÌ ¾Æ´Ï¶ó È¸Àü º¯È¯ Çà·Ä ÀüÃ¼¸¦ º¸³»¾ß?
+// íšŒì „ ì¢€ í•˜ê² ìŠµë‹ˆë‹¤. - ë‚˜ì¤‘ì—ëŠ” ê°ë„ë§Œì´ ì•„ë‹ˆë¼ íšŒì „ ë³€í™˜ í–‰ë ¬ ì „ì²´ë¥¼ ë³´ë‚´ì•¼?
 struct RotationRequest : public PacketHeader
 {
 	RotationRequest()
@@ -175,7 +175,7 @@ struct RotationRequest : public PacketHeader
 	double mRotationZ;
 };
 
-// È¸Àü ÇØ¶ó.
+// íšŒì „ í•´ë¼.
 struct RotationResult : public PacketHeader
 {
 	RotationResult()
@@ -196,7 +196,7 @@ struct RotationResult : public PacketHeader
 	double mRotationZ;
 };
 
-// ÁÖ±âÀûÀÎ µ¿±âÈ­¸¦ À§ÇØ¼­ - ¿ÀºêÁ§Æ®µéÀº ¾î¶»°Ô ÇÏÁö... ÀÏ´Ü ÇÃ·¹ÀÌ¾î¸¸ ÇÏÀÚ
+// ì£¼ê¸°ì ì¸ ë™ê¸°í™”ë¥¼ ìœ„í•´ì„œ - ì˜¤ë¸Œì íŠ¸ë“¤ì€ ì–´ë–»ê²Œ í•˜ì§€... ì¼ë‹¨ í”Œë ˆì´ì–´ë§Œ í•˜ì
 struct SyncRequest : public PacketHeader
 {
 	SyncRequest()
@@ -245,7 +245,7 @@ struct SyncResult : public PacketHeader
 	double mRotationZ;
 };
 
-// ÀÏ´Ü »õ ÇÃ·¹ÀÌ¾î »ı¼ºÇÏ´Â °Í¿¡ ´ëÇØ¼­¸¸
+// ì¼ë‹¨ ìƒˆ í”Œë ˆì´ì–´ ìƒì„±í•˜ëŠ” ê²ƒì— ëŒ€í•´ì„œë§Œ
 struct NewResult : public PacketHeader
 {
 	NewResult()

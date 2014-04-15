@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo );
 
@@ -7,7 +7,7 @@ inline void CRASH_ASSERT( bool isOk )
 	if ( isOk )
 		return;
 
-	// ¸Ş¸ğ¸® ÁÖ¼Ò 0¿¡ °­Á¦·Î Á¢±ÙÇØ¼­ ¿¡·¯ ¹ß»ı À¯µµ
+	// ë©”ëª¨ë¦¬ ì£¼ì†Œ 0ì— ê°•ì œë¡œ ì ‘ê·¼í•´ì„œ ì—ëŸ¬ ë°œìƒ ìœ ë„
 	int* crashVal = 0;
 	*crashVal = 0xDEADBEEF;
 }

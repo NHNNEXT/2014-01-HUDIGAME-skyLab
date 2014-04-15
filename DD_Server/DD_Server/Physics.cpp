@@ -1,13 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Physics.h"
-
-Physics::Physics()
-{
-}
-
-Physics::~Physics()
-{
-}
 
 void Physics::CalcCurrentPosition( _Inout_ DDVECTOR3* pos, _In_ const DDVECTOR3 &velocity, _In_ float dt )
 {

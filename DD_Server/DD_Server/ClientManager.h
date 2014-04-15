@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <map>
 #include <WinSock2.h>
@@ -23,7 +23,7 @@ public:
 	void OnPeriodWork();
 	void FlushClientSend();
 
-	// ÇöÀç °ÔÀÓ »óÅÂ¸¦ Á¢¼ÓÁßÀÎ ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡ µ¿±âÈ­ ½ÃÅ´
+	// í˜„ì¬ ê²Œì„ ìƒíƒœë¥¼ ì ‘ì†ì¤‘ì¸ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì— ë™ê¸°í™” ì‹œí‚´
 	void SyncAll();
 
 private:

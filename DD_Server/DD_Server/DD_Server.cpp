@@ -1,4 +1,4 @@
-//	server for Debris defragmentation
+ï»¿//	server for Debris defragmentation
 //	Choi Gyeongwook	
 //	2014. 4. 10
 
@@ -21,16 +21,16 @@ typedef ProducerConsumerQueue<SOCKET, 100> PendingAcceptList;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	// exception ¹ß»ı °æ¿ì Ã³¸®
+	// exception ë°œìƒ ê²½ìš° ì²˜ë¦¬
 	SetUnhandledExceptionFilter( ExceptionFilter );
 
 	LThreadType = THREAD_MAIN;
 
-	// Manager »ı¼º - ¾ÆÁ÷ DB´Â »ç¿ë ¾È ÇÔ
+	// Manager ìƒì„± - ì•„ì§ DBëŠ” ì‚¬ìš© ì•ˆ í•¨
 	GClientManager = new ClientManager;
 	GClientManager->Init();
 
-	/// À©¼Ó ÃÊ±âÈ­
+	/// ìœˆì† ì´ˆê¸°í™”
 	WSADATA wsa;
 	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsa ) != 0 )
 		return -1;
@@ -81,7 +81,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	CloseHandle( hThread );
 
-	// À©¼Ó Á¾·á
+	// ìœˆì† ì¢…ë£Œ
 	WSACleanup( );
 
 	delete GClientManager;
@@ -100,7 +100,7 @@ unsigned int WINAPI ClientHandlingThread( LPVOID lpParam )
 		return -1;
 
 	LARGE_INTEGER liDueTime;
-	liDueTime.QuadPart = -10000000; ///< 1ÃÊ ÈÄºÎÅÍ µ¿ÀÛ
+	liDueTime.QuadPart = -10000000; ///< 1ì´ˆ í›„ë¶€í„° ë™ì‘
 	if ( !SetWaitableTimer( hTimer, &liDueTime, 100, TimerProc, NULL, TRUE ) )
 		return -1;
 
@@ -108,29 +108,29 @@ unsigned int WINAPI ClientHandlingThread( LPVOID lpParam )
 	{
 		SOCKET acceptSock = NULL;
 
-		/// »õ·Î Á¢¼ÓÇÑ Å¬¶óÀÌ¾ğÆ® Ã³¸®
+		/// ìƒˆë¡œ ì ‘ì†í•œ í´ë¼ì´ì–¸íŠ¸ ì²˜ë¦¬
 		if ( pAcceptList->Consume( acceptSock, false ) )
 		{
-			/// ¼ÒÄÏ Á¤º¸ ±¸Á¶Ã¼ ÇÒ´ç°ú ÃÊ±âÈ­
+			/// ì†Œì¼“ ì •ë³´ êµ¬ì¡°ì²´ í• ë‹¹ê³¼ ì´ˆê¸°í™”
 			ClientSession* client = GClientManager->CreateClient( acceptSock );
 
 			SOCKADDR_IN clientaddr;
 			int addrlen = sizeof( clientaddr );
 			getpeername( acceptSock, (SOCKADDR*)&clientaddr, &addrlen );
 
-			// Å¬¶ó Á¢¼Ó Ã³¸®
+			// í´ë¼ ì ‘ì† ì²˜ë¦¬
 			if ( false == client->OnConnect( &clientaddr ) )
 			{
 				client->Disconnect();
 			}
 
-			continue; ///< ´Ù½Ã ´ë±â·Î
+			continue; ///< ë‹¤ì‹œ ëŒ€ê¸°ë¡œ
 		}
 
-		/// ÃÖÁ¾ÀûÀ¸·Î Å¬¶óÀÌ¾ğÆ®µé¿¡ ½×ÀÎ send ¿äÃ» Ã³¸®
+		/// ìµœì¢…ì ìœ¼ë¡œ í´ë¼ì´ì–¸íŠ¸ë“¤ì— ìŒ“ì¸ send ìš”ì²­ ì²˜ë¦¬
 		GClientManager->FlushClientSend();
 
-		/// APC Queue¿¡ ½×ÀÎ ÀÛ¾÷µé Ã³¸®
+		/// APC Queueì— ìŒ“ì¸ ì‘ì—…ë“¤ ì²˜ë¦¬
 		SleepEx( INFINITE, TRUE );
 	}
 

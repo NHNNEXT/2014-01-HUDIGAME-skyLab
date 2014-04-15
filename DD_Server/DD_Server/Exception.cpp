@@ -1,4 +1,4 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "Exception.h"
 #include <DbgHelp.h>
 
@@ -8,7 +8,7 @@ LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 	if ( IsDebuggerPresent() )
 		return EXCEPTION_CONTINUE_SEARCH;
 
-	/// dump file ≥≤±‚¿⁄.
+	/// dump file ÎÇ®Í∏∞Ïûê.
 
 	HANDLE hFile = CreateFileA( "DDServer_minidump.dmp", GENERIC_READ | GENERIC_WRITE,
 		0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );

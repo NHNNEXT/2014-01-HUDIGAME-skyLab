@@ -2,7 +2,7 @@
 
 #include "DDConfig.h"
 #include "DDCircularBuffer.h"
-#include "DDPacketHandler.h"
+#include "DDPacketHeader.h"
 #include <map>
 
 #define MAX_LOADSTRING 100
@@ -27,8 +27,6 @@ public:
 	bool Init( );
 	bool Connect( const char* serverIP, int port );
 	void Disconnect();
-
-	void SetPacketHandler( short packetType, DDPacketHandler* handler );
 
 	void Write( const char* data, size_t size );
 	void Read( );

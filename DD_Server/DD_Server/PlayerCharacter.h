@@ -1,19 +1,19 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameConfig.h"
 
 class PlayerCharacter
 {
-	// ¾Æ¹«·¡µµ ÀÓ½Ã ÆÄÀÏÀÌ µÉ µí
-	// Å¬¶óÀÌ¾ğÆ®ÀÇ ·ÎÁ÷ ºÎºĞÀ» ¾Æ¿¹ ºĞ¸®ÇØ¼­ ¼­¹ö¿¡¼­µµ °øÀ¯ÇÒ ¼ö ÀÖµµ·Ï ÇØ¾ß
-	// ·ÎÁ÷µµ µÎ ºÎºĞÀ¸·Î ³ª´­ ¼ö ÀÖ¾î¾ß ÇÔ 
-	// °ÔÀÓ ³» ÆÇÁ¤ÀÌ ÇÊ¿äÇÑ °ÍÀº ¸ğµÎ ¼­¹ö¿¡¼­ °ü¸®ÇÏ°í
-	// Ä³¸¯ÅÍµéÀÇ ¿òÁ÷ÀÓÀ» °è»êÇÏ´Â ºÎºĞÀº Å¬¶ó¿¡¼­µµ µ¿½Ã¿¡ °è»ê
+	// ì•„ë¬´ë˜ë„ ì„ì‹œ íŒŒì¼ì´ ë  ë“¯
+	// í´ë¼ì´ì–¸íŠ¸ì˜ ë¡œì§ ë¶€ë¶„ì„ ì•„ì˜ˆ ë¶„ë¦¬í•´ì„œ ì„œë²„ì—ì„œë„ ê³µìœ í•  ìˆ˜ ìˆë„ë¡ í•´ì•¼
+	// ë¡œì§ë„ ë‘ ë¶€ë¶„ìœ¼ë¡œ ë‚˜ëˆŒ ìˆ˜ ìˆì–´ì•¼ í•¨ 
+	// ê²Œì„ ë‚´ íŒì •ì´ í•„ìš”í•œ ê²ƒì€ ëª¨ë‘ ì„œë²„ì—ì„œ ê´€ë¦¬í•˜ê³ 
+	// ìºë¦­í„°ë“¤ì˜ ì›€ì§ì„ì„ ê³„ì‚°í•˜ëŠ” ë¶€ë¶„ì€ í´ë¼ì—ì„œë„ ë™ì‹œì— ê³„ì‚°
 public:
 	PlayerCharacter( int playerId );
 	~PlayerCharacter();
 
-	void update( float dTime );
+	void Update( float dTime );
 
 	void SetPosition( float x, float y, float z ) { m_Position = DDVECTOR3( x, y, z ); }
 	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = DDVECTOR3( scaleX, scaleY, scaleZ ); }
@@ -23,7 +23,7 @@ public:
 	void Stop();
 	void RotateDicrection( float y, float x );
 
-	// player »óÅÂ °¡Á®¿À±â
+	// player ìƒíƒœ ê°€ì ¸ì˜¤ê¸°
 	int GetPlayerId() { return m_PlayerId; }
 	DDVECTOR3 GetPosition() { return m_Position; }
 	DDVECTOR3 GetScale() { return m_Scale; }

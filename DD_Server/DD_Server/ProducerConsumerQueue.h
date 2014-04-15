@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 template<typename TElem, int QSize>
 class ProducerConsumerQueue
@@ -14,53 +14,53 @@ public:
 
 	~ProducerConsumerQueue() {}
 
-	// Å¥¿¡ Áı¾î ³Ö´Â´Ù
+	// íì— ì§‘ì–´ ë„£ëŠ”ë‹¤
 	bool Produce( const TElem& item, bool waitUntilConsume = true )
 	{
-		// ¾²±â´Ï±î exclusive
+		// ì“°ê¸°ë‹ˆê¹Œ exclusive
 		AcquireSRWLockExclusive( &mSRWLock );
 
 		while ( mOccupiedSize == QSize )
 		{
-			// °¡µæ Â÷ ÀÖ´Â °æ¿ì
+			// ê°€ë“ ì°¨ ìˆëŠ” ê²½ìš°
 			if ( waitUntilConsume )
 			{
-				/// Å¥¿¡ ³ÖÀ» °ø°£ »ı±æ¶§±îÁö ÀÜ´Ù.
-				// mNotFullÀÌ true°¡ µÉ ¶§±îÁö ¶ôÀ» Ç®¾î ³õÀ½ - ²¨³»°¥ ¼ö ÀÖ°Ô
+				/// íì— ë„£ì„ ê³µê°„ ìƒê¸¸ë•Œê¹Œì§€ ì”ë‹¤.
+				// mNotFullì´ trueê°€ ë  ë•Œê¹Œì§€ ë½ì„ í’€ì–´ ë†“ìŒ - êº¼ë‚´ê°ˆ ìˆ˜ ìˆê²Œ
 				SleepConditionVariableSRW( &mNotFull, &mSRWLock, INFINITE, 0 );
 			}
 			else
 			{
-				// ¶ôÀ» Ç®°í, ¸ø ³Ö¾ú´Ù! ¸®ÅÏ
+				// ë½ì„ í’€ê³ , ëª» ë„£ì—ˆë‹¤! ë¦¬í„´
 				ReleaseSRWLockExclusive( &mSRWLock );
 				return false;
 			}
 		}
 
-		// Áö±İ Â÷ ÀÖ´Â µ¥ÀÌÅÍ ½ÃÀÛ Á¡ + Áö±İ Â÷ ÀÖ´Â µ¥ÀÌÅÍ Å©±â = Áö±İ ¾µ ÀÚ¸®
+		// ì§€ê¸ˆ ì°¨ ìˆëŠ” ë°ì´í„° ì‹œì‘ ì  + ì§€ê¸ˆ ì°¨ ìˆëŠ” ë°ì´í„° í¬ê¸° = ì§€ê¸ˆ ì“¸ ìë¦¬
 		mQueueArray[( mQueueOffset + mOccupiedSize ) % QSize] = item;
 		++mOccupiedSize;
 
 		ReleaseSRWLockExclusive( &mSRWLock );
 
-		// Ã¤¿ö³ù´Ù!
+		// ì±„ì›Œë†¨ë‹¤!
 		WakeConditionVariable( &mNotEmpty );
 
 		return true;
 	}
 
-	// Å¥¿¡¼­ »«´Ù
+	// íì—ì„œ ëº€ë‹¤
 	bool Consume( TElem& item, bool waitUntilProduce = true )
 	{
-		// »¬ ¶§µµ º¯°æÀÌ »ı±â¹Ç·Î exclusive
+		// ëº„ ë•Œë„ ë³€ê²½ì´ ìƒê¸°ë¯€ë¡œ exclusive
 		AcquireSRWLockExclusive( &mSRWLock );
 
 		while ( mOccupiedSize == 0 )
 		{
 			if ( waitUntilProduce )
 			{
-				/// Å¥¿¡ ¾ÆÀÌÅÛ µé¾î¿Ã¶§±îÁö ÀÜ´Ù
-				// mNotEmpty°¡ true°¡ µÉ ¶§±îÁö ¶ôÀ» Ç®¾î ³õÀ½ - Ã¤¿ï ¼ö ÀÖ°Ô
+				/// íì— ì•„ì´í…œ ë“¤ì–´ì˜¬ë•Œê¹Œì§€ ì”ë‹¤
+				// mNotEmptyê°€ trueê°€ ë  ë•Œê¹Œì§€ ë½ì„ í’€ì–´ ë†“ìŒ - ì±„ìš¸ ìˆ˜ ìˆê²Œ
 				SleepConditionVariableSRW( &mNotEmpty, &mSRWLock, INFINITE, 0 );
 			}
 			else
@@ -74,13 +74,13 @@ public:
 		item = mQueueArray[mQueueOffset];
 		--mOccupiedSize;
 
-		// ½ÃÀÛÁ¡À» ²¨³»°¡´Ï±î ½ÃÀÛÁ¡À» ¹Ğ±â
+		// ì‹œì‘ì ì„ êº¼ë‚´ê°€ë‹ˆê¹Œ ì‹œì‘ì ì„ ë°€ê¸°
 		if ( ++mQueueOffset == QSize )
 			mQueueOffset = 0;
 
 		ReleaseSRWLockExclusive( &mSRWLock );
 
-		// ²¨³»°¬´Ù!
+		// êº¼ë‚´ê°”ë‹¤!
 		WakeConditionVariable( &mNotFull );
 
 		return true;

@@ -32,8 +32,6 @@ public:
 	bool Consume( size_t bytes );
 
 private:
-
-
 	size_t mBeginIndex;
 	size_t mEndIndex;
 	size_t mCurrentSize;
