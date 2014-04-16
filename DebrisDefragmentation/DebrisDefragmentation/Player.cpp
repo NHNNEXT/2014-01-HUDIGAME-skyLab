@@ -3,6 +3,7 @@
 #include "DDPhysics.h"
 #include "DDCamera.h"
 #include "Character.h"
+#include "NetworkManager.h"
 
 Player::Player()
 {
@@ -27,10 +28,13 @@ Player* Player::Create( int playerId )
 
 void Player::Init()
 {
-	m_Camera = DDCamera::Create();
+	if ( GNetworkManager->GetMyPlayerId() == m_PlayerId )
+	{
+		m_Camera = DDCamera::Create();
+		AddChild( m_Camera );
+	}
+	
 	m_Character = Character::Create( L"tiger.x" );	
-		
-	AddChild( m_Camera );
 	AddChild( m_Character );
 }
 
