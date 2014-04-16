@@ -85,6 +85,7 @@
             this.PlayerVelocityX = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.PlayerStatusReset = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -365,6 +366,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.PlayerStatusReset);
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.groupBox3);
@@ -604,6 +606,18 @@
             this.label20.TabIndex = 4;
             this.label20.Text = "X";
             // 
+            // PlayerStatusReset
+            // 
+            this.PlayerStatusReset.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.PlayerStatusReset.ForeColor = System.Drawing.Color.Coral;
+            this.PlayerStatusReset.Location = new System.Drawing.Point(8, 393);
+            this.PlayerStatusReset.Name = "PlayerStatusReset";
+            this.PlayerStatusReset.Size = new System.Drawing.Size(160, 31);
+            this.PlayerStatusReset.TabIndex = 7;
+            this.PlayerStatusReset.Text = "Reset";
+            this.PlayerStatusReset.UseVisualStyleBackColor = false;
+            this.PlayerStatusReset.Click += new System.EventHandler(this.ResetPlayerStatus);
+            // 
             // skyLabTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -698,6 +712,7 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label IntegratedAccelVal;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button PlayerStatusReset;
     }
 }
 

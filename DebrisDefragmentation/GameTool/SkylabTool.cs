@@ -346,5 +346,11 @@ namespace GameTool
             this.PlayerVelocityY.Text = velocityY.ToString();
             this.PlayerVelocityZ.Text = velocityZ.ToString();
         }
+
+        private void ResetPlayerStatus(object sender, EventArgs e)
+        {
+            m_Model.SetPosition(0, 0, 0);
+            StopPlayer();
+        }
     }
 }
