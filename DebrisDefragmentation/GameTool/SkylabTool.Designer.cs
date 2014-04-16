@@ -57,14 +57,44 @@
             this.cameraXpos = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.TimerStatus = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.TimePass = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.PlayerPosZ = new System.Windows.Forms.TextBox();
+            this.PlayerPosY = new System.Windows.Forms.TextBox();
+            this.PlayerPosX = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.PlayerAccelZ = new System.Windows.Forms.TextBox();
+            this.PlayerAccelY = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.PlayerAccelX = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.IntegratedAccelVal = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.IntegratedVelVal = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.PlayerVelocityZ = new System.Windows.Forms.TextBox();
+            this.PlayerVelocityY = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.PlayerVelocityX = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.TimerStatus.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -315,15 +345,6 @@
             this.TimerStatus.TabStop = false;
             this.TimerStatus.Text = "Timer";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 20);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(65, 12);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "시간 경과 :";
-            // 
             // TimePass
             // 
             this.TimePass.AutoSize = true;
@@ -333,11 +354,262 @@
             this.TimePass.TabIndex = 1;
             this.TimePass.Text = "00 : 00 : 00";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "시간 경과 :";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.groupBox5);
+            this.groupBox2.Controls.Add(this.groupBox4);
+            this.groupBox2.Controls.Add(this.groupBox3);
+            this.groupBox2.Location = new System.Drawing.Point(753, 78);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(174, 430);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Player";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.PlayerPosZ);
+            this.groupBox3.Controls.Add(this.PlayerPosY);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.PlayerPosX);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Location = new System.Drawing.Point(8, 20);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(160, 102);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "PlayerPos";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 71);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(13, 12);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Z";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 46);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(13, 12);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Y";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 21);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(13, 12);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "X";
+            // 
+            // PlayerPosZ
+            // 
+            this.PlayerPosZ.Location = new System.Drawing.Point(25, 70);
+            this.PlayerPosZ.Name = "PlayerPosZ";
+            this.PlayerPosZ.Size = new System.Drawing.Size(129, 21);
+            this.PlayerPosZ.TabIndex = 2;
+            // 
+            // PlayerPosY
+            // 
+            this.PlayerPosY.Location = new System.Drawing.Point(25, 43);
+            this.PlayerPosY.Name = "PlayerPosY";
+            this.PlayerPosY.Size = new System.Drawing.Size(129, 21);
+            this.PlayerPosY.TabIndex = 3;
+            // 
+            // PlayerPosX
+            // 
+            this.PlayerPosX.Location = new System.Drawing.Point(25, 16);
+            this.PlayerPosX.Name = "PlayerPosX";
+            this.PlayerPosX.Size = new System.Drawing.Size(129, 21);
+            this.PlayerPosX.TabIndex = 4;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.IntegratedAccelVal);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.PlayerAccelZ);
+            this.groupBox4.Controls.Add(this.PlayerAccelY);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.PlayerAccelX);
+            this.groupBox4.Controls.Add(this.label12);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Location = new System.Drawing.Point(8, 128);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(160, 130);
+            this.groupBox4.TabIndex = 5;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Accelation";
+            // 
+            // PlayerAccelZ
+            // 
+            this.PlayerAccelZ.Location = new System.Drawing.Point(25, 70);
+            this.PlayerAccelZ.Name = "PlayerAccelZ";
+            this.PlayerAccelZ.Size = new System.Drawing.Size(129, 21);
+            this.PlayerAccelZ.TabIndex = 2;
+            // 
+            // PlayerAccelY
+            // 
+            this.PlayerAccelY.Location = new System.Drawing.Point(25, 43);
+            this.PlayerAccelY.Name = "PlayerAccelY";
+            this.PlayerAccelY.Size = new System.Drawing.Size(129, 21);
+            this.PlayerAccelY.TabIndex = 3;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 71);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(13, 12);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Z";
+            // 
+            // PlayerAccelX
+            // 
+            this.PlayerAccelX.Location = new System.Drawing.Point(25, 16);
+            this.PlayerAccelX.Name = "PlayerAccelX";
+            this.PlayerAccelX.Size = new System.Drawing.Size(129, 21);
+            this.PlayerAccelX.TabIndex = 4;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 46);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(13, 12);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Y";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 21);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(13, 12);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "X";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 104);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(49, 12);
+            this.label14.TabIndex = 2;
+            this.label14.Text = "가속도 :";
+            // 
+            // IntegratedAccelVal
+            // 
+            this.IntegratedAccelVal.AutoSize = true;
+            this.IntegratedAccelVal.Location = new System.Drawing.Point(61, 104);
+            this.IntegratedAccelVal.Name = "IntegratedAccelVal";
+            this.IntegratedAccelVal.Size = new System.Drawing.Size(11, 12);
+            this.IntegratedAccelVal.TabIndex = 5;
+            this.IntegratedAccelVal.Text = "0";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.IntegratedVelVal);
+            this.groupBox5.Controls.Add(this.label17);
+            this.groupBox5.Controls.Add(this.PlayerVelocityZ);
+            this.groupBox5.Controls.Add(this.PlayerVelocityY);
+            this.groupBox5.Controls.Add(this.label18);
+            this.groupBox5.Controls.Add(this.PlayerVelocityX);
+            this.groupBox5.Controls.Add(this.label19);
+            this.groupBox5.Controls.Add(this.label20);
+            this.groupBox5.Location = new System.Drawing.Point(8, 264);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(160, 130);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Velocity";
+            // 
+            // IntegratedVelVal
+            // 
+            this.IntegratedVelVal.AutoSize = true;
+            this.IntegratedVelVal.Location = new System.Drawing.Point(61, 104);
+            this.IntegratedVelVal.Name = "IntegratedVelVal";
+            this.IntegratedVelVal.Size = new System.Drawing.Size(11, 12);
+            this.IntegratedVelVal.TabIndex = 5;
+            this.IntegratedVelVal.Text = "0";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 104);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(37, 12);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "속도 :";
+            // 
+            // PlayerVelocityZ
+            // 
+            this.PlayerVelocityZ.Location = new System.Drawing.Point(25, 70);
+            this.PlayerVelocityZ.Name = "PlayerVelocityZ";
+            this.PlayerVelocityZ.Size = new System.Drawing.Size(129, 21);
+            this.PlayerVelocityZ.TabIndex = 2;
+            // 
+            // PlayerVelocityY
+            // 
+            this.PlayerVelocityY.Location = new System.Drawing.Point(25, 43);
+            this.PlayerVelocityY.Name = "PlayerVelocityY";
+            this.PlayerVelocityY.Size = new System.Drawing.Size(129, 21);
+            this.PlayerVelocityY.TabIndex = 3;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 71);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(13, 12);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Z";
+            // 
+            // PlayerVelocityX
+            // 
+            this.PlayerVelocityX.Location = new System.Drawing.Point(25, 16);
+            this.PlayerVelocityX.Name = "PlayerVelocityX";
+            this.PlayerVelocityX.Size = new System.Drawing.Size(129, 21);
+            this.PlayerVelocityX.TabIndex = 4;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 46);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(13, 12);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Y";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 21);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(13, 12);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "X";
+            // 
             // skyLabTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 684);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.TimerStatus);
             this.Controls.Add(this.CameraConfig);
             this.Controls.Add(this.View);
@@ -355,6 +627,13 @@
             this.groupBox1.PerformLayout();
             this.TimerStatus.ResumeLayout(false);
             this.TimerStatus.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -393,6 +672,32 @@
         private System.Windows.Forms.GroupBox TimerStatus;
         private System.Windows.Forms.Label TimePass;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox PlayerAccelZ;
+        private System.Windows.Forms.TextBox PlayerAccelY;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox PlayerAccelX;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox PlayerPosZ;
+        private System.Windows.Forms.TextBox PlayerPosY;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox PlayerPosX;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label IntegratedVelVal;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox PlayerVelocityZ;
+        private System.Windows.Forms.TextBox PlayerVelocityY;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox PlayerVelocityX;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label IntegratedAccelVal;
+        private System.Windows.Forms.Label label14;
     }
 }
 

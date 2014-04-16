@@ -108,11 +108,12 @@ namespace GameTool
                     MovePlayer();
                     RenderScene();
                     UpdateCameraInformation();
+                    UpdatePlayerStatus();
                 }
 
                 m_Renderer.EndDraw();
 
-                await Task.Delay(10);
+                await Task.Delay(30);
             }
         }
 
@@ -314,6 +315,36 @@ namespace GameTool
             {
                 m_Physics.MoveObject(m_Model, velocityX, velocityY, velocityZ, dt);
             }
+        }
+
+        private double GetAccelation()
+        {
+            return Math.Pow((accelX * accelX + accelY * accelY + accelZ * accelZ), 0.5);
+        }
+
+        private double GetSpeed()
+        {
+            return Math.Pow((velocityX * velocityX + velocityY * velocityY + velocityZ * velocityZ), 0.5);
+        }
+        
+        private void UpdatePlayerStatus()
+        {
+            // update position
+            this.PlayerPosX.Text = m_Model.GetPositionX().ToString();
+            this.PlayerPosY.Text = m_Model.GetPositionY().ToString();
+            this.PlayerPosZ.Text = m_Model.GetPositionZ().ToString();
+
+            // update acceleration
+            this.IntegratedAccelVal.Text = GetAccelation().ToString();
+            this.PlayerAccelX.Text = accelX.ToString();
+            this.PlayerAccelY.Text = accelY.ToString();
+            this.PlayerAccelZ.Text = accelZ.ToString();
+
+            // update speed
+            this.IntegratedVelVal.Text = GetSpeed().ToString();
+            this.PlayerVelocityX.Text = velocityX.ToString();
+            this.PlayerVelocityY.Text = velocityY.ToString();
+            this.PlayerVelocityZ.Text = velocityZ.ToString();
         }
     }
 }
