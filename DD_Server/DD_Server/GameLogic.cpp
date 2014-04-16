@@ -42,6 +42,7 @@ void GameLogic::DeletePlayer( int playerId )
 	if ( m_PlayerList[playerId] != nullptr )
 	{
 		delete m_PlayerList[playerId];
+		m_PlayerList[playerId] = nullptr;
 	}
 }
 

@@ -110,7 +110,6 @@ bool DDApplication::Release()
 		return true;
 	}
 
-	DDNetwork::GetInstance()->Release();
 	DDNetwork::ReleaseInstance();
 
 	// agebreak : 싱글톤 = 멤버 변수라니, 이상하지 않은가?

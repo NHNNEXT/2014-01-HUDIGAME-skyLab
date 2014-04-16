@@ -22,8 +22,6 @@ public:
 	DDNetwork();
 	~DDNetwork();
 
-	bool Release();
-
 	bool Init( );
 	bool Connect( const char* serverIP, int port );
 	void Disconnect();

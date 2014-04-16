@@ -37,11 +37,6 @@ bool DDNetwork::Init( )
 	return true;
 }
 
-bool DDNetwork::Release()
-{
-	return true;
-}
-
 bool DDNetwork::Connect( const char* serverIP = "localhost", int port = 9001)
 {
 	// Resolve IP address for hostname
@@ -124,7 +119,7 @@ void DDNetwork::DefaultHandler( DDPacketHeader& pktBase )
 
 void DDNetwork::HandleInit()
 {
-	for ( int i = 0; i < 2014; ++i )
+	for ( int i = 0; i < 1014; ++i )
 		m_HandlerTable[i] = DefaultHandler;
 }
 
