@@ -26,6 +26,7 @@ PlayScene* PlayScene::Create( std::wstring sceneName )
 
 PlayScene::~PlayScene()
 {
+	delete GNetworkManager;
 }
 
 void PlayScene::Init()
