@@ -1,4 +1,4 @@
-// ±âº» DLL ÆÄÀÏÀÔ´Ï´Ù.
+ï»¿// ê¸°ë³¸ DLL íŒŒì¼ì…ë‹ˆë‹¤.
 
 #include "stdafx.h"
 
@@ -7,14 +7,14 @@
 namespace DDWrapper
 {	
 	////////////////////////////////// Renderer Class //////////////////////////////////	
-	// »ı¼ºÀÚ
+	// ìƒì„±ì
 	Renderer::Renderer()
 		:m_pDDRenderer( m_pDDRenderer->GetInstance() )
 	{
 
 	}
 
-	// ¼Ò¸êÀÚ
+	// ì†Œë©¸ì
 	Renderer::~Renderer()
 	{
 		if ( m_pDDRenderer != nullptr )

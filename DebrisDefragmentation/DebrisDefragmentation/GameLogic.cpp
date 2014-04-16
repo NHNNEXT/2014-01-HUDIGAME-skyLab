@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "GameLogic.h"
 #include "PlayScene.h"
 #include "NetworkManager.h"
@@ -39,7 +39,7 @@ bool GameLogic::AddPlayer(int playerId)
 	m_Scene->AddChild( m_PlayerList[playerId] );
 	++m_CurrentPlayers;
 
-	// Ã³À½ ¿¬°áÀÏ ¶§, ÇöÀç »ç¿ëÀÚÀÇ ÇÃ·¹ÀÌ¾îÀÏ °ÍÀÌ¹Ç·Î player ID set
+	// ì²˜ìŒ ì—°ê²°ì¼ ë•Œ, í˜„ìž¬ ì‚¬ìš©ìžì˜ í”Œë ˆì´ì–´ì¼ ê²ƒì´ë¯€ë¡œ player ID set
 	if ( GNetworkManager->GetMyPlayerId() == -1 )
 	{
 		GNetworkManager->SetMyPlayerId( playerId );
@@ -68,7 +68,7 @@ DDScene* GameLogic::CreateScene( std::wstring sceneName )
 }
 
 
-// ¸ðµç Ä³¸¯ÅÍÀÇ À§Ä¡Á¤º¸¸¦ ¾÷µ¥ÀÌÆ® ÇÑ´Ù. °ÔÀÓ ½ÃÀÛ(´©±º°¡ »õ·Î µé¾î¿ÓÀ» ¶§ ÇØ¾ßÇÒ ºÎºÐ)
+// ëª¨ë“  ìºë¦­í„°ì˜ ìœ„ì¹˜ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸ í•œë‹¤. ê²Œìž„ ì‹œìž‘(ëˆ„êµ°ê°€ ìƒˆë¡œ ë“¤ì–´ì™“ì„ ë•Œ í•´ì•¼í•  ë¶€ë¶„)
 void GameLogic::Update()
 {
 // 	DWORD currentTime = timeGetTime();
@@ -84,7 +84,7 @@ void GameLogic::Update()
 // 	}
 }
 
-// Æ¯Á¤ ÇÃ·¹ÀÌ¾îÀÇ »óÅÂÁ¤º¸¸¦ ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+// íŠ¹ì • í”Œë ˆì´ì–´ì˜ ìƒíƒœì •ë³´ë¥¼ ì—…ë°ì´íŠ¸í•œë‹¤.
 void GameLogic::UpdatePlayerMove( int playerId, DDVECTOR3 pos, DDVECTOR3 vel, DDVECTOR3 rot )
 {
 	m_PlayerList[playerId]->SetPosition( pos );

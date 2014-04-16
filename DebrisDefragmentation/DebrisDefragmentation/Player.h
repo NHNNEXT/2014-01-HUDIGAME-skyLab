@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DDObject.h"
 
 class DDCamera;
@@ -15,23 +15,23 @@ public:
 	static Player* Create( int playerId );
 	void Init();	
 
-	// ÀÛ¼ºÀÚ : ÃÖ°æ¿í
-	// ÇöÀç ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î °¡¼Óµµ ºÎ¿©
-	// ÇÔ¼ö ÀÌ¸§ ¹Ù²ã¾ß ÇÒ °Í °°À½ GoForward °°Àº °É·Î
-	// SetAccelerationÀº m_Acc°ª get, setÇÒ ¶§ »ç¿ëÇØ¾ßÇÒµí
+	// ì‘ì„±ì : ìµœê²½ìš±
+	// í˜„ì¬ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ê°€ì†ë„ ë¶€ì—¬
+	// í•¨ìˆ˜ ì´ë¦„ ë°”ê¿”ì•¼ í•  ê²ƒ ê°™ìŒ GoForward ê°™ì€ ê±¸ë¡œ
+	// SetAccelerationì€ m_Accê°’ get, setí•  ë•Œ ì‚¬ìš©í•´ì•¼í• ë“¯
 	void SetAcceleration();
 	
-	// °¡¼Óµµ ¹× ¼Óµµ 0À¸·Î º¯°æ
+	// ê°€ì†ë„ ë° ì†ë„ 0ìœ¼ë¡œ ë³€ê²½
 	void Stop();
 
-	// ¹Ù¶óº¸´Â ¹æÇâ È¸Àü
+	// ë°”ë¼ë³´ëŠ” ë°©í–¥ íšŒì „
 	void RotateDicrection(double x, double y);
 
 	DDVECTOR3 GetVelocity() const { return m_Velocity; }
 	void SetVelocity( DDVECTOR3 val ) { m_Velocity = val; }
 	
-	// ÀÓ½Ã·Î ÀÌ¸§À» SetAccel, GetAccelµîÀ¸·Î ÇÔ ÃßÈÄ¿¡ SetAcceleration°ú ÇÔ²² ¼öÁ¤ ¿ä
-	// 4.15 ±è¼ºÈ¯
+	// ì„ì‹œë¡œ ì´ë¦„ì„ SetAccel, GetAccelë“±ìœ¼ë¡œ í•¨ ì¶”í›„ì— SetAccelerationê³¼ í•¨ê»˜ ìˆ˜ì • ìš”
+	// 4.15 ê¹€ì„±í™˜
 	DDVECTOR3 GetAccel() const { return m_Acceleration; }
 	void SetAccel( DDVECTOR3 val ) { m_Acceleration = val; }
 
@@ -45,7 +45,7 @@ private:
 	int			m_PlayerId = -1;
 	DDCamera*	m_Camera;
 	Character*	m_Character;
-	DDVECTOR3	m_Acceleration; // ÀÚµ¿À¸·Î 0, 0, 0À¸·Î ÃÊ±âÈ­ µÇ³ª?
+	DDVECTOR3	m_Acceleration; // ìë™ìœ¼ë¡œ 0, 0, 0ìœ¼ë¡œ ì´ˆê¸°í™” ë˜ë‚˜?
 	DDVECTOR3	m_Velocity;
 	bool		m_IsAccelerating = 0;
 	DWORD		m_AccelerationStart = 0;

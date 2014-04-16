@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Debris.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"
@@ -25,7 +25,7 @@ Debris* Debris::Create( wchar_t* modelPath )
 void Debris::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
-	// µ¥ºê¸®¸¦ Á¤ÁöÇÕ´Ï´Ù.
+	// ë°ë¸Œë¦¬ë¥¼ ì •ì§€í•©ë‹ˆë‹¤.
 }
 
 

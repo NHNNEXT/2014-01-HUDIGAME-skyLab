@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DDConfig.h"
 #include "Player.h"
@@ -14,24 +14,24 @@ public:
 
 	void Init();
 
-	// ·Î±×ÀÎ ÇÏ¸é Ãß°¡ÇÑ´Ù.
-	// ¼º°øÇÏ¸é id¸¦ ÁØ´Ù.
+	// ë¡œê·¸ì¸ í•˜ë©´ ì¶”ê°€í•œë‹¤.
+	// ì„±ê³µí•˜ë©´ idë¥¼ ì¤€ë‹¤.
 		
 	bool AddPlayer( int playerId );
 
-	// Á¶½ÉÇØ!!
-	// getplayer¿¡ const ¶®À½.. addChild ÇÏ±âÀ§ÇØ. Ä¸½¶È­..¤Ğ¤Ğ
-	// ³ªÁß¿¡ AddPlayer¾È¿¡ ¸¸µéÀÚ. 
+	// ì¡°ì‹¬í•´!!
+	// getplayerì— const ë• ìŒ.. addChild í•˜ê¸°ìœ„í•´. ìº¡ìŠí™”..ã… ã… 
+	// ë‚˜ì¤‘ì— AddPlayerì•ˆì— ë§Œë“¤ì. 
 	Player*		GetPlayer( int playerId ) { return m_PlayerList[playerId]; }
 	void		DeletePlayer( int playerId );
 
 	DDScene*	CreateScene( std::wstring sceneName );
 	DDScene*	GetScene() const { return m_Scene; }	
 	
-	//	update - ÀÏ´Ü °¡Áö°í ÀÖ´Â ÇÃ·¹ÀÌ¾îµé »óÅÂ¸¦ ¾÷µ¥ÀÌÆ® ÇÑ´Ù.
+	//	update - ì¼ë‹¨ ê°€ì§€ê³  ìˆëŠ” í”Œë ˆì´ì–´ë“¤ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸ í•œë‹¤.
 	void Update();
 
-	// Æ¯Á¤ ÇÃ·¹ÀÌ¾î¿¡ ´ëÇØ¼­ ¾÷µ¥ÀÌÆ® ÇÑ´Ù.
+	// íŠ¹ì • í”Œë ˆì´ì–´ì— ëŒ€í•´ì„œ ì—…ë°ì´íŠ¸ í•œë‹¤.
 	void UpdatePlayerMove( int playerId, DDVECTOR3 pos, DDVECTOR3 vel, DDVECTOR3 rot );
 	void UpdatePlayerStop( int playerId, DDVECTOR3 pos );
 	void UpdatePlayerRotation( int playerId, DDVECTOR3 rot );
@@ -59,7 +59,7 @@ public:
 	DDVECTOR3 GetVelocity( unsigned int playerId );
 
 	// get other object data
-	// Áö±İÀº ¾ø½À´Ï´Ù.
+	// ì§€ê¸ˆì€ ì—†ìŠµë‹ˆë‹¤.
 
 private:
 	DWORD m_PrevTime = 0;
@@ -69,7 +69,7 @@ private:
 	Player*			m_PlayerList[MAX_PLAYER_NUM];
 
 	// other objects
-	// sceneÀ» ÃßÈÄ¿¡ listµîÀ¸·Î ¸¸µé ¼öµµ ÀÖ°Ú³×¿ä
+	// sceneì„ ì¶”í›„ì— listë“±ìœ¼ë¡œ ë§Œë“¤ ìˆ˜ë„ ìˆê² ë„¤ìš”
 	PlayScene*		m_Scene = nullptr;
 };
 

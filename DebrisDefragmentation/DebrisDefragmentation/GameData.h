@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "DDResourceManager.h"
 #include "stdafx.h"

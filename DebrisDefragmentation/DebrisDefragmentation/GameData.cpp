@@ -1,4 +1,4 @@
-#include "GameData.h"
+﻿#include "GameData.h"
 
 
 using namespace rapidjson;

@@ -1,9 +1,9 @@
-// ÀÛ¼ºÀÚ : ¹®Áø»ó
-// ÃÖÁ¾ ¼öÁ¤ÀÏ : 2014. 04. 14
-// ±â´É : C# Åø¿¡¼­ DDFramework¸¦ ¾µ ¼ö ÀÖ°Ô °¨½Î³õÀº Å¬·¡½º
+ï»¿// ìž‘ì„±ìž : ë¬¸ì§„ìƒ
+// ìµœì¢… ìˆ˜ì •ì¼ : 2014. 04. 14
+// ê¸°ëŠ¥ : C# íˆ´ì—ì„œ DDFrameworkë¥¼ ì“¸ ìˆ˜ ìžˆê²Œ ê°ì‹¸ë†“ì€ í´ëž˜ìŠ¤
 
 // DDWrapper.h
-// warning!! ¸¸¾à lib°¡ Ãâ·ÂµÇ´Â Æú´õ°¡ ¹Ù²î¸é ¾Æ·¡ ¿É¼Çµµ ¹Ù²ã¾ß ÇÑ´Ù
+// warning!! ë§Œì•½ libê°€ ì¶œë ¥ë˜ëŠ” í´ë”ê°€ ë°”ë€Œë©´ ì•„ëž˜ ì˜µì…˜ë„ ë°”ê¿”ì•¼ í•œë‹¤
 #include "DDRenderer.h"
 #include "DDObject.h"
 #include "DDModel.h"
@@ -19,29 +19,29 @@ using namespace System::Runtime::InteropServices;
 
 namespace DDWrapper {
 
-	// DDWrapper ¾È¿¡¼­ »ç¿ëÇÒ À¯Æ¿¸®Æ¼µé
+	// DDWrapper ì•ˆì—ì„œ ì‚¬ìš©í•  ìœ í‹¸ë¦¬í‹°ë“¤
 	public ref class Utilities
 	{
 	public:
 		
 	};
 
-	// Wrapper ³»ºÎ¿¡ ±¸ÇöµÈ Å¬·¡½ºµéÀÇ ±âº» ±¸Á¶
+	// Wrapper ë‚´ë¶€ì— êµ¬í˜„ëœ í´ëž˜ìŠ¤ë“¤ì˜ ê¸°ë³¸ êµ¬ì¡°
 	/*
-		public ref class Å¬·¡½º ÀÌ¸§
+		public ref class í´ëž˜ìŠ¤ ì´ë¦„
 		{
 		public:
-			ÇÔ¼öµé();
+			í•¨ìˆ˜ë“¤();
 
 		private:
-			DDÇÁ·¹ÀÓ¿öÅ© Å¬·¡½º* m_pClass;
-			privateÇÔ¼öµé();
+			DDí”„ë ˆìž„ì›Œí¬ í´ëž˜ìŠ¤* m_pClass;
+			privateí•¨ìˆ˜ë“¤();
 		}
 	
-	Àú private ¾È¿¡ µé¾îÀÖ´Â n_pClass ¸â¹ö º¯¼ö¸¦ ÀÌ¿ëÇØ¼­ public ÇÔ¼öµé()ÀÇ ±¸ÇöÀ»
-	ÇÏ°í ÀÖ´Â ¸ð½ÀÀÔ´Ï´Ù.
+	ì € private ì•ˆì— ë“¤ì–´ìžˆëŠ” n_pClass ë©¤ë²„ ë³€ìˆ˜ë¥¼ ì´ìš©í•´ì„œ public í•¨ìˆ˜ë“¤()ì˜ êµ¬í˜„ì„
+	í•˜ê³  ìžˆëŠ” ëª¨ìŠµìž…ë‹ˆë‹¤.
 	
-	Âü ½±ÁÒ???
+	ì°¸ ì‰½ì£ ???
 	
 	*/
 
@@ -123,7 +123,7 @@ namespace DDWrapper {
 		void SetPosition( DDVECTOR3 position ) { m_pModel->SetPosition( position ); };
 		void SetPosition( float x, float y, float z ) { m_pModel->SetPosition( x, y, z ); };
 
-		// wrapping µÈ m_pModelÀ» ²¨³»±â À§ÇÑ ¸Þ¼­µå
+		// wrapping ëœ m_pModelì„ êº¼ë‚´ê¸° ìœ„í•œ ë©”ì„œë“œ
 		DDModel* GetPointer() { return m_pModel; };
 
 	protected:
@@ -151,8 +151,8 @@ namespace DDWrapper {
 	//////////////////////////////////// Object ////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
 
-	// ¼ÖÁ÷È÷ ÀÌ°É ¹Ù·Î ºÎ¸¦ ÀÏÀº º°·Î ¾øÀ» °Í °°±ä ÇÔ
-	// ±×·±µ¥ ±×°ÍÀÌ ½ÇÁ¦·Î ÀÏ¾î³µ½À´Ï´Ù
+	// ì†”ì§ížˆ ì´ê±¸ ë°”ë¡œ ë¶€ë¥¼ ì¼ì€ ë³„ë¡œ ì—†ì„ ê²ƒ ê°™ê¸´ í•¨
+	// ê·¸ëŸ°ë° ê·¸ê²ƒì´ ì‹¤ì œë¡œ ì¼ì–´ë‚¬ìŠµë‹ˆë‹¤
 	public ref class GameObject
 	{
 	public:
@@ -168,8 +168,8 @@ namespace DDWrapper {
 		const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_pObject->GetChildList(); };
 		
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
-		// AddChild´Â Æ÷ÀÎÅÍ¸¦ ¹Þ¾Æ¾ß µÇ´Âµ¥ C#Àº Æ÷ÀÎÅÍ¸¦ ¸ø ½á¼­ ¸¸µç ¸Þ¼Òµåµé
-		// º° °Å ¾Æ´ÏÁö¸¸ ÀÌ·¸°Ô ¾µ·Á¸é Model, Camera, Light°¡ Object À§¿¡ ¼±¾ðµÇ¾î ÀÖ¾î¾ß ÇÔ
+		// AddChildëŠ” í¬ì¸í„°ë¥¼ ë°›ì•„ì•¼ ë˜ëŠ”ë° C#ì€ í¬ì¸í„°ë¥¼ ëª» ì¨ì„œ ë§Œë“  ë©”ì†Œë“œë“¤
+		// ë³„ ê±° ì•„ë‹ˆì§€ë§Œ ì´ë ‡ê²Œ ì“¸ë ¤ë©´ Model, Camera, Lightê°€ Object ìœ„ì— ì„ ì–¸ë˜ì–´ ìžˆì–´ì•¼ í•¨
 		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
 		void AddChild( DDWrapper::GameCamera^ object ) { AddChild( object->GetPointer() ); };
 		void AddChild( DDWrapper::GameLight^ object ) { AddChild( object->GetPointer() ); };
@@ -220,7 +220,7 @@ namespace DDWrapper {
 
 		void SetVisible( bool visible ) { m_pObject->SetVisible( visible ); };
 		
-		// zÃà ¹æÇâ º¤ÅÍ¸¦ ¿ùµå ÁÂÇ¥°è ±âÁØÀ¸·Î ¹ÝÈ¯
+		// zì¶• ë°©í–¥ ë²¡í„°ë¥¼ ì›”ë“œ ì¢Œí‘œê³„ ê¸°ì¤€ìœ¼ë¡œ ë°˜í™˜
 		DDVECTOR3 GetViewDirection() { return m_pObject->GetViewDirection(); };
 	protected:
 		DDObject* m_pObject;
@@ -229,14 +229,14 @@ namespace DDWrapper {
 	////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////// Physics ///////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
-	// ÁÖÀÇ :: °ÔÀÓ ±¸ÇöºÎ¿¡ ÀÖ´Â Physics¿Í´Â Á¶±Ý »óÀÌÇÒ ¼ö ÀÖÀ½. ³ªÁß¿¡ º°µµ ÇÁ·ÎÁ§Æ®·Î ºÐ¸®ÇØ¼­ µ¿½Ã ÂüÁ¶ÇÒ ¿¹Á¤
-	// ÁÖÀÇ :: Physics Àü¿ë ºñ°ü¸® Å¬·¡½ºÀÓ
-	// Framework¿¡ Player°¡ ¾ø±â ¶§¹®¿¡ ½Ã°£ °æ°ú µîÀ» º¸Á¶ÇØÁÖ±â À§ÇØ ¼±¾ðÇÑ Å¬·¡½º
-	// °ü¸® Å¬·¡½º¿¡¼­´Â DWORD °°Àº ºñ°ü¸® ¸â¹ö¸¦ °¡Áú ¼ö°¡ ¾ø´Ù (Æ÷ÀÎÅÍ·Î °¡Á®¾ß ÇÔ)
+	// ì£¼ì˜ :: ê²Œìž„ êµ¬í˜„ë¶€ì— ìžˆëŠ” Physicsì™€ëŠ” ì¡°ê¸ˆ ìƒì´í•  ìˆ˜ ìžˆìŒ. ë‚˜ì¤‘ì— ë³„ë„ í”„ë¡œì íŠ¸ë¡œ ë¶„ë¦¬í•´ì„œ ë™ì‹œ ì°¸ì¡°í•  ì˜ˆì •
+	// ì£¼ì˜ :: Physics ì „ìš© ë¹„ê´€ë¦¬ í´ëž˜ìŠ¤ìž„
+	// Frameworkì— Playerê°€ ì—†ê¸° ë•Œë¬¸ì— ì‹œê°„ ê²½ê³¼ ë“±ì„ ë³´ì¡°í•´ì£¼ê¸° ìœ„í•´ ì„ ì–¸í•œ í´ëž˜ìŠ¤
+	// ê´€ë¦¬ í´ëž˜ìŠ¤ì—ì„œëŠ” DWORD ê°™ì€ ë¹„ê´€ë¦¬ ë©¤ë²„ë¥¼ ê°€ì§ˆ ìˆ˜ê°€ ì—†ë‹¤ (í¬ì¸í„°ë¡œ ê°€ì ¸ì•¼ í•¨)
 	public class PhysicsData
 	{
 	public:
-		// °¡¼Ó ½ÃÀÛ°ú ³¡¿¡ ´ëÇÑ Ã³¸®.
+		// ê°€ì† ì‹œìž‘ê³¼ ëì— ëŒ€í•œ ì²˜ë¦¬.
 		void StartAccelation()
 		{
 			if ( m_IsAccelerating )
@@ -257,14 +257,14 @@ namespace DDWrapper {
 			m_IsAccelerating = false;
 		}
 
-		// °¡¼Ó ÁßÀÎÁö ¾Æ´ÑÁö¸¦ ¾Ë·ÁÁØ´Ù.
+		// ê°€ì† ì¤‘ì¸ì§€ ì•„ë‹Œì§€ë¥¼ ì•Œë ¤ì¤€ë‹¤.
 		bool IsAccelation() { return m_IsAccelerating; }
 
-		// ÃÑ °¡¼Ó ½Ã°£À» ¹ÝÈ¯ÇÑ´Ù.
+		// ì´ ê°€ì† ì‹œê°„ì„ ë°˜í™˜í•œë‹¤.
 		DWORD TimeOfAccelation() { return m_dTime; }
 
 	private:
-		// °¡¼Ó ½Ã°£À» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+		// ê°€ì† ì‹œê°„ì„ ì—…ë°ì´íŠ¸í•œë‹¤.
 		void Update() { m_dTime = timeGetTime() - m_StartTime; }
 
 		DWORD m_dTime = 0.0f;
@@ -279,7 +279,7 @@ namespace DDWrapper {
 		GamePhysics() : m_pPhysicsData( new PhysicsData() ) {};
 		~GamePhysics() {};
 		
-		// µî¼Ó
+		// ë“±ì†
 		void MoveObject( GameModel^ object, float velocityX, float velocityY, float velocityZ, float dt )
 		{
 			DDVECTOR3 result = object->GetPosition();
@@ -289,8 +289,8 @@ namespace DDWrapper {
 			object->SetPosition( result );
 		}
 
-		// µî°¡¼Ó
-		// ÁÖÀÇ : velocity °ªÀ» º¯°æÇØÁÖÁö ¾ÊÀ¸¹Ç·Î È£ÃâÇÑ ÂÊ¿¡¼­ ¸Å¹ø dt¸¸Å­ °»½ÅÇØ¾ß ÇÑ´Ù.
+		// ë“±ê°€ì†
+		// ì£¼ì˜ : velocity ê°’ì„ ë³€ê²½í•´ì£¼ì§€ ì•Šìœ¼ë¯€ë¡œ í˜¸ì¶œí•œ ìª½ì—ì„œ ë§¤ë²ˆ dtë§Œí¼ ê°±ì‹ í•´ì•¼ í•œë‹¤.
 		bool AccelObject( GameModel^ object, float velocityX, float velocityY, float velocityZ,
 			float accelX, float accelY, float accelZ, float dt )
 		{
@@ -306,40 +306,40 @@ namespace DDWrapper {
 			if ( m_pPhysicsData->TimeOfAccelation() > 500 )
 			{
 				m_pPhysicsData->StopAccelation();
-				// °¡¼Ó ³¡. false¸¦ ¹ÞÀ¸¸é È£ÃâÇÑ ÂÊ¿¡¼­´Â °¡¼Óµµ Çà·ÄÀ» 0À¸·Î ¸¸µç´Ù.
+				// ê°€ì† ë. falseë¥¼ ë°›ìœ¼ë©´ í˜¸ì¶œí•œ ìª½ì—ì„œëŠ” ê°€ì†ë„ í–‰ë ¬ì„ 0ìœ¼ë¡œ ë§Œë“ ë‹¤.
 				return false;
 			}
 			else
 			{
-				// °¡¼Ó OK
+				// ê°€ì† OK
 				return true;
 			}
 		}
 
-		// ÀÚ·áÇüÀÌ ´Þ¶ó¼­ C#¿¡¼­ ¹Ù·Î ¾²Áö´Â ¸øÇÔ
-		// Àß °íÃÄº¾½Ã´Ù
+		// ìžë£Œí˜•ì´ ë‹¬ë¼ì„œ C#ì—ì„œ ë°”ë¡œ ì“°ì§€ëŠ” ëª»í•¨
+		// ìž˜ ê³ ì³ë´…ì‹œë‹¤
 	private:
 		/*
-		input : ÇöÀç À§Ä¡, ¼Óµµ, ½Ã°£ º¯È­·®
-		output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡
-		ÁÖÀÇ : µî¼Ó¿îµ¿ÀÎ °æ¿ì »ç¿ë, °¡¼Óµµ¿¡ ÀÇÇÑ °è»êÀÌ ÇÊ¿äÇÏ¸é ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+		input : í˜„ìž¬ ìœ„ì¹˜, ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+		output : ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ìœ„ì¹˜
+		ì£¼ì˜ : ë“±ì†ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ê°€ì†ë„ì— ì˜í•œ ê³„ì‚°ì´ í•„ìš”í•˜ë©´ ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 		*/
 		void CalcCurrentPosition( _Inout_ DDVECTOR3& pos, const DDVECTOR3& velocity, float dt )
 		{
 			DDPhysics::CalcCurrentPosition( &pos, velocity, dt );
 		}
 		/*
-		input : ÇöÀç À§Ä¡, ÇöÀç ¼Óµµ, °¡¼Óµµ, ½Ã°£ º¯È­·®
-		output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡, ¾÷µ¥ÀÌÆ®µÈ ÇöÀç ¼Óµµ
-		ÁÖÀÇ : °¡¼Óµµ¿¡ ÀÇÇÑ ¿îµ¿ÀÎ °æ¿ì »ç¿ë, µî¼Ó¿îµ¿ÀÇ °æ¿ì ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+		input : í˜„ìž¬ ìœ„ì¹˜, í˜„ìž¬ ì†ë„, ê°€ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+		output : ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ìœ„ì¹˜, ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ì†ë„
+		ì£¼ì˜ : ê°€ì†ë„ì— ì˜í•œ ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ë“±ì†ìš´ë™ì˜ ê²½ìš° ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 		*/
 		void CalcCurrentPosition( _Inout_ DDVECTOR3& pos, _Inout_ DDVECTOR3& velocity, const DDVECTOR3& acceleration, float dt )
 		{
 			DDPhysics::CalcCurrentPosition( &pos, &velocity, acceleration, dt );
 		}
 		/*
-		input : ¿øº» º¤ÅÍ¿Í °á°ú°¡ ÀúÀåµÉ º¤ÅÍ ÁÖ¼Ò
-		output : ¿øº» º¤ÅÍÀÇ ³ë¸Ö º¤ÅÍ
+		input : ì›ë³¸ ë²¡í„°ì™€ ê²°ê³¼ê°€ ì €ìž¥ë  ë²¡í„° ì£¼ì†Œ
+		output : ì›ë³¸ ë²¡í„°ì˜ ë…¸ë©€ ë²¡í„°
 		*/
 		void GetNormalVector( _In_ DDVECTOR3* srcVec, _Out_ DDVECTOR3* normalVec )
 		{

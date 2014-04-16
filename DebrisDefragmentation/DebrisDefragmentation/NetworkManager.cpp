@@ -1,4 +1,4 @@
-#include "NetworkManager.h"
+ï»¿#include "NetworkManager.h"
 #include "DDNetwork.h"
 #include "PacketType.h"
 #include "GameLogic.h"
@@ -77,7 +77,7 @@ void NetworkManager::SendRotateDirection( double y, double x )
 
 void NetworkManager::RegisterHandles()
 {
-	// ¿©±â¿¡¼­ ÇÚµé·¯¸¦ µî·ÏÇÏÀÚ
+	// ì—¬ê¸°ì—ì„œ í•¸ë“¤ëŸ¬ë¥¼ ë“±ë¡í•˜ì
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_LOGIN, HandleLoginResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ACCELERATION, HandleAccelerationResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STOP, HandleStopResult );
@@ -87,16 +87,16 @@ void NetworkManager::RegisterHandles()
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 {
-	// ÀÏ´Ü Àú±â¼­ ¾ó¸¶¸¸Å­ ÀĞ¾î¿Í¼­ ÇØ´ç ÆĞÅ¶À» ±¸¼ºÇÏ°í
+	// ì¼ë‹¨ ì €ê¸°ì„œ ì–¼ë§ˆë§Œí¼ ì½ì–´ì™€ì„œ í•´ë‹¹ íŒ¨í‚·ì„ êµ¬ì„±í•˜ê³ 
 	LoginResult inPacket = reinterpret_cast<LoginResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	// »ç¿ëÀÚÀÇ player°¡ ÃÖÃÊ ·Î±×ÀÎÇÑ °æ¿ì
+	// ì‚¬ìš©ìì˜ playerê°€ ìµœì´ˆ ë¡œê·¸ì¸í•œ ê²½ìš°
 	m_MyPlayerId = inPacket.mPlayerId;
 
 	if ( !GGameLogic->AddPlayer( m_MyPlayerId ) )
 	{
-		// ¾î¶»°Ô ÇÒ±î¿ä?
+		// ì–´ë–»ê²Œ í• ê¹Œìš”?
 	}
 }
 

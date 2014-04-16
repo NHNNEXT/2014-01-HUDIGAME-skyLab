@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Player.h"
 #include "DDPhysics.h"
 #include "DDCamera.h"
@@ -44,7 +44,7 @@ void Player::UpdateItSelf( float dTime )
 	{
 		if ( timeGetTime() - m_AccelerationStart > 500 )
 		{
-			// °¡¼Ó ³¡³µ´Ù
+			// ê°€ì† ëë‚¬ë‹¤
 			m_IsAccelerating = false;
 			m_Acceleration = DDVECTOR3( 0, 0, 0 );
 		}
@@ -55,8 +55,8 @@ void Player::UpdateItSelf( float dTime )
 
 void Player::SetAcceleration()
 {
-	// °¡¼Ó ½ÃÀÛ ½ÃÁ¡ ±â·Ï - Å¸ÀÓ ½ºÅÆÇÁ·Î ¹®Á¦ ÇØ°á
-	// ³ªÁß¿¡´Â Å¸ÀÌ¸Ó ¸¸µé¾î¼­ ½áº¼±î?
+	// ê°€ì† ì‹œìž‘ ì‹œì  ê¸°ë¡ - íƒ€ìž„ ìŠ¤íƒ¬í”„ë¡œ ë¬¸ì œ í•´ê²°
+	// ë‚˜ì¤‘ì—ëŠ” íƒ€ì´ë¨¸ ë§Œë“¤ì–´ì„œ ì¨ë³¼ê¹Œ?
 	m_AccelerationStart = timeGetTime();
 	m_IsAccelerating = true;
 
@@ -64,22 +64,22 @@ void Player::SetAcceleration()
 	DDVECTOR3 viewDirection( GetViewDirection() );
 	DDPhysics::GetNormalVector( &viewDirection, &normalVec );
 
-	// Á¶½ÉÇØ!
-	// °¡¼Óµµ °¡ÁßÄ¡ ÇÏµå ÄÚµù ¼öÁ¤ ÇÒ °Í
+	// ì¡°ì‹¬í•´!
+	// ê°€ì†ë„ ê°€ì¤‘ì¹˜ í•˜ë“œ ì½”ë”© ìˆ˜ì • í•  ê²ƒ
 	m_Acceleration += ( viewDirection * 1.0f );
 }
 
 void Player::Stop()
 {
-	// Àåºñ¸¦ Á¤ÁöÇÕ´Ï´Ù. ¾î ¾ÈµÇÀÝ¾Æ? ¾î? Àú, Á¤Áö°¡ ¾È µÅ, Á¤Áö½ÃÅ³ ¼ö°¡ ¾ø¾î. ¾È-µÅ!
+	// ìž¥ë¹„ë¥¼ ì •ì§€í•©ë‹ˆë‹¤. ì–´ ì•ˆë˜ìž–ì•„? ì–´? ì €, ì •ì§€ê°€ ì•ˆ ë¼, ì •ì§€ì‹œí‚¬ ìˆ˜ê°€ ì—†ì–´. ì•ˆ-ë¼!
 	m_Acceleration = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 	m_Velocity = DDVECTOR3( 0.0f, 0.0f, 0.0f );
 }
 
 void Player::RotateDicrection( double x, double y )
 {
-	// Á¶½ÉÇØ!
-	// È¸Àü °¢µµ °¡ÁßÄ¡ ÇÏµå ÄÚµù ¼öÁ¤ ÇÒ °Í
+	// ì¡°ì‹¬í•´!
+	// íšŒì „ ê°ë„ ê°€ì¤‘ì¹˜ í•˜ë“œ ì½”ë”© ìˆ˜ì • í•  ê²ƒ
 	// SetRotation( x / 500, y / 500, 0 );
 	IncreaseRotationX( x / 10 );
 	IncreaseRotationY( y / 10 );
