@@ -1,26 +1,26 @@
-#pragma once
+ï»¿#pragma once
 
 
 /*
-	ÀÛ¼ºÀÚ : ÃÖ°æ¿í
-	ÀÛ¼ºÀÏ : 2014. 4. 6
-	³»¿ë : Æò¸é»óÀÇ ÁÂÇ¥¸¦ Ç¥ÇöÇÏ°í ¿¬»êÇÏ´Â µ¥ÀÌÅÍ Å¸ÀÔ Á¤ÀÇ (NNGameFramework¿Í µ¿ÀÏ)
+	ì‘ì„±ì : ìµœê²½ìš±
+	ì‘ì„±ì¼ : 2014. 4. 6
+	ë‚´ìš© : í‰ë©´ìƒì˜ ì¢Œí‘œë¥¼ í‘œí˜„í•˜ê³  ì—°ì‚°í•˜ëŠ” ë°ì´í„° íƒ€ì… ì •ì˜ (NNGameFrameworkì™€ ë™ì¼)
 */
 
 #include "DDConfig.h"
-// agebreak : ÀÚÁÖ ¾²ÀÌ°í, º¯ÇÏÁö ¾Ê´Â Çì´õ´Â PreCompiled Header¿¡ ³Ö´Â°Ô ÁÁ´Ù.
-// pre-compiled header·Î ÀÌµ¿
+// agebreak : ìì£¼ ì“°ì´ê³ , ë³€í•˜ì§€ ì•ŠëŠ” í—¤ë”ëŠ” PreCompiled Headerì— ë„£ëŠ”ê²Œ ì¢‹ë‹¤.
+// pre-compiled headerë¡œ ì´ë™
 
 class DDPoint
 {
 public:
 	DDPoint() : m_X( 0.f ), m_Y( 0.f ) {}
 	DDPoint( float x, float y ) : m_X( x ), m_Y( y ) {}
-	DDPoint( const DDPoint& point ) : m_X( point.GetX() ), m_Y( point.GetY() ) {} // agebreak : ÄÄÆÄÀÏÇÏ¸é ºñÇ¥ÁØ È®ÀåÀÌ¶ó¸é¼­ ¿ö´×ÀÌ ¹ß»ıÇÔ. ÀÌ°ÍÀ» Àâ¾Æ¶ó. ±³¼ö½Ç·Î µé°í¿À¸é ¾Ë·ÁÁÜ. 
+	DDPoint( const DDPoint& point ) : m_X( point.GetX() ), m_Y( point.GetY() ) {} // agebreak : ì»´íŒŒì¼í•˜ë©´ ë¹„í‘œì¤€ í™•ì¥ì´ë¼ë©´ì„œ ì›Œë‹ì´ ë°œìƒí•¨. ì´ê²ƒì„ ì¡ì•„ë¼. êµìˆ˜ì‹¤ë¡œ ë“¤ê³ ì˜¤ë©´ ì•Œë ¤ì¤Œ. 
 	~DDPoint() {}
 
-	// agebreak : ¾Æ·¡¿Í °°ÀÌ °£´ÜÇÏ°í ÀÚÁÖ ¾²´Â ÇÔ¼ö´Â, inlineÀ¸·Î ¼±¾ğÇÑ´Ù
-	// inlineÀ¸·Î º¯°æ ¿Ï·á
+	// agebreak : ì•„ë˜ì™€ ê°™ì´ ê°„ë‹¨í•˜ê³  ìì£¼ ì“°ëŠ” í•¨ìˆ˜ëŠ”, inlineìœ¼ë¡œ ì„ ì–¸í•œë‹¤
+	// inlineìœ¼ë¡œ ë³€ê²½ ì™„ë£Œ
 	DDPoint& operator=( const DDPoint& point ) { this->SetPoint( point.GetX(), point.GetY() ); return *this; }
 	DDPoint operator+( const DDPoint& point ) const { return DDPoint( this->m_X + point.GetX(), this->m_Y + point.GetY() );}
 	DDPoint operator-( const DDPoint& point ) const { return DDPoint( this->m_X - point.GetX(), this->m_Y - point.GetY() );}
@@ -29,9 +29,9 @@ public:
 	DDPoint operator/( float n ) const { return DDPoint( this->m_X / n, this->m_Y / n ); }
 
 	/*
-		input : DDPoint 2°³(½ÃÀÛÁ¡, ³¡Á¡), float °¡ÁßÄ¡
-		output : ÀÎÀÚ·Î ¹ŞÀº µÎ Á¡À» ÀÕ´Â ¼±ºĞ À§ÀÇ Á¡µé Áß °¡ÁßÄ¡¸¦ Àû¿ëÇÑ linear interpolation ÁöÁ¡ÀÇ ÁÂÇ¥
-		ÁÖÀÇ : °¡ÁßÄ¡ t´Â 0°ú 1 »çÀÌÀÇ °ªÀ» °¡Áø´Ù.
+		input : DDPoint 2ê°œ(ì‹œì‘ì , ëì ), float ê°€ì¤‘ì¹˜
+		output : ì¸ìë¡œ ë°›ì€ ë‘ ì ì„ ì‡ëŠ” ì„ ë¶„ ìœ„ì˜ ì ë“¤ ì¤‘ ê°€ì¤‘ì¹˜ë¥¼ ì ìš©í•œ linear interpolation ì§€ì ì˜ ì¢Œí‘œ
+		ì£¼ì˜ : ê°€ì¤‘ì¹˜ tëŠ” 0ê³¼ 1 ì‚¬ì´ì˜ ê°’ì„ ê°€ì§„ë‹¤.
 	*/
 	DDPoint DDPoint::Lerp( const DDPoint& startPoint, const DDPoint& endPoint, float t )
 	{
@@ -40,18 +40,18 @@ public:
 	}
 
 	/*
-		input : °Å¸®¸¦ ¾Ë°í ½ÍÀº DDPoint
-		output : ÁÖ¾îÁø Á¡°ú ¶³¾îÁø °Å¸®
+		input : ê±°ë¦¬ë¥¼ ì•Œê³  ì‹¶ì€ DDPoint
+		output : ì£¼ì–´ì§„ ì ê³¼ ë–¨ì–´ì§„ ê±°ë¦¬
 	*/
 	inline float GetDistance( DDPoint& point ) const {
-		// agebreak : µÎ°³ÀÇ ¿À¹ö·ÎµùÇÑ ÇÔ¼ö´Â ¾Æ·¡¿Í °°ÀÌ ÇÏ³ª·Î ÅëÀÏÇØ¼­ »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù
+		// agebreak : ë‘ê°œì˜ ì˜¤ë²„ë¡œë”©í•œ í•¨ìˆ˜ëŠ” ì•„ë˜ì™€ ê°™ì´ í•˜ë‚˜ë¡œ í†µì¼í•´ì„œ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ë‹¤
 		//return sqrtf( pow( m_X - point.GetX(), 2 ) + pow( m_Y - point.GetY(), 2 ) );
 		return GetDistance(point.GetX(), point.GetY());
 	}
 
 	/*
-		input : °Å¸®¸¦ ¾Ë°í ½ÍÀº Á¡ÀÇ xÁÂÇ¥¿Í yÁÂÇ¥
-		output : ÁÖ¾îÁø Á¡°ú ¶³¾îÁø °Å¸®
+		input : ê±°ë¦¬ë¥¼ ì•Œê³  ì‹¶ì€ ì ì˜ xì¢Œí‘œì™€ yì¢Œí‘œ
+		output : ì£¼ì–´ì§„ ì ê³¼ ë–¨ì–´ì§„ ê±°ë¦¬
 	*/
 	inline float GetDistance( float x, float y ) const {
 		return sqrtf( pow( m_X - x, 2 ) + pow( m_Y - y, 2 ) );

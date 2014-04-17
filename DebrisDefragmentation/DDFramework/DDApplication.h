@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 /*
-	ÀÛ¼ºÀÚ : ÃÖ°æ¿í
-	ÀÛ¼ºÀÏ : 2014. 4. 4
-	³»¿ë : ÇÁ·¹ÀÓ¿÷ ±â¹İÀÌ µÇ´Â application (NNGameFramework¿Í °ÅÀÇ µ¿ÀÏ)
+	ì‘ì„±ì : ìµœê²½ìš±
+	ì‘ì„±ì¼ : 2014. 4. 4
+	ë‚´ìš© : í”„ë ˆì„ì› ê¸°ë°˜ì´ ë˜ëŠ” application (NNGameFrameworkì™€ ê±°ì˜ ë™ì¼)
 */
 
 #include "DDConfig.h"
@@ -14,8 +14,8 @@
 class DDApplication : public Singleton<DDApplication>
 {
 public:
-	// agebreak : ÀÚÁÖ ¾²´Â ½Ì±ÛÅæ ÆĞÅÏÀ» ÅÛÇÃ¸´È­ ½ÃÄÑ¼­ °£´ÜÈ÷ ¾µ ¼ö ÀÖ´Â Å×Å©´ĞÀÌ ÀÖÀ½. ÀºÀÚ¸²ÆÀÀÇ ÄÚµå¸¦ Âü°í ÇÏµµ·Ï
-	// ½Ì±ÛÅæ ÅÛÇÃ¸´À» public »ó¼Ó¹Ş´Â¹æ¹ıÀ¸·Î ¼öÁ¤ÇÔ
+	// agebreak : ìì£¼ ì“°ëŠ” ì‹±ê¸€í†¤ íŒ¨í„´ì„ í…œí”Œë¦¿í™” ì‹œì¼œì„œ ê°„ë‹¨íˆ ì“¸ ìˆ˜ ìˆëŠ” í…Œí¬ë‹‰ì´ ìˆìŒ. ì€ìë¦¼íŒ€ì˜ ì½”ë“œë¥¼ ì°¸ê³  í•˜ë„ë¡
+	// ì‹±ê¸€í†¤ í…œí”Œë¦¿ì„ public ìƒì†ë°›ëŠ”ë°©ë²•ìœ¼ë¡œ ìˆ˜ì •í•¨
 	DDApplication();
 	~DDApplication();
 
@@ -35,18 +35,18 @@ private:
 	//bool _CreateRenderer();
 	void ComputeFPS();
 
-	// agebreak : ½Ì±ÛÅæÀ¸·Î ¸¸µé¾î ³õ°í, ¿Ö ±»ÀÌ ¸â¹ö º¯¼ö°¡ ÇÊ¿äÇÑ°¡?
-	// ½Ì±ÛÅæ °´Ã¼¿¡ Á÷Á¢ Á¢±ÙÇÏ´Â ¹æ½ÄÀ¸·Î º¯°æ(getinstanceºñ¿ëÀº ÀÖ°ÚÀ¸³ª Á÷°üÀûÀÌµµ·Ï...)
+	// agebreak : ì‹±ê¸€í†¤ìœ¼ë¡œ ë§Œë“¤ì–´ ë†“ê³ , ì™œ êµ³ì´ ë©¤ë²„ ë³€ìˆ˜ê°€ í•„ìš”í•œê°€?
+	// ì‹±ê¸€í†¤ ê°ì²´ì— ì§ì ‘ ì ‘ê·¼í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ ë³€ê²½(getinstanceë¹„ìš©ì€ ìˆê² ìœ¼ë‚˜ ì§ê´€ì ì´ë„ë¡...)
 // 	std::shared_ptr<DDRenderer>			m_pRenderer;
 // 	std::shared_ptr<DDSceneDirector>	m_pSceneDirector;
 
-	// ÇÁ·Î±×·¥ À©µµ¿ì ÇÚµé
+	// í”„ë¡œê·¸ë¨ ìœˆë„ìš° í•¸ë“¤
 	HWND m_Hwnd;
 
-	// ÇÁ·Î±×·¥ ÄÚµå ¸Ş¸ğ¸®ÀÇ ÇÚµé
+	// í”„ë¡œê·¸ë¨ ì½”ë“œ ë©”ëª¨ë¦¬ì˜ í•¸ë“¤
 	HINSTANCE m_hInstance;
 
-	// agebreak : VS 2013ºÎÅÍ ¾Æ·¡¿Í °°ÀÌ ÃÊ±âÈ­ °¡´É (C++0x)
+	// agebreak : VS 2013ë¶€í„° ì•„ë˜ì™€ ê°™ì´ ì´ˆê¸°í™” ê°€ëŠ¥ (C++0x)
 	//wchar_t* m_pTitle = nullptr;
 	int m_ScreenWidth = 0;
 	int m_ScreenHeight = 0;

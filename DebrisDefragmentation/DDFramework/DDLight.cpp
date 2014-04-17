@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "DDLight.h"
 #include "DDRenderer.h"
 
@@ -28,8 +28,8 @@ void DDLight::RenderItSelf()
 	light.Diffuse.g = 1.0f;
 	light.Diffuse.b = 1.0f;
 
-	// Á¶½ÉÇØ!
-	// ¹æÇâ ¹Ù²Ù´Â ÇÏµå ÄÚµù ³ªÁß¿¡ »èÁ¦ÇÒ °Í
+	// ì¡°ì‹¬í•´!
+	// ë°©í–¥ ë°”ê¾¸ëŠ” í•˜ë“œ ì½”ë”© ë‚˜ì¤‘ì— ì‚­ì œí•  ê²ƒ
 	vecDir = DDVECTOR3( cosf( timeGetTime() / 1000.0f ),
 						  1.0f,
 						  sinf( timeGetTime() / 1000.f ) );

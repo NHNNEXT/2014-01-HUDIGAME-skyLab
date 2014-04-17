@@ -1,4 +1,4 @@
-#include "DDApplication.h"
+ï»¿#include "DDApplication.h"
 #include "DDInputSystem.h"
 #include "DDRenderer.h"
 #include "DDSceneDirector.h"
@@ -20,39 +20,39 @@ bool DDApplication::Init( std::wstring title, int width, int height )
 {
 	m_hInstance = GetModuleHandle( 0 );
 
-	//m_pTitle = title;	// agebreak : 1. ÀÌ ÄÚµå´Â °ú¿¬ ¾ÈÀüÇÑ ÄÚµåÀÏ±î? 2. ÀÌ ¸â¹ö º¯¼ö´Â ±»ÀÌ ÇÊ¿äÇÒ±î?
-	// º¯¼ö »èÁ¦, std::wstringÀ¸·Î º¯°æ
+	//m_pTitle = title;	// agebreak : 1. ì´ ì½”ë“œëŠ” ê³¼ì—° ì•ˆì „í•œ ì½”ë“œì¼ê¹Œ? 2. ì´ ë©¤ë²„ ë³€ìˆ˜ëŠ” êµ³ì´ í•„ìš”í• ê¹Œ?
+	// ë³€ìˆ˜ ì‚­ì œ, std::wstringìœ¼ë¡œ ë³€ê²½
 	m_ScreenWidth = width;
 	m_ScreenHeight = height;
 
-	// À©µµ¿ì¿Í ·»´õ·¯ »ý¼º
+	// ìœˆë„ìš°ì™€ ë Œë”ëŸ¬ ìƒì„±
 	//if ( !_CreateWindow( m_pTitle, m_ScreenWidth, m_ScreenHeight ) ) 
 	if ( !_CreateWindow( title, m_ScreenWidth, m_ScreenHeight ) )
 	{
-		// À©µµ¿ì »ý¼º ½ÇÆÐ
+		// ìœˆë„ìš° ìƒì„± ì‹¤íŒ¨
 		return false;
 	}
 
 // 	if ( !_CreateRenderer() )
 // 	{
-// 		// ·»´õ·¯ »ý¼º ½ÇÆÐ
+// 		// ë Œë”ëŸ¬ ìƒì„± ì‹¤íŒ¨
 // 		return false;
 // 	}
 
 	if ( !DDRenderer::GetInstance()->Init( m_Hwnd ) )
 	{
-		// ·»´õ·¯ ÃÊ±âÈ­ ½ÇÆÐ
+		// ë Œë”ëŸ¬ ì´ˆê¸°í™” ì‹¤íŒ¨
 		return false;
 	}
 
 	
 	if ( !DDSceneDirector::GetInstance()->Init() )
 	{
-		// ¾À µð·ºÅÍ ÃÊ±âÈ­ ½ÇÆÐ
+		// ì”¬ ë””ë ‰í„° ì´ˆê¸°í™” ì‹¤íŒ¨
 		return false;
 	}
 
-	// random seed »ý¼º
+	// random seed ìƒì„±
 	srand( (unsigned int)time( NULL ) );
 
 	DDNetwork::GetInstance()->Init();
@@ -95,7 +95,7 @@ bool DDApplication::_CreateWindow( std::wstring title, int width, int height )
 
 // bool DDApplication::_CreateRenderer()
 // {
-// 	// m_pRenderer»ý¼º
+// 	// m_pRendererìƒì„±
 // 	DDRenderer::GetInstance();	
 // 
 // 	return true;
@@ -112,7 +112,7 @@ bool DDApplication::Release()
 
 	DDNetwork::ReleaseInstance();
 
-	// agebreak : ½Ì±ÛÅæ = ¸â¹ö º¯¼ö¶ó´Ï, ÀÌ»óÇÏÁö ¾ÊÀº°¡?
+	// agebreak : ì‹±ê¸€í†¤ = ë©¤ë²„ ë³€ìˆ˜ë¼ë‹ˆ, ì´ìƒí•˜ì§€ ì•Šì€ê°€?
 	DDSceneDirector::GetInstance()->Release();
 	DDSceneDirector::ReleaseInstance();
 
@@ -133,7 +133,7 @@ int DDApplication::Run()
 
 	while ( true )
 	{
-		// ¸Þ¼¼Áö°¡ ÀÖÀ¸¸é ¸Þ¼¼Áö Ã³¸® ·çÆ¾À¸·Î
+		// ë©”ì„¸ì§€ê°€ ìžˆìœ¼ë©´ ë©”ì„¸ì§€ ì²˜ë¦¬ ë£¨í‹´ìœ¼ë¡œ
 		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
 		{
 			if ( msg.message == WM_QUIT )
@@ -145,8 +145,8 @@ int DDApplication::Run()
 		}
 		else
 		{
-			// agebreak : FPS ±¸ÇÏ´Â ³»¿ëÀÌ ¿©±â¿¡ ±¸ÇöµÇ¾î ÀÖÀ» ÇÊ¿ä°¡ ÀÖÀ»±î? ÇÔ¼ö³ª Å¬·¡½º·Î µû·Î ±¸ÇöÇØ¼­ »ç¿ëÇÏ´Â°Ô ÁÁÀ½.
-			// FPS ±¸ÇÏ±â
+			// agebreak : FPS êµ¬í•˜ëŠ” ë‚´ìš©ì´ ì—¬ê¸°ì— êµ¬í˜„ë˜ì–´ ìžˆì„ í•„ìš”ê°€ ìžˆì„ê¹Œ? í•¨ìˆ˜ë‚˜ í´ëž˜ìŠ¤ë¡œ ë”°ë¡œ êµ¬í˜„í•´ì„œ ì‚¬ìš©í•˜ëŠ”ê²Œ ì¢‹ìŒ.
+			// FPS êµ¬í•˜ê¸°
 			ComputeFPS();
 
 			DDInputSystem::GetInstance()->UpdateKeyState();
@@ -155,7 +155,7 @@ int DDApplication::Run()
 			DDSceneDirector::GetInstance()->UpdateScene( m_DeltaTime );
 
 			// display
-			if ( true ) // ÇÁ·¹ÀÓ ¼ö¸¦ Á¶ÀýÇÏ·Á¸é ¿©±â¼­ ½Ã°£ Á¦¾àÀ» µÖ¾ß
+			if ( true ) // í”„ë ˆìž„ ìˆ˜ë¥¼ ì¡°ì ˆí•˜ë ¤ë©´ ì—¬ê¸°ì„œ ì‹œê°„ ì œì•½ì„ ë‘¬ì•¼
 			{
 				DDRenderer::GetInstance()->Clear();
 				DDRenderer::GetInstance()->Begin();			
@@ -212,7 +212,7 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 		{
 		case FD_CONNECT:
 		{
-							/// NAGLE ²ö´Ù
+							/// NAGLE ëˆë‹¤
 							/// NAGLE Algorithm
 							/// http://en.wikipedia.org/wiki/Nagle's_algorithm
 							int opt = 1;
@@ -235,7 +235,7 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 
 						if ( !DDNetwork::GetInstance()->m_RecvBuffer.Write( inBuf, recvLen ) )
 						{
-							/// ¹öÆÛ ²ËÃ¡´Ù. 
+							/// ë²„í¼ ê½‰ì°¼ë‹¤. 
 							assert( false );
 						}
 
@@ -246,7 +246,7 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 
 		case FD_WRITE:
 		{
-						/// ½ÇÁ¦·Î ¹öÆÛ¿¡ ÀÖ´Â°Íµé ²¨³»¼­ º¸³»±â
+						/// ì‹¤ì œë¡œ ë²„í¼ì— ìžˆëŠ”ê²ƒë“¤ êº¼ë‚´ì„œ ë³´ë‚´ê¸°
 			int size = DDNetwork::GetInstance()->m_SendBuffer.GetCurrentSize();
 						if ( size > 0 )
 						{
@@ -255,7 +255,7 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 
 							int sent = send( DDNetwork::GetInstance()->m_Socket, data, size, 0 );
 
-							/// ´Ù¸¦¼ö ÀÖ´Ù
+							/// ë‹¤ë¥¼ìˆ˜ ìžˆë‹¤
 							if ( sent != size )
 								OutputDebugStringA( "sent != request\n" );
 

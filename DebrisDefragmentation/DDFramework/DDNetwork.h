@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DDConfig.h"
 #include "DDCircularBuffer.h"
@@ -46,6 +46,6 @@ private:
 	DDCircularBuffer m_SendBuffer;
 
 	// packet handle
-	// Á¶½ÉÇØ! ÇÏµåÄÚµù
+	// ì¡°ì‹¬í•´! í•˜ë“œì½”ë”©
 	HandlerFunc m_HandlerTable[1024];
 };

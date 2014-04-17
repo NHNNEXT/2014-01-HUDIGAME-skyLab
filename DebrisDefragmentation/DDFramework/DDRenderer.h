@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DDConfig.h"
 
 class DDRenderer : public Singleton<DDRenderer>

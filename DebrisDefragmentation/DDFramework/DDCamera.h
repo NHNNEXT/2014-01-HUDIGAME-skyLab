@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DDObject.h"
 class DDCamera : public DDObject
 {

@@ -1,4 +1,4 @@
-#include "DDConfig.h"
+ï»¿#include "DDConfig.h"
 #include "DDModel.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"
@@ -53,7 +53,7 @@ bool DDModel::initModel( wchar_t* path )
 		return false;
 	}
 
-	// texture ºÒ·¯¿À´Â ºÎºĞ, bmpÆÄÀÏ °æ·Î¸¦ ÅëÇØ ¸ÅÅÍ¸®¾ó °³¼ö¸¸Å­ ºÒ·¯¿È
+	// texture ë¶ˆëŸ¬ì˜¤ëŠ” ë¶€ë¶„, bmpíŒŒì¼ ê²½ë¡œë¥¼ í†µí•´ ë§¤í„°ë¦¬ì–¼ ê°œìˆ˜ë§Œí¼ ë¶ˆëŸ¬ì˜´
 	for ( DWORD i = 0; i < m_dwNumMaterials; i++ )
 	{
 		m_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
@@ -84,22 +84,22 @@ bool DDModel::SetNormalVector()
 {
 	if ( !( m_pMesh->GetFVF() & D3DFVF_NORMAL ) )
 	{
-		//°¡Áö°í ÀÖÁö ¾Ê´Ù¸é ¸Ş½¬¸¦ º¹Á¦ÇÏ°í D3DFVF_NORMALÀ» Ãß°¡ÇÑ´Ù.
+		//ê°€ì§€ê³  ìˆì§€ ì•Šë‹¤ë©´ ë©”ì‰¬ë¥¼ ë³µì œí•˜ê³  D3DFVF_NORMALì„ ì¶”ê°€í•œë‹¤.
 		ID3DXMesh* pTempMesh = 0;
 		m_pMesh->CloneMeshFVF(
 			D3DXMESH_MANAGED,
-			m_pMesh->GetFVF() | D3DFVF_NORMAL,  //ÀÌ°÷¿¡ Ãß°¡
+			m_pMesh->GetFVF() | D3DFVF_NORMAL,  //ì´ê³³ì— ì¶”ê°€
 			DDRenderer::GetInstance()->GetDevice(),
 			&pTempMesh );
 
-		// ¹ı¼±À» °è»êÇÑ´Ù.
+		// ë²•ì„ ì„ ê³„ì‚°í•œë‹¤.
 		if ( FAILED( D3DXComputeNormals( pTempMesh, 0 ) ) )
 		{
 			return false;
 		}
 
-		m_pMesh->Release(); // ±âÁ¸¸Ş½¬¸¦ Á¦°ÅÇÑ´Ù
-		m_pMesh = pTempMesh; // ±âÁ¸¸Ş½¬¸¦ ¹ı¼±ÀÌ °è»êµÈ ¸Ş½¬·Î ÁöÁ¤ÇÑ´Ù.
+		m_pMesh->Release(); // ê¸°ì¡´ë©”ì‰¬ë¥¼ ì œê±°í•œë‹¤
+		m_pMesh = pTempMesh; // ê¸°ì¡´ë©”ì‰¬ë¥¼ ë²•ì„ ì´ ê³„ì‚°ëœ ë©”ì‰¬ë¡œ ì§€ì •í•œë‹¤.
 	}
 
 	return true;

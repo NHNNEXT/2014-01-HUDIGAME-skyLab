@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "PlayScene.h"
 #include "Debris.h"
 #include "DDInputSystem.h"
@@ -44,7 +44,7 @@ void PlayScene::Init()
 
 	
 	// test debris
-	// ÀÌ°Å ÇÒ´çÇÏ´À¶ó ´À¸®´Ù. Å×½ºÆ® ³¡³ª¸é Áö¿ï °Í
+	// ì´ê±° í• ë‹¹í•˜ëŠë¼ ëŠë¦¬ë‹¤. í…ŒìŠ¤íŠ¸ ëë‚˜ë©´ ì§€ìš¸ ê²ƒ
 	Debris* tempDebris = nullptr;
 	for ( unsigned int i = 0; i < 1000; ++i )
 	{
@@ -59,8 +59,8 @@ void PlayScene::Init()
 		AddChild( tempDebris );
 	}
 
-	// Á¶½ÉÇØ! ÇÏµå ÄÚµù
-	// scene ÇÔ¼ö¿¡ È­¸é Áß½É ÁÂÇ¥ ±¸ÇÏ´Â ÇÔ¼ö ¸¸µé¾î¼­ °Å±â·Î °¡°Ô ÇÒ °Í
+	// ì¡°ì‹¬í•´! í•˜ë“œ ì½”ë”©
+	// scene í•¨ìˆ˜ì— í™”ë©´ ì¤‘ì‹¬ ì¢Œí‘œ êµ¬í•˜ëŠ” í•¨ìˆ˜ ë§Œë“¤ì–´ì„œ ê±°ê¸°ë¡œ ê°€ê²Œ í•  ê²ƒ
 	if ( !SetCursorPos( 500, 500 ) )
 	{
 		// error!
@@ -76,37 +76,37 @@ void PlayScene::Init()
 // 	ClipCursor( &rect );
 }
 
-// Á¶½ÉÇØ!!
-// ·ÎÁ÷ ºÎºĞÀº ³ªÁß¿¡ °ÔÀÓ ¸Å´ÏÀú¿¡ ±¸ÇöÇÏ´Â °É·Î~!
+// ì¡°ì‹¬í•´!!
+// ë¡œì§ ë¶€ë¶„ì€ ë‚˜ì¤‘ì— ê²Œì„ ë§¤ë‹ˆì €ì— êµ¬í˜„í•˜ëŠ” ê±¸ë¡œ~!
 void PlayScene::UpdateItSelf( float dTime )
 {
-	// ÇöÀç wÅ°°¡ ´­·È´ÂÁö È®ÀÎÇÑ´Ù
-	// ´­·ÈÀ¸¸é Ä³¸¯ÅÍ °¡¼Óµµ ¼¼ÆÃÇÏ¶ó°í ½ÃÅ´
-	// sÅ°°¡ ´­·È´Ù¸é Á¤Áö
+	// í˜„ì¬ wí‚¤ê°€ ëˆŒë ¸ëŠ”ì§€ í™•ì¸í•œë‹¤
+	// ëˆŒë ¸ìœ¼ë©´ ìºë¦­í„° ê°€ì†ë„ ì„¸íŒ…í•˜ë¼ê³  ì‹œí‚´
+	// sí‚¤ê°€ ëˆŒë ¸ë‹¤ë©´ ì •ì§€
 	
 	if ( KEY_DOWN == GetKeyState( 0x57 ) )
 	{
 		// m_pPlayer->SetAcceleration();
-		// ¼­¹ö·Î ³¯¸®ÀÚ
+		// ì„œë²„ë¡œ ë‚ ë¦¬ì
 		GNetworkManager->SendAcceleration();
 	}
 	
 	if ( KEY_DOWN == GetKeyState( 0x53 ) )
 	{
 		// m_pPlayer->Stop( );
-		// ¼­¹ö·Î ³¯·Á¾ßÁö
+		// ì„œë²„ë¡œ ë‚ ë ¤ì•¼ì§€
 		GNetworkManager->SendStop();
 	}
 
-	// ¸¶¿ì½º ÁÂÇ¥ º¯È­¸¦ ¹Ş¾Æ¿Â´Ù
-	// º¯È­·®À» ±âÁØÀ¸·Î Ä³¸¯ÅÍÇÑµ¥ È¸ÀüÇÏ¶ó°í ½ÃÅ²´Ù.	
+	// ë§ˆìš°ìŠ¤ ì¢Œí‘œ ë³€í™”ë¥¼ ë°›ì•„ì˜¨ë‹¤
+	// ë³€í™”ëŸ‰ì„ ê¸°ì¤€ìœ¼ë¡œ ìºë¦­í„°í•œë° íšŒì „í•˜ë¼ê³  ì‹œí‚¨ë‹¤.	
 	DDPoint currentMousePos = GetMousePosition( );
 	// m_pPlayer->RotateDicrection( 
 	//	currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
 	//	currentMousePos.GetY() - m_PrevMousePosition.GetY()
 	//	);
 	
-	// ÀÌ°Íµµ ¼­¹ö·Î º¸³»¾ßÁö
+	// ì´ê²ƒë„ ì„œë²„ë¡œ ë³´ë‚´ì•¼ì§€
 	GNetworkManager->SendRotateDirection(		
 		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
 		currentMousePos.GetX() - m_PrevMousePosition.GetX()
@@ -118,14 +118,14 @@ void PlayScene::UpdateItSelf( float dTime )
 
 void PlayScene::HideMousePointer()
 {
-	// ¸¶¿ì½º Ä¿¼­ 500, 500¿¡ ³õ±â
+	// ë§ˆìš°ìŠ¤ ì»¤ì„œ 500, 500ì— ë†“ê¸°
 	POINT pt = { 500, 500 };
 	::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
 	::SetCursorPos( pt.x, pt.y );
 
-	// ÀÌÀü Æ÷Áö¼Ç À§Ä¡¸¦ 500, 500¿¡ ³õ±â
+	// ì´ì „ í¬ì§€ì…˜ ìœ„ì¹˜ë¥¼ 500, 500ì— ë†“ê¸°
 	m_PrevMousePosition = DDPoint( 500, 500 );
 
-	// Ä¿¼­ ¼û±â±â
+	// ì»¤ì„œ ìˆ¨ê¸°ê¸°
 	::ShowCursor( false );
 }

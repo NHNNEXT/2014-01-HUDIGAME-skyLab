@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "DDObject.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"
@@ -30,9 +30,9 @@ void DDObject::Release( )
 // 	}
 }
 
-// ÀÛ¼ºÀÚ : ±è¼ºÈ¯
-// ÀÛ¼ºÀÏ : 14.04.06
-// ³»¿ë : objectÀÇ affineº¯È¯ ¹× ÀÚ½Ä ³ëµå render
+// ìž‘ì„±ìž : ê¹€ì„±í™˜
+// ìž‘ì„±ì¼ : 14.04.06
+// ë‚´ìš© : objectì˜ affineë³€í™˜ ë° ìžì‹ ë…¸ë“œ render
 void DDObject::Render()
 {
 	if ( m_Visible == false ) return;
@@ -56,58 +56,58 @@ void DDObject::AffineTransfrom()
 
 	/*
 	D3DXMatrixIdentity( &m_Matrix );
-	// ÇöÀç È¸Àü °ª Çà·Ä·Î ¸¸µé±â
+	// í˜„ìž¬ íšŒì „ ê°’ í–‰ë ¬ë¡œ ë§Œë“¤ê¸°
 	D3DXMATRIXA16	currentRotation;
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
 	D3DXMatrixTransformation( &currentRotation, NULL, NULL, NULL, NULL, &qRotation, NULL );
 
-	// Àû¿ëµÈ µ¥ÀÌÅÍ´Â ÃÊ±âÈ­
+	// ì ìš©ëœ ë°ì´í„°ëŠ” ì´ˆê¸°í™”
 	m_Rotation = DDVECTOR3( .0f, .0f, .0f );
 	
-	// ±âÁ¸ È¸Àü º¯È¯¿¡ ÇÕÄ¡±â
+	// ê¸°ì¡´ íšŒì „ ë³€í™˜ì— í•©ì¹˜ê¸°
 	D3DXMatrixMultiply( &m_MatrixRotation, &m_MatrixRotation, &currentRotation );
 
-	// ÀÌµ¿°ú ½ºÄÉÀÏÀº ¿ø·¡´ë·Î
+	// ì´ë™ê³¼ ìŠ¤ì¼€ì¼ì€ ì›ëž˜ëŒ€ë¡œ
 	D3DXMatrixTransformation( &m_MatrixTransform, NULL, NULL, &m_Scale, NULL, NULL, &m_Position );
 	D3DXMatrixMultiply( &m_Matrix, &m_MatrixRotation, &m_MatrixTransform );
 
-	// ºÎ¸ðÀÇ ÁÂÇ¥°è¿¡´Ù ³» º¯È¯µÈ ÁÂÇ¥°è¸¦ ´©Àû ½ÃÅ²´Ù!
-	// ºÎ¸ðÀÇ ¾îÆÄÀÎ º¯È¯À» Àû¿ë
+	// ë¶€ëª¨ì˜ ì¢Œí‘œê³„ì—ë‹¤ ë‚´ ë³€í™˜ëœ ì¢Œí‘œê³„ë¥¼ ëˆ„ì  ì‹œí‚¨ë‹¤!
+	// ë¶€ëª¨ì˜ ì–´íŒŒì¸ ë³€í™˜ì„ ì ìš©
 	if ( nullptr != m_pParent )
 	{
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
 	}
 
-	// ÀÚ½Å+ºÎ¸ðÀÇ ¾îÆÄÀÎ º¯È¯À» ¿ùµåÁÂÇ¥°è¿¡ Àû¿ë
+	// ìžì‹ +ë¶€ëª¨ì˜ ì–´íŒŒì¸ ë³€í™˜ì„ ì›”ë“œì¢Œí‘œê³„ì— ì ìš©
 	if ( FAILED( renderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
 	{
 		// error 
 		return;
 	}
 
-	// ºÎ¸ð ÁÂÇ¥°è¸¦ ¹Þ¾Æ¿À°í
-	// ¹Þ¾Æ¿Â ÁÂÇ¥°è¸¦ ±â¹ÝÀ¸·Î Á÷Àü ÇÁ·¹ÀÓ¿¡¼­ °è»êÇÑ È¸Àü º¯È¯°ú ³ª¸ÓÁö º¯È¯À» Àû¿ë
-	// ÀÌ·¸°Ô °è»êµÈ ÁÂÇ¥°è ¾È¿¡¼­ ÇöÀç Àû¿ëÇØ¾ß ÇÏ´Â È¸Àü º¯È¯ Àû¿ë - È¸Àü °ªÀ» ÃßÃâÇØ¼­ µû·Î ÀúÀåÇÒ °Í ( ¹Ù·Î À­ ¶óÀÎ¿¡¼­ È°¿ëÇÔ )
+	// ë¶€ëª¨ ì¢Œí‘œê³„ë¥¼ ë°›ì•„ì˜¤ê³ 
+	// ë°›ì•„ì˜¨ ì¢Œí‘œê³„ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì§ì „ í”„ë ˆìž„ì—ì„œ ê³„ì‚°í•œ íšŒì „ ë³€í™˜ê³¼ ë‚˜ë¨¸ì§€ ë³€í™˜ì„ ì ìš©
+	// ì´ë ‡ê²Œ ê³„ì‚°ëœ ì¢Œí‘œê³„ ì•ˆì—ì„œ í˜„ìž¬ ì ìš©í•´ì•¼ í•˜ëŠ” íšŒì „ ë³€í™˜ ì ìš© - íšŒì „ ê°’ì„ ì¶”ì¶œí•´ì„œ ë”°ë¡œ ì €ìž¥í•  ê²ƒ ( ë°”ë¡œ ìœ— ë¼ì¸ì—ì„œ í™œìš©í•¨ )
 	// 
 	*/
 
 
 	D3DXMatrixIdentity( &m_Matrix );
 
-	// rotation¿¡¼­ ÄõÅÍ´Ï¾ð »ý¼º, yaw ptich roll Àº y, x, z ¼ø¼­ÀÓ
+	// rotationì—ì„œ ì¿¼í„°ë‹ˆì–¸ ìƒì„±, yaw ptich roll ì€ y, x, z ìˆœì„œìž„
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z) );
 
-	// matrix¸¦ affineº¯È¯ÀÌ Àû¿ëµÈ ÇüÅÂ·Î º¯È¯	
+	// matrixë¥¼ affineë³€í™˜ì´ ì ìš©ëœ í˜•íƒœë¡œ ë³€í™˜	
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 
-	// ºÎ¸ðÀÇ ÁÂÇ¥°è¿¡´Ù ³» º¯È¯µÈ ÁÂÇ¥°è¸¦ ´©Àû ½ÃÅ²´Ù!
-	// ºÎ¸ðÀÇ ¾îÆÄÀÎ º¯È¯À» Àû¿ë
+	// ë¶€ëª¨ì˜ ì¢Œí‘œê³„ì—ë‹¤ ë‚´ ë³€í™˜ëœ ì¢Œí‘œê³„ë¥¼ ëˆ„ì  ì‹œí‚¨ë‹¤!
+	// ë¶€ëª¨ì˜ ì–´íŒŒì¸ ë³€í™˜ì„ ì ìš©
 	if ( nullptr != m_pParent )
 	{
 		D3DXMatrixMultiply( &m_Matrix, &m_pParent->GetMatrix(), &m_Matrix);
 	}
 
-	// ÀÚ½Å+ºÎ¸ðÀÇ ¾îÆÄÀÎ º¯È¯À» ¿ùµåÁÂÇ¥°è¿¡ Àû¿ë
+	// ìžì‹ +ë¶€ëª¨ì˜ ì–´íŒŒì¸ ë³€í™˜ì„ ì›”ë“œì¢Œí‘œê³„ì— ì ìš©
 	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
 	{
 		// error 

@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "DDConfig.h"
 #include "DDRenderer.h"
 
-// Àü¹æ¼±¾ğ
+// ì „ë°©ì„ ì–¸
 //class DDRenderer;
 
 class DDObject
@@ -67,10 +67,10 @@ public:
 
 	
 
-	// zÃà ¹æÇâ º¤ÅÍ¸¦ ¿ùµå ÁÂÇ¥°è ±âÁØÀ¸·Î ¹İÈ¯
+	// zì¶• ë°©í–¥ ë²¡í„°ë¥¼ ì›”ë“œ ì¢Œí‘œê³„ ê¸°ì¤€ìœ¼ë¡œ ë°˜í™˜
 	DDVECTOR3 GetViewDirection();
 
-	// NVI Wrapper (ºñ°¡»ó ÀÎÅÍÆäÀÌ½º)
+	// NVI Wrapper (ë¹„ê°€ìƒ ì¸í„°í˜ì´ìŠ¤)
 	void Render();
 	void Update( float dTime );
 
@@ -84,14 +84,14 @@ protected:
 	D3DXMATRIXA16	m_Matrix;			// world coordinate
 	D3DXMATRIXA16	m_MatrixTransform;	// local coordinate
 	D3DXMATRIXA16	m_MatrixRotation;
-	DDVECTOR3		m_Position{ .0f, .0f, .0f };	// c++11¿¡¼­ ³ª¿Â ±ÕÀÏÇÑ Áß°ıÈ£ ÃÊ±âÈ­¶óÇÔ.
+	DDVECTOR3		m_Position{ .0f, .0f, .0f };	// c++11ì—ì„œ ë‚˜ì˜¨ ê· ì¼í•œ ì¤‘ê´„í˜¸ ì´ˆê¸°í™”ë¼í•¨.
 	DDVECTOR3		m_Rotation{ .0f, .0f, .0f };
 	DDVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
 	bool			m_Visible{ true };
 
 private : 
-	// NVI ÇÔ¼ö ³»¿ë
+	// NVI í•¨ìˆ˜ ë‚´ìš©
 	void AffineTransfrom();
 	void RenderChildNodes();
 	void UpdateChildNodes( float dTime );

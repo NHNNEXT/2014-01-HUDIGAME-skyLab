@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DDObject.h"
 #include "DDPoint.h"
@@ -18,20 +18,20 @@ public:
 	void SetSceneName( std::wstring val ) { m_SceneName = val; }
 
 protected:	
-	// ÀÛ¼ºÀÚ : ÃÖ°æ¿í 4.8
-	// input : int°ªÀÇ Å°
-	// output : ÀÎÀÚ·Î ³Ñ±ä Å°ÀÇ ÇöÀç »óÅÂ¸¦ ¹Ş¾Æ¿À´Â ÇÔ¼ö
+	// ì‘ì„±ì : ìµœê²½ìš± 4.8
+	// input : intê°’ì˜ í‚¤
+	// output : ì¸ìë¡œ ë„˜ê¸´ í‚¤ì˜ í˜„ì¬ ìƒíƒœë¥¼ ë°›ì•„ì˜¤ëŠ” í•¨ìˆ˜
 	KeyState	GetKeyState( int key );
 
-	// input : ¾øÀ½
-	// output : ÇöÀç ¸¶¿ì½º ÁÂÇ¥ ¹Ş¾Æ¿À´Â ÇÔ¼ö
+	// input : ì—†ìŒ
+	// output : í˜„ì¬ ë§ˆìš°ìŠ¤ ì¢Œí‘œ ë°›ì•„ì˜¤ëŠ” í•¨ìˆ˜
 	DDPoint		GetMousePosition();
 	
 
-	// ¿©±â¼­ ³ªÁß¿¡ skybox ¸¸µé¸é µÉ °Å °°À½(4.6 ¼ºÈ¯)
+	// ì—¬ê¸°ì„œ ë‚˜ì¤‘ì— skybox ë§Œë“¤ë©´ ë  ê±° ê°™ìŒ(4.6 ì„±í™˜)
 	//LPD3DXSPRITE	m_pSprite;
 
-	// sceneÀ» ±¸º°ÇÏ±â À§ÇÑ ÀÌ¸§
+	// sceneì„ êµ¬ë³„í•˜ê¸° ìœ„í•œ ì´ë¦„
 	std::wstring m_SceneName;
 };
 

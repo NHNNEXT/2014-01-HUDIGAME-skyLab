@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
-// ÀÏ´Ü easy game server ÄÚµå ±×´ë·Î ¿Å±è
+// ì¼ë‹¨ easy game server ì½”ë“œ ê·¸ëŒ€ë¡œ ì˜®ê¹€
 // 2014. 4. 15
-// ÃÖ°æ¿í
+// ìµœê²½ìš±
 
 class DDCircularBuffer
 {
@@ -24,11 +24,11 @@ public:
 
 	bool Read( char* data, size_t bytes );
 
-	/// µ¥ÀÌÅÍ ÈÉÃÄº¸±â (Á¦°ÅÇÏÁö ¾Ê°í)
+	/// ë°ì´í„° í›”ì³ë³´ê¸° (ì œê±°í•˜ì§€ ì•Šê³ )
 	void Peek( char* data );
 	bool Peek( char* data, size_t bytes );
 
-	/// µ¥ÀÌÅÍ Á¦°Å
+	/// ë°ì´í„° ì œê±°
 	bool Consume( size_t bytes );
 
 private:
