@@ -37,11 +37,6 @@ bool DDNetwork::Init( )
 	return true;
 }
 
-bool DDNetwork::Release()
-{
-	return true;
-}
-
 bool DDNetwork::Connect( const char* serverIP = "localhost", int port = 9001)
 {
 	// Resolve IP address for hostname
