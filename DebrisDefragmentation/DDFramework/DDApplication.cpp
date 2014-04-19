@@ -113,6 +113,7 @@ bool DDApplication::Release()
 	DDNetwork::ReleaseInstance();
 
 	// agebreak : 싱글톤 = 멤버 변수라니, 이상하지 않은가?
+	// singleton을 직접 호출하는 방식으로 변경
 	DDSceneDirector::GetInstance()->Release();
 	DDSceneDirector::ReleaseInstance();
 
@@ -178,105 +179,68 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 {
 	switch ( message )
 	{
-	case WM_CREATE:
-	{
-		break;
-	}
-
-	case WM_DESTROY:
-	{
-		DDApplication::GetInstance()->Release();
-		DDApplication::GetInstance()->m_DestroyWindow = true;
-		PostQuitMessage( 0 );
-		break;
-	}
-
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint( hWnd, &ps );
-		EndPaint( hWnd, &ps );
-		break;
-	}
-
-	case WM_SOCKET:
-	{
-		if ( WSAGETSELECTERROR( lParam ) )
+		case WM_CREATE:
 		{
-			MessageBox( hWnd, L"WSAGETSELECTERROR", L"Error", MB_OK | MB_ICONERROR );
-			SendMessage( hWnd, WM_DESTROY, NULL, NULL );
 			break;
 		}
 
-		switch ( WSAGETSELECTEVENT( lParam ) )
+		case WM_DESTROY:
 		{
-		case FD_CONNECT:
-		{
-							/// NAGLE 끈다
-							/// NAGLE Algorithm
-							/// http://en.wikipedia.org/wiki/Nagle's_algorithm
-							int opt = 1;
-							::setsockopt( DDNetwork::GetInstance()->m_Socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&opt, sizeof( int ) );
-
-							int nResult = WSAAsyncSelect( DDNetwork::GetInstance()->m_Socket, hWnd, WM_SOCKET, ( FD_CLOSE | FD_READ | FD_WRITE ) );
-							if ( nResult )
-							{
-								assert( false );
-								break;
-							}
-		}
+			DDApplication::GetInstance()->Release();
+			DDApplication::GetInstance()->m_DestroyWindow = true;
+			PostQuitMessage( 0 );
 			break;
+		}
 
-		case FD_READ:
+		case WM_PAINT:
 		{
-						char inBuf[4096] = { 0, };
+			break;
+		}
 
-						int recvLen = recv( DDNetwork::GetInstance()->m_Socket, inBuf, 4096, 0 );
+		case WM_SOCKET:
+		{
+			if ( WSAGETSELECTERROR( lParam ) )
+			{
+				MessageBox( hWnd, L"WSAGETSELECTERROR", L"Error", MB_OK | MB_ICONERROR );
+				SendMessage( hWnd, WM_DESTROY, NULL, NULL );
+				break;
+			}
 
-						if ( !DDNetwork::GetInstance()->m_RecvBuffer.Write( inBuf, recvLen ) )
-						{
-							/// 버퍼 꽉찼다. 
-							assert( false );
-						}
+			switch ( WSAGETSELECTEVENT( lParam ) )
+			{
+				case FD_CONNECT:
+				{
+					DDNetwork::GetInstance()->NagleOff();
+					break;
+				}
 
+				case FD_READ:
+				{
+					if ( DDNetwork::GetInstance()->Read() )
+					{
 						DDNetwork::GetInstance()->ProcessPacket();
+					}					
+					break;
+				}
 
+				case FD_WRITE:
+				{
+					/// 실제로 버퍼에 있는것들 꺼내서 보내기
+					DDNetwork::GetInstance()->Send();
+					break;
+				}
+
+				case FD_CLOSE:
+				{
+					MessageBox( hWnd, L"Server closed connection", L"Connection closed!", MB_ICONINFORMATION | MB_OK );
+					DDNetwork::GetInstance()->Disconnect();
+					SendMessage( hWnd, WM_DESTROY, NULL, NULL );
+					break;
+				}
+			}
+			break; // WM_SOCKET end;
 		}
-			break;
-
-		case FD_WRITE:
-		{
-						/// 실제로 버퍼에 있는것들 꺼내서 보내기
-			int size = DDNetwork::GetInstance()->m_SendBuffer.GetCurrentSize();
-						if ( size > 0 )
-						{
-							char* data = new char[size];
-							DDNetwork::GetInstance()->m_SendBuffer.Peek( data );
-
-							int sent = send( DDNetwork::GetInstance()->m_Socket, data, size, 0 );
-
-							/// 다를수 있다
-							if ( sent != size )
-								OutputDebugStringA( "sent != request\n" );
-
-							DDNetwork::GetInstance()->m_SendBuffer.Consume( sent );
-
-							delete[] data;
-						}
-
-		}
-			break;
-
-		case FD_CLOSE:
-		{
-						MessageBox( hWnd, L"Server closed connection", L"Connection closed!", MB_ICONINFORMATION | MB_OK );
-						closesocket( DDNetwork::GetInstance()->m_Socket );
-						SendMessage( hWnd, WM_DESTROY, NULL, NULL );
-		}
-			break;
-		}
-	}
-		break;
+		break; // switch end
 	}
 
 	return( DefWindowProc( hWnd, message, wParam, lParam ) );

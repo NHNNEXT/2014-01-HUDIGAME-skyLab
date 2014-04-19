@@ -11,6 +11,7 @@ public:
 	DDObject();
 	virtual ~DDObject();
 
+	CREATE_FUNC(DDObject);
 	virtual void Release( );
 
 	

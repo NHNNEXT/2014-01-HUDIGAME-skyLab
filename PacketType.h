@@ -78,9 +78,9 @@ struct AccelerarionRequest : public PacketHeader
 
 	int	mPlayerId;
 
-	double mRotationX;
-	double mRotationY;
-	double mRotationZ;
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
 };
 
 // 가속 - id, 위치, 속도, 방향(현재 회전 각도 - 나중에는 행렬자체를 넘겨야 할 수도 있어)
@@ -107,17 +107,17 @@ struct AccelerarionResult : public PacketHeader
 
 	int	mPlayerId;
 
-	double mPosX;
-	double mPosY;
-	double mPosZ;
+	float mPosX;
+	float mPosY;
+	float mPosZ;
 
-	double mVelocityX;
-	double mVelocityY;
-	double mVelocityZ;
+	float mVelocityX;
+	float mVelocityY;
+	float mVelocityZ;
 
-	double mRotationX;
-	double mRotationY;
-	double mRotationZ;
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
 };
 
 // 장비를 정지합니다.
@@ -149,9 +149,9 @@ struct StopResult : public PacketHeader
 
 	int		mPlayerId;
 
-	double mPosX;
-	double mPosY;
-	double mPosZ;
+	float mPosX;
+	float mPosY;
+	float mPosZ;
 };
 
 // 회전 좀 하겠습니다. - 나중에는 각도만이 아니라 회전 변환 행렬 전체를 보내야?
@@ -170,9 +170,9 @@ struct RotationRequest : public PacketHeader
 
 	int		mPlayerId;
 
-	double mRotationX;
-	double mRotationY;
-	double mRotationZ;
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
 };
 
 // 회전 해라.
@@ -191,9 +191,9 @@ struct RotationResult : public PacketHeader
 
 	int		mPlayerId;
 
-	double mRotationX;
-	double mRotationY;
-	double mRotationZ;
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
 };
 
 // 주기적인 동기화를 위해서 - 오브젝트들은 어떻게 하지... 일단 플레이어만 하자
@@ -232,17 +232,17 @@ struct SyncResult : public PacketHeader
 
 	int		mPlayerId;
 
-	double mPosX;
-	double mPosY;
-	double mPosZ;
+	float mPosX;
+	float mPosY;
+	float mPosZ;
 
-	double mVelocityX;
-	double mVelocityY;
-	double mVelocityZ;
+	float mVelocityX;
+	float mVelocityY;
+	float mVelocityZ;
 
-	double mRotationX;
-	double mRotationY;
-	double mRotationZ;
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
 };
 
 // 일단 새 플레이어 생성하는 것에 대해서만
@@ -273,21 +273,21 @@ struct NewResult : public PacketHeader
 
 	int		mPlayerId;
 
-	double mPosX;
-	double mPosY;
-	double mPosZ;
+	float mPosX;
+	float mPosY;
+	float mPosZ;
 
-	double mVelocityX;
-	double mVelocityY;
-	double mVelocityZ;
+	float mVelocityX;
+	float mVelocityY;
+	float mVelocityZ;
 
-	double mAccelerarionX;
-	double mAccelerarionY;
-	double mAccelerarionZ;
+	float mAccelerarionX;
+	float mAccelerarionY;
+	float mAccelerarionZ;
 
-	double mRotationX;
-	double mRotationY;
-	double mRotationZ;
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
 };
 
 #pragma pack(pop)

@@ -80,6 +80,7 @@ void PlayScene::Init()
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
 void PlayScene::UpdateItSelf( float dTime )
 {
+	UNREFERENCED_PARAMETER( dTime );
 	// 현재 w키가 눌렸는지 확인한다
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
 	// s키가 눌렸다면 정지

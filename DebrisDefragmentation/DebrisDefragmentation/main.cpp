@@ -24,13 +24,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 	
-	DDScene* scene = GGameLogic->CreateScene(L"PlayScene1");
-	//scene->Init();
+	DDScene* scene = GGameLogic->CreateScene(L"PlayScene1");	
 	
 	DDSceneDirector::GetInstance()->ChangeScene( scene );
-	
+
 	app->Run();
 	app->Release();
+
+	SafeDelete( scene );
 
 	delete GGameLogic;
 

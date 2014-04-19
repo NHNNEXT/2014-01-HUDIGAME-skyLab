@@ -29,10 +29,11 @@ bool GameLogic::AddPlayer(int playerId)
 	if ( playerId < 0 || playerId >= MAX_PLAYER_NUM )
 		return false;
 
+	// 캐릭터 있으면 리턴
 	if ( m_PlayerList[playerId] != nullptr )
 		return false;
 
-	
+	// 새 캐릭터 만듦
 	m_PlayerList[playerId] = Player::Create(playerId);
 	m_PlayerList[playerId]->Init();
 

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DDObject.h"
+#include "DDModel.h"
 
 class DDCamera;
 class Character;
@@ -25,7 +26,7 @@ public:
 	void Stop();
 
 	// 바라보는 방향 회전
-	void RotateDicrection(double x, double y);
+	void RotateDicrection(float x, float y);
 
 	DDVECTOR3 GetVelocity() const { return m_Velocity; }
 	void SetVelocity( DDVECTOR3 val ) { m_Velocity = val; }
@@ -44,7 +45,7 @@ private:
 
 	int			m_PlayerId = -1;
 	DDCamera*	m_Camera;
-	Character*	m_Character;
+	DDModel*	m_Character;
 	DDVECTOR3	m_Acceleration; // 자동으로 0, 0, 0으로 초기화 되나?
 	DDVECTOR3	m_Velocity;
 	bool		m_IsAccelerating = 0;

@@ -22,8 +22,8 @@ void NetworkManager::Init()
 
 void NetworkManager::Connect()
 {
-	DDNetwork::GetInstance()->Connect( "10.73.42.202", 9001 );
-	//DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+	//DDNetwork::GetInstance()->Connect( "10.73.42.202", 9001 );
+	DDNetwork::GetInstance()->Connect( "localhost", 9001 );
 }
 
 void NetworkManager::Disconnect()
@@ -59,7 +59,7 @@ void NetworkManager::SendStop()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendRotateDirection( double y, double x )
+void NetworkManager::SendRotateDirection( float y, float x )
 {
 	if ( m_MyPlayerId == -1 )
 		return;

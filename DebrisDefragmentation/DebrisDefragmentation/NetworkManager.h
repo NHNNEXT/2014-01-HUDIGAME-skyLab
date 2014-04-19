@@ -14,7 +14,7 @@ public:
 
 	void SendAcceleration();
 	void SendStop();
-	void SendRotateDirection( double y, double x );
+	void SendRotateDirection( float y, float x );
 
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }

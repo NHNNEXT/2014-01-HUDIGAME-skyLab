@@ -4,13 +4,6 @@
 #include "DDApplication.h"
 
 DDObject::DDObject() 
-// :
-// m_pParent( nullptr ),
-// m_Position( .0f, .0f, .0f ),
-// m_Rotation( .0f, .0f, .0f ),
-// m_Scale( 1.0f, 1.0f, 1.0f ),
-// m_Visible( true )
-
 {
 	D3DXMatrixIdentity( &m_Matrix );
 	D3DXMatrixIdentity( &m_MatrixTransform );
@@ -24,10 +17,6 @@ DDObject::~DDObject()
 
 void DDObject::Release( )
 {
-// 	for ( const auto& child : m_ChildList )
-// 	{
-// 		RemoveChild( child.get() );
-// 	}
 }
 
 // 작성자 : 김성환

@@ -3,8 +3,6 @@
 #include "DDConfig.h"
 #include "DDScene.h"	
 
-// DDSceneDirector* DDSceneDirector::m_pInstance = nullptr;
-
 DDSceneDirector::DDSceneDirector()
 {
 }
@@ -12,12 +10,6 @@ DDSceneDirector::DDSceneDirector()
 DDSceneDirector::~DDSceneDirector()
 {
 }
-
-
-// std::shared_ptr<DDSceneDirector> DDSceneDirector::Create()
-// {
-// 	return std::shared_ptr<DDSceneDirector>( new DDSceneDirector() );
-// }
 
 bool DDSceneDirector::Init()
 {
@@ -27,8 +19,8 @@ bool DDSceneDirector::Init()
 bool DDSceneDirector::Release()
 {
 	// agebreak : 외부에서 받아온 Scene을 내부에서 죽이는 것이 과연 옳은 디자인일까?
-	// scene을 내부에서 만들겠습니다
-	SafeDelete( m_pCurrentScene );
+	// scene은 게임 안에 있는 scene director에서 release하는 걸로
+	
 	return true;
 }
 
@@ -69,32 +61,3 @@ void DDSceneDirector::ChangeScene( DDScene* scene )
 		m_pCurrentScene = scene;
 	}
 }
-// 
-// void DDSceneDirector::ChangeScene( std::wstring sceneName )
-// {
-// 	m_pCurrentScene = m_SceneList[sceneName].get();
-// }
-// 
-// bool DDSceneDirector::CreateScene( std::wstring sceneName )
-// {
-// 	// 같은 이름의 scene이 존재하면 false
-// 	if ( m_SceneList[sceneName] )
-// 	{
-// 		return false;
-// 	}
-// 	
-// 	DDScene* tmpScene = DDScene::Create( sceneName );
-// 	m_SceneList[sceneName] = std::shared_ptr<DDScene>( tmpScene );
-// 	return true;
-// }
-// 
-// bool DDSceneDirector::DeleteScene( std::wstring sceneName )
-// {
-// 	// scene이 없으면 false
-// 	if ( !m_SceneList[sceneName] )
-// 	{
-// 		return false;
-// 	}
-// 	m_SceneList.erase( sceneName );
-// 	return true;
-// }

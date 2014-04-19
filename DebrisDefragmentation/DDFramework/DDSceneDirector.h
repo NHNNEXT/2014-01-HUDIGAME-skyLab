@@ -17,14 +17,7 @@ public:
 	bool Init();
 
 	void ChangeScene( DDScene* scene );	
-
-	// 조심해!!
-	// 자식 클래스들을 쓸 수가 없음. 외부에서 만들어야하나 ㅠ 
-// 	void ChangeScene( std::wstring sceneName );
-// 	bool CreateScene( std::wstring sceneName );
-// 	bool DeleteScene( std::wstring sceneName );
-	// 얘네 셋
-
+	
 	DDScene* GetCurrentScene() { return m_pCurrentScene; }
 	
 	void UpdateScene( float dt );
