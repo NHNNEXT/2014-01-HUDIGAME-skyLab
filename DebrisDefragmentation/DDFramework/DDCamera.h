@@ -6,7 +6,8 @@ public:
 	DDCamera();
 	virtual ~DDCamera();
 	
-	static DDCamera* Create();
+	CREATE_FUNC( DDCamera );
+	//static DDCamera* Create();
 	
 // 	void SetLookatPoint( DDVECTOR3 lookatpoint ) { m_LookatPoint = lookatpoint; }
 // 	void SetLookatPoint( float x, float y, float z ) { m_LookatPoint = DDVECTOR3( x, y, z ); }

@@ -9,6 +9,7 @@ DDSceneDirector::DDSceneDirector()
 
 DDSceneDirector::~DDSceneDirector()
 {
+	m_pCurrentScene->DeleteAlignedClass( m_pCurrentScene );
 }
 
 bool DDSceneDirector::Init()

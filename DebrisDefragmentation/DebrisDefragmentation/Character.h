@@ -5,10 +5,12 @@ class Character :
 {
 public:
 	Character();
-	Character( wchar_t* modelPath );
+	Character( std::wstring modelPath );
 	virtual ~Character();
 
-	static Character* Create(wchar_t* modelPath);
+	CREATE_FUNC_WSTRING( Character, modelPath );
+
+	//static Character* Create(wchar_t* modelPath);
 
 
 private:

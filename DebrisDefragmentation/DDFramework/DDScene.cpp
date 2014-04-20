@@ -17,12 +17,12 @@ m_SceneName(sceneName)
 DDScene::~DDScene()
 {
 }
-
-DDScene* DDScene::Create(std::wstring sceneName)
-{
-	DDScene* pInstance = new DDScene();
-	return pInstance;
-}
+// 
+// DDScene* DDScene::Create(std::wstring sceneName)
+// {
+// 	DDScene* pInstance = new DDScene();
+// 	return pInstance;
+// }
 
 
 KeyState DDScene::GetKeyState( int key )

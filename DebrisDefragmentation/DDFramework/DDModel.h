@@ -6,13 +6,14 @@ class DDModel :
 {
 public:
 	DDModel();
-	DDModel( wchar_t* filePath );
+	DDModel( std::wstring filePath );
 	virtual ~DDModel();
 
-	static DDModel* Create( wchar_t* filePath );	
+	CREATE_FUNC_WSTRING( DDModel, filePath );
+	//static DDModel* Create( wchar_t* filePath );	
 
 protected:
-	bool initModel( wchar_t* path );	
+	bool initModel( std::wstring path );
 	bool SetNormalVector();
 	bool Cleanup();
 

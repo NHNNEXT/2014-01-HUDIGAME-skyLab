@@ -127,7 +127,8 @@ void DDObject::UpdateChildNodes( float dTime )
 
 void DDObject::AddChild( DDObject* object )
 {
-	std::shared_ptr<DDObject> object_ptr( object );
+	auto deleter = DeleteAlignedClass;
+	std::shared_ptr<DDObject> object_ptr( object, deleter );
 	object->SetParent( this );
 	m_ChildList.push_back( object_ptr );
 }
@@ -144,4 +145,10 @@ void DDObject::RemoveChild( DDObject* object )
 			break;
 		}
 	}
+}
+
+void DDObject::DeleteAlignedClass( DDObject* object )
+{
+	object->~DDObject();
+	_aligned_free( object );
 }

@@ -11,7 +11,8 @@ public:
 	DDScene();
 	DDScene(std::wstring sceneName);
 	virtual ~DDScene();
-
+	
+	CREATE_FUNC( DDScene );
 	static DDScene* Create(std::wstring sceneName);
 	
 	std::wstring GetSceneName() const { return m_SceneName; }

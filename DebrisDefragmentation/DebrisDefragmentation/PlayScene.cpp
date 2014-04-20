@@ -18,11 +18,11 @@ PlayScene::PlayScene( std::wstring sceneName )
 	m_SceneName = sceneName;
 }
 
-PlayScene* PlayScene::Create( std::wstring sceneName )
-{
-	PlayScene* pInstance = new PlayScene( sceneName );
-	return pInstance;
-}
+// PlayScene* PlayScene::Create( std::wstring sceneName )
+// {
+// 	PlayScene* pInstance = new PlayScene( sceneName );
+// 	return pInstance;
+// }
 
 PlayScene::~PlayScene()
 {
@@ -81,10 +81,10 @@ void PlayScene::Init()
 void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
+
 	// 현재 w키가 눌렸는지 확인한다
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
-	// s키가 눌렸다면 정지
-	
+	// s키가 눌렸다면 정지	
 	if ( KEY_DOWN == GetKeyState( 0x57 ) )
 	{
 		// m_pPlayer->SetAcceleration();

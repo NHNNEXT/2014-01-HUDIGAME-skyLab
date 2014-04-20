@@ -11,12 +11,12 @@ DDLight::DDLight()
 DDLight::~DDLight()
 {
 }
-
-DDLight* DDLight::Create()
-{
-	DDLight* pInstance = new DDLight();
-	return pInstance;
-}
+// 
+// DDLight* DDLight::Create()
+// {
+// 	DDLight* pInstance = new DDLight();
+// 	return pInstance;
+// }
 
 void DDLight::RenderItSelf()
 {

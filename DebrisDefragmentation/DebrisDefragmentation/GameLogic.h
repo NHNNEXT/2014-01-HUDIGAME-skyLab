@@ -66,6 +66,7 @@ private:
 
 	// player list
 	unsigned int	m_CurrentPlayers = 0;
+	
 	Player*			m_PlayerList[MAX_PLAYER_NUM];
 
 	// other objects

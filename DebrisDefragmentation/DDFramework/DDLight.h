@@ -7,7 +7,8 @@ public:
 	DDLight();
 	virtual ~DDLight();
 
-	static DDLight* Create();
+	CREATE_FUNC( DDLight );
+	//static DDLight* Create();
 
 private:
 	virtual void RenderItSelf();

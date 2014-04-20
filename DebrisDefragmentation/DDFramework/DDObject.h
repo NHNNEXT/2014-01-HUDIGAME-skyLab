@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "DDConfig.h"
 #include "DDRenderer.h"
+#include <type_traits>
 
 // 전방선언
 //class DDRenderer;
@@ -12,7 +13,12 @@ public:
 	virtual ~DDObject();
 
 	CREATE_FUNC(DDObject);
+
+	static void DeleteAlignedClass( DDObject* object );
+
 	virtual void Release( );
+
+
 
 	
 	const DDObject* GetParent() { return m_pParent; }
@@ -101,4 +107,5 @@ private :
 	virtual void RenderItSelf() {}
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER(dTime); }
 };
-
+// 
+// typedef std::aligned_storage<sizeof( DDObject ), ALIGNMENT_SIZE>::type DDObjectA;

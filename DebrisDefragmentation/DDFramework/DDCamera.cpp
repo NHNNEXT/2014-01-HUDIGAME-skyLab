@@ -12,12 +12,12 @@ m_LookatPoint(0.0f, 0.0f, 10.0f)
 DDCamera::~DDCamera()
 {
 }
-
-DDCamera* DDCamera::Create()
-{
-	DDCamera* pInstance = new DDCamera();
-	return pInstance;
-}
+// 
+// DDCamera* DDCamera::Create()
+// {
+// 	DDCamera* pInstance = new DDCamera();
+// 	return pInstance;
+// }
 
 void DDCamera::RenderItSelf()
 {

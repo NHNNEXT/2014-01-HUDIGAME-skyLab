@@ -5,10 +5,11 @@ class Debris :
 {
 public:
 	Debris();
-	Debris( wchar_t* modelPath );
+	Debris( std::wstring modelPath );
 	virtual ~Debris();
 
-	static Debris* Create( wchar_t* modelPath );
+	//static Debris* Create( wchar_t* modelPath );
+	CREATE_FUNC_WSTRING( Debris, modelpath );
 	
 private:
 	virtual void UpdateItSelf( float dTime );

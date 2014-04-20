@@ -8,7 +8,7 @@ Debris::Debris( )
 }
 
 
-Debris::Debris( wchar_t* modelPath ) : DDModel( modelPath )
+Debris::Debris( std::wstring modelPath ) : DDModel( modelPath )
 {
 }
 
@@ -16,11 +16,11 @@ Debris::~Debris( )
 {
 }
 
-Debris* Debris::Create( wchar_t* modelPath )
-{
-	Debris* pInstance = new Debris( modelPath );
-	return pInstance;
-}
+// Debris* Debris::Create( wchar_t* modelPath )
+// {
+// 	Debris* pInstance = new Debris( modelPath );
+// 	return pInstance;
+// }
 
 void Debris::UpdateItSelf( float dTime )
 {

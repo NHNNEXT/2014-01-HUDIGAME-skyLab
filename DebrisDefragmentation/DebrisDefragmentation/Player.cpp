@@ -19,11 +19,14 @@ Player::~Player()
 {
 }
 
-Player* Player::Create( int playerId )
-{
-	Player* pInstance = new Player( playerId );
-	return pInstance;
-}
+// Player* Player::Create( int playerId )
+// {
+// 	Player* pInstance = (Player*)_aligned_malloc( sizeof( Player ), ALIGNMENT_SIZE ) ;
+// 	new (pInstance) Player( playerId );
+// 
+// 	//Player* pInstance = new Player( playerId );
+// 	return pInstance;
+// }
 
 
 void Player::Init()

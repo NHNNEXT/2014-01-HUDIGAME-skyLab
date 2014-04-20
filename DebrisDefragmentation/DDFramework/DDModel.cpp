@@ -7,7 +7,7 @@ DDModel::DDModel()
 {
 }
 
-DDModel::DDModel( wchar_t* path )
+DDModel::DDModel( std::wstring path )
 {
 	initModel( path );
 	SetNormalVector();
@@ -17,14 +17,14 @@ DDModel::~DDModel()
 {
 	Cleanup();
 }
+// 
+// DDModel* DDModel::Create( wchar_t* filePath )
+// {
+// 	DDModel* pInstance = new DDModel(filePath);
+// 	return pInstance;	
+// }
 
-DDModel* DDModel::Create( wchar_t* filePath )
-{
-	DDModel* pInstance = new DDModel(filePath);
-	return pInstance;	
-}
-
-bool DDModel::initModel( wchar_t* path )
+bool DDModel::initModel( std::wstring path )
 {
 	LPD3DXBUFFER		pD3DXMtrlBuffer;	
 	LPDIRECT3DDEVICE9	pD3DDevice = DDRenderer::GetInstance()->GetDevice();

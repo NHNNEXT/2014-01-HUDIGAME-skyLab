@@ -11,7 +11,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 {
 #ifdef _DEBUG
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	//_CrtSetBreakAlloc( );
+	//_CrtSetBreakAlloc( 214 );
 
 #endif 
 	UNREFERENCED_PARAMETER( hInstance );
@@ -31,7 +31,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	app->Run();
 	app->Release();
 
-	SafeDelete( scene );
+	//SafeDelete( scene );	
 
 	delete GGameLogic;
 

@@ -13,7 +13,8 @@ public:
 	Player( int playerId );
 	virtual ~Player();
 
-	static Player* Create( int playerId );
+	//static Player* Create( int playerId );
+	CREATE_FUNC_INTEGER( Player , plyerId);
 	void Init();	
 
 	// 작성자 : 최경욱
@@ -44,10 +45,10 @@ private:
 	virtual void UpdateItSelf( float dTime );
 
 	int			m_PlayerId = -1;
-	DDCamera*	m_Camera;
-	DDModel*	m_Character;
-	DDVECTOR3	m_Acceleration; // 자동으로 0, 0, 0으로 초기화 되나?
-	DDVECTOR3	m_Velocity;
+	DDCamera*	m_Camera = nullptr;
+	DDModel*	m_Character = nullptr;
+	DDVECTOR3	m_Acceleration{ .0f, .0f, .0f }; 
+	DDVECTOR3	m_Velocity{ .0f, .0f, .0f };
 	bool		m_IsAccelerating = 0;
 	DWORD		m_AccelerationStart = 0;
 };
