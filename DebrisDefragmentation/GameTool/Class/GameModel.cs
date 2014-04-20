@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace GameTool.Class
 {
-    class GameLight : GameObject
+    class GameModel : GameObject
     {
-        DDWrapper.GameLight m_Light = null;
+        DDWrapper.GameModel m_Model = null;
 
-        public GameLight()
+        public GameModel(string path)
         {
-            m_Light = new DDWrapper.GameLight();
+            m_Model = new DDWrapper.GameModel(path);
         }
 
         public override void AttachParent(GameTool.Class.GameObject parent)
@@ -27,7 +27,17 @@ namespace GameTool.Class
 
         public override DDWrapper.GameObject Unwrapping()
         {
-            return m_Light;
+            return m_Model;
+        }
+
+        public void SetScale(float scale)
+        {
+            m_Model.SetScale(scale);
+        }
+
+        public void SetPosition( float x, float y, float z )
+        {
+            m_Model.SetPosition(x, y, z);
         }
     }
 }

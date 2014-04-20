@@ -72,84 +72,6 @@ namespace DDWrapper {
 
 
 	////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////// Camera ////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////
-
-	public ref class GameCamera
-	{
-	public:
-		GameCamera();
-		~GameCamera();
-
-		DDCamera* GetPointer() { return m_pCamera; };
-
-		const float GetPositionX() { return m_pCamera->GetPositionX(); }
-		const float GetPositionY() { return m_pCamera->GetPositionY(); }
-		const float GetPositionZ() { return m_pCamera->GetPositionZ(); }
-
-		void SetPosition( float x, float y, float z ) { m_pCamera->SetPosition( x, y, z ); };
-
-		const float GetViewDirectionX() { return m_pCamera->GetViewDirection().x; }
-		const float GetViewDirectionY() { return m_pCamera->GetViewDirection().y; }
-		const float GetViewDirectionZ() { return m_pCamera->GetViewDirection().z; }
-
-	protected:
-		DDCamera* Create() { return DDCamera::Create(); };
-		DDCamera* m_pCamera;
-	};
-
-	////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////// Model /////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////
-
-	public ref class GameModel
-	{
-	public:
-		GameModel() : m_pModel( new DDModel() ) {};
-		GameModel( System::String^ filepath );
-		~GameModel();
-
-		void AddChild( GameCamera^ camera ) { m_pModel->AddChild( camera->GetPointer() ); };
-
-		DDVECTOR3 GetPosition() { return m_pModel->GetPosition(); }
-		const float GetPositionX() { return m_pModel->GetPositionX(); }
-		const float GetPositionY() { return m_pModel->GetPositionY(); }
-		const float GetPositionZ() { return m_pModel->GetPositionZ(); }
-
-		const float GetViewDirectionX() { return m_pModel->GetViewDirection().x; }
-		const float GetViewDirectionY() { return m_pModel->GetViewDirection().y; }
-		const float GetViewDirectionZ() { return m_pModel->GetViewDirection().z; }
-
-		void SetPosition( DDVECTOR3 position ) { m_pModel->SetPosition( position ); };
-		void SetPosition( float x, float y, float z ) { m_pModel->SetPosition( x, y, z ); };
-
-		void SetScale( float scale ) { m_pModel->SetScale( DDVECTOR3(scale, scale, scale) ); }
-
-		// wrapping 된 m_pModel을 꺼내기 위한 메서드
-		DDModel* GetPointer() { return m_pModel; };
-
-	protected:
-		DDModel* m_pModel;
-	};
-
-	////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////// Light ////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////
-
-	public ref class GameLight
-	{
-	public:
-		GameLight();
-		~GameLight();
-
-		DDLight* GetPointer() { return m_pLight; };
-
-	protected:
-		DDLight* Create() { return DDLight::Create(); };
-		DDLight* m_pLight;
-	};
-	
-	////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////// Object ////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
 
@@ -164,17 +86,20 @@ namespace DDWrapper {
 		void Release() { m_pObject->Release(); };
 
 		void Render() { m_pObject->Render(); };
-		void Update( float dTime ) { m_pObject->Update( dTime );  };
+		void Update( float dTime ) { m_pObject->Update( dTime ); };
 
 		const DDObject* GetParent() { return m_pObject->GetParent(); };
 		const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_pObject->GetChildList(); };
-		
+
+		DDObject* GetPointer() { return m_pObject; }
+
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
+		void AddChild( DDWrapper::GameObject^ object ) { m_pObject->AddChild( object->GetPointer() ); };
 		// AddChild는 포인터를 받아야 되는데 C#은 포인터를 못 써서 만든 메소드들
 		// 별 거 아니지만 이렇게 쓸려면 Model, Camera, Light가 Object 위에 선언되어 있어야 함
-		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
-		void AddChild( DDWrapper::GameCamera^ object ) { AddChild( object->GetPointer() ); };
-		void AddChild( DDWrapper::GameLight^ object ) { AddChild( object->GetPointer() ); };
+// 		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
+// 		void AddChild( DDWrapper::GameCamera^ object ) { AddChild( object->GetPointer() ); };
+// 		void AddChild( DDWrapper::GameLight^ object ) { AddChild( object->GetPointer() ); };
 		void RemoveChild( DDObject* object ) { m_pObject->RemoveChild( object ); };
 
 		const D3DXMATRIXA16 GetMatrix() { return m_pObject->GetMatrix(); };
@@ -218,16 +143,96 @@ namespace DDWrapper {
 		void SetScale( DDVECTOR3 scale ) { m_pObject->SetScale( scale ); };
 
 		void SetRotation( DDVECTOR3 rotation ) { m_pObject->SetRotation( rotation ); };
-		void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_pObject->SetRotation( rotationX, rotationY, rotationZ );  };
+		void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_pObject->SetRotation( rotationX, rotationY, rotationZ ); };
 
 		void SetVisible( bool visible ) { m_pObject->SetVisible( visible ); };
-		
+
 		// z축 방향 벡터를 월드 좌표계 기준으로 반환
 		DDVECTOR3 GetViewDirection() { return m_pObject->GetViewDirection(); };
 	protected:
 		DDObject* m_pObject;
 	};
 
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////// Camera ////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+
+	public ref class GameCamera : GameObject
+	{
+	public:
+		GameCamera();
+		~GameCamera();
+
+		DDCamera* GetPointer() { return m_pCamera; };
+
+		const float GetPositionX() { return m_pCamera->GetPositionX(); }
+		const float GetPositionY() { return m_pCamera->GetPositionY(); }
+		const float GetPositionZ() { return m_pCamera->GetPositionZ(); }
+
+		void SetPosition( float x, float y, float z ) { m_pCamera->SetPosition( x, y, z ); };
+
+		const float GetViewDirectionX() { return m_pCamera->GetViewDirection().x; }
+		const float GetViewDirectionY() { return m_pCamera->GetViewDirection().y; }
+		const float GetViewDirectionZ() { return m_pCamera->GetViewDirection().z; }
+
+	protected:
+		DDCamera* Create() { return DDCamera::Create(); };
+		DDCamera* m_pCamera;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////// Model /////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+
+	public ref class GameModel : public GameObject
+	{
+	public:
+		GameModel() : m_pModel( new DDModel() ) {};
+		GameModel( System::String^ filepath );
+		~GameModel();
+
+		void AddChild( GameCamera^ camera ) { m_pModel->AddChild( camera->GetPointer() ); };
+
+		DDVECTOR3 GetPosition() { return m_pModel->GetPosition(); }
+		const float GetPositionX() { return m_pModel->GetPositionX(); }
+		const float GetPositionY() { return m_pModel->GetPositionY(); }
+		const float GetPositionZ() { return m_pModel->GetPositionZ(); }
+
+		const float GetViewDirectionX() { return m_pModel->GetViewDirection().x; }
+		const float GetViewDirectionY() { return m_pModel->GetViewDirection().y; }
+		const float GetViewDirectionZ() { return m_pModel->GetViewDirection().z; }
+
+		void SetPosition( DDVECTOR3 position ) { m_pModel->SetPosition( position ); };
+		void SetPosition( float x, float y, float z ) { m_pModel->SetPosition( x, y, z ); };
+
+		void SetScale( float scale ) { m_pModel->SetScale( DDVECTOR3(scale, scale, scale) ); }
+
+		// wrapping 된 m_pModel을 꺼내기 위한 메서드
+		DDModel* GetPointer() { return m_pModel; };
+
+	protected:
+		DDModel* m_pModel;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////// Light ////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+
+	public ref class GameLight : public GameObject
+	{
+	public:
+		GameLight();
+		~GameLight();
+
+		DDLight* GetPointer() { return m_pLight; };
+
+	protected:
+		DDLight* Create() { return DDLight::Create(); };
+		DDLight* m_pLight;
+	};
+	
 	////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////// Physics ///////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
@@ -269,8 +274,8 @@ namespace DDWrapper {
 		// 가속 시간을 업데이트한다.
 		void Update() { m_dTime = timeGetTime() - m_StartTime; }
 
-		DWORD m_dTime = 0.0f;
-		DWORD m_StartTime = 0.0f;
+		DWORD m_dTime = 0.0;
+		DWORD m_StartTime = 0.0;
 
 		bool m_IsAccelerating = false;
 	};

@@ -6,17 +6,27 @@ using System.Threading.Tasks;
 
 namespace GameTool.Class
 {
-    class GameCamera
+    class GameCamera : GameObject
     {
         // 생성자
         public GameCamera()
         {
             m_Camera = new DDWrapper.GameCamera();
         }
-        
-        public void AddCameraToParent(DDWrapper.GameModel parent)
+
+        public override void AttachParent(GameTool.Class.GameObject parent)
         {
-            parent.AddChild(m_Camera);
+            parent.Unwrapping().AddChild(m_Camera);
+        }
+
+        public override void AddChild(GameTool.Class.GameObject child)
+        { 
+            m_Camera.AddChild(child.Unwrapping());
+        }
+
+        public override DDWrapper.GameObject Unwrapping()
+        {
+            return m_Camera;
         }
 
         public void MoveCamera(float x, float y, float z)

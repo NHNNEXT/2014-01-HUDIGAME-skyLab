@@ -70,8 +70,11 @@
   <ItemGroup>
     <Compile Include="Class\GameCamera.cs" />
     <Compile Include="Class\GameLight.cs" />
+    <Compile Include="Class\GameModel.cs" />
+    <Compile Include="Class\GameObject.cs" />
     <Compile Include="Class\GamePhysics.cs" />
     <Compile Include="Class\GamePlayer.cs" />
+    <Compile Include="Class\GameScene.cs" />
     <Compile Include="Class\GameTimer.cs" />
     <Compile Include="Class\JSONInOut.cs" />
     <Compile Include="SkylabTool.cs">

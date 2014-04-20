@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// 슬슬 툴에 들어가는 함수도 너무 많아져서 메인에서 여기저기 다른 클래스로 유배보내야 함
-
 namespace GameTool
 {
     public partial class skyLabTool : Form
@@ -27,31 +25,27 @@ namespace GameTool
         int m_Hour = 0;
 
         // Renderer
-        private DDWrapper.Renderer m_Renderer = null;
+         // DDWrapper의 Renderer가 멤버변수로 DDRenderer*를 가지고 있음
+        private DDWrapper.Renderer m_Renderer = new DDWrapper.Renderer();
+        
         // Camera
         private GameTool.Class.GameCamera m_Camera = new GameTool.Class.GameCamera();
-        // Physics
-        private DDWrapper.GamePhysics m_Physics = new DDWrapper.GamePhysics();
-        
+
         // test Scene
-        private DDWrapper.GameObject m_Scene = null;
+        private GameTool.Class.GameScene m_Scene = null;
 
         // test model
-        private DDWrapper.GameModel m_Model = null;
+        private GameTool.Class.GamePlayer m_Model = null;
+
         // test model accelation & velocity
         System.Diagnostics.Stopwatch m_StopWatch = new System.Diagnostics.Stopwatch();
         bool g_IsAccelationInput = false;
-        float accelX = 0;
-        float accelY = 0;
-        float accelZ = 0;
-        float velocityX = 0;
-        float velocityY = 0;
-        float velocityZ = 0;
+
         float previousTime = 0;
         float currentTime = 0;
 
         // test light
-        private DDWrapper.GameLight m_Light = null;
+        private GameTool.Class.GameLight m_Light = null;
 
         // test mouseMovement values
         float m_PrevXPos = 0.0f;
@@ -62,8 +56,6 @@ namespace GameTool
         public skyLabTool()
         {
            InitializeComponent();
-           // DDWrapper의 Renderer가 멤버변수로 DDRenderer*를 가지고 있음
-           m_Renderer = new DDWrapper.Renderer();
 
             // 방어 코드
            if (null == m_Renderer)
@@ -76,7 +68,7 @@ namespace GameTool
 
            
             // Scene 추가
-           m_Scene = new DDWrapper.GameObject();
+           m_Scene = new GameTool.Class.GameScene();
        
             // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
            if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
@@ -130,7 +122,7 @@ namespace GameTool
         {
             // test character
             string path = "tiger.x";
-            m_Model = new DDWrapper.GameModel(path);
+            m_Model = new GameTool.Class.GamePlayer(path);
             m_Scene.AddChild(m_Model);
 
             // test Debris
@@ -138,7 +130,7 @@ namespace GameTool
             float randX, randY, randZ;
             for (int i = 0; i < 2000; ++i)
             {
-                DDWrapper.GameModel debris = new DDWrapper.GameModel(debrisPath);
+                GameTool.Class.GameModel debris = new GameTool.Class.GameModel(debrisPath);
                 randX = r.Next(-200, 200);
                 randY = r.Next(-200, 200);
                 randZ = r.Next(-200, 200);
@@ -155,12 +147,12 @@ namespace GameTool
 
         private void AddCamera()
         {
-            m_Camera.AddCameraToParent(m_Model);
+            m_Camera.AttachParent(m_Scene);
         }
 
         private void AddLight()
         {
-            m_Light = new DDWrapper.GameLight();
+            m_Light = new GameTool.Class.GameLight();
             m_Scene.AddChild(m_Light);
         }
 
@@ -268,12 +260,7 @@ namespace GameTool
 
         private void StopPlayer()
         {
-            accelX = 0;
-            accelY = 0;
-            accelZ = 0;
-            velocityX = 0;
-            velocityY = 0;
-            velocityZ = 0;
+            m_Model.StopPlayer();
         }
 
         private void MovePlayer()
@@ -282,42 +269,12 @@ namespace GameTool
             float dt = currentTime - previousTime;
             previousTime = currentTime;
 
-            if ( g_IsAccelationInput )
+            if ( !m_Model.MovePlayer(dt, g_IsAccelationInput) )
             {
-                accelX = m_Model.GetViewDirectionX() * 50;
-                accelY = m_Model.GetViewDirectionY() * 50;
-                accelZ = m_Model.GetViewDirectionZ() * 50;
-                
-                if ( m_Physics.AccelObject(m_Model, velocityX, velocityY, velocityZ, accelX, accelY, accelZ, dt) )
-                {
-                    velocityX += accelX * dt;
-                    velocityY += accelY * dt;
-                    velocityZ += accelZ * dt;
-                }
-                else
-                {
-                    g_IsAccelationInput = false;
-                    accelX = 0;
-                    accelY = 0;
-                    accelZ = 0;
-                }
-            }
-            else
-            {
-                m_Physics.MoveObject(m_Model, velocityX, velocityY, velocityZ, dt);
+                g_IsAccelationInput = false;
             }
         }
 
-        private double GetAccelation()
-        {
-            return Math.Pow((accelX * accelX + accelY * accelY + accelZ * accelZ), 0.5);
-        }
-
-        private double GetSpeed()
-        {
-            return Math.Pow((velocityX * velocityX + velocityY * velocityY + velocityZ * velocityZ), 0.5);
-        }
-        
         private void UpdatePlayerStatus()
         {
             // update position
@@ -326,16 +283,16 @@ namespace GameTool
             this.PlayerPosZ.Text = m_Model.GetPositionZ().ToString();
 
             // update acceleration
-            this.IntegratedAccelVal.Text = GetAccelation().ToString();
-            this.PlayerAccelX.Text = accelX.ToString();
-            this.PlayerAccelY.Text = accelY.ToString();
-            this.PlayerAccelZ.Text = accelZ.ToString();
+            this.IntegratedAccelVal.Text = m_Model.GetAccelation().ToString();
+            this.PlayerAccelX.Text = m_Model.GetAccelX().ToString();
+            this.PlayerAccelY.Text = m_Model.GetAccelY().ToString();
+            this.PlayerAccelZ.Text = m_Model.GetAccelZ().ToString();
 
             // update speed
-            this.IntegratedVelVal.Text = GetSpeed().ToString();
-            this.PlayerVelocityX.Text = velocityX.ToString();
-            this.PlayerVelocityY.Text = velocityY.ToString();
-            this.PlayerVelocityZ.Text = velocityZ.ToString();
+            this.IntegratedVelVal.Text = m_Model.GetSpeed().ToString();
+            this.PlayerVelocityX.Text = m_Model.GetSpeedX().ToString();
+            this.PlayerVelocityY.Text = m_Model.GetSpeedY().ToString();
+            this.PlayerVelocityZ.Text = m_Model.GetSpeedZ().ToString();
         }
 
         private void ResetPlayerStatus(object sender, EventArgs e)
