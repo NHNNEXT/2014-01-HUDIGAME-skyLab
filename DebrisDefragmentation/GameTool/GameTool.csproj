@@ -73,6 +73,7 @@
     <Compile Include="Class\GamePhysics.cs" />
     <Compile Include="Class\GamePlayer.cs" />
     <Compile Include="Class\GameTimer.cs" />
+    <Compile Include="Class\JSONInOut.cs" />
     <Compile Include="SkylabTool.cs">
       <SubType>Form</SubType>
     </Compile>

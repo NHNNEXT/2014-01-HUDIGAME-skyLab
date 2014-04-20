@@ -8,5 +8,62 @@ namespace GameTool.Class
 {
     class GameCamera
     {
+        // 생성자
+        public GameCamera()
+        {
+            m_Camera = new DDWrapper.GameCamera();
+        }
+        
+        public void AddCameraToParent(DDWrapper.GameModel parent)
+        {
+            parent.AddChild(m_Camera);
+        }
+
+        public void MoveCamera(float x, float y, float z)
+        {
+            m_Camera.SetPosition(
+                     m_Camera.GetPositionX() + x,
+                     m_Camera.GetPositionY() + y,
+                     m_Camera.GetPositionZ() + z
+                 );
+        }
+
+        public void ResetCamera()
+        {
+            m_Camera.SetPosition(0, 1, -5);
+        }
+
+        public float GetPositionX()
+        {
+            return m_Camera.GetPositionX();
+        }
+
+        public float GetPositionY()
+        {
+            return m_Camera.GetPositionY();
+        }
+
+        public float GetPositionZ()
+        {
+            return m_Camera.GetPositionZ();
+        }
+
+        public float GetViewDirectionX()
+        {
+            return m_Camera.GetViewDirectionX();
+        }
+
+        public float GetViewDirectionY()
+        {
+            return m_Camera.GetViewDirectionY();
+        }
+
+        public float GetViewDirectionZ()
+        {
+            return m_Camera.GetViewDirectionZ();
+        }
+
+        // 멤버변수
+        private DDWrapper.GameCamera m_Camera = null;
     }
 }

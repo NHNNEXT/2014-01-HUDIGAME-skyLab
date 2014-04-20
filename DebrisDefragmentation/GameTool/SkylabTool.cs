@@ -29,7 +29,7 @@ namespace GameTool
         // Renderer
         private DDWrapper.Renderer m_Renderer = null;
         // Camera
-        private DDWrapper.GameCamera m_Camera = null;
+        private GameTool.Class.GameCamera m_Camera = new GameTool.Class.GameCamera();
         // Physics
         private DDWrapper.GamePhysics m_Physics = new DDWrapper.GamePhysics();
         
@@ -113,7 +113,7 @@ namespace GameTool
 
                 m_Renderer.EndDraw();
 
-                await Task.Delay(5);
+                await Task.Delay(16);
             }
         }
 
@@ -155,8 +155,7 @@ namespace GameTool
 
         private void AddCamera()
         {
-            m_Camera = new DDWrapper.GameCamera();
-            m_Model.AddChild(m_Camera);
+            m_Camera.AddCameraToParent(m_Model);
         }
 
         private void AddLight()
@@ -225,25 +224,17 @@ namespace GameTool
         {
             if (e.Delta > 0)
             {
-                m_Camera.SetPosition(
-                    m_Camera.GetPositionX(),
-                    m_Camera.GetPositionY(),
-                    m_Camera.GetPositionZ() + 3
-                );
+                m_Camera.MoveCamera(0, 0, 1);
             }
             else
             {
-                m_Camera.SetPosition(
-                   m_Camera.GetPositionX(),
-                   m_Camera.GetPositionY(),
-                   m_Camera.GetPositionZ() - 3
-               );
+                m_Camera.MoveCamera(0, 0, -1);
             }
         }
 
         private void ResetCamera(object sender, EventArgs e)
         {
-            m_Camera.SetPosition(0, 1, -5);
+            m_Camera.ResetCamera();
         }
 
         private void SettingTimer()
@@ -293,7 +284,6 @@ namespace GameTool
 
             if ( g_IsAccelationInput )
             {
-                // 아 여기서 노말벡터 구해줘야함;; 그냥 뷰 디렉션 넣으면 ㄴㄴ해
                 accelX = m_Model.GetViewDirectionX() * 50;
                 accelY = m_Model.GetViewDirectionY() * 50;
                 accelZ = m_Model.GetViewDirectionZ() * 50;
