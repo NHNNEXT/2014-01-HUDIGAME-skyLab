@@ -113,7 +113,7 @@ namespace GameTool
 
                 m_Renderer.EndDraw();
 
-                await Task.Delay(30);
+                await Task.Delay(5);
             }
         }
 
@@ -136,12 +136,13 @@ namespace GameTool
             // test Debris
             string debrisPath = "debris.x";
             float randX, randY, randZ;
-            for (int i = 0; i < 1000; ++i)
+            for (int i = 0; i < 2000; ++i)
             {
                 DDWrapper.GameModel debris = new DDWrapper.GameModel(debrisPath);
-                randX = r.Next(-100, 100);
-                randY = r.Next(-100, 100);
-                randZ = r.Next(-100, 100);
+                randX = r.Next(-200, 200);
+                randY = r.Next(-200, 200);
+                randZ = r.Next(-200, 200);
+                debris.SetScale(0.5f);
                 debris.SetPosition(randX, randY, randZ);
                 m_Scene.AddChild(debris);
             }

@@ -123,6 +123,8 @@ namespace DDWrapper {
 		void SetPosition( DDVECTOR3 position ) { m_pModel->SetPosition( position ); };
 		void SetPosition( float x, float y, float z ) { m_pModel->SetPosition( x, y, z ); };
 
+		void SetScale( float scale ) { m_pModel->SetScale( DDVECTOR3(scale, scale, scale) ); }
+
 		// wrapping 된 m_pModel을 꺼내기 위한 메서드
 		DDModel* GetPointer() { return m_pModel; };
 
