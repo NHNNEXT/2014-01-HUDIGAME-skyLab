@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "GameConfig.h"
-#include "PlayerCharacter.h"
+#include "Player.h"
 #include <array>
 
 class GameLogic
@@ -51,7 +51,7 @@ private:
 	// 조심해!
 	// 개별 로직은 각가의 클라이언트 세션에 할당하고
 	// 로그아웃 기능 구현할 것 - 지금 접속 끊어진 아이들 캐릭터 삭제를 안 해줍니다.
-	std::array<PlayerCharacter*, MAX_PLAYER_NUM> m_PlayerList;
+	std::array<Player*, MAX_PLAYER_NUM> m_PlayerList;
 
 	// other objects
 	// 지금은 없음요

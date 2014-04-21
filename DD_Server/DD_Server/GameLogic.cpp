@@ -28,7 +28,7 @@ int GameLogic::AddPlayer()
 	{
 		if ( m_PlayerList[playerId] == nullptr )
 		{
-			m_PlayerList[playerId] = new PlayerCharacter( playerId );
+			m_PlayerList[playerId] = new Player( playerId );
 
 			return playerId;
 		}

@@ -64,7 +64,8 @@ namespace Physics
 
 	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, float& axisLen, float& minAlong, float& maxAlong )
 	{
-		minAlong = HUGE, maxAlong = -HUGE;
+		minAlong = static_cast<float>( HUGE );
+		maxAlong = static_cast<float>( -HUGE );
 
 		float dotVal = dotVal = D3DXVec3Dot( &axis, &centerPos );
 		minAlong = dotVal - axisLen;
@@ -73,7 +74,8 @@ namespace Physics
 
 	void static SATtest( const D3DXVECTOR3& axis, const std::array<D3DXVECTOR3, 8>& points, float& minAlong, float& maxAlong )
 	{
-		minAlong = HUGE, maxAlong = -HUGE;
+		minAlong = static_cast<float>( HUGE );
+		maxAlong = static_cast<float>( -HUGE );
 
 		for ( int i = 0; i < 8; i++ )
 		{

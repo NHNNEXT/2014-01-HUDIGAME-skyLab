@@ -30,14 +30,14 @@ public:
 	D3DXVECTOR3 GetRotation() { return m_Rotation; }
 	D3DXVECTOR3 GetVelocity( ) { return m_Velocity; }
 
-private:
+protected:
 	D3DXVECTOR3 GetViewDirection();
 
 	int				m_PlayerId = -1;
 
-	D3DXVECTOR3		m_Position;
-	D3DXVECTOR3		m_Rotation;
-	D3DXVECTOR3		m_Scale;
+	D3DXVECTOR3		m_Position{ 0.0f, 0.0f, 0.0f };
+	D3DXVECTOR3		m_Rotation{ 0.0f, 0.0f, 0.0f };
+	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
 	D3DXVECTOR3		m_Acceleration; 
 	D3DXVECTOR3		m_Velocity;
