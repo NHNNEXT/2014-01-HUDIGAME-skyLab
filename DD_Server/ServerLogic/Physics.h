@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameConfig.h"
 #include "CollisionBox.h"
 
 /*
-ÀÛ¼ºÀÚ : ÃÖ°æ¿í
-ÀÛ¼ºÀÏ : 2014. 4. 6
-³»¿ë : ¹°¸®Àû °è»ê ¼öÇà(¹°Ã¼ ¿îµ¿, È¸Àü, Ãæµ¹ µî)
+ì‘ì„±ì : ìµœê²½ìš±
+ì‘ì„±ì¼ : 2014. 4. 6
+ë‚´ìš© : ë¬¼ë¦¬ì  ê³„ì‚° ìˆ˜í–‰(ë¬¼ì²´ ìš´ë™, íšŒì „, ì¶©ëŒ ë“±)
 
-ÀÏ´Ü ´ÙÀ½ ÁÖ ·ÎÁ÷ ¸¸µé±â Àü¿¡´Â º¹»çÇØ¼­ ¾¹´Ï´Ù ¤Ğ
+ì¼ë‹¨ ë‹¤ìŒ ì£¼ ë¡œì§ ë§Œë“¤ê¸° ì „ì—ëŠ” ë³µì‚¬í•´ì„œ ì”ë‹ˆë‹¤ ã… 
 */
 
 namespace Physics
 {
 	/*
-	input : ÇöÀç À§Ä¡, ¼Óµµ, ½Ã°£ º¯È­·®
-	output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡
-	ÁÖÀÇ : µî¼Ó¿îµ¿ÀÎ °æ¿ì »ç¿ë, °¡¼Óµµ¿¡ ÀÇÇÑ °è»êÀÌ ÇÊ¿äÇÏ¸é ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+	input : í˜„ì¬ ìœ„ì¹˜, ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+	output : ì—…ë°ì´íŠ¸ëœ í˜„ì¬ ìœ„ì¹˜
+	ì£¼ì˜ : ë“±ì†ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ê°€ì†ë„ì— ì˜í•œ ê³„ì‚°ì´ í•„ìš”í•˜ë©´ ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 	*/
 	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _In_ const D3DXVECTOR3 &velocity, _In_ float dt )
 	{
@@ -28,9 +28,9 @@ namespace Physics
 	}
 
 	/*
-	input : ÇöÀç À§Ä¡, ÇöÀç ¼Óµµ, °¡¼Óµµ, ½Ã°£ º¯È­·®
-	output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡, ¾÷µ¥ÀÌÆ®µÈ ÇöÀç ¼Óµµ
-	ÁÖÀÇ : °¡¼Óµµ¿¡ ÀÇÇÑ ¿îµ¿ÀÎ °æ¿ì »ç¿ë, µî¼Ó¿îµ¿ÀÇ °æ¿ì ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+	input : í˜„ì¬ ìœ„ì¹˜, í˜„ì¬ ì†ë„, ê°€ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+	output : ì—…ë°ì´íŠ¸ëœ í˜„ì¬ ìœ„ì¹˜, ì—…ë°ì´íŠ¸ëœ í˜„ì¬ ì†ë„
+	ì£¼ì˜ : ê°€ì†ë„ì— ì˜í•œ ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ë“±ì†ìš´ë™ì˜ ê²½ìš° ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 	*/
 	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _Inout_ D3DXVECTOR3* velocity, _In_ const D3DXVECTOR3 &acceleration, _In_ float dt )
 	{
@@ -50,8 +50,8 @@ namespace Physics
 	}
 
 	/*
-	input : ¿øº» º¤ÅÍ¿Í °á°ú°¡ ÀúÀåµÉ º¤ÅÍ ÁÖ¼Ò
-	output : ¿øº» º¤ÅÍÀÇ ³ë¸Ö º¤ÅÍ
+	input : ì›ë³¸ ë²¡í„°ì™€ ê²°ê³¼ê°€ ì €ì¥ë  ë²¡í„° ì£¼ì†Œ
+	output : ì›ë³¸ ë²¡í„°ì˜ ë…¸ë©€ ë²¡í„°
 	*/
 	inline void GetNormalVector( _In_ D3DXVECTOR3* srcVec, _Out_ D3DXVECTOR3* normalVec )
 	{
@@ -77,19 +77,19 @@ namespace Physics
 
 		for ( int i = 0; i < 8; i++ )
 		{
-			// ÁÖ¾îÁø Á¡ ¸®½ºÆ®µéÀ» axis¿¡ Åõ¿µÇØ¼­ ÃÖ´ë ÃÖ¼Ò °ªÀ» ¹Ù²ãÁØ´Ù.
+			// ì£¼ì–´ì§„ ì  ë¦¬ìŠ¤íŠ¸ë“¤ì„ axisì— íˆ¬ì˜í•´ì„œ ìµœëŒ€ ìµœì†Œ ê°’ì„ ë°”ê¿”ì¤€ë‹¤.
 			float dotVal = D3DXVec3Dot( &axis, &points[i] );
 			if ( dotVal < minAlong )  minAlong = dotVal;
 			if ( dotVal > maxAlong )  maxAlong = dotVal;
 		}
 	}
 
-	// val°ªÀÌ lowerBound¿Í upperBound »çÀÌÀÇ °ªÀÎÁö ¸®ÅÏ
+	// valê°’ì´ lowerBoundì™€ upperBound ì‚¬ì´ì˜ ê°’ì¸ì§€ ë¦¬í„´
 	inline bool isBetweenOrdered( float val, float lowerBound, float upperBound ) {
 		return lowerBound <= val && val <= upperBound;
 	}
 
-	// µÎ ÃÖ´ë ÃÖ¼Ò ±¸°£ÀÌ ¼­·Î °ãÄ¡´ÂÁö ¸®ÅÏ
+	// ë‘ ìµœëŒ€ ìµœì†Œ êµ¬ê°„ì´ ì„œë¡œ ê²¹ì¹˜ëŠ”ì§€ ë¦¬í„´
 	bool static overlaps( float min1, float max1, float min2, float max2 )
 	{
 		return isBetweenOrdered( min2, min1, max1 ) || isBetweenOrdered( min1, min2, max2 );
@@ -99,11 +99,11 @@ namespace Physics
 	{
 		D3DXVECTOR4 tempMat;
 
-		// ÇöÀç À§Ä¡
+		// í˜„ì¬ ìœ„ì¹˜
 		D3DXVec3Transform( &tempMat, &box.m_CenterPos, box.m_Transform );
 		box.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-		// °¢ Á¡ ÁÂÇ¥
+		// ê° ì  ì¢Œí‘œ
 		D3DXVec3Transform( &tempMat, &box.m_PointList[0], box.m_Transform );
 		box.m_PointList[0] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
@@ -128,10 +128,10 @@ namespace Physics
 		D3DXVec3Transform( &tempMat, &box.m_PointList[7], box.m_Transform );
 		box.m_PointList[7] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-		// Ãà
+		// ì¶•
 		for ( int i = 0; i < 3; ++i )
 		{
-			// ¸¶Áö¸· Ç×À» 0À¸·Î ÇØ¾ß ÆòÇàÀÌµ¿ °ªÀÌ º¤ÅÍ¿¡ ¹İ¿µµÇÁö ¾ÊÀ½
+			// ë§ˆì§€ë§‰ í•­ì„ 0ìœ¼ë¡œ í•´ì•¼ í‰í–‰ì´ë™ ê°’ì´ ë²¡í„°ì— ë°˜ì˜ë˜ì§€ ì•ŠìŒ
 			D3DXVECTOR4 tempAxis = D3DXVECTOR4( box.m_AxisDir[i].x, box.m_AxisDir[i].y, box.m_AxisDir[i].z, 0 );
 
 			D3DXVec4Transform( &tempMat, &tempAxis, box.m_Transform );
@@ -146,7 +146,7 @@ namespace Physics
 
 		for ( int i = 0; i < 3; i++ )
 		{
-			// Ã¹ ¹øÂ° ¹Ú½ºÀÇ Ãà¿¡ ´ëÇØ¼­ Ãæµ¹ È®ÀÎ
+			// ì²« ë²ˆì§¸ ë°•ìŠ¤ì˜ ì¶•ì— ëŒ€í•´ì„œ ì¶©ëŒ í™•ì¸
 			float box1Min, box1Max, box2Min, box2Max;
 			SATtest( box1.m_AxisDir[i], box1.m_CenterPos, box1.m_AxisLen[i], box1Min, box1Max );
 			SATtest( box1.m_AxisDir[i], box2.m_PointList, box2Min, box2Max );
@@ -155,7 +155,7 @@ namespace Physics
 				return false;
 			}
 
-			// µÎ ¹øÂ° ¹Ú½ºÀÇ Ãà¿¡ ´ëÇØ¼­ Ãæµ¹ È®ÀÎ
+			// ë‘ ë²ˆì§¸ ë°•ìŠ¤ì˜ ì¶•ì— ëŒ€í•´ì„œ ì¶©ëŒ í™•ì¸
 			SATtest( box2.m_AxisDir[i], box1.m_PointList, box1Min, box1Max );
 			SATtest( box2.m_AxisDir[i], box2.m_CenterPos, box2.m_AxisLen[i], box2Min, box2Max );
 			if ( !overlaps( box1Min, box1Max, box2Min, box2Max ) )
@@ -179,7 +179,7 @@ namespace Physics
 			*/
 		}
 
-		// ¸ğµç Ãà¿¡ ´ëÇØ¼­ °ãÄ§ÀÌ ¹ß»ıÇÏ¸é Ãæµ¹·Î ÆÇÁ¤
+		// ëª¨ë“  ì¶•ì— ëŒ€í•´ì„œ ê²¹ì¹¨ì´ ë°œìƒí•˜ë©´ ì¶©ëŒë¡œ íŒì •
 		return true;
 	}
 };

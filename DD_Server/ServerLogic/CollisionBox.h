@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameConfig.h"
 #include <array>
 
 struct ST_OBB
 {
-	D3DXMATRIXA16*				m_Transform;	// ¿øº» ¿ÀºêÁ§Æ®ÀÇ ÇöÀç È¸Àü Çà·Ä
-	D3DXVECTOR3					m_CenterPos;	// ±âÁØÁ¡ - »óÀÚ Áß½É
-	std::array<D3DXVECTOR3, 3>	m_AxisDir;		// ¿ùµå ÁÂÇ¥°è¸¦ ±âÁØÀ¸·Î »óÀÚ ÁÂÇ¥°èÀÇ ¼¼ Ãà (¹Ú½ºÀÇ È¸Àü »óÅÂ)
-	std::array<float, 3>		m_AxisLen;		// °¢°¢ÀÇ Ãà¿¡ ´ëÇÑ ±æÀÌ (¹Ú½º Å©±â)
-	std::array<D3DXVECTOR3, 8>	m_PointList;	// °¢ ÁöÁ¡ ÁÂÇ¥µéÀ» ¾Æ¿¹ °è»êÇÏÁö ¸»°í ¹Ú¾ÆµÎÀÚ
+	D3DXMATRIXA16*				m_Transform;	// ì›ë³¸ ì˜¤ë¸Œì íŠ¸ì˜ í˜„ì¬ íšŒì „ í–‰ë ¬
+	D3DXVECTOR3					m_CenterPos;	// ê¸°ì¤€ì  - ìƒì ì¤‘ì‹¬
+	std::array<D3DXVECTOR3, 3>	m_AxisDir;		// ì›”ë“œ ì¢Œí‘œê³„ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ìƒì ì¢Œí‘œê³„ì˜ ì„¸ ì¶• (ë°•ìŠ¤ì˜ íšŒì „ ìƒíƒœ)
+	std::array<float, 3>		m_AxisLen;		// ê°ê°ì˜ ì¶•ì— ëŒ€í•œ ê¸¸ì´ (ë°•ìŠ¤ í¬ê¸°)
+	std::array<D3DXVECTOR3, 8>	m_PointList;	// ê° ì§€ì  ì¢Œí‘œë“¤ì„ ì•„ì˜ˆ ê³„ì‚°í•˜ì§€ ë§ê³  ë°•ì•„ë‘ì
 };
