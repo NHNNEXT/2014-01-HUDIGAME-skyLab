@@ -18,6 +18,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DDWrapper", "DDWrapper\DDWr
 		{3C2E53C6-E69A-4362-9F90-FEAB58AAEB4B} = {3C2E53C6-E69A-4362-9F90-FEAB58AAEB4B}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DD_Server", "DD_Server\DD_Server.vcxproj", "{B10C0120-13E3-43CA-91BF-1920A3CC9C58}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLogic", "GameLogic\GameLogic.vcxproj", "{528C19C0-239E-4031-90CC-CA342CB49AF0}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -72,6 +76,26 @@ Global
 		{12AC7293-19EA-4285-AC5D-D6EB7CDE515A}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{12AC7293-19EA-4285-AC5D-D6EB7CDE515A}.Release|Win32.ActiveCfg = Release|Win32
 		{12AC7293-19EA-4285-AC5D-D6EB7CDE515A}.Release|Win32.Build.0 = Release|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Debug|Win32.Build.0 = Debug|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Release|Win32.ActiveCfg = Release|Win32
+		{B10C0120-13E3-43CA-91BF-1920A3CC9C58}.Release|Win32.Build.0 = Release|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Debug|Win32.Build.0 = Debug|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Any CPU.ActiveCfg = Release|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Win32.ActiveCfg = Release|Win32
+		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

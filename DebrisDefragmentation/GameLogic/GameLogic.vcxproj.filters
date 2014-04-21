@@ -5,14 +5,8 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Logic">
-      <UniqueIdentifier>{6db88c5c-aed4-4585-9f94-baf03be7b886}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{1f9fa8f0-a624-4011-b983-86083908e8d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Logic\Actor">
-      <UniqueIdentifier>{b41262ec-4651-47f8-914f-28956c97071a}</UniqueIdentifier>
+    <Filter Include="temp">
+      <UniqueIdentifier>{3d5b78ca-294f-4f9c-b522-3ef7b15d7846}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,49 +19,49 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionBox.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Physics</Filter>
+    <ClInclude Include="Actor.h">
+      <Filter>temp</Filter>
     </ClInclude>
     <ClInclude Include="ActorManager.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="GameConfig.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Logic\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Logic\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Logic\Actor</Filter>
+      <Filter>temp</Filter>
     </ClInclude>
     <ClInclude Include="Bot.h">
-      <Filter>Logic\Actor</Filter>
+      <Filter>temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>temp</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBox.h">
+      <Filter>temp</Filter>
+    </ClInclude>
+    <ClInclude Include="GameConfig.h">
+      <Filter>temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>temp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="ActorManager.cpp">
-      <Filter>Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
-      <Filter>Logic\Actor</Filter>
+      <Filter>temp</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Logic\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Logic\Actor</Filter>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>temp</Filter>
     </ClCompile>
     <ClCompile Include="Bot.cpp">
-      <Filter>Logic\Actor</Filter>
+      <Filter>temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>temp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
