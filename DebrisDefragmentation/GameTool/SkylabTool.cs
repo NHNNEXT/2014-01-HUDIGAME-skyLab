@@ -19,10 +19,7 @@ namespace GameTool
         Random r = new Random();
 
         // Timer
-        System.Windows.Forms.Timer m_Timer = new Timer();
-        int m_Second = 0;
-        int m_Minute = 0;
-        int m_Hour = 0;
+        GameTool.Class.GameTimer m_Timer = null;
 
         // Renderer
          // DDWrapper의 Renderer가 멤버변수로 DDRenderer*를 가지고 있음
@@ -75,16 +72,18 @@ namespace GameTool
                AddLight();
                testMeshLoad();
 
-               // Timer 가동
-               SettingTimer();
-
                // Stopwatch 가동
                m_StopWatch.Start();
 
                AddCamera();
                DrawScreen();
            }
+
+            // render가 끝난 다음 타이머를 설정한다
+           m_Timer = new GameTool.Class.GameTimer(ref TimePass);
         }
+
+        
         // 화면에 그림 그리는 함수
         private async void DrawScreen()
         {
@@ -105,6 +104,7 @@ namespace GameTool
                 await Task.Delay(16);
             }
         }
+
         // 여기 들어오면 종료된다
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -114,6 +114,7 @@ namespace GameTool
 
             Application.Exit();
         }
+
         // 호랑이 한 마리랑 데브리 2000개쯤 불러오는 함수
         private void testMeshLoad()
         {
@@ -226,35 +227,6 @@ namespace GameTool
             m_Camera.ResetCamera();
         }
 
-        private void SettingTimer()
-        {
-            // 1초 주기로
-            m_Timer.Interval = 1000;
-
-            m_Timer.Tick += new EventHandler(UpdateClock);
-            m_Timer.Start();
-        }
-
-        private void UpdateClock(object sender, EventArgs e)
-        {
-            ++m_Second;
-
-            if (m_Second > 59)
-            {
-                ++m_Minute;
-                m_Second = 0;
-            }
-
-            if (m_Minute > 59)
-            {
-                ++m_Hour;
-                m_Minute = 0;
-            }
-
-            string result = m_Hour.ToString() + " 시  " + m_Minute.ToString() + " 분  " + m_Second.ToString() + " 초";
-            TimePass.Text = result;
-        }
-
         private void StopPlayer()
         {
             m_Model.StopPlayer();
@@ -275,9 +247,9 @@ namespace GameTool
         private void UpdatePlayerStatus()
         {
             // update position
-            this.PlayerPosX.Text = m_Model.GetPositionX().ToString();
-            this.PlayerPosY.Text = m_Model.GetPositionY().ToString();
-            this.PlayerPosZ.Text = m_Model.GetPositionZ().ToString();
+            PlayerPosX.Text = m_Model.GetPositionX().ToString();
+            PlayerPosY.Text = m_Model.GetPositionY().ToString();
+            PlayerPosZ.Text = m_Model.GetPositionZ().ToString();
 
             // update acceleration
             this.IntegratedAccelVal.Text = m_Model.GetAccelation().ToString();
