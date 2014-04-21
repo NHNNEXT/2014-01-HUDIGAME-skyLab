@@ -19,12 +19,12 @@ DDScene::~DDScene()
 }
 
 
-inline KeyState DDScene::GetKeyState( int key )
+KeyState DDScene::GetKeyState( int key )
 {
 	return DDInputSystem::GetInstance()->GetKeyState( key );
 }
 
-inline DDPoint DDScene::GetMousePosition()
+DDPoint DDScene::GetMousePosition()
 {
 	return DDInputSystem::GetInstance()->GetMousePosition();
 }
