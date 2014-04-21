@@ -80,6 +80,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engineer.h" />
+    <ClInclude Include="Protector.h" />
     <ClInclude Include="ServerObject.h" />
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="Avatar.h" />
@@ -89,12 +91,15 @@
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="Striker.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engineer.cpp" />
+    <ClCompile Include="Protector.cpp" />
     <ClCompile Include="ServerObject.cpp" />
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="Avatar.cpp">
@@ -102,6 +107,7 @@
     </ClCompile>
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Striker.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -37,7 +37,7 @@ void Avatar::_Stop( RIGIDBODY& rigidbody )
 	rigidbody.velocity = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 }
 
-void Avatar::_RotateDicrection( float x, float y, D3DXVECTOR3& rotation )
+void Avatar::_RotateDirection( float x, float y, D3DXVECTOR3& rotation )
 {
 	// 조심해!
 	// 회전 각도 가중치 하드 코딩 수정 할 것

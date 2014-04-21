@@ -9,6 +9,7 @@
 
 #include "ServerObject.h"
 #include "rigidbody.h"
+#include "Avatar.h"
 
 class Actor : public ServerObject
 {
@@ -24,6 +25,7 @@ public:
 
 protected:
 	RIGIDBODY	m_RigidBody;
+	Avatar*		m_Avatar;
 
 	bool		m_IsAccelerating = false;
 	DWORD		m_AccelerationStart = 0;

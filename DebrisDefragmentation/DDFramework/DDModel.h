@@ -9,7 +9,7 @@ public:
 	DDModel( std::wstring filePath );
 	virtual ~DDModel();
 
-	CREATE_FUNC_WSTRING( DDModel, filePath );
+	CREATE_OBJECT_WSTRING( DDModel, filePath );
 	//static DDModel* Create( wchar_t* filePath );	
 
 protected:

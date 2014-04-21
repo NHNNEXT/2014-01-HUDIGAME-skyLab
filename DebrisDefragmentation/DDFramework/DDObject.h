@@ -11,7 +11,7 @@ public:
 	DDObject();
 	virtual ~DDObject();
 
-	CREATE_FUNC(DDObject);
+	CREATE_OBJECT(DDObject);
 
 	static void DeleteAlignedClass( DDObject* object );
 

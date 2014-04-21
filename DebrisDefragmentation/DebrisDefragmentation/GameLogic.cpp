@@ -158,7 +158,7 @@ bool GameLogic::Stop( unsigned int playerId )
 
 bool GameLogic::RotateDicrection( unsigned int playerId, float x, float y )
 {
-	m_PlayerList[playerId]->RotateDicrection( x, y );
+	m_PlayerList[playerId]->RotateDirection( x, y );
 
 	return true;
 }

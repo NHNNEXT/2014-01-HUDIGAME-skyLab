@@ -13,7 +13,7 @@ public:
 	virtual ~PlayScene();
 		
 	//static PlayScene* Create( std::wstring sceneName );
-	CREATE_FUNC_WSTRING( PlayScene , sceneName);
+	CREATE_OBJECT_WSTRING( PlayScene , sceneName);
 
 	void Init();
 

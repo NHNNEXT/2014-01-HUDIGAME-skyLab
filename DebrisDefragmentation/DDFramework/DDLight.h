@@ -7,7 +7,7 @@ public:
 	DDLight();
 	virtual ~DDLight();
 
-	CREATE_FUNC( DDLight );
+	CREATE_OBJECT( DDLight );
 	//static DDLight* Create();
 
 private:

@@ -20,9 +20,6 @@
     <Filter Include="Component\Component\PhysicsComponent">
       <UniqueIdentifier>{7ddc28f5-6f37-4eec-9148-7550f425fe79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Component\PlayerComponent">
-      <UniqueIdentifier>{3adb408f-0cc2-4c7e-8443-36fa05dcf561}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Component\CollideComponent">
       <UniqueIdentifier>{622ce963-18f2-4cf0-8540-686583de674b}</UniqueIdentifier>
     </Filter>
@@ -31,6 +28,9 @@
     </Filter>
     <Filter Include="Logic">
       <UniqueIdentifier>{bbf3aa62-c22a-42b9-b4bf-423e9066f6cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Component\AvatarComponent">
+      <UniqueIdentifier>{3adb408f-0cc2-4c7e-8443-36fa05dcf561}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -62,7 +62,7 @@
       <Filter>Logic</Filter>
     </ClInclude>
     <ClInclude Include="Avatar.h">
-      <Filter>Component\Component\PlayerComponent</Filter>
+      <Filter>Component\Component\AvatarComponent</Filter>
     </ClInclude>
     <ClInclude Include="ServerObject.h">
       <Filter>Object</Filter>
@@ -76,6 +76,15 @@
     <ClInclude Include="User.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="Protector.h">
+      <Filter>Component\Component\AvatarComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Engineer.h">
+      <Filter>Component\Component\AvatarComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Striker.h">
+      <Filter>Component\Component\AvatarComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -85,7 +94,7 @@
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Avatar.cpp">
-      <Filter>Component\Component\PlayerComponent</Filter>
+      <Filter>Component\Component\AvatarComponent</Filter>
     </ClCompile>
     <ClCompile Include="ServerObject.cpp">
       <Filter>Object</Filter>
@@ -98,6 +107,15 @@
     </ClCompile>
     <ClCompile Include="User.cpp">
       <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engineer.cpp">
+      <Filter>Component\Component\AvatarComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Protector.cpp">
+      <Filter>Component\Component\AvatarComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Striker.cpp">
+      <Filter>Component\Component\AvatarComponent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

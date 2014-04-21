@@ -108,7 +108,6 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	MousePointer(false, currentMousePos);
-//	m_PrevMousePosition = currentMousePos;
 }
 
 void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )

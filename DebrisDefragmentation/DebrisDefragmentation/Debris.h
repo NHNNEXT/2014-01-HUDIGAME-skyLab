@@ -8,7 +8,7 @@ public:
 	Debris( std::wstring modelPath );
 	virtual ~Debris();
 
-	CREATE_FUNC_WSTRING( Debris, modelpath );
+	CREATE_OBJECT_WSTRING( Debris, modelpath );
 	
 private:
 	virtual void UpdateItSelf( float dTime );

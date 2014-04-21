@@ -9,11 +9,10 @@ class DDScene :
 {
 public:
 	DDScene();
-	DDScene(std::wstring sceneName);
+	DDScene( std::wstring sceneName );
 	virtual ~DDScene();
 	
-	CREATE_FUNC( DDScene );
-	static DDScene* Create(std::wstring sceneName);
+	CREATE_OBJECT_WSTRING( DDScene, sceneName );	
 	
 	std::wstring GetSceneName() const { return m_SceneName; }
 	void SetSceneName( std::wstring val ) { m_SceneName = val; }

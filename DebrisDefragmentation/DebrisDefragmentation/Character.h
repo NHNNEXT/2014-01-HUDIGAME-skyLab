@@ -8,7 +8,7 @@ public:
 	Character( std::wstring modelPath );
 	virtual ~Character();
 
-	CREATE_FUNC_WSTRING( Character, modelPath );
+	CREATE_OBJECT_WSTRING( Character, modelPath );
 	
 private:
 	virtual void UpdateItSelf( float dTime );
