@@ -1,4 +1,4 @@
-2014. 4. 8 
+﻿2014. 4. 8 
 
 *** DebrisDefragmentation\DebrisDefragmentation\Resources 를 실행 파일이 있는 폴더에 복사해주세요.
 
@@ -20,7 +20,7 @@
 >>> server
 
 
-2014. 4. 8 
+2014. 4. 15
 
 *** DebrisDefragmentation\DebrisDefragmentation\Resources 를 실행 파일이 있는 폴더에 복사해주세요.
 
@@ -41,3 +41,26 @@
 	패킷 디자인
 	서버 기반 코드 작성
 	서버 내 간단한 게임 로직 구현 (플레이어 움직임 계산)
+
+
+2014. 4. 2
+
+*** DebrisDefragmentation\DebrisDefragmentation\Resources 를 실행 파일이 있는 폴더에 복사해주세요.
+
+>>> Tool
+	
+	
+
+>>> framework
+	
+
+
+>>> client
+	
+	
+
+>>> server
+	게임 로직에 관련된 부분 새 프로젝트로 분리
+	OOB 충돌체크 로직 구현 - 아직 적용안 안 된 상태(데모까지 적용 예정)
+	게임로직을 통해 모든 처리를 하던 구조에서 개별 객체 안으로 로직 분리 진행
+		>>> 현재 매니저 분리 중(데모까지 완성 예정)
