@@ -11,6 +11,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{1f9fa8f0-a624-4011-b983-86083908e8d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Logic\Actor">
+      <UniqueIdentifier>{b41262ec-4651-47f8-914f-28956c97071a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -28,25 +31,43 @@
     <ClInclude Include="Physics.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
     <ClInclude Include="ActorManager.h">
       <Filter>Logic</Filter>
     </ClInclude>
     <ClInclude Include="GameConfig.h">
       <Filter>Logic</Filter>
     </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Logic\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Logic\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Logic\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>Logic\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Logic</Filter>
-    </ClCompile>
     <ClCompile Include="ActorManager.cpp">
       <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Logic\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Logic\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Logic\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot.cpp">
+      <Filter>Logic\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
