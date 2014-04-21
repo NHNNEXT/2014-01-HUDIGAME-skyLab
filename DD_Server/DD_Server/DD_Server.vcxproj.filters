@@ -13,9 +13,6 @@
     <Filter Include="GameLogic">
       <UniqueIdentifier>{64c2f031-0476-42af-b3da-58660955ad69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\Physics">
-      <UniqueIdentifier>{b95d40e4-14f5-4e1a-a7c0-7d7dedc29e5e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -60,18 +57,6 @@
     <ClInclude Include="PlayerCharacter.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="GameConfig.h">
-      <Filter>GameLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>GameLogic\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorManager.h">
-      <Filter>GameLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionBox.h">
-      <Filter>GameLogic\Physics</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -96,12 +81,6 @@
       <Filter>GameLogic</Filter>
     </ClCompile>
     <ClCompile Include="PlayerCharacter.cpp">
-      <Filter>GameLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>GameLogic\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="ActorManager.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
   </ItemGroup>

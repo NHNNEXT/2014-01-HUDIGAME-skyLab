@@ -33,10 +33,10 @@ public:
 	bool RotateDicrection( unsigned int playerId, float y, float x );
 
 	// get Player data
-	DDVECTOR3 GetPosition( unsigned int playerId );
-	DDVECTOR3 GetScale( unsigned int playerId );
-	DDVECTOR3 GetRotation( unsigned int playerId );
-	DDVECTOR3 GetVelocity( unsigned int playerId );
+	D3DXVECTOR3 GetPosition( unsigned int playerId );
+	D3DXVECTOR3 GetScale( unsigned int playerId );
+	D3DXVECTOR3 GetRotation( unsigned int playerId );
+	D3DXVECTOR3 GetVelocity( unsigned int playerId );
 
 	// get other object data
 	// 지금은 없습니다.

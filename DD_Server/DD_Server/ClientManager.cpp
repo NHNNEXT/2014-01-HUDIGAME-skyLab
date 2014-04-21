@@ -119,9 +119,9 @@ void ClientManager::SyncAll( )
 
 		if ( currentSessionId != -1 )
 		{
-			DDVECTOR3 position = GGameLogic->GetPosition( currentSessionId );
-			DDVECTOR3 rotation = GGameLogic->GetRotation( currentSessionId );
-			DDVECTOR3 velocity = GGameLogic->GetRotation( currentSessionId );
+			D3DXVECTOR3 position = GGameLogic->GetPosition( currentSessionId );
+			D3DXVECTOR3 rotation = GGameLogic->GetRotation( currentSessionId );
+			D3DXVECTOR3 velocity = GGameLogic->GetRotation( currentSessionId );
 			// scale은 일단 생략
 
 			SyncResult outPacket;

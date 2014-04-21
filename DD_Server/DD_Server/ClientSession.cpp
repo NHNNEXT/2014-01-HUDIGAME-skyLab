@@ -363,7 +363,7 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 		return;
 	}
 
-	DDVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
+	D3DXVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -399,7 +399,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 		return;
 	}
 
-	DDVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
+	D3DXVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	StopResult outPacket;

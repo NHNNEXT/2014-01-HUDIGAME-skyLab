@@ -29,14 +29,14 @@ void PlayerCharacter::Update( float dTime )
 		{
 			// 가속 끝났다
 			m_IsAccelerating = false;
-			m_Acceleration = DDVECTOR3( 0, 0, 0 );
+			m_Acceleration = D3DXVECTOR3( 0, 0, 0 );
 		}
 	}
 
 	Physics::CalcCurrentPosition( &m_Position, &m_Velocity, m_Acceleration, dTime );
 }
 
-DDVECTOR3 PlayerCharacter::GetViewDirection()
+D3DXVECTOR3 PlayerCharacter::GetViewDirection()
 {
 	D3DXQUATERNION	qRotation;
 	D3DXMATRIXA16 tempMatrix;
@@ -59,8 +59,8 @@ void PlayerCharacter::SetAcceleration()
 	m_AccelerationStart = timeGetTime();
 	m_IsAccelerating = true;
 
-	DDVECTOR3 normalVec( 0, 0, 0 );
-	DDVECTOR3 viewDirection( GetViewDirection() );
+	D3DXVECTOR3 normalVec( 0, 0, 0 );
+	D3DXVECTOR3 viewDirection( GetViewDirection() );
 	Physics::GetNormalVector( &viewDirection, &normalVec );
 
 	// 조심해!
@@ -72,8 +72,8 @@ void PlayerCharacter::Stop()
 {
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
 	///# 앙대!
-	m_Acceleration = DDVECTOR3( 0.0f, 0.0f, 0.0f );
-	m_Velocity = DDVECTOR3( 0.0f, 0.0f, 0.0f );
+	m_Acceleration = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+	m_Velocity = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 }
 
 void PlayerCharacter::RotateDicrection( float y, float x )

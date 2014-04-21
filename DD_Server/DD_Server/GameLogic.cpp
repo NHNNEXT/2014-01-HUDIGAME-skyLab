@@ -139,22 +139,22 @@ bool GameLogic::RotateDicrection( unsigned int playerId, float y, float x )
 	return false;
 }
 
-DDVECTOR3 GameLogic::GetPosition( unsigned int playerId )
+D3DXVECTOR3 GameLogic::GetPosition( unsigned int playerId )
 { 
 	return m_PlayerList[playerId]->GetPosition(); 
 }
 
-DDVECTOR3 GameLogic::GetScale( unsigned int playerId )
+D3DXVECTOR3 GameLogic::GetScale( unsigned int playerId )
 { 
 	return m_PlayerList[playerId]->GetScale(); 
 }
 
-DDVECTOR3 GameLogic::GetRotation( unsigned int playerId )
+D3DXVECTOR3 GameLogic::GetRotation( unsigned int playerId )
 { 
 	return m_PlayerList[playerId]->GetRotation(); 
 }
 
-DDVECTOR3 GameLogic::GetVelocity( unsigned int playerId )
+D3DXVECTOR3 GameLogic::GetVelocity( unsigned int playerId )
 {
 	return m_PlayerList[playerId]->GetVelocity();
 }
