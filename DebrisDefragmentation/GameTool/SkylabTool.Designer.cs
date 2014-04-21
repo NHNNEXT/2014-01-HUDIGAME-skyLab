@@ -86,6 +86,10 @@
             this.PlayerPosX = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.Status = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.RenderOnOffBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -96,6 +100,8 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.Status.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -105,7 +111,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1088, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -177,7 +183,7 @@
             // 
             this.View.Location = new System.Drawing.Point(13, 28);
             this.View.Name = "View";
-            this.View.Size = new System.Drawing.Size(640, 480);
+            this.View.Size = new System.Drawing.Size(760, 570);
             this.View.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.View.TabIndex = 1;
             this.View.TabStop = false;
@@ -191,7 +197,7 @@
             this.CameraConfig.Controls.Add(this.CameraResetBtn);
             this.CameraConfig.Controls.Add(this.CameraViewVector);
             this.CameraConfig.Controls.Add(this.groupBox1);
-            this.CameraConfig.Location = new System.Drawing.Point(933, 28);
+            this.CameraConfig.Location = new System.Drawing.Point(328, 7);
             this.CameraConfig.Name = "CameraConfig";
             this.CameraConfig.Size = new System.Drawing.Size(131, 278);
             this.CameraConfig.TabIndex = 2;
@@ -340,7 +346,7 @@
             // 
             this.TimerStatus.Controls.Add(this.TimePass);
             this.TimerStatus.Controls.Add(this.label7);
-            this.TimerStatus.Location = new System.Drawing.Point(753, 28);
+            this.TimerStatus.Location = new System.Drawing.Point(6, 7);
             this.TimerStatus.Name = "TimerStatus";
             this.TimerStatus.Size = new System.Drawing.Size(174, 43);
             this.TimerStatus.TabIndex = 3;
@@ -371,7 +377,7 @@
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Location = new System.Drawing.Point(753, 78);
+            this.groupBox2.Location = new System.Drawing.Point(6, 56);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(174, 430);
             this.groupBox2.TabIndex = 4;
@@ -619,14 +625,57 @@
             this.label10.TabIndex = 4;
             this.label10.Text = "X";
             // 
+            // Status
+            // 
+            this.Status.Controls.Add(this.tabPage1);
+            this.Status.Controls.Add(this.tabPage2);
+            this.Status.Location = new System.Drawing.Point(779, 28);
+            this.Status.Name = "Status";
+            this.Status.SelectedIndex = 0;
+            this.Status.Size = new System.Drawing.Size(473, 722);
+            this.Status.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.TimerStatus);
+            this.tabPage1.Controls.Add(this.CameraConfig);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(465, 696);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Camera & Model";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(465, 696);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // RenderOnOffBtn
+            // 
+            this.RenderOnOffBtn.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.RenderOnOffBtn.Location = new System.Drawing.Point(13, 605);
+            this.RenderOnOffBtn.Name = "RenderOnOffBtn";
+            this.RenderOnOffBtn.Size = new System.Drawing.Size(99, 23);
+            this.RenderOnOffBtn.TabIndex = 6;
+            this.RenderOnOffBtn.Text = "Render On/Off";
+            this.RenderOnOffBtn.UseVisualStyleBackColor = true;
+            this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
+            // 
             // skyLabTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1088, 684);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.TimerStatus);
-            this.Controls.Add(this.CameraConfig);
+            this.ClientSize = new System.Drawing.Size(1264, 762);
+            this.Controls.Add(this.RenderOnOffBtn);
+            this.Controls.Add(this.Status);
             this.Controls.Add(this.View);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -649,6 +698,8 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.Status.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -714,6 +765,10 @@
         private System.Windows.Forms.Label IntegratedAccelVal;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button PlayerStatusReset;
+        private System.Windows.Forms.TabControl Status;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button RenderOnOffBtn;
     }
 }
 

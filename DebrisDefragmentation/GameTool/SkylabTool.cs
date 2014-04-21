@@ -97,12 +97,11 @@ namespace GameTool
                     // 여기서 뭔가 그리게 됩니다
                     MovePlayer();
                     RenderScene();
-                    UpdateCameraInformation();
-                    UpdatePlayerStatus();
                 }
 
                 m_Renderer.EndDraw();
-
+                UpdateCameraInformation();
+                UpdatePlayerStatus();
                 await Task.Delay(16);
             }
         }
@@ -145,7 +144,7 @@ namespace GameTool
 
         private void AddCamera()
         {
-            m_Scene.AddChild(ref m_Camera);
+            m_Model.AddChild(ref m_Camera);
         }
 
         private void AddLight()
@@ -297,6 +296,12 @@ namespace GameTool
         {
             m_Model.SetPosition(0, 0, 0);
             StopPlayer();
+        }
+
+        private void RenderOnOff(object sender, EventArgs e)
+        {
+            g_IsRenderable = !g_IsRenderable;
+            DrawScreen();
         }
     }
 }

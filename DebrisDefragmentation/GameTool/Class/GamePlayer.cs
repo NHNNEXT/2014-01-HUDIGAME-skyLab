@@ -20,7 +20,6 @@ namespace GameTool.Class
         float accelY = 0.0f;
         float accelZ = 0.0f;
 
-        float m_StartTime = 0.0f;
         float m_TimeStack = 0.0f;
 
         bool m_IsAccelation = false;
@@ -41,6 +40,11 @@ namespace GameTool.Class
         }
 
         public override void AddChild(ref GameTool.Class.GameObject child)
+        {
+            m_Model.AddChild(child.Unwrapping());
+        }
+
+        public void AddChild(ref GameTool.Class.GameCamera child)
         {
             m_Model.AddChild(child.Unwrapping());
         }
