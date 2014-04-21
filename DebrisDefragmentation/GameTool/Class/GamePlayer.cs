@@ -8,9 +8,9 @@ namespace GameTool.Class
 {
     class GamePlayer : GameObject
     {
-        DDWrapper.GameModel m_Model = null;
-
-        GameTool.Class.PlayerPhysics m_PlayerPhysics = new PlayerPhysics();
+        private DDWrapper.GameModel m_Model = null;
+        // 지금이야 툴에서 물리가 하나뿐이지만 나중에는 따로 뺴야 한다
+        private GameTool.Class.PlayerPhysics m_PlayerPhysics = new PlayerPhysics();
 
         float velocityX = 0.0f;
         float velocityY = 0.0f;
@@ -35,12 +35,12 @@ namespace GameTool.Class
             m_Model = new DDWrapper.GameModel(path);
         }
 
-        public override void AttachParent(GameTool.Class.GameObject parent)
+        public override void AttachParent(ref GameTool.Class.GameObject parent)
         {
             parent.Unwrapping().AddChild(m_Model);
         }
 
-        public override void AddChild(GameTool.Class.GameObject child)
+        public override void AddChild(ref GameTool.Class.GameObject child)
         {
             m_Model.AddChild(child.Unwrapping());
         }

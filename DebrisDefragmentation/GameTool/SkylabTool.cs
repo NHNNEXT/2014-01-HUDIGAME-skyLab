@@ -66,7 +66,6 @@ namespace GameTool
             // Direct3D 창에서 마우스 휠 이벤트 추가
            this.View.MouseWheel += new System.Windows.Forms.MouseEventHandler(CameraZoomInOut);
 
-           
             // Scene 추가
            m_Scene = new GameTool.Class.GameScene();
        
@@ -85,9 +84,8 @@ namespace GameTool
                AddCamera();
                DrawScreen();
            }
-          
         }
-
+        // 화면에 그림 그리는 함수
         private async void DrawScreen()
         {
             while(g_IsRenderable)
@@ -108,7 +106,7 @@ namespace GameTool
                 await Task.Delay(16);
             }
         }
-
+        // 여기 들어오면 종료된다
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //모든게 끝날 때 D3D도 릴리즈 시켜줘야 합니다
@@ -117,13 +115,13 @@ namespace GameTool
 
             Application.Exit();
         }
-
+        // 호랑이 한 마리랑 데브리 2000개쯤 불러오는 함수
         private void testMeshLoad()
         {
             // test character
             string path = "tiger.x";
             m_Model = new GameTool.Class.GamePlayer(path);
-            m_Scene.AddChild(m_Model);
+            m_Scene.AddChild(ref m_Model);
 
             // test Debris
             string debrisPath = "debris.x";
@@ -136,7 +134,7 @@ namespace GameTool
                 randZ = r.Next(-200, 200);
                 debris.SetScale(0.5f);
                 debris.SetPosition(randX, randY, randZ);
-                m_Scene.AddChild(debris);
+                m_Scene.AddChild(ref debris);
             }
         }
 
@@ -147,13 +145,13 @@ namespace GameTool
 
         private void AddCamera()
         {
-            m_Camera.AttachParent(m_Scene);
+            m_Scene.AddChild(ref m_Camera);
         }
 
         private void AddLight()
         {
             m_Light = new GameTool.Class.GameLight();
-            m_Scene.AddChild(m_Light);
+            m_Scene.AddChild(ref m_Light);
         }
 
         private void UpdateCameraInformation()

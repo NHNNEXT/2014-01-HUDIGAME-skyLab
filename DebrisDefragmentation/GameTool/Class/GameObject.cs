@@ -8,9 +8,8 @@ namespace GameTool.Class
 {
     abstract class GameObject
     {
-        public abstract void AttachParent(GameTool.Class.GameObject parent);
-        public abstract void AddChild(GameTool.Class.GameObject child);
+        public abstract void AttachParent(ref GameTool.Class.GameObject parent);
+        public abstract void AddChild(ref GameTool.Class.GameObject child);
         public abstract DDWrapper.GameObject Unwrapping();
-
     }
 }

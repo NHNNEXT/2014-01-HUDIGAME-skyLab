@@ -14,12 +14,12 @@ namespace GameTool.Class
             m_Camera = new DDWrapper.GameCamera();
         }
 
-        public override void AttachParent(GameTool.Class.GameObject parent)
+        public override void AttachParent(ref GameTool.Class.GameObject parent)
         {
             parent.Unwrapping().AddChild(m_Camera);
         }
 
-        public override void AddChild(GameTool.Class.GameObject child)
+        public override void AddChild(ref GameTool.Class.GameObject child)
         { 
             m_Camera.AddChild(child.Unwrapping());
         }

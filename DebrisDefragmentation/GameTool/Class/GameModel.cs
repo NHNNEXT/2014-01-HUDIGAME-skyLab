@@ -8,19 +8,19 @@ namespace GameTool.Class
 {
     class GameModel : GameObject
     {
-        DDWrapper.GameModel m_Model = null;
+        private DDWrapper.GameModel m_Model = null;
 
         public GameModel(string path)
         {
             m_Model = new DDWrapper.GameModel(path);
         }
 
-        public override void AttachParent(GameTool.Class.GameObject parent)
+        public override void AttachParent(ref GameTool.Class.GameObject parent)
         {
             throw new NotImplementedException();
         }
 
-        public override void AddChild(GameTool.Class.GameObject child)
+        public override void AddChild(ref GameTool.Class.GameObject child)
         {
             throw new NotImplementedException();
         }

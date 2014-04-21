@@ -47,18 +47,18 @@ namespace DDWrapper
 
 	GameCamera::GameCamera()
 	{
-		m_pCamera = GameCamera::Create();
+		m_pObject = GameCamera::Create();
 	}
 
 	GameCamera::~GameCamera()
 	{
-		if ( nullptr != m_pCamera )
+		if ( nullptr != m_pObject )
 		{
-			m_pCamera->Release();
-			delete m_pCamera;
+			m_pObject->Release();
+			delete m_pObject;
 		}
 
-		m_pCamera = nullptr;
+		m_pObject = nullptr;
 	}
 
 	////////////////////////////////// DD Model Class //////////////////////////////
@@ -71,18 +71,18 @@ namespace DDWrapper
 		//wchar_t* str = L"tiger.x";
 
 		//m_pModel = DDModel::Create( const_cast<wchar_t*>(str), renderer->GetDevice() );
-		m_pModel = DDModel::Create( const_cast<wchar_t*>( str ) );
+		m_pObject = DDModel::Create( const_cast<wchar_t*>( str ) );
 	}
 
 	GameModel::~GameModel()
 	{
-		if ( nullptr != m_pModel )
+		if ( nullptr != m_pObject )
 		{
-			m_pModel->Release();
-			delete m_pModel;
+			m_pObject->Release();
+			delete m_pObject;
 		}
 
-		m_pModel = nullptr;
+		m_pObject = nullptr;
 	}
 
 	////////////////////////////////// DD Light Class //////////////////////////////
@@ -90,17 +90,17 @@ namespace DDWrapper
 
 	GameLight::GameLight()
 	{
-		m_pLight = DDLight::Create();
+		m_pObject = DDLight::Create();
 	}
 
 	GameLight::~GameLight()
 	{
-		if ( nullptr != m_pLight )
+		if ( nullptr != m_pObject )
 		{
-			m_pLight->Release();
-			delete m_pLight;
+			m_pObject->Release();
+			delete m_pObject;
 		}
-		m_pLight = nullptr;
+		m_pObject = nullptr;
 	}
 
 }

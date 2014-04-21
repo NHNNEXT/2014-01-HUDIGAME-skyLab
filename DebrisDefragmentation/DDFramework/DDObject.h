@@ -17,9 +17,6 @@ public:
 	static void DeleteAlignedClass( DDObject* object );
 
 	virtual void Release( );
-
-
-
 	
 	const DDObject* GetParent() { return m_pParent; }
 	const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_ChildList; }

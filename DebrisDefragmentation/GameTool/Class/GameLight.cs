@@ -8,19 +8,19 @@ namespace GameTool.Class
 {
     class GameLight : GameObject
     {
-        DDWrapper.GameLight m_Light = null;
+        private DDWrapper.GameLight m_Light = null;
 
         public GameLight()
         {
             m_Light = new DDWrapper.GameLight();
         }
 
-        public override void AttachParent(GameTool.Class.GameObject parent)
+        public override void AttachParent(ref GameTool.Class.GameObject parent)
         {
             throw new NotImplementedException();
         }
 
-        public override void AddChild(GameTool.Class.GameObject child)
+        public override void AddChild(ref GameTool.Class.GameObject child)
         {
             throw new NotImplementedException();
         }

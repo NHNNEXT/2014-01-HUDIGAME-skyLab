@@ -8,17 +8,39 @@ namespace GameTool.Class
 {
     class GameScene : GameObject
     {
-        DDWrapper.GameObject m_Scene = new DDWrapper.GameObject();
+        private DDWrapper.GameObject m_Scene = new DDWrapper.GameObject();
 
-        public override void AttachParent(GameTool.Class.GameObject parent)
+        public override void AttachParent(ref GameTool.Class.GameObject parent)
         {
             parent.Unwrapping().AddChild(m_Scene);
         }
 
-        public override void AddChild(GameTool.Class.GameObject child)
+        //////////////////////// add child 패밀리들 ////////////////////////
+        public override void AddChild(ref GameTool.Class.GameObject child)
         {
             m_Scene.AddChild(child.Unwrapping());
         }
+
+        public void AddChild(ref GameTool.Class.GamePlayer child)
+        {
+            m_Scene.AddChild(child.Unwrapping());
+        }
+
+        public void AddChild(ref GameTool.Class.GameModel child)
+        {
+            m_Scene.AddChild(child.Unwrapping());
+        }
+
+        public void AddChild(ref GameTool.Class.GameCamera child)
+        {
+            m_Scene.AddChild(child.Unwrapping());
+        }
+
+        public void AddChild(ref GameTool.Class.GameLight child)
+        {
+            m_Scene.AddChild(child.Unwrapping());
+        }
+        //////////////////////// add child 패밀리들 끝////////////////////////
 
         public override DDWrapper.GameObject Unwrapping()
         {
