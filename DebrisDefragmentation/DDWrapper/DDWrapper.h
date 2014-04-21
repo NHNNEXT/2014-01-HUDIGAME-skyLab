@@ -12,7 +12,7 @@
 #pragma comment( lib, "../Debug/DDFramework.lib")
 
 #include <vcclr.h>
-#include "DDPhysics.h"
+#include "..\GameLogic\Physics.h"
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
@@ -322,7 +322,7 @@ namespace DDWrapper {
 		*/
 		void CalcCurrentPosition( _Inout_ DDVECTOR3& pos, const DDVECTOR3& velocity, float dt )
 		{
-			DDPhysics::CalcCurrentPosition( &pos, velocity, dt );
+			Physics::CalcCurrentPosition( &pos, velocity, dt );
 		}
 		/*
 		input : 현재 위치, 현재 속도, 가속도, 시간 변화량
@@ -331,7 +331,7 @@ namespace DDWrapper {
 		*/
 		void CalcCurrentPosition( _Inout_ DDVECTOR3& pos, _Inout_ DDVECTOR3& velocity, const DDVECTOR3& acceleration, float dt )
 		{
-			DDPhysics::CalcCurrentPosition( &pos, &velocity, acceleration, dt );
+			Physics::CalcCurrentPosition( &pos, &velocity, acceleration, dt );
 		}
 		/*
 		input : 원본 벡터와 결과가 저장될 벡터 주소
@@ -339,7 +339,7 @@ namespace DDWrapper {
 		*/
 		void GetNormalVector( _In_ DDVECTOR3* srcVec, _Out_ DDVECTOR3* normalVec )
 		{
-			DDPhysics::GetNormalVector( srcVec, normalVec );
+			Physics::GetNormalVector( srcVec, normalVec );
 		}
 
 		PhysicsData* m_pPhysicsData;

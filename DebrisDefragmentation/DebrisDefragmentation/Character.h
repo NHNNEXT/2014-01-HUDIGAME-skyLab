@@ -9,10 +9,7 @@ public:
 	virtual ~Character();
 
 	CREATE_FUNC_WSTRING( Character, modelPath );
-
-	//static Character* Create(wchar_t* modelPath);
-
-
+	
 private:
 	virtual void UpdateItSelf( float dTime );
 };

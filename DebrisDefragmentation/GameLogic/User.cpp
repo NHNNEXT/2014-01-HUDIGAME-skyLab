@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
-#include "Player.h"
+#include "User.h"
 #include "Physics.h"
 
-Player::~Player()
+User::~User()
 {
 }
 
-void Player::UpdateItSelf( float dTime )
+void User::UpdateItSelf( float dTime )
 {
 	if ( m_IsAccelerating )
 	{
@@ -16,14 +16,14 @@ void Player::UpdateItSelf( float dTime )
 		{
 			// 가속 끝났다
 			m_IsAccelerating = false;
-			m_Acceleration = D3DXVECTOR3( 0, 0, 0 );
+			m_RigidBody.acceleration = D3DXVECTOR3( 0, 0, 0 );
 		}
 	}
 
-	Physics::CalcCurrentPosition( &m_Position, &m_Velocity, m_Acceleration, dTime );
+	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.velocity, m_RigidBody.acceleration, dTime );
 }
 
-void Player::RotateDicrection( float y, float x )
+void User::RotateDicrection( float y, float x )
 {
 	// 조심해!
 	// 하드코딩 - 로직 구현하면서 다 바꾸자?!

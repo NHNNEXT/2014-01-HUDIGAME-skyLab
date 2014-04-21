@@ -8,7 +8,6 @@ public:
 	Debris( std::wstring modelPath );
 	virtual ~Debris();
 
-	//static Debris* Create( wchar_t* modelPath );
 	CREATE_FUNC_WSTRING( Debris, modelpath );
 	
 private:

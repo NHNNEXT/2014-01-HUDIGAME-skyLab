@@ -77,9 +77,6 @@
     <ClInclude Include="DDInputSystem.h">
       <Filter>Framework\Core\Input</Filter>
     </ClInclude>
-    <ClInclude Include="DDPhysics.h">
-      <Filter>Framework\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="DDPoint.h">
       <Filter>Framework\Physics\DataStructure</Filter>
     </ClInclude>
@@ -123,9 +120,6 @@
     </ClCompile>
     <ClCompile Include="DDInputSystem.cpp">
       <Filter>Framework\Core\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="DDPhysics.cpp">
-      <Filter>Framework\Physics</Filter>
     </ClCompile>
     <ClCompile Include="DDPoint.cpp">
       <Filter>Framework\Physics\DataStructure</Filter>

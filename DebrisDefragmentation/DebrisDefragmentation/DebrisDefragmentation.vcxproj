@@ -49,12 +49,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)DDFramework;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\external;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameLogic;$(SolutionDir)DDFramework;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\external;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -107,6 +106,9 @@
   <ItemGroup>
     <ProjectReference Include="..\DDFramework\DDFramework.vcxproj">
       <Project>{3c2e53c6-e69a-4362-9f90-feab58aaeb4b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GameLogic\GameLogic.vcxproj">
+      <Project>{528c19c0-239e-4031-90cc-ca342cb49af0}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

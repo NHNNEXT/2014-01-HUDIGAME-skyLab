@@ -4,8 +4,6 @@
 #include "Player.h"
 #include "PlayScene.h"
 
-const unsigned int MAX_PLAYER_NUM = 8;
-
 class GameLogic
 {
 public:

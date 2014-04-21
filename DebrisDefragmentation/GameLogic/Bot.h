@@ -10,9 +10,9 @@
 */
 #pragma once
 
-#include "Character.h"
+#include "Actor.h"
 
-class Bot : public Character
+class Bot : public Actor
 {
 public:
 	Bot();

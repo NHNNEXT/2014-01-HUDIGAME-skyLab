@@ -1,30 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
+    <Filter Include="Object">
+      <UniqueIdentifier>{a0de131e-b2eb-4100-803b-c9c24a6c430e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{d68c1acb-d289-4b1b-b898-a9853506cf78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Actor">
-      <UniqueIdentifier>{a0de131e-b2eb-4100-803b-c9c24a6c430e}</UniqueIdentifier>
+    <Filter Include="Component">
+      <UniqueIdentifier>{0e77bce5-f4f0-4e0d-bf65-23529994d65b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Component">
+    <Filter Include="Component\Component">
       <UniqueIdentifier>{7f91ef3e-1881-484c-9e49-26b952aea1a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Logic">
-      <UniqueIdentifier>{f1688e19-2cb0-4e32-a27f-94af390d7c9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Component\TransformComponent">
-      <UniqueIdentifier>{48dc83b9-9b41-4fe3-a327-5373530445a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Component\PhysicsComponent">
+    <Filter Include="Component\Component\PhysicsComponent">
       <UniqueIdentifier>{7ddc28f5-6f37-4eec-9148-7550f425fe79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Component\CollideComponent">
+    <Filter Include="Component\Component\PlayerComponent">
+      <UniqueIdentifier>{3adb408f-0cc2-4c7e-8443-36fa05dcf561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Component\CollideComponent">
       <UniqueIdentifier>{622ce963-18f2-4cf0-8540-686583de674b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Component\PlayerComponent">
-      <UniqueIdentifier>{fb0ef57e-578b-4a8a-b57a-1bc47a3514a6}</UniqueIdentifier>
+    <Filter Include="Config">
+      <UniqueIdentifier>{f1688e19-2cb0-4e32-a27f-94af390d7c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logic">
+      <UniqueIdentifier>{bbf3aa62-c22a-42b9-b4bf-423e9066f6cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -32,63 +38,66 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
+      <Filter>PCH</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Actor</Filter>
+      <Filter>PCH</Filter>
     </ClInclude>
     <ClInclude Include="ActorManager.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Bot.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Actor</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="GameConfig.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="collide.h">
-      <Filter>Actor\Component\CollideComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Actor\Component\PhysicsComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Actor\Component</Filter>
+      <Filter>Config</Filter>
     </ClInclude>
     <ClInclude Include="CollisionBox.h">
-      <Filter>Actor\Component\CollideComponent</Filter>
+      <Filter>Component\Component\CollideComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Collide.h">
+      <Filter>Component\Component\CollideComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Component\Component\PhysicsComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Avatar.h">
+      <Filter>Component\Component\PlayerComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Actor</Filter>
+      <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="ActorManager.cpp">
-      <Filter>Actor</Filter>
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Avatar.cpp">
+      <Filter>Component\Component\PlayerComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerObject.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Bot.cpp">
-      <Filter>Actor</Filter>
+      <Filter>Object\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Actor</Filter>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Object\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Actor\Component</Filter>
+    <ClCompile Include="User.cpp">
+      <Filter>Object\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,12 +18,6 @@ PlayScene::PlayScene( std::wstring sceneName )
 	m_SceneName = sceneName;
 }
 
-// PlayScene* PlayScene::Create( std::wstring sceneName )
-// {
-// 	PlayScene* pInstance = new PlayScene( sceneName );
-// 	return pInstance;
-// }
-
 PlayScene::~PlayScene()
 {
 	delete GNetworkManager;
@@ -113,20 +107,27 @@ void PlayScene::UpdateItSelf( float dTime )
 		currentMousePos.GetX() - m_PrevMousePosition.GetX()
 		);
 
-	HideMousePointer();
+	MousePointer(false, currentMousePos);
 //	m_PrevMousePosition = currentMousePos;
 }
 
-void PlayScene::HideMousePointer()
+void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 {
-	// 마우스 커서 500, 500에 놓기
-	POINT pt = { 500, 500 };
-	::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
-	::SetCursorPos( pt.x, pt.y );
+	if ( mousePointer )
+	{
+		// 마우스 커서 500, 500에 놓기
+		POINT pt = { 500, 500 };
+		::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
+		::SetCursorPos( pt.x, pt.y );
 
-	// 이전 포지션 위치를 500, 500에 놓기
-	m_PrevMousePosition = DDPoint( 500, 500 );
+		// 이전 포지션 위치를 500, 500에 놓기
+		m_PrevMousePosition = DDPoint( 500, 500 );
 
-	// 커서 숨기기
-	::ShowCursor( false );
+		// 커서 숨기기
+		::ShowCursor( false );
+	}
+	else
+	{
+		m_PrevMousePosition = currentMousePos;
+	}
 }

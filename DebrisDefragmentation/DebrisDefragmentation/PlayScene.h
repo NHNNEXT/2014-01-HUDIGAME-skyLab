@@ -20,11 +20,10 @@ public:
 
 private:
 	virtual void UpdateItSelf( float dTime );
-	void HideMousePointer();
+	void MousePointer(bool mousePointer, DDPoint  currentMousePos);
 
-	DDLight*	m_pDirectonalLight;
-//	Player*		m_pPlayer;
+	DDLight*	m_pDirectonalLight = nullptr;
 
-	DDPoint		m_PrevMousePosition;
+	DDPoint		m_PrevMousePosition{.0f,.0f};
 };
 

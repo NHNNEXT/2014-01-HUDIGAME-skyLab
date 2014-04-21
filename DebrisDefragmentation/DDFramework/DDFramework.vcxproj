@@ -94,7 +94,6 @@
     <ClInclude Include="DDNetwork.h" />
     <ClInclude Include="DDObject.h" />
     <ClInclude Include="DDPacketHeader.h" />
-    <ClInclude Include="DDPhysics.h" />
     <ClInclude Include="DDPoint.h" />
     <ClInclude Include="DDRenderer.h" />
     <ClInclude Include="DDResourceManager.h" />
@@ -112,7 +111,6 @@
     <ClCompile Include="DDModel.cpp" />
     <ClCompile Include="DDNetwork.cpp" />
     <ClCompile Include="DDObject.cpp" />
-    <ClCompile Include="DDPhysics.cpp" />
     <ClCompile Include="DDPoint.cpp" />
     <ClCompile Include="DDRenderer.cpp" />
     <ClCompile Include="DDScene.cpp" />

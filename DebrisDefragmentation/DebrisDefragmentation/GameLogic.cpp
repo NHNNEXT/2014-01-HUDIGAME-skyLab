@@ -91,7 +91,7 @@ void GameLogic::UpdatePlayerMove( int playerId, DDVECTOR3 pos, DDVECTOR3 vel, DD
 	m_PlayerList[playerId]->SetPosition( pos );
 	m_PlayerList[playerId]->SetVelocity( vel );
 	m_PlayerList[playerId]->SetRotation( rot );	
-	m_PlayerList[playerId]->SetAcceleration();
+	m_PlayerList[playerId]->GoForward();
 }
 
 void GameLogic::UpdatePlayerStop( int playerId, DDVECTOR3 pos )
@@ -117,7 +117,7 @@ void GameLogic::UpdatePlayerNew( int playerId, DDVECTOR3 pos, DDVECTOR3 vel, DDV
 	m_PlayerList[playerId]->SetPosition( pos );
 	m_PlayerList[playerId]->SetVelocity( vel );
 	m_PlayerList[playerId]->SetRotation( rot );
-	m_PlayerList[playerId]->SetAccel( acc );
+	m_PlayerList[playerId]->SetAcceleration( acc );
 }
 
 
@@ -144,7 +144,7 @@ bool GameLogic::SetRotation( unsigned int playerId, float rotationX, float rotat
 
 bool GameLogic::SetAcceleration( unsigned int playerId )
 { 
-	m_PlayerList[playerId]->SetAcceleration( );
+	m_PlayerList[playerId]->GoForward( );
 
 	return true;
 }

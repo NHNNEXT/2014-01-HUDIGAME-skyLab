@@ -16,12 +16,6 @@ Debris::~Debris( )
 {
 }
 
-// Debris* Debris::Create( wchar_t* modelPath )
-// {
-// 	Debris* pInstance = new Debris( modelPath );
-// 	return pInstance;
-// }
-
 void Debris::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );

@@ -6,13 +6,13 @@
 */
 #pragma once
 
-#include "Character.h"
+#include "Actor.h"
 
-class Player : public Character
+class User : public Actor
 {
 public:
-	Player( int playerId ) : m_PlayerId( playerId ) {}
-	~Player();
+	User( int playerId ) : m_PlayerId( playerId ) {}
+	~User();
 	
 	// 조심해!!
 	// 이 함수 좀 이상하다...기존 함수 활용해서 사용하도록 수정할 것

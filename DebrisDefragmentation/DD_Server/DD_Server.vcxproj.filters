@@ -54,9 +54,6 @@
     <ClInclude Include="GameLogic.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerCharacter.h">
-      <Filter>GameLogic</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,9 +75,6 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="GameLogic.cpp">
-      <Filter>GameLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCharacter.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
   </ItemGroup>

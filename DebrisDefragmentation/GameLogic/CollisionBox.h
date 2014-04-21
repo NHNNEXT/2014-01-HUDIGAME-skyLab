@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "GameConfig.h"
-#include <array>
 
 struct ST_OBB
 {

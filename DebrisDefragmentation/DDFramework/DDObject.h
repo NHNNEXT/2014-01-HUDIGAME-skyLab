@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "DDConfig.h"
 #include "DDRenderer.h"
-#include <type_traits>
 
 // 전방선언
 //class DDRenderer;
