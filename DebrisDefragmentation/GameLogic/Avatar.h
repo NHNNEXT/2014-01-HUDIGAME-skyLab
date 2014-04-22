@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include "GameConfig.h"
 
-const float ACCELERATION_WEIGHT = 1.0f;
-const int MOUSE_ROTATION_WEIGHT = 10;
-
 //전방선언
 struct RIGIDBODY;
 

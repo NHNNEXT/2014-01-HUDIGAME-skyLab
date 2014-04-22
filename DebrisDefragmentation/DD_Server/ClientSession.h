@@ -6,11 +6,13 @@
 #include "..\..\PacketType.h"
 #include "CircularBuffer.h"
 #include "ObjectPool.h"
+#include "User.h"
 
 #define BUFSIZE	(1024*10)
 
 class ClientSession;
 class ClientManager;
+class ActorManager;
 struct DatabaseJobContext;
 
 struct OverlappedIO : public OVERLAPPED
@@ -33,8 +35,6 @@ public:
 	}
 	~ClientSession() {}
 
-
-
 	void	OnRead( size_t len );
 	void	OnWriteComplete( size_t len );
 
@@ -51,7 +51,6 @@ public:
 
 	void	DatabaseJobDone( DatabaseJobContext* result );
 
-
 	/// 현재 Send/Recv 요청 중인 상태인지 검사하기 위함
 	void	IncOverlappedRequest()		{ ++mOverlappedRequested; }
 	void	DecOverlappedRequest()		{ --mOverlappedRequested; }
@@ -65,6 +64,8 @@ public:
 	void	HandleSyncRequest( SyncRequest& inPacket );
 
 	int		GetPlayerId() { return mPlayerId; }
+	void	SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }
+	void	SyncCurrentStatus();
 
 private:
 
@@ -73,7 +74,6 @@ private:
 
 	void	LoginDone( int pid );
 	void	UpdateDone();
-
 
 private:
 	// double			mPosX;
@@ -98,11 +98,11 @@ private:
 
 	int				mDbUpdateCount; ///< DB에 주기적으로 업데이트 하기 위한 변수
 
+	User			m_User;
+	ActorManager*	m_ActorManager = nullptr;
+
 	friend class ClientManager;
 };
-
-
-
 
 void CALLBACK RecvCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags );
 void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags );

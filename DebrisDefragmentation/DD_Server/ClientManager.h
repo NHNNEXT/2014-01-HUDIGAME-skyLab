@@ -2,7 +2,7 @@
 
 #include <map>
 #include <WinSock2.h>
-#include "GameLogic.h"
+#include "ActorManager.h"
 
 class ClientSession;
 struct PacketHeader;
@@ -12,9 +12,7 @@ class ClientManager
 public:
 	ClientManager() : mLastGCTick( 0 ), mLastClientWorkTick( 0 )
 	{}
-	~ClientManager() { delete GGameLogic; }
-
-	void Init() { GGameLogic = new GameLogic; GGameLogic->Init(); }
+	~ClientManager() {}
 
 	ClientSession* CreateClient( SOCKET sock );
 
@@ -34,8 +32,9 @@ private:
 	typedef std::map<SOCKET, ClientSession*> ClientList;
 	ClientList	mClientList;
 
-	DWORD		mLastGCTick;
-	DWORD		mLastClientWorkTick;
+	DWORD			mLastGCTick;
+	DWORD			mLastClientWorkTick;
+	ActorManager	m_ActorManager;
 };
 
 extern ClientManager* GClientManager;

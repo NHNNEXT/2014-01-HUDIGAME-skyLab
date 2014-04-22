@@ -10,9 +10,6 @@
     <Filter Include="Packet">
       <UniqueIdentifier>{db55624e-d08a-4435-8b17-e98a6d16e0fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic">
-      <UniqueIdentifier>{64c2f031-0476-42af-b3da-58660955ad69}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -51,9 +48,6 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogic.h">
-      <Filter>GameLogic</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -73,9 +67,6 @@
     </ClCompile>
     <ClCompile Include="CircularBuffer.cpp">
       <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic.cpp">
-      <Filter>GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

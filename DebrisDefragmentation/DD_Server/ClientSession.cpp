@@ -55,15 +55,18 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 	mConnected = true;
 
 	// 로그인 됐으면 플레이어 만들고
-	int playerId = GGameLogic->AddPlayer();
-	if ( playerId == -1 )
+	// pid를 할당 받아야 되는데
+	int userId = m_ActorManager->RegisterUser( &m_User );
+	if ( userId == -1 )
 	{
 		// 더 못 들어온다.
 		Disconnect();
 	}
 
+	m_User.SetUserId( userId );
+
 	// 접속한 아이에게 아이디를 할당해준다.
-	LoginDone( playerId );
+	LoginDone( userId );
 
 	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
 	GClientManager->SyncAll();
@@ -101,7 +104,7 @@ bool ClientSession::PostRecv( )
 void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
-	GGameLogic->DeletePlayer( mPlayerId );
+	m_ActorManager->DeleteActor( m_User.GetUserId() );
 
 	if ( !IsConnected( ) )
 		return;
@@ -314,6 +317,37 @@ void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 
 }
 
+void ClientSession::SyncCurrentStatus()
+{
+	SyncResult outPacket;
+
+	D3DXVECTOR3 position = m_User.GetPosition();
+	D3DXVECTOR3 rotation = m_User.GetRotation();
+	D3DXVECTOR3 velocity = m_User.GetVelocity();
+
+	outPacket.mPlayerId = m_User.GetUserId();
+
+	// 조심해!!
+	// 패킷 내부 변수를 아예 벡터로 만들어서 한 번에 복사하자
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
+
+	outPacket.mRotationX = rotation.x;
+	outPacket.mRotationY = rotation.y;
+	outPacket.mRotationZ = rotation.z;
+
+	outPacket.mVelocityX = velocity.x;
+	outPacket.mVelocityY = velocity.y;
+	outPacket.mVelocityZ = velocity.z;
+
+	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
 
 // 각 패킷을 처리하는 핸들러를 만들자
 REGISTER_HANDLER( PKT_CS_LOGIN )
@@ -328,15 +362,17 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 로그인 됐으면 플레이어 만들고
-	int playerId = GGameLogic->AddPlayer();
-	if ( playerId == -1 )
+	int UserId = m_ActorManager->RegisterUser( &m_User );
+	if ( UserId == -1 )
 	{
 		// 더 못 들어온다.
 		Disconnect();
 	}
 
+	m_User.SetUserId( UserId );
+
 	// 접속한 아이에게 아이디를 할당해준다.
-	LoginDone( playerId );
+	LoginDone( UserId );
 
 	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
 	GClientManager->SyncAll();
@@ -352,18 +388,11 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// 이걸 게임 로직에 적용하고 
-	if ( !GGameLogic->SetRotation( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) )
-	{
-		return;
-	}
+	// 이걸 멤버 유저에게 적용하고 
+	m_User.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	m_User.SetAcceleration();
 
-	if ( !GGameLogic->SetAcceleration( inPacket.mPlayerId ) )
-	{
-		return;
-	}
-
-	D3DXVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
+	D3DXVECTOR3 position = m_User.GetPosition();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -393,14 +422,10 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// 이걸 게임 로직에 적용하고 
-	if ( !GGameLogic->Stop( inPacket.mPlayerId ) )
-	{
-		return;
-	}
+	// 이걸 멤버 유저에게 적용하고 
+	m_User.Stop();
 
-	D3DXVECTOR3 position = GGameLogic->GetPosition( inPacket.mPlayerId );
-
+	D3DXVECTOR3 position = m_User.GetPosition();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	StopResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -428,11 +453,8 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	// 이걸 게임 로직에 적용하고 
-	if ( !GGameLogic->SetRotation( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) )
-	{
-		return;
-	}
+	// 이걸 멤버 유저에게 적용하고  
+	m_User.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	RotationResult outPacket;

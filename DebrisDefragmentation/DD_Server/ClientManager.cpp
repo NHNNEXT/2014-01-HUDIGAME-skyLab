@@ -12,6 +12,7 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 
 	ClientSession* client = new ClientSession( sock );
 	mClientList.insert( ClientList::value_type( sock, client ) );
+	client->SetActorManager( &m_ActorManager );
 
 	return client;
 }
@@ -48,7 +49,7 @@ void ClientManager::OnPeriodWork()
 	}
 
 	// 게임 상태를 업데이트 하자
-	GGameLogic->Update();
+	m_ActorManager.Update( );
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();
@@ -112,35 +113,13 @@ void ClientManager::SyncAll( )
 	// 일단 이번 주는 컴퓨터를 믿고 그냥 ㄱㄱ
 	int currentSessionId = -1;
 
-	for ( ClientList::const_iterator it = mClientList.begin( ); it != mClientList.end( ); ++it )
+	for ( ClientList::const_iterator it = mClientList.begin(); it != mClientList.end(); ++it )
 	{
 		ClientSession* client = it->second;
-		currentSessionId = client->GetPlayerId();
 
-		if ( currentSessionId != -1 )
-		{
-			D3DXVECTOR3 position = GGameLogic->GetPosition( currentSessionId );
-			D3DXVECTOR3 rotation = GGameLogic->GetRotation( currentSessionId );
-			D3DXVECTOR3 velocity = GGameLogic->GetRotation( currentSessionId );
-			// scale은 일단 생략
+		// 		if ( from == client )
+		// 			continue;
 
-			SyncResult outPacket;
-			outPacket.mPlayerId = currentSessionId;
-
-			outPacket.mPosX = position.x;
-			outPacket.mPosY = position.y;
-			outPacket.mPosZ = position.z;
-
-			outPacket.mRotationX = rotation.x;
-			outPacket.mRotationY = rotation.y;
-			outPacket.mRotationZ = rotation.z;
-
-			outPacket.mVelocityX = velocity.x;
-			outPacket.mVelocityY = velocity.y;
-			outPacket.mVelocityZ = velocity.z;
-
-			// 발신지에 상관없이 전체에 전송하기 위해서 from을 nullptr로...
-			BroadcastPacket( nullptr, &outPacket );
-		}
+		client->SyncCurrentStatus();
 	}
 }

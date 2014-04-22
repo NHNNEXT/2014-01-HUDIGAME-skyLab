@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Actor.h"
 #include "Physics.h"
+#include "GameConfig.h"
 
 Actor::Actor()
 {
@@ -24,7 +25,7 @@ void Actor::SetAcceleration()
 
 	// 조심해!
 	// 가속도 가중치 하드 코딩 수정 할 것
-	m_RigidBody.acceleration += ( viewDirection * 1.0f );
+	m_RigidBody.acceleration += ( viewDirection * ACCELERATION_WEIGHT );
 }
 
 void Actor::Stop()

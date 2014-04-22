@@ -12,7 +12,7 @@ void User::UpdateItSelf( float dTime )
 	{
 		// 조심해! 
 		// 하드코딩 로직 구현하면서 다 바꿀 것 
-		if ( timeGetTime() - m_AccelerationStart > 500 )
+		if ( timeGetTime( ) - m_AccelerationStart > ACCELERATION_TIME )
 		{
 			// 가속 끝났다
 			m_IsAccelerating = false;
@@ -27,5 +27,5 @@ void User::RotateDicrection( float y, float x )
 {
 	// 조심해!
 	// 하드코딩 - 로직 구현하면서 다 바꾸자?!
-	SetRotation( x / 10, y / 10, 0 );
+	SetRotation( x * MOUSE_ROTATION_WEIGHT, y * MOUSE_ROTATION_WEIGHT, 0 );
 }

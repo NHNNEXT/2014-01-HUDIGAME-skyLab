@@ -28,7 +28,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// Manager 생성 - 아직 DB는 사용 안 함
 	GClientManager = new ClientManager;
-	GClientManager->Init();
 
 	/// 윈속 초기화
 	WSADATA wsa;
