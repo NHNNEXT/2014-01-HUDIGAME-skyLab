@@ -30,7 +30,7 @@ void Player::Init()
 		m_Camera = DDCamera::Create();
 		AddChild( m_Camera );
 	}
-	
+	/// config.h
 	m_Character = Character::Create( L"tiger.x" );	
 	AddChild( m_Character );
 }
@@ -39,6 +39,7 @@ void Player::UpdateItSelf( float dTime )
 {
 	if ( m_Avatar->IsAccelerating() )
 	{
+		/// config.h
 		if ( timeGetTime() - m_Avatar->GetAccelerationStartTime() > 500 )
 		{
 			// 가속 끝났다

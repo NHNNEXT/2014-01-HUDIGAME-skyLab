@@ -114,6 +114,7 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 	if ( mousePointer )
 	{
 		// 마우스 커서 500, 500에 놓기
+		/// config.h
 		POINT pt = { 500, 500 };
 		::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
 		::SetCursorPos( pt.x, pt.y );

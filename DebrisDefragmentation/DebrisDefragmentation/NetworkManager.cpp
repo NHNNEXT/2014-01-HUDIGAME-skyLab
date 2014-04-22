@@ -22,6 +22,7 @@ void NetworkManager::Init()
 
 void NetworkManager::Connect()
 {
+	/// config.h
 	//DDNetwork::GetInstance()->Connect( "10.73.42.202", 9001 );
 	DDNetwork::GetInstance()->Connect( "localhost", 9001 );
 }
