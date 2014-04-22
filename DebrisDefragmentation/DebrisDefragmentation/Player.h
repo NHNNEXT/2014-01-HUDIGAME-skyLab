@@ -41,7 +41,7 @@ private:
 	virtual void UpdateItSelf( float dTime );
 
 	std::shared_ptr<Avatar>	m_Avatar; // shared_ptr기본 생성자에서 초기화
-	DDCamera*	m_Camera = nullptr;
+	DDCamera*	m_Camera = nullptr;	// agebreak : 플레이어가 카메라를 가지는것이 옳은건가??
 	DDModel*	m_Character = nullptr;
 
 	RIGIDBODY	m_Rigidbody;			// rigidbody 자체 초기화

@@ -14,6 +14,7 @@
 ///# 함수 이름 규칠 맞출 것.. CamelCase로 할거면 전부 그렇게 하던가...
 namespace Physics
 {
+	 
 	/*
 	input : 현재 위치, 속도, 시간 변화량
 	output : 업데이트된 현재 위치
@@ -21,11 +22,18 @@ namespace Physics
 	*/
 	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _In_ const D3DXVECTOR3 &velocity, _In_ float dt )
 	{
+		
 		// s' = s + v * t	
 
 		pos->x = pos->x + ( velocity.x * dt );
 		pos->y = pos->y + ( velocity.y * dt );
 		pos->z = pos->z + ( velocity.z * dt );
+	}
+
+	// agebreak : inout 인자를 이용하는것보다 리턴값으로 반환하는것이 더 깔끔하다.
+	inline D3DXVECTOR3 CalcCurrentPosition(const D3DXVECTOR3& pos, const D3DXVECTOR3& velocity, float dt)
+	{
+		return pos + velocity * dt;
 	}
 
 	/*
@@ -68,7 +76,7 @@ namespace Physics
 		minAlong = static_cast<float>( HUGE );
 		maxAlong = static_cast<float>( -HUGE );
 
-		float dotVal = dotVal = D3DXVec3Dot( &axis, &centerPos );
+		float dotVal = D3DXVec3Dot( &axis, &centerPos );
 		minAlong = dotVal - axisLen;
 		maxAlong = dotVal + axisLen;
 	}
@@ -107,6 +115,7 @@ namespace Physics
 		box.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
 		// 각 점 좌표
+		// agebreak : 응? 아래 for문은 왜 안쓰고??
 		D3DXVec3Transform( &tempMat, &box.m_PointList[0], box.m_Transform );
 		box.m_PointList[0] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
@@ -130,6 +139,9 @@ namespace Physics
 
 		D3DXVec3Transform( &tempMat, &box.m_PointList[7], box.m_Transform );
 		box.m_PointList[7] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+
+		// agebreak : 위의 코드는 아래 코드 하나로 변경 가능하다. 함수에 대해서는 MSDN을 찾아 볼것
+		//D3DXVec3TransformCoordArray(box.m_PointList.data(), sizeof(D3DXVECTOR3), box.m_PointList.data(), sizeof(D3DXVECTOR3), box.m_Transform, 8);
 
 		// 축
 		for ( int i = 0; i < 3; ++i )

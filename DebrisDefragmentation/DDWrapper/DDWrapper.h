@@ -9,13 +9,15 @@
 #include "DDModel.h"
 #include "DDCamera.h"
 #include "DDLight.h"
-#pragma comment( lib, "../Debug/DDFramework.lib")
+#pragma comment( lib, "../Debug/DDFramework.lib")	// agebreak : 상대 경로가 아니라, 프로젝트에 경로를 등록해서 사용할것. ex)릴리즈 할때는?
 
 #include <vcclr.h>
 #include "..\GameLogic\Physics.h"
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
+
+// agebreak : 아래 각 클래스들을 한파일들이 아닌 각각의 파일들로 분리할 것
 
 namespace DDWrapper {
 

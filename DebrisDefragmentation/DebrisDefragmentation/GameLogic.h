@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "DDConfig.h"
-#include "Player.h"
+#include "Player.h"		//agebreak : 전방 선언으로 대체
 #include "PlayScene.h"
 
 class GameLogic
@@ -30,6 +30,7 @@ public:
 	void Update();
 
 	// 특정 플레이어에 대해서 업데이트 한다.
+	// agebreak : 이 방식 보다는 GetPlayer(playerID)로 가져와서, 플레이어에게 Move/Stop/Sync등을 하는 구조가 깔끔함. 
 	void UpdatePlayerMove( int playerId, DDVECTOR3 pos, DDVECTOR3 vel, DDVECTOR3 rot );
 	void UpdatePlayerStop( int playerId, DDVECTOR3 pos );
 	void UpdatePlayerRotation( int playerId, DDVECTOR3 rot );
@@ -51,7 +52,7 @@ public:
 	bool RotateDicrection( unsigned int playerId, float x, float y );
 
 	// get Player data
-	DDVECTOR3 GetPosition( unsigned int playerId );
+	DDVECTOR3 GetPosition( unsigned int playerId );	// agebreak : 이것 역시 GetPlayer(playerID)로 가져와서 플레이어에게 직접 가져오는 것이 좋음. 함수들이 계속 늘어난다면??
 	DDVECTOR3 GetScale( unsigned int playerId );
 	DDVECTOR3 GetRotation( unsigned int playerId );
 	DDVECTOR3 GetVelocity( unsigned int playerId );
@@ -65,7 +66,7 @@ private:
 	// player list
 	unsigned int	m_CurrentPlayers = 0;
 	
-	Player*			m_PlayerList[MAX_PLAYER_NUM];
+	Player*			m_PlayerList[MAX_PLAYER_NUM];	// agebreak : Logic이 가지고 있는것보다 PlayerManager로 분리하는것이 좋음
 
 	// other objects
 	// scene을 추후에 list등으로 만들 수도 있겠네요
