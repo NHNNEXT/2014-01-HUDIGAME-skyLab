@@ -57,7 +57,7 @@
 
 
 >>> client
-	
+	Logic 분리
 	
 
 >>> server
