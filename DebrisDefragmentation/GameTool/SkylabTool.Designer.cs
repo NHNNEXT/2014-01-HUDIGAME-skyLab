@@ -97,6 +97,7 @@
             this.JsonFileList = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.ConfigRestartBtn = new System.Windows.Forms.Button();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -683,6 +684,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.groupBox9);
             this.groupBox6.Controls.Add(this.ConfigRestartBtn);
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Location = new System.Drawing.Point(4, 7);
@@ -710,6 +712,7 @@
             this.JsonSearching.TabIndex = 0;
             this.JsonSearching.Text = "Searching";
             this.JsonSearching.UseVisualStyleBackColor = true;
+            this.JsonSearching.Click += new System.EventHandler(this.SearchJsonFiles);
             // 
             // groupBox8
             // 
@@ -741,6 +744,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Load File";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.LoadJsonFile);
             // 
             // ConfigRestartBtn
             // 
@@ -750,6 +754,15 @@
             this.ConfigRestartBtn.TabIndex = 2;
             this.ConfigRestartBtn.Text = "Restart";
             this.ConfigRestartBtn.UseVisualStyleBackColor = true;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Location = new System.Drawing.Point(7, 105);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(442, 78);
+            this.groupBox9.TabIndex = 3;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Group";
             // 
             // skyLabTool
             // 
@@ -861,6 +874,7 @@
         private System.Windows.Forms.ListBox JsonFileList;
         private System.Windows.Forms.Button JsonSearching;
         private System.Windows.Forms.Button ConfigRestartBtn;
+        private System.Windows.Forms.GroupBox groupBox9;
     }
 }
 

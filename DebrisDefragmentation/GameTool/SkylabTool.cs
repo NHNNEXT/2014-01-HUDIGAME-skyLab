@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,11 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Json;
 
 namespace GameTool
 {
     public partial class skyLabTool : Form
     {
+        // Json Config 파일을 다루기 위한 변수
+        JsonObjectCollection g_JsonCollection = new JsonObjectCollection();
+
         // render를 할지 말지 결정하는 bool값
         bool g_IsRenderable = true;
 
@@ -28,23 +33,25 @@ namespace GameTool
         // Camera
         private GameTool.Class.GameCamera m_Camera = new GameTool.Class.GameCamera();
 
-        // test Scene
+        // Scene
         private GameTool.Class.GameScene m_Scene = null;
 
-        // test model
+        // Player model
         private GameTool.Class.GamePlayer m_Model = null;
 
-        // test model accelation & velocity
+        // StopWatch
         System.Diagnostics.Stopwatch m_StopWatch = new System.Diagnostics.Stopwatch();
+        
+        // acceleration variables
         bool g_IsAccelationInput = false;
 
         float previousTime = 0;
         float currentTime = 0;
 
-        // test light
+        // light
         private GameTool.Class.GameLight m_Light = null;
 
-        // test mouseMovement values
+        // mouseMovement values
         float m_PrevXPos = 0.0f;
         float m_CurrentXPos = 0.0f;
         float m_PrevYPos = 0.0f;
@@ -280,6 +287,40 @@ namespace GameTool
         //                                       Second Tab                                        //
         /////////////////////////////////////////////////////////////////////////////////////////////
 
+        private void LoadJsonFile(object sender, EventArgs e)
+        {
+            if ( this.JsonFileList.SelectedIndices.Count > 0 )
+            {
+                string file = JsonFileList.SelectedItem.ToString();
+                StreamReader sr = new StreamReader(file);
 
+                // 파일에서 다 읽는다
+                string jsonText = sr.ReadToEnd();
+
+                // 파싱한 다음
+                JsonTextParser parser = new JsonTextParser();
+                JsonObject obj = parser.Parse(jsonText);
+
+                // JSON 전역 객체로 전달한다
+                g_JsonCollection = (JsonObjectCollection)obj;
+
+                MessageBox.Show("Load Json Success!");
+            }
+        }
+
+        private void SearchJsonFiles(object sender, EventArgs e)
+        {
+            // Tool 이 실행된 폴더를 찾도록 한다
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@".\");
+
+            foreach(System.IO.FileInfo f in di.GetFiles())
+            {
+                // 설정파일 규약을 좀 정해야겠네요
+                if (f.Extension.ToString() == ".json")
+                {
+                    JsonFileList.Items.Add(f.Name);
+                }
+            }
+        }
     }
 }
