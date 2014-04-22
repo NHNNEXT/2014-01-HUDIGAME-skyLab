@@ -31,7 +31,7 @@ void Player::Init()
 		AddChild( m_Camera );
 	}
 	/// config.h
-	m_Character = Character::Create( L"tiger.x" );	
+	m_Character = Character::Create( L"debris.x" );	
 	AddChild( m_Character );
 }
 

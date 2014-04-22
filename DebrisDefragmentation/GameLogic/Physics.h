@@ -165,5 +165,15 @@ namespace Physics
 		// 모든 축에 대해서 겹침이 발생하면 충돌로 판정
 		return true;
 	}
+
+	bool static IntersectionCheck( const D3DXVECTOR3 &viewDirection, const CollisionBox &box )
+	{
+		// D3DXPLANE plane = D3DXPLANE(  );
+		// box.m_PointList[0], box.m_PointList[1], box.m_PointList[2], box.m_PointList[3]
+
+		// 	D3DXPlaneIntersectLine()
+
+		return false;
+	}
 };
 

@@ -18,6 +18,18 @@ struct CollisionBox
 		}
 	}
 
+	CollisionBox& operator=( const CollisionBox& rhs )
+	{
+		m_Transform = rhs.m_Transform;
+		m_CenterPos = rhs.m_CenterPos;
+		m_AxisDir = rhs.m_AxisDir;
+		m_AxisLen = rhs.m_AxisLen;
+		m_PointList = rhs.m_PointList;
+		m_Radius = rhs.m_Radius;
+
+		return *this;
+	}
+
 	D3DXMATRIXA16*								m_Transform = nullptr;				// 원본 오브젝트의 현재 회전 행렬
 	D3DXVECTOR3									m_CenterPos{ 0.0f, 0.0f, 0.0f };	// 기준점 - 상자 중심
 	std::array<D3DXVECTOR3, VECTOR_DIRECTION_3>	m_AxisDir;							// 월드 좌표계를 기준으로 상자 좌표계의 세 축 (박스의 회전 상태)

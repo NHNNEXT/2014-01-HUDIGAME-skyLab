@@ -38,6 +38,7 @@ public:
 	*/
 	bool IsValidId( int actorId );
 	Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
+	int DetectTarget( int actorId );
 
 	// get other object data
 	// 지금은 없습니다.

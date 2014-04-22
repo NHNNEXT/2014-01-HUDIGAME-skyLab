@@ -108,7 +108,7 @@ bool ActorManager::CheckCollision()
 			{
 				printf_s( "collision!\n" );
 				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
-				collisionDirection *= ACCELERATION_WEIGHT;
+				collisionDirection *= COLLISION_ACCELERATION_WEIGHT;
 
 				// 일단은 회전없이 충돌한 객체들이 서로 반대 방향으로 밀려나게
 				m_ActorList[i]->SetAccelerarion( -collisionDirection );
@@ -120,4 +120,33 @@ bool ActorManager::CheckCollision()
 	}
 
 	return returnVal;
+}
+
+int ActorManager::DetectTarget( int actorId )
+{
+	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
+	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
+	float currentDistance = 0.0f;
+	int targetId = -1;
+	
+	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( );
+	
+	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	{
+		if ( i == actorId )
+			continue;
+
+		if ( Physics::IntersectionCheck( viewDirection, m_ActorList[i]->GetCollisionBox() ) )
+		{
+			// 거리 구해서 더 짧으면 인덱스 업데이트
+			float tempDistance = D3DXVec3Length( &( m_ActorList[actorId]->GetPosition() - m_ActorList[i]->GetPosition() ) );
+			if ( tempDistance < currentDistance )
+			{
+				currentDistance = tempDistance;
+				targetId = i;
+			}
+		}
+	}
+
+	return targetId;
 }
