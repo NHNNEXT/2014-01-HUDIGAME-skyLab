@@ -182,8 +182,8 @@ namespace GameTool
                 m_CurrentXPos = e.X;
                 m_CurrentYPos = e.Y;
 
-                m_Scene.IncreaseRotationX(m_CurrentYPos - m_PrevYPos);
-                m_Scene.IncreaseRotationY(m_CurrentXPos - m_PrevXPos);
+                m_Scene.IncreaseRotationX((m_CurrentYPos - m_PrevYPos)/2);
+                m_Scene.IncreaseRotationY((m_CurrentXPos - m_PrevXPos)/2);
 
                 m_PrevXPos = m_CurrentXPos;
                 m_PrevYPos = m_CurrentYPos;
@@ -275,5 +275,11 @@ namespace GameTool
             g_IsRenderable = !g_IsRenderable;
             DrawScreen();
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        //                                       Second Tab                                        //
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+
     }
 }
