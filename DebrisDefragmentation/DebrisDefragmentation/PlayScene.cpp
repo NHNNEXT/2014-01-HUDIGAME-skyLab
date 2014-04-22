@@ -68,11 +68,13 @@ void PlayScene::Init()
 // 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );
 // 	ClipCursor( &rect );
 
+	// UI를 추가합니다. 근데 함수 이름이 너무 짧아서 알아보기 힘드네요. 좋은 이름 추천받습니다
 	AddUI();
 }
 
 // 조심해!!
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
+// 4. 23. UI 업데이트 하는 부분을 추가했습니다. 문진상
 void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
@@ -95,6 +97,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	}
 	// 문교수 커피가 든 컵을 들고 오다가 커피가 손에 닿자...
 	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...
+	// ㅋㅋㅋㅋ 카멕님이 적으셨습니까
 
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.	
@@ -111,6 +114,9 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	MousePointer(false, currentMousePos);
+
+	// 일단 업데이트를 막아두었습니다.
+	//UpdateUI();
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정
@@ -149,5 +155,16 @@ void PlayScene::AddUI()
 
 	m_UICollection.push_back( pFuelUI );
 	m_UICollection.push_back( pOxygenUI );
+}
 
+void PlayScene::UpdateUI()
+{
+	// 조심해!! UI가 늘어날 경우 좋은 코드가 아닙니다.
+	// 되는지 확인하는 용도입니다.
+	// >>> 되긴 되네요. 그런데 스케일을 바꾸면 좌표도 바뀌어서 위치를 재조정해야 함 ㅡㅡ;;
+	// 좀 더 좋은 방법을 찾아봐야 할 듯...
+	// 현재는 front가 pFuelUI
+	// 허 그런데 Player 정보에 접근할 수가 없다...
+	m_UICollection.front()->SetTransform( timeGetTime() % 10, 1, 1 );
+	m_UICollection.back()->SetTransform( timeGetTime() % 10, 1, 1 );
 }

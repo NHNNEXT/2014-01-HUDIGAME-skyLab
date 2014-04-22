@@ -20,7 +20,7 @@ public:
 	// 0x 시리즈로 넣어주십쇼
 	void inline SetColor( D3DCOLOR Color ) { m_Color = Color; }
 	// 크기조절
-	void inline SetTransform( float x, float y, float z );
+	void SetTransform( float x, float y, float z );
 
 protected:
 	// UI 오브젝트

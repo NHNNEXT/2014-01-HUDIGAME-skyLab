@@ -21,7 +21,10 @@ public:
 private:
 	virtual void UpdateItSelf( float dTime );
 	void MousePointer(bool mousePointer, DDPoint  currentMousePos);
+	
+	// UI 관련 함수들
 	void AddUI();
+	void UpdateUI();
 
 	DDLight*	m_pDirectonalLight = nullptr;
 
