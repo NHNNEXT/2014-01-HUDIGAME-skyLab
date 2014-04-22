@@ -28,3 +28,13 @@ DDPoint DDScene::GetMousePosition()
 {
 	return DDInputSystem::GetInstance()->GetMousePosition();
 }
+
+void DDScene::Render()
+{
+	DDObject::Render();
+
+	for ( auto iter = m_UICollection.begin(); iter != m_UICollection.end(); ++iter )
+	{
+		(*iter)->Render();
+	}
+}

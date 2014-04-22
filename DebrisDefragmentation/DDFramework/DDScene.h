@@ -3,6 +3,8 @@
 #include "DDObject.h"
 #include "DDPoint.h"
 #include "DDInputSystem.h"
+#include <vector>
+#include "DDUIControl.h"
 
 class DDScene :
 	public DDObject
@@ -16,6 +18,9 @@ public:
 	
 	std::wstring GetSceneName() const { return m_SceneName; }
 	void SetSceneName( std::wstring val ) { m_SceneName = val; }
+
+	// override
+	void Render();
 
 protected:	
 	// 작성자 : 최경욱 4.8
@@ -33,5 +38,8 @@ protected:
 
 	// scene을 구별하기 위한 이름
 	std::wstring m_SceneName;
+
+	// UI를 갖고 있는 멤버
+	std::vector<DDUIControl*> m_UICollection;
 };
 

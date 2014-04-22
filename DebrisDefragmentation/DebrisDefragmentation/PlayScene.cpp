@@ -6,6 +6,8 @@
 #include "DDLight.h"
 #include "Player.h"
 #include "NetworkManager.h"
+#include "FuelUI.h"
+#include "OxygenUI.h"
 
 PlayScene::PlayScene()
 {
@@ -33,8 +35,6 @@ void PlayScene::Init()
 // 		AddChild( GGameLogic->GetPlayer(i) );
 // 	}	
 	AddChild( m_pDirectonalLight );
-	
-
 	
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
@@ -67,6 +67,8 @@ void PlayScene::Init()
 // 	RECT rect;
 // 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );
 // 	ClipCursor( &rect );
+
+	AddUI();
 }
 
 // 조심해!!
@@ -134,4 +136,18 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 	{
 		m_PrevMousePosition = currentMousePos;
 	}
+}
+
+void PlayScene::AddUI()
+{
+	// Add UI
+	FuelUI* pFuelUI = new FuelUI();
+	OxygenUI* pOxygenUI = new OxygenUI();
+
+	pFuelUI->init();
+	pOxygenUI->init();
+
+	m_UICollection.push_back( pFuelUI );
+	m_UICollection.push_back( pOxygenUI );
+
 }

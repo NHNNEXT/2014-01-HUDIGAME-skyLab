@@ -29,6 +29,9 @@
     <Filter Include="Scene\Player">
       <UniqueIdentifier>{366a7c5c-2df3-42fc-a797-c5560b91364d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\UI">
+      <UniqueIdentifier>{84811ef9-8879-4a2f-a57a-3b059700c5a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +61,15 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="BarUIControl.cpp">
+      <Filter>Scene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="OxygenUI.cpp">
+      <Filter>Scene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FuelUI.cpp">
+      <Filter>Scene\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +103,15 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="BarUIControl.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="OxygenUI.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FuelUI.h">
+      <Filter>Scene\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

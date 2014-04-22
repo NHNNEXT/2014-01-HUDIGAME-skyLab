@@ -21,6 +21,7 @@ public:
 private:
 	virtual void UpdateItSelf( float dTime );
 	void MousePointer(bool mousePointer, DDPoint  currentMousePos);
+	void AddUI();
 
 	DDLight*	m_pDirectonalLight = nullptr;
 

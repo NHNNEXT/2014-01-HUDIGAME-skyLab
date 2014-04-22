@@ -104,6 +104,9 @@
     <ClInclude Include="DDPacketHeader.h">
       <Filter>Framework\Network</Filter>
     </ClInclude>
+    <ClInclude Include="DDUIControl.h">
+      <Filter>Framework\Presentation\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -144,6 +147,9 @@
     </ClCompile>
     <ClCompile Include="DDCircularBuffer.cpp">
       <Filter>Framework\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="DDUIControl.cpp">
+      <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
