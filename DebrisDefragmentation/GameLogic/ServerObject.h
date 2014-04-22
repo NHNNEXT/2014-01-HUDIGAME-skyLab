@@ -9,6 +9,7 @@
 
 #include "GameConfig.h"
 
+///# 서버오브젝트 네이밍 확인할 것. 보통 서버 오브젝트라고 하면 서버에서 돌아가는 어떤 녀석의 대리자(view)를 의미
 class ServerObject
 {
 public:
@@ -33,6 +34,7 @@ protected:
 	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
 private:
+	///# pure virtual인데.. 의미를 알고 쓴거지?
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 };
 

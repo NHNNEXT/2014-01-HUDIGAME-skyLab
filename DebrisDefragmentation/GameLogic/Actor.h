@@ -25,6 +25,8 @@ public:
 
 protected:
 	RIGIDBODY	m_RigidBody;
+
+	///# User와 Avatar의 관계는?
 	Avatar*		m_Avatar;
 
 	bool		m_IsAccelerating = false;

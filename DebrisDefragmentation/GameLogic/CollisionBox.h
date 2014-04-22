@@ -2,6 +2,8 @@
 
 #include "GameConfig.h"
 
+///# 구조체 이름을 상수 스타일처럼 한 이유는? 
+/// 반드시 초기화 로직 넣을 것, 상수값 (3, 8등) 직접 때려 넣지 말 것
 struct ST_OBB
 {
 	D3DXMATRIXA16*				m_Transform;	// 원본 오브젝트의 현재 회전 행렬
