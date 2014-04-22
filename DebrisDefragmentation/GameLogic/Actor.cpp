@@ -28,6 +28,14 @@ void Actor::SetAcceleration()
 	m_RigidBody.m_Acceleration += ( viewDirection * ACCELERATION_WEIGHT );
 }
 
+void Actor::SetAccelerarion( const D3DXVECTOR3 &direction )
+{
+	m_AccelerationStart = timeGetTime();
+	m_IsAccelerating = true;
+
+	m_RigidBody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
+}
+
 void Actor::Stop()
 {
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!

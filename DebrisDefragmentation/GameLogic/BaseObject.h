@@ -8,6 +8,7 @@
 #pragma once
 
 #include "GameConfig.h"
+#include "CollisionBox.h"
 
 class BaseObject
 {
@@ -21,17 +22,20 @@ public:
 	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = D3DXVECTOR3( scaleX, scaleY, scaleZ ); }
 	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = D3DXVECTOR3( rotationX, rotationY, rotationZ ); }
 
-	D3DXVECTOR3 GetPosition() { return m_Position; }
-	D3DXVECTOR3 GetScale() { return m_Scale; }
-	D3DXVECTOR3 GetRotation() { return m_Rotation; }
+	D3DXVECTOR3 GetPosition() const { return m_Position; }
+	D3DXVECTOR3 GetScale() const { return m_Scale; }
+	D3DXVECTOR3 GetRotation() const { return m_Rotation; }
 	void		IncreaseRotation(float x, float y, float z)	{ m_Rotation += D3DXVECTOR3( x, y, z ); }
 	
 	D3DXVECTOR3 GetViewDirection();
+	CollisionBox GetCollisionBox() const { return m_CollisionBox; }
 
 protected:
+	D3DXMATRIXA16	m_Matrix;
 	D3DXVECTOR3		m_Position{ 0.0f, 0.0f, 0.0f };
 	D3DXVECTOR3		m_Rotation{ 0.0f, 0.0f, 0.0f };
 	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
+	CollisionBox	m_CollisionBox;
 
 private:
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }

@@ -14,13 +14,15 @@ public:
 	Character() {}
 	virtual ~Character();
 
+	void Init();
+
 	// player 상태 가져오기
-	int GetUserId() { return m_UserId; }
-	void SetUserId( int uid ) { m_UserId = uid; }
+	int GetcharacterId() { return m_CharacterId; }
+	void SetcharacterId( int characterId ) { m_CharacterId = characterId; }
 
 private:
 	virtual void UpdateItSelf( float dTime );
 
-	int				m_UserId = -1;
+	int				m_CharacterId = -1;
 };
 

@@ -98,7 +98,7 @@ private:
 
 	int				mDbUpdateCount; ///< DB에 주기적으로 업데이트 하기 위한 변수
 
-	Character			m_User;
+	Character			m_Character;
 	ActorManager*	m_ActorManager = nullptr;
 
 	friend class ClientManager;

@@ -27,8 +27,10 @@ public:
 	void	ChangeActor( Actor* newActor, int actorId );
 	void	DeleteActor( int actorId );
 
+	// 조심해!!
+	// 한 번에 방송하지 말고 변화가 있는 애들만 안에서 골라서 싱크 시키자
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
-	void Update( );
+	bool Update( );
 
 	/*
 		인자로 받은 id가 유효한지(list에 등록되어 있는지) 판정
@@ -48,6 +50,8 @@ private:
 
 	// player list
 	std::array<Actor*, MAX_PLAYER_NUM> m_ActorList;
+
+	bool CheckCollision();
 
 	// other objects
 	// 지금은 없음요

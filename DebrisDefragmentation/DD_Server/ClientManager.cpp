@@ -49,7 +49,11 @@ void ClientManager::OnPeriodWork()
 	}
 
 	// 게임 상태를 업데이트 하자
-	m_ActorManager.Update( );
+	if ( m_ActorManager.Update() )
+	{
+		// SyncAll();
+	}
+	SyncAll();
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();

@@ -56,17 +56,18 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 
 	// 로그인 됐으면 플레이어 만들고
 	// pid를 할당 받아야 되는데
-	int userId = m_ActorManager->RegisterUser( &m_User );
-	if ( userId == -1 )
+	int characterId = m_ActorManager->RegisterUser( &m_Character );
+	if ( characterId == -1 )
 	{
 		// 더 못 들어온다.
 		Disconnect();
 	}
 
-	m_User.SetUserId( userId );
+	m_Character.SetcharacterId( characterId );
+	m_Character.Init();
 
 	// 접속한 아이에게 아이디를 할당해준다.
-	LoginDone( userId );
+	LoginDone( characterId );
 
 	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
 	GClientManager->SyncAll();
@@ -104,7 +105,7 @@ bool ClientSession::PostRecv( )
 void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
-	m_ActorManager->DeleteActor( m_User.GetUserId() );
+	m_ActorManager->DeleteActor( m_Character.GetcharacterId() );
 
 	if ( !IsConnected( ) )
 		return;
@@ -321,11 +322,11 @@ void ClientSession::SyncCurrentStatus()
 {
 	SyncResult outPacket;
 
-	D3DXVECTOR3 position = m_User.GetPosition();
-	D3DXVECTOR3 rotation = m_User.GetRotation();
-	D3DXVECTOR3 velocity = m_User.GetVelocity();
+	D3DXVECTOR3 position = m_Character.GetPosition();
+	D3DXVECTOR3 rotation = m_Character.GetRotation();
+	D3DXVECTOR3 velocity = m_Character.GetVelocity();
 
-	outPacket.mPlayerId = m_User.GetUserId();
+	outPacket.mPlayerId = m_Character.GetcharacterId();
 
 	// 조심해!!
 	// 패킷 내부 변수를 아예 벡터로 만들어서 한 번에 복사하자
@@ -362,17 +363,17 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 로그인 됐으면 플레이어 만들고
-	int UserId = m_ActorManager->RegisterUser( &m_User );
-	if ( UserId == -1 )
+	int characterId = m_ActorManager->RegisterUser( &m_Character );
+	if ( characterId == -1 )
 	{
 		// 더 못 들어온다.
 		Disconnect();
 	}
 
-	m_User.SetUserId( UserId );
+	m_Character.SetcharacterId( characterId );
 
 	// 접속한 아이에게 아이디를 할당해준다.
-	LoginDone( UserId );
+	LoginDone( characterId );
 
 	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
 	GClientManager->SyncAll();
@@ -389,10 +390,10 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 멤버 유저에게 적용하고 
-	m_User.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
-	m_User.SetAcceleration();
+	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	m_Character.SetAcceleration();
 
-	D3DXVECTOR3 position = m_User.GetPosition();
+	D3DXVECTOR3 position = m_Character.GetPosition();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -423,9 +424,9 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 멤버 유저에게 적용하고 
-	m_User.Stop();
+	m_Character.Stop();
 
-	D3DXVECTOR3 position = m_User.GetPosition();
+	D3DXVECTOR3 position = m_Character.GetPosition();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	StopResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -454,7 +455,7 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 멤버 유저에게 적용하고  
-	m_User.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
+	m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	RotationResult outPacket;

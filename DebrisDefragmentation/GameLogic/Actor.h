@@ -17,9 +17,10 @@ public:
 	virtual ~Actor();
 
 	void SetAcceleration();
+	void SetAccelerarion( const D3DXVECTOR3 &direction );
 	void Stop();
 
-	D3DXVECTOR3 GetVelocity() { return m_RigidBody.m_Velocity; }
+	D3DXVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
 	
 
 protected:

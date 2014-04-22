@@ -3,6 +3,8 @@
 
 BaseObject::BaseObject()
 {
+	D3DXMatrixIdentity( &m_Matrix );
+	m_CollisionBox.m_Transform = &m_Matrix;
 }
 
 

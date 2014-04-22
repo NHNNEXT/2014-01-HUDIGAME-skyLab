@@ -36,14 +36,13 @@ namespace Physics
 	{
 		// s' = s + v * t + 1/2 * a * t^2
 
-		// v * t
-		CalcCurrentPosition( pos, *velocity, dt );
-
 		// v' = v + a * t
 		CalcCurrentPosition( velocity, acceleration, dt );
 
-		// 1/2 * a * t^2
+		// v * t
+		CalcCurrentPosition( pos, *velocity, dt );
 
+		// 1/2 * a * t^2
 		pos->x = pos->x + ( 0.5f * acceleration.x * dt * dt );
 		pos->y = pos->y + ( 0.5f * acceleration.y * dt * dt );
 		pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
@@ -97,7 +96,7 @@ namespace Physics
 		return IsBetweenOrdered( min2, min1, max1 ) || IsBetweenOrdered( min1, min2, max2 );
 	}
 
-	inline void TransformOBB( ColisionBox &box )
+	inline void TransformCollisionBox( CollisionBox &box )
 	{
 		D3DXVECTOR4 tempMat;
 
@@ -106,30 +105,12 @@ namespace Physics
 		box.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
 		// 각 점 좌표
-		D3DXVec3Transform( &tempMat, &box.m_PointList[0], box.m_Transform );
-		box.m_PointList[0] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[1], box.m_Transform );
-		box.m_PointList[1] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[2], box.m_Transform );
-		box.m_PointList[2] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[3], box.m_Transform );
-		box.m_PointList[3] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[4], box.m_Transform );
-		box.m_PointList[4] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[5], box.m_Transform );
-		box.m_PointList[5] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[6], box.m_Transform );
-		box.m_PointList[6] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
-		D3DXVec3Transform( &tempMat, &box.m_PointList[7], box.m_Transform );
-		box.m_PointList[7] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
-
+		D3DXVec3TransformCoordArray( 
+			box.m_PointList.data(), sizeof( D3DXVECTOR3 ), 
+			box.m_PointList.data(), sizeof( D3DXVECTOR3 ), 
+			box.m_Transform, BOX_POINT_COUNT 
+			);
+		
 		// 축
 		for ( int i = 0; i < 3; ++i )
 		{
@@ -141,10 +122,10 @@ namespace Physics
 		}
 	}
 
-	bool static IsCollide( ColisionBox box1, ColisionBox box2 )
+	bool static IsCollide( CollisionBox &box1, CollisionBox &box2 )
 	{
-		TransformOBB( box1 );
-		TransformOBB( box2 );
+		TransformCollisionBox( box1 );
+		TransformCollisionBox( box2 );
 
 		for ( int i = 0; i < 3; i++ )
 		{
@@ -168,15 +149,15 @@ namespace Physics
 			/*
 			for ( int j = 0; j < 3; ++j )
 			{
-			D3DXVECTOR3 tempAxis;
-			D3DXVec3Cross( &tempAxis, &box1.m_AxisDir[i], &box2.m_AxisDir[j] );
+				D3DXVECTOR3 tempAxis;
+				D3DXVec3Cross( &tempAxis, &box1.m_AxisDir[i], &box2.m_AxisDir[j] );
 
-			SATtest( tempAxis, box1.m_PointList, box1Min, box1Max );
-			SATtest( tempAxis, box2.m_PointList, box1Min, box1Max );
-			if ( !overlaps( box1Min, box1Max, box2Min, box2Max ) )
-			{
-			return false;
-			}
+				SATtest( tempAxis, box1.m_PointList, box1Min, box1Max );
+				SATtest( tempAxis, box2.m_PointList, box1Min, box1Max );
+				if ( !overlaps( box1Min, box1Max, box2Min, box2Max ) )
+				{
+					return false;
+				}
 			}
 			*/
 		}
