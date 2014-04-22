@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 const unsigned int	MAX_PLAYER_NUM = 8;
 const float			ACCELERATION_WEIGHT = 1.0f;

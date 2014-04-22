@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Avatar.h"
 class Striker :
 	public Avatar

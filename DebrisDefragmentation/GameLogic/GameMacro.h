@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define CREATE_FUNC(CLASS_NAME) \
 	static std::shared_ptr<CLASS_NAME> Create() \
