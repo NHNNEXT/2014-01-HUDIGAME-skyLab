@@ -6,7 +6,7 @@
 #include "..\..\PacketType.h"
 #include "CircularBuffer.h"
 #include "ObjectPool.h"
-#include "User.h"
+#include "Character.h"
 
 #define BUFSIZE	(1024*10)
 
@@ -98,7 +98,7 @@ private:
 
 	int				mDbUpdateCount; ///< DB에 주기적으로 업데이트 하기 위한 변수
 
-	User			m_User;
+	Character			m_User;
 	ActorManager*	m_ActorManager = nullptr;
 
 	friend class ClientManager;

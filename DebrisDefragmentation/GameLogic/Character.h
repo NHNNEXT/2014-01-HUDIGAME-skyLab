@@ -8,11 +8,11 @@
 
 #include "Actor.h"
 
-class User : public Actor
+class Character : public Actor
 {
 public:
-	User() {}
-	virtual ~User();
+	Character() {}
+	virtual ~Character();
 	
 	// 조심해!!
 	// 이 함수 좀 이상하다...기존 함수 활용해서 사용하도록 수정할 것

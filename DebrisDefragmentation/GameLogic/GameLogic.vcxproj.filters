@@ -32,7 +32,7 @@
     <Filter Include="Logic">
       <UniqueIdentifier>{bbf3aa62-c22a-42b9-b4bf-423e9066f6cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Class">
+    <Filter Include="Component\Component\PlayerComponent\Class">
       <UniqueIdentifier>{11aeb9fe-4e70-4766-b140-93b317fb36a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -64,19 +64,10 @@
     <ClInclude Include="Physics.h">
       <Filter>Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Avatar.h">
-      <Filter>Component\Component\PlayerComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Bot.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="User.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
     <ClInclude Include="GameMacro.h">
@@ -86,13 +77,22 @@
       <Filter>Config</Filter>
     </ClInclude>
     <ClInclude Include="Engineer.h">
-      <Filter>Object\Class</Filter>
+      <Filter>Component\Component\PlayerComponent\Class</Filter>
     </ClInclude>
     <ClInclude Include="Protector.h">
-      <Filter>Object\Class</Filter>
+      <Filter>Component\Component\PlayerComponent\Class</Filter>
     </ClInclude>
     <ClInclude Include="Striker.h">
-      <Filter>Object\Class</Filter>
+      <Filter>Component\Component\PlayerComponent\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassComponent.h">
+      <Filter>Component\Component\PlayerComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,29 +102,29 @@
     <ClCompile Include="ActorManager.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Avatar.cpp">
-      <Filter>Component\Component\PlayerComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerObject.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Bot.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="User.cpp">
-      <Filter>Object\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Engineer.cpp">
-      <Filter>Object\Class</Filter>
+      <Filter>Component\Component\PlayerComponent\Class</Filter>
     </ClCompile>
     <ClCompile Include="Protector.cpp">
-      <Filter>Object\Class</Filter>
+      <Filter>Component\Component\PlayerComponent\Class</Filter>
     </ClCompile>
     <ClCompile Include="Striker.cpp">
-      <Filter>Object\Class</Filter>
+      <Filter>Component\Component\PlayerComponent\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassComponent.cpp">
+      <Filter>Component\Component\PlayerComponent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

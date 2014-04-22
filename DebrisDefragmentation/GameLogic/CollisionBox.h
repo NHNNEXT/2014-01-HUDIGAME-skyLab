@@ -2,7 +2,7 @@
 
 #include "GameConfig.h"
 
-struct ST_OBB
+struct ColisionBox
 {
 	D3DXMATRIXA16*				m_Transform;	// 원본 오브젝트의 현재 회전 행렬
 	D3DXVECTOR3					m_CenterPos;	// 기준점 - 상자 중심

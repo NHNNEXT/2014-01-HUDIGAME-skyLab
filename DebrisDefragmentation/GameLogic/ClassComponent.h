@@ -2,25 +2,25 @@
 #include "GameConfig.h"
 
 //전방선언
-struct RIGIDBODY;
+struct Rigidbody;
 
-class Avatar
+class ClassComponent
 {
 public:
-	Avatar();
-	~Avatar();
+	ClassComponent();
+	~ClassComponent();
 
-	CREATE_FUNC( Avatar );
+	CREATE_FUNC( ClassComponent );
 
 	// 작성자 : 최경욱
 	// 현재 바라보는 방향으로 가속도 부여
-	void _GoForward(D3DXVECTOR3 viewDirection, RIGIDBODY& rigidbody);
+	void GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rigidbody );
 
 	// 가속도 및 속도 0으로 변경
-	void _Stop( RIGIDBODY& rigidbody );
+	void Stop( Rigidbody& rigidbody );
 
 	// 바라보는 방향 회전
-	void _LookAt( float x, float y, D3DXVECTOR3& rotation );
+	void LookAt( float x, float y, D3DXVECTOR3& rotation );
 
 	int		GetAvatarId() const { return m_AvatarId; }
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }
@@ -35,6 +35,8 @@ protected:
 	int			m_AvatarId = -1;
 	bool		m_IsAccelerating = false;
 	
+	float		m_Oxygen = .0f;
+	float		m_Gas = .0f;
 	
 	DWORD		m_AccelerationStartTime = 0;
 	

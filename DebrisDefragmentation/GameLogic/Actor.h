@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include "ServerObject.h"
+#include "BaseObject.h"
 #include "rigidbody.h"
 
-class Actor : public ServerObject
+class Actor : public BaseObject
 {
 public:
 	Actor();
@@ -23,7 +23,7 @@ public:
 	
 
 protected:
-	RIGIDBODY	m_RigidBody;
+	Rigidbody	m_RigidBody;
 
 	bool		m_IsAccelerating = false;
 	DWORD		m_AccelerationStart = 0;

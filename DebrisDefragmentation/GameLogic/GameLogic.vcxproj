@@ -84,9 +84,9 @@
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
     <ClInclude Include="Protector.h" />
-    <ClInclude Include="ServerObject.h" />
+    <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ActorManager.h" />
-    <ClInclude Include="Avatar.h" />
+    <ClInclude Include="ClassComponent.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Collide.h" />
@@ -94,7 +94,7 @@
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Striker.h" />
-    <ClInclude Include="User.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -102,15 +102,15 @@
   <ItemGroup>
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="Protector.cpp" />
-    <ClCompile Include="ServerObject.cpp" />
+    <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="ActorManager.cpp" />
-    <ClCompile Include="Avatar.cpp">
+    <ClCompile Include="ClassComponent.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Striker.cpp" />
-    <ClCompile Include="User.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

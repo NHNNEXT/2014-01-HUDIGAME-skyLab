@@ -2,7 +2,7 @@
 #include "DDObject.h"
 #include "DDModel.h"
 #include "rigidbody.h"
-#include "Avatar.h"
+#include "ClassComponent.h"
 
 class DDCamera;
 class Character;
@@ -21,13 +21,13 @@ public:
 	void Init();	
 	
 	// 현재 바라보는 방향으로 가속도 부여
-	void GoForward() { m_Avatar->_GoForward( GetViewDirection(), m_Rigidbody ); }
+	void GoForward() { m_Avatar->GoForward( GetViewDirection(), m_Rigidbody ); }
 
 	// 가속도 및 속도 0으로 변경
-	void Stop() { m_Avatar->_Stop( m_Rigidbody ); }
+	void Stop() { m_Avatar->Stop( m_Rigidbody ); }
 
 	// 바라보는 방향 회전
-	void LookAt( float x, float y ) { m_Avatar->_LookAt( x, y, m_Rotation ); }
+	void LookAt( float x, float y ) { m_Avatar->LookAt( x, y, m_Rotation ); }
 
 	// Getter Setter
 	DDVECTOR3 GetVelocity() const { return m_Rigidbody.velocity; }
@@ -40,10 +40,10 @@ public:
 private:
 	virtual void UpdateItSelf( float dTime );
 
-	std::shared_ptr<Avatar>	m_Avatar; // shared_ptr기본 생성자에서 초기화
+	std::shared_ptr<ClassComponent>	m_Avatar; // shared_ptr기본 생성자에서 초기화
 	DDCamera*	m_Camera = nullptr;
 	DDModel*	m_Character = nullptr;
 
-	RIGIDBODY	m_Rigidbody;			// rigidbody 자체 초기화
+	Rigidbody	m_Rigidbody;			// rigidbody 자체 초기화
 };
 

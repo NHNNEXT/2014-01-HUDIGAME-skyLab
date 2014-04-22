@@ -87,17 +87,17 @@ namespace Physics
 	}
 
 	// val값이 lowerBound와 upperBound 사이의 값인지 리턴
-	inline bool isBetweenOrdered( float val, float lowerBound, float upperBound ) {
+	inline bool IsBetweenOrdered( float val, float lowerBound, float upperBound ) {
 		return lowerBound <= val && val <= upperBound;
 	}
 
 	// 두 최대 최소 구간이 서로 겹치는지 리턴
-	bool static overlaps( float min1, float max1, float min2, float max2 )
+	bool static Overlaps( float min1, float max1, float min2, float max2 )
 	{
-		return isBetweenOrdered( min2, min1, max1 ) || isBetweenOrdered( min1, min2, max2 );
+		return IsBetweenOrdered( min2, min1, max1 ) || IsBetweenOrdered( min1, min2, max2 );
 	}
 
-	inline void transformOBB( ST_OBB &box )
+	inline void TransformOBB( ColisionBox &box )
 	{
 		D3DXVECTOR4 tempMat;
 
@@ -141,10 +141,10 @@ namespace Physics
 		}
 	}
 
-	bool static IsCollide( ST_OBB box1, ST_OBB box2 )
+	bool static IsCollide( ColisionBox box1, ColisionBox box2 )
 	{
-		transformOBB( box1 );
-		transformOBB( box2 );
+		TransformOBB( box1 );
+		TransformOBB( box2 );
 
 		for ( int i = 0; i < 3; i++ )
 		{
@@ -152,7 +152,7 @@ namespace Physics
 			float box1Min, box1Max, box2Min, box2Max;
 			SATtest( box1.m_AxisDir[i], box1.m_CenterPos, box1.m_AxisLen[i], box1Min, box1Max );
 			SATtest( box1.m_AxisDir[i], box2.m_PointList, box2Min, box2Max );
-			if ( !overlaps( box1Min, box1Max, box2Min, box2Max ) )
+			if ( !Overlaps( box1Min, box1Max, box2Min, box2Max ) )
 			{
 				return false;
 			}
@@ -160,7 +160,7 @@ namespace Physics
 			// 두 번째 박스의 축에 대해서 충돌 확인
 			SATtest( box2.m_AxisDir[i], box1.m_PointList, box1Min, box1Max );
 			SATtest( box2.m_AxisDir[i], box2.m_CenterPos, box2.m_AxisLen[i], box2Min, box2Max );
-			if ( !overlaps( box1Min, box1Max, box2Min, box2Max ) )
+			if ( !Overlaps( box1Min, box1Max, box2Min, box2Max ) )
 			{
 				return false;
 			}

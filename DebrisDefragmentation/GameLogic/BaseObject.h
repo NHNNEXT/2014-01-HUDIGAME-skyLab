@@ -9,11 +9,11 @@
 
 #include "GameConfig.h"
 
-class ServerObject
+class BaseObject
 {
 public:
-	ServerObject();
-	virtual ~ServerObject();
+	BaseObject();
+	virtual ~BaseObject();
 
 	void Update( float dTime );
 

@@ -1,22 +1,22 @@
 ﻿#include "stdafx.h"
 #include "Actor.h"
 
-ServerObject::ServerObject()
+BaseObject::BaseObject()
 {
 }
 
 
-ServerObject::~ServerObject()
+BaseObject::~BaseObject()
 {
 }
 
 
-void ServerObject::Update( float dTime )
+void BaseObject::Update( float dTime )
 {
 	UpdateItSelf(dTime);
 }
 
-D3DXVECTOR3 ServerObject::GetViewDirection()
+D3DXVECTOR3 BaseObject::GetViewDirection()
 {
 	D3DXQUATERNION	qRotation;
 	D3DXMATRIXA16 tempMatrix;

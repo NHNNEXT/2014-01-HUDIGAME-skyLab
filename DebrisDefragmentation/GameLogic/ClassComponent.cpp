@@ -1,19 +1,19 @@
-﻿#include "Avatar.h"
+﻿#include "ClassComponent.h"
 #include "Physics.h"
 #include "Rigidbody.h"
 
-Avatar::Avatar()
+ClassComponent::ClassComponent()
 {
 }
 
 
-Avatar::~Avatar()
+ClassComponent::~ClassComponent()
 {
 }
 
 
 
-void Avatar::_GoForward( D3DXVECTOR3 viewDirection, RIGIDBODY& rigidbody )
+void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 {
 	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
 	// 나중에는 타이머 만들어서 써볼까?
@@ -27,17 +27,17 @@ void Avatar::_GoForward( D3DXVECTOR3 viewDirection, RIGIDBODY& rigidbody )
 	// 조심해!
 	// 가속도 가중치 하드 코딩 수정 할 것, 	
 	// 여기 normalvector가 아니고 view direction을 쓰고있음, 전체구조 손보면 확인할 것.
-	rigidbody.acceleration += ( normalVec * ACCELERATION_WEIGHT );
+	rb.acceleration += ( normalVec * ACCELERATION_WEIGHT );
 }
 
-void Avatar::_Stop( RIGIDBODY& rigidbody )
+void ClassComponent::Stop( Rigidbody& rb )
 {
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
-	rigidbody.acceleration = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
-	rigidbody.velocity = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+	rb.acceleration = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+	rb.velocity = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 }
 
-void Avatar::_LookAt( float x, float y, D3DXVECTOR3& rotation )
+void ClassComponent::LookAt( float x, float y, D3DXVECTOR3& rotation )
 {
 	// 조심해!
 	// 회전 각도 가중치 하드 코딩 수정 할 것

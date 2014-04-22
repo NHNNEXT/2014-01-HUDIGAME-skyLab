@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Avatar.h"
+#include "ClassComponent.h"
 class Protector :
-	public Avatar
+	public ClassComponent
 {
 public:
 	Protector();
