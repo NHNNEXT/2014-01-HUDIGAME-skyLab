@@ -26,7 +26,7 @@ public:
 
 	void GoForward( unsigned int playerId ) { m_PlayerList[playerId]->GoForward(); }
 	void Stop( unsigned int playerId ){ m_PlayerList[playerId]->Stop(); }
-	void LookAt( unsigned int playerId, float x, float y ) { m_PlayerList[playerId]->LookAt( x, y ); }
+	void LookAt( unsigned int playerId, float x, float y, float z ) { m_PlayerList[playerId]->LookAt( x, y, z ); }
 
 	// get Player data
 	DDVECTOR3 GetPosition( unsigned int playerId ) { return m_PlayerList[playerId]->GetPosition(); }

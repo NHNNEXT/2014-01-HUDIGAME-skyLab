@@ -19,7 +19,7 @@ public:
 	void SetAcceleration();
 	void Stop();
 
-	D3DXVECTOR3 GetVelocity() { return m_RigidBody.velocity; }
+	D3DXVECTOR3 GetVelocity() { return m_RigidBody.m_Velocity; }
 	
 
 protected:

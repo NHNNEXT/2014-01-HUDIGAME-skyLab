@@ -16,16 +16,9 @@ void Character::UpdateItSelf( float dTime )
 		{
 			// 가속 끝났다
 			m_IsAccelerating = false;
-			m_RigidBody.acceleration = D3DXVECTOR3( 0, 0, 0 );
+			m_RigidBody.m_Acceleration = D3DXVECTOR3( 0, 0, 0 );
 		}
 	}
 
-	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.velocity, m_RigidBody.acceleration, dTime );
-}
-
-void Character::RotateDicrection( float y, float x )
-{
-	// 조심해!
-	// 하드코딩 - 로직 구현하면서 다 바꾸자?!
-	SetRotation( x * MOUSE_ROTATION_WEIGHT, y * MOUSE_ROTATION_WEIGHT, 0 );
+	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
 }

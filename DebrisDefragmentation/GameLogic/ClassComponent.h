@@ -20,7 +20,7 @@ public:
 	void Stop( Rigidbody& rigidbody );
 
 	// 바라보는 방향 회전
-	void LookAt( float x, float y, D3DXVECTOR3& rotation );
+	void LookAt( float x, float y, float z, D3DXVECTOR3& rotation );
 
 	int		GetAvatarId() const { return m_AvatarId; }
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }

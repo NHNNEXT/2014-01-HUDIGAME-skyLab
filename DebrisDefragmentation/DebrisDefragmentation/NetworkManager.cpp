@@ -59,7 +59,7 @@ void NetworkManager::SendStop()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendRotateDirection( float y, float x )
+void NetworkManager::SendRotateDirection( float x, float y )
 {
 	if ( m_MyPlayerId == -1 )
 		return;
@@ -68,8 +68,8 @@ void NetworkManager::SendRotateDirection( float y, float x )
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mRotationX = y;
-	outPacket.mRotationY = x;
+	outPacket.mRotationX = x;
+	outPacket.mRotationY = y;
 	outPacket.mRotationZ = .0f;
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
@@ -128,7 +128,7 @@ void NetworkManager::HandleLookAtResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->LookAt( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY );
+	g_PlayerManager->LookAt( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )

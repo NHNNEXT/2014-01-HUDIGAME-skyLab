@@ -13,10 +13,6 @@ class Character : public Actor
 public:
 	Character() {}
 	virtual ~Character();
-	
-	// 조심해!!
-	// 이 함수 좀 이상하다...기존 함수 활용해서 사용하도록 수정할 것
-	void RotateDicrection( float y, float x );
 
 	// player 상태 가져오기
 	int GetUserId() { return m_UserId; }

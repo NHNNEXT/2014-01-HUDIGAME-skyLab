@@ -27,13 +27,13 @@ public:
 	void Stop() { m_Avatar->Stop( m_Rigidbody ); }
 
 	// 바라보는 방향 회전
-	void LookAt( float x, float y ) { m_Avatar->LookAt( x, y, m_Rotation ); }
+	void LookAt( float x, float y, float z ) { m_Avatar->LookAt( x, y, z, m_Rotation ); }
 
 	// Getter Setter
-	DDVECTOR3 GetVelocity() const { return m_Rigidbody.velocity; }
-	DDVECTOR3 GetAcceleration() const { return m_Rigidbody.acceleration; }
-	void SetVelocity( DDVECTOR3 val ) { m_Rigidbody.velocity = val; }	
-	void SetAcceleration( DDVECTOR3 val ) { m_Rigidbody.acceleration = val; }
+	DDVECTOR3 GetVelocity() const { return m_Rigidbody.m_Velocity; }
+	DDVECTOR3 GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
+	void SetVelocity( DDVECTOR3 val ) { m_Rigidbody.m_Velocity = val; }	
+	void SetAcceleration( DDVECTOR3 val ) { m_Rigidbody.m_Acceleration = val; }
 
 
 

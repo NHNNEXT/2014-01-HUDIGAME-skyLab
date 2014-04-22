@@ -24,6 +24,7 @@ public:
 	D3DXVECTOR3 GetPosition() { return m_Position; }
 	D3DXVECTOR3 GetScale() { return m_Scale; }
 	D3DXVECTOR3 GetRotation() { return m_Rotation; }
+	void		IncreaseRotation(float x, float y, float z)	{ m_Rotation += D3DXVECTOR3( x, y, z ); }
 	
 	D3DXVECTOR3 GetViewDirection();
 

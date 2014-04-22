@@ -43,9 +43,9 @@ void Player::UpdateItSelf( float dTime )
 		{
 			// 가속 끝났다
 			m_Avatar->SetIsAccelerating( false );
-			m_Rigidbody.acceleration = DDVECTOR3( 0, 0, 0 );
+			m_Rigidbody.m_Acceleration = DDVECTOR3( 0, 0, 0 );
 		}
 	}
 
-	Physics::CalcCurrentPosition( &m_Position, &m_Rigidbody.velocity, m_Rigidbody.acceleration, dTime );
+	Physics::CalcCurrentPosition( &m_Position, &m_Rigidbody.m_Velocity, m_Rigidbody.m_Acceleration, dTime );
 }

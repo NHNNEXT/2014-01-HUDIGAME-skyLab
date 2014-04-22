@@ -454,7 +454,7 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 이걸 멤버 유저에게 적용하고  
-	m_User.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	m_User.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	RotationResult outPacket;

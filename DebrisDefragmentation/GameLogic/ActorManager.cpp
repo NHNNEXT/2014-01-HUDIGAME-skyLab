@@ -48,7 +48,8 @@ void ActorManager::DeleteActor( int actorId )
 {
 	if ( m_ActorList[actorId] != nullptr )
 	{
-		delete m_ActorList[actorId];
+		// 객체의 삭제는 생성한 clientSession에서 한다
+		// delete m_ActorList[actorId];
 		m_ActorList[actorId] = nullptr;
 	}
 }
