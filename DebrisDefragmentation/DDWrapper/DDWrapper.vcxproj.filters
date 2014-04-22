@@ -20,6 +20,9 @@
     <ClInclude Include="Stdafx.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DDWrapper.cpp">
@@ -29,6 +32,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
