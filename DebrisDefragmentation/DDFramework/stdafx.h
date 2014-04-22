@@ -10,6 +10,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <array>
 #include <memory>
 #include <math.h>
 

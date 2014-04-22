@@ -85,6 +85,12 @@
     <ClInclude Include="Striker.h">
       <Filter>Component\Component\AvatarComponent</Filter>
     </ClInclude>
+    <ClInclude Include="GameMacro.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOption.h">
+      <Filter>Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

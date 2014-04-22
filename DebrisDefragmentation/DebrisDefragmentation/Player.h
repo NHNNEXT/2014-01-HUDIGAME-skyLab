@@ -7,7 +7,7 @@
 class DDCamera;
 class Character;
 
-// DDObject와 avatar를 다중상속하는 방식으로 변경
+// avatar를 멤버변수로 컴퍼짓함 
 class Player :
 	public DDObject
 {
@@ -27,7 +27,7 @@ public:
 	void Stop() { m_Avatar->_Stop( m_Rigidbody ); }
 
 	// 바라보는 방향 회전
-	void RotateDirection( float x, float y ) { m_Avatar->_RotateDirection( x, y, m_Rotation ); }
+	void LookAt( float x, float y ) { m_Avatar->_LookAt( x, y, m_Rotation ); }
 
 	// Getter Setter
 	DDVECTOR3 GetVelocity() const { return m_Rigidbody.velocity; }

@@ -22,10 +22,12 @@ public:
 	void RegisterHandles();
 
 	static void HandleLoginResult( DDPacketHeader& pktBase );
-	static void HandleAccelerationResult( DDPacketHeader& pktBase );
-	static void HandleStopResult( DDPacketHeader& pktBase );
-	static void HandleRotationResult( DDPacketHeader& pktBase );
 	static void HandleSyncResult( DDPacketHeader& pktBase );
+
+	static void HandleGoForwardResult( DDPacketHeader& pktBase );
+	static void HandleStopResult( DDPacketHeader& pktBase );
+	static void HandleLookAtResult( DDPacketHeader& pktBase );
+	
 
 private:
 	static int m_MyPlayerId;

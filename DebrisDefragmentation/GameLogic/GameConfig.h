@@ -1,13 +1,9 @@
 ﻿#pragma once
 
 #include "stdafx.h"
+#include "GameMacro.h"
+#include "GameOption.h"
 
-const unsigned int MAX_PLAYER_NUM = 8;
-
-
-#define CREATE_FUNC(CLASS_NAME) \
-	static std::shared_ptr<CLASS_NAME> Create() \
-{ \
-	std::shared_ptr<CLASS_NAME> pInstance(new CLASS_NAME()); \
-	return pInstance; \
-}
+// ↑ client 에서 Gameconfig를 include하니 
+// precompiled header를 framework것, GameLogic것 두번 인클루드해서 
+// Max_player_number같은거 따로 사용하기 위해 option으로 분리해놓음. 

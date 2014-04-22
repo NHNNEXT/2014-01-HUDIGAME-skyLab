@@ -4,8 +4,9 @@
 #include "PlayScene.h"
 #include "GameManager.h"
 #include "DDSceneDirector.h"
-#include "GameLogic.h"
 #include "NetworkManager.h"
+#include "PlayerManager.h"
+#include "SceneManager.h"
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
@@ -20,11 +21,12 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
 	DDApplication* app = DDApplication::GetInstance();
-	GGameLogic = new GameLogic();
+	g_PlayerManager = PlayerManager::Create();
+	g_SceneManager = SceneManager::Create();
 
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 	
-	DDScene* scene = GGameLogic->CreateScene(L"PlayScene1");	
+	DDScene* scene = g_SceneManager->CreateScene(L"PlayScene1");	
 	
 	DDSceneDirector::GetInstance()->ChangeScene( scene );
 
@@ -33,7 +35,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	//SafeDelete( scene );	
 
-	delete GGameLogic;
 
 	return 0;
 }

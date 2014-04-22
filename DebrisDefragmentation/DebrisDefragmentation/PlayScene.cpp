@@ -6,7 +6,6 @@
 #include "DDLight.h"
 #include "Player.h"
 #include "NetworkManager.h"
-#include "GameLogic.h"
 
 PlayScene::PlayScene()
 {

@@ -81,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engineer.h" />
+    <ClInclude Include="GameMacro.h" />
+    <ClInclude Include="GameOption.h" />
     <ClInclude Include="Protector.h" />
     <ClInclude Include="ServerObject.h" />
     <ClInclude Include="ActorManager.h" />
