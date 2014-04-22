@@ -43,12 +43,13 @@
 	서버 내 간단한 게임 로직 구현 (플레이어 움직임 계산)
 
 
-2014. 4. 2
+2014. 4. 22
 
 *** DebrisDefragmentation\DebrisDefragmentation\Resources 를 실행 파일이 있는 폴더에 복사해주세요.
 
 >>> Tool
-	
+	탭 UI를 부착해서 공간 문제를 해결함
+	JSON Read 기능 추가
 	
 
 >>> framework
