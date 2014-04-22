@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Json;
+using System.Text.RegularExpressions;
 
 namespace GameTool
 {
@@ -297,6 +298,14 @@ namespace GameTool
                 // 파일에서 다 읽는다
                 string jsonText = sr.ReadToEnd();
 
+                // 빈 파일이면?
+                if (jsonText.Length == 0)
+                {
+                    // 파싱 없이 리턴
+                    MessageBox.Show("Empty File!");
+                    return;
+                }
+
                 // 파싱한 다음
                 JsonTextParser parser = new JsonTextParser();
                 JsonObject obj = parser.Parse(jsonText);
@@ -305,11 +314,17 @@ namespace GameTool
                 g_JsonCollection = (JsonObjectCollection)obj;
 
                 MessageBox.Show("Load Json Success!");
+
+                // 스트림 리더를 닫는다.
+                sr.Close();
             }
         }
 
         private void SearchJsonFiles(object sender, EventArgs e)
         {
+            // 우선 파일 리스트를 비우고
+            JsonFileList.Items.Clear();
+
             // Tool 이 실행된 폴더를 찾도록 한다
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@".\");
 
@@ -321,6 +336,46 @@ namespace GameTool
                     JsonFileList.Items.Add(f.Name);
                 }
             }
+        }
+
+        private void SaveJsonFile(object sender, EventArgs e)
+        {
+            // 파일명이 있어야겠죠?
+            if (JSONNameToSave.Text.Length > 0)
+            {
+                if (IsCorrectFileName(JSONNameToSave.Text))
+                {
+                    StreamWriter sw = new StreamWriter(JSONNameToSave.Text + ".json");
+
+                    // 파일에 쓴다
+                    sw.Write(g_JsonCollection.ToString());
+
+                    MessageBox.Show("Save Json Success!");
+
+                    // 스트림 라이터를 닫는다
+                    sw.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid File Name!");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Empty File Name!");
+                return;
+            }
+        }
+
+        private bool IsCorrectFileName(string fileName)
+        {
+            Regex rg = new Regex(@"[!@#$%^&*/\\]");
+            if (rg.Matches(fileName).Count > 0)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
