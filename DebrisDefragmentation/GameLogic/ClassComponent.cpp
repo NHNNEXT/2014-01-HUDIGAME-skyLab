@@ -15,6 +15,12 @@ ClassComponent::~ClassComponent()
 
 void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 {
+	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Gas, m_Oxygen, m_HP );
+	if ( !CheckRemainGas( GAS_FOR_GOFORWARD ) )
+	{
+		return;
+	}
+
 	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
 	// 나중에는 타이머 만들어서 써볼까?
 	m_AccelerationStartTime = timeGetTime();
@@ -48,5 +54,33 @@ void ClassComponent::LookAt( float x, float y, float z, D3DXVECTOR3& rotation )
 // 	rotation.x += x / MOUSE_ROTATION_WEIGHT;
 // 	rotation.x += y / MOUSE_ROTATION_WEIGHT;
 // 	//IncreaseRotationY( y / 10 );
+
+}
+
+
+bool ClassComponent::CheckRemainOxygen()
+{
+	if ( OXYGEN_COUNSUMED > m_Oxygen )
+	{
+		// 산소 부족시 체력 감소
+		m_HP -= HEALTH_REDUCED_BY_OXYGEN_LEAKAGE;
+		return false;
+	}
+	else
+	{
+		// 산소가 충분하면
+		m_Oxygen -= OXYGEN_COUNSUMED;
+		return true;
+	}
+}
+
+bool ClassComponent::CheckRemainGas( int gasWillBeUsed )
+{
+	if ( gasWillBeUsed > m_Gas )
+	{
+		return false;
+	}
+	m_Gas -= gasWillBeUsed;
+	return true;
 
 }

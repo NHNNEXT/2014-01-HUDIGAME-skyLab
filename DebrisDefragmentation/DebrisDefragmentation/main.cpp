@@ -13,7 +13,11 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 #ifdef _DEBUG
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	//_CrtSetBreakAlloc( 214 );
+	AllocConsole();
+	FILE* console;
+	freopen_s( &console, "CONOUT$", "wt", stdout );
 
+	printf_s( "Console Open \n" );
 #endif 
 	UNREFERENCED_PARAMETER( hInstance );
 	UNREFERENCED_PARAMETER( nCmdShow );
@@ -35,6 +39,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	//SafeDelete( scene );	
 
+
+#ifdef _DEBUG
+	FreeConsole();
+#endif
 
 	return 0;
 }

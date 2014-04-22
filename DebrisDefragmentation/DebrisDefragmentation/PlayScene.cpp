@@ -109,6 +109,9 @@ void PlayScene::UpdateItSelf( float dTime )
 	MousePointer(false, currentMousePos);
 }
 
+// Mouse Pointer 가릴지 살려둘지 결정
+// true 시키면 커서가 계속 가운데로 이동함
+// 04.21 김성환
 void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 {
 	if ( mousePointer )
