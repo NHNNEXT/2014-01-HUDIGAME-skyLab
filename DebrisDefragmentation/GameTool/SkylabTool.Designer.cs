@@ -90,6 +90,10 @@
             this.CameraModelStat = new System.Windows.Forms.TabPage();
             this.JSONConfig = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.JSONKeyLabel = new System.Windows.Forms.Label();
+            this.MdoifyValue = new System.Windows.Forms.Button();
+            this.JSONVarBar = new System.Windows.Forms.TextBox();
+            this.JSONVariables = new System.Windows.Forms.ListBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -101,10 +105,6 @@
             this.JsonFileList = new System.Windows.Forms.ListBox();
             this.JSONSearchFilebtn = new System.Windows.Forms.Button();
             this.RenderOnOffBtn = new System.Windows.Forms.Button();
-            this.JSONVariables = new System.Windows.Forms.ListBox();
-            this.JSONVarBar = new System.Windows.Forms.TextBox();
-            this.MdoifyValue = new System.Windows.Forms.Button();
-            this.JSONKeyLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -693,6 +693,43 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Config - Control";
             // 
+            // JSONKeyLabel
+            // 
+            this.JSONKeyLabel.AutoSize = true;
+            this.JSONKeyLabel.Location = new System.Drawing.Point(290, 21);
+            this.JSONKeyLabel.Name = "JSONKeyLabel";
+            this.JSONKeyLabel.Size = new System.Drawing.Size(63, 12);
+            this.JSONKeyLabel.TabIndex = 6;
+            this.JSONKeyLabel.Text = "JSON Key";
+            // 
+            // MdoifyValue
+            // 
+            this.MdoifyValue.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.MdoifyValue.Location = new System.Drawing.Point(289, 80);
+            this.MdoifyValue.Name = "MdoifyValue";
+            this.MdoifyValue.Size = new System.Drawing.Size(154, 39);
+            this.MdoifyValue.TabIndex = 5;
+            this.MdoifyValue.Text = "Modify Value";
+            this.MdoifyValue.UseVisualStyleBackColor = true;
+            this.MdoifyValue.Click += new System.EventHandler(this.JSONModifyBtn);
+            // 
+            // JSONVarBar
+            // 
+            this.JSONVarBar.Location = new System.Drawing.Point(289, 53);
+            this.JSONVarBar.Name = "JSONVarBar";
+            this.JSONVarBar.Size = new System.Drawing.Size(154, 21);
+            this.JSONVarBar.TabIndex = 5;
+            // 
+            // JSONVariables
+            // 
+            this.JSONVariables.FormattingEnabled = true;
+            this.JSONVariables.ItemHeight = 12;
+            this.JSONVariables.Location = new System.Drawing.Point(8, 20);
+            this.JSONVariables.Name = "JSONVariables";
+            this.JSONVariables.Size = new System.Drawing.Size(275, 268);
+            this.JSONVariables.TabIndex = 2;
+            this.JSONVariables.SelectedIndexChanged += new System.EventHandler(this.GetJsonVariable);
+            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.groupBox9);
@@ -746,14 +783,16 @@
             // 
             // ConfigRestartBtn
             // 
+            this.ConfigRestartBtn.Enabled = false;
             this.ConfigRestartBtn.Font = new System.Drawing.Font("Bernard MT Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConfigRestartBtn.ForeColor = System.Drawing.Color.Crimson;
             this.ConfigRestartBtn.Location = new System.Drawing.Point(14, 176);
             this.ConfigRestartBtn.Name = "ConfigRestartBtn";
             this.ConfigRestartBtn.Size = new System.Drawing.Size(429, 52);
             this.ConfigRestartBtn.TabIndex = 2;
-            this.ConfigRestartBtn.Text = "Restart";
+            this.ConfigRestartBtn.Text = "S T A R T";
             this.ConfigRestartBtn.UseVisualStyleBackColor = true;
+            this.ConfigRestartBtn.Click += new System.EventHandler(this.StartScene);
             // 
             // groupBox8
             // 
@@ -808,43 +847,6 @@
             this.RenderOnOffBtn.Text = "Render On/Off";
             this.RenderOnOffBtn.UseVisualStyleBackColor = true;
             this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
-            // 
-            // JSONVariables
-            // 
-            this.JSONVariables.FormattingEnabled = true;
-            this.JSONVariables.ItemHeight = 12;
-            this.JSONVariables.Location = new System.Drawing.Point(8, 20);
-            this.JSONVariables.Name = "JSONVariables";
-            this.JSONVariables.Size = new System.Drawing.Size(275, 268);
-            this.JSONVariables.TabIndex = 2;
-            this.JSONVariables.SelectedIndexChanged += new System.EventHandler(this.GetJsonVariable);
-            // 
-            // JSONVarBar
-            // 
-            this.JSONVarBar.Location = new System.Drawing.Point(289, 53);
-            this.JSONVarBar.Name = "JSONVarBar";
-            this.JSONVarBar.Size = new System.Drawing.Size(154, 21);
-            this.JSONVarBar.TabIndex = 5;
-            // 
-            // MdoifyValue
-            // 
-            this.MdoifyValue.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.MdoifyValue.Location = new System.Drawing.Point(289, 80);
-            this.MdoifyValue.Name = "MdoifyValue";
-            this.MdoifyValue.Size = new System.Drawing.Size(154, 39);
-            this.MdoifyValue.TabIndex = 5;
-            this.MdoifyValue.Text = "Modify Value";
-            this.MdoifyValue.UseVisualStyleBackColor = true;
-            this.MdoifyValue.Click += new System.EventHandler(this.JSONModifyBtn);
-            // 
-            // JSONKeyLabel
-            // 
-            this.JSONKeyLabel.AutoSize = true;
-            this.JSONKeyLabel.Location = new System.Drawing.Point(290, 21);
-            this.JSONKeyLabel.Name = "JSONKeyLabel";
-            this.JSONKeyLabel.Size = new System.Drawing.Size(63, 12);
-            this.JSONKeyLabel.TabIndex = 6;
-            this.JSONKeyLabel.Text = "JSON Key";
             // 
             // skyLabTool
             // 

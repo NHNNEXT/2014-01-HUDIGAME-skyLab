@@ -71,26 +71,34 @@ namespace GameTool
             // Direct3D 창에서 마우스 휠 이벤트 추가
            this.View.MouseWheel += new System.Windows.Forms.MouseEventHandler(CameraZoomInOut);
 
-            // Scene 추가
-           m_Scene = new GameTool.Class.GameScene();
-       
-            // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
-           if ( m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height) )
-           {
-               AddLight();
-               testMeshLoad();
-
-               // Stopwatch 가동
-               m_StopWatch.Start();
-
-               AddCamera();
-               DrawScreen();
-           }
-
-            // render가 끝난 다음 타이머를 설정한다
-           m_Timer = new GameTool.Class.GameTimer(ref TimePass);
         }
 
+        private void LoadSetting()
+        {
+            m_Scene = new GameTool.Class.GameScene();
+
+            AddLight();
+            testMeshLoad();
+
+            AddCamera();
+        }
+
+        private void StartScene(object sender, EventArgs e)
+        {
+            // Renderer의 오버라이드된 Init 함수를 사용. 윈도우 크기와 HWND를 직접 넘겨준다
+            if (m_Renderer.Init(this.View.Handle.ToInt32(), this.View.Width, this.View.Height))
+            {
+                LoadSetting();
+
+                DrawScreen();
+
+                // Stopwatch 가동
+                m_StopWatch.Start();
+            }
+
+            // render가 끝난 다음 타이머를 설정한다
+            m_Timer = new GameTool.Class.GameTimer(ref TimePass);
+        }
         
         // 화면에 그림 그리는 함수
         private async void DrawScreen()
@@ -134,7 +142,7 @@ namespace GameTool
             // test Debris
             string debrisPath = "debris.x";
             float randX, randY, randZ;
-            for (int i = 0; i < 2000; ++i)
+            for (int i = 0; i < Convert.ToUInt32(g_JsonCollection["debriNumbers"].GetValue()); ++i)
             {
                 GameTool.Class.GameModel debris = new GameTool.Class.GameModel(debrisPath);
                 randX = r.Next(-200, 200);
@@ -319,6 +327,9 @@ namespace GameTool
 
                 // 스트림 리더를 닫는다.
                 sr.Close();
+
+                // 시작 버튼을 선택 가능하게
+                ConfigRestartBtn.Enabled = true;
             }
         }
 
@@ -399,8 +410,27 @@ namespace GameTool
         private void JSONModifyBtn(object sender, EventArgs e)
         {
             string key = JSONKeyLabel.Text;
-            
-           //
+
+            if (JSONVarBar.Text.Length > 0)
+            {
+                JsonObject job = g_JsonCollection[key];
+
+                switch ( job.GetValue().GetType().Name )
+                {
+                    case "String":
+                        break;
+                    case "Double":
+                        g_JsonCollection.Remove(job);
+                        g_JsonCollection.Add(new JsonNumericValue(key, Convert.ToUInt32(JSONVarBar.Text)));
+                        break;
+                    case "Boolean":
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            ShowJsonData();
         }
     }
 }
