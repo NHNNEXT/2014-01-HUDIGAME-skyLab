@@ -313,11 +313,21 @@ namespace GameTool
                 // JSON 전역 객체로 전달한다
                 g_JsonCollection = (JsonObjectCollection)obj;
 
+                ShowJsonData();
+
                 MessageBox.Show("Load Json Success!");
 
                 // 스트림 리더를 닫는다.
                 sr.Close();
             }
+        }
+
+        // Json 데이터를 리스트로 보여줌
+        private void ShowJsonData()
+        {
+            JSONVariables.Items.Clear();
+
+            JSONVariables.Items.Add("debriNumbers : " + g_JsonCollection["debriNumbers"].GetValue().ToString());
         }
 
         private void SearchJsonFiles(object sender, EventArgs e)
@@ -376,6 +386,21 @@ namespace GameTool
                 return false;
             }
             return true;
+        }
+
+        private void GetJsonVariable(object sender, EventArgs e)
+        {
+            string[] fullName = System.Text.RegularExpressions.Regex.Split(JSONVariables.SelectedItem.ToString(), " : ");
+
+            JSONKeyLabel.Text = fullName[0];
+            JSONVarBar.Text = fullName[1];
+        }
+
+        private void JSONModifyBtn(object sender, EventArgs e)
+        {
+            string key = JSONKeyLabel.Text;
+            
+           //
         }
     }
 }

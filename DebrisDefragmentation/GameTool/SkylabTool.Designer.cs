@@ -92,15 +92,19 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.JSONSaveFilebtn = new System.Windows.Forms.Button();
+            this.JSONNameToSave = new System.Windows.Forms.TextBox();
             this.ConfigRestartBtn = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.JSONLoadFilebtn = new System.Windows.Forms.Button();
             this.JsonFileList = new System.Windows.Forms.ListBox();
             this.JSONSearchFilebtn = new System.Windows.Forms.Button();
             this.RenderOnOffBtn = new System.Windows.Forms.Button();
-            this.JSONNameToSave = new System.Windows.Forms.TextBox();
-            this.JSONSaveFilebtn = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
+            this.JSONVariables = new System.Windows.Forms.ListBox();
+            this.JSONVarBar = new System.Windows.Forms.TextBox();
+            this.MdoifyValue = new System.Windows.Forms.Button();
+            this.JSONKeyLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -114,6 +118,7 @@
             this.Status.SuspendLayout();
             this.CameraModelStat.SuspendLayout();
             this.JSONConfig.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -677,12 +682,16 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Location = new System.Drawing.Point(4, 263);
+            this.groupBox7.Controls.Add(this.JSONKeyLabel);
+            this.groupBox7.Controls.Add(this.MdoifyValue);
+            this.groupBox7.Controls.Add(this.JSONVarBar);
+            this.groupBox7.Controls.Add(this.JSONVariables);
+            this.groupBox7.Location = new System.Drawing.Point(4, 247);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(455, 114);
+            this.groupBox7.Size = new System.Drawing.Size(455, 301);
             this.groupBox7.TabIndex = 1;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Config - Output";
+            this.groupBox7.Text = "Config - Control";
             // 
             // groupBox6
             // 
@@ -694,7 +703,7 @@
             this.groupBox6.Size = new System.Drawing.Size(455, 234);
             this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Config - Input";
+            this.groupBox6.Text = "Config - Save / Load";
             // 
             // groupBox9
             // 
@@ -708,11 +717,40 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "JSON Config Save";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 20);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(315, 12);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "저장할 Config 파일의 이름을 적어주십시오 (확장자 없이)";
+            // 
+            // JSONSaveFilebtn
+            // 
+            this.JSONSaveFilebtn.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.JSONSaveFilebtn.Location = new System.Drawing.Point(334, 20);
+            this.JSONSaveFilebtn.Name = "JSONSaveFilebtn";
+            this.JSONSaveFilebtn.Size = new System.Drawing.Size(102, 39);
+            this.JSONSaveFilebtn.TabIndex = 3;
+            this.JSONSaveFilebtn.Text = "Save File";
+            this.JSONSaveFilebtn.UseVisualStyleBackColor = true;
+            this.JSONSaveFilebtn.Click += new System.EventHandler(this.SaveJsonFile);
+            // 
+            // JSONNameToSave
+            // 
+            this.JSONNameToSave.Location = new System.Drawing.Point(7, 38);
+            this.JSONNameToSave.Name = "JSONNameToSave";
+            this.JSONNameToSave.Size = new System.Drawing.Size(321, 21);
+            this.JSONNameToSave.TabIndex = 0;
+            // 
             // ConfigRestartBtn
             // 
-            this.ConfigRestartBtn.Location = new System.Drawing.Point(341, 176);
+            this.ConfigRestartBtn.Font = new System.Drawing.Font("Bernard MT Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConfigRestartBtn.ForeColor = System.Drawing.Color.Crimson;
+            this.ConfigRestartBtn.Location = new System.Drawing.Point(14, 176);
             this.ConfigRestartBtn.Name = "ConfigRestartBtn";
-            this.ConfigRestartBtn.Size = new System.Drawing.Size(102, 52);
+            this.ConfigRestartBtn.Size = new System.Drawing.Size(429, 52);
             this.ConfigRestartBtn.TabIndex = 2;
             this.ConfigRestartBtn.Text = "Restart";
             this.ConfigRestartBtn.UseVisualStyleBackColor = true;
@@ -771,32 +809,42 @@
             this.RenderOnOffBtn.UseVisualStyleBackColor = true;
             this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
             // 
-            // JSONNameToSave
+            // JSONVariables
             // 
-            this.JSONNameToSave.Location = new System.Drawing.Point(7, 38);
-            this.JSONNameToSave.Name = "JSONNameToSave";
-            this.JSONNameToSave.Size = new System.Drawing.Size(321, 21);
-            this.JSONNameToSave.TabIndex = 0;
+            this.JSONVariables.FormattingEnabled = true;
+            this.JSONVariables.ItemHeight = 12;
+            this.JSONVariables.Location = new System.Drawing.Point(8, 20);
+            this.JSONVariables.Name = "JSONVariables";
+            this.JSONVariables.Size = new System.Drawing.Size(275, 268);
+            this.JSONVariables.TabIndex = 2;
+            this.JSONVariables.SelectedIndexChanged += new System.EventHandler(this.GetJsonVariable);
             // 
-            // JSONSaveFilebtn
+            // JSONVarBar
             // 
-            this.JSONSaveFilebtn.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.JSONSaveFilebtn.Location = new System.Drawing.Point(334, 20);
-            this.JSONSaveFilebtn.Name = "JSONSaveFilebtn";
-            this.JSONSaveFilebtn.Size = new System.Drawing.Size(102, 39);
-            this.JSONSaveFilebtn.TabIndex = 3;
-            this.JSONSaveFilebtn.Text = "Save File";
-            this.JSONSaveFilebtn.UseVisualStyleBackColor = true;
-            this.JSONSaveFilebtn.Click += new System.EventHandler(this.SaveJsonFile);
+            this.JSONVarBar.Location = new System.Drawing.Point(289, 53);
+            this.JSONVarBar.Name = "JSONVarBar";
+            this.JSONVarBar.Size = new System.Drawing.Size(154, 21);
+            this.JSONVarBar.TabIndex = 5;
             // 
-            // label15
+            // MdoifyValue
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(7, 20);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(315, 12);
-            this.label15.TabIndex = 4;
-            this.label15.Text = "저장할 Config 파일의 이름을 적어주십시오 (확장자 없이)";
+            this.MdoifyValue.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.MdoifyValue.Location = new System.Drawing.Point(289, 80);
+            this.MdoifyValue.Name = "MdoifyValue";
+            this.MdoifyValue.Size = new System.Drawing.Size(154, 39);
+            this.MdoifyValue.TabIndex = 5;
+            this.MdoifyValue.Text = "Modify Value";
+            this.MdoifyValue.UseVisualStyleBackColor = true;
+            this.MdoifyValue.Click += new System.EventHandler(this.JSONModifyBtn);
+            // 
+            // JSONKeyLabel
+            // 
+            this.JSONKeyLabel.AutoSize = true;
+            this.JSONKeyLabel.Location = new System.Drawing.Point(290, 21);
+            this.JSONKeyLabel.Name = "JSONKeyLabel";
+            this.JSONKeyLabel.Size = new System.Drawing.Size(63, 12);
+            this.JSONKeyLabel.TabIndex = 6;
+            this.JSONKeyLabel.Text = "JSON Key";
             // 
             // skyLabTool
             // 
@@ -830,6 +878,8 @@
             this.Status.ResumeLayout(false);
             this.CameraModelStat.ResumeLayout(false);
             this.JSONConfig.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
@@ -914,6 +964,10 @@
         private System.Windows.Forms.Button JSONSaveFilebtn;
         private System.Windows.Forms.TextBox JSONNameToSave;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox JSONVarBar;
+        private System.Windows.Forms.ListBox JSONVariables;
+        private System.Windows.Forms.Button MdoifyValue;
+        private System.Windows.Forms.Label JSONKeyLabel;
     }
 }
 

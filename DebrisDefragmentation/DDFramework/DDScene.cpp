@@ -16,6 +16,11 @@ m_SceneName(sceneName)
 
 DDScene::~DDScene()
 {
+	for ( auto iter = m_UICollection.begin(); iter != m_UICollection.end(); ++iter )
+	{
+		auto pWillBeDie = ( *iter );
+		delete pWillBeDie;
+	}
 }
 
 

@@ -13,6 +13,12 @@ DDUIControl::~DDUIControl()
 	{
 		m_pUIObject->Release();
 	}
+
+	if ( m_pPosition != nullptr )
+	{
+		delete m_pPosition;
+		m_pPosition = nullptr;
+	}
 }
 
 void DDUIControl::Init( const std::wstring& filePath, const float LeftTopX, const float LeftTopY)
