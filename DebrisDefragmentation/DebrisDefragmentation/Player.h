@@ -35,7 +35,8 @@ public:
 	void SetVelocity( DDVECTOR3 val ) { m_Rigidbody.m_Velocity = val; }	
 	void SetAcceleration( DDVECTOR3 val ) { m_Rigidbody.m_Acceleration = val; }
 
-
+	int GetGas() { return m_Avatar->GetGas(); }
+	int GetOxygen() { return m_Avatar->GetOxygen(); }
 
 private:
 	virtual void UpdateItSelf( float dTime );

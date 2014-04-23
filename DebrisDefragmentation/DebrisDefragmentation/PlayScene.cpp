@@ -8,6 +8,7 @@
 #include "NetworkManager.h"
 #include "FuelUI.h"
 #include "OxygenUI.h"
+#include "PlayerManager.h"
 
 PlayScene::PlayScene()
 {
@@ -115,8 +116,7 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	MousePointer(false, currentMousePos);
 
-	// 일단 업데이트를 막아두었습니다.
-	//UpdateUI();
+	UpdateUI();
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정
@@ -163,8 +163,19 @@ void PlayScene::UpdateUI()
 	// 되는지 확인하는 용도입니다.
 	// >>> 되긴 되네요. 그런데 스케일을 바꾸면 좌표도 바뀌어서 위치를 재조정해야 함 ㅡㅡ;;
 	// 좀 더 좋은 방법을 찾아봐야 할 듯...
+	
+	int myId = GNetworkManager->GetMyPlayerId();
+	
+	// 초기화 덜 됨
+	if ( myId >= g_PlayerManager->GetCurrentPlayers() )
+	{
+		return;
+	}
+
+	int currentOxygen = g_PlayerManager->GetOxygen( myId );
+	int currentFuel = g_PlayerManager->GetFuel( myId );
+
 	// 현재는 front가 pFuelUI
-	// 허 그런데 Player 정보에 접근할 수가 없다...
-	m_UICollection.front()->SetTransform( timeGetTime() % 10, 1, 1 );
-	m_UICollection.back()->SetTransform( timeGetTime() % 10, 1, 1 );
+	m_UICollection.front()->SetTransform(  currentFuel / 1000.0f, 1, 1 );
+	m_UICollection.back()->SetTransform( currentOxygen / 1000.0f, 1, 1 );
 }

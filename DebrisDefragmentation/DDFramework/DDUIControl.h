@@ -18,7 +18,7 @@ public:
 		const float LeftTopX, const float LeftTopY);
 
 	// 0x 시리즈로 넣어주십쇼
-	void inline SetColor( D3DCOLOR Color ) { m_Color = Color; }
+	void inline SetSpriteColor( D3DCOLOR Color ) { m_Color = Color; }
 	// 크기조절
 	void SetTransform( float x, float y, float z );
 

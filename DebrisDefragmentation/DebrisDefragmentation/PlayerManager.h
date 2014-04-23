@@ -36,6 +36,9 @@ public:
 		
 	unsigned int GetCurrentPlayers() const { return m_CurrentPlayers; }
 
+	int GetFuel( unsigned int playerId ) const { return m_PlayerList[playerId]->GetGas(); }
+	int GetOxygen( unsigned int playerId ) const { return m_PlayerList[playerId]->GetOxygen(); }
+
 private:
 
 	// player list

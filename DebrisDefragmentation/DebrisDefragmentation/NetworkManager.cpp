@@ -92,6 +92,7 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 	LoginResult inPacket = reinterpret_cast<LoginResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
+	// 조심해!! AddPlayer 할때 -1 대신 자기 아이디가 리턴되면서 제대로 안들어간다!
 	// 사용자의 player가 최초 로그인한 경우
 	m_MyPlayerId = inPacket.mPlayerId;
 
