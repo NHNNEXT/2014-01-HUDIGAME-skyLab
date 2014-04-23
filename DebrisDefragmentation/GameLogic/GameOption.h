@@ -25,3 +25,7 @@ const int			GAS_FOR_GOFORWARD = 30;
 const int			DEFAULT_OXYGEN = 1000;
 const int			DEFAULT_GAS = 1000;
 const int			DEFAULT_HP = 100;
+
+
+// SKILL
+const float			SKILL_RANGE = 50;

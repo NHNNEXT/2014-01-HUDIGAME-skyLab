@@ -2,7 +2,7 @@
 
 #include "GameConfig.h"
 #include "CollisionBox.h"
-
+#include <vector>
 /*
 작성자 : 최경욱
 작성일 : 2014. 4. 6
@@ -166,14 +166,78 @@ namespace Physics
 		return true;
 	}
 
-	bool static IntersectionCheck( const D3DXVECTOR3 &viewDirection, const CollisionBox &box )
+	bool static IntersectionCheck( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )
 	{
-		// D3DXPLANE plane = D3DXPLANE(  );
-		// box.m_PointList[0], box.m_PointList[1], box.m_PointList[2], box.m_PointList[3]
+		float maxDistance = static_cast<float>( HUGE );
+		float minDistance = static_cast<float>( -HUGE );
 
-		// 	D3DXPlaneIntersectLine()
+		for ( int i = 0; i < VECTOR_DIRECTION_3; ++i )
+		{
+			float dotVal = D3DXVec3Dot( &viewDirection, &box.m_AxisDir[i] );
+			if ( dotVal == 0.0f )
+			{
+				// viewDirection의 출발점을 내적한 값이
+				float rayStart = D3DXVec3Dot( &startPoint, &box.m_AxisDir[i] );
+				float lowerBound = D3DXVec3Dot( &box.m_PointList[7], &box.m_AxisDir[i] ); // 바로 인덱스로 받아서 써도 될 것 같긴한데
+				float upperBound = D3DXVec3Dot( &box.m_PointList[1], &box.m_AxisDir[i] );
+				
+				// box의 두 점을 내적한 값 사이에 있는지 확인
+				if ( !IsBetweenOrdered( rayStart, lowerBound, upperBound ) )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				// box.m_AxisDir[i]에 수직인 두 plane을 추출해서 
+				// viewDirection과 두 평면의 교차점을 찾는다
+				D3DXPLANE lowerPlane, upperPlane;
+				D3DXPlaneFromPointNormal( &lowerPlane, &box.m_PointList[7], &box.m_AxisDir[i] );
+				D3DXPlaneFromPointNormal( &upperPlane, &box.m_PointList[1], &box.m_AxisDir[i] );
 
-		return false;
+				D3DXVECTOR3 lowerPoint, upperPoint;
+				D3DXVECTOR3 endPoint = startPoint + viewDirection * SKILL_RANGE;
+				D3DXPlaneIntersectLine( &lowerPoint, &lowerPlane, &startPoint, &endPoint );
+				D3DXPlaneIntersectLine( &upperPoint, &upperPlane, &startPoint, &endPoint );
+
+				if ( lowerPoint == NULL || upperPoint == NULL )
+					return false;
+				
+				// 두 점과 viewDrection과의 거리를 구해서
+				float tempDistance1, tempDistance2, tempMax, tempMin;
+				tempDistance1 = tempDistance2 = tempMax = tempMin = 0.0f;
+				
+				tempDistance1 = D3DXVec3Length( &( lowerPoint - startPoint ) );
+				tempDistance2 = D3DXVec3Length( &( upperPoint - startPoint ) );
+
+				if ( tempDistance1 > tempDistance2 )
+				{
+					tempMax = tempDistance1;
+					tempMin = tempDistance2;
+				}
+				else
+				{
+					tempMax = tempDistance2;
+					tempMin = tempDistance1;
+				}
+
+				// 각 축에 대해 수직인 면과 viewDirection이 만나는 점들의 거리에 따른 in out은 
+				// 다른 축에 대한 점들의 in out 조합 중, 가장 좁은 영역의 안에 있거나 모두 밖에 있어야 한다.
+				if ( ( tempMax > maxDistance && tempMin < minDistance )
+					|| ( tempMax < maxDistance && tempMin > minDistance ) )
+				{
+					// 지금 구한 구간이 더 좁은 경우에만 교체
+					maxDistance = ( maxDistance > tempMax ) ? tempMax : maxDistance;
+					minDistance = ( minDistance < tempMin ) ? tempMin : minDistance;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 };
 

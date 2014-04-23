@@ -130,13 +130,14 @@ int ActorManager::DetectTarget( int actorId )
 	int targetId = -1;
 	
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( );
+	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 	
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
 		if ( i == actorId )
 			continue;
 
-		if ( Physics::IntersectionCheck( viewDirection, m_ActorList[i]->GetCollisionBox() ) )
+		if ( Physics::IntersectionCheck( viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			float tempDistance = D3DXVec3Length( &( m_ActorList[actorId]->GetPosition() - m_ActorList[i]->GetPosition() ) );

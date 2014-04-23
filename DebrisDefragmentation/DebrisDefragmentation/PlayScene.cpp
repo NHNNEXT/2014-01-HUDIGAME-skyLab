@@ -114,7 +114,7 @@ void PlayScene::UpdateItSelf( float dTime )
 		currentMousePos.GetX() - m_PrevMousePosition.GetX()
 		);
 
-	MousePointer(false, currentMousePos);
+	MousePointer(true, currentMousePos);
 
 	UpdateUI();
 }

@@ -37,7 +37,7 @@ void Player::Init()
 
 void Player::UpdateItSelf( float dTime )
 {
-	printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
+	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	if ( !m_Avatar->CheckRemainOxygen() )
 	{
 		printf( "player is dead" );
