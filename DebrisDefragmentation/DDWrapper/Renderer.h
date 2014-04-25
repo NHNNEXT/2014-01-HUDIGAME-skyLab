@@ -1,5 +1,5 @@
 #pragma once
-#include "DDWrapper.h"
+#include "DDRenderer.h"
 
 namespace DDWrapper
 {
