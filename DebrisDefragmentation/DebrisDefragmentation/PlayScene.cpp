@@ -82,6 +82,8 @@ void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
 
+	// 키 고유 넘버는 아래를 참조하자 
+	// http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
 	// 현재 w키가 눌렸는지 확인한다
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
 	// s키가 눌렸다면 정지	
@@ -98,8 +100,15 @@ void PlayScene::UpdateItSelf( float dTime )
 		// 서버로 날려야지
 		GNetworkManager->SendStop();
 	}
+
+	if ( KEY_DOWN == GetKeyState( 0x31 ) )
+	{
+		// m_pPlayer->Stop( );
+		// 서버로 날려야지
+		GNetworkManager->SendSkillPush();
+	}
 	// 문교수 커피가 든 컵을 들고 오다가 커피가 손에 닿자...
-	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...
+	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...라고 말씀하셨다.
 	// ㅋㅋㅋㅋ 카멕님이 적으셨습니까
 
 	// 마우스 좌표 변화를 받아온다

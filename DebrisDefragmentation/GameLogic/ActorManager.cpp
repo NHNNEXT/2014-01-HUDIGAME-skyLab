@@ -99,7 +99,7 @@ bool ActorManager::CheckCollision()
 
 			// 두 점의 거리가 가까우면 체크 안 함
 			D3DXVECTOR3 collisionDirection = m_ActorList[j]->GetPosition() - m_ActorList[i]->GetPosition();
-			printf_s( "%f / %f\n", D3DXVec3Length( &collisionDirection ), m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius );
+			// printf_s( "%f / %f\n", D3DXVec3Length( &collisionDirection ), m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius );
 			if ( D3DXVec3Length( &collisionDirection ) > m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius )
 				continue;
 
@@ -126,7 +126,7 @@ int ActorManager::DetectTarget( int actorId )
 {
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
-	float currentDistance = 0.0f;
+	float currentDistance = static_cast<float>( HUGE );
 	int targetId = -1;
 	
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( );
@@ -134,10 +134,10 @@ int ActorManager::DetectTarget( int actorId )
 	
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
-		if ( i == actorId )
+		if ( i == actorId || m_ActorList[i] == nullptr )
 			continue;
 
-		if ( Physics::IntersectionCheck( viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
+		if ( Physics::IntersectionCheckRayBox( viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			float tempDistance = D3DXVec3Length( &( m_ActorList[actorId]->GetPosition() - m_ActorList[i]->GetPosition() ) );

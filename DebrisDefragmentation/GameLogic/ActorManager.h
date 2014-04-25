@@ -38,6 +38,11 @@ public:
 	*/
 	bool IsValidId( int actorId );
 	Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
+
+	/*
+		입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환
+		최경욱 2014. 4. 22
+	*/
 	int DetectTarget( int actorId );
 
 	// get other object data

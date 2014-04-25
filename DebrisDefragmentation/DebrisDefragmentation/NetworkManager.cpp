@@ -76,6 +76,26 @@ void NetworkManager::SendRotateDirection( float x, float y )
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
+void NetworkManager::SendSkillPush()
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	SkillPushRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+
+	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
+	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
+	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
+
+	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
+	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
+	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
 void NetworkManager::RegisterHandles()
 {
 	// 여기에서 핸들러를 등록하자

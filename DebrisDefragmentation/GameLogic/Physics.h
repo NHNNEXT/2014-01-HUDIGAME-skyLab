@@ -166,7 +166,7 @@ namespace Physics
 		return true;
 	}
 
-	bool static IntersectionCheck( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )
+	bool static IntersectionCheckRayBox( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )
 	{
 		float maxDistance = static_cast<float>( HUGE );
 		float minDistance = static_cast<float>( -HUGE );
@@ -189,6 +189,12 @@ namespace Physics
 			}
 			else
 			{
+				// 조심해!!!
+				// 아래의 연산에서 기준이 되는 점들의 위치는 현재 그 바운딩 박스의 변환 행렬이 적용되기 전의 값들
+				// 변환 행렬을 적용해야 정확안 값을 알 수 있어
+				// 일단 여기서 바운딩 박스를 하나 새로 만들어서 변환을 적용해야 하려나
+				// 아니면 아예 주기적으로 업데이트를 해줘야 하나...
+
 				// box.m_AxisDir[i]에 수직인 두 plane을 추출해서 
 				// viewDirection과 두 평면의 교차점을 찾는다
 				D3DXPLANE lowerPlane, upperPlane;

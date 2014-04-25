@@ -431,7 +431,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 	StopResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
 
-	printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
+	// printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
 
 	outPacket.mPosX = position.x;
 	outPacket.mPosY = position.y;
@@ -484,4 +484,56 @@ void ClientSession::HandleSyncRequest( SyncRequest& inPacket )
 
 	// 싱크 요청이 오면 전체 동기화
 	GClientManager->SyncAll();
+}
+
+REGISTER_HANDLER( PKT_CS_SKILL_PUSH )
+{
+	SkillPushRequest inPacket = static_cast<SkillPushRequest&>( pktBase );
+	session->HandleSkillPushRequest( inPacket );
+}
+
+void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
+	m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
+
+	// 우선 타겟이 있는지 확인
+	int targetId = GClientManager->GetTarget( inPacket.mPlayerId );
+	
+	// 타겟이 없으면 그냥 무시
+	if ( targetId == -1 )
+		return;
+
+	// 타겟이 있으면 
+	// for debugging
+	printf_s( "target : %d\n", targetId );
+	// Character* targetCharacter = 
+	/*
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	RotationResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	outPacket.mRotationX = inPacket.mRotationX;
+	outPacket.mRotationY = inPacket.mRotationY;
+	outPacket.mRotationZ = inPacket.mRotationZ;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+	*/
+}
+
+REGISTER_HANDLER( PKT_CS_SKILL_PULL )
+{
+	SkillPullRequest inPacket = static_cast<SkillPullRequest&>( pktBase );
+	session->HandleSkillPullRequest( inPacket );
+}
+
+void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
+{
+
 }
