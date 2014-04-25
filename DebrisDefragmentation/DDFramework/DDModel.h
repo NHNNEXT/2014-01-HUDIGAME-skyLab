@@ -13,16 +13,16 @@ public:
 	//static DDModel* Create( wchar_t* filePath );	
 
 protected:
-	bool initModel( std::wstring path );
+	bool InitModel( std::wstring path );
 	bool SetNormalVector();
 	bool Cleanup();
 
 	// LPDIRECT3DDEVICE9	m_pD3DDevice = nullptr;
 
-	LPD3DXMESH			m_pMesh;/* = nullptr;*/
-	LPDIRECT3DTEXTURE9* m_pMeshTexture;/* = nullptr;*/
-	D3DMATERIAL9*		m_pMeshMaterials;/* = nullptr;*/
-	DWORD				m_dwNumMaterials;/* = 0L;*/
+	LPD3DXMESH			m_pMesh = nullptr;
+	LPDIRECT3DTEXTURE9* m_pMeshTexture = nullptr;
+	D3DMATERIAL9*		m_pMeshMaterials = nullptr;
+	DWORD				m_dwNumMaterials = 0L;
 
 private:
 	virtual void RenderItSelf();

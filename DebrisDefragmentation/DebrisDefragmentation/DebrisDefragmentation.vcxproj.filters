@@ -71,6 +71,9 @@
     <ClCompile Include="FuelUI.cpp">
       <Filter>Scene\UI</Filter>
     </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="FuelUI.h">
       <Filter>Scene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

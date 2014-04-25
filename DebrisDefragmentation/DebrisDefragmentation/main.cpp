@@ -7,6 +7,7 @@
 #include "NetworkManager.h"
 #include "PlayerManager.h"
 #include "SceneManager.h"
+#include "UIManager.h"
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
@@ -27,6 +28,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	DDApplication* app = DDApplication::GetInstance();
 	g_PlayerManager = PlayerManager::Create();
 	g_SceneManager = SceneManager::Create();
+	g_UIManager = UIManager::Create();
 
 	app->Init( L"Debris Defragmentation", 1000, 600 );
 	

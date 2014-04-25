@@ -20,7 +20,7 @@ public:
 	void SetSceneName( std::wstring val ) { m_SceneName = val; }
 
 	// override
-	void Render();
+	//void Render();
 
 protected:	
 	// 작성자 : 최경욱 4.8
@@ -40,6 +40,6 @@ protected:
 	std::wstring m_SceneName;
 
 	// UI를 갖고 있는 멤버
-	std::vector<DDUIControl*> m_UICollection;
+	//std::vector<DDUIControl*> m_UICollection;
 };
 

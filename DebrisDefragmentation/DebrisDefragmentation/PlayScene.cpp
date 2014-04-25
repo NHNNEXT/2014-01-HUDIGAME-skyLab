@@ -4,11 +4,13 @@
 #include "DDInputSystem.h"
 #include "DDApplication.h"
 #include "DDLight.h"
+#include "DDUI.h"
 #include "Player.h"
 #include "NetworkManager.h"
 #include "FuelUI.h"
 #include "OxygenUI.h"
 #include "PlayerManager.h"
+#include "UIManager.h"
 
 PlayScene::PlayScene()
 {
@@ -146,15 +148,23 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 
 void PlayScene::AddUI()
 {
+	// UI 생성 및 추가 부분을 UI Manager가 처리하도록 뺐음
+	// UI Manager 내부에 UI들을 관리하는 자료구조가 필요함 지금은 일단 노가다로 create함수도 2개 만듬
+	// DDUI 및 UIManager 참고
+	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.bmp";
+	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.bmp";
+	AddChild( g_UIManager->CreateUIOxygen( filePathOxygen, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
+	AddChild( g_UIManager->CreateUIFuel( filePathFuel, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
+
 	// Add UI
-	FuelUI* pFuelUI = new FuelUI();
-	OxygenUI* pOxygenUI = new OxygenUI();
-
-	pFuelUI->init();
-	pOxygenUI->init();
-
-	m_UICollection.push_back( pFuelUI );
-	m_UICollection.push_back( pOxygenUI );
+// 	FuelUI* pFuelUI = new FuelUI();
+// 	OxygenUI* pOxygenUI = new OxygenUI();
+// 
+// 	pFuelUI->init();
+// 	pOxygenUI->init();
+// 
+// 	m_UICollection.push_back( pFuelUI );
+// 	m_UICollection.push_back( pOxygenUI );
 }
 
 void PlayScene::UpdateUI()
@@ -176,6 +186,6 @@ void PlayScene::UpdateUI()
 	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	m_UICollection.front()->SetTransform(  currentFuel / 1000.0f, 1, 1 );
-	m_UICollection.back()->SetTransform( currentOxygen / 1000.0f, 1, 1 );
+	g_UIManager->GetUIOxygen()->SetScale( currentOxygen / 1000.0f, 1, 1 );
+	g_UIManager->GetUIFuel()->SetScale(  currentFuel / 1000.0f, 1, 1 );
 }

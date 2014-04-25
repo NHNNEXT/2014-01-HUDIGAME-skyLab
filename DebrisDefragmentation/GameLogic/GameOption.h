@@ -29,3 +29,10 @@ const int			DEFAULT_HP = 100;
 
 // SKILL
 const float			SKILL_RANGE = 50;
+
+
+// UI
+const int			UI_OXYGEN_POSITION_X = 25;
+const int			UI_OXYGEN_POSITION_Y = 25;
+const int			UI_FUEL_POSITION_X = 25;
+const int			UI_FUEL_POSITION_Y = 75;

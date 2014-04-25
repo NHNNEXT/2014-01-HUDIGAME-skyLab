@@ -99,6 +99,7 @@
     <ClInclude Include="DDResourceManager.h" />
     <ClInclude Include="DDScene.h" />
     <ClInclude Include="DDSceneDirector.h" />
+    <ClInclude Include="DDUI.h" />
     <ClInclude Include="DDUIControl.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="DDRenderer.cpp" />
     <ClCompile Include="DDScene.cpp" />
     <ClCompile Include="DDSceneDirector.cpp" />
+    <ClCompile Include="DDUI.cpp" />
     <ClCompile Include="DDUIControl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
