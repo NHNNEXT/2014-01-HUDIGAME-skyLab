@@ -15,7 +15,7 @@ Player::Player( int playerId )
 	// 조심해!!
 	// 나중에 인자 입력받아서 클래스 종류별로 m_avatar에 지정해줄 것
 	m_Avatar = ClassComponent::Create();
-	m_Avatar->SetAvatarId( playerId );
+	m_Avatar->SetClassComponentID( playerId );
 }
 
 
@@ -25,7 +25,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	if ( GNetworkManager->GetMyPlayerId() == m_Avatar->GetAvatarId() )
+	if ( GNetworkManager->GetMyPlayerId() == m_Avatar->GetClassComponentID() )
 	{
 		m_Camera = DDCamera::Create();
 		AddChild( m_Camera );

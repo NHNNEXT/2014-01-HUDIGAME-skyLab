@@ -28,7 +28,8 @@ void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 
 	D3DXVECTOR3 normalVec( 0, 0, 0 );
 	//D3DXVECTOR3 viewDirection( GetViewDirection() );
-	Physics::GetNormalVector( &viewDirection, &normalVec );
+	//Physics::GetNormalVector( &viewDirection, &normalVec );
+	D3DXVec3Normalize( &viewDirection, &normalVec );
 
 	// 조심해!
 	// 가속도 가중치 하드 코딩 수정 할 것, 	
@@ -39,8 +40,8 @@ void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 void ClassComponent::Stop( Rigidbody& rb )
 {
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
-	rb.m_Acceleration = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
-	rb.m_Velocity = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+	rb.m_Acceleration = ZERO_VECTOR3;
+	rb.m_Velocity = ZERO_VECTOR3;
 }
 
 void ClassComponent::LookAt( float x, float y, float z, D3DXVECTOR3& rotation )
