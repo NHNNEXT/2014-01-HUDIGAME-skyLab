@@ -114,7 +114,7 @@ void PlayScene::UpdateItSelf( float dTime )
 		currentMousePos.GetX() - m_PrevMousePosition.GetX()
 		);
 
-	MousePointer(true, currentMousePos);
+	MousePointer(false, currentMousePos);
 
 	UpdateUI();
 }
@@ -172,8 +172,8 @@ void PlayScene::UpdateUI()
 		return;
 	}
 
-	int currentOxygen = g_PlayerManager->GetOxygen( myId );
-	int currentFuel = g_PlayerManager->GetFuel( myId );
+	int currentOxygen = g_PlayerManager->GetPlayer(myId)->GetOxygen();
+	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
 	m_UICollection.front()->SetTransform(  currentFuel / 1000.0f, 1, 1 );

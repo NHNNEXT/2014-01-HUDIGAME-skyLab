@@ -23,8 +23,8 @@ void NetworkManager::Init()
 void NetworkManager::Connect()
 {
 	/// config.h
-	DDNetwork::GetInstance()->Connect( "10.73.42.202", 9001 );
-	//DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+	//DDNetwork::GetInstance()->Connect( "10.73.42.202", 9001 );
+	DDNetwork::GetInstance()->Connect( "localhost", 9001 );
 }
 
 void NetworkManager::Disconnect()
@@ -106,12 +106,13 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 {
 	AccelerarionResult inPacket = reinterpret_cast<AccelerarionResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
+		
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GoForward( inPacket.mPlayerId );
-	g_PlayerManager->SetPosition( inPacket.mPlayerId, DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	g_PlayerManager->SetRotation( inPacket.mPlayerId, DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
-	g_PlayerManager->SetVelocity( inPacket.mPlayerId, DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	Player* player = g_PlayerManager->GetPlayer( inPacket.mPlayerId );
+	player->GoForward();
+	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	player->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
+	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -119,9 +120,9 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 	StopResult inPacket = reinterpret_cast<StopResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 		
-	g_PlayerManager->AddPlayer( inPacket.mPlayerId );	
-	g_PlayerManager->Stop( inPacket.mPlayerId );
-	g_PlayerManager->SetPosition( inPacket.mPlayerId, DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	g_PlayerManager->AddPlayer( inPacket.mPlayerId );		
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 }
 
 void NetworkManager::HandleLookAtResult( DDPacketHeader& pktBase )
@@ -130,7 +131,7 @@ void NetworkManager::HandleLookAtResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->LookAt( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId)->LookAt(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
@@ -139,7 +140,7 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->SetPosition( inPacket.mPlayerId, DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	g_PlayerManager->SetRotation( inPacket.mPlayerId, DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
-	g_PlayerManager->SetVelocity( inPacket.mPlayerId, DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation(DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }
