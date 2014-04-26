@@ -110,18 +110,28 @@ bool ActorManager::CheckCollision()
 				// 두 물체의 중심점을 잇는 단위 벡터 생성
 				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
 
-				// 충격량 산출
-				float impulse = D3DXVec3Dot( &(m_ActorList[i]->GetVelocity() - m_ActorList[j]->GetVelocity() ), &collisionDirection );
+				D3DXVECTOR3 relativeVelocity = m_ActorList[j]->GetVelocity() - m_ActorList[i]->GetVelocity();
+				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
+				{
+					return false;
+				}
 
+
+				float iMass = m_ActorList[i]->GetMass();
+				float jMass = m_ActorList[j]->GetMass();
+
+				float iVelocity = D3DXVec3Dot( &( m_ActorList[i]->GetVelocity() ), &collisionDirection );
+				float jVelocity = D3DXVec3Dot( &( m_ActorList[j]->GetVelocity() ), &collisionDirection );
+				
 				// 질량에 비례해서 운동 상태 변경
 				m_ActorList[i]->IncreaseVelocity( 
-					collisionDirection * impulse * m_ActorList[i]->GetMass() 
-					/ ( m_ActorList[i]->GetMass() + m_ActorList[j]->GetMass() ) 
+					( 2 * jMass / ( iMass + jMass ) )
+					* ( jVelocity - iVelocity ) * collisionDirection
 					);
 
 				m_ActorList[j]->IncreaseVelocity(
-					collisionDirection * impulse * m_ActorList[j]->GetMass()
-					/ ( m_ActorList[i]->GetMass() + m_ActorList[j]->GetMass() )
+					( 2 * iMass / ( iMass + jMass ) )
+					* ( iVelocity - jVelocity ) * collisionDirection
 					);
 
 				returnVal = true;
