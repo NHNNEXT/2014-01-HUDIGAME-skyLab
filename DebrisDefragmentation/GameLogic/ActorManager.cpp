@@ -140,7 +140,7 @@ int ActorManager::DetectTarget( int actorId )
 		if ( Physics::IntersectionCheckRayBox( viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
-			float tempDistance = D3DXVec3Length( &( m_ActorList[actorId]->GetPosition() - m_ActorList[i]->GetPosition() ) );
+			float tempDistance = D3DXVec3Length( &( startPoint - m_ActorList[i]->GetPosition() ) );
 			if ( tempDistance < currentDistance )
 			{
 				currentDistance = tempDistance;

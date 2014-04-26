@@ -334,9 +334,9 @@ void ClientSession::SyncCurrentStatus()
 	outPacket.mPosY = position.y;
 	outPacket.mPosZ = position.z;
 
-	outPacket.mRotationX = rotation.x;
-	outPacket.mRotationY = rotation.y;
-	outPacket.mRotationZ = rotation.z;
+	// outPacket.mRotationX = rotation.x;
+	// outPacket.mRotationY = rotation.y;
+	// outPacket.mRotationZ = rotation.z;
 
 	outPacket.mVelocityX = velocity.x;
 	outPacket.mVelocityY = velocity.y;
@@ -497,7 +497,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
-	m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
+	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
 	int targetId = GClientManager->GetTarget( inPacket.mPlayerId );

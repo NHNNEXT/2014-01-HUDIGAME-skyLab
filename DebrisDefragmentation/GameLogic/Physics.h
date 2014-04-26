@@ -61,7 +61,7 @@ namespace Physics
 		normalVec->z = srcVec->z / length;
 	}
 
-	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, float& axisLen, float& minAlong, float& maxAlong )
+	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
 	{
 		minAlong = static_cast<float>( HUGE );
 		maxAlong = static_cast<float>( -HUGE );
@@ -96,6 +96,7 @@ namespace Physics
 		return IsBetweenOrdered( min2, min1, max1 ) || IsBetweenOrdered( min1, min2, max2 );
 	}
 
+	/*
 	inline void TransformCollisionBox( CollisionBox &box )
 	{
 		D3DXVECTOR4 tempMat;
@@ -121,11 +122,12 @@ namespace Physics
 			box.m_AxisDir[i] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 		}
 	}
+	*/
 
-	bool static IsCollide( CollisionBox &box1, CollisionBox &box2 )
+	bool static IsCollide( const CollisionBox &box1, const CollisionBox &box2 )
 	{
-		TransformCollisionBox( box1 );
-		TransformCollisionBox( box2 );
+		// TransformCollisionBox( box1 );
+		// TransformCollisionBox( box2 );
 
 		for ( int i = 0; i < 3; i++ )
 		{
@@ -189,12 +191,6 @@ namespace Physics
 			}
 			else
 			{
-				// 조심해!!!
-				// 아래의 연산에서 기준이 되는 점들의 위치는 현재 그 바운딩 박스의 변환 행렬이 적용되기 전의 값들
-				// 변환 행렬을 적용해야 정확안 값을 알 수 있어
-				// 일단 여기서 바운딩 박스를 하나 새로 만들어서 변환을 적용해야 하려나
-				// 아니면 아예 주기적으로 업데이트를 해줘야 하나...
-
 				// box.m_AxisDir[i]에 수직인 두 plane을 추출해서 
 				// viewDirection과 두 평면의 교차점을 찾는다
 				D3DXPLANE lowerPlane, upperPlane;
@@ -213,8 +209,25 @@ namespace Physics
 				float tempDistance1, tempDistance2, tempMax, tempMin;
 				tempDistance1 = tempDistance2 = tempMax = tempMin = 0.0f;
 				
+				// D3DXPlaneIntersectLine 함수는 인자로 넣은 라인을 무한대로 확장해서 교점을 찾는다
+				// 만약 거의 수평에 가까운 면이 있다면 이 면들과의 교점들의 거리는 아주 큰 값 두개
+				// 그 중 하나는 사실 음의 방향이지만 거리는 절대값을 가지므로 둘 다 아주 큰 값을 가지는 한 쌍이 되는 현상 발생
+				// 예를 들어 원래 -123 : 124 조합이 123 : 124 조합으로 바뀜 
+				// in - in - out - out >>> in - out - in - out
 				tempDistance1 = D3DXVec3Length( &( lowerPoint - startPoint ) );
 				tempDistance2 = D3DXVec3Length( &( upperPoint - startPoint ) );
+
+				// 결국 아래의 값에 방향을 추가해주어야 한다
+				// 좀 더 깔끔한 방법을 찾아야 될텐데...
+				if ( lowerPoint.x - startPoint.x  < 0 )
+				{
+					tempDistance1 *= -1;
+				}
+
+				if ( upperPoint.x - startPoint.x  < 0 )
+				{
+					tempDistance2 *= -1;
+				}
 
 				if ( tempDistance1 > tempDistance2 )
 				{

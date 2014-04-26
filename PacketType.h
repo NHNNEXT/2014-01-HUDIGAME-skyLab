@@ -231,10 +231,6 @@ struct SyncResult : public PacketHeader
 		mVelocityX = 0.0f;
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -246,10 +242,6 @@ struct SyncResult : public PacketHeader
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
 };
 
 // 일단 새 플레이어 생성하는 것에 대해서만

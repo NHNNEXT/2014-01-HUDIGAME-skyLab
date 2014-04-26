@@ -28,7 +28,9 @@ public:
 	void		IncreaseRotation(float x, float y, float z)	{ m_Rotation += D3DXVECTOR3( x, y, z ); }
 	
 	D3DXVECTOR3 GetViewDirection();
-	CollisionBox GetCollisionBox() const { return m_CollisionBox; }
+
+	// 현재 변환 행렬이 적용된 충돌 박스 리턴
+	CollisionBox GetCollisionBox() const;
 
 protected:
 	D3DXMATRIXA16	m_Matrix;
