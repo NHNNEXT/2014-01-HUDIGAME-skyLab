@@ -107,12 +107,22 @@ bool ActorManager::CheckCollision()
 			if ( Physics::IsCollide( m_ActorList[i]->GetCollisionBox(), m_ActorList[j]->GetCollisionBox() ) )
 			{
 				printf_s( "collision!\n" );
+				// 두 물체의 중심점을 잇는 단위 벡터 생성
 				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
-				collisionDirection *= COLLISION_ACCELERATION_WEIGHT;
 
-				// 일단은 회전없이 충돌한 객체들이 서로 반대 방향으로 밀려나게
-				m_ActorList[i]->SetAccelerarion( -collisionDirection );
-				m_ActorList[j]->SetAccelerarion( collisionDirection );
+				// 충격량 산출
+				float impulse = D3DXVec3Dot( &(m_ActorList[i]->GetVelocity() - m_ActorList[j]->GetVelocity() ), &collisionDirection );
+
+				// 질량에 비례해서 운동 상태 변경
+				m_ActorList[i]->IncreaseVelocity( 
+					collisionDirection * impulse * m_ActorList[i]->GetMass() 
+					/ ( m_ActorList[i]->GetMass() + m_ActorList[j]->GetMass() ) 
+					);
+
+				m_ActorList[j]->IncreaseVelocity(
+					collisionDirection * impulse * m_ActorList[j]->GetMass()
+					/ ( m_ActorList[i]->GetMass() + m_ActorList[j]->GetMass() )
+					);
 
 				returnVal = true;
 			}

@@ -43,3 +43,8 @@ void Actor::Stop()
 	m_RigidBody.m_Acceleration = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	m_RigidBody.m_Velocity = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 }
+
+void Actor::IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity )
+{
+	m_RigidBody.m_Velocity += deltaVelocity;
+}

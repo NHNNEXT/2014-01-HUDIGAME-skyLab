@@ -20,7 +20,11 @@ public:
 	void SetAccelerarion( const D3DXVECTOR3 &direction );
 	void Stop();
 
+	void IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
+
 	D3DXVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
+
+	float GetMass() const { return m_RigidBody.m_Mass; }
 	
 
 protected:
