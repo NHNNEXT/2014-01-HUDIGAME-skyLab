@@ -16,7 +16,7 @@ public:
 	// 
 	void	GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rigidbody ); // 현재 바라보는 방향으로 가속도 부여
 	void	Stop( Rigidbody& rigidbody );	// 가속도 및 속도 0으로 변경
-	void	LookAt( float x, float y, float z, D3DXVECTOR3& rotation ); // 바라보는 방향 회전
+	void	LookAt( D3DXVECTOR3& rotation, float x, float y, float z ); // 바라보는 방향 회전
 
 	int		GetClassComponentID() const { return m_ClassComponentID; }
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }

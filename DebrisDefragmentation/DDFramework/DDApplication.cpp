@@ -105,10 +105,10 @@ bool DDApplication::_CreateWindow( std::wstring title, int width, int height )
 
 bool DDApplication::Release()
 {
-	if ( m_DestroyWindow ) {
-		ReleaseInstance();
-		return true;
-	}
+// 	if ( m_DestroyWindow ) {
+// 		ReleaseInstance();
+// 		return true;
+// 	}
 
 	DDNetwork::ReleaseInstance();
 
@@ -186,8 +186,8 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 
 		case WM_DESTROY:
 		{
-			DDApplication::GetInstance()->Release();
-			DDApplication::GetInstance()->m_DestroyWindow = true;
+			//DDApplication::GetInstance()->Release();
+			//DDApplication::GetInstance()->m_DestroyWindow = true;
 			PostQuitMessage( 0 );
 			break;
 		}

@@ -44,7 +44,7 @@ void ClassComponent::Stop( Rigidbody& rb )
 	rb.m_Velocity = ZERO_VECTOR3;
 }
 
-void ClassComponent::LookAt( float x, float y, float z, D3DXVECTOR3& rotation )
+void ClassComponent::LookAt( D3DXVECTOR3& rotation, float x, float y, float z )
 {
 	// 조심해!
 	// 회전 각도 가중치 하드 코딩 수정 할 것
