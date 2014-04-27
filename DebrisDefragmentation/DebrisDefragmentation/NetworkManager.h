@@ -16,6 +16,7 @@ public:
 	void SendStop();
 	void SendRotateDirection( float x, float y );
 	void SendSkillPush();
+	void SendSkillPull();
 
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }
@@ -29,6 +30,8 @@ public:
 	static void HandleStopResult( DDPacketHeader& pktBase );
 	static void HandleLookAtResult( DDPacketHeader& pktBase );
 	
+	static void HandlePushResult( DDPacketHeader& pktBase );
+	static void HandlePullResult( DDPacketHeader& pktBase );
 
 private:
 	static int m_MyPlayerId;

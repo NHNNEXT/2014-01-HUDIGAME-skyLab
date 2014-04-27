@@ -89,23 +89,26 @@ void PlayScene::UpdateItSelf( float dTime )
 	// s키가 눌렸다면 정지	
 	if ( KEY_DOWN == GetKeyState( 0x57 ) )
 	{
-		// m_pPlayer->SetAcceleration();
-		// 서버로 날리자
+		// w : 현재 몸체가 바라보는 방향으로 가속
 		GNetworkManager->SendAcceleration();
 	}
 	
 	if ( KEY_DOWN == GetKeyState( 0x53 ) )
 	{
-		// m_pPlayer->Stop( );
-		// 서버로 날려야지
+		// s : 정지!
 		GNetworkManager->SendStop();
 	}
 
 	if ( KEY_DOWN == GetKeyState( 0x31 ) )
 	{
-		// m_pPlayer->Stop( );
-		// 서버로 날려야지
+		// 1 : 밀기 스킬 시전!
 		GNetworkManager->SendSkillPush();
+	}
+
+	if ( KEY_DOWN == GetKeyState( 0x32 ) )
+	{
+		// 2 : 당기기 스킬 시전!
+		GNetworkManager->SendSkillPull();
 	}
 	// 문교수 커피가 든 컵을 들고 오다가 커피가 손에 닿자...
 	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...라고 말씀하셨다.

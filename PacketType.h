@@ -339,14 +339,6 @@ struct SkillPushResult : public PacketHeader
 		mVelocityX = 0.0f;
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
-
-		mAccelerarionX = 0.0f;
-		mAccelerarionY = 0.0f;
-		mAccelerarionZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -359,14 +351,6 @@ struct SkillPushResult : public PacketHeader
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
-
-	float mAccelerarionX;
-	float mAccelerarionY;
-	float mAccelerarionZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
 };
 
 // 당기기 스킬 시전!
@@ -419,14 +403,6 @@ struct SkillPullResult : public PacketHeader
 		mVelocityX = 0.0f;
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
-
-		mAccelerarionX = 0.0f;
-		mAccelerarionY = 0.0f;
-		mAccelerarionZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -439,14 +415,6 @@ struct SkillPullResult : public PacketHeader
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
-
-	float mAccelerarionX;
-	float mAccelerarionY;
-	float mAccelerarionZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
 };
 
 #pragma pack(pop)

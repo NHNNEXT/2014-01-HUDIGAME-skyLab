@@ -110,6 +110,12 @@ bool ActorManager::CheckCollision()
 				// 두 물체의 중심점을 잇는 단위 벡터 생성
 				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
 
+				// 충돌 체크가 충돌하는 시점에 정확하게 계산하는 것이 아님
+				// 이미 충돌이 일어나고 조금의 시점이 지난 상태에서 확인하므로 결국 두 물체는 조금 겹쳐져 있는 상태
+				// 그 상태에서 운동량에 변화를 주어 서로 반대 방향으로 밀어내면 다음 프레임에서
+				// 아직 충돌 상태에서 벗어나지 못한 상태로 다시 충돌 판정을 하게 되고 서로의 운동량을 다시 바꾸게 됨
+				// 결국 물체는 다시 가까워지는 방향으로 운동량이 변하게 되고, 서로 떨어지지 못한 채 계속 충돌 판정을 받게 됨
+				// 그래서 두 물체의 운동 상태가 서로에게서 멀어지고 있는 중이라면 충돌에 의한 운동량 변화를 적용하지 않음
 				D3DXVECTOR3 relativeVelocity = m_ActorList[j]->GetVelocity() - m_ActorList[i]->GetVelocity();
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
 				{

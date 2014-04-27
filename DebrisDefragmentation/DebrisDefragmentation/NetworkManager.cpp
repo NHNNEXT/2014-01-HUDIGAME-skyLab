@@ -96,6 +96,26 @@ void NetworkManager::SendSkillPush()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
+void NetworkManager::SendSkillPull()
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	SkillPullRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+
+	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
+	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
+	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
+
+	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
+	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
+	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
 void NetworkManager::RegisterHandles()
 {
 	// 여기에서 핸들러를 등록하자
@@ -104,6 +124,8 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STOP, HandleStopResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ROTATION, HandleLookAtResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SYNC, HandleSyncResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PUSH, HandlePushResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PULL, HandlePullResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -163,4 +185,32 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	// g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation(DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+}
+
+void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
+{
+	SkillPushResult inPacket = reinterpret_cast<SkillPushResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	g_PlayerManager->AddPlayer( inPacket.mTargetId );
+	Player* player = g_PlayerManager->GetPlayer( inPacket.mTargetId );
+	player->GoForward();
+	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+
+	printf_s( "skill from %d player\n", inPacket.mPlayerId );
+}
+
+void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
+{
+	SkillPullResult inPacket = reinterpret_cast<SkillPullResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	g_PlayerManager->AddPlayer( inPacket.mTargetId );
+	Player* player = g_PlayerManager->GetPlayer( inPacket.mTargetId );
+	player->GoForward();
+	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+
+	printf_s( "skill from %d player\n", inPacket.mPlayerId );
 }

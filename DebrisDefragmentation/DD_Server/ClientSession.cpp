@@ -500,7 +500,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = GClientManager->GetTarget( inPacket.mPlayerId );
+	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -509,22 +509,30 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	// 타겟이 있으면 
 	// for debugging
 	printf_s( "target : %d\n", targetId );
-	// Character* targetCharacter = 
-	/*
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
-	RotationResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 
-	outPacket.mRotationX = inPacket.mRotationX;
-	outPacket.mRotationY = inPacket.mRotationY;
-	outPacket.mRotationZ = inPacket.mRotationZ;
+	targetCharacter->SetAccelerarion( targetCharacter->GetPosition() - m_Character.GetPosition() );
+	
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	SkillPushResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mTargetId = targetId;
+
+	D3DXVECTOR3 position = targetCharacter->GetPosition();
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
+
+	D3DXVECTOR3 velocity = targetCharacter->GetVelocity();
+	outPacket.mVelocityX = velocity.x;
+	outPacket.mVelocityY = velocity.y;
+	outPacket.mVelocityZ = velocity.z;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
 	}
-	*/
 }
 
 REGISTER_HANDLER( PKT_CS_SKILL_PULL )
@@ -535,5 +543,43 @@ REGISTER_HANDLER( PKT_CS_SKILL_PULL )
 
 void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 {
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
+	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+
+	// 우선 타겟이 있는지 확인
+	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId );
+
+	// 타겟이 없으면 그냥 무시
+	if ( targetId == -1 )
+		return;
+
+	// 타겟이 있으면 
+	// for debugging
+	printf_s( "target : %d\n", targetId );
+	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
+
+	targetCharacter->SetAccelerarion( m_Character.GetPosition() - targetCharacter->GetPosition() );
+
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	SkillPushResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mTargetId = targetId;
+
+	D3DXVECTOR3 position = targetCharacter->GetPosition();
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
+
+	D3DXVECTOR3 velocity = targetCharacter->GetVelocity();
+	outPacket.mVelocityX = velocity.x;
+	outPacket.mVelocityY = velocity.y;
+	outPacket.mVelocityZ = velocity.z;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
 }
