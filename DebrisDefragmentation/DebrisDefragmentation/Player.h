@@ -27,7 +27,7 @@ public:
 	void Stop() { m_Avatar->Stop( m_Rigidbody ); }
 
 	// 바라보는 방향 회전
-	void LookAt( float x, float y, float z ) { m_Avatar->LookAt( x, y, z, m_Rotation ); }
+	void LookAt( float x, float y, float z ) { m_Avatar->LookAt( m_Rotation, x, y, z ); }
 
 	// Getter Setter
 	DDVECTOR3 GetVelocity() const { return m_Rigidbody.m_Velocity; }

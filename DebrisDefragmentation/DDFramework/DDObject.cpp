@@ -109,6 +109,11 @@ DDVECTOR3 DDObject::GetViewDirection( )
 	return DDVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
 }
 
+DDVECTOR3 DDObject::GetAxisX()
+{
+	return DDVECTOR3( m_Matrix._11, m_Matrix._12, m_Matrix._13 );
+}
+
 void DDObject::RenderChildNodes()
 {
 	for ( const auto& child : m_ChildList )

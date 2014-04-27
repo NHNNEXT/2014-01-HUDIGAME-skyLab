@@ -3,7 +3,7 @@
 #include "DDCamera.h"
 #include "Character.h"
 #include "NetworkManager.h"
-
+#include "CompassUI.h"
 #include "Physics.h"
 
 Player::Player()
@@ -28,6 +28,10 @@ void Player::Init()
 	if ( GNetworkManager->GetMyPlayerId() == m_Avatar->GetClassComponentID() )
 	{
 		m_Camera = DDCamera::Create();
+
+		CompassUI* positionUI = CompassUI::Create( L"tiger.x" );
+		m_Camera->AddChild(positionUI);
+		
 		AddChild( m_Camera );
 	}
 	/// config.h

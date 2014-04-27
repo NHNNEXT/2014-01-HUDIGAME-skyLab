@@ -74,6 +74,15 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
+    <ClCompile Include="ISS.cpp">
+      <Filter>Scene\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Scene\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CompassUI.cpp">
+      <Filter>Scene\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -118,6 +127,15 @@
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="ISS.h">
+      <Filter>Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CompassUI.h">
+      <Filter>Scene\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

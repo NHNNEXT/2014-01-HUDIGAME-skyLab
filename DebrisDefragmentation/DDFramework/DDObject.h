@@ -72,6 +72,7 @@ public:
 
 	// z축 방향 벡터를 월드 좌표계 기준으로 반환
 	DDVECTOR3 GetViewDirection();
+	DDVECTOR3 GetAxisX();
 
 	// NVI Wrapper (비가상 인터페이스)
 	void Render();

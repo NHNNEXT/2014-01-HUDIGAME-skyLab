@@ -11,6 +11,7 @@
 #include "OxygenUI.h"
 #include "PlayerManager.h"
 #include "UIManager.h"
+#include "ObjectManager.h"
 
 PlayScene::PlayScene()
 {
@@ -24,6 +25,7 @@ PlayScene::PlayScene( std::wstring sceneName )
 
 PlayScene::~PlayScene()
 {
+	delete GObjectManager;
 	delete GNetworkManager;
 }
 
@@ -66,6 +68,10 @@ void PlayScene::Init()
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
+
+	// 조심해!
+	// 내부 구현 아직 제대로 안 된 상태
+	GObjectManager = new ObjectManager;
 
 // 	RECT rect;
 // 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );
