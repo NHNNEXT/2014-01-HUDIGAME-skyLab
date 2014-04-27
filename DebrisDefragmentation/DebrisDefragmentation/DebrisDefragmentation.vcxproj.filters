@@ -83,6 +83,9 @@
     <ClCompile Include="CompassUI.cpp">
       <Filter>Scene\Player</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Scene\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="CompassUI.h">
       <Filter>Scene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Scene\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

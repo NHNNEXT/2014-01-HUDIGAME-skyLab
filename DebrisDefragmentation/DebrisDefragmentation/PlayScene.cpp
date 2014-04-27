@@ -12,6 +12,7 @@
 #include "PlayerManager.h"
 #include "UIManager.h"
 #include "ObjectManager.h"
+#include "SkyBox.h"
 
 PlayScene::PlayScene()
 {
@@ -41,6 +42,10 @@ void PlayScene::Init()
 // 	}	
 	AddChild( m_pDirectonalLight );
 	
+	// test skybox
+	SkyBox* sb = SkyBox::Create( L"skybox.x" );
+	AddChild( sb );
+
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
