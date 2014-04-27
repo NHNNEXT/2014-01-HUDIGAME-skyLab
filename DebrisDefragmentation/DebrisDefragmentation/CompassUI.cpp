@@ -3,7 +3,6 @@
 
 CompassUI::CompassUI()
 {
-	SetPosition( 0.0f, 0.0f, 0.0f );
 }
 
 CompassUI::CompassUI( std::wstring modelPath ) : DDModel( modelPath )
@@ -14,11 +13,16 @@ CompassUI::~CompassUI()
 {
 }
 
+void CompassUI::UpdateItSelf( float dTime )
+{
+	UNREFERENCED_PARAMETER( dTime );
+}
+/*
 void CompassUI::RenderItSelf()
 {
 	// 부모의 행렬 변환을 가져와서 월드 좌표계 기반으로 내 위치를 계산
 	m_Matrix = m_pParent->GetMatrix();
-
+	
 	D3DXVECTOR4 tempPos;
 	D3DXVec3Transform( &tempPos, &m_Position, &m_Matrix );
 	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
@@ -50,11 +54,8 @@ void CompassUI::RenderItSelf()
 	float angle = acos( (float)D3DXVec3Dot( &cameraAxisX, &prjectedVector ) );
 
 	// compass ring을 앞에서 구한 각도만큼 z축을 기준으로 회전시킨다.
-	D3DXMATRIX tiltTransform;
+	D3DXMATRIXA16 tiltTransform;
 	D3DXMatrixRotationAxis( &tiltTransform, &cameraAxisZ, angle );
-
-	// 부모로부터 얻은 변환 행렬에 지금 구한 회전 변환을 추가한다.
-	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
 
 	// 위의 회전을 완료하면 compass ring의 중심은 현재 화면의 중심을 지나고, compass ring은 기울어진 상태
 	// 다시 말해 화면을 compass ring이 사선으로 가로지르고 있는 상태가 되어야 하는데....
@@ -90,8 +91,12 @@ void CompassUI::RenderItSelf()
 	D3DXMATRIX lookAtIssTransform;
 	D3DXMatrixRotationAxis( &lookAtIssTransform, &rotationAxis, angle );
 
+	// 부모로부터 얻은 변환 행렬에 지금 구한 회전 변환을 추가한다.
+	D3DXMatrixMultiply( &tiltTransform, &tiltTransform, &lookAtIssTransform );
+
 	// 부모인 카메라의 변환 행렬에 ISS로 향하게 하는 변환 행렬을 곱한다.
-	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &lookAtIssTransform );
+	D3DXMatrixMultiply( &m_Matrix, &tiltTransform, &m_Matrix );
+	
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용
 	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
@@ -99,6 +104,7 @@ void CompassUI::RenderItSelf()
 		// error 
 		return;
 	}
+	
 
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	for ( DWORD i = 0; i < m_dwNumMaterials; ++i )
@@ -109,3 +115,4 @@ void CompassUI::RenderItSelf()
 		m_pMesh->DrawSubset( i );
 	}
 }
+*/

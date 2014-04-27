@@ -11,5 +11,6 @@ public:
 	CREATE_OBJECT_WSTRING( CompassUI, modelPath );
 
 private:
-	virtual void RenderItSelf();
+	virtual void UpdateItSelf( float dTime );
+	//virtual void RenderItSelf();
 };

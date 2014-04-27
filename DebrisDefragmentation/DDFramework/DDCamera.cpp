@@ -22,8 +22,18 @@ DDCamera::~DDCamera()
 
 void DDCamera::RenderItSelf()
 {
-	m_Matrix = m_pParent->GetMatrix();
-		
+	D3DXMATRIXA16 parentMatrix = m_pParent->GetMatrix( );
+	
+	D3DXVECTOR4 tempEye;
+	D3DXVec3Transform( &tempEye, &m_Position, &parentMatrix );
+	DDVECTOR3 vEyePt( tempEye.x, tempEye.y, tempEye.z );
+
+	D3DXVECTOR4 tempLook;
+	D3DXVec3Transform( &tempLook, &m_LookatPoint, &parentMatrix );
+	DDVECTOR3 vLookatPt( tempLook.x, tempLook.y, tempLook.z );
+
+	DDVECTOR3 vUpVec( parentMatrix._21, parentMatrix._22, parentMatrix._23 );
+	/*
 	D3DXVECTOR4 tempEye;
 	D3DXVec3Transform( &tempEye, &m_Position, &m_Matrix );
 	DDVECTOR3 vEyePt( tempEye.x, tempEye.y, tempEye.z );
@@ -33,11 +43,6 @@ void DDCamera::RenderItSelf()
 	DDVECTOR3 vLookatPt( tempLook.x, tempLook.y, tempLook.z );
 
 	DDVECTOR3 vUpVec( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
-	
-	/*
-	DDVECTOR3 vEyePt( 0, 2, -5 );
-	DDVECTOR3 vLookatPt( DDVECTOR3( 0, 0, 0 ) );
-	DDVECTOR3 vUpVec( DDVECTOR3( 0, 1, 0 ) );
 	*/
 
 	D3DXMATRIXA16 matView;
