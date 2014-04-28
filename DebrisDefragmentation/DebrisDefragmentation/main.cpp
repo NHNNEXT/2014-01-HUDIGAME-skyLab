@@ -30,7 +30,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	g_SceneManager = SceneManager::Create();
 	g_UIManager = UIManager::Create();
 
-	app->Init( L"Debris Defragmentation", 1000, 600 );
+	app->Init( L"Debris Defragmentation", 600, 600 );
 	
 	DDScene* scene = g_SceneManager->CreateScene(L"PlayScene1");	
 	

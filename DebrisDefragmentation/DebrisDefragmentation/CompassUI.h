@@ -8,9 +8,14 @@ public:
 	CompassUI( std::wstring modelPath );
 	virtual ~CompassUI();
 
+	void Init();
+
 	CREATE_OBJECT_WSTRING( CompassUI, modelPath );
 
 private:
 	virtual void UpdateItSelf( float dTime );
 	virtual void RenderItSelf();
+
+	LPDIRECT3DVERTEXBUFFER9 m_pVB = NULL; // Buffer to hold vertices
+	LPDIRECT3DTEXTURE9      m_pTexture = NULL; // Our texture
 };

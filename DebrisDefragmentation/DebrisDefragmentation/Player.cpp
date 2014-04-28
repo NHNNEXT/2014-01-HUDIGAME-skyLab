@@ -39,8 +39,9 @@ void Player::Init()
 		g_PlayerManager->SetCamera( m_Camera );
 		
 		// 콤파스 설정
-		CompassUI* positionUI = CompassUI::Create( L"tiger.x" );
-		m_Camera->AddChild(positionUI);
+		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
+		compassUI->Init();
+		m_Camera->AddChild( compassUI );
 		
 		// 내 캐릭터의 visible 끔.
 		m_CharacterModel->SetVisible( false );

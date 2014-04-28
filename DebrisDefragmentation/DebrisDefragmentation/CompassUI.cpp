@@ -1,16 +1,61 @@
 #include "CompassUI.h"
 #include "ObjectManager.h"
 
+
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
+
+struct CUSTOMVERTEX
+{
+	D3DXVECTOR3 position; // The position
+	D3DCOLOR color;    // The color
+};
+
 CompassUI::CompassUI()
 {
 }
 
 CompassUI::CompassUI( std::wstring modelPath ) : DDModel( modelPath )
 {
+	SetPosition( 0.0f, 0.0f, 0.0f );
 }
 
 CompassUI::~CompassUI()
 {
+}
+
+void CompassUI::Init()
+{
+	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
+
+	// Use D3DX to create a texture from a file based image
+	if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\3DModel\\banana.bmp", &m_pTexture ) ) )
+		return;
+
+	// Create the vertex buffer.
+	if ( FAILED( pD3DDevice->CreateVertexBuffer( 50 * 2 * sizeof( CUSTOMVERTEX ),
+		0, D3DFVF_CUSTOMVERTEX,
+		D3DPOOL_DEFAULT, &m_pVB, NULL ) ) )
+	{
+		return;
+	}
+
+	// Fill the vertex buffer. We are setting the tu and tv texture
+	// coordinates, which range from 0.0 to 1.0
+	CUSTOMVERTEX* pVertices;
+	if ( FAILED( m_pVB->Lock( 0, 0, (void**)&pVertices, 0 ) ) )
+		return;
+
+	for ( DWORD i = 0; i < 50; i++ )
+	// for ( int i = 49; i >= 0; --i )
+	{
+		FLOAT theta = ( 2 * D3DX_PI * i ) / ( 50 - 1 );
+
+		pVertices[2 * i + 0].position = D3DXVECTOR3( sinf( theta ) * 3.0f, -0.1f, cosf( theta ) * 3.0f );
+		pVertices[2 * i + 0].color = 0xff880000;
+		pVertices[2 * i + 1].position = D3DXVECTOR3( sinf( theta ) * 3.0f, 0.1f, cosf( theta ) * 3.0f );
+		pVertices[2 * i + 1].color = 0xff880000;
+	}
+	m_pVB->Unlock();
 }
 
 void CompassUI::UpdateItSelf( float dTime )
@@ -20,110 +65,85 @@ void CompassUI::UpdateItSelf( float dTime )
 
 void CompassUI::RenderItSelf()
 {
-	/*
+	/**** affine transform ****/
+
 	D3DXQUATERNION	qRotation;
+
 	D3DXMatrixIdentity( &m_Matrix );
+
 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
 
 	// matrix를 affine변환이 적용된 형태로 변환	
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &DDVECTOR3( 0.0f, 0.0f, 3.0f ) );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
+	
+	
+	/**** tilt transform ****/
+
+	/* 각도를 구하는 과정 */
+	// 내 위치는 m_Position에 m_Matrix를 곱한 결과 (월드 좌표계)
+	D3DXMATRIXA16 parentTransform = m_pParent->GetMatrix();
+	D3DXMatrixMultiply( &parentTransform, &m_Matrix, &parentTransform );
+
+	D3DXVECTOR4 tempPos;
+	D3DXVec3Transform( &tempPos, &m_Position, &parentTransform );
+	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
+
+	// ISS의 위치는 ISS의 위치 그대로 사용 - 이미 월드 좌표계
+	DDVECTOR3 IssDirection = GObjectManager->GetIssPosition() - currentPos;
+
+	// 위에서 구한 상대 좌표에 의한 벡터를 다시 현재 계산이 진행되는 로컬 좌표계 기준으로 변환 - 로컬 좌표계의 z벡터와 계산이 필요하므로 회전이 적용되어야 한다
+	D3DXVECTOR4 tempDirection;
+	D3DXVec3Transform( &tempDirection, &IssDirection, &parentTransform );
+	IssDirection = DDVECTOR3( tempDirection.x, tempDirection.y, tempDirection.z );
+
+
+	// 이렇게 구한 벡터를 xy평면에 투영하고, 단위 벡터로 만들자
+	float directionYLength = D3DXVec3Dot( &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &IssDirection );
+	float directionXLength = D3DXVec3Dot( &DDVECTOR3( 1.0f, 0.0f, 0.0f ), &IssDirection );
+
+	DDVECTOR3 projectedVector = ( directionYLength * DDVECTOR3( 0.0f, 1.0f, 0.0f ) ) + ( directionXLength * DDVECTOR3( 1.0f, 0.0f, 0.0f ) );
+	D3DXVec3Normalize( &projectedVector, &projectedVector );
+
+	// x축과 투영된 벡터의 사이 각도를 구하자 - 회전할 각도
+	float angle = acos( (float)D3DXVec3Dot( &projectedVector, &DDVECTOR3( 1.0f, 0.0f, 0.0f ) ) );
+
+	/* 회전 축을 구하는 과정 */
+	// 이건 z축이다.
+	
+	float tempSign = -directionYLength / abs( directionYLength );
+
+	/* 실제로 회전을 적용하는 과정 */
+	D3DXMATRIXA16 tiltTransform;
+	D3DXMatrixRotationAxis( &tiltTransform, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), tempSign * angle );
+	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
+	
+	/**** look-at transform ****/
+	
+	/* 각도를 구하는 과정 */
+	// 회전할 각도는 z축과 ISS로 향하는 사이 각도를 구하면 된다.
+	DDVECTOR3 IssDirectionUnit;
+	D3DXVec3Normalize( &IssDirectionUnit, &IssDirection );
+	angle = acos( (float)D3DXVec3Dot( &IssDirectionUnit, &DDVECTOR3( 0.0f, 0.0f, 1.0f ) ) );
+
+	/* 회전 축을 구하는 과정 */
+	// 회전축은 로컬 좌표계의 y축을 tilt transform한 결과
+	D3DXVECTOR4 tempAxis;
+	D3DXVec3Transform( &tempAxis, &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &tiltTransform );
+	DDVECTOR3 rotationAxis( tempAxis.x, tempAxis.y, tempAxis.z );
+
+	/* 회전을 적용하는 과정 */
+	D3DXMATRIXA16 lookatTransform;
+	D3DXMatrixRotationAxis( &lookatTransform, &rotationAxis, -angle );
+	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &lookatTransform );
+	
 
 	// 부모의 좌표계에다 내 변환된 좌표계를 누적 시킨다!
 	// 부모의 어파인 변환을 적용
 	if ( nullptr != m_pParent )
 	{
-		// D3DXMatrixMultiply( &m_Matrix, &m_pParent->GetMatrix(), &m_Matrix);
-		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetParent()->GetMatrix() );
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
 	}
-	
-	*/
-	m_Matrix = m_pParent->GetMatrix();
-
-	// 부모의 행렬 변환을 가져와서 월드 좌표계 기반으로 내 위치를 계산
-	//m_Matrix = m_pParent->GetParent()->GetMatrix();
-	
-	D3DXVECTOR4 tempPos;
-	D3DXVec3Transform( &tempPos, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), &m_Matrix );
-	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
-
-	// 현재 카메라의 위치에서 ISS의 위치로 향하는 벡터를 구한다.
-	DDVECTOR3 IssDirection = GObjectManager->GetIssPosition() - currentPos;
-
-	// 카메라의 z축과 x축을 노멀라이즈해서 가지고 있자
-	D3DXVECTOR4 tempAxisZ;
-	D3DXVec3Transform( &tempAxisZ, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), &m_Matrix );
-	DDVECTOR3 cameraAxisZ( tempAxisZ.x, tempAxisZ.y, tempAxisZ.z );
-	// DDVECTOR3 cameraAxisZ = m_pParent->GetParent()->GetViewDirection();
-	D3DXVec3Normalize( &cameraAxisZ, &IssDirection );
-
-	D3DXVECTOR4 tempAxisX;
-	D3DXVec3Transform( &tempAxisX, &DDVECTOR3( 1.0f, 0.0f, 0.0f ), &m_Matrix );
-	DDVECTOR3 cameraAxisX( tempAxisX.x, tempAxisX.y, tempAxisX.z );
-	D3DXVec3Normalize( &cameraAxisX, &cameraAxisX );
-
-	// 먼저 카메라의 z축을 축으로 compass ring을 회전시킨다
-	// 회전시키는 각도는 ISS를 카메라의 z축에 투영한 점과 ISS의 위치를 잇는 벡터
-	// ISS의 위치를 카메라의 xz 평면에 투영한 점과 앞에서 z축에 투영시킨 ISS의 위치를 잇는 벡터
-
-	// ISS의 위치를 카메라의 z축에 투영시킨 지점은 카메라의 위치와 ISS의 위치를 잇는 벡터를 
-	// z축에 내적해서 얻은 값에 z축 방향 벡터를 곱한 값을 다시 카메라의 위치에 더해서 얻는다
-	float projectedLength = D3DXVec3Dot( &cameraAxisZ, &IssDirection );
-	DDVECTOR3 prjectedPoint( currentPos + ( cameraAxisZ * projectedLength ) );
-	
-	// 이렇게 얻은 지점과 ISS를 잇는 벡터는 카메라의 xy평면에 평행하다
-	DDVECTOR3 prjectedVector( GObjectManager->GetIssPosition() - prjectedPoint );
-	D3DXVec3Normalize( &prjectedVector, &prjectedVector );
-
-	// 앞에서 구한 벡터와 카메라의 x축이 이루는 각도를 구한다.
-	float angle = acos( (float)D3DXVec3Dot( &cameraAxisX, &prjectedVector ) );
-	// compass ring을 앞에서 구한 각도만큼 z축을 기준으로 회전시킨다.
-	D3DXMATRIXA16 tiltTransform;
-	// D3DXMatrixRotationAxis( &tiltTransform, &cameraAxisZ, angle );
-	D3DXMatrixRotationAxis( &tiltTransform, &cameraAxisZ, 0 );
-
-
-	// 위의 회전을 완료하면 compass ring의 중심은 현재 화면의 중심을 지나고, compass ring은 기울어진 상태
-	// 다시 말해 화면을 compass ring이 사선으로 가로지르고 있는 상태가 되어야 하는데....
-	/*
-
-
-
-
-
-
-	// 이번에는 compass ring을 두 벡터의 사이 각도만큼 회전시킨다
-	// 두 벡터는 다음과 같다
-	// 카메라의 위치와 compass ring의 원점을 잇는 벡터 (카메라의 z축)
-	// 카메라의 위치와 ISS의 위치를 잇는 벡터
-	// 회전 축 : 두 벡터를 외적한 벡터
-
-	
-
-	
-
-	// 정면을 바라보는 벡터와 ISS로 향하는 벡터의 사이각을 구한다.
-	// 노멀라이즈 할 것
-	DDVECTOR3 normalIssDirection;
-
-	D3DXVec3Normalize( &cameraAxisZ, &cameraAxisZ );
-	angle = acos( (float)D3DXVec3Dot( &cameraAxisZ, &normalIssDirection ) );
-
-	// 카메라의 z축과 카메라의 위치와 ISS의 위치를 잇는 벡터를 외적해서 수직인 벡터를 찾는다.
-	DDVECTOR3 rotationAxis;
-	D3DXVec3Cross( &rotationAxis, &cameraAxisZ, &IssDirection );
-
-	// 회전변환 행렬 생성
-	D3DXMATRIX lookAtIssTransform;
-	D3DXMatrixRotationAxis( &lookAtIssTransform, &rotationAxis, angle );
-
-	// 부모로부터 얻은 변환 행렬에 지금 구한 회전 변환을 추가한다.
-	D3DXMatrixMultiply( &tiltTransform, &tiltTransform, &lookAtIssTransform );
-	*/
-	// 부모인 카메라의 변환 행렬에 ISS로 향하게 하는 변환 행렬을 곱한다.
-	D3DXMatrixMultiply( &m_Matrix, &tiltTransform, &m_Matrix );
-	// D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
-
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용
 	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
@@ -133,6 +153,10 @@ void CompassUI::RenderItSelf()
 	}
 
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
+	
+	/*
+	모델 그리기는 일시적으로 주석처리
+	지금은 직접 버텍스 버퍼에 점 찍어 놓고 그걸로 그림 - 아래 참조
 	for ( DWORD i = 0; i < m_dwNumMaterials; ++i )
 	{
 		pD3DDevice->SetMaterial( &m_pMeshMaterials[i] );
@@ -140,4 +164,17 @@ void CompassUI::RenderItSelf()
 
 		m_pMesh->DrawSubset( i );
 	}
+	*/
+
+	// set texture
+	pD3DDevice->SetTexture( 0, m_pTexture );
+	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
+	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
+	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
+	pD3DDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
+
+	// Render the vertex buffer contents
+	pD3DDevice->SetStreamSource( 0, m_pVB, 0, sizeof( CUSTOMVERTEX ) );
+	pD3DDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
+	pD3DDevice->DrawPrimitive( D3DPT_TRIANGLESTRIP, 0, 2 * 50 - 2 );
 }
