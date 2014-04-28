@@ -43,44 +43,6 @@ void DDObject::AffineTransfrom()
 {
 	D3DXQUATERNION	qRotation;	
 
-	/*
-	D3DXMatrixIdentity( &m_Matrix );
-	// 현재 회전 값 행렬로 만들기
-	D3DXMATRIXA16	currentRotation;
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z );
-	D3DXMatrixTransformation( &currentRotation, NULL, NULL, NULL, NULL, &qRotation, NULL );
-
-	// 적용된 데이터는 초기화
-	m_Rotation = DDVECTOR3( .0f, .0f, .0f );
-	
-	// 기존 회전 변환에 합치기
-	D3DXMatrixMultiply( &m_MatrixRotation, &m_MatrixRotation, &currentRotation );
-
-	// 이동과 스케일은 원래대로
-	D3DXMatrixTransformation( &m_MatrixTransform, NULL, NULL, &m_Scale, NULL, NULL, &m_Position );
-	D3DXMatrixMultiply( &m_Matrix, &m_MatrixRotation, &m_MatrixTransform );
-
-	// 부모의 좌표계에다 내 변환된 좌표계를 누적 시킨다!
-	// 부모의 어파인 변환을 적용
-	if ( nullptr != m_pParent )
-	{
-		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
-	}
-
-	// 자신+부모의 어파인 변환을 월드좌표계에 적용
-	if ( FAILED( renderer->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
-	{
-		// error 
-		return;
-	}
-
-	// 부모 좌표계를 받아오고
-	// 받아온 좌표계를 기반으로 직전 프레임에서 계산한 회전 변환과 나머지 변환을 적용
-	// 이렇게 계산된 좌표계 안에서 현재 적용해야 하는 회전 변환 적용 - 회전 값을 추출해서 따로 저장할 것 ( 바로 윗 라인에서 활용함 )
-	// 
-	*/
-
-
 	D3DXMatrixIdentity( &m_Matrix );
 
 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
@@ -93,7 +55,7 @@ void DDObject::AffineTransfrom()
 	// 부모의 어파인 변환을 적용
 	if ( nullptr != m_pParent )
 	{
-		D3DXMatrixMultiply( &m_Matrix, &m_pParent->GetMatrix(), &m_Matrix);
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
 	}
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용
@@ -104,7 +66,7 @@ void DDObject::AffineTransfrom()
 	}
 }
 
-DDVECTOR3 DDObject::GetViewDirection( )
+DDVECTOR3 DDObject::GetViewDirection( ) const
 {
 	return DDVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 );
 }

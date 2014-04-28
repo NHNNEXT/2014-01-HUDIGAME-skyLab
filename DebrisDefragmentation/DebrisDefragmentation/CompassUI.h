@@ -12,5 +12,5 @@ public:
 
 private:
 	virtual void UpdateItSelf( float dTime );
-	//virtual void RenderItSelf();
+	virtual void RenderItSelf();
 };
