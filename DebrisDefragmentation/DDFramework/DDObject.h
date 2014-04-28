@@ -55,7 +55,8 @@ public:
 	void IncreaseRotationY(float y) { m_Rotation.y += y; }
 	void IncreaseRotationZ(float z) { m_Rotation.z += z; }
 
-	bool IsVisible() const { return m_Visible; }
+	bool IsVisible() const { return m_VisibleFlag; }
+	bool IsUpdatable() const { return m_UpdatableFlag; }
 
 	void SetPosition( float x, float y, float z ) { m_Position = DDVECTOR3( x, y, z ); }
 	void SetPosition( DDVECTOR3 point ) { m_Position = point; }
@@ -66,7 +67,8 @@ public:
 	void SetRotation( DDVECTOR3 rotation ) { m_Rotation = rotation; }
 	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = DDVECTOR3( rotationX, rotationY, rotationZ ); }
 	
-	void SetVisible( bool visible ) { m_Visible = visible; }
+	void SetVisible( bool visible ) { m_VisibleFlag = visible; }
+	void SetUpdatable( bool updatable ) { m_UpdatableFlag = updatable; }
 
 	
 
@@ -92,7 +94,8 @@ protected:
 	DDVECTOR3		m_Rotation{ .0f, .0f, .0f };
 	DDVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
-	bool			m_Visible{ true };
+	bool			m_VisibleFlag = true ;
+	bool			m_UpdatableFlag = true;
 
 private : 
 	// NVI 함수 내용

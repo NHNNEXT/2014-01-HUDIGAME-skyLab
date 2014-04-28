@@ -24,7 +24,7 @@ void DDObject::Release( )
 // 내용 : object의 affine변환 및 자식 노드 render
 void DDObject::Render()
 {
-	if ( m_Visible == false ) return;
+	if ( m_VisibleFlag == false ) return;
 		
 	AffineTransfrom();
 	RenderItSelf();
@@ -33,7 +33,7 @@ void DDObject::Render()
 
 void DDObject::Update( float dTime )
 {
-	if ( m_Visible == false ) return;
+	if ( m_UpdatableFlag == false ) return;
 	
 	UpdateItSelf( dTime );
 	UpdateChildNodes( dTime );

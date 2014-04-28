@@ -27,21 +27,26 @@ Player::~Player()
 
 void Player::Init()
 {
+	m_CharacterModel = CharacterModel::Create( L"debris.x" );
+	//m_CharacterModel->SetScale( .5f, .5f, .5f );
+	AddChild( m_CharacterModel );
+
 	if ( GNetworkManager->GetMyPlayerId() == m_PlayerId )
 	{
+		// camera 설정
 		m_Camera = DDCamera::Create();
-
+		AddChild( m_Camera );
+		g_PlayerManager->SetCamera( m_Camera );
+		
+		// 콤파스 설정
 		CompassUI* positionUI = CompassUI::Create( L"tiger.x" );
 		m_Camera->AddChild(positionUI);
 		
-		AddChild( m_Camera );
-		g_PlayerManager->SetCamera( m_Camera );
+		// 내 캐릭터의 visible 끔.
+		m_CharacterModel->SetVisible( false );
 	}
 	/// config.h
-	m_CharacterModel = CharacterModel::Create( L"debris.x" );	
-	m_CharacterModel->SetPosition( .0f, -1.0f, 2.0f );
-	m_CharacterModel->SetScale( .5f, .5f, .5f );
-	AddChild( m_CharacterModel );
+	
 }
 
 
