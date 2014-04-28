@@ -43,14 +43,24 @@ void Character::UpdateItSelf( float dTime )
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 
-	if ( m_IsAccelerating )
+	if ( m_CharacterClass->IsSpinning() )
+	{
+		m_CharacterClass->AddSpinTime( dTime );
+
+		// 회전축을 기준으로 물체를 회전시킵니다.
+		D3DXMATRIXA16 spinTransform;
+		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_CharacterClass->GetSpinTime() );
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
+	}
+
+	if ( m_CharacterClass->IsAccelerating() )
 	{
 		// 조심해! 
 		// 하드코딩 로직 구현하면서 다 바꿀 것 
-		if ( timeGetTime( ) - m_AccelerationStart > ACCELERATION_TIME )
+		if ( timeGetTime( ) - m_CharacterClass->GetAccelerationStartTime() > ACCELERATION_TIME )
 		{
 			// 가속 끝났다
-			m_IsAccelerating = false;
+			m_CharacterClass->SetIsAccelerating( false );
 			m_RigidBody.m_Acceleration = D3DXVECTOR3( 0, 0, 0 );
 		}
 	}
