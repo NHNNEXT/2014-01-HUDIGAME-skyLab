@@ -37,6 +37,8 @@ void NetworkManager::SendAcceleration()
 	if ( m_MyPlayerId == -1 )
 		return;
 
+//	g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GoForward();
+
 	AccelerarionRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
@@ -60,18 +62,31 @@ void NetworkManager::SendStop()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendRotateDirection( float x, float y )
+// SendRotation 수정 : lookat 방향으로 몸을 회전하므로 파라미터가 필요없어서.. 이름을 turnbody로 변경
+// 04.27 김성환
+void NetworkManager::SendTurnBody()
 {
 	if ( m_MyPlayerId == -1 )
-		return;
-
+		return;	
+	
 	RotationRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mRotationX = x;
-	outPacket.mRotationY = y;
-	outPacket.mRotationZ = .0f;
+	
+	
+	// 이 방향이 아닌 카메라의 matrix로 부터 뽑아낸 각도 값으로 packet을 날려야함!!
+// 	D3DXMATRIXA16 rot = g_PlayerManager->GetCamera()->GetMatrix();
+// 	outPacket.mRotationX = D3DXToDegree(atan2( rot._32, rot._33 ));
+// 	outPacket.mRotationY = D3DXToDegree(atan2( -rot._31, sqrt( pow( rot._32, 2 ) + pow( rot._33, 2 ) ) ));
+// 	outPacket.mRotationZ = D3DXToDegree(atan2( rot._21, rot._11 ));
+
+
+	D3DXVECTOR3 rot = g_PlayerManager->GetCamera()->GetRotation();
+	outPacket.mRotationX = rot.x;
+	outPacket.mRotationY = rot.y;
+	outPacket.mRotationZ = rot.z;
+
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -122,7 +137,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_LOGIN, HandleLoginResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ACCELERATION, HandleGoForwardResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STOP, HandleStopResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ROTATION, HandleLookAtResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ROTATION, HandleTurnBodyResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SYNC, HandleSyncResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PUSH, HandlePushResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PULL, HandlePullResult );
@@ -167,13 +182,13 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 }
 
-void NetworkManager::HandleLookAtResult( DDPacketHeader& pktBase )
+void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 {
 	RotationResult inPacket = reinterpret_cast<RotationResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId)->LookAt(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId)->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )

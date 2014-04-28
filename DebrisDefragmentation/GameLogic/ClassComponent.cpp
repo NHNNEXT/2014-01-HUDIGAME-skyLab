@@ -29,11 +29,8 @@ void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 	D3DXVECTOR3 normalVec( 0, 0, 0 );
 	//D3DXVECTOR3 viewDirection( GetViewDirection() );
 	//Physics::GetNormalVector( &viewDirection, &normalVec );
-	D3DXVec3Normalize( &viewDirection, &normalVec );
+	D3DXVec3Normalize( &normalVec, &viewDirection );
 
-	// 조심해!
-	// 가속도 가중치 하드 코딩 수정 할 것, 	
-	// 여기 normalvector가 아니고 view direction을 쓰고있음, 전체구조 손보면 확인할 것.
 	rb.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
 }
 
@@ -43,20 +40,11 @@ void ClassComponent::Stop( Rigidbody& rb )
 	rb.m_Acceleration = ZERO_VECTOR3;
 	rb.m_Velocity = ZERO_VECTOR3;
 }
-
-void ClassComponent::LookAt( D3DXVECTOR3& rotation, float x, float y, float z )
-{
-	// 조심해!
-	// 회전 각도 가중치 하드 코딩 수정 할 것
-	// SetRotation( x / 500, y / 500, 0 );
-	//IncreaseRotationX( x / 10 );
-	rotation += D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_WEIGHT;
-
-// 	rotation.x += x / MOUSE_ROTATION_WEIGHT;
-// 	rotation.x += y / MOUSE_ROTATION_WEIGHT;
-// 	//IncreaseRotationY( y / 10 );
-
-}
+// 
+// void ClassComponent::TurnBody( D3DXVECTOR3& rotation, float x, float y, float z )
+// {
+// 	rotation = D3DXVECTOR3( x, y, z );
+// }
 
 
 bool ClassComponent::CheckRemainOxygen()

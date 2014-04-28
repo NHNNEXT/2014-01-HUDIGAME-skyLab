@@ -102,7 +102,7 @@ private :
 
 	// NVI virtual function
 	virtual void RenderItSelf() {}
-	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER(dTime); }
+	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 };
 // 
 // typedef std::aligned_storage<sizeof( DDObject ), ALIGNMENT_SIZE>::type DDObjectA;

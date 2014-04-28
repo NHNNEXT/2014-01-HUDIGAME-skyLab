@@ -81,17 +81,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BarUIControl.cpp" />
-    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterModel.cpp" />
     <ClCompile Include="Debris.cpp" />
-    <ClCompile Include="FuelUI.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="ISS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CompassUI.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="OxygenUI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -102,17 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
-    <ClInclude Include="BarUIControl.h" />
-    <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterModel.h" />
     <ClInclude Include="Debris.h" />
-    <ClInclude Include="FuelUI.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="ISS.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="CompassUI.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="OxygenUI.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayScene.h" />

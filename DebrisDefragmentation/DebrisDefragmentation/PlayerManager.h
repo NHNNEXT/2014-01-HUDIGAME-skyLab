@@ -2,6 +2,7 @@
 #include "DDConfig.h"
 #include "GameOption.h"
 #include "Player.h"
+#include "DDCamera.h"
 
 // 전방선언
 //class Player;
@@ -36,6 +37,9 @@ public:
 		
 	unsigned int GetCurrentPlayers() const { return m_CurrentPlayers; }
 
+	DDCamera* GetCamera() const { return m_Camera; }
+	void SetCamera( DDCamera* val ) { m_Camera = val; }
+
 // 	int GetFuel( unsigned int playerId ) const { return m_PlayerList[playerId]->GetGas(); }
 // 	int GetOxygen( unsigned int playerId ) const { return m_PlayerList[playerId]->GetOxygen(); }
 
@@ -44,6 +48,8 @@ private:
 	// player list
 	unsigned int	m_CurrentPlayers = 0;
 	std::array<Player*, MAX_PLAYER_NUM> 	m_PlayerList;
+	DDCamera*		m_Camera = nullptr;
+	
 };
 
 extern std::shared_ptr<PlayerManager> g_PlayerManager;

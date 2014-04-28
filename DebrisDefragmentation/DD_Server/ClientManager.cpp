@@ -24,8 +24,8 @@ void ClientManager::BroadcastPacket( ClientSession* from, PacketHeader* pkt )
 	{
 		ClientSession* client = it->second;
 
-// 		if ( from == client )
-// 			continue;
+		if ( from == client )
+			continue;
 
 		client->SendRequest( pkt );
 	}

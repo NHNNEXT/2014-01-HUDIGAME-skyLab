@@ -144,6 +144,11 @@ void PlayScene::UpdateItSelf( float dTime )
 		// 2 : 당기기 스킬 시전!
 		GNetworkManager->SendSkillPull();
 	}
+
+	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
+	{
+		GNetworkManager->SendTurnBody();
+	}
 	// 문교수 커피가 든 컵을 들고 오다가 커피가 손에 닿자...
 	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...라고 말씀하셨다.
 	// ㅋㅋㅋㅋ 카멕님이 적으셨습니까
@@ -151,18 +156,19 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.	
 	DDPoint currentMousePos = GetMousePosition( );
-	// m_pPlayer->RotateDicrection( 
-	//	currentMousePos.GetX() - m_PrevMousePosition.GetX(), 
-	//	currentMousePos.GetY() - m_PrevMousePosition.GetY()
-	//	);
 	
-	// 이것도 서버로 보내야지
-	GNetworkManager->SendRotateDirection(		
+	// 고개 돌리기는 서버로 보낼 필요 없이 클라이언트에서만 적용
+	// 04.27 김성환
+	if ( GNetworkManager->GetMyPlayerId() != -1 ) {
+		g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
 		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
-		currentMousePos.GetX() - m_PrevMousePosition.GetX()
+			currentMousePos.GetX() - m_PrevMousePosition.GetX(),
+			0
 		);
+	}
+	
 
-	MousePointer(false, currentMousePos);
+	MousePointer(MOUSE_POINTER_ON, currentMousePos);
 
 	UpdateUI();
 }
@@ -172,7 +178,7 @@ void PlayScene::UpdateItSelf( float dTime )
 // 04.21 김성환
 void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 {
-	if ( mousePointer )
+	if ( !mousePointer )
 	{
 		// 마우스 커서 500, 500에 놓기
 		/// config.h
@@ -211,7 +217,7 @@ void PlayScene::UpdateUI()
 	// >>> 되긴 되네요. 그런데 스케일을 바꾸면 좌표도 바뀌어서 위치를 재조정해야 함 ㅡㅡ;;
 	// 좀 더 좋은 방법을 찾아봐야 할 듯...
 	
-	int myId = GNetworkManager->GetMyPlayerId();
+	unsigned int myId = GNetworkManager->GetMyPlayerId();
 	
 	// 초기화 덜 됨
 	if ( myId >= g_PlayerManager->GetCurrentPlayers() )
@@ -223,6 +229,6 @@ void PlayScene::UpdateUI()
 	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUIOxygen()->SetScale( currentOxygen / 1000.0f, 1, 1 );
-	g_UIManager->GetUIFuel()->SetScale(  currentFuel / 1000.0f, 1, 1 );
+	g_UIManager->GetUIOxygen()->SetScale( currentOxygen /static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
+	g_UIManager->GetUIFuel()->SetScale( currentFuel / static_cast<float>(DEFAULT_FUEL), 1, 1 );
 }

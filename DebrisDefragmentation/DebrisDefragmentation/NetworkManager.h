@@ -14,7 +14,7 @@ public:
 
 	void SendAcceleration();
 	void SendStop();
-	void SendRotateDirection( float x, float y );
+	void SendTurnBody();
 	void SendSkillPush();
 	void SendSkillPull();
 
@@ -28,7 +28,7 @@ public:
 
 	static void HandleGoForwardResult( DDPacketHeader& pktBase );
 	static void HandleStopResult( DDPacketHeader& pktBase );
-	static void HandleLookAtResult( DDPacketHeader& pktBase );
+	static void HandleTurnBodyResult( DDPacketHeader& pktBase );
 	
 	static void HandlePushResult( DDPacketHeader& pktBase );
 	static void HandlePullResult( DDPacketHeader& pktBase );

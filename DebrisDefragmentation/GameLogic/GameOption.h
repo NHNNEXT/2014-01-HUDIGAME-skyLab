@@ -22,17 +22,21 @@ const int			OXYGEN_COUNSUMED = 1;
 const int			HEALTH_REDUCED_BY_OXYGEN_LEAKAGE = 10;
 const int			GAS_FOR_GOFORWARD = 30;
 
-const int			DEFAULT_OXYGEN = 1000;
-const int			DEFAULT_GAS = 1000;
+const int			DEFAULT_OXYGEN = 3000;
+const int			DEFAULT_FUEL = 5000;
 const int			DEFAULT_HP = 100;
 
 // SKILL
 const float			SKILL_RANGE = 50;
 
 // UI
-const int			UI_OXYGEN_POSITION_X = 25;
-const int			UI_OXYGEN_POSITION_Y = 25;
-const int			UI_FUEL_POSITION_X = 25;
-const int			UI_FUEL_POSITION_Y = 75;
+const float			UI_OXYGEN_POSITION_X = 25.0f;
+const float			UI_OXYGEN_POSITION_Y = 25.0f;
+const float			UI_FUEL_POSITION_X = 25.0f;
+const float			UI_FUEL_POSITION_Y = 75.0f;
+
+
+// setting
+const bool			MOUSE_POINTER_ON = true;
 
 #define				ZERO_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 0.0f )

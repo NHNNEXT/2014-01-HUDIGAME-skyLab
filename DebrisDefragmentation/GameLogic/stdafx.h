@@ -14,6 +14,8 @@
 #include <d3dx9.h>
 #include <array>
 
+#include <d3dx9math.h>
+
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
 // TODO: reference additional headers your program requires here

@@ -64,6 +64,7 @@ public:
 	void	HandleSyncRequest( SyncRequest& inPacket );
 	void	HandleSkillPushRequest( SkillPushRequest& inPacket );
 	void	HandleSkillPullRequest( SkillPullRequest& inPacket );
+	
 
 	int		GetPlayerId() { return mPlayerId; }
 	void	SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }

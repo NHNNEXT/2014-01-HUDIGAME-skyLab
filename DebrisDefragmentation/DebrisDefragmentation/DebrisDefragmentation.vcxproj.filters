@@ -17,9 +17,6 @@
     <Filter Include="GameLogic">
       <UniqueIdentifier>{919601a6-5c8f-474d-91d8-1cd4edbe7ab9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Network">
-      <UniqueIdentifier>{5c96a5c6-3ea4-43b4-b114-57b5ef9ca1ca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Character">
       <UniqueIdentifier>{3170486a-84bb-4930-a465-eac2f81f6310}</UniqueIdentifier>
     </Filter>
@@ -29,16 +26,13 @@
     <Filter Include="Scene\Player">
       <UniqueIdentifier>{366a7c5c-2df3-42fc-a797-c5560b91364d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\UI">
-      <UniqueIdentifier>{84811ef9-8879-4a2f-a57a-3b059700c5a3}</UniqueIdentifier>
+    <Filter Include="Network">
+      <UniqueIdentifier>{5c96a5c6-3ea4-43b4-b114-57b5ef9ca1ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Win32</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Scene\Character</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Scene\Player</Filter>
@@ -62,14 +56,8 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
-    <ClCompile Include="BarUIControl.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="OxygenUI.cpp">
-      <Filter>Scene\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="FuelUI.cpp">
-      <Filter>Scene\UI</Filter>
+    <ClCompile Include="CharacterModel.cpp">
+      <Filter>Scene\Character</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>GameLogic</Filter>
@@ -90,9 +78,6 @@
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>Win32</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Scene\Character</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Scene\Player</Filter>
@@ -119,14 +104,8 @@
     <ClInclude Include="SceneManager.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="BarUIControl.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="OxygenUI.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="FuelUI.h">
-      <Filter>Scene\UI</Filter>
+    <ClInclude Include="CharacterModel.h">
+      <Filter>Scene\Character</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>GameLogic</Filter>
