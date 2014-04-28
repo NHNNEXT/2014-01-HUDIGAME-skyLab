@@ -33,9 +33,11 @@ PlayScene::~PlayScene()
 void PlayScene::Init()
 {	
 	// init JSON
+	// 주의! 지금은 PlayScene에 직접 구현하고 있지만 나중에 JSONManager 같은걸로 따로 빼자!
 	FILE* file;
-	// 이 파일은 실행폴더에 있어야 한다! VS에서 실행할 때는 클래스 파일과 같이 있어야 함
-	const char* filePath = "Config.json";
+	// 이 파일은 해당 폴더에 있어야 한다!
+	// 툴에서도 앞으로 이 경로로 맞추자.. 또르륵
+	const char* filePath = ".\\Resources\\Json\\Config.json";
 	if ( !fopen_s( &file, filePath, "r" ) )
 	{
 		char line[100] = { 0, };
@@ -111,6 +113,10 @@ void PlayScene::Init()
 // 		
 // 		AddChild( tempDebris );
 // 	}
+
+	// test iss added
+	DDModel* pIss = DDModel::Create( L"iss.x" );
+	AddChild( pIss );
 
 	// 조심해! 하드 코딩
 	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것
