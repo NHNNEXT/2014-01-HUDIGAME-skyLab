@@ -43,7 +43,7 @@ public:
 		입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환
 		최경욱 2014. 4. 22
 	*/
-	int DetectTarget( int actorId );
+	int DetectTarget( int actorId, float x, float y, float z );
 
 	// get other object data
 	// 지금은 없습니다.

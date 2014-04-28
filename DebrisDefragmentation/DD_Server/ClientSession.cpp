@@ -499,10 +499,11 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
-	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	// 캐릭터에 적용 안 한다. 패킷에 담겨온 회전 정보는 카메라의 회전 정보일뿐 캐릭터의 회전 정보가 아니다.
+	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId );
+	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -548,10 +549,11 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
-	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	// 같은 이유
+	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId );
+	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )

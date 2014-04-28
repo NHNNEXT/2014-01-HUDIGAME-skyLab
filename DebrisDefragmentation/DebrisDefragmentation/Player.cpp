@@ -78,8 +78,8 @@ void Player::UpdateItSelf( float dTime )
 		}
 	}
 
-	std::tie( m_Position, m_RigidBody.m_Velocity ) = Physics::CalcCurrentPosition( m_Position, m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
-		}
+	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+}
 
 void Player::LookAt( float x, float y, float z )
 {

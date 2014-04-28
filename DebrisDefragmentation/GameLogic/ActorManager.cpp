@@ -148,14 +148,14 @@ bool ActorManager::CheckCollision()
 	return returnVal;
 }
 
-int ActorManager::DetectTarget( int actorId )
+int ActorManager::DetectTarget(int actorId, float x, float y, float z )
 {
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
 	float currentDistance = static_cast<float>( HUGE );
 	int targetId = -1;
 	
-	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( );
+	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 	
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )

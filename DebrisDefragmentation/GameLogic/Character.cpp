@@ -55,7 +55,7 @@ void Character::UpdateItSelf( float dTime )
 		}
 	}
 
-	std::tie( m_Position, m_RigidBody.m_Velocity ) = Physics::CalcCurrentPosition( m_Position, m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
 
 	// printf_s( "%f / %f / %f\n", m_Position.x, m_Position.y, m_Position.z );
 }

@@ -27,7 +27,11 @@ public:
 	D3DXVECTOR3 GetRotation() const { return m_Rotation; }
 	void		IncreaseRotation(float x, float y, float z)	{ m_Rotation += D3DXVECTOR3( x, y, z ); }
 	
+	// 현재 바라보는 방향의 벡터를 월드좌표계 기준으로 반환
 	D3DXVECTOR3 GetViewDirection();
+
+	// 인자로 넣은 회전 변환을 적용한 상태에서 바라보는 방향을 월드 좌표계 기준으로 반환
+	D3DXVECTOR3 GetViewDirection( float x, float y, float z );
 
 	// 현재 변환 행렬이 적용된 충돌 박스 리턴
 	CollisionBox GetCollisionBox() const;

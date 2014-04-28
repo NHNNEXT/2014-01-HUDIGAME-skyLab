@@ -19,10 +19,12 @@ namespace Physics
 	output : 업데이트된 현재 위치
 	주의 : 등속운동인 경우 사용, 가속도에 의한 계산이 필요하면 오버로딩된 함수 사용할 것
 	*/
-	inline D3DXVECTOR3 CalcCurrentPosition( const D3DXVECTOR3 &pos, const D3DXVECTOR3 &velocity, float dt )
+	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _In_ const D3DXVECTOR3 &velocity, _In_ float dt )
 	{
 		// s' = s + v * t	
-		return D3DXVECTOR3( pos.x + ( velocity.x * dt ), pos.y + ( velocity.y * dt ), pos.z + ( velocity.z * dt ) );
+		pos->x = pos->x + ( velocity.x * dt );
+		pos->y = pos->y + ( velocity.y * dt );
+		pos->z = pos->z + ( velocity.z * dt );
 	}
 
 	/*
@@ -30,24 +32,20 @@ namespace Physics
 	output : 업데이트된 현재 위치, 업데이트된 현재 속도
 	주의 : 가속도에 의한 운동인 경우 사용, 등속운동의 경우 오버로딩된 함수 사용할 것
 	*/
-	inline std::tuple<D3DXVECTOR3, D3DXVECTOR3> CalcCurrentPosition( const D3DXVECTOR3 &pos, const D3DXVECTOR3 &velocity, const D3DXVECTOR3 &acceleration, float dt )
+	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _Inout_ D3DXVECTOR3* velocity, _In_ const D3DXVECTOR3 &acceleration, _In_ float dt )
 	{
-		D3DXVECTOR3 returnPosition, returnVelocity;
-
 		// s' = s + v * t + 1/2 * a * t^2
 
 		// v' = v + a * t
-		returnVelocity = CalcCurrentPosition( velocity, acceleration, dt );
+		CalcCurrentPosition( velocity, acceleration, dt );
 
 		// v * t
-		returnPosition = CalcCurrentPosition( pos, velocity, dt );
+		CalcCurrentPosition( pos, *velocity, dt );
 
 		// 1/2 * a * t^2
-		returnPosition.x = pos.x + ( 0.5f * acceleration.x * dt * dt );
-		returnPosition.y = pos.y + ( 0.5f * acceleration.y * dt * dt );
-		returnPosition.z = pos.z + ( 0.5f * acceleration.z * dt * dt );
-
-		return std::tuple<D3DXVECTOR3, D3DXVECTOR3>( returnPosition, returnVelocity );
+		pos->x = pos->x + ( 0.5f * acceleration.x * dt * dt );
+		pos->y = pos->y + ( 0.5f * acceleration.y * dt * dt );
+		pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
 	}
 
 	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
