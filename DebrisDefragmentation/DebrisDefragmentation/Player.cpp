@@ -54,7 +54,18 @@ void Player::Init()
 
 void Player::RenderItSelf()
 {
+	// 자전 변환을 m_Matrix에 추가해서 자식 객체들 - 카메라, 캐릭터 등이 
+	// 자전 변환이 적용된 상태로 계산되게 한다
 
+	if ( m_CharacterClass->IsSpinning( ) )
+	{
+		m_CharacterClass->AddSpinTime( 0.02 );
+
+		// 회전축을 기준으로 물체를 회전시킵니다.
+		D3DXMATRIXA16 spinTransform;
+		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_CharacterClass->GetSpinTime( ) );
+		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
+	}
 }
 
 
@@ -63,8 +74,8 @@ void Player::UpdateItSelf( float dTime )
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	if ( !m_CharacterClass->CheckRemainOxygen() )
 	{
-		printf( "player is dead" );
-		return;
+		// printf( "player is dead" );
+		// return;
 	}
 
 	if ( m_CharacterClass->IsAccelerating() )
@@ -90,4 +101,25 @@ void Player::TurnBody( float x, float y, float z )
 {
 	m_CharacterClass->TurnBody( m_Rotation, x, y, z ); 
 	g_PlayerManager->GetCamera()->SetRotation( ZERO_VECTOR3 );
+}
+
+void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
+{
+	m_CharacterClass->SetSpin( rotationAxis, angularVelocity, m_RigidBody );
+	m_CharacterClass->SetSpinTime( 0.0f );
+	m_CharacterClass->SetSpinnigFlag( true );
+}
+
+void Player::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
+{
+	m_CharacterClass->AddSpin( rotationAxis, angularVelocity, m_RigidBody );
+	// m_SpinTime = 0.0f;
+	m_CharacterClass->SetSpinnigFlag( true );
+}
+
+void Player::StopSpin( )
+{
+	m_CharacterClass->SetSpinnigFlag( false );
+	m_CharacterClass->SetSpinTime( 0.0f );
+	m_CharacterClass->StopSpin( m_RigidBody );
 }

@@ -210,7 +210,11 @@ void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
 	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 
-	printf_s( "skill from %d player\n", inPacket.mPlayerId );
+	// 조심해!
+	// 테스트용 코드
+	player->SetSpin( DDVECTOR3( 0.0f, 1.0f, 0.0f ), 1.1f );
+
+	printf_s( "[SKILL] PUSH from %d player\n", inPacket.mPlayerId );
 }
 
 void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
@@ -224,5 +228,5 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 
-	printf_s( "skill from %d player\n", inPacket.mPlayerId );
+	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
 }

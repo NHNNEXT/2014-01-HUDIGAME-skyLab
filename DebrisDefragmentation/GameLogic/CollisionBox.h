@@ -8,13 +8,13 @@ struct CollisionBox
 	{
 		for ( unsigned int i = 0; i < VECTOR_DIRECTION_3; ++i )
 		{
-			m_AxisDir[i] = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+			m_AxisDir[i] = ZERO_VECTOR3;
 			m_AxisLen[i] = 0.0f;
 		}
 
 		for ( unsigned int i = 0; i < BOX_POINT_COUNT; ++i )
 		{
-			m_PointList[i] = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+			m_PointList[i] = ZERO_VECTOR3;
 		}
 	}
 

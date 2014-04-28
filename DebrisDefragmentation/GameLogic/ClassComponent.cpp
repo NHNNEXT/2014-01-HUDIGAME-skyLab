@@ -40,12 +40,24 @@ void ClassComponent::Stop( Rigidbody& rb )
 	rb.m_Acceleration = ZERO_VECTOR3;
 	rb.m_Velocity = ZERO_VECTOR3;
 }
-// 
-// void ClassComponent::TurnBody( D3DXVECTOR3& rotation, float x, float y, float z )
-// {
-// 	rotation = D3DXVECTOR3( x, y, z );
-// }
 
+void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity, Rigidbody& rigidbody )
+{
+	rigidbody.m_SpinAngle = angularVelocity;
+	rigidbody.m_SpinAxis = rotationAxis;
+}
+
+void ClassComponent::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity, Rigidbody& rigidbody )
+{
+	// 조심해!!
+	// 구현 중
+}
+
+void ClassComponent::StopSpin( Rigidbody& rigidbody )
+{
+	rigidbody.m_SpinAngle = 0.0f;
+	rigidbody.m_SpinAxis = ZERO_VECTOR3;
+}
 
 bool ClassComponent::CheckRemainOxygen()
 {

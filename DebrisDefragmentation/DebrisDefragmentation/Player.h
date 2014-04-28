@@ -27,6 +27,14 @@ public:
 	// 가속도 및 속도 0으로 변경
 	void Stop() { m_CharacterClass->Stop( m_RigidBody ); }
 
+	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+
+	// 현재 자전에 추가 자전 요소 추가 : 차차 구현
+	void AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+
+	// 자전 금지
+	void StopSpin();
+
 	// 바라보는 방향 회전
 	//void LookAt( float x, float y, float z ) { m_CharacterClass->LookAt( m_HeadDirection, x, y, z ); }
 

@@ -22,20 +22,25 @@ public:
 	void TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
 
 	void SetAccelerarion( const D3DXVECTOR3 &direction );
-
 	void IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
 
 	D3DXVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
 
+	// 지정한 축과 각속도로 자전
+	// input : 자전축은 물체의 로컬좌표계 기준으로 사용, 각속도는 말그대로 단위 시간에 회전하는 각도
+	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+
+	// 현재 자전에 추가 자전 요소 추가 : 차차 구현
+	void AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+
+	// 자전 금지
+	void StopSpin();
+
 	float GetMass() const { return m_RigidBody.m_Mass; }
-	
 
 protected:
 	std::shared_ptr<ClassComponent> m_CharacterClass;
 	Rigidbody	m_RigidBody;
-
-	bool		m_IsAccelerating = false;
-	DWORD		m_AccelerationStart = 0;
 
 private:
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
