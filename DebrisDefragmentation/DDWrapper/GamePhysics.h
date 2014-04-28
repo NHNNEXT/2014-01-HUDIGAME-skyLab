@@ -113,14 +113,6 @@ namespace DDWrapper
 		{
 			Physics::CalcCurrentPosition( &pos, &velocity, acceleration, dt );
 		}
-		/*
-		input : 원본 벡터와 결과가 저장될 벡터 주소
-		output : 원본 벡터의 노멀 벡터
-		*/
-		void GetNormalVector( _In_ DDVECTOR3* srcVec, _Out_ DDVECTOR3* normalVec )
-		{
-			Physics::GetNormalVector( srcVec, normalVec );
-		}
 
 		PhysicsData* m_pPhysicsData;
 	};

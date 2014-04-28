@@ -3,6 +3,7 @@
 #include "GameConfig.h"
 #include "CollisionBox.h"
 #include <vector>
+#include <tuple>
 /*
 작성자 : 최경욱
 작성일 : 2014. 4. 6
@@ -18,13 +19,10 @@ namespace Physics
 	output : 업데이트된 현재 위치
 	주의 : 등속운동인 경우 사용, 가속도에 의한 계산이 필요하면 오버로딩된 함수 사용할 것
 	*/
-	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _In_ const D3DXVECTOR3 &velocity, _In_ float dt )
+	inline D3DXVECTOR3 CalcCurrentPosition( const D3DXVECTOR3 &pos, const D3DXVECTOR3 &velocity, float dt )
 	{
 		// s' = s + v * t	
-
-		pos->x = pos->x + ( velocity.x * dt );
-		pos->y = pos->y + ( velocity.y * dt );
-		pos->z = pos->z + ( velocity.z * dt );
+		return D3DXVECTOR3( pos.x + ( velocity.x * dt ), pos.y + ( velocity.y * dt ), pos.z + ( velocity.z * dt ) );
 	}
 
 	/*
@@ -32,33 +30,24 @@ namespace Physics
 	output : 업데이트된 현재 위치, 업데이트된 현재 속도
 	주의 : 가속도에 의한 운동인 경우 사용, 등속운동의 경우 오버로딩된 함수 사용할 것
 	*/
-	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _Inout_ D3DXVECTOR3* velocity, _In_ const D3DXVECTOR3 &acceleration, _In_ float dt )
+	inline std::tuple<D3DXVECTOR3, D3DXVECTOR3> CalcCurrentPosition( const D3DXVECTOR3 &pos, const D3DXVECTOR3 &velocity, const D3DXVECTOR3 &acceleration, float dt )
 	{
+		D3DXVECTOR3 returnPosition, returnVelocity;
+
 		// s' = s + v * t + 1/2 * a * t^2
 
 		// v' = v + a * t
-		CalcCurrentPosition( velocity, acceleration, dt );
+		returnVelocity = CalcCurrentPosition( velocity, acceleration, dt );
 
 		// v * t
-		CalcCurrentPosition( pos, *velocity, dt );
+		returnPosition = CalcCurrentPosition( pos, velocity, dt );
 
 		// 1/2 * a * t^2
-		pos->x = pos->x + ( 0.5f * acceleration.x * dt * dt );
-		pos->y = pos->y + ( 0.5f * acceleration.y * dt * dt );
-		pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
-	}
+		returnPosition.x = pos.x + ( 0.5f * acceleration.x * dt * dt );
+		returnPosition.y = pos.y + ( 0.5f * acceleration.y * dt * dt );
+		returnPosition.z = pos.z + ( 0.5f * acceleration.z * dt * dt );
 
-	/*
-	input : 원본 벡터와 결과가 저장될 벡터 주소
-	output : 원본 벡터의 노멀 벡터
-	*/
-	inline void GetNormalVector( _In_ D3DXVECTOR3* srcVec, _Out_ D3DXVECTOR3* normalVec )
-	{
-		float length = sqrtf( srcVec->x * srcVec->x + srcVec->y * srcVec->y + srcVec->z * srcVec->z );
-
-		normalVec->x = srcVec->x / length;
-		normalVec->y = srcVec->y / length;
-		normalVec->z = srcVec->z / length;
+		return std::tuple<D3DXVECTOR3, D3DXVECTOR3>( returnPosition, returnVelocity );
 	}
 
 	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
