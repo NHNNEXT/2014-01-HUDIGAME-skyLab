@@ -49,18 +49,41 @@ void PlayScene::Init()
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
-	for ( unsigned int i = 0; i < 1000; ++i )
+
+	for ( unsigned int i = 0; i < 100; ++i )
 	{
 		tempDebris = Debris::Create( L"debris.x" );
 		tempDebris->SetPosition(
-			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20, 
-			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20,
-			static_cast<float>( ( rand( ) % 200 ) - 100 ) / 20
+			static_cast<float>( ( rand() % 200 ) - 100 ) / 20,
+			static_cast<float>( ( rand() % 200 ) - 100 ) / 20,
+			static_cast<float>( ( rand() % 200 ) - 100 ) / 20
 			);
 		tempDebris->SetScale( 0.01f, 0.01f, 0.01f );
-		
+
 		AddChild( tempDebris );
 	}
+
+	///////////////////////////////////////////////////////////////////
+	////////////복잡한 데브리 잘 들어가는지 확인하는 함수//////////////
+	////////////   생각보다 로딩이 많이 느려져서 봉인    //////////////
+	///////////////////////////////////////////////////////////////////
+// 	for ( unsigned int i = 0; i < 100; ++i )
+// 	{
+// 		int randX = rand();
+// 		int randY = rand();
+// 		int randZ = rand();
+// 
+// 		tempDebris = Debris::Create( L"debrisOne.x" );
+// 		tempDebris->SetPosition(
+// 			static_cast<float>( ( randX % 200 ) - 100 ) / 20,
+// 			static_cast<float>( ( randY % 200 ) - 100 ) / 20,
+// 			static_cast<float>( ( randZ % 200 ) - 100 ) / 20
+// 			);
+// 		tempDebris->SetScale( 0.02f, 0.02f, 0.02f );
+// 		tempDebris->SetRotation( randX % 360, randX % 360, randX % 360 );
+// 		
+// 		AddChild( tempDebris );
+// 	}
 
 	// 조심해! 하드 코딩
 	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것
@@ -179,15 +202,6 @@ void PlayScene::AddUI()
 	AddChild( g_UIManager->CreateUIOxygen( filePathOxygen, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUIFuel( filePathFuel, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 
-	// Add UI
-// 	FuelUI* pFuelUI = new FuelUI();
-// 	OxygenUI* pOxygenUI = new OxygenUI();
-// 
-// 	pFuelUI->init();
-// 	pOxygenUI->init();
-// 
-// 	m_UICollection.push_back( pFuelUI );
-// 	m_UICollection.push_back( pOxygenUI );
 }
 
 void PlayScene::UpdateUI()

@@ -5,7 +5,7 @@
 DDCamera::DDCamera():
 m_LookatPoint(0.0f, 0.0f, 10.0f)
 {	
-	// SetPosition( 0.0f, 1.0f, -5.0f );
+	 //SetPosition( 0.0f, 1.0f, -3.0f );
 	SetPosition( 0.0f, 0.0f, 1.0f );
 }
 
