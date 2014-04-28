@@ -32,6 +32,32 @@ PlayScene::~PlayScene()
 
 void PlayScene::Init()
 {	
+	// init JSON
+	FILE* file;
+	// 이 파일은 실행폴더에 있어야 한다! VS에서 실행할 때는 클래스 파일과 같이 있어야 함
+	const char* filePath = "Config.json";
+	if ( !fopen_s( &file, filePath, "r" ) )
+	{
+		char line[100] = { 0, };
+		while ( !feof( file ) )
+		{
+			fgets( line, 100, file );
+			m_JsonConfig += line;
+		}
+		
+		fclose( file );
+	}
+	// 설정 파일 로드 실패시 프로그램 죽음
+	else
+	{
+		MessageBox( NULL, L"JSON File Load Fail!", L"Message Box", MB_OK );
+		return;
+	}
+
+	// Json File Mapping
+	rapidjson::Document jConfig;
+	jConfig.Parse<0>( m_JsonConfig.c_str() );
+
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
 	
@@ -50,7 +76,7 @@ void PlayScene::Init()
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
 
-	for ( unsigned int i = 0; i < 100; ++i )
+	for ( unsigned int i = 0; i < jConfig["debriNumbers"].GetInt(); ++i )
 	{
 		tempDebris = Debris::Create( L"debris.x" );
 		tempDebris->SetPosition(
@@ -231,4 +257,9 @@ void PlayScene::UpdateUI()
 	// 현재는 front가 pFuelUI
 	g_UIManager->GetUIOxygen()->SetScale( currentOxygen /static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
 	g_UIManager->GetUIFuel()->SetScale( currentFuel / static_cast<float>(DEFAULT_FUEL), 1, 1 );
+}
+
+void PlayScene::LoadJSON()
+{
+
 }

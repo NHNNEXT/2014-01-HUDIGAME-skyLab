@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DDScene.h"
+#include "../external/rapidjson/document.h"
 
 class DDLight;
 class Player;
@@ -26,8 +27,14 @@ private:
 	void AddUI();
 	void UpdateUI();
 
+	// JSON 관련 함수들
+	void LoadJSON();
+
 	DDLight*	m_pDirectonalLight = nullptr;
 
 	DDPoint		m_PrevMousePosition{.0f,.0f};
+
+	std::string m_JsonConfig;
+
 };
 
