@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "DDConfig.h"
 #include "GameOption.h"
 #include "Player.h"
 #include "DDCamera.h"
 
-// Àü¹æ¼±¾ğ
+// ì „ë°©ì„ ì–¸
 //class Player;
 
 class PlayerManager
@@ -24,7 +24,7 @@ public:
 	DDCamera*	GetCamera() const { return m_Camera; }
 	void		SetCamera( DDCamera* val ) { m_Camera = val; }
 
-	// Ä«¸Ş¶ó ½ÃÁ¡ ¹æÇâÀ» °¡Á®¿À´Â ÇÔ¼ö, yaw(y) pitch(x) roll(z)·Î °¡Á®¿È
+	// ì¹´ë©”ë¼ ì‹œì  ë°©í–¥ì„ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜, yaw(y) pitch(x) roll(z)ë¡œ ê°€ì ¸ì˜´
 	std::tuple<float, float, float> GetCameraViewingDirection();
 
 

@@ -1,4 +1,4 @@
-#include "PlayerManager.h"
+ï»¿#include "PlayerManager.h"
 #include "NetworkManager.h"
 #include "Player.h"
 #include "SceneManager.h"
@@ -9,7 +9,7 @@ std::shared_ptr<PlayerManager> g_PlayerManager = nullptr;
 
 PlayerManager::PlayerManager()
 {
-	// »ı¼º°ú µ¿½Ã¿¡ ¼¼·ÃµÈ ÃÊ±âÈ­¸¦ ÇÒ ¼ö ÀÖ´Â ¹æ¹ıÀÌ ÀÖÀ»°Å°°Àºµ¥..¤Ğ¤Ğ
+	// ìƒì„±ê³¼ ë™ì‹œì— ì„¸ë ¨ëœ ì´ˆê¸°í™”ë¥¼ í•  ìˆ˜ ìˆëŠ” ë°©ë²•ì´ ìˆì„ê±°ê°™ì€ë°..ã… ã… 
 	m_PlayerList.fill( nullptr );
 }
 
@@ -24,18 +24,18 @@ bool PlayerManager::AddPlayer( int playerId )
 	if ( playerId < 0 || playerId >= MAX_PLAYER_NUM )
 		return false;
 
-	// Ä³¸¯ÅÍ ¾øÀ¸¸é ¸®ÅÏ
+	// ìºë¦­í„° ì—†ìœ¼ë©´ ë¦¬í„´
 	if ( m_PlayerList[playerId] != nullptr )
 		return false;
 
-	// »õ Ä³¸¯ÅÍ ¸¸µê
+	// ìƒˆ ìºë¦­í„° ë§Œë“¦
 	m_PlayerList[playerId] = Player::Create( playerId );
 	m_PlayerList[playerId]->Init();
 
 	g_SceneManager->GetScene()->AddChild( m_PlayerList[playerId] );
 	++m_CurrentPlayers;
 
-	// Ã³À½ ¿¬°áÀÏ ¶§, ÇöÀç »ç¿ëÀÚÀÇ ÇÃ·¹ÀÌ¾îÀÏ °ÍÀÌ¹Ç·Î player ID set
+	// ì²˜ìŒ ì—°ê²°ì¼ ë•Œ, í˜„ì¬ ì‚¬ìš©ìì˜ í”Œë ˆì´ì–´ì¼ ê²ƒì´ë¯€ë¡œ player ID set
 	if ( GNetworkManager->GetMyPlayerId() == -1 )
 	{
 		GNetworkManager->SetMyPlayerId( playerId );
@@ -59,7 +59,7 @@ void PlayerManager::DeletePlayer( int playerId )
 
 std::tuple<float, float, float> PlayerManager::GetCameraViewingDirection()
 {
-	// quaternionÈ®ÀÎ¿ë
+	// quaternioní™•ì¸ìš©
 	// 	D3DXMATRIXA16 m_Mat = g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetMatrix();
 	// 	D3DXVECTOR3 m_rot = g_PlayerManager->GetCamera()->GetRotation();
 	// 	D3DXVECTOR3 m_scl = g_PlayerManager->GetCamera()->GetScale();
@@ -73,17 +73,17 @@ std::tuple<float, float, float> PlayerManager::GetCameraViewingDirection()
 
 	D3DXMATRIXA16 rot = m_Camera->GetMatrix();
 
-	// quaternionÀ» axisangle·Î ¹Ù²Ù°í ´Ù½Ã yaw pitch roll·Î ºĞÇØ, ¿ÀÂ÷°¡ Å­..
+	// quaternionì„ axisangleë¡œ ë°”ê¾¸ê³  ë‹¤ì‹œ yaw pitch rollë¡œ ë¶„í•´, ì˜¤ì°¨ê°€ í¼..
 	// 	D3DXVECTOR3 axis( .0f, .0f, .0f );
 	// 	float angle = 0;
 	// 	D3DXQuaternionToAxisAngle( &qtNorm, &axis , &angle );
 	// 	auto angles = GameMatrix::AxisAngleToYawPitchRoll( axis.x, axis.y, axis.z, angle );
 
-	// matrix¿¡¼­ yaw pitch roll·Î ¹Ù·Î ºĞÇØ, ¾ÈµÊ..¤Ğ¤Ğ
+	// matrixì—ì„œ yaw pitch rollë¡œ ë°”ë¡œ ë¶„í•´, ì•ˆë¨..ã… ã… 
 	// 	angles = GameMatrix::fromrotmat( rot );
 
-	D3DXQUATERNION qt, qtNorm;	// quaternion°ú normalized quatenionÀ» ´ã±â À§ÇÑ º¤ÅÍ
-	D3DXVECTOR3	tv1, tv2;	/// decompose ½Ã scale°ú positionÀ» ´ã±â À§ÇÑ ÀÓ½Ã º¤ÅÍ
+	D3DXQUATERNION qt, qtNorm;	// quaternionê³¼ normalized quatenionì„ ë‹´ê¸° ìœ„í•œ ë²¡í„°
+	D3DXVECTOR3	tv1, tv2;	/// decompose ì‹œ scaleê³¼ positionì„ ë‹´ê¸° ìœ„í•œ ì„ì‹œ ë²¡í„°
 	D3DXMatrixDecompose( &tv1, &qt, &tv2, &rot );
 	D3DXQuaternionNormalize( &qtNorm, &qt );
 

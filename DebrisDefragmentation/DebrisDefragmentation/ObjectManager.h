@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ISS.h"
 
 class ObjectManager
@@ -7,7 +7,7 @@ public:
 	ObjectManager();
 	~ObjectManager();
 
-	// ISS´Â ÀÚ½ÅÀÇ ÁÂÇ¥°è¸¦ ¿ùµå ÁÂÇ¥°è¿Í µ¿ÀÏÇÏ°Ô »ç¿ëÇÏ¹Ç·Î ÀÚ½ÅÀÇ m_Pos¸¦ ¹Ù·Î ¸®ÅÏ °¡´É
+	// ISSëŠ” ìì‹ ì˜ ì¢Œí‘œê³„ë¥¼ ì›”ë“œ ì¢Œí‘œê³„ì™€ ë™ì¼í•˜ê²Œ ì‚¬ìš©í•˜ë¯€ë¡œ ìì‹ ì˜ m_Posë¥¼ ë°”ë¡œ ë¦¬í„´ ê°€ëŠ¥
 	DDVECTOR3 GetIssPosition() { return m_Iss.GetPosition(); }
 
 private:

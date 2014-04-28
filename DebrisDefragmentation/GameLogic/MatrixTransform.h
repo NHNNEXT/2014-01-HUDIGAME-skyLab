@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameConfig.h"
 
@@ -50,9 +50,9 @@ namespace GameMatrix
 // 		return std::make_tuple( yaw, pitch, roll );
 // 	}
 
-	// quaternion °ªÀ» yaw pitch roll ·Î º¯È¯
-	// return °ªÀÌ tupleÀÌ¹Ç·Î auto·Î ¹ŞÀ» °Í..
-	// 04.28 ±è¼ºÈ¯
+	// quaternion ê°’ì„ yaw pitch roll ë¡œ ë³€í™˜
+	// return ê°’ì´ tupleì´ë¯€ë¡œ autoë¡œ ë°›ì„ ê²ƒ..
+	// 04.28 ê¹€ì„±í™˜
 	std::tuple<float, float, float> static QuaternionToYawPitchRoll( D3DXQUATERNION q1 ) {
 		float yaw = 0;
 		float roll = 0;

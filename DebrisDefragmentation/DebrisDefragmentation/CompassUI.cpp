@@ -1,4 +1,4 @@
-#include "CompassUI.h"
+ï»¿#include "CompassUI.h"
 #include "ObjectManager.h"
 
 
@@ -71,17 +71,17 @@ void CompassUI::RenderItSelf()
 
 	D3DXMatrixIdentity( &m_Matrix );
 
-	// rotation¿¡¼­ ÄõÅÍ´Ï¾ð »ý¼º, yaw ptich roll Àº y, x, z ¼ø¼­ÀÓ
+	// rotationì—ì„œ ì¿¼í„°ë‹ˆì–¸ ìƒì„±, yaw ptich roll ì€ y, x, z ìˆœì„œìž„
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
 
-	// matrix¸¦ affineº¯È¯ÀÌ Àû¿ëµÈ ÇüÅÂ·Î º¯È¯	
+	// matrixë¥¼ affineë³€í™˜ì´ ì ìš©ëœ í˜•íƒœë¡œ ë³€í™˜	
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 	
 	
 	/**** tilt transform ****/
 
-	/* °¢µµ¸¦ ±¸ÇÏ´Â °úÁ¤ */
-	// ³» À§Ä¡´Â m_Position¿¡ m_Matrix¸¦ °öÇÑ °á°ú (¿ùµå ÁÂÇ¥°è)
+	/* ê°ë„ë¥¼ êµ¬í•˜ëŠ” ê³¼ì • */
+	// ë‚´ ìœ„ì¹˜ëŠ” m_Positionì— m_Matrixë¥¼ ê³±í•œ ê²°ê³¼ (ì›”ë“œ ì¢Œí‘œê³„)
 	D3DXMATRIXA16 parentTransform = m_pParent->GetMatrix();
 	D3DXMatrixMultiply( &parentTransform, &m_Matrix, &parentTransform );
 
@@ -89,63 +89,63 @@ void CompassUI::RenderItSelf()
 	D3DXVec3Transform( &tempPos, &m_Position, &parentTransform );
 	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
 
-	// ISSÀÇ À§Ä¡´Â ISSÀÇ À§Ä¡ ±×´ë·Î »ç¿ë - ÀÌ¹Ì ¿ùµå ÁÂÇ¥°è
+	// ISSì˜ ìœ„ì¹˜ëŠ” ISSì˜ ìœ„ì¹˜ ê·¸ëŒ€ë¡œ ì‚¬ìš© - ì´ë¯¸ ì›”ë“œ ì¢Œí‘œê³„
 	DDVECTOR3 IssDirection = GObjectManager->GetIssPosition() - currentPos;
 
-	// À§¿¡¼­ ±¸ÇÑ »ó´ë ÁÂÇ¥¿¡ ÀÇÇÑ º¤ÅÍ¸¦ ´Ù½Ã ÇöÀç °è»êÀÌ ÁøÇàµÇ´Â ·ÎÄÃ ÁÂÇ¥°è ±âÁØÀ¸·Î º¯È¯ - ·ÎÄÃ ÁÂÇ¥°èÀÇ zº¤ÅÍ¿Í °è»êÀÌ ÇÊ¿äÇÏ¹Ç·Î È¸ÀüÀÌ Àû¿ëµÇ¾î¾ß ÇÑ´Ù
+	// ìœ„ì—ì„œ êµ¬í•œ ìƒëŒ€ ì¢Œí‘œì— ì˜í•œ ë²¡í„°ë¥¼ ë‹¤ì‹œ í˜„ìž¬ ê³„ì‚°ì´ ì§„í–‰ë˜ëŠ” ë¡œì»¬ ì¢Œí‘œê³„ ê¸°ì¤€ìœ¼ë¡œ ë³€í™˜ - ë¡œì»¬ ì¢Œí‘œê³„ì˜ zë²¡í„°ì™€ ê³„ì‚°ì´ í•„ìš”í•˜ë¯€ë¡œ íšŒì „ì´ ì ìš©ë˜ì–´ì•¼ í•œë‹¤
 	D3DXVECTOR4 tempDirection;
 	D3DXVec3Transform( &tempDirection, &IssDirection, &parentTransform );
 	IssDirection = DDVECTOR3( tempDirection.x, tempDirection.y, tempDirection.z );
 
 
-	// ÀÌ·¸°Ô ±¸ÇÑ º¤ÅÍ¸¦ xyÆò¸é¿¡ Åõ¿µÇÏ°í, ´ÜÀ§ º¤ÅÍ·Î ¸¸µéÀÚ
+	// ì´ë ‡ê²Œ êµ¬í•œ ë²¡í„°ë¥¼ xyí‰ë©´ì— íˆ¬ì˜í•˜ê³ , ë‹¨ìœ„ ë²¡í„°ë¡œ ë§Œë“¤ìž
 	float directionYLength = D3DXVec3Dot( &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &IssDirection );
 	float directionXLength = D3DXVec3Dot( &DDVECTOR3( 1.0f, 0.0f, 0.0f ), &IssDirection );
 
 	DDVECTOR3 projectedVector = ( directionYLength * DDVECTOR3( 0.0f, 1.0f, 0.0f ) ) + ( directionXLength * DDVECTOR3( 1.0f, 0.0f, 0.0f ) );
 	D3DXVec3Normalize( &projectedVector, &projectedVector );
 
-	// xÃà°ú Åõ¿µµÈ º¤ÅÍÀÇ »çÀÌ °¢µµ¸¦ ±¸ÇÏÀÚ - È¸ÀüÇÒ °¢µµ
+	// xì¶•ê³¼ íˆ¬ì˜ëœ ë²¡í„°ì˜ ì‚¬ì´ ê°ë„ë¥¼ êµ¬í•˜ìž - íšŒì „í•  ê°ë„
 	float angle = acos( (float)D3DXVec3Dot( &projectedVector, &DDVECTOR3( 1.0f, 0.0f, 0.0f ) ) );
 
-	/* È¸Àü ÃàÀ» ±¸ÇÏ´Â °úÁ¤ */
-	// ÀÌ°Ç zÃàÀÌ´Ù.
+	/* íšŒì „ ì¶•ì„ êµ¬í•˜ëŠ” ê³¼ì • */
+	// ì´ê±´ zì¶•ì´ë‹¤.
 	
 	float tempSign = -directionYLength / abs( directionYLength );
 
-	/* ½ÇÁ¦·Î È¸ÀüÀ» Àû¿ëÇÏ´Â °úÁ¤ */
+	/* ì‹¤ì œë¡œ íšŒì „ì„ ì ìš©í•˜ëŠ” ê³¼ì • */
 	D3DXMATRIXA16 tiltTransform;
 	D3DXMatrixRotationAxis( &tiltTransform, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), tempSign * angle );
 	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
 	
 	/**** look-at transform ****/
 	
-	/* °¢µµ¸¦ ±¸ÇÏ´Â °úÁ¤ */
-	// È¸ÀüÇÒ °¢µµ´Â zÃà°ú ISS·Î ÇâÇÏ´Â »çÀÌ °¢µµ¸¦ ±¸ÇÏ¸é µÈ´Ù.
+	/* ê°ë„ë¥¼ êµ¬í•˜ëŠ” ê³¼ì • */
+	// íšŒì „í•  ê°ë„ëŠ” zì¶•ê³¼ ISSë¡œ í–¥í•˜ëŠ” ì‚¬ì´ ê°ë„ë¥¼ êµ¬í•˜ë©´ ëœë‹¤.
 	DDVECTOR3 IssDirectionUnit;
 	D3DXVec3Normalize( &IssDirectionUnit, &IssDirection );
 	angle = acos( (float)D3DXVec3Dot( &IssDirectionUnit, &DDVECTOR3( 0.0f, 0.0f, 1.0f ) ) );
 
-	/* È¸Àü ÃàÀ» ±¸ÇÏ´Â °úÁ¤ */
-	// È¸ÀüÃàÀº ·ÎÄÃ ÁÂÇ¥°èÀÇ yÃàÀ» tilt transformÇÑ °á°ú
+	/* íšŒì „ ì¶•ì„ êµ¬í•˜ëŠ” ê³¼ì • */
+	// íšŒì „ì¶•ì€ ë¡œì»¬ ì¢Œí‘œê³„ì˜ yì¶•ì„ tilt transformí•œ ê²°ê³¼
 	D3DXVECTOR4 tempAxis;
 	D3DXVec3Transform( &tempAxis, &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &tiltTransform );
 	DDVECTOR3 rotationAxis( tempAxis.x, tempAxis.y, tempAxis.z );
 
-	/* È¸ÀüÀ» Àû¿ëÇÏ´Â °úÁ¤ */
+	/* íšŒì „ì„ ì ìš©í•˜ëŠ” ê³¼ì • */
 	D3DXMATRIXA16 lookatTransform;
 	D3DXMatrixRotationAxis( &lookatTransform, &rotationAxis, -angle );
 	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &lookatTransform );
 	
 
-	// ºÎ¸ðÀÇ ÁÂÇ¥°è¿¡´Ù ³» º¯È¯µÈ ÁÂÇ¥°è¸¦ ´©Àû ½ÃÅ²´Ù!
-	// ºÎ¸ðÀÇ ¾îÆÄÀÎ º¯È¯À» Àû¿ë
+	// ë¶€ëª¨ì˜ ì¢Œí‘œê³„ì—ë‹¤ ë‚´ ë³€í™˜ëœ ì¢Œí‘œê³„ë¥¼ ëˆ„ì  ì‹œí‚¨ë‹¤!
+	// ë¶€ëª¨ì˜ ì–´íŒŒì¸ ë³€í™˜ì„ ì ìš©
 	if ( nullptr != m_pParent )
 	{
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
 	}
 
-	// ÀÚ½Å+ºÎ¸ðÀÇ ¾îÆÄÀÎ º¯È¯À» ¿ùµåÁÂÇ¥°è¿¡ Àû¿ë
+	// ìžì‹ +ë¶€ëª¨ì˜ ì–´íŒŒì¸ ë³€í™˜ì„ ì›”ë“œì¢Œí‘œê³„ì— ì ìš©
 	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix ) ) )
 	{
 		// error 
@@ -155,8 +155,8 @@ void CompassUI::RenderItSelf()
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	
 	/*
-	¸ðµ¨ ±×¸®±â´Â ÀÏ½ÃÀûÀ¸·Î ÁÖ¼®Ã³¸®
-	Áö±ÝÀº Á÷Á¢ ¹öÅØ½º ¹öÆÛ¿¡ Á¡ Âï¾î ³õ°í ±×°É·Î ±×¸² - ¾Æ·¡ ÂüÁ¶
+	ëª¨ë¸ ê·¸ë¦¬ê¸°ëŠ” ì¼ì‹œì ìœ¼ë¡œ ì£¼ì„ì²˜ë¦¬
+	ì§€ê¸ˆì€ ì§ì ‘ ë²„í…ìŠ¤ ë²„í¼ì— ì  ì°ì–´ ë†“ê³  ê·¸ê±¸ë¡œ ê·¸ë¦¼ - ì•„ëž˜ ì°¸ì¡°
 	for ( DWORD i = 0; i < m_dwNumMaterials; ++i )
 	{
 		pD3DDevice->SetMaterial( &m_pMeshMaterials[i] );

@@ -1,4 +1,4 @@
-#include "ISS.h"
+﻿#include "ISS.h"
 
 ISS::ISS()
 {
@@ -15,7 +15,7 @@ ISS::~ISS()
 void ISS::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
-	// ���긮�� �����մϴ�.
+	// 데브리를 정지합니다.
 }
 
 

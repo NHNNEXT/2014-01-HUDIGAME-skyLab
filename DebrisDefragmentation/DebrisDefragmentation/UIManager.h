@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "DDMacro.h"
 #include "GameConfig.h"
 
-//Àü¹æ ¼±¾ğ
+//ì „ë°© ì„ ì–¸
 class DDUI;
 
 class UIManager
@@ -13,10 +13,10 @@ public:
 
 	CREATE_FUNC( UIManager );
 
-	// Á¶½ÉÇØ!!
-	// UIµéÀÇ ÀÚ·á±¸Á¶¸¦ Á¤ÇÏÁö ¸øÇØ¼­ ÀÏ´Ü °³º°·Î »ı¼º
-	// ³ªÁß¿¡ Ãß°¡·Î ¹Ù²ã¾ßÇÔ!!
-	// 4.25 ±è¼ºÈ¯
+	// ì¡°ì‹¬í•´!!
+	// UIë“¤ì˜ ìë£Œêµ¬ì¡°ë¥¼ ì •í•˜ì§€ ëª»í•´ì„œ ì¼ë‹¨ ê°œë³„ë¡œ ìƒì„±
+	// ë‚˜ì¤‘ì— ì¶”ê°€ë¡œ ë°”ê¿”ì•¼í•¨!!
+	// 4.25 ê¹€ì„±í™˜
 	DDUI*	CreateUIOxygen( std::wstring filePath, float x, float y );
 	DDUI*	CreateUIFuel( std::wstring filePath, float x, float y );
 	DDUI*	GetUIFuel() const { return m_UIFuel; }
