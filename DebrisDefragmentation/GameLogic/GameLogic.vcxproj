@@ -83,6 +83,7 @@
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
+    <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="Protector.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ActorManager.h" />

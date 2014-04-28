@@ -13,6 +13,8 @@
 #include <math.h>
 #include <d3dx9.h>
 #include <array>
+#include <vector>
+#include <tuple>
 
 #include <d3dx9math.h>
 

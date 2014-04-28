@@ -84,7 +84,7 @@ void Player::UpdateItSelf( float dTime )
 void Player::LookAt( float x, float y, float z )
 {
 	g_PlayerManager->GetCamera()->IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_WEIGHT );
-	}
+}
 
 void Player::TurnBody( float x, float y, float z )
 {

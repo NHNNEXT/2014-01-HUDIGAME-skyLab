@@ -2,8 +2,6 @@
 
 #include "GameConfig.h"
 #include "CollisionBox.h"
-#include <vector>
-#include <tuple>
 /*
 작성자 : 최경욱
 작성일 : 2014. 4. 6

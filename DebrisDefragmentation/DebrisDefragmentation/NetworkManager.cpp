@@ -2,6 +2,7 @@
 #include "DDNetwork.h"
 #include "PacketType.h"
 #include "PlayerManager.h"
+#include "MatrixTransform.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -67,26 +68,55 @@ void NetworkManager::SendStop()
 void NetworkManager::SendTurnBody()
 {
 	if ( m_MyPlayerId == -1 )
-		return;	
-	
+		return;
+
+	printf( "send turn body\n" );
 	RotationRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	
-	
+
+
+	// quaternion확인용
+	// 	D3DXMATRIXA16 m_Mat = g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetMatrix();
+	// 	D3DXVECTOR3 m_rot = g_PlayerManager->GetCamera()->GetRotation();
+	// 	D3DXVECTOR3 m_scl = g_PlayerManager->GetCamera()->GetScale();
+	// 	D3DXVECTOR3 m_pos = g_PlayerManager->GetCamera()->GetPosition();
+	// 	D3DXMATRIXA16 m_Mat2;
+	// 	D3DXQUATERNION	qRotation;
+	// 	D3DXMatrixIdentity( &m_Mat2 );
+	// 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_rot.y ), D3DXToRadian( m_rot.x ), D3DXToRadian( m_rot.z ) );
+	// 	D3DXMatrixTransformation( &m_Mat2, NULL, NULL, &m_scl, NULL, &qRotation, &m_pos );
+	// 	D3DXMatrixMultiply( &m_Mat2, &m_Mat2, &m_Mat);
+
+
 	// 이 방향이 아닌 카메라의 matrix로 부터 뽑아낸 각도 값으로 packet을 날려야함!!
-// 	D3DXMATRIXA16 rot = g_PlayerManager->GetCamera()->GetMatrix();
-// 	outPacket.mRotationX = D3DXToDegree(atan2( rot._32, rot._33 ));
-// 	outPacket.mRotationY = D3DXToDegree(atan2( -rot._31, sqrt( pow( rot._32, 2 ) + pow( rot._33, 2 ) ) ));
-// 	outPacket.mRotationZ = D3DXToDegree(atan2( rot._21, rot._11 ));
+	D3DXMATRIXA16 rot = g_PlayerManager->GetCamera()->GetMatrix();
 
 
-	D3DXVECTOR3 rot = g_PlayerManager->GetCamera()->GetRotation();
-	outPacket.mRotationX = rot.x;
-	outPacket.mRotationY = rot.y;
-	outPacket.mRotationZ = rot.z;
 
+	D3DXQUATERNION qt, qtNorm;
+	D3DXVECTOR3	tv1, tv2;
+	D3DXMatrixDecompose( &tv1, &qt, &tv2, &rot );
+	float angleX = 0, angleY = 0, angleZ = 0;
+
+	D3DXQuaternionNormalize( &qtNorm, &qt );
+
+	// quaternion을 axisangle로 바꾸고 다시 yaw pitch roll로 분해, 오차가 큼..
+	// 	D3DXVECTOR3 axis( .0f, .0f, .0f );
+	// 	float angle = 0;
+	// 	D3DXQuaternionToAxisAngle( &qtNorm, &axis , &angle );
+	// 	auto angles = GameMatrix::AxisAngleToYawPitchRoll( axis.x, axis.y, axis.z, angle );
+
+	auto angles = GameMatrix::QuaternionToYawPitchRoll( qtNorm );
+	std::tie( angleY, angleX, angleZ ) = angles;
+
+	// 	angles = GameMatrix::fromrotmat( rot );
+	// 	std::tie( angleY, angleX, angleZ ) = angles;
+
+	outPacket.mRotationX = D3DXToDegree( angleX );
+	outPacket.mRotationY = D3DXToDegree( angleY );
+	outPacket.mRotationZ = D3DXToDegree( angleZ );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
