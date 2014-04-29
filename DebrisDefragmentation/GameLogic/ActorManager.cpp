@@ -153,13 +153,14 @@ bool ActorManager::CheckCollision()
 	return returnVal;
 }
 
-int ActorManager::DetectTarget(int actorId, float x, float y, float z )
+std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, float y, float z )
 {
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
 	float currentDistance = static_cast<float>( HUGE );
 	int targetId = -1;
 	
+	D3DXVECTOR3 spinAxis( 0.0f, 0.0f, 0.0f );
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 	
@@ -168,17 +169,19 @@ int ActorManager::DetectTarget(int actorId, float x, float y, float z )
 		if ( i == actorId || m_ActorList[i] == nullptr )
 			continue;
 
-		if ( Physics::IntersectionCheckRayBox( viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
+		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
+		if ( Physics::IntersectionCheckRayBox( &tempAxis, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			float tempDistance = D3DXVec3Length( &( startPoint - m_ActorList[i]->GetPosition() ) );
 			if ( tempDistance < currentDistance )
 			{
 				currentDistance = tempDistance;
+				spinAxis = tempAxis;
 				targetId = i;
 			}
 		}
 	}
 
-	return targetId;
+	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }

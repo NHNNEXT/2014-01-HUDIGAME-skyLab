@@ -504,7 +504,10 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	int targetId = -1;
+	D3DXVECTOR3 spinAxis; 
+	
+	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -513,6 +516,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	// 타겟이 있으면 
 	// for debugging
 	printf_s( "target : %d\n", targetId );
+	
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 
 	targetCharacter->SetAccelerarion( targetCharacter->GetPosition() - m_Character.GetPosition() );
@@ -531,6 +535,14 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	outPacket.mVelocityX = velocity.x;
 	outPacket.mVelocityY = velocity.y;
 	outPacket.mVelocityZ = velocity.z;
+
+	outPacket.mSpinAxisX = spinAxis.x;
+	outPacket.mSpinAxisY = spinAxis.y;
+	outPacket.mSpinAxisZ = spinAxis.z;
+
+	printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
+
+	outPacket.mSpinAngularVelocity = 1.0f;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -554,7 +566,10 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	int targetId = -1;
+	D3DXVECTOR3 spinAxis;
+
+	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -581,6 +596,12 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	outPacket.mVelocityX = velocity.x;
 	outPacket.mVelocityY = velocity.y;
 	outPacket.mVelocityZ = velocity.z;
+
+	outPacket.mSpinAxisX = spinAxis.x;
+	outPacket.mSpinAxisY = spinAxis.y;
+	outPacket.mSpinAxisZ = spinAxis.z;
+
+	outPacket.mSpinAngularVelocity = 1.0f;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

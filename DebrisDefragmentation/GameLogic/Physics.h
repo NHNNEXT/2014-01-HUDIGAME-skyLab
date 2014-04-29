@@ -160,8 +160,11 @@ namespace Physics
 		return true;
 	}
 
-	bool static IntersectionCheckRayBox( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )
+	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )
 	{
+		D3DXVECTOR3 tempIntersection( 0.0f, 0.0f, 0.0f );
+		D3DXVECTOR3 intersectionPoint( 0.0f, 0.0f, 0.0f );
+
 		float maxDistance = static_cast<float>( HUGE );
 		float minDistance = static_cast<float>( -HUGE );
 
@@ -225,21 +228,27 @@ namespace Physics
 				{
 					tempMax = tempDistance1;
 					tempMin = tempDistance2;
+					tempIntersection = upperPoint;
 				}
 				else
 				{
 					tempMax = tempDistance2;
 					tempMin = tempDistance1;
+					tempIntersection = lowerPoint;
 				}
 
 				// 각 축에 대해 수직인 면과 viewDirection이 만나는 점들의 거리에 따른 in out은 
 				// 다른 축에 대한 점들의 in out 조합 중, 가장 좁은 영역의 안에 있거나 모두 밖에 있어야 한다.
-				if ( ( tempMax > maxDistance && tempMin < minDistance )
-					|| ( tempMax < maxDistance && tempMin > minDistance ) )
+				if ( tempMax > maxDistance && tempMin < minDistance )
+				{
+					continue;
+				}
+				else if ( tempMax < maxDistance && tempMin > minDistance )
 				{
 					// 지금 구한 구간이 더 좁은 경우에만 교체
 					maxDistance = ( maxDistance > tempMax ) ? tempMax : maxDistance;
 					minDistance = ( minDistance < tempMin ) ? tempMin : minDistance;
+					intersectionPoint = tempIntersection;
 				}
 				else
 				{
@@ -247,6 +256,9 @@ namespace Physics
 				}
 			}
 		}
+		// 여기서 회전 축을 계산하자
+		// 스핀 축은 물체의 원점과 intersectionPoint를 잇는 벡터와, ray 벡터에 수직 - 외적
+		D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box.m_CenterPos - intersectionPoint ), &viewDirection );
 
 		return true;
 	}

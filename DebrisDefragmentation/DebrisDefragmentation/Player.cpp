@@ -59,6 +59,8 @@ void Player::RenderItSelf()
 
 	if ( m_CharacterClass->IsSpinning( ) )
 	{
+		// 조심해!!
+		// affine transform에 적용해서 한 번에 처리하는 게 좋을 듯
 		m_CharacterClass->AddSpinTime( 0.02 );
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
