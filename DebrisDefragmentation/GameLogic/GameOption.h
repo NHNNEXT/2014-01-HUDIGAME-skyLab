@@ -39,5 +39,10 @@ const float			UI_FRAME_POSITION_Y = 0.0f;
 
 // setting
 const bool			MOUSE_POINTER_ON = false;
+const float			BLUE_TEAM_POS = 200.0f;
+const float			RED_TEAM_POS = -200.0f;
 
 #define				ZERO_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 0.0f )
+#define				X_AXIS_VECTOR3		D3DXVECTOR3( 1.0f, 0.0f, 0.0f )
+#define				Y_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 1.0f, 0.0f )
+#define				Z_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 1.0f )

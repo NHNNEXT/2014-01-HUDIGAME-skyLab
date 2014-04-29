@@ -83,11 +83,16 @@ D3DXVECTOR3 PlayerManager::GetCameraViewingDirection()
 	// 	angles = GameMatrix::fromrotmat( rot );
 
 	D3DXQUATERNION qt, qtNorm;	// quaternion과 normalized quatenion을 담기 위한 벡터
-	D3DXVECTOR3	tv1, tv2, rotationVector3;	/// decompose 시 scale과 position을 담기 위한 임시 벡터
+	D3DXVECTOR3	tv1, tv2, rotationVector3;	/// 리턴벡터 + decompose 시 scale과 position을 담기 위한 임시 벡터
 	D3DXMatrixDecompose( &tv1, &qt, &tv2, &rot );
 	D3DXQuaternionNormalize( &qtNorm, &qt );
 
-	auto ypr = GameMatrix::QuaternionToYawPitchRoll( qtNorm );
+// 	D3DXMATRIXA16 rotMat;
+// 	D3DXMatrixIdentity( &rotMat );
+// 	D3DXMatrixRotationQuaternion( &rotMat, &qtNorm );
+// 	auto ypr = GameMatrix::RotationMatrixToYawPitchRoll( rotMat );
+
+	auto ypr = GameMatrix::QuaternionToYawPitchRoll( qt );
 
 	std::tie( rotationVector3.y, rotationVector3.x, rotationVector3.z ) = ypr;
 

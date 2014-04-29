@@ -28,6 +28,7 @@ bool DDModel::InitModel( std::wstring path )
 	if ( FAILED( D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &m_dwNumMaterials, &m_pMesh ) ) )
 	{
 		// x file loading error
+		printf( "No Model\n" );
 		return false;
 	}
 
@@ -143,7 +144,6 @@ void DDModel::RenderItSelf()
 	{
 		pD3DDevice->SetMaterial( &m_pMeshMaterials[i] );
 		pD3DDevice->SetTexture( 0, m_pMeshTexture[i] );
-
 		m_pMesh->DrawSubset( i );
 	}
 }

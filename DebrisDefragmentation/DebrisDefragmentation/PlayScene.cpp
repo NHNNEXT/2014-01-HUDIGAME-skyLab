@@ -92,11 +92,11 @@ void PlayScene::Init()
 	{
 		tempDebris = Debris::Create( L"debris.x" );
 		tempDebris->SetPosition(
-			static_cast<float>( ( rand() % 200 ) - 100 ) / 20,
-			static_cast<float>( ( rand() % 200 ) - 100 ) / 20,
-			static_cast<float>( ( rand() % 200 ) - 100 ) / 20
+			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
+			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
+			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20
 			);
-		tempDebris->SetScale( 0.01f, 0.01f, 0.01f );
+		tempDebris->SetScale( 0.1f, 0.1f, 0.1f );
 
 		AddChild( tempDebris );
 	}

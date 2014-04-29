@@ -373,6 +373,17 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 
 	m_Character.SetcharacterId( characterId );
 
+	if ( characterId % 2 )
+	{
+		m_Character.SetPosition( .0f, .0f, BLUE_TEAM_POS );
+		m_Character.SetRotation( .0f, 180.0f, .0f );
+	}
+	else
+	{
+		m_Character.SetPosition( .0f, .0f, RED_TEAM_POS );
+	}
+
+
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );
 
