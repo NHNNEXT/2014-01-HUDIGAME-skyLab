@@ -35,6 +35,7 @@ DDUI* UIManager::CreateUIFrame( std::wstring filePath, float x, float y )
 	m_UIFrame = DDUI::Create();
 	m_UIFrame->InitUI( filePath );
 	m_UIFrame->SetPosition( x, y, 0 );
+	m_UIFrame->SetScale( 0.6f, 0.6f, 0.6f );
 	return m_UIFrame;
 }
 

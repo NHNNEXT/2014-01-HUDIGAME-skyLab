@@ -245,8 +245,8 @@ void PlayScene::AddUI()
 	// UI 생성 및 추가 부분을 UI Manager가 처리하도록 뺐음
 	// UI Manager 내부에 UI들을 관리하는 자료구조가 필요함 지금은 일단 노가다로 create함수도 2개 만듬
 	// DDUI 및 UIManager 참고
-	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.bmp";
-	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.bmp";
+	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.png";
+	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.png";
 	std::wstring filePathFrame = L".\\Resources\\Image\\Frame.png";
 	AddChild( g_UIManager->CreateUIOxygen( filePathOxygen, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUIFrame( filePathFrame, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
