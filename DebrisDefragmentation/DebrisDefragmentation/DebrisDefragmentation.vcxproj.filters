@@ -14,9 +14,6 @@
     <Filter Include="Scene\Objects">
       <UniqueIdentifier>{30ca701b-63f9-4417-9a35-ae3e59c26223}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic">
-      <UniqueIdentifier>{919601a6-5c8f-474d-91d8-1cd4edbe7ab9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Character">
       <UniqueIdentifier>{3170486a-84bb-4930-a465-eac2f81f6310}</UniqueIdentifier>
     </Filter>
@@ -28,6 +25,9 @@
     </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{5c96a5c6-3ea4-43b4-b114-57b5ef9ca1ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManagers">
+      <UniqueIdentifier>{919601a6-5c8f-474d-91d8-1cd4edbe7ab9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +41,7 @@
       <Filter>Scene\Objects</Filter>
     </ClCompile>
     <ClCompile Include="GameData.cpp">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="NetworkManager.cpp">
@@ -51,16 +51,16 @@
       <Filter>Scene\Scene</Filter>
     </ClCompile>
     <ClCompile Include="PlayerManager.cpp">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="CharacterModel.cpp">
       <Filter>Scene\Character</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="ISS.cpp">
       <Filter>Scene\Objects</Filter>
@@ -86,7 +86,7 @@
       <Filter>Scene\Objects</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PacketType.h">
       <Filter>Network</Filter>
@@ -99,16 +99,16 @@
       <Filter>Scene\Scene</Filter>
     </ClInclude>
     <ClInclude Include="PlayerManager.h">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="CharacterModel.h">
       <Filter>Scene\Character</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>GameLogic</Filter>
+      <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="ISS.h">
       <Filter>Scene\Objects</Filter>

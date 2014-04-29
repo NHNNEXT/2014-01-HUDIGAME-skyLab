@@ -66,6 +66,23 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 	m_Character.SetcharacterId( characterId );
 	m_Character.Init();
 
+	// 조심해!!
+	// 1. 여기있는게 맞나싶고.. 2. 하드코딩 수정
+	// 팀별로 포지션 정해주는 부분
+	// 이상한건 rotation을 먹이는데 클라에서 lookat에만 적용되고 
+	// rotation엔 적용 안됨(goforward는 본래 z방향으로 감..ㄷㄷ)
+	// 04.29 김성환
+	if ( characterId % 2 == 1 )
+	{
+		m_Character.SetPosition( BLUE_TEAM_POS, .0f, characterId*5 );
+		m_Character.SetRotation( .0f, 270.0f, .0f );
+	}
+	else
+	{
+		m_Character.SetPosition( RED_TEAM_POS, .0f, characterId * 5 );
+		m_Character.SetRotation( .0f, 90.0f, .0f );
+	}
+
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );
 
@@ -372,17 +389,6 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 	}
 
 	m_Character.SetcharacterId( characterId );
-
-	if ( characterId % 2 )
-	{
-		m_Character.SetPosition( .0f, .0f, BLUE_TEAM_POS );
-		m_Character.SetRotation( .0f, 180.0f, .0f );
-	}
-	else
-	{
-		m_Character.SetPosition( .0f, .0f, RED_TEAM_POS );
-	}
-
 
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );

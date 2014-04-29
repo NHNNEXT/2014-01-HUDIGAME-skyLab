@@ -32,6 +32,8 @@ bool PlayerManager::AddPlayer( int playerId )
 	m_PlayerList[playerId] = Player::Create( playerId );
 	m_PlayerList[playerId]->Init();
 
+
+
 	g_SceneManager->GetScene()->AddChild( m_PlayerList[playerId] );
 	++m_CurrentPlayers;
 
