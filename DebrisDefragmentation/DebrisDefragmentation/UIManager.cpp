@@ -30,3 +30,19 @@ DDUI* UIManager::CreateUIFuel( std::wstring filePath, float x, float y )
 }
 
 
+DDUI* UIManager::CreateUIFrame( std::wstring filePath, float x, float y )
+{
+	m_UIFrame = DDUI::Create();
+	m_UIFrame->InitUI( filePath );
+	m_UIFrame->SetPosition( x, y, 0 );
+	return m_UIFrame;
+}
+
+// 아직 쓰지 마시오!
+DDUI* UIManager::CreateUI( std::wstring filePath, float x, float y )
+{
+	DDUI* ui = DDUI::Create();
+	ui->InitUI( filePath );
+	ui->SetPosition( x, y, 0 );
+	return ui;
+}

@@ -34,7 +34,8 @@ const float			UI_OXYGEN_POSITION_X = 25.0f;
 const float			UI_OXYGEN_POSITION_Y = 25.0f;
 const float			UI_FUEL_POSITION_X = 25.0f;
 const float			UI_FUEL_POSITION_Y = 75.0f;
-
+const float			UI_FRAME_POSITION_X = 0.0f;
+const float			UI_FRAME_POSITION_Y = 0.0f;
 
 // setting
 const bool			MOUSE_POINTER_ON = false;

@@ -247,7 +247,9 @@ void PlayScene::AddUI()
 	// DDUI 및 UIManager 참고
 	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.bmp";
 	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.bmp";
+	std::wstring filePathFrame = L".\\Resources\\Image\\Frame.png";
 	AddChild( g_UIManager->CreateUIOxygen( filePathOxygen, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
+	AddChild( g_UIManager->CreateUIFrame( filePathFrame, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUIFuel( filePathFuel, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 
 }
@@ -267,11 +269,11 @@ void PlayScene::UpdateUI()
 		return;
 	}
 
-	int currentOxygen = g_PlayerManager->GetPlayer(myId)->GetOxygen();
+	int currentOxygen = g_PlayerManager->GetPlayer( myId )->GetOxygen();
 	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUIOxygen()->SetScale( currentOxygen /static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
+	g_UIManager->GetUIOxygen()->SetScale( currentOxygen / static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
 	g_UIManager->GetUIFuel()->SetScale( currentFuel / static_cast<float>(DEFAULT_FUEL), 1, 1 );
 }
 
