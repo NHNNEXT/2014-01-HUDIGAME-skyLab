@@ -40,13 +40,17 @@ void PlayScene::Init()
 	const char* filePath = ".\\Resources\\Json\\Config.json";
 	if ( !fopen_s( &file, filePath, "r" ) )
 	{
+		
 		char line[100] = { 0, };
 		while ( !feof( file ) )
 		{
 			fgets( line, 100, file );
 			m_JsonConfig += line;
 		}
-		
+		// 방어 코드 : JSON 파일 앞에 { 가 나오기 전까지 이상한 문자들이 들어오면 다 자름
+		int startPosition = m_JsonConfig.find_first_of( '{' );
+		m_JsonConfig.erase( 0, ( startPosition > 0 ? startPosition  : 0) );
+
 		fclose( file );
 	}
 	// 설정 파일 로드 실패시 프로그램 죽음
@@ -70,14 +74,19 @@ void PlayScene::Init()
 // 	}	
 	AddChild( m_pDirectonalLight );
 	
-	// test skybox
+	// skybox
 	SkyBox* sb = SkyBox::Create( L"skybox.x" );
 	AddChild( sb );
+
+	// earth :: 바닥에 지구를 깐다!
+	DDModel* earth = DDModel::Create( L"earth.x" );
+	earth->SetPosition( 0, -800, 0 );
+	AddChild( earth );
 
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
-	int debrisCount = jConfig["debriNumbers"].GetInt();
+	int debrisCount = jConfig["debrisNumber"].GetInt();
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
