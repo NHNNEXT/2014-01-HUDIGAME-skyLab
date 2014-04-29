@@ -194,7 +194,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 04.27 김성환
 	if ( GNetworkManager->GetMyPlayerId() != -1 ) {
 		g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
-		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
+			currentMousePos.GetY() - m_PrevMousePosition.GetY(),
 			currentMousePos.GetX() - m_PrevMousePosition.GetX(),
 			0
 		);

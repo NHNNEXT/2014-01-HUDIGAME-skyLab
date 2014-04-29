@@ -54,7 +54,7 @@ namespace GameMatrix
 	// return 값이 tuple이므로 auto로 받을 것..
 	// 04.28 김성환
 	///# 이런거 DX같은데 있지 않남?
-	std::tuple<float, float, float> static QuaternionToYawPitchRoll( D3DXQUATERNION q1 ) {
+	static std::tuple<float, float, float> QuaternionToYawPitchRoll( D3DXQUATERNION q1 ) {
 		float yaw = 0;
 		float roll = 0;
 		float pitch = 0;
