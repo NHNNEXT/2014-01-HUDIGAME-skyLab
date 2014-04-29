@@ -109,6 +109,13 @@ namespace Physics
 	}
 	*/
 
+	///# 보통 충돌 함수는 operator overloading으로 많이 해결한다.. 아래처럼 인터섹션이 있는가?
+	/// .... 나중에 if ( box1 & box2 ) 체크해보면 간단하겠지..
+	bool static operator& (const CollisionBox& lhs, const CollisionBox& rhs)
+	{
+		return true;
+	}
+
 	bool static IsCollide( const CollisionBox &box1, const CollisionBox &box2 )
 	{
 		// TransformCollisionBox( box1 );

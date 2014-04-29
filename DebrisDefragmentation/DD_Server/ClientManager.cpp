@@ -112,6 +112,8 @@ void ClientManager::FlushClientSend()
 
 void ClientManager::SyncAll( )
 {
+	///# ㄷㄷㄷ 너무하다..
+
 	// 조심해!
 	// 작업 오버헤드가 너무 큰 것 같은데...
 	// 일단 이번 주는 컴퓨터를 믿고 그냥 ㄱㄱ
