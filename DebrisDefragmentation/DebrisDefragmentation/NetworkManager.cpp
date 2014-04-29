@@ -195,6 +195,7 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId)->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
