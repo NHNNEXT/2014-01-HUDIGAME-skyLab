@@ -8,6 +8,7 @@ struct CUSTOMVERTEX
 {
 	D3DXVECTOR3 position; // The position
 	D3DCOLOR color;    // The color
+	FLOAT tu, tv;   // The texture coordinates
 };
 
 CompassUI::CompassUI()
@@ -28,7 +29,8 @@ void CompassUI::Init()
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 
 	// Use D3DX to create a texture from a file based image
-	if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\3DModel\\banana.bmp", &m_pTexture ) ) )
+	// if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\3DModel\\banana.bmp", &m_pTexture ) ) )
+	if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\Image\\compass2.png", &m_pTexture ) ) )
 		return;
 
 	// Create the vertex buffer.
@@ -46,14 +48,18 @@ void CompassUI::Init()
 		return;
 
 	for ( DWORD i = 0; i < 50; i++ )
-	// for ( int i = 49; i >= 0; --i )
 	{
 		FLOAT theta = ( 2 * D3DX_PI * i ) / ( 50 - 1 );
 
-		pVertices[2 * i + 0].position = D3DXVECTOR3( sinf( theta ) * 3.0f, -0.1f, cosf( theta ) * 3.0f );
-		pVertices[2 * i + 0].color = 0xff880000;
-		pVertices[2 * i + 1].position = D3DXVECTOR3( sinf( theta ) * 3.0f, 0.1f, cosf( theta ) * 3.0f );
-		pVertices[2 * i + 1].color = 0xff880000;
+		pVertices[2 * i + 0].position = D3DXVECTOR3( sinf( theta ) * 1.5f, -0.08f, cosf( theta ) * 1.5f );
+		pVertices[2 * i + 0].color = 0xbbffffff;
+		pVertices[2 * i + 0].tu = ( (FLOAT)i ) / ( 50 - 1 );
+		pVertices[2 * i + 0].tv = 1.0f;
+
+		pVertices[2 * i + 1].position = D3DXVECTOR3( sinf( theta ) * 1.5f, 0.08f, cosf( theta ) * 1.5f );
+		pVertices[2 * i + 1].color = 0xbbffffff;
+		pVertices[2 * i + 1].tu = ( (FLOAT)i ) / ( 50 - 1 );
+		pVertices[2 * i + 1].tv = 0.0f;
 	}
 	m_pVB->Unlock();
 }
@@ -116,7 +122,7 @@ void CompassUI::RenderItSelf()
 	/* 실제로 회전을 적용하는 과정 */
 	D3DXMATRIXA16 tiltTransform;
 	D3DXMatrixRotationAxis( &tiltTransform, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), tempSign * angle );
-	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
+	
 	
 	/**** look-at transform ****/
 	
@@ -124,7 +130,7 @@ void CompassUI::RenderItSelf()
 	// 회전할 각도는 z축과 ISS로 향하는 사이 각도를 구하면 된다.
 	DDVECTOR3 IssDirectionUnit;
 	D3DXVec3Normalize( &IssDirectionUnit, &IssDirection );
-	angle = acos( (float)D3DXVec3Dot( &IssDirectionUnit, &DDVECTOR3( 0.0f, 0.0f, 1.0f ) ) );
+	angle = acos( (float)D3DXVec3Dot( &IssDirectionUnit, &DDVECTOR3( m_Matrix._31, m_Matrix._32, m_Matrix._33 ) ) );
 
 	/* 회전 축을 구하는 과정 */
 	// 회전축은 로컬 좌표계의 y축을 tilt transform한 결과
@@ -134,7 +140,9 @@ void CompassUI::RenderItSelf()
 
 	/* 회전을 적용하는 과정 */
 	D3DXMATRIXA16 lookatTransform;
-	D3DXMatrixRotationAxis( &lookatTransform, &rotationAxis, -angle );
+	D3DXMatrixRotationAxis( &lookatTransform, &rotationAxis, tempSign * angle );
+
+	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
 	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &lookatTransform );
 	
 

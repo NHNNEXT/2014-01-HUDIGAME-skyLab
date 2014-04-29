@@ -37,6 +37,6 @@ const float			UI_FUEL_POSITION_Y = 75.0f;
 
 
 // setting
-const bool			MOUSE_POINTER_ON = true;
+const bool			MOUSE_POINTER_ON = false;
 
 #define				ZERO_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 0.0f )
