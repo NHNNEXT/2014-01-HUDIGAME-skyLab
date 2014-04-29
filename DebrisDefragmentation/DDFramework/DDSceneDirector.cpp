@@ -1,4 +1,4 @@
-#include "DDSceneDirector.h"
+ï»¿#include "DDSceneDirector.h"
 
 #include "DDConfig.h"
 #include "DDScene.h"	
@@ -19,8 +19,8 @@ bool DDSceneDirector::Init()
 
 bool DDSceneDirector::Release()
 {
-	// agebreak : ¿ÜºÎ¿¡¼­ ¹Ş¾Æ¿Â SceneÀ» ³»ºÎ¿¡¼­ Á×ÀÌ´Â °ÍÀÌ °ú¿¬ ¿ÇÀº µğÀÚÀÎÀÏ±î?
-	// sceneÀº °ÔÀÓ ¾È¿¡ ÀÖ´Â scene director¿¡¼­ releaseÇÏ´Â °É·Î
+	// agebreak : ì™¸ë¶€ì—ì„œ ë°›ì•„ì˜¨ Sceneì„ ë‚´ë¶€ì—ì„œ ì£½ì´ëŠ” ê²ƒì´ ê³¼ì—° ì˜³ì€ ë””ìì¸ì¼ê¹Œ?
+	// sceneì€ ê²Œì„ ì•ˆì— ìˆëŠ” scene directorì—ì„œ releaseí•˜ëŠ” ê±¸ë¡œ
 	
 	return true;
 }
@@ -29,7 +29,7 @@ void DDSceneDirector::UpdateScene( float dt )
 {
 	if ( nullptr == m_pCurrentScene )
 	{
-		// error : scene ¾øÀ½
+		// error : scene ì—†ìŒ
 		return ;
 	}
 
@@ -41,7 +41,7 @@ void DDSceneDirector::RenderScene()
 {
 	if ( nullptr == m_pCurrentScene )
 	{
-		// error : scene ¾øÀ½
+		// error : scene ì—†ìŒ
 		return;
 	}
 
@@ -57,7 +57,7 @@ void DDSceneDirector::ChangeScene( DDScene* scene )
 	}
 	else
 	{
-		// agebreak : ¸¸¾à ¿ÜºÎ¿¡¼­ ¾ÀÀ» µÎ°³ »ı¼ºÇØ³õ°í, ÇÊ¿äÇÒ¶§¸¶´Ù Ã¼ÀÎÁö ÇÑ´Ù¸é??
+		// agebreak : ë§Œì•½ ì™¸ë¶€ì—ì„œ ì”¬ì„ ë‘ê°œ ìƒì„±í•´ë†“ê³ , í•„ìš”í• ë•Œë§ˆë‹¤ ì²´ì¸ì§€ í•œë‹¤ë©´??
 		// SafeDelete( m_pCurrentScene );
 		m_pCurrentScene = scene;
 	}

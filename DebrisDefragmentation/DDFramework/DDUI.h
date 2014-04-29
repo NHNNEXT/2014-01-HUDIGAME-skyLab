@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DDObject.h"
 class DDUI :
 	public DDObject
@@ -16,11 +16,11 @@ protected:
 	ID3DXSprite* m_pUIObject = nullptr;
 	LPDIRECT3DTEXTURE9 m_pTexture = nullptr;
 
-	// m_pCenter == NULL Àº ½ºÇÁ¶óÀÌÆ® ¿ŞÂÊ ³¡¿¡¼­ ±×¸®°Ú´Ù´Â °Ì´Ï´Ù
+	// m_pCenter == NULL ì€ ìŠ¤í”„ë¼ì´íŠ¸ ì™¼ìª½ ëì—ì„œ ê·¸ë¦¬ê² ë‹¤ëŠ” ê²ë‹ˆë‹¤
 	//DDVECTOR3	m_Center{ .0f, .0f, .0f };
-	// m_pRect == NULL Àº ÀüÃ¼ ÅØ½ºÃÄ¸¦ ´Ù ¾²°Ú´Ù´Â ¶æÀÔ´Ï´Ù
+	// m_pRect == NULL ì€ ì „ì²´ í…ìŠ¤ì³ë¥¼ ë‹¤ ì“°ê² ë‹¤ëŠ” ëœ»ì…ë‹ˆë‹¤
 	//RECT		m_Rect;
-	D3DCOLOR	m_Color = 0xFFFFFFFF;  // º»·¡ »ö±ò
+	D3DCOLOR	m_Color = 0xFFFFFFFF;  // ë³¸ë˜ ìƒ‰ê¹”
 
 private :
 	virtual void RenderItSelf();

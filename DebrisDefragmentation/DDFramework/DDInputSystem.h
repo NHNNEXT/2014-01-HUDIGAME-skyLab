@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 /*
-	ÀÛ¼ºÀÚ : ÃÖ°æ¿í
-	ÀÛ¼ºÀÏ : 2014. 4. 6
-	³»¿ë : ÀÎÇ² °ªÀ» ¾÷µ¥ÀÌÆ®ÇØ¼­ ±â·ÏÇÏ°í, ¿äÃ»¹ÞÀº Å°¿¡ ´ëÇÑ ÇöÀç »óÅÂ¸¦ ¹ÝÈ¯ (NNGameFramework¿Í µ¿ÀÏ)
+	ìž‘ì„±ìž : ìµœê²½ìš±
+	ìž‘ì„±ì¼ : 2014. 4. 6
+	ë‚´ìš© : ì¸í’‹ ê°’ì„ ì—…ë°ì´íŠ¸í•´ì„œ ê¸°ë¡í•˜ê³ , ìš”ì²­ë°›ì€ í‚¤ì— ëŒ€í•œ í˜„ìž¬ ìƒíƒœë¥¼ ë°˜í™˜ (NNGameFrameworkì™€ ë™ì¼)
 */
 #include "DDConfig.h"
 #include "DDPoint.h"

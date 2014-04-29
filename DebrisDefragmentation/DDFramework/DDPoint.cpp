@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "DDPoint.h"
 
 // inline DDPoint& DDPoint::operator=( const DDPoint& point )

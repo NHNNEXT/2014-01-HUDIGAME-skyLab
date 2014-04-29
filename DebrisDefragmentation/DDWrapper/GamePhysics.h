@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vcclr.h>
 
 #include "GameModel.h"
@@ -12,7 +12,7 @@ namespace DDWrapper
 	public class PhysicsData
 	{
 	public:
-		// °¡¼Ó ½ÃÀÛ°ú ³¡¿¡ ´ëÇÑ Ã³¸®.
+		// ê°€ì† ì‹œìž‘ê³¼ ëì— ëŒ€í•œ ì²˜ë¦¬.
 		void StartAccelation()
 		{
 			if ( m_IsAccelerating )
@@ -33,14 +33,14 @@ namespace DDWrapper
 			m_IsAccelerating = false;
 		}
 
-		// °¡¼Ó ÁßÀÎÁö ¾Æ´ÑÁö¸¦ ¾Ë·ÁÁØ´Ù.
+		// ê°€ì† ì¤‘ì¸ì§€ ì•„ë‹Œì§€ë¥¼ ì•Œë ¤ì¤€ë‹¤.
 		bool IsAccelation() { return m_IsAccelerating; }
 
-		// ÃÑ °¡¼Ó ½Ã°£À» ¹ÝÈ¯ÇÑ´Ù.
+		// ì´ ê°€ì† ì‹œê°„ì„ ë°˜í™˜í•œë‹¤.
 		DWORD TimeOfAccelation() { return m_dTime; }
 
 	private:
-		// °¡¼Ó ½Ã°£À» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+		// ê°€ì† ì‹œê°„ì„ ì—…ë°ì´íŠ¸í•œë‹¤.
 		void Update() { m_dTime = timeGetTime() - m_StartTime; }
 
 		DWORD m_dTime = DWORD(0.0);
@@ -55,7 +55,7 @@ namespace DDWrapper
 		GamePhysics() : m_pPhysicsData( new PhysicsData() ) {};
 		~GamePhysics() {};
 
-		// µî¼Ó
+		// ë“±ì†
 		void MoveObject( GameModel^ object, float velocityX, float velocityY, float velocityZ, float dt )
 		{
 			DDVECTOR3 result = object->GetPosition();
@@ -65,8 +65,8 @@ namespace DDWrapper
 			object->SetPosition( result );
 		}
 
-		// µî°¡¼Ó
-		// ÁÖÀÇ : velocity °ªÀ» º¯°æÇØÁÖÁö ¾ÊÀ¸¹Ç·Î È£ÃâÇÑ ÂÊ¿¡¼­ ¸Å¹ø dt¸¸Å­ °»½ÅÇØ¾ß ÇÑ´Ù.
+		// ë“±ê°€ì†
+		// ì£¼ì˜ : velocity ê°’ì„ ë³€ê²½í•´ì£¼ì§€ ì•Šìœ¼ë¯€ë¡œ í˜¸ì¶œí•œ ìª½ì—ì„œ ë§¤ë²ˆ dtë§Œí¼ ê°±ì‹ í•´ì•¼ í•œë‹¤.
 		bool AccelObject( GameModel^ object, float velocityX, float velocityY, float velocityZ,
 			float accelX, float accelY, float accelZ, float dt )
 		{
@@ -82,32 +82,32 @@ namespace DDWrapper
 			if ( m_pPhysicsData->TimeOfAccelation() > 500 )
 			{
 				m_pPhysicsData->StopAccelation();
-				// °¡¼Ó ³¡. false¸¦ ¹ÞÀ¸¸é È£ÃâÇÑ ÂÊ¿¡¼­´Â °¡¼Óµµ Çà·ÄÀ» 0À¸·Î ¸¸µç´Ù.
+				// ê°€ì† ë. falseë¥¼ ë°›ìœ¼ë©´ í˜¸ì¶œí•œ ìª½ì—ì„œëŠ” ê°€ì†ë„ í–‰ë ¬ì„ 0ìœ¼ë¡œ ë§Œë“ ë‹¤.
 				return false;
 			}
 			else
 			{
-				// °¡¼Ó OK
+				// ê°€ì† OK
 				return true;
 			}
 		}
 
-		// ÀÚ·áÇüÀÌ ´Þ¶ó¼­ C#¿¡¼­ ¹Ù·Î ¾²Áö´Â ¸øÇÔ
-		// Àß °íÃÄº¾½Ã´Ù
+		// ìžë£Œí˜•ì´ ë‹¬ë¼ì„œ C#ì—ì„œ ë°”ë¡œ ì“°ì§€ëŠ” ëª»í•¨
+		// ìž˜ ê³ ì³ë´…ì‹œë‹¤
 	private:
 		/*
-		input : ÇöÀç À§Ä¡, ¼Óµµ, ½Ã°£ º¯È­·®
-		output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡
-		ÁÖÀÇ : µî¼Ó¿îµ¿ÀÎ °æ¿ì »ç¿ë, °¡¼Óµµ¿¡ ÀÇÇÑ °è»êÀÌ ÇÊ¿äÇÏ¸é ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+		input : í˜„ìž¬ ìœ„ì¹˜, ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+		output : ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ìœ„ì¹˜
+		ì£¼ì˜ : ë“±ì†ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ê°€ì†ë„ì— ì˜í•œ ê³„ì‚°ì´ í•„ìš”í•˜ë©´ ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 		*/
 		void CalcCurrentPosition( _Inout_ DDVECTOR3& pos, const DDVECTOR3& velocity, float dt )
 		{
 			Physics::CalcCurrentPosition( &pos, velocity, dt );
 		}
 		/*
-		input : ÇöÀç À§Ä¡, ÇöÀç ¼Óµµ, °¡¼Óµµ, ½Ã°£ º¯È­·®
-		output : ¾÷µ¥ÀÌÆ®µÈ ÇöÀç À§Ä¡, ¾÷µ¥ÀÌÆ®µÈ ÇöÀç ¼Óµµ
-		ÁÖÀÇ : °¡¼Óµµ¿¡ ÀÇÇÑ ¿îµ¿ÀÎ °æ¿ì »ç¿ë, µî¼Ó¿îµ¿ÀÇ °æ¿ì ¿À¹ö·ÎµùµÈ ÇÔ¼ö »ç¿ëÇÒ °Í
+		input : í˜„ìž¬ ìœ„ì¹˜, í˜„ìž¬ ì†ë„, ê°€ì†ë„, ì‹œê°„ ë³€í™”ëŸ‰
+		output : ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ìœ„ì¹˜, ì—…ë°ì´íŠ¸ëœ í˜„ìž¬ ì†ë„
+		ì£¼ì˜ : ê°€ì†ë„ì— ì˜í•œ ìš´ë™ì¸ ê²½ìš° ì‚¬ìš©, ë“±ì†ìš´ë™ì˜ ê²½ìš° ì˜¤ë²„ë¡œë”©ëœ í•¨ìˆ˜ ì‚¬ìš©í•  ê²ƒ
 		*/
 		void CalcCurrentPosition( _Inout_ DDVECTOR3& pos, _Inout_ DDVECTOR3& velocity, const DDVECTOR3& acceleration, float dt )
 		{

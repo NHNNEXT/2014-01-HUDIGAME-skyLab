@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "DDObject.h"
 
 namespace DDWrapper
 {
-	// ¼ÖÁ÷È÷ ÀÌ°É ¹Ù·Î ºÎ¸¦ ÀÏÀº º°·Î ¾øÀ» °Í °°±ä ÇÔ
-	// ±×·±µ¥ ±×°ÍÀÌ ½ÇÁ¦·Î ÀÏ¾î³µ½À´Ï´Ù
+	// ì†”ì§ížˆ ì´ê±¸ ë°”ë¡œ ë¶€ë¥¼ ì¼ì€ ë³„ë¡œ ì—†ì„ ê²ƒ ê°™ê¸´ í•¨
+	// ê·¸ëŸ°ë° ê·¸ê²ƒì´ ì‹¤ì œë¡œ ì¼ì–´ë‚¬ìŠµë‹ˆë‹¤
 	public ref class GameObject
 	{
 	public:
@@ -23,8 +23,8 @@ namespace DDWrapper
 
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
 		void AddChild( DDWrapper::GameObject^ object ) { m_pObject->AddChild( object->GetPointer() ); };
-		// AddChild´Â Æ÷ÀÎÅÍ¸¦ ¹Þ¾Æ¾ß µÇ´Âµ¥ C#Àº Æ÷ÀÎÅÍ¸¦ ¸ø ½á¼­ ¸¸µç ¸Þ¼Òµåµé
-		// º° °Å ¾Æ´ÏÁö¸¸ ÀÌ·¸°Ô ¾µ·Á¸é Model, Camera, Light°¡ Object À§¿¡ ¼±¾ðµÇ¾î ÀÖ¾î¾ß ÇÔ
+		// AddChildëŠ” í¬ì¸í„°ë¥¼ ë°›ì•„ì•¼ ë˜ëŠ”ë° C#ì€ í¬ì¸í„°ë¥¼ ëª» ì¨ì„œ ë§Œë“  ë©”ì†Œë“œë“¤
+		// ë³„ ê±° ì•„ë‹ˆì§€ë§Œ ì´ë ‡ê²Œ ì“¸ë ¤ë©´ Model, Camera, Lightê°€ Object ìœ„ì— ì„ ì–¸ë˜ì–´ ìžˆì–´ì•¼ í•¨
 		// 		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
 		// 		void AddChild( DDWrapper::GameCamera^ object ) { AddChild( object->GetPointer() ); };
 		// 		void AddChild( DDWrapper::GameLight^ object ) { AddChild( object->GetPointer() ); };
@@ -75,7 +75,7 @@ namespace DDWrapper
 
 		void SetVisible( bool visible ) { m_pObject->SetVisible( visible ); };
 
-		// zÃà ¹æÇâ º¤ÅÍ¸¦ ¿ùµå ÁÂÇ¥°è ±âÁØÀ¸·Î ¹ÝÈ¯
+		// zì¶• ë°©í–¥ ë²¡í„°ë¥¼ ì›”ë“œ ì¢Œí‘œê³„ ê¸°ì¤€ìœ¼ë¡œ ë°˜í™˜
 		DDVECTOR3 GetViewDirection() { return m_pObject->GetViewDirection(); };
 	protected:
 		DDObject* m_pObject;
