@@ -181,6 +181,18 @@ void CompassUI::RenderItSelf()
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
 
+
+	// 조심해!!
+	// alpha blending.. 안먹음
+	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+
+	// alpha testing.. 문제는 콤파스의 알파를 날려버린다는거.. 안보임 ㄷㄷ
+	pD3DDevice->SetRenderState( D3DRS_ALPHATESTENABLE, TRUE );
+	pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
+	pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
+
+
 	// Render the vertex buffer contents
 	pD3DDevice->SetStreamSource( 0, m_pVB, 0, sizeof( CUSTOMVERTEX ) );
 	pD3DDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
