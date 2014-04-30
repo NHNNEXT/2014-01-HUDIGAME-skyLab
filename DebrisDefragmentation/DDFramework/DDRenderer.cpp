@@ -82,8 +82,8 @@ bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
 	m_pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
 	m_pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
 
-	m_pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
-	m_pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
+	//m_pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
+	//m_pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
 
 	return true;
 }
