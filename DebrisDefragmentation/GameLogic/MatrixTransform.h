@@ -4,17 +4,16 @@
 
 namespace GameMatrix
 {
-// 	std::tuple<float,float,float>   fromrotmat( const D3DXMATRIXA16 &m ) 
-// 	{// Setup the Euler angles, given a rotation matrix.
-// 		float pitch, heading, bank;
-// 		float	sp = -m._23;// Extract sin(pitch) from _23.
-// 		
-// 		heading = atan2( m._13, m._33 );
-// 		pitch = asin( sp );
-// 		bank = atan2( m._21, m._22 );
-// 		
-// 		return std::make_tuple( pitch, heading, bank );
-// 	}
+	static std::tuple<float,float,float>   RotationMatrixToYawPitchRoll( const D3DXMATRIXA16 &m ) 
+	{
+		float	x, y, z;
+		
+		x = atan2( -m._32, m._33 );
+		y = asin( m._33 );
+		z = atan2( -m._21, m._11 );
+		
+		return std::make_tuple( y, x, z );
+	}
 // 
 // 	std::tuple<float,float,float> AxisAngleToYawPitchRoll( float x, float y, float z, float angle )
 // 	{
@@ -53,7 +52,8 @@ namespace GameMatrix
 	// quaternion 값을 yaw pitch roll 로 변환
 	// return 값이 tuple이므로 auto로 받을 것..
 	// 04.28 김성환
-	std::tuple<float, float, float> static QuaternionToYawPitchRoll( D3DXQUATERNION q1 ) {
+	///# 이런거 DX같은데 있지 않남?
+	static std::tuple<float, float, float> QuaternionToYawPitchRoll( D3DXQUATERNION& q1 ) {
 		float yaw = 0;
 		float roll = 0;
 		float pitch = 0;

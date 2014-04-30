@@ -27,7 +27,9 @@ Player::~Player()
 
 void Player::Init()
 {
-	m_CharacterModel = CharacterModel::Create( L"debris.x" );
+	// 안되면 바꾸세요..ㅠㅠ 일단 이동, 충돌, 푸쉬풀은 확인 했음(단 iss에서 많이 벗어날 경우는...)
+	//m_CharacterModel = CharacterModel::Create( L"debris.x" );
+	m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );
 	//m_CharacterModel->SetScale( .5f, .5f, .5f );
 	AddChild( m_CharacterModel );
 
@@ -59,6 +61,8 @@ void Player::RenderItSelf()
 
 	if ( m_CharacterClass->IsSpinning( ) )
 	{
+		// 조심해!!
+		// affine transform에 적용해서 한 번에 처리하는 게 좋을 듯
 		m_CharacterClass->AddSpinTime( 0.02 );
 
 		// 회전축을 기준으로 물체를 회전시킵니다.

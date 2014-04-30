@@ -4,6 +4,7 @@
 *** JSON dll 폴더의 System.Net.Json.dll 파일을 GameTool 실행 파일이 있는 곳에 올려주세요.
 
 >>> Tool
+
 	
 
 >>> framework

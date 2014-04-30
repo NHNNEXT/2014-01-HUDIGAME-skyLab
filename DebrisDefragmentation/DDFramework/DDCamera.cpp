@@ -1,5 +1,6 @@
 ﻿#include "DDCamera.h"
 #include "DDRenderer.h"
+#include "DDApplication.h"
 
 
 DDCamera::DDCamera():
@@ -29,7 +30,10 @@ void DDCamera::RenderItSelf()
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f );
+
+	float aspectRatio = static_cast<float>(DDApplication::GetInstance()->GetScreenWidth()) / static_cast<float>(DDApplication::GetInstance()->GetScreenHeight());
+	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 5, aspectRatio, 1.0f, 2000.0f );
+	//D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
 }
 

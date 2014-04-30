@@ -35,7 +35,7 @@ bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
 	m_D3DPresentParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	m_D3DPresentParameters.BackBufferWidth = ScreenWidth;
 	m_D3DPresentParameters.BackBufferHeight = ScreenHeight;
-	m_D3DPresentParameters.BackBufferFormat = D3DFMT_A8R8G8B8;
+	m_D3DPresentParameters.BackBufferFormat = D3DFMT_A8R8G8B8;;
 	m_D3DPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
 	m_D3DPresentParameters.hDeviceWindow = hWnd;
 
@@ -64,9 +64,26 @@ bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
 		return false;
 	}
 
+	// 이거 없어도 되긴 하던데 ViewPort 해주는게 맞지 않나요?
+	// 뭐지 이거 내가 아는 뷰포트가 아닌거 같은데 ㅋㅋㅋ
+	D3DVIEWPORT9 pViewPort = { 0, 0, ScreenWidth, ScreenHeight, 0.0f, 1.0f };
+	hr = m_pD3DDevice->SetViewport( &pViewPort );
+
+	if ( FAILED( hr ) )
+	{
+		return false;
+	}
+
 	m_pD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
 	m_pD3DDevice->SetRenderState( D3DRS_LIGHTING, TRUE );
 	m_pD3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+
+	m_pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+	m_pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+	m_pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+
+	//m_pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
+	//m_pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
 
 	return true;
 }

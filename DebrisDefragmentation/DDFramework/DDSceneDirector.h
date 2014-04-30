@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DDConfig.h"
 
-// agebreak : Àü¹æ ¼±¾ğÀ» È°¿ëÇÏ¸é Include ÇÒ ÇÊ¿ä°¡ ¾ø´Ù
-// Àü¹æ ¼±¾ğ
+// agebreak : ì „ë°© ì„ ì–¸ì„ í™œìš©í•˜ë©´ Include í•  í•„ìš”ê°€ ì—†ë‹¤
+// ì „ë°© ì„ ì–¸
 class DDScene;
 
-// agebreak : ¾ÀÀ¸·Î ±¸º°ÇÏ°í, ¾Àµğ·ºÅÍ¸¦ µÎ´Â ÇÁ·¹ÀÓ¿öÅ© ±¸Á¶´Â ÁÁÀº ±¸Á¶!
+// agebreak : ì”¬ìœ¼ë¡œ êµ¬ë³„í•˜ê³ , ì”¬ë””ë ‰í„°ë¥¼ ë‘ëŠ” í”„ë ˆì„ì›Œí¬ êµ¬ì¡°ëŠ” ì¢‹ì€ êµ¬ì¡°!
 class DDSceneDirector : public Singleton<DDSceneDirector>
 {
 public:

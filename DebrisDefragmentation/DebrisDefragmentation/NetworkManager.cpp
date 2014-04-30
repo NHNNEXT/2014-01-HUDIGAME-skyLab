@@ -24,8 +24,8 @@ void NetworkManager::Init()
 void NetworkManager::Connect()
 {
 	/// config.h
-	//DDNetwork::GetInstance()->Connect( "10.73.42.202", 9001 );
-	DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+	DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
+	//DDNetwork::GetInstance()->Connect( "localhost", 9001 );
 }
 
 void NetworkManager::Disconnect()
@@ -75,15 +75,14 @@ void NetworkManager::SendTurnBody()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-		
-	float angleX = 0, angleY = 0, angleZ = 0;
-	
-	auto angles = g_PlayerManager->GetCameraViewingDirection();
-	std::tie( angleY, angleX, angleZ ) = angles;	// yaw pitch roll로 가져와서 순서가 섞였음, 나중에 바꾸는게 좋겠다.ㅠㅠ
-		
-	outPacket.mRotationX = D3DXToDegree( angleX );
-	outPacket.mRotationY = D3DXToDegree( angleY );
-	outPacket.mRotationZ = D3DXToDegree( angleZ );
+	D3DXVECTOR3 angles = g_PlayerManager->GetCameraViewingDirection();
+
+	outPacket.mRotationX = angles.x;
+	outPacket.mRotationY = angles.y;
+	outPacket.mRotationZ = angles.z;
+// 	outPacket.mRotationX = D3DXToDegree( angles.x );
+// 	outPacket.mRotationY = D3DXToDegree( angles.y );
+// 	outPacket.mRotationZ = D3DXToDegree( angles.z );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -97,13 +96,18 @@ void NetworkManager::SendSkillPush()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
+
 	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
 	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
 	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
 
-	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
-	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+	// camera 방향으로 push 발사
+	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
+	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
+	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
+// 	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
+// 	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
+// 	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -120,10 +124,15 @@ void NetworkManager::SendSkillPull()
 	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
 	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
 	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
+	
+	// camera 방향으로 pull 발사
+	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
+	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
+	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
 
-	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
-	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+// 	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
+// 	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
+// 	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -186,6 +195,7 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId)->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
@@ -195,7 +205,6 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	// g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation(DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }
 
@@ -210,9 +219,11 @@ void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
 	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 
-	// 조심해!
-	// 테스트용 코드
-	player->SetSpin( DDVECTOR3( 0.0f, 1.0f, 0.0f ), 1.1f );
+	if ( inPacket.mSpinAxisX == 0.0f && inPacket.mSpinAxisY == 0.0f && inPacket.mSpinAxisZ == 0.0f )
+		return;
+
+	player->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
+	// player->SetSpin( DDVECTOR3( 1.0f, 1.0f, 0.0f ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PUSH from %d player\n", inPacket.mPlayerId );
 }
@@ -227,6 +238,11 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 	player->GoForward();
 	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+
+	if ( inPacket.mSpinAxisX == 0.0f && inPacket.mSpinAxisY == 0.0f && inPacket.mSpinAxisZ == 0.0f )
+		return;
+
+	player->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
 }

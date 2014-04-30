@@ -40,17 +40,13 @@ void PlayScene::Init()
 	const char* filePath = ".\\Resources\\Json\\Config.json";
 	if ( !fopen_s( &file, filePath, "r" ) )
 	{
-		
 		char line[100] = { 0, };
 		while ( !feof( file ) )
 		{
 			fgets( line, 100, file );
 			m_JsonConfig += line;
 		}
-		// 방어 코드 : JSON 파일 앞에 { 가 나오기 전까지 이상한 문자들이 들어오면 다 자름
-		int startPosition = m_JsonConfig.find_first_of( '{' );
-		m_JsonConfig.erase( 0, ( startPosition > 0 ? startPosition  : 0) );
-
+		
 		fclose( file );
 	}
 	// 설정 파일 로드 실패시 프로그램 죽음
@@ -59,6 +55,10 @@ void PlayScene::Init()
 		MessageBox( NULL, L"JSON File Load Fail!", L"Message Box", MB_OK );
 		return;
 	}
+
+	// 방어 코드 : JSON 파일 앞에 { 가 나오기 전까지 이상한 문자들이 들어오면 다 자름
+	int startPosition = m_JsonConfig.find_first_of( '{' );
+	m_JsonConfig.erase( 0, ( startPosition > 0 ? startPosition : 0 ) );
 
 	// Json File Mapping
 	rapidjson::Document jConfig;
@@ -74,7 +74,7 @@ void PlayScene::Init()
 // 	}	
 	AddChild( m_pDirectonalLight );
 	
-	// skybox
+	// test skybox
 	SkyBox* sb = SkyBox::Create( L"skybox.x" );
 	AddChild( sb );
 
@@ -92,11 +92,11 @@ void PlayScene::Init()
 	{
 		tempDebris = Debris::Create( L"debris.x" );
 		tempDebris->SetPosition(
-			static_cast<float>( ( rand() % 200 ) - 100 ) / 20,
-			static_cast<float>( ( rand() % 200 ) - 100 ) / 20,
-			static_cast<float>( ( rand() % 200 ) - 100 ) / 20
+			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
+			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
+			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20
 			);
-		tempDebris->SetScale( 0.01f, 0.01f, 0.01f );
+		tempDebris->SetScale( 0.1f, 0.1f, 0.1f );
 
 		AddChild( tempDebris );
 	}
@@ -203,7 +203,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 04.27 김성환
 	if ( GNetworkManager->GetMyPlayerId() != -1 ) {
 		g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
-		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
+			currentMousePos.GetY() - m_PrevMousePosition.GetY(),
 			currentMousePos.GetX() - m_PrevMousePosition.GetX(),
 			0
 		);
@@ -245,9 +245,11 @@ void PlayScene::AddUI()
 	// UI 생성 및 추가 부분을 UI Manager가 처리하도록 뺐음
 	// UI Manager 내부에 UI들을 관리하는 자료구조가 필요함 지금은 일단 노가다로 create함수도 2개 만듬
 	// DDUI 및 UIManager 참고
-	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.bmp";
-	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.bmp";
+	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.png";
+	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.png";
+	std::wstring filePathFrame = L".\\Resources\\Image\\Frame.png";
 	AddChild( g_UIManager->CreateUIOxygen( filePathOxygen, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
+	AddChild( g_UIManager->CreateUIFrame( filePathFrame, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUIFuel( filePathFuel, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 
 }
@@ -267,11 +269,11 @@ void PlayScene::UpdateUI()
 		return;
 	}
 
-	int currentOxygen = g_PlayerManager->GetPlayer(myId)->GetOxygen();
+	int currentOxygen = g_PlayerManager->GetPlayer( myId )->GetOxygen();
 	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUIOxygen()->SetScale( currentOxygen /static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
+	g_UIManager->GetUIOxygen()->SetScale( currentOxygen / static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
 	g_UIManager->GetUIFuel()->SetScale( currentFuel / static_cast<float>(DEFAULT_FUEL), 1, 1 );
 }
 

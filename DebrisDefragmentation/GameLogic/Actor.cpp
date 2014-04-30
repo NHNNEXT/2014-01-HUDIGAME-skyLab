@@ -5,7 +5,8 @@
 
 Actor::Actor()
 {
-	m_CharacterClass = ClassComponent::Create();	
+	m_CharacterClass = ClassComponent::Create(); ///# 이게 의도가 맞음? 엔지니어 프로텍터 스트라이커에 따라 다르게 생성되는게 의도 아닌가??	
+	///# static 멤버 함수는 virtual이 될 수 없음을 참고.
 }
 
 

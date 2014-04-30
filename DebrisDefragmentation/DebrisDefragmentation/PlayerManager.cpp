@@ -32,6 +32,8 @@ bool PlayerManager::AddPlayer( int playerId )
 	m_PlayerList[playerId] = Player::Create( playerId );
 	m_PlayerList[playerId]->Init();
 
+
+
 	g_SceneManager->GetScene()->AddChild( m_PlayerList[playerId] );
 	++m_CurrentPlayers;
 
@@ -57,7 +59,7 @@ void PlayerManager::DeletePlayer( int playerId )
 	}
 }
 
-std::tuple<float, float, float> PlayerManager::GetCameraViewingDirection()
+D3DXVECTOR3 PlayerManager::GetCameraViewingDirection()
 {
 	// quaternion확인용
 	// 	D3DXMATRIXA16 m_Mat = g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetMatrix();
@@ -83,9 +85,18 @@ std::tuple<float, float, float> PlayerManager::GetCameraViewingDirection()
 	// 	angles = GameMatrix::fromrotmat( rot );
 
 	D3DXQUATERNION qt, qtNorm;	// quaternion과 normalized quatenion을 담기 위한 벡터
-	D3DXVECTOR3	tv1, tv2;	/// decompose 시 scale과 position을 담기 위한 임시 벡터
+	D3DXVECTOR3	tv1, tv2, rotationVector3;	/// 리턴벡터 + decompose 시 scale과 position을 담기 위한 임시 벡터
 	D3DXMatrixDecompose( &tv1, &qt, &tv2, &rot );
 	D3DXQuaternionNormalize( &qtNorm, &qt );
 
-	return GameMatrix::QuaternionToYawPitchRoll( qtNorm );
+// 	D3DXMATRIXA16 rotMat;
+// 	D3DXMatrixIdentity( &rotMat );
+// 	D3DXMatrixRotationQuaternion( &rotMat, &qtNorm );
+// 	auto ypr = GameMatrix::RotationMatrixToYawPitchRoll( rotMat );
+
+	auto ypr = GameMatrix::QuaternionToYawPitchRoll( qt );
+
+	std::tie( rotationVector3.y, rotationVector3.x, rotationVector3.z ) = ypr;
+
+	return D3DXToDegree(rotationVector3);
 }

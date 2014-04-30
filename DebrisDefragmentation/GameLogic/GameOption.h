@@ -30,13 +30,19 @@ const int			DEFAULT_HP = 100;
 const float			SKILL_RANGE = 50;
 
 // UI
-const float			UI_OXYGEN_POSITION_X = 25.0f;
-const float			UI_OXYGEN_POSITION_Y = 25.0f;
-const float			UI_FUEL_POSITION_X = 25.0f;
-const float			UI_FUEL_POSITION_Y = 75.0f;
-
+const float			UI_OXYGEN_POSITION_X = 10.0f;
+const float			UI_OXYGEN_POSITION_Y = 10.0f;
+const float			UI_FUEL_POSITION_X = 10.0f;
+const float			UI_FUEL_POSITION_Y = 30.0f;
+const float			UI_FRAME_POSITION_X = 0.0f;
+const float			UI_FRAME_POSITION_Y = 50.0f;
 
 // setting
 const bool			MOUSE_POINTER_ON = true;
+const float			BLUE_TEAM_POS = 100.0f;
+const float			RED_TEAM_POS = -100.0f;
 
 #define				ZERO_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 0.0f )
+#define				X_AXIS_VECTOR3		D3DXVECTOR3( 1.0f, 0.0f, 0.0f )
+#define				Y_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 1.0f, 0.0f )
+#define				Z_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 1.0f )

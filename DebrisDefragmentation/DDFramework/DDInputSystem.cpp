@@ -1,4 +1,4 @@
-#include "DDInputSystem.h"
+ï»¿#include "DDInputSystem.h"
 #include "DDApplication.h"
 
 DDInputSystem::DDInputSystem()
@@ -32,22 +32,22 @@ void DDInputSystem::UpdateKeyState()
 
 KeyState DDInputSystem::GetKeyState( int key )
 {
-	// Á÷Àü¿¡ ¾È ´­·ÁÁö´ø Å°°¡ ´­·ÁÁö°í ÀÖ´Ù¸é
+	// ì§ì „ì— ì•ˆ ëˆŒë ¤ì§€ë˜ í‚¤ê°€ ëˆŒë ¤ì§€ê³  ìˆë‹¤ë©´
 	if ( m_PrevKeyState[key] == false && m_NowKeyState[key] == true )
 	{
 		return KEY_DOWN;
 	}
-	// Á÷Àü¿¡ ´­·ÁÁ®ÀÖ´ø Å°°¡ Áö±İµµ ´­·ÁÁö°í ÀÖ´Ù°í
+	// ì§ì „ì— ëˆŒë ¤ì ¸ìˆë˜ í‚¤ê°€ ì§€ê¸ˆë„ ëˆŒë ¤ì§€ê³  ìˆë‹¤ê³ 
 	else if ( m_PrevKeyState[key] == true && m_NowKeyState[key] == true )
 	{
 		return KEY_PRESSED;
 	}
-	// Á÷Àü¿¡ ´­¸®°í ÀÖ´ø Å°°¡ Áö±İÀº ¾È ´­·ÁÁö°í ÀÖ´Ù¸é
+	// ì§ì „ì— ëˆŒë¦¬ê³  ìˆë˜ í‚¤ê°€ ì§€ê¸ˆì€ ì•ˆ ëˆŒë ¤ì§€ê³  ìˆë‹¤ë©´
 	else if ( m_PrevKeyState[key] == true && m_NowKeyState[key] == false )
 	{
 		return KEY_UP;
 	}
-	// ¸¶Áö¸· °æ¿ì´Â Á÷Àü¿¡µµ ¾È ´­·ÁÁö°í Áö±İµµ ¾È ´­·ÁÁø Å°
+	// ë§ˆì§€ë§‰ ê²½ìš°ëŠ” ì§ì „ì—ë„ ì•ˆ ëˆŒë ¤ì§€ê³  ì§€ê¸ˆë„ ì•ˆ ëˆŒë ¤ì§„ í‚¤
 	return KEY_NOTPRESSED;
 }
 

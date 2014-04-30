@@ -66,11 +66,29 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 	m_Character.SetcharacterId( characterId );
 	m_Character.Init();
 
+	// 조심해!!
+	// 1. 여기있는게 맞나싶고.. 2. 하드코딩 수정
+	// 팀별로 포지션 정해주는 부분
+	// 이상한건 rotation을 먹이는데 클라에서 lookat에만 적용되고 
+	// rotation엔 적용 안됨(goforward는 본래 z방향으로 감..ㄷㄷ)
+	// 04.29 김성환
+	if ( characterId % 2 == 1 )
+	{
+		m_Character.SetPosition( BLUE_TEAM_POS, .0f, characterId*5 );
+		m_Character.SetRotation( .0f, 270.0f, .0f );
+	}
+	else
+	{
+		m_Character.SetPosition( RED_TEAM_POS, .0f, characterId * 5 );
+		m_Character.SetRotation( .0f, 90.0f, .0f );
+	}
+
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );
 
 	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
-	GClientManager->SyncAll();
+	GClientManager->SyncAll(); ///# 뭐 이럴때는 인정... 그렇지만 위치가 좋지 않다. (보통은 스폰 패킷을 따로 만들어서 업데이트 하지만.. 규모가 크지 않기에.. 봐줌 ㅎㅎ)
+	///# 접속 후에 처음 보내는 데이터는 여기 있으면 안된다! 반드시 PostRecv가 끝난 후에 할 것
 
 	return PostRecv( );
 }
@@ -289,7 +307,7 @@ void CALLBACK RecvCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 	fromClient->OnRead( cbTransferred );
 
 	/// 다시 받기
-	// 일종의 재귀??
+	// 일종의 재귀?? ///# 재귀처럼 보이지만 재귀는 아니다... 이런걸 Proactor 패턴이라고 한다.
 	if ( false == fromClient->PostRecv( ) )
 	{
 		fromClient->Disconnect( );
@@ -503,7 +521,10 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	int targetId = -1;
+	D3DXVECTOR3 spinAxis; 
+	
+	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -512,6 +533,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	// 타겟이 있으면 
 	// for debugging
 	printf_s( "target : %d\n", targetId );
+	
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 
 	targetCharacter->SetAccelerarion( targetCharacter->GetPosition() - m_Character.GetPosition() );
@@ -530,6 +552,14 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	outPacket.mVelocityX = velocity.x;
 	outPacket.mVelocityY = velocity.y;
 	outPacket.mVelocityZ = velocity.z;
+
+	outPacket.mSpinAxisX = spinAxis.x;
+	outPacket.mSpinAxisY = spinAxis.y;
+	outPacket.mSpinAxisZ = spinAxis.z;
+
+	printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
+
+	outPacket.mSpinAngularVelocity = 1.0f;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -553,7 +583,10 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 우선 타겟이 있는지 확인
-	int targetId = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	int targetId = -1;
+	D3DXVECTOR3 spinAxis;
+
+	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -580,6 +613,12 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	outPacket.mVelocityX = velocity.x;
 	outPacket.mVelocityY = velocity.y;
 	outPacket.mVelocityZ = velocity.z;
+
+	outPacket.mSpinAxisX = spinAxis.x;
+	outPacket.mSpinAxisY = spinAxis.y;
+	outPacket.mSpinAxisZ = spinAxis.z;
+
+	outPacket.mSpinAngularVelocity = 1.0f;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

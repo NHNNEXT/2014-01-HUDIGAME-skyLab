@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "DDNetwork.h"
 #include "DDApplication.h"
 #include "DDPacketHeader.h"
@@ -63,7 +63,7 @@ bool DDNetwork::Connect( const char* serverIP = "localhost", int port = 9001)
 
 void DDNetwork::Disconnect()
 {
-	// Á¢¼ÓÀ» ²÷½À´Ï´Ù.
+	// ì ‘ì†ì„ ëŠìŠµë‹ˆë‹¤.
  	closesocket( m_Socket );
  	WSACleanup();
 }
@@ -79,7 +79,7 @@ void DDNetwork::Write( const char* data, size_t size )
 
 void DDNetwork::NagleOff()
 {
-	/// NAGLE ²ö´Ù
+	/// NAGLE ëˆë‹¤
 	/// NAGLE Algorithm
 	/// http://en.wikipedia.org/wiki/Nagle's_algorithm
 	int opt = 1;
@@ -101,7 +101,7 @@ bool DDNetwork::Read()
 
 	if ( !m_RecvBuffer.Write( inBuf, recvLen ) )
 	{
-		/// ¹öÆÛ ²ËÃ¡´Ù. 
+		/// ë²„í¼ ê½‰ì°¼ë‹¤. 
 		//assert(false) ;
 		return false;
 	}
@@ -119,20 +119,20 @@ void DDNetwork::Send()
 	int size = m_SendBuffer.GetCurrentSize();
 	if ( size > 0 )
 	{
-		// ¹öÆÛ¿¡¼­ µ¥ÀÌÅÍ °¡Á®¿À±â
+		// ë²„í¼ì—ì„œ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
 		char* data = new char[size];
 		m_SendBuffer.Peek( data );
 
-		// µ¥ÀÌÅÍ¸¦ º¸³½´Ù.
+		// ë°ì´í„°ë¥¼ ë³´ë‚¸ë‹¤.
 		int sent = send( m_Socket, data, size, 0 );
 
-		/// ¹öÆÛ¿¡¼­ °¡Á®¿Â µ¥ÀÌÅÍ¿Í º¸³½ µ¥ÀÌÅÍÀÇ Å©±â°¡ ´Ù¸¦¼ö ÀÖ´Ù
+		/// ë²„í¼ì—ì„œ ê°€ì ¸ì˜¨ ë°ì´í„°ì™€ ë³´ë‚¸ ë°ì´í„°ì˜ í¬ê¸°ê°€ ë‹¤ë¥¼ìˆ˜ ìˆë‹¤
 		if ( sent != size )
 		{
 			OutputDebugStringA( "sent != request\n" );			
 		}
 
-		/// ¹öÆÛ ºñ¿ì±â
+		/// ë²„í¼ ë¹„ìš°ê¸°
 		m_SendBuffer.Consume( sent );
 
 		delete[] data;
@@ -140,7 +140,7 @@ void DDNetwork::Send()
 }
 
 
-/// ÆĞÅ¶Ã³¸® 
+/// íŒ¨í‚·ì²˜ë¦¬ 
 void DDNetwork::ProcessPacket()
 {
 	while ( true )

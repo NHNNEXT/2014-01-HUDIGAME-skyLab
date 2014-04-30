@@ -18,6 +18,8 @@ struct CollisionBox
 		}
 	}
 
+	///# 헐? 위험한 코드.. 이렇게 큰 객체를 그냥 복사 대입? 그리고 멤버중에 포인터도 있는데??
+	///# 포인터 복사는 정말 위험하다.. 
 	CollisionBox& operator=( const CollisionBox& rhs )
 	{
 		m_Transform = rhs.m_Transform;

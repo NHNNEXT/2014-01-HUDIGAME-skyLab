@@ -69,7 +69,7 @@ struct LoginResult : public PacketHeader
 	int		mPlayerId;
 };
 
-// 가속 좀 하겠습니다.
+// 가속 좀 하겠습니다. ///# 그래 해라.
 struct AccelerarionRequest : public PacketHeader
 {
 	AccelerarionRequest()
@@ -339,6 +339,12 @@ struct SkillPushResult : public PacketHeader
 		mVelocityX = 0.0f;
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
+
+		mSpinAxisX = 0.0f;
+		mSpinAxisY = 0.0f;
+		mSpinAxisZ = 0.0f;
+
+		mSpinAngularVelocity = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -351,6 +357,12 @@ struct SkillPushResult : public PacketHeader
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
+
+	float mSpinAxisX;
+	float mSpinAxisY;
+	float mSpinAxisZ;
+
+	float mSpinAngularVelocity;
 };
 
 // 당기기 스킬 시전!
@@ -403,6 +415,12 @@ struct SkillPullResult : public PacketHeader
 		mVelocityX = 0.0f;
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
+
+		mSpinAxisX = 0.0f;
+		mSpinAxisY = 0.0f;
+		mSpinAxisZ = 0.0f;
+
+		mSpinAngularVelocity = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -415,6 +433,12 @@ struct SkillPullResult : public PacketHeader
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
+
+	float mSpinAxisX;
+	float mSpinAxisY;
+	float mSpinAxisZ;
+
+	float mSpinAngularVelocity;
 };
 
 #pragma pack(pop)

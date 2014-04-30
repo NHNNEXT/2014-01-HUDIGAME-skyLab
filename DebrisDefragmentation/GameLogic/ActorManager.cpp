@@ -26,6 +26,8 @@ int ActorManager::RegisterUser( Actor* newActor )
 	// user id를 manager에 등록된 actor index와 같게 유지하면 객체들 인터랙션을 처리할 때 유리할 것 같은데
 	// 어떻게 효율적으로 비어있는 index를 찾고 그걸 세션에게 할당할 지 잘 모르겠네요
 	// 일단 이렇게 처음부터 순회하면서 비어있는 자리가 있으면 거기에 포인터 등록하고 idx 반환하도록 하는데...
+
+	///# 배열의 크기가 크지 않으면 아래처럼 해도 됨. 커지면 아래처럼 하면 안되고 free-pool을 만들어 유지해야 함. ObjectPool<> 참고.
 	for ( unsigned int actorId = 0; actorId < MAX_PLAYER_NUM; ++actorId )
 	{
 		if ( m_ActorList[actorId] == nullptr )
@@ -40,7 +42,7 @@ int ActorManager::RegisterUser( Actor* newActor )
 
 void ActorManager::ChangeActor( Actor* newActor, int actorId )
 {
-	// 다른 세션 캐릭터를 바꾸는 일은 없도록 만들어야 할 듯
+	// 다른 세션 캐릭터를 바꾸는 일은 없도록 만들어야 할 듯 ///# 그러면 체크하는 로직 넣어야지?
 	m_ActorList[actorId] = newActor;
 }
 
@@ -82,6 +84,9 @@ bool ActorManager::IsValidId( int actorId )
 
 bool ActorManager::CheckCollision()
 {
+	///# 그러니까.. 매 업데이트마다 모든 액터를 돌면서 서로 n * n-1 만큼 충돌 체크??
+	///# 액터의 수가 많지 않으니까.. 이렇게 해도 되지만.. 원칙적으로는 이렇게 하면 안됨.. delta 가 있는 애들만.. 
+
 	bool returnVal = false; // 충돌이 있는지 알려줌 - 클라이언트들에게 업데이트하라고 시켜야 되니까
 
 	// 순회하면서 각 액터들이 충돌하는지 확인
@@ -148,13 +153,14 @@ bool ActorManager::CheckCollision()
 	return returnVal;
 }
 
-int ActorManager::DetectTarget(int actorId, float x, float y, float z )
+std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, float y, float z )
 {
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
 	float currentDistance = static_cast<float>( HUGE );
 	int targetId = -1;
 	
+	D3DXVECTOR3 spinAxis( 0.0f, 0.0f, 0.0f );
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 	
@@ -163,17 +169,19 @@ int ActorManager::DetectTarget(int actorId, float x, float y, float z )
 		if ( i == actorId || m_ActorList[i] == nullptr )
 			continue;
 
-		if ( Physics::IntersectionCheckRayBox( viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
+		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
+		if ( Physics::IntersectionCheckRayBox( &tempAxis, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			float tempDistance = D3DXVec3Length( &( startPoint - m_ActorList[i]->GetPosition() ) );
 			if ( tempDistance < currentDistance )
 			{
 				currentDistance = tempDistance;
+				spinAxis = tempAxis;
 				targetId = i;
 			}
 		}
 	}
 
-	return targetId;
+	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }

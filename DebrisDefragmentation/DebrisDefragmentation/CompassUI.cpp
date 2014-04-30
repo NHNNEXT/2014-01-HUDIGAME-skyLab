@@ -8,6 +8,7 @@ struct CUSTOMVERTEX
 {
 	D3DXVECTOR3 position; // The position
 	D3DCOLOR color;    // The color
+	FLOAT tu, tv;   // The texture coordinates
 };
 
 CompassUI::CompassUI()
@@ -28,7 +29,8 @@ void CompassUI::Init()
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 
 	// Use D3DX to create a texture from a file based image
-	if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\3DModel\\banana.bmp", &m_pTexture ) ) )
+	// if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\3DModel\\banana.bmp", &m_pTexture ) ) )
+	if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\Image\\compass.png", &m_pTexture ) ) )
 		return;
 
 	// Create the vertex buffer.
@@ -46,14 +48,18 @@ void CompassUI::Init()
 		return;
 
 	for ( DWORD i = 0; i < 50; i++ )
-	// for ( int i = 49; i >= 0; --i )
 	{
 		FLOAT theta = ( 2 * D3DX_PI * i ) / ( 50 - 1 );
 
-		pVertices[2 * i + 0].position = D3DXVECTOR3( sinf( theta ) * 3.0f, -0.1f, cosf( theta ) * 3.0f );
-		pVertices[2 * i + 0].color = 0xff880000;
-		pVertices[2 * i + 1].position = D3DXVECTOR3( sinf( theta ) * 3.0f, 0.1f, cosf( theta ) * 3.0f );
-		pVertices[2 * i + 1].color = 0xff880000;
+		pVertices[2 * i + 0].position = D3DXVECTOR3( sinf( theta ) * 1.1f, -0.04f, cosf( theta ) * 1.1f );
+		pVertices[2 * i + 0].color = 0x88ffffff;
+		pVertices[2 * i + 0].tu = ( (FLOAT)i ) / ( 50 - 1 );
+		pVertices[2 * i + 0].tv = 1.0f;
+
+		pVertices[2 * i + 1].position = D3DXVECTOR3( sinf( theta ) * 1.1f, 0.04f, cosf( theta ) * 1.1f );
+		pVertices[2 * i + 1].color = 0x88ffffff;
+		pVertices[2 * i + 1].tu = ( (FLOAT)i ) / ( 50 - 1 );
+		pVertices[2 * i + 1].tv = 0.0f;
 	}
 	m_pVB->Unlock();
 }
@@ -116,7 +122,7 @@ void CompassUI::RenderItSelf()
 	/* 실제로 회전을 적용하는 과정 */
 	D3DXMATRIXA16 tiltTransform;
 	D3DXMatrixRotationAxis( &tiltTransform, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), tempSign * angle );
-	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
+	
 	
 	/**** look-at transform ****/
 	
@@ -134,7 +140,9 @@ void CompassUI::RenderItSelf()
 
 	/* 회전을 적용하는 과정 */
 	D3DXMATRIXA16 lookatTransform;
-	D3DXMatrixRotationAxis( &lookatTransform, &rotationAxis, -angle );
+	D3DXMatrixRotationAxis( &lookatTransform, &rotationAxis, - angle * 2 );
+
+	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &tiltTransform );
 	D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &lookatTransform );
 	
 
@@ -172,6 +180,18 @@ void CompassUI::RenderItSelf()
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
+
+
+	// 조심해!!
+	// alpha blending.. 안먹음
+	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+
+	// alpha testing.. 문제는 콤파스의 알파를 날려버린다는거.. 안보임 ㄷㄷ
+	pD3DDevice->SetRenderState( D3DRS_ALPHATESTENABLE, TRUE );
+	pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
+	pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
+
 
 	// Render the vertex buffer contents
 	pD3DDevice->SetStreamSource( 0, m_pVB, 0, sizeof( CUSTOMVERTEX ) );
