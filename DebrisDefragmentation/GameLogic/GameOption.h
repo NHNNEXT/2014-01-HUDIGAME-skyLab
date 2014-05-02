@@ -37,8 +37,10 @@ const float			UI_FUEL_POSITION_Y = 30.0f;
 const float			UI_FRAME_POSITION_X = 0.0f;
 const float			UI_FRAME_POSITION_Y = 50.0f;
 
-// setting
+// Game Setting
 const bool			MOUSE_POINTER_ON = true;
+const bool			USE_LOCAL_SERVER = true;
+
 const float			BLUE_TEAM_POS = 100.0f;
 const float			RED_TEAM_POS = -100.0f;
 

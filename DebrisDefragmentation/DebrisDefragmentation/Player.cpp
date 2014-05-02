@@ -103,8 +103,8 @@ void Player::LookAt( float x, float y, float z )
 
 void Player::TurnBody( float x, float y, float z )
 {
-	m_CharacterClass->TurnBody( m_Rotation, x, y, z ); 
-	g_PlayerManager->GetCamera()->SetRotation( ZERO_VECTOR3 );
+	m_CharacterClass->TurnBody( m_Rotation, x, y, z );	
+	
 }
 
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

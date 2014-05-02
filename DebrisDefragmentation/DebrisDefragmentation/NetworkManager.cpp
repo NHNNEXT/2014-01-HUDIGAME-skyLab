@@ -24,8 +24,16 @@ void NetworkManager::Init()
 void NetworkManager::Connect()
 {
 	/// config.h
-	DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
-	//DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+	if ( USE_LOCAL_SERVER )
+	{
+		DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+	}
+	else
+	{
+		DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
+	}
+	
+	
 }
 
 void NetworkManager::Disconnect()
@@ -194,7 +202,11 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId)->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	if ( inPacket.mPlayerId == m_MyPlayerId )
+	{
+		g_PlayerManager->GetCamera()->SetRotation( ZERO_VECTOR3 );
+	}
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 
