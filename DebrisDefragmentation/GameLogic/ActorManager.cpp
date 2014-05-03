@@ -2,6 +2,8 @@
 #include "ActorManager.h"
 #include "Physics.h"
 
+using Physics::operator&;
+
 ActorManager::ActorManager()
 {
 	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
@@ -43,6 +45,10 @@ int ActorManager::RegisterUser( Actor* newActor )
 void ActorManager::ChangeActor( Actor* newActor, int actorId )
 {
 	// 다른 세션 캐릭터를 바꾸는 일은 없도록 만들어야 할 듯 ///# 그러면 체크하는 로직 넣어야지?
+	// 확인을 위해서는 함수 호출한 세션의 캐릭터가 삭제하려는 캐릭터와 같은지 확인 필요
+
+	// 기존 캐릭터 삭제 -> 새로운 캐릭터 등록
+	DeleteActor( actorId );
 	m_ActorList[actorId] = newActor;
 }
 
@@ -109,7 +115,8 @@ bool ActorManager::CheckCollision()
 				continue;
 
 			// 충돌체크
-			if ( Physics::IsCollide( m_ActorList[i]->GetCollisionBox(), m_ActorList[j]->GetCollisionBox() ) )
+			// if ( Physics::IsCollide( m_ActorList[i]->GetCollisionBox(), m_ActorList[j]->GetCollisionBox() ) )
+			if (m_ActorList[i]->GetCollisionBox() & m_ActorList[j]->GetCollisionBox() )
 			{
 				printf_s( "collision!\n" );
 				// 두 물체의 중심점을 잇는 단위 벡터 생성

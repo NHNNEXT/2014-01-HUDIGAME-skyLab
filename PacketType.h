@@ -69,7 +69,7 @@ struct LoginResult : public PacketHeader
 	int		mPlayerId;
 };
 
-// 가속 좀 하겠습니다. ///# 그래 해라.
+// 가속 좀 하겠습니다.
 struct AccelerarionRequest : public PacketHeader
 {
 	AccelerarionRequest()

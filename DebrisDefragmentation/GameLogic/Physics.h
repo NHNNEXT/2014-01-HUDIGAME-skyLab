@@ -109,13 +109,6 @@ namespace Physics
 	}
 	*/
 
-	///# 보통 충돌 함수는 operator overloading으로 많이 해결한다.. 아래처럼 인터섹션이 있는가?
-	/// .... 나중에 if ( box1 & box2 ) 체크해보면 간단하겠지..
-	bool static operator& (const CollisionBox& lhs, const CollisionBox& rhs)
-	{
-		return true;
-	}
-
 	bool static IsCollide( const CollisionBox &box1, const CollisionBox &box2 )
 	{
 		// TransformCollisionBox( box1 );
@@ -158,6 +151,11 @@ namespace Physics
 
 		// 모든 축에 대해서 겹침이 발생하면 충돌로 판정
 		return true;
+	}
+
+	bool static operator& ( const CollisionBox& lhs, const CollisionBox& rhs )
+	{
+		return IsCollide( lhs, rhs );
 	}
 
 	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )

@@ -86,10 +86,6 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );
 
-	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
-	GClientManager->SyncAll(); ///# 뭐 이럴때는 인정... 그렇지만 위치가 좋지 않다. (보통은 스폰 패킷을 따로 만들어서 업데이트 하지만.. 규모가 크지 않기에.. 봐줌 ㅎㅎ)
-	///# 접속 후에 처음 보내는 데이터는 여기 있으면 안된다! 반드시 PostRecv가 끝난 후에 할 것
-
 	return PostRecv( );
 }
 
@@ -307,7 +303,8 @@ void CALLBACK RecvCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 	fromClient->OnRead( cbTransferred );
 
 	/// 다시 받기
-	// 일종의 재귀?? ///# 재귀처럼 보이지만 재귀는 아니다... 이런걸 Proactor 패턴이라고 한다.
+	// 일종의 재귀?? 아니다... 이런걸 Proactor 패턴이라고 한다.
+	// http://en.wikipedia.org/wiki/Proactor_pattern
 	if ( false == fromClient->PostRecv( ) )
 	{
 		fromClient->Disconnect( );
@@ -393,6 +390,7 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );
 
+	// 조심해!! 스폰 패킷 말들 것
 	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
 	GClientManager->SyncAll();
 }
