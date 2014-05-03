@@ -13,6 +13,8 @@ public:
 	//static DDModel* Create( wchar_t* filePath );	
 
 protected:
+	virtual void RenderItSelf();
+
 	bool InitModel( std::wstring path );
 	bool SetNormalVector();
 	bool Cleanup();
@@ -23,8 +25,5 @@ protected:
 	LPDIRECT3DTEXTURE9* m_pMeshTexture = nullptr;
 	D3DMATERIAL9*		m_pMeshMaterials = nullptr;
 	DWORD				m_dwNumMaterials = 0L;
-
-private:
-	virtual void RenderItSelf();
 };
 

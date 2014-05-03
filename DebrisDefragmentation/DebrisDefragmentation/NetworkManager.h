@@ -20,6 +20,7 @@ public:
 
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }
+	bool IsPlayerLogon() { return ( m_MyPlayerId == -1 ) ? false : true; }
 
 	void RegisterHandles();
 

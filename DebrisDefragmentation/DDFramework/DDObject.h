@@ -83,6 +83,10 @@ public:
 
 protected:
 	void SetParent( DDObject* object ) { m_pParent = object; }
+	
+	// NVI virtual function
+	virtual void RenderItSelf() {}
+	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 
 	DDObject*		m_pParent = nullptr;
 	std::list<std::shared_ptr<DDObject>>	m_ChildList;
@@ -103,9 +107,6 @@ private :
 	void RenderChildNodes();
 	void UpdateChildNodes( float dTime );
 
-	// NVI virtual function
-	virtual void RenderItSelf() {}
-	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 };
 // 
 // typedef std::aligned_storage<sizeof( DDObject ), ALIGNMENT_SIZE>::type DDObjectA;

@@ -1,10 +1,12 @@
 ﻿#pragma once
 
+// 게임 셋팅
 const unsigned int	MAX_PLAYER_NUM = 8;
 const float			ACCELERATION_WEIGHT = 1.0f;
 const float			COLLISION_ACCELERATION_WEIGHT = 0.5f;
 const unsigned int	ACCELERATION_TIME = 500;
-const float			MOUSE_ROTATION_WEIGHT = 0.1f;
+const float			BLUE_TEAM_POS = 100.0f;
+const float			RED_TEAM_POS = -100.0f;
 
 const int			VECTOR_DIRECTION_3 = 3;
 const int			BOX_POINT_COUNT = 8;
@@ -37,14 +39,21 @@ const float			UI_FUEL_POSITION_Y = 30.0f;
 const float			UI_FRAME_POSITION_X = 0.0f;
 const float			UI_FRAME_POSITION_Y = 50.0f;
 
-// Game Setting
+// Config
 const bool			MOUSE_POINTER_ON = true;
 const bool			USE_LOCAL_SERVER = true;
+const float			MOUSE_ROTATION_SENSITIVITY = 0.1f;
 
-const float			BLUE_TEAM_POS = 100.0f;
-const float			RED_TEAM_POS = -100.0f;
+// KEY MAPPING
+const int			VK_W = 0x57;
+const int			VK_S = 0x53;
+const int			VK_1 = 0x31;
+const int			VK_2 = 0x32;
 
+// Axis Set
 #define				ZERO_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 0.0f )
 #define				X_AXIS_VECTOR3		D3DXVECTOR3( 1.0f, 0.0f, 0.0f )
 #define				Y_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 1.0f, 0.0f )
 #define				Z_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 1.0f )
+
+

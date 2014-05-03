@@ -6,18 +6,20 @@ public:
 	DDCamera();
 	virtual ~DDCamera();
 
-	CREATE_OBJECT( DDCamera );
-	//static DDCamera* Create();
+	CREATE_OBJECT( DDCamera );	
 	
+	// following object가 있으면 임베디드카메라를 끈다.
+	DDObject*	GetFollowingObject() const { return m_FollowingObject; }
+	void		SetFollowingObject( DDObject* val ) { m_FollowingObject = val; m_EmbeddedCamera = false; }
+
 // 	void SetLookatPoint( DDVECTOR3 lookatpoint ) { m_LookatPoint = lookatpoint; }
 // 	void SetLookatPoint( float x, float y, float z ) { m_LookatPoint = DDVECTOR3( x, y, z ); }
 
 protected:
-	DDVECTOR3 m_LookatPoint;
-
-private:
-
 	virtual void RenderItSelf();
-
+	DDObject*	m_FollowingObject = nullptr;
+	DDVECTOR3	m_LookatPoint;
+	bool		m_EmbeddedCamera = true;
+		
 };
 

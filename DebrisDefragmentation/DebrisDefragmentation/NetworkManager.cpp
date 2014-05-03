@@ -3,6 +3,9 @@
 #include "PacketType.h"
 #include "PlayerManager.h"
 #include "MatrixTransform.h"
+#include "SceneManager.h"
+#include "CompassUI.h"
+#include "PlayScene.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -71,7 +74,7 @@ void NetworkManager::SendStop()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-// SendRotation 수정 : lookat 방향으로 몸을 회전하므로 파라미터가 필요없어서.. 이름을 turnbody로 변경
+// lookat 방향으로 몸을 회전
 // 04.27 김성환
 void NetworkManager::SendTurnBody()
 {
@@ -83,11 +86,13 @@ void NetworkManager::SendTurnBody()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	D3DXVECTOR3 angles = g_PlayerManager->GetCameraViewingDirection();
+	// 카메라 플레이어 분리 후 getcameraviewingdirection은 사용X
+	//D3DXVECTOR3 angles = g_PlayerManager->GetCameraViewingDirection();
+	D3DXVECTOR3 angles = g_PlayerManager->GetCamera()->GetRotation();	
 
 	outPacket.mRotationX = angles.x;
 	outPacket.mRotationY = angles.y;
-	outPacket.mRotationZ = angles.z;
+	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
 // 	outPacket.mRotationX = D3DXToDegree( angles.x );
 // 	outPacket.mRotationY = D3DXToDegree( angles.y );
 // 	outPacket.mRotationZ = D3DXToDegree( angles.z );
@@ -110,12 +115,12 @@ void NetworkManager::SendSkillPush()
 	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
 
 	// camera 방향으로 push 발사
-	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
-	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
-	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
-// 	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
-// 	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
-// 	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
+	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
+	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
+// 	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
+// 	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
+// 	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -134,10 +139,12 @@ void NetworkManager::SendSkillPull()
 	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
 	
 	// camera 방향으로 pull 발사
-	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
-	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
-	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
-
+	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
+	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
+	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
+// 	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
+// 	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
+// 	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
 // 	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
 // 	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
 // 	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
@@ -167,9 +174,23 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 	// 사용자의 player가 최초 로그인한 경우
 	m_MyPlayerId = inPacket.mPlayerId;
 
-	if ( !g_PlayerManager->AddPlayer( m_MyPlayerId ) )
+	if ( g_PlayerManager->AddPlayer( m_MyPlayerId ) )
 	{
-		// 어떻게 할까요?
+		// camera 설정
+		DDCamera* camera = DDCamera::Create();
+		g_PlayerManager->SetCamera( camera );
+		g_SceneManager->GetScene()->AddChild(camera);
+		camera->SetFollowingObject( g_PlayerManager->GetPlayer( m_MyPlayerId ) );
+// 		camera->SetPosition( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPosition() );
+// 		camera->SetRotation( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotation() );
+
+		// 콤파스 설정
+		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
+		compassUI->Init();
+		camera->AddChild( compassUI );
+
+		
+
 	}
 }
 
@@ -203,10 +224,6 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
-	if ( inPacket.mPlayerId == m_MyPlayerId )
-	{
-		g_PlayerManager->GetCamera()->SetRotation( ZERO_VECTOR3 );
-	}
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 

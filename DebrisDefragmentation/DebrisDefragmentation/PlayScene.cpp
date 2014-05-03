@@ -163,25 +163,25 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 현재 w키가 눌렸는지 확인한다
 	// 눌렸으면 캐릭터 가속도 세팅하라고 시킴
 	// s키가 눌렸다면 정지	
-	if ( KEY_DOWN == GetKeyState( 0x57 ) )
+	if ( KEY_DOWN == GetKeyState( VK_W ) )
 	{
 		// w : 현재 몸체가 바라보는 방향으로 가속
 		GNetworkManager->SendAcceleration();
 	}
 	
-	if ( KEY_DOWN == GetKeyState( 0x53 ) )
+	if ( KEY_DOWN == GetKeyState( VK_S ) )
 	{
 		// s : 정지!
 		GNetworkManager->SendStop();
 	}
 
-	if ( KEY_DOWN == GetKeyState( 0x31 ) )
+	if ( KEY_DOWN == GetKeyState( VK_1 ) )
 	{
 		// 1 : 밀기 스킬 시전!
 		GNetworkManager->SendSkillPush();
 	}
 
-	if ( KEY_DOWN == GetKeyState( 0x32 ) )
+	if ( KEY_DOWN == GetKeyState( VK_2 ) )
 	{
 		// 2 : 당기기 스킬 시전!
 		GNetworkManager->SendSkillPull();
@@ -196,23 +196,25 @@ void PlayScene::UpdateItSelf( float dTime )
 	// ㅋㅋㅋㅋ 카멕님이 적으셨습니까
 
 	// 마우스 좌표 변화를 받아온다
-	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.	
-	DDPoint currentMousePos = GetMousePosition( );
-	
+	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.		
 	// 고개 돌리기는 서버로 보낼 필요 없이 클라이언트에서만 적용
 	// 04.27 김성환
-	if ( GNetworkManager->GetMyPlayerId() != -1 ) {
+	
+	
+	if ( GNetworkManager->IsPlayerLogon() )
+	{
+		DDPoint currentMousePos = GetMousePosition();
 		g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
 			currentMousePos.GetY() - m_PrevMousePosition.GetY(),
 			currentMousePos.GetX() - m_PrevMousePosition.GetX(),
 			0
-		);
+			);	
+
+		MousePointer( MOUSE_POINTER_ON, currentMousePos );
+		UpdateUI();
 	}
 	
 
-	MousePointer(MOUSE_POINTER_ON, currentMousePos);
-
-	UpdateUI();
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정

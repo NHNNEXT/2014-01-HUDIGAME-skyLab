@@ -10,7 +10,7 @@ public:
 	CREATE_OBJECT( DDLight );
 	//static DDLight* Create();
 
-private:
+protected:
 	virtual void RenderItSelf();
 };
 

@@ -57,7 +57,7 @@ private:
 	unsigned int					m_PlayerId;
 	std::shared_ptr<ClassComponent>	m_CharacterClass; // shared_ptr기본 생성자에서 초기화
 	DDModel*						m_CharacterModel = nullptr;
-	DDCamera*						m_Camera = nullptr;		
+	//DDCamera*						m_Camera = nullptr;		
 
 	//DDVECTOR3	m_HeadDirection{ .0f, .0f, .0f };
 	Rigidbody	m_RigidBody;			// rigidbody 자체 초기화

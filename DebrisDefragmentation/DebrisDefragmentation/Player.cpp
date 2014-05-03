@@ -1,9 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Player.h"
-#include "DDCamera.h"
 #include "CharacterModel.h"
 #include "NetworkManager.h"
-#include "CompassUI.h"
 #include "PlayerManager.h"
 
 #include "Physics.h"
@@ -26,30 +24,15 @@ Player::~Player()
 }
 
 void Player::Init()
-{
-	// 안되면 바꾸세요..ㅠㅠ 일단 이동, 충돌, 푸쉬풀은 확인 했음(단 iss에서 많이 벗어날 경우는...)
-	//m_CharacterModel = CharacterModel::Create( L"debris.x" );
-	m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );
-	//m_CharacterModel->SetScale( .5f, .5f, .5f );
+{	
+	m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
 	AddChild( m_CharacterModel );
-
+	
+	// 내 캐릭터의 visible 끔.	
 	if ( GNetworkManager->GetMyPlayerId() == m_PlayerId )
 	{
-		// camera 설정
-		m_Camera = DDCamera::Create();
-		AddChild( m_Camera );
-		g_PlayerManager->SetCamera( m_Camera );
-		
-		// 콤파스 설정
-		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
-		compassUI->Init();
-		m_Camera->AddChild( compassUI );
-		
-		// 내 캐릭터의 visible 끔.
 		m_CharacterModel->SetVisible( false );
 	}
-	/// config.h
-	
 }
 
 
@@ -75,6 +58,7 @@ void Player::RenderItSelf()
 
 void Player::UpdateItSelf( float dTime )
 {
+	//g_PlayerManager->GetCamera()->SetPosition( m_Position );
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	if ( !m_CharacterClass->CheckRemainOxygen() )
 	{
@@ -98,13 +82,12 @@ void Player::UpdateItSelf( float dTime )
 
 void Player::LookAt( float x, float y, float z )
 {
-	g_PlayerManager->GetCamera()->IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_WEIGHT );
+	g_PlayerManager->GetCamera()->IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_SENSITIVITY );
 }
 
 void Player::TurnBody( float x, float y, float z )
 {
-	m_CharacterClass->TurnBody( m_Rotation, x, y, z );	
-	
+	m_CharacterClass->TurnBody( m_Rotation, x, y, z );		
 }
 
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

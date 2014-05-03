@@ -19,6 +19,7 @@ public:
 
 	void GoForward() { m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); }	
 	void Stop() { m_CharacterClass->Stop( m_RigidBody ); }
+	//void TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
 	void TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
 
 	void SetAccelerarion( const D3DXVECTOR3 &direction );
