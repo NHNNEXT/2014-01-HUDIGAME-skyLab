@@ -57,7 +57,6 @@ bool DDNetwork::Connect( const char* serverIP = "localhost", int port = 9001)
 			return false;
 	}
 
-
 	return true;
 }
 

@@ -26,17 +26,28 @@ void NetworkManager::Init()
 
 void NetworkManager::Connect()
 {
+	bool connection = false;
+
 	/// config.h
 	if ( USE_LOCAL_SERVER )
 	{
-		DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+		connection = DDNetwork::GetInstance()->Connect( "localhost", 9001 );
 	}
 	else
 	{
-		DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
+		connection = DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
 	}
 	
-	
+	if ( connection )
+	{
+		// 로그인 요청 전송
+		LoginRequest outPacket;
+		DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+	}
+	else
+	{
+		printf_s( "failed to connection\n" );
+	}
 }
 
 void NetworkManager::Disconnect()
