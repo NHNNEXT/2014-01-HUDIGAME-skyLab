@@ -85,6 +85,7 @@
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="ISS.cpp" />
+    <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CompassUI.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Debris.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="ISS.h" />
+    <ClInclude Include="JsonManager.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="CompassUI.h" />
     <ClInclude Include="NetworkManager.h" />

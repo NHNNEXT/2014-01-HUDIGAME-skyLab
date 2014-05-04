@@ -74,6 +74,9 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>Scene\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="JsonManager.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonManager.h">
+      <Filter>GameManagers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

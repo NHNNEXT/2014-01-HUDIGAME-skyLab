@@ -55,8 +55,6 @@ void Character::UpdateItSelf( float dTime )
 
 	if ( m_CharacterClass->IsAccelerating() )
 	{
-		// 조심해! 
-		// 하드코딩 로직 구현하면서 다 바꿀 것 
 		if ( timeGetTime( ) - m_CharacterClass->GetAccelerationStartTime() > ACCELERATION_TIME )
 		{
 			// 가속 끝났다

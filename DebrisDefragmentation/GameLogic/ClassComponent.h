@@ -55,9 +55,7 @@ protected:
 	bool		m_IsAccelerating = false;
 	bool		m_IsSpin = false;
 	
-	// 조심해!!
-	// 가스가 떨어지면 멈춤, 값은 초기값 참고, 
-	// CONSOLE에 LOG남겼는데 산소떨어지는 속도가 너무 빨라서 잘 안보임
+	
 	// 산소 및 추진체 관련
 	int			m_Oxygen = DEFAULT_OXYGEN;
 	int			m_Gas = DEFAULT_FUEL;
