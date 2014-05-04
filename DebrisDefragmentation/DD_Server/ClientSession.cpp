@@ -365,6 +365,28 @@ void ClientSession::SyncCurrentStatus()
 	}
 }
 
+void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock )
+{
+	SyncResult outPacket;
+
+	D3DXVECTOR3 position = m_Character.GetPosition();
+	D3DXVECTOR3 rotation = m_Character.GetRotation();
+	D3DXVECTOR3 velocity = m_Character.GetVelocity();
+
+	outPacket.mPlayerId = m_Character.GetcharacterId();
+
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
+
+	outPacket.mVelocityX = velocity.x;
+	outPacket.mVelocityY = velocity.y;
+	outPacket.mVelocityZ = velocity.z;
+
+	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
+	GClientManager->DirectSend( targetClientSock, &outPacket );
+}
+
 // 각 패킷을 처리하는 핸들러를 만들자
 REGISTER_HANDLER( PKT_CS_LOGIN )
 {
@@ -372,27 +394,56 @@ REGISTER_HANDLER( PKT_CS_LOGIN )
 	session->HandleLoginRequest( inPacket );
 }
 
-// 지금은 접속과 동시에 같은 일을 처리하므로 쓰이지 않음 - 나중에 사용자 인증 기능같은 거 넣으면 사용
+// 현재 사용하지 않음 - 아이디는 연결되면 바로 보냄
 void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+}
 
-	// 로그인 됐으면 플레이어 만들고
-	int characterId = m_ActorManager->RegisterUser( &m_Character );
-	if ( characterId == -1 )
+REGISTER_HANDLER( PKT_CS_GAME_STATE )
+{
+	GameStateRequest inPacket = static_cast<GameStateRequest&>( pktBase );
+	session->HandleGameStateRequest( inPacket );
+}
+
+// 현재 게임 상태를 모두 전송
+void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// 내 캐릭터를 다른 플레이어들에게 방송
+	NewResult newPlayerPacket;
+	newPlayerPacket.mPlayerId = mPlayerId;
+
+	D3DXVECTOR3 tempContainer = m_Character.GetPosition();
+	newPlayerPacket.mPosX = tempContainer.x;
+	newPlayerPacket.mPosY = tempContainer.y;
+	newPlayerPacket.mPosZ = tempContainer.z;
+
+	tempContainer = m_Character.GetVelocity();
+	newPlayerPacket.mVelocityX = tempContainer.x;
+	newPlayerPacket.mVelocityY = tempContainer.y;
+	newPlayerPacket.mVelocityZ = tempContainer.z;
+
+	tempContainer = m_Character.GetRotation();
+	newPlayerPacket.mRotationX = tempContainer.x;
+	newPlayerPacket.mRotationY = tempContainer.y;
+	newPlayerPacket.mRotationZ = tempContainer.z;
+
+	if ( !Broadcast( &newPlayerPacket ) )
 	{
-		// 더 못 들어온다.
 		Disconnect();
 	}
 
-	m_Character.SetcharacterId( characterId );
+	// 다른 캐릭터들 정보 전송
+	// 매니저에게 요청하면 매니저는 자신이 가진 애들을 차례대로 불러다가 
+	// 매니저는 sock 기준으로 방송할 세션을 지정할 수 있어
+	// 요청한 아이에게 각자의 상태를 직접 보내도록(방송말고) 하자
+	GClientManager->InitPlayerState( this );
 
-	// 접속한 아이에게 아이디를 할당해준다.
-	LoginDone( characterId );
-
-	// 조심해!! 스폰 패킷 말들 것
-	// 새로 온 친구가 있으니까 전체에게 지금 게임 상태를 한 번 동기화 하라고 시킨다.
-	GClientManager->SyncAll();
+	// 기타 게임 정보 전송
+	// 현재는 없음
+	//GameStateResult outPacket;
 }
 
 REGISTER_HANDLER( PKT_CS_ACCELERATION )

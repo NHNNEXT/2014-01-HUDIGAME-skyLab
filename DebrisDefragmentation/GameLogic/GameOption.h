@@ -1,5 +1,13 @@
 ﻿#pragma once
 
+enum class CharacterClass
+{
+	NO_CLASS,
+	STRIKER,
+	ENGINEER,
+	PROTECTOR
+};
+
 // 게임 셋팅
 const unsigned int	MAX_PLAYER_NUM = 8;
 const float			ACCELERATION_WEIGHT = 1.0f;

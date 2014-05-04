@@ -42,15 +42,25 @@ int ActorManager::RegisterUser( Actor* newActor )
 	return -1; // 빈 자리가 없습니다.
 }
 
+/*
+사용 안 함 - 클래스를 바꾸면 각 세션이 자신의 멤버 함수의 m_Character의 class component를 바꾸는 걸로 
+결국 actorManager에 등록된 actor의 포인터는 그대로 유지되고, 내부 클래스만 바뀜
 void ActorManager::ChangeActor( Actor* newActor, int actorId )
 {
-	// 다른 세션 캐릭터를 바꾸는 일은 없도록 만들어야 할 듯 ///# 그러면 체크하는 로직 넣어야지?
+	// 다른 세션 캐릭터를 바꾸는 일은 없도록 만들어야 할 듯
+
 	// 확인을 위해서는 함수 호출한 세션의 캐릭터가 삭제하려는 캐릭터와 같은지 확인 필요
+	// 모든 인자를 호출하는 쪽에서 넣으므로 이 함수 안에서 확인은 힘들어 보임
+	// actorManager가 유저들의 actor를 직접 가지지 않고 유저 포인터만 들고 있으면서 
+	// 유저를 통해서 참조하면 각 유저가 자신의 캐릭터만 바꿀 수 있으니 괜찮겠지만...
+	
+	// 현재 구조에서는 이 함수를 호출하는 함수를 각 actor의 멤버 함수로 제한하고, 그 함수 안에서 자신의 actorId로 인자를 고정하도록 구현
 
 	// 기존 캐릭터 삭제 -> 새로운 캐릭터 등록
 	DeleteActor( actorId );
 	m_ActorList[actorId] = newActor;
 }
+*/
 
 void ActorManager::DeleteActor( int actorId )
 {

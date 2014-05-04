@@ -69,3 +69,21 @@ void Character::UpdateItSelf( float dTime )
 
 	// printf_s( "%f / %f / %f\n", m_Position.x, m_Position.y, m_Position.z );
 }
+
+void Character::ChangeClass( CharacterClass newClass )
+{
+	switch ( newClass )
+	{
+	case CharacterClass::NO_CLASS:
+		// break;
+	case CharacterClass::STRIKER:
+		// break;
+	case CharacterClass::ENGINEER:
+		// break;
+	case CharacterClass::PROTECTOR:
+		// break;
+	default:
+		m_ClassCompnent = nullptr;
+		break;
+	}
+}

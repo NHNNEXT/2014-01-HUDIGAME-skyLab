@@ -24,7 +24,7 @@ public:
 		새롭게 등록할 캐릭터 포인터와 id를 넘겨서 등록한다.
 		최경욱 2014. 4. 22
 	*/
-	void	ChangeActor( Actor* newActor, int actorId );
+	// void	ChangeActor( Actor* newActor, int actorId );
 	void	DeleteActor( int actorId );
 
 	// 조심해!!

@@ -26,6 +26,7 @@ public:
 
 	static void HandleLoginResult( DDPacketHeader& pktBase );
 	static void HandleSyncResult( DDPacketHeader& pktBase );
+	static void HandleNewResult( DDPacketHeader& pktBase );
 
 	static void HandleGoForwardResult( DDPacketHeader& pktBase );
 	static void HandleStopResult( DDPacketHeader& pktBase );

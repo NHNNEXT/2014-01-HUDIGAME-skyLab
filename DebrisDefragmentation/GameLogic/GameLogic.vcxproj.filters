@@ -20,16 +20,7 @@
     <Filter Include="Logic">
       <UniqueIdentifier>{bbf3aa62-c22a-42b9-b4bf-423e9066f6cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\CollideComponent">
-      <UniqueIdentifier>{622ce963-18f2-4cf0-8540-686583de674b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\PhysicsComponent">
-      <UniqueIdentifier>{7ddc28f5-6f37-4eec-9148-7550f425fe79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\PlayerComponent">
-      <UniqueIdentifier>{3adb408f-0cc2-4c7e-8443-36fa05dcf561}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\PlayerComponent\Class">
+    <Filter Include="Component\Class">
       <UniqueIdentifier>{11aeb9fe-4e70-4766-b140-93b317fb36a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -49,15 +40,6 @@
     <ClInclude Include="GameConfig.h">
       <Filter>Config</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionBox.h">
-      <Filter>Component\CollideComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Collide.h">
-      <Filter>Component\CollideComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Rigidbody.h">
-      <Filter>Component\PhysicsComponent</Filter>
-    </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Logic</Filter>
     </ClInclude>
@@ -74,13 +56,13 @@
       <Filter>Config</Filter>
     </ClInclude>
     <ClInclude Include="Engineer.h">
-      <Filter>Component\PlayerComponent\Class</Filter>
+      <Filter>Component\Class</Filter>
     </ClInclude>
     <ClInclude Include="Protector.h">
-      <Filter>Component\PlayerComponent\Class</Filter>
+      <Filter>Component\Class</Filter>
     </ClInclude>
     <ClInclude Include="Striker.h">
-      <Filter>Component\PlayerComponent\Class</Filter>
+      <Filter>Component\Class</Filter>
     </ClInclude>
     <ClInclude Include="BaseObject.h">
       <Filter>Object</Filter>
@@ -88,11 +70,20 @@
     <ClInclude Include="Character.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="ClassComponent.h">
-      <Filter>Component\PlayerComponent</Filter>
-    </ClInclude>
     <ClInclude Include="MatrixTransform.h">
       <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Collide.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBox.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassComponent.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,13 +100,13 @@
       <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Engineer.cpp">
-      <Filter>Component\PlayerComponent\Class</Filter>
+      <Filter>Component\Class</Filter>
     </ClCompile>
     <ClCompile Include="Protector.cpp">
-      <Filter>Component\PlayerComponent\Class</Filter>
+      <Filter>Component\Class</Filter>
     </ClCompile>
     <ClCompile Include="Striker.cpp">
-      <Filter>Component\PlayerComponent\Class</Filter>
+      <Filter>Component\Class</Filter>
     </ClCompile>
     <ClCompile Include="BaseObject.cpp">
       <Filter>Object</Filter>
@@ -124,7 +115,7 @@
       <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="ClassComponent.cpp">
-      <Filter>Component\PlayerComponent</Filter>
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

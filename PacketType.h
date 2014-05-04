@@ -33,6 +33,9 @@ enum PacketTypes
 	PKT_CS_SKILL_PULL = 15,
 	PKT_SC_SKILL_PULL = 16,
 
+	PKT_CS_GAME_STATE = 17,
+	PKT_SC_GAME_STATE = 18,
+
 	PKT_MAX = 1024
 };
 
@@ -245,6 +248,7 @@ struct SyncResult : public PacketHeader
 };
 
 // 일단 새 플레이어 생성하는 것에 대해서만
+// 나중에는 플레이어 오브젝트 구분해야 함
 struct NewResult : public PacketHeader
 {
 	NewResult()
@@ -261,10 +265,6 @@ struct NewResult : public PacketHeader
 		mVelocityY = 0.0f;
 		mVelocityZ = 0.0f;
 
-		mAccelerarionX = 0.0f;
-		mAccelerarionY = 0.0f;
-		mAccelerarionZ = 0.0f;
-
 		mRotationX = 0.0f;
 		mRotationY = 0.0f;
 		mRotationZ = 0.0f;
@@ -279,10 +279,6 @@ struct NewResult : public PacketHeader
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
-
-	float mAccelerarionX;
-	float mAccelerarionY;
-	float mAccelerarionZ;
 
 	float mRotationX;
 	float mRotationY;
@@ -439,6 +435,35 @@ struct SkillPullResult : public PacketHeader
 	float mSpinAxisZ;
 
 	float mSpinAngularVelocity;
+};
+
+// 로그인을 성공하면 지금 게임 상태를 모두 전송 받는다.
+struct GameStateRequest : public PacketHeader
+{
+	GameStateRequest()
+	{
+		mSize = sizeof( GameStateRequest );
+		mType = PKT_CS_GAME_STATE;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+// 오브젝트나 플레이어는 각각의 sync패킷으로 보내고
+// 이 패킷에는 게임 현재 상태(시작하고 지난 시간, 각 팀 점수 등)를 전송
+struct GameStateResult : public PacketHeader
+{
+	GameStateResult()
+	{
+		mSize = sizeof( GameStateResult );
+		mType = PKT_SC_GAME_STATE;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+
+	// 추가할 것
 };
 
 #pragma pack(pop)

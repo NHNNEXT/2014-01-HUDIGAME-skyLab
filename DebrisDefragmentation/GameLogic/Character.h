@@ -19,10 +19,12 @@ public:
 	// player 상태 가져오기
 	int GetcharacterId() { return m_CharacterId; }
 	void SetcharacterId( int characterId ) { m_CharacterId = characterId; }
+	void ChangeClass( CharacterClass newClass );
 
 private:
 	virtual void UpdateItSelf( float dTime );
 
 	int				m_CharacterId = -1;
+	ClassComponent*	m_ClassCompnent = nullptr;
 };
 

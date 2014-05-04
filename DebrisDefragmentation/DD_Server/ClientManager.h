@@ -24,6 +24,12 @@ public:
 	// 현재 게임 상태를 접속중인 모든 클라이언트에 동기화 시킴
 	void SyncAll();
 
+	// 다른 플레이어들 정보를 가져옴 - 처음 접속한 세션에서 호출
+	void InitPlayerState( ClientSession* caller );
+
+	// 다른 세션에 패킷을 전송
+	void DirectSend( const SOCKET& sock, PacketHeader* pkt );
+
 private:
 	void CollectGarbageSessions();
 	void ClientPeriodWork();

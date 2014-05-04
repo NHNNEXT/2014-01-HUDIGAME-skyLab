@@ -117,15 +117,33 @@ void ClientManager::SyncAll( )
 	// 조심해!
 	// 작업 오버헤드가 너무 큰 것 같은데...
 	// 일단 이번 주는 컴퓨터를 믿고 그냥 ㄱㄱ
-	int currentSessionId = -1;
-
 	for ( ClientList::const_iterator it = mClientList.begin(); it != mClientList.end(); ++it )
 	{
 		ClientSession* client = it->second;
 
-		// 		if ( from == client )
-		// 			continue;
-
 		client->SyncCurrentStatus();
 	}
+}
+
+void ClientManager::InitPlayerState( ClientSession* caller )
+{
+
+	// 각각의 클라이언트 세션을 돌면서 각자의 상태를 caller에게 전송하는 함수를 호출
+	// 그 함수들은 DirectSend를 통해서 
+	for ( ClientList::const_iterator it = mClientList.begin(); it != mClientList.end(); ++it )
+	{
+		ClientSession* client = it->second;
+
+		if ( caller == client )
+			continue;
+
+		client->SendCurrentStatus( caller->GetSock() );
+	}
+}
+
+void ClientManager::DirectSend( const SOCKET& sock, PacketHeader* pkt )
+{
+	ClientSession* targetClient = mClientList[sock];
+
+	targetClient->SendRequest( pkt );
 }

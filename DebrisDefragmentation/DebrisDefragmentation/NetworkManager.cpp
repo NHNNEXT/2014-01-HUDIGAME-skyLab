@@ -162,6 +162,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SYNC, HandleSyncResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PUSH, HandlePushResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PULL, HandlePullResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_NEW, HandleNewResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -274,4 +275,15 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 	player->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
+}
+
+void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
+{
+	NewResult inPacket = reinterpret_cast<NewResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }

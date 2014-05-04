@@ -64,11 +64,17 @@ public:
 	void	HandleSyncRequest( SyncRequest& inPacket );
 	void	HandleSkillPushRequest( SkillPushRequest& inPacket );
 	void	HandleSkillPullRequest( SkillPullRequest& inPacket );
-	
+	void	HandleGameStateRequest( GameStateRequest& inPacket );
 
-	int		GetPlayerId() { return mPlayerId; }
-	void	SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }
+	int				GetPlayerId() { return mPlayerId; }
+	const SOCKET	GetSock() { return mSocket; }
+	void			SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }
+	
+	// 현재 내 상태를 나를 포함한 전체 플레이어에게 전달
 	void	SyncCurrentStatus();
+
+	// 현재 내 상태를 targetClient에게 전달
+	void	SendCurrentStatus( const SOCKET& targetClientSock );
 
 private:
 
@@ -101,7 +107,7 @@ private:
 
 	int				mDbUpdateCount; ///< DB에 주기적으로 업데이트 하기 위한 변수
 
-	Character			m_Character;
+	Character		m_Character;
 	ActorManager*	m_ActorManager = nullptr;
 
 	friend class ClientManager;
