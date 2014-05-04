@@ -64,7 +64,7 @@ bool ClassComponent::CheckRemainOxygen()
 	if ( OXYGEN_COUNSUMED > m_Oxygen )
 	{
 		// 산소 부족시 체력 감소
-		m_HP -= HEALTH_REDUCED_BY_OXYGEN_LEAKAGE; ///# 경계값 확인 잘 할 것
+		m_HP -= HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT; ///# 경계값 확인 잘 할 것
 		
 		return false;
 	}

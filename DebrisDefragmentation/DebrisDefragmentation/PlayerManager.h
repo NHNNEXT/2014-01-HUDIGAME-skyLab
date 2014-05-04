@@ -19,7 +19,7 @@ public:
 	void		DeletePlayer( int playerId );
 	Player*		GetPlayer( int playerId ) { return m_PlayerList[playerId]; }
 			
-	unsigned int GetCurrentPlayers() const { return m_CurrentPlayers; }
+	unsigned int GetNumberOfCurrentPlayers() const { return m_CurrentPlayers; }
 
 	DDCamera*	GetCamera() const { return m_Camera; }
 	void		SetCamera( DDCamera* val ) { m_Camera = val; }

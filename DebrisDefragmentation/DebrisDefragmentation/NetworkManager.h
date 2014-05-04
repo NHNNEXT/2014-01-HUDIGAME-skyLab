@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "GameOption.h"
 
 struct DDPacketHeader;
 
@@ -17,6 +18,8 @@ public:
 	void SendTurnBody();
 	void SendSkillPush();
 	void SendSkillPull();
+	void SendDeadRequest();
+	void SendRespawnRequest(CharacterClass characterClass);
 
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }
@@ -27,6 +30,8 @@ public:
 	static void HandleLoginResult( DDPacketHeader& pktBase );
 	static void HandleSyncResult( DDPacketHeader& pktBase );
 	static void HandleNewResult( DDPacketHeader& pktBase );
+	static void HandleDeadResult( DDPacketHeader& pktBase );
+	static void HandleRespawnResult( DDPacketHeader& pktBase );
 
 	static void HandleGoForwardResult( DDPacketHeader& pktBase );
 	static void HandleStopResult( DDPacketHeader& pktBase );

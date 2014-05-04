@@ -134,6 +134,26 @@ void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
 
+	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
+	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ
+	// 05.04 김성환
+	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
+	{
+		// space 누르면 respawn request보낸다.
+		if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
+		{
+			// 조심해!!
+			// 일단은 striker만 보내보자..
+			// 뭘 보낼지 선택하는 부분은 나중에 추가할 것!
+			GNetworkManager->SendRespawnRequest(CharacterClass::STRIKER);
+		}
+
+		// player 조정이 playscene에 있으므로 여기서 return 함.
+		// 동시에 player의 updatable을 꺼줘야 player가 계속 sendDeadrequest하는 것을 막을 수 있음..
+		return;
+	}
+
+
 	// 키 고유 넘버는 아래를 참조하자 
 	// http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
 	// 현재 w키가 눌렸는지 확인한다
@@ -175,8 +195,6 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.		
 	// 고개 돌리기는 서버로 보낼 필요 없이 클라이언트에서만 적용
 	// 04.27 김성환
-	
-	
 	if ( GNetworkManager->IsPlayerLogon() )
 	{
 		DDPoint currentMousePos = GetMousePosition();
@@ -234,7 +252,7 @@ void PlayScene::UpdateUI()
 	unsigned int myId = GNetworkManager->GetMyPlayerId();
 	
 	// 초기화 덜 됨
-	if ( myId >= g_PlayerManager->GetCurrentPlayers() )
+	if ( myId >= g_PlayerManager->GetNumberOfCurrentPlayers() )
 	{
 		return;
 	}

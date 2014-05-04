@@ -115,3 +115,4 @@ void Character::ChangeClass( CharacterClass newClass )
 		break;
 	}
 }
+

@@ -47,20 +47,27 @@ public:
 	void	SetOxygen( int val ) { m_Oxygen = val; }
 	void	IncreaseOxygen( int val ) { m_Oxygen += val; }
 
+	int		GetHP() const { return m_HP; }
+	void	SetHP( int val ) { m_HP = val; }
+
 	bool	IsAlive() { return ( m_HP > 0 ) ? true : false; }
 	bool	CheckRemainGas( int gasWillBeUsed );
 	bool	CheckRemainOxygen();
 
+
+	TeamColor	GetTeam() const { return m_Team; }
+	void	SetTeam( TeamColor val ) { m_Team = val; }
+
 protected:	
 	bool		m_IsAccelerating = false;
-	bool		m_IsSpin = false;
+	bool		m_IsSpin = false;	
 	
-	
+	TeamColor		m_Team = TeamColor::NO_TEAM;
+
 	// 산소 및 추진체 관련
 	int			m_Oxygen = DEFAULT_OXYGEN;
 	int			m_Gas = DEFAULT_FUEL;
 	int			m_HP = DEFAULT_HP;
-
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
 };

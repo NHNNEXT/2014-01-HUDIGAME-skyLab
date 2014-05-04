@@ -65,6 +65,8 @@ public:
 	void	HandleSkillPushRequest( SkillPushRequest& inPacket );
 	void	HandleSkillPullRequest( SkillPullRequest& inPacket );
 	void	HandleGameStateRequest( GameStateRequest& inPacket );
+	void	HandleDeadRequest( DeadRequest& inPacket );
+	void	HandleRespawnRequest( RespawnRequest& inPacket );
 
 	int				GetPlayerId() { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }
@@ -83,6 +85,7 @@ private:
 
 	void	LoginDone( int pid );
 	void	UpdateDone();
+
 
 private:
 	// double			mPosX;

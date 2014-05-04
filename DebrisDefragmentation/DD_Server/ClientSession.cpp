@@ -2,6 +2,7 @@
 #include "ClientSession.h"
 #include "..\..\PacketType.h"
 #include "ClientManager.h"
+#include "GameOption.h"
 
 typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
 
@@ -87,7 +88,7 @@ bool ClientSession::PostRecv( )
 void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
-	m_ActorManager->DeleteActor( m_Character.GetcharacterId() );
+	m_ActorManager->DeleteActor( m_Character.GetCharacterId() );
 
 	if ( !IsConnected( ) )
 		return;
@@ -309,7 +310,7 @@ void ClientSession::SyncCurrentStatus()
 	D3DXVECTOR3 rotation = m_Character.GetRotation();
 	D3DXVECTOR3 velocity = m_Character.GetVelocity();
 
-	outPacket.mPlayerId = m_Character.GetcharacterId();
+	outPacket.mPlayerId = m_Character.GetCharacterId();
 
 	// 조심해!!
 	// 패킷 내부 변수를 아예 벡터로 만들어서 한 번에 복사하자
@@ -341,7 +342,7 @@ void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock )
 	D3DXVECTOR3 rotation = m_Character.GetRotation();
 	D3DXVECTOR3 velocity = m_Character.GetVelocity();
 
-	outPacket.mPlayerId = m_Character.GetcharacterId();
+	outPacket.mPlayerId = m_Character.GetCharacterId();
 
 	outPacket.mPosX = position.x;
 	outPacket.mPosY = position.y;
@@ -375,25 +376,23 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 		Disconnect();
 	}
 
-	m_Character.SetcharacterId( characterId );
+	m_Character.SetCharacterId( characterId );
 	m_Character.Init();
 
 	// 조심해!!
-	// 1. 여기있는게 맞나싶고.. 2. 하드코딩 수정
-	// 팀별로 포지션 정해주는 부분
-	// 이상한건 rotation을 먹이는데 클라에서 lookat에만 적용되고 
-	// rotation엔 적용 안됨(goforward는 본래 z방향으로 감..ㄷㄷ)
+	// 1. 여기있는게 맞나싶고.. 
+	// 팀별 정하는 부분.. 지금은 들어온순서대로 차례차례 배치함
+	// 나중에 캐릭터 진영 결정하는 부분 추가할 때 정리할 것.
 	// 04.29 김성환
 	if ( characterId % 2 == 1 )
 	{
-		m_Character.SetPosition( BLUE_TEAM_POS, .0f, characterId * 5 );
-		m_Character.SetRotation( .0f, 270.0f, .0f );
+		m_Character.GetClassComponent().SetTeam( TeamColor::BLUE );
 	}
 	else
 	{
-		m_Character.SetPosition( RED_TEAM_POS, .0f, characterId * 5 );
-		m_Character.SetRotation( .0f, 90.0f, .0f );
+		m_Character.GetClassComponent().SetTeam( TeamColor::RED );
 	}
+	m_Character.InitTeamPosition();
 
 	// 접속한 아이에게 아이디를 할당해준다.
 	LoginDone( characterId );
@@ -674,3 +673,68 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 		Disconnect();
 	}
 }
+
+REGISTER_HANDLER( PKT_CS_DEAD )
+{
+	DeadRequest inPacket = static_cast<DeadRequest&>( pktBase );
+	session->HandleDeadRequest( inPacket );
+}
+
+void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+	
+	printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
+	DeadResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
+REGISTER_HANDLER( PKT_CS_RESPAWN )
+{
+	RespawnRequest inPacket = static_cast<RespawnRequest&>( pktBase );
+	session->HandleRespawnRequest( inPacket );
+}
+
+void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	m_Character.InitTeamPosition();
+	
+	printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
+
+	// 조심해!!! 
+	// 클래스 추가하고 구현할 때,
+	// 받은 패킷에 있는 클래스대로 리스폰시 classComponent변경해줄 것.
+	// 05.04 김성환
+	// m_Character.ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
+
+	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
+	RespawnResult outPacket;
+	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mCharacterClass = inPacket.mCharacterClass;
+
+	D3DXVECTOR3 position = m_Character.GetPosition();	
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
+	
+	D3DXVECTOR3 rotation = m_Character.GetRotation();
+	outPacket.mRotationX = rotation.x;
+	outPacket.mRotationY = rotation.y;
+	outPacket.mRotationZ = rotation.z;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+

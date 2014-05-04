@@ -36,6 +36,12 @@ enum PacketTypes
 	PKT_CS_GAME_STATE = 17,
 	PKT_SC_GAME_STATE = 18,
 
+	PKT_CS_DEAD = 19,
+	PKT_SC_DEAD = 20,
+
+	PKT_CS_RESPAWN = 21,
+	PKT_SC_RESPAWN = 22,
+
 	PKT_MAX = 1024
 };
 
@@ -246,6 +252,71 @@ struct SyncResult : public PacketHeader
 	float mVelocityY;
 	float mVelocityZ;
 };
+
+
+// 캐릭터 hp가 0일 때 보냄.
+struct DeadRequest : public PacketHeader
+{
+	DeadRequest()
+	{
+		mSize = sizeof( DeadRequest );
+		mType = PKT_CS_DEAD;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+struct DeadResult : public PacketHeader
+{
+	DeadResult()
+	{
+		mSize = sizeof ( DeadResult );
+		mType = PKT_SC_DEAD;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+struct RespawnRequest : public PacketHeader
+{
+	RespawnRequest()
+	{
+		mSize = sizeof ( RespawnRequest );
+		mType = PKT_CS_RESPAWN;
+		mPlayerId = -1;
+		mCharacterClass = 0; // no_class
+	}
+	int		mPlayerId;
+	int		mCharacterClass;
+};
+
+struct RespawnResult : public PacketHeader
+{
+	RespawnResult()
+	{
+		mSize = sizeof ( RespawnResult );
+		mType = PKT_SC_RESPAWN;
+		mPlayerId = -1;
+		mCharacterClass = 0; // no_class
+
+		mPosX = 0.0f;
+		mPosY = 0.0f;
+		mPosZ = 0.0f;
+
+		mRotationX = 0.0f;
+		mRotationY = 0.0f;
+		mRotationZ = 0.0f;
+	}
+
+	int		mPlayerId;
+	int		mCharacterClass;
+
+	float mPosX, mPosY, mPosZ;
+	float mRotationX, mRotationY, mRotationZ;
+};
+
 
 // 일단 새 플레이어 생성하는 것에 대해서만
 // 나중에는 플레이어 오브젝트 구분해야 함

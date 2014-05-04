@@ -14,7 +14,7 @@ Player::Player( int playerId )
 {
 	// 조심해!!
 	// 나중에 인자 입력받아서 클래스 종류별로 m_avatar에 지정해줄 것
-	m_CharacterClass = ClassComponent::Create();
+	m_ClassComponent = ClassComponent::Create();
 	m_PlayerId = playerId;
 }
 
@@ -44,15 +44,15 @@ void Player::RenderItSelf()
 	// 자전 변환을 m_Matrix에 추가해서 자식 객체들 - 카메라, 캐릭터 등이 
 	// 자전 변환이 적용된 상태로 계산되게 한다
 
-	if ( m_CharacterClass->IsSpinning( ) )
+	if ( m_ClassComponent->IsSpinning( ) )
 	{
 		// 조심해!!
 		// affine transform에 적용해서 한 번에 처리하는 게 좋을 듯
-		m_CharacterClass->AddSpinTime( 0.02 );
+		m_ClassComponent->AddSpinTime( 0.02 );
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_CharacterClass->GetSpinTime( ) );
+		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_ClassComponent->GetSpinTime( ) );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 	}
 
@@ -62,21 +62,22 @@ void Player::RenderItSelf()
 
 void Player::UpdateItSelf( float dTime )
 {
-	//g_PlayerManager->GetCamera()->SetPosition( m_Position );
+	
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
-	if ( !m_CharacterClass->CheckRemainOxygen() )
+	if ( !m_ClassComponent->CheckRemainOxygen() && !m_ClassComponent->IsAlive() )
 	{
-		// printf( "player is dead" );
+		printf( "player is dead\n" );
+		GNetworkManager->SendDeadRequest();
 		// return;
 	}
 
-	if ( m_CharacterClass->IsAccelerating() )
+	if ( m_ClassComponent->IsAccelerating() )
 	{
 		/// config.h
-		if ( timeGetTime() - m_CharacterClass->GetAccelerationStartTime() > 500 )
+		if ( timeGetTime() - m_ClassComponent->GetAccelerationStartTime() > 500 )
 		{
 			// 가속 끝났다
-			m_CharacterClass->SetIsAccelerating( false );
+			m_ClassComponent->SetIsAccelerating( false );
 			m_RigidBody.m_Acceleration = DDVECTOR3( 0, 0, 0 );
 		}
 	}
@@ -91,28 +92,28 @@ void Player::LookAt( float x, float y, float z )
 
 void Player::TurnBody( float x, float y, float z )
 {
-	m_CharacterClass->TurnBody( m_Rotation, x, y, z );		
+	m_ClassComponent->TurnBody( m_Rotation, x, y, z );		
 }
 
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_CharacterClass->SetSpin( rotationAxis, angularVelocity, m_RigidBody );
-	m_CharacterClass->SetSpinTime( 0.0f );
-	m_CharacterClass->SetSpinnigFlag( true );
+	m_ClassComponent->SetSpin( rotationAxis, angularVelocity, m_RigidBody );
+	m_ClassComponent->SetSpinTime( 0.0f );
+	m_ClassComponent->SetSpinnigFlag( true );
 }
 
 void Player::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_CharacterClass->AddSpin( rotationAxis, angularVelocity, m_RigidBody );
+	m_ClassComponent->AddSpin( rotationAxis, angularVelocity, m_RigidBody );
 	// m_SpinTime = 0.0f;
-	m_CharacterClass->SetSpinnigFlag( true );
+	m_ClassComponent->SetSpinnigFlag( true );
 }
 
 void Player::StopSpin( )
 {
-	m_CharacterClass->SetSpinnigFlag( false );
-	m_CharacterClass->SetSpinTime( 0.0f );
-	m_CharacterClass->StopSpin( m_RigidBody );
+	m_ClassComponent->SetSpinnigFlag( false );
+	m_ClassComponent->SetSpinTime( 0.0f );
+	m_ClassComponent->StopSpin( m_RigidBody );
 }
 
 void Player::InitCollisionBox()
@@ -252,4 +253,22 @@ void Player::DrawCollisionBox()
 
 	Line->End();
 	Line->Release();
+}
+
+// 캐릭터 클래스 변환시 실행, 내용은 server쪽과 동일하면 될 듯..
+void Player::ChangeClass( CharacterClass characterClass )
+{
+	switch ( characterClass )
+	{
+		case CharacterClass::NO_CLASS:
+			break;
+		case CharacterClass::STRIKER:
+			break;
+		case CharacterClass::ENGINEER:
+			break;
+		case CharacterClass::PROTECTOR:
+			break;
+		default:
+			break;
+	}
 }

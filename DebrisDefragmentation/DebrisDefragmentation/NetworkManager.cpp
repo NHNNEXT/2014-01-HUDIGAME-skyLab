@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "CompassUI.h"
 #include "PlayScene.h"
+#include "GameOption.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -141,24 +142,53 @@ void NetworkManager::SendSkillPull()
 	if ( m_MyPlayerId == -1 )
 		return;
 
-	SkillPullRequest outPacket;
+	SkillPushRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
+
 
 	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
 	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
 	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
-	
-	// camera 방향으로 pull 발사
+
+	// camera 방향으로 push 발사
 	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
 	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
 	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
-// 	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
-// 	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
-// 	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
-// 	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX();
-// 	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
-// 	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+	// 	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
+	// 	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
+	// 	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
+
+// 캐릭터가 죽으면 보냄..
+// 05.03 김성환
+void NetworkManager::SendDeadRequest()
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	DeadRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+	// player가 update되지 않도록 막음.. 계속 senddeadrequest를 호출할 수 없도록..
+	g_PlayerManager->GetPlayer( m_MyPlayerId )->SetUpdatable( false );
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
+// 캐릭터가 리스폰될 때 보냄.
+void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	RespawnRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+	outPacket.mCharacterClass = static_cast<int>( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetClassComponent().GetTeam() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -174,6 +204,8 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PUSH, HandlePushResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PULL, HandlePullResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_NEW, HandleNewResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEAD, HandleDeadResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_RESPAWN, HandleRespawnResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -199,9 +231,6 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
 		compassUI->Init();
 		camera->AddChild( compassUI );
-
-		
-
 	}
 }
 
@@ -296,4 +325,30 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+}
+
+
+void NetworkManager::HandleDeadResult( DDPacketHeader& pktBase )
+{
+	DeadResult inPacket = reinterpret_cast<DeadResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// 죽으면 처리할 부분 추가할 것
+	// fps 게임에서 죽으면 다른 캐릭터 보는 view로 바꿔준다거나, scene을 바꿔준다거나...	
+}
+
+void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
+{
+	RespawnResult inPacket = reinterpret_cast<RespawnResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	Player* player = g_PlayerManager->GetPlayer( m_MyPlayerId );
+	// player::changeClass 내용 구현 후 적용할 것. 지금은 껍데기만 있음..
+	//g_PlayerManager->GetPlayer( m_MyPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
+
+	player->SetUpdatable( true );
+
+	player->GetClassComponent().SetHP( DEFAULT_HP );
+	player->SetPosition( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ );
+	player->SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 }

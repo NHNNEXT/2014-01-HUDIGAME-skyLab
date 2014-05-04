@@ -30,6 +30,9 @@ ISSModuleName ISS::Occupy( int skillUserId )
 	// 자신에게 등록된 모듈들을 차례대로 돌면서 
 	// 유저의 position 에서 viewDirection 방향의 ray를 쏴서 걸리는 점령 포인트가 있는지 확인 - 거리도 포함해서 계산
 	// 걸리는 애가 있으면 그 모듈의 상태를 바꾸고 변화가 적용된 모듈 id를 반환
+
+	// 임시 리턴값
+	return ISSModuleName::NO_MODULE;
 }
 
 std::tuple<ISSModuleName, float> ISS::Destroy( int skillUserId )
@@ -38,4 +41,7 @@ std::tuple<ISSModuleName, float> ISS::Destroy( int skillUserId )
 	// 자신에게 등록된 모듈들을 차례대로 돌면서 
 	// 유저의 position 에서 viewDirection 방향의 ray를 쏴서 걸리는 모듈이 있는지 확인 - 거리도 포함해서 계산
 	// 걸리는 애가 있으면 체력을 낮추고 걸린 모듈의 id와 변경된 체력을 tuple에 담아서 리턴
+
+	//임시 리턴값
+	return std::make_tuple( ISSModuleName::NO_MODULE, 0.0f );
 }

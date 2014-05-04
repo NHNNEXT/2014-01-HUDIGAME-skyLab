@@ -18,9 +18,12 @@ public:
 
 	void Update( float dTime );
 
+	void SetPosition( D3DXVECTOR3 pos ) { m_Position = pos; }
 	void SetPosition( float x, float y, float z ) { m_Position = D3DXVECTOR3( x, y, z ); }
 	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = D3DXVECTOR3( scaleX, scaleY, scaleZ ); }
+	void SetRotation( D3DXVECTOR3 rot ) { m_Rotation = rot; }
 	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = D3DXVECTOR3( rotationX, rotationY, rotationZ ); }
+	
 
 	D3DXVECTOR3 GetPosition() const { return m_Position; }
 	D3DXVECTOR3 GetScale() const { return m_Scale; }

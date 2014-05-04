@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <string>
+#include <array>
 
 enum class CharacterClass
 {
@@ -43,8 +45,6 @@ const unsigned int	MAX_PLAYER_NUM = 8;
 const float			ACCELERATION_WEIGHT = 1.0f;
 const float			COLLISION_ACCELERATION_WEIGHT = 0.5f;
 const unsigned int	ACCELERATION_TIME = 500;
-const float			BLUE_TEAM_POS = 100.0f;
-const float			RED_TEAM_POS = -100.0f;
 
 const int			VECTOR_DIRECTION_3 = 3;
 const int			BOX_POINT_COUNT = 8;
@@ -63,16 +63,24 @@ const float			CHARACTER_CB_LENGTH_X = 1.0f;
 const float			CHARACTER_CB_LENGTH_Y = 1.0f;
 const float			CHARACTER_CB_LENGTH_Z = 1.0f;
 
+#define				BLUE_TEAM_POSITION	D3DXVECTOR3(100.0f, .0f, .0f)
+#define				RED_TEAM_POSITION	D3DXVECTOR3(-100.0f, .0f, .0f)
+#define				BLUE_TEAM_ROTATION	D3DXVECTOR3(.0f, 270.0f, .0f)
+#define				RED_TEAM_ROTATION	D3DXVECTOR3(.0f, 90.0f, .0f)
+
+
+
+
 const float			CHARACTER_CB_CENTER_POS_X = 0.0f;
 const float			CHARACTER_CB_CENTER_POS_Y = -0.5f;
 const float			CHARACTER_CB_CENTER_POS_Z = 0.0f;
 
 // 추진체 관련
 const int			OXYGEN_COUNSUMED = 1;
-const int			HEALTH_REDUCED_BY_OXYGEN_LEAKAGE = 10;
+const int			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10;
 const int			GAS_FOR_GOFORWARD = 30;
 
-const int			DEFAULT_OXYGEN = 3000;
+const int			DEFAULT_OXYGEN = 200;
 const int			DEFAULT_FUEL = 5000;
 const int			DEFAULT_HP = 100;
 

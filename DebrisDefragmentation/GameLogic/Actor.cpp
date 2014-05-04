@@ -48,3 +48,21 @@ void Actor::StopSpin( )
 	m_CharacterClass->SetSpinTime( 0.0f );
 	m_CharacterClass->StopSpin( m_RigidBody ); 
 }
+
+
+void Actor::InitTeamPosition()
+{
+	switch ( GetClassComponent().GetTeam() )
+	{
+		case TeamColor::RED:
+			SetPosition( RED_TEAM_POSITION );
+			SetRotation( RED_TEAM_ROTATION );
+			break;
+		case TeamColor::BLUE:
+			SetPosition( BLUE_TEAM_POSITION );
+			SetRotation( BLUE_TEAM_ROTATION );
+			break;
+		default:
+			break;
+	}
+}

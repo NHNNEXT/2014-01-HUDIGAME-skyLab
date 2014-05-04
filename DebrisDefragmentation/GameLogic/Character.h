@@ -7,6 +7,7 @@
 #pragma once
 
 #include "Actor.h"
+#include "GameOption.h"
 
 class Character : public Actor
 {
@@ -14,12 +15,14 @@ public:
 	Character() {}
 	virtual ~Character();
 
-	void Init();
+	void	Init();
+	void	ChangeClass( CharacterClass newClass );
 
 	// player 상태 가져오기
-	int GetcharacterId() { return m_CharacterId; }
-	void SetcharacterId( int characterId ) { m_CharacterId = characterId; }
-	void ChangeClass( CharacterClass newClass );
+	int		GetCharacterId() { return m_CharacterId; }
+	void	SetCharacterId( int characterId ) { m_CharacterId = characterId; }
+
+	
 
 private:
 	virtual void UpdateItSelf( float dTime );

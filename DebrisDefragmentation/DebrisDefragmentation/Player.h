@@ -23,10 +23,10 @@ public:
 	void Init();	
 	
 	// 현재 바라보는 방향으로 가속도 부여
-	void GoForward() { m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); }
+	void GoForward() { m_ClassComponent->GoForward( GetViewDirection(), m_RigidBody ); }
 
 	// 가속도 및 속도 0으로 변경
-	void Stop() { m_CharacterClass->Stop( m_RigidBody ); }
+	void Stop() { m_ClassComponent->Stop( m_RigidBody ); }
 
 	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
 
@@ -43,13 +43,16 @@ public:
 	void TurnBody( float x, float y, float z );
 
 	// Getter Setter
+	ClassComponent& GetClassComponent() { return *m_ClassComponent.get(); }
+	void ChangeClass( CharacterClass characterClass );
+
 	DDVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
 	DDVECTOR3 GetAcceleration() const { return m_RigidBody.m_Acceleration; }
 	void SetVelocity( DDVECTOR3 val ) { m_RigidBody.m_Velocity = val; }	
 	void SetAcceleration( DDVECTOR3 val ) { m_RigidBody.m_Acceleration = val; }
 	//DDVECTOR3 GetHeadDirection() { return m_HeadDirection; }
-	int GetGas() { return m_CharacterClass->GetGas(); }
-	int GetOxygen() { return m_CharacterClass->GetOxygen(); }
+	int GetGas() { return m_ClassComponent->GetGas(); }
+	int GetOxygen() { return m_ClassComponent->GetOxygen(); }
 
 private:
 	virtual void RenderItSelf();
@@ -59,7 +62,7 @@ private:
 	void DrawCollisionBox();
 
 	unsigned int					m_PlayerId;
-	std::shared_ptr<ClassComponent>	m_CharacterClass; // shared_ptr기본 생성자에서 초기화
+	std::shared_ptr<ClassComponent>	m_ClassComponent; // shared_ptr기본 생성자에서 초기화
 	DDModel*						m_CharacterModel = nullptr;
 	//DDCamera*						m_Camera = nullptr;		
 

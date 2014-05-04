@@ -17,13 +17,14 @@ public:
 	Actor();
 	virtual ~Actor();
 
-	void GoForward() { m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); }	
-	void Stop() { m_CharacterClass->Stop( m_RigidBody ); }
-	//void TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
-	void TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
+	void	InitTeamPosition();
+	ClassComponent& GetClassComponent() { return *m_CharacterClass.get(); }
+	void	GoForward() { m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); }	
+	void	Stop() { m_CharacterClass->Stop( m_RigidBody ); }	
+	void	TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
 
-	void SetAccelerarion( const D3DXVECTOR3 &direction );
-	void IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
+	void	SetAccelerarion( const D3DXVECTOR3 &direction );
+	void	IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
 
 	D3DXVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
 
