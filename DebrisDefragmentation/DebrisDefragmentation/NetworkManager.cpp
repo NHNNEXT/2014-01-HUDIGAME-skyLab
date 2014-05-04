@@ -346,9 +346,11 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	// player::changeClass 내용 구현 후 적용할 것. 지금은 껍데기만 있음..
 	//g_PlayerManager->GetPlayer( m_MyPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
 
+	player->GetClassComponent().SetOxygen( DEFAULT_OXYGEN );
+	player->GetClassComponent().SetHP( DEFAULT_HP );
+	player->GetClassComponent().SetFuel( DEFAULT_FUEL );
 	player->SetUpdatable( true );
 
-	player->GetClassComponent().SetHP( DEFAULT_HP );
 	player->SetPosition( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ );
 	player->SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 }

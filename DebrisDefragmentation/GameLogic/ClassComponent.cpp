@@ -15,7 +15,7 @@ ClassComponent::~ClassComponent()
 
 void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 {
-	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Gas, m_Oxygen, m_HP );
+	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Fuel, m_Oxygen, m_HP );
 	if ( !CheckRemainGas( GAS_FOR_GOFORWARD ) )
 	{
 		return;
@@ -78,11 +78,11 @@ bool ClassComponent::CheckRemainOxygen()
 
 bool ClassComponent::CheckRemainGas( int gasWillBeUsed )
 {
-	if ( gasWillBeUsed > m_Gas )
+	if ( gasWillBeUsed > m_Fuel )
 	{
 		return false;
 	}
-	m_Gas -= gasWillBeUsed;
+	m_Fuel -= gasWillBeUsed;
 	return true;
 
 }

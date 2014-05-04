@@ -40,8 +40,8 @@ public:
 	float	GetSpinTime() { return m_SpinTime; }
 	void	SetSpinTime( float time ) { m_SpinTime = time; }
 	
-	int		GetGas() const { return m_Gas; }
-	void	SetGas( int val ) { m_Gas = val; }
+	int		GetFuel() const { return m_Fuel; }
+	void	SetFuel( int val ) { m_Fuel = val; }
 
 	int		GetOxygen() const { return m_Oxygen; }
 	void	SetOxygen( int val ) { m_Oxygen = val; }
@@ -66,7 +66,7 @@ protected:
 
 	// 산소 및 추진체 관련
 	int			m_Oxygen = DEFAULT_OXYGEN;
-	int			m_Gas = DEFAULT_FUEL;
+	int			m_Fuel = DEFAULT_FUEL;
 	int			m_HP = DEFAULT_HP;
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;

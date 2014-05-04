@@ -51,7 +51,7 @@ public:
 	void SetVelocity( DDVECTOR3 val ) { m_RigidBody.m_Velocity = val; }	
 	void SetAcceleration( DDVECTOR3 val ) { m_RigidBody.m_Acceleration = val; }
 	//DDVECTOR3 GetHeadDirection() { return m_HeadDirection; }
-	int GetGas() { return m_ClassComponent->GetGas(); }
+	int GetGas() { return m_ClassComponent->GetFuel(); }
 	int GetOxygen() { return m_ClassComponent->GetOxygen(); }
 
 private:
