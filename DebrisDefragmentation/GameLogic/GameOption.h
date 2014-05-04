@@ -8,6 +8,14 @@ enum class CharacterClass
 	PROTECTOR
 };
 
+enum class ClientUITag
+{
+	UI_OXYGEN_TAG,
+	UI_FUEL_TAG,
+	UI_FRAME_TAG,
+	UI_TAG_COUNT // total UI 숫자
+};
+
 // 게임 셋팅
 const unsigned int	MAX_PLAYER_NUM = 8;
 const float			ACCELERATION_WEIGHT = 1.0f;
@@ -56,6 +64,14 @@ const float			UI_FUEL_POSITION_X = 10.0f;
 const float			UI_FUEL_POSITION_Y = 30.0f;
 const float			UI_FRAME_POSITION_X = 0.0f;
 const float			UI_FRAME_POSITION_Y = 50.0f;
+
+const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
+const std::array<std::wstring, size_t( ClientUITag::UI_TAG_COUNT )> UI_FILENAME_LIST
+	= {
+		L"OxygenUI.png",
+		L"FuelUI.png",
+		L"Frame.png"
+	};
 
 // Config
 const bool			MOUSE_POINTER_ON = true;

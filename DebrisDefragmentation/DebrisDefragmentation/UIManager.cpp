@@ -1,5 +1,4 @@
 ﻿#include "UIManager.h"
-#include "DDUI.h"
 
 extern std::shared_ptr<UIManager> g_UIManager = nullptr;
 
@@ -12,38 +11,20 @@ UIManager::~UIManager()
 {
 }
 
-DDUI* UIManager::CreateUIOxygen( std::wstring filePath, float x, float y )
+DDUI* UIManager::CreateUI( ClientUITag tag, float x, float y )
 {
-	m_UIOxygen = DDUI::Create();
-	m_UIOxygen->InitUI( filePath );
-	m_UIOxygen->SetPosition( x, y, 0 );
-	return m_UIOxygen;
+	// UI Tag == Index
+	// UI 객체의 고유 인덱스이기도 하고 UI 파일명 리스트의 인덱스이기도 함
+	int index = static_cast<int>( tag );
 
-}
+	// 파일 경로를 만든다
+	std::wstring filePath = UI_FILE_PATH;
+	filePath.append( UI_FILENAME_LIST[index] );
 
-DDUI* UIManager::CreateUIFuel( std::wstring filePath, float x, float y )
-{
-	m_UIFuel = DDUI::Create();
-	m_UIFuel->InitUI( filePath );
-	m_UIFuel->SetPosition( x, y, 0 );
-	return m_UIFuel;
-}
+	// 해당하는 List 인덱스에 UI를 만든다
+	m_UIObjectList[index] = DDUI::Create();
+	m_UIObjectList[index]->InitUI( filePath );
+	m_UIObjectList[index]->SetPosition( x, y, 0 );
 
-
-DDUI* UIManager::CreateUIFrame( std::wstring filePath, float x, float y )
-{
-	m_UIFrame = DDUI::Create();
-	m_UIFrame->InitUI( filePath );
-	m_UIFrame->SetPosition( x, y, 0 );
-	m_UIFrame->SetScale( 0.6f, 0.6f, 0.6f );
-	return m_UIFrame;
-}
-
-// 아직 쓰지 마시오!
-DDUI* UIManager::CreateUI( std::wstring filePath, float x, float y )
-{
-	DDUI* ui = DDUI::Create();
-	ui->InitUI( filePath );
-	ui->SetPosition( x, y, 0 );
-	return ui;
+	return m_UIObjectList[index];
 }

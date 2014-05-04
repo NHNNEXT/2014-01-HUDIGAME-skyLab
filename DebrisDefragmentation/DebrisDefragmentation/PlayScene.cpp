@@ -245,24 +245,16 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 void PlayScene::AddUI()
 {
 	// UI 생성 및 추가 부분을 UI Manager가 처리하도록 뺐음
-	// UI Manager 내부에 UI들을 관리하는 자료구조가 필요함 지금은 일단 노가다로 create함수도 2개 만듬
-	// DDUI 및 UIManager 참고
-	std::wstring filePathFuel = L".\\Resources\\Image\\FuelUI.png";
-	std::wstring filePathOxygen = L".\\Resources\\Image\\OxygenUI.png";
-	std::wstring filePathFrame = L".\\Resources\\Image\\Frame.png";
-	AddChild( g_UIManager->CreateUIOxygen( filePathOxygen, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
-	AddChild( g_UIManager->CreateUIFrame( filePathFrame, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
-	AddChild( g_UIManager->CreateUIFuel( filePathFuel, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
-
+	// 인자로 UI Tag 를 받도록 바꿈
+	AddChild( g_UIManager->CreateUI( ClientUITag::UI_OXYGEN_TAG, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
+	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FRAME_TAG, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
+	// frame 크기는 60%로
+	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->SetScale( 0.6f, 0.6f, 0.6f );
+	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FUEL_TAG, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 }
 
 void PlayScene::UpdateUI()
 {
-	// 조심해!! UI가 늘어날 경우 좋은 코드가 아닙니다.
-	// 되는지 확인하는 용도입니다.
-	// >>> 되긴 되네요. 그런데 스케일을 바꾸면 좌표도 바뀌어서 위치를 재조정해야 함 ㅡㅡ;;
-	// 좀 더 좋은 방법을 찾아봐야 할 듯...
-	
 	unsigned int myId = GNetworkManager->GetMyPlayerId();
 	
 	// 초기화 덜 됨
@@ -275,8 +267,8 @@ void PlayScene::UpdateUI()
 	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUIOxygen()->SetScale( currentOxygen / static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
-	g_UIManager->GetUIFuel()->SetScale( currentFuel / static_cast<float>(DEFAULT_FUEL), 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->SetScale( currentOxygen / static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->SetScale( currentFuel / static_cast<float>( DEFAULT_FUEL ), 1, 1 );
 }
 
 void PlayScene::LoadJSON()
