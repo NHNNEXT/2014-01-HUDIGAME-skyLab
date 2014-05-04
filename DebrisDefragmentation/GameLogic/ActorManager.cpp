@@ -2,7 +2,7 @@
 #include "ActorManager.h"
 #include "Physics.h"
 
-using Physics::operator&;
+// using Physics::operator&;
 
 ActorManager::ActorManager()
 {
@@ -113,20 +113,24 @@ bool ActorManager::CheckCollision()
 		if ( m_ActorList[i] == nullptr )
 			continue;
 
+		const CollisionBox* boxI = m_ActorList[i]->GetCollisionBox();
+
 		for ( int j = i + 1; j < MAX_PLAYER_NUM; ++j )
 		{
 			if ( m_ActorList[j] == nullptr )
 				continue;
 
+			const CollisionBox* boxJ = m_ActorList[j]->GetCollisionBox();
+
 			// 두 점의 거리가 가까우면 체크 안 함
 			D3DXVECTOR3 collisionDirection = m_ActorList[j]->GetPosition() - m_ActorList[i]->GetPosition();
 			// printf_s( "%f / %f\n", D3DXVec3Length( &collisionDirection ), m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius );
-			if ( D3DXVec3Length( &collisionDirection ) > m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius )
+			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
 				continue;
 
 			// 충돌체크
-			// if ( Physics::IsCollide( m_ActorList[i]->GetCollisionBox(), m_ActorList[j]->GetCollisionBox() ) )
-			if (m_ActorList[i]->GetCollisionBox() & m_ActorList[j]->GetCollisionBox() )
+			if ( Physics::IsCollide( boxI, boxJ ) )
+			// if ( m_ActorList[i]->GetCollisionBox() & m_ActorList[j]->GetCollisionBox() )
 			{
 				printf_s( "collision!\n" );
 				// 두 물체의 중심점을 잇는 단위 벡터 생성
@@ -143,7 +147,6 @@ bool ActorManager::CheckCollision()
 				{
 					return false;
 				}
-
 
 				float iMass = m_ActorList[i]->GetMass();
 				float jMass = m_ActorList[j]->GetMass();

@@ -4,7 +4,6 @@
 BaseObject::BaseObject()
 {
 	D3DXMatrixIdentity( &m_Matrix );
-	m_CollisionBox.m_Transform = &m_Matrix;
 }
 
 
@@ -50,22 +49,19 @@ D3DXVECTOR3 BaseObject::GetViewDirection(float x, float y, float z)
 	return D3DXVECTOR3( tempMatrix._31, tempMatrix._32, tempMatrix._33 );
 }
 
-CollisionBox BaseObject::GetCollisionBox() const
+const CollisionBox* BaseObject::GetCollisionBox() 
 {
-	// 지금 현재 기준으로 변환 행렬을 적용한 바운딩 박스를 리턴
-	CollisionBox transformedBox;
-
 	D3DXVECTOR4 tempMat;
 
 	// 현재 위치
-	D3DXVec3Transform( &tempMat, &m_CollisionBox.m_CenterPos, m_CollisionBox.m_Transform );
-	transformedBox.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+	D3DXVec3Transform( &tempMat, &m_CollisionBox.m_CenterPos, &m_Matrix );
+	m_TtransformedBox.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
 	// 각 점 좌표
 	D3DXVec3TransformCoordArray(
-		transformedBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
+		m_TtransformedBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
 		m_CollisionBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
-		m_CollisionBox.m_Transform, BOX_POINT_COUNT
+		&m_Matrix, BOX_POINT_COUNT
 		);
 
 	// 축
@@ -74,14 +70,13 @@ CollisionBox BaseObject::GetCollisionBox() const
 		// 마지막 항을 0으로 해야 평행이동 값이 벡터에 반영되지 않음
 		D3DXVECTOR4 tempAxis = D3DXVECTOR4( m_CollisionBox.m_AxisDir[i].x, m_CollisionBox.m_AxisDir[i].y, m_CollisionBox.m_AxisDir[i].z, 0 );
 
-		D3DXVec4Transform( &tempMat, &tempAxis, m_CollisionBox.m_Transform );
-		transformedBox.m_AxisDir[i] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+		D3DXVec4Transform( &tempMat, &tempAxis, &m_Matrix );
+		m_TtransformedBox.m_AxisDir[i] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-		transformedBox.m_AxisLen[i] = m_CollisionBox.m_AxisLen[i];
+		m_TtransformedBox.m_AxisLen[i] = m_CollisionBox.m_AxisLen[i];
 	}
 
-	transformedBox.m_Radius = m_CollisionBox.m_Radius;
-	transformedBox.m_Transform = m_CollisionBox.m_Transform;
+	m_TtransformedBox.m_Radius = m_CollisionBox.m_Radius;
 
-	return transformedBox;
+	return &m_TtransformedBox;
 }

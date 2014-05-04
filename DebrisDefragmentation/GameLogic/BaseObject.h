@@ -34,14 +34,15 @@ public:
 	D3DXVECTOR3 GetViewDirection( float x, float y, float z );
 
 	// 현재 변환 행렬이 적용된 충돌 박스 리턴
-	CollisionBox GetCollisionBox() const;
+	const CollisionBox* GetCollisionBox();
 
 protected:
 	D3DXMATRIXA16	m_Matrix;
 	D3DXVECTOR3		m_Position{ 0.0f, 0.0f, 0.0f };
 	D3DXVECTOR3		m_Rotation{ 0.0f, 0.0f, 0.0f };
 	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
-	CollisionBox	m_CollisionBox;
+	CollisionBox	m_CollisionBox;		// 충돌 박스의 기본 값 저장
+	CollisionBox	m_TtransformedBox;	// 물체가 회전함에 따라 기본 박스가 변형된 값 저장
 
 private:
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }

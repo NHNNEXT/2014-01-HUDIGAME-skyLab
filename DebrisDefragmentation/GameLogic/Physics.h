@@ -109,7 +109,7 @@ namespace Physics
 	}
 	*/
 
-	bool static IsCollide( const CollisionBox &box1, const CollisionBox &box2 )
+	bool static IsCollide( const CollisionBox *box1, const CollisionBox *box2 )
 	{
 		// TransformCollisionBox( box1 );
 		// TransformCollisionBox( box2 );
@@ -118,16 +118,16 @@ namespace Physics
 		{
 			// 첫 번째 박스의 축에 대해서 충돌 확인
 			float box1Min, box1Max, box2Min, box2Max;
-			SATtest( box1.m_AxisDir[i], box1.m_CenterPos, box1.m_AxisLen[i], box1Min, box1Max );
-			SATtest( box1.m_AxisDir[i], box2.m_PointList, box2Min, box2Max );
+			SATtest( box1->m_AxisDir[i], box1->m_CenterPos, box1->m_AxisLen[i], box1Min, box1Max );
+			SATtest( box1->m_AxisDir[i], box2->m_PointList, box2Min, box2Max );
 			if ( !Overlaps( box1Min, box1Max, box2Min, box2Max ) )
 			{
 				return false;
 			}
 
 			// 두 번째 박스의 축에 대해서 충돌 확인
-			SATtest( box2.m_AxisDir[i], box1.m_PointList, box1Min, box1Max );
-			SATtest( box2.m_AxisDir[i], box2.m_CenterPos, box2.m_AxisLen[i], box2Min, box2Max );
+			SATtest( box2->m_AxisDir[i], box1->m_PointList, box1Min, box1Max );
+			SATtest( box2->m_AxisDir[i], box2->m_CenterPos, box2->m_AxisLen[i], box2Min, box2Max );
 			if ( !Overlaps( box1Min, box1Max, box2Min, box2Max ) )
 			{
 				return false;
@@ -153,12 +153,15 @@ namespace Physics
 		return true;
 	}
 
-	bool static operator& ( const CollisionBox& lhs, const CollisionBox& rhs )
+	/*
+	CollisionBox의 복사를 최소화하기 위해 포인터를 이용해 전달하면서 operator 연산은 봉인...
+	bool static operator& ( const CollisionBox* lhs, const CollisionBox* rhs )
 	{
 		return IsCollide( lhs, rhs );
 	}
-
-	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox &box )
+	*/
+	
+	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
 	{
 		D3DXVECTOR3 tempIntersection( 0.0f, 0.0f, 0.0f );
 		D3DXVECTOR3 intersectionPoint( 0.0f, 0.0f, 0.0f );
@@ -168,13 +171,13 @@ namespace Physics
 
 		for ( int i = 0; i < VECTOR_DIRECTION_3; ++i )
 		{
-			float dotVal = D3DXVec3Dot( &viewDirection, &box.m_AxisDir[i] );
+			float dotVal = D3DXVec3Dot( &viewDirection, &box->m_AxisDir[i] );
 			if ( dotVal == 0.0f )
 			{
 				// viewDirection의 출발점을 내적한 값이
-				float rayStart = D3DXVec3Dot( &startPoint, &box.m_AxisDir[i] );
-				float lowerBound = D3DXVec3Dot( &box.m_PointList[7], &box.m_AxisDir[i] ); // 바로 인덱스로 받아서 써도 될 것 같긴한데
-				float upperBound = D3DXVec3Dot( &box.m_PointList[1], &box.m_AxisDir[i] );
+				float rayStart = D3DXVec3Dot( &startPoint, &box->m_AxisDir[i] );
+				float lowerBound = D3DXVec3Dot( &box->m_PointList[7], &box->m_AxisDir[i] ); // 바로 인덱스로 받아서 써도 될 것 같긴한데
+				float upperBound = D3DXVec3Dot( &box->m_PointList[1], &box->m_AxisDir[i] );
 				
 				// box의 두 점을 내적한 값 사이에 있는지 확인
 				if ( !IsBetweenOrdered( rayStart, lowerBound, upperBound ) )
@@ -187,8 +190,8 @@ namespace Physics
 				// box.m_AxisDir[i]에 수직인 두 plane을 추출해서 
 				// viewDirection과 두 평면의 교차점을 찾는다
 				D3DXPLANE lowerPlane, upperPlane;
-				D3DXPlaneFromPointNormal( &lowerPlane, &box.m_PointList[7], &box.m_AxisDir[i] );
-				D3DXPlaneFromPointNormal( &upperPlane, &box.m_PointList[1], &box.m_AxisDir[i] );
+				D3DXPlaneFromPointNormal( &lowerPlane, &box->m_PointList[7], &box->m_AxisDir[i] );
+				D3DXPlaneFromPointNormal( &upperPlane, &box->m_PointList[1], &box->m_AxisDir[i] );
 
 				D3DXVECTOR3 lowerPoint, upperPoint;
 				D3DXVECTOR3 endPoint = startPoint + viewDirection * SKILL_RANGE;
@@ -256,7 +259,7 @@ namespace Physics
 		}
 		// 여기서 회전 축을 계산하자
 		// 스핀 축은 물체의 원점과 intersectionPoint를 잇는 벡터와, ray 벡터에 수직 - 외적
-		D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box.m_CenterPos - intersectionPoint ), &viewDirection );
+		D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box->m_CenterPos - intersectionPoint ), &viewDirection );
 
 		return true;
 	}
