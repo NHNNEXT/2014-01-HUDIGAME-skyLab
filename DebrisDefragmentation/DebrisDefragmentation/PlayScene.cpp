@@ -13,6 +13,7 @@
 #include "UIManager.h"
 #include "ObjectManager.h"
 #include "SkyBox.h"
+#include "GameData.h"
 
 PlayScene::PlayScene()
 {
@@ -32,38 +33,13 @@ PlayScene::~PlayScene()
 
 void PlayScene::Init()
 {	
-	// init JSON
-	// 조심해! 지금은 PlayScene에 직접 구현하고 있지만 나중에 JSONManager 같은걸로 따로 빼자!
-	FILE* file;
-	// 이 파일은 해당 폴더에 있어야 한다!
-	// 툴에서도 앞으로 이 경로로 맞추자.. 또르륵
-	const char* filePath = ".\\Resources\\Json\\Config.json";
-	if ( !fopen_s( &file, filePath, "r" ) )
+	if ( !g_GameData->Init() )
 	{
-		char line[100] = { 0, };
-		while ( !feof( file ) )
-		{
-			fgets( line, 100, file );
-			m_JsonConfig += line;
-		}
-		
-		fclose( file );
-	}
-	// 설정 파일 로드 실패시 프로그램 죽음
-	else
-	{
-		MessageBox( NULL, L"JSON File Load Fail!", L"Message Box", MB_OK );
+		// 무조건 ok 해야 하는 과정
+		// 에러 발생시 프로그램 종료
 		return;
 	}
-
-	// 방어 코드 : JSON 파일 앞에 { 가 나오기 전까지 이상한 문자들이 들어오면 다 자름
-	int startPosition = m_JsonConfig.find_first_of( '{' );
-	m_JsonConfig.erase( 0, ( startPosition > 0 ? startPosition : 0 ) );
-
-	// Json File Mapping
-	rapidjson::Document jConfig;
-	jConfig.Parse<0>( m_JsonConfig.c_str() );
-
+	
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
 	
@@ -86,7 +62,7 @@ void PlayScene::Init()
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
-	int debrisCount = jConfig["debrisNumber"].GetInt();
+	int debrisCount = g_GameData->GetDebrisNumber();
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{

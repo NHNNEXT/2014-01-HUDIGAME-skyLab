@@ -8,6 +8,7 @@
 #include "PlayerManager.h"
 #include "SceneManager.h"
 #include "UIManager.h"
+#include "GameData.h"
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
@@ -29,6 +30,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	g_PlayerManager = PlayerManager::Create();
 	g_SceneManager = SceneManager::Create();
 	g_UIManager = UIManager::Create();
+	g_GameData = GameData::Create();
 
 	app->Init( L"Debris Defragmentation", 1230, 750 );
 	

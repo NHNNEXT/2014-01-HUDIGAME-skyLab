@@ -17,7 +17,7 @@ namespace GameTool
     {
         // Json Config 파일을 다루기 위한 변수
         JsonObjectCollection g_JsonCollection = new JsonObjectCollection();
-
+        string m_jsonFilePath = @".\Resources\Json\";
         // render를 할지 말지 결정하는 bool값
         bool g_IsRenderable = true;
 
@@ -142,7 +142,7 @@ namespace GameTool
             // test Debris
             string debrisPath = "debris.x";
             float randX, randY, randZ;
-            for (int i = 0; i < Convert.ToUInt32(g_JsonCollection["debriNumbers"].GetValue()); ++i)
+            for (int i = 0; i < Convert.ToUInt32(g_JsonCollection["debrisNumber"].GetValue()); ++i)
             {
                 GameTool.Class.GameModel debris = new GameTool.Class.GameModel(debrisPath);
                 randX = r.Next(-200, 200);
@@ -300,8 +300,8 @@ namespace GameTool
         {
             if ( this.JsonFileList.SelectedIndices.Count > 0 )
             {
-                string file = JsonFileList.SelectedItem.ToString();
-                StreamReader sr = new StreamReader(file);
+                string fileName = JsonFileList.SelectedItem.ToString();
+                StreamReader sr = new StreamReader(m_jsonFilePath + fileName);
 
                 // 파일에서 다 읽는다
                 string jsonText = sr.ReadToEnd();
@@ -338,7 +338,7 @@ namespace GameTool
         {
             JSONVariables.Items.Clear();
 
-            JSONVariables.Items.Add("debriNumbers : " + g_JsonCollection["debriNumbers"].GetValue().ToString());
+            JSONVariables.Items.Add("debrisNumber : " + g_JsonCollection["debrisNumber"].GetValue().ToString());
         }
 
         private void SearchJsonFiles(object sender, EventArgs e)
@@ -347,7 +347,7 @@ namespace GameTool
             JsonFileList.Items.Clear();
 
             // Tool 이 실행된 폴더를 찾도록 한다
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@".\");
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(m_jsonFilePath);
 
             foreach(System.IO.FileInfo f in di.GetFiles())
             {

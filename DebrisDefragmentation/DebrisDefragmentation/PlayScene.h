@@ -34,7 +34,5 @@ private:
 
 	DDPoint		m_PrevMousePosition{.0f,.0f};
 
-	std::string m_JsonConfig;
-
 };
 
