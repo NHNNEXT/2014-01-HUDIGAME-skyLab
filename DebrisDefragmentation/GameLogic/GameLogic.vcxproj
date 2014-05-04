@@ -83,12 +83,14 @@
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
+    <ClInclude Include="ISS.h" />
+    <ClInclude Include="ISSAccessPoint.h" />
+    <ClInclude Include="ISSModule.h" />
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="Protector.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="ClassComponent.h" />
-    <ClInclude Include="Bot.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Collide.h" />
     <ClInclude Include="CollisionBox.h" />
@@ -102,13 +104,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engineer.cpp" />
+    <ClCompile Include="ISS.cpp" />
+    <ClCompile Include="ISSAccessPoint.cpp" />
+    <ClCompile Include="ISSModule.cpp" />
     <ClCompile Include="Protector.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="ClassComponent.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Striker.cpp" />
     <ClCompile Include="Character.cpp" />

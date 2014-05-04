@@ -4,9 +4,6 @@
     <Filter Include="Object">
       <UniqueIdentifier>{a0de131e-b2eb-4100-803b-c9c24a6c430e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor">
-      <UniqueIdentifier>{d68c1acb-d289-4b1b-b898-a9853506cf78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -22,6 +19,12 @@
     </Filter>
     <Filter Include="Component\Class">
       <UniqueIdentifier>{11aeb9fe-4e70-4766-b140-93b317fb36a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\ISS">
+      <UniqueIdentifier>{dcc14623-381a-412e-9f9c-b8105bb33c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Character">
+      <UniqueIdentifier>{d68c1acb-d289-4b1b-b898-a9853506cf78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,12 +46,6 @@
     <ClInclude Include="Physics.h">
       <Filter>Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Bot.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="GameMacro.h">
       <Filter>Config</Filter>
     </ClInclude>
@@ -68,7 +65,7 @@
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Object\Actor</Filter>
+      <Filter>Object\Character</Filter>
     </ClInclude>
     <ClInclude Include="MatrixTransform.h">
       <Filter>Logic</Filter>
@@ -85,6 +82,18 @@
     <ClInclude Include="ClassComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="ISS.h">
+      <Filter>Object\ISS</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ISSModule.h">
+      <Filter>Object\ISS</Filter>
+    </ClInclude>
+    <ClInclude Include="ISSAccessPoint.h">
+      <Filter>Object\ISS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -92,12 +101,6 @@
     </ClCompile>
     <ClCompile Include="ActorManager.cpp">
       <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Bot.cpp">
-      <Filter>Object\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Engineer.cpp">
       <Filter>Component\Class</Filter>
@@ -112,10 +115,22 @@
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>Object\Actor</Filter>
+      <Filter>Object\Character</Filter>
     </ClCompile>
     <ClCompile Include="ClassComponent.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ISS.cpp">
+      <Filter>Object\ISS</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ISSModule.cpp">
+      <Filter>Object\ISS</Filter>
+    </ClCompile>
+    <ClCompile Include="ISSAccessPoint.cpp">
+      <Filter>Object\ISS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

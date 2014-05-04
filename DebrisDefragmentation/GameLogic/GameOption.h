@@ -2,7 +2,7 @@
 
 enum class CharacterClass
 {
-	NO_CLASS,
+	NO_CLASS = -1,
 	STRIKER,
 	ENGINEER,
 	PROTECTOR
@@ -15,6 +15,28 @@ enum class ClientUITag
 	UI_FRAME_TAG,
 	UI_TAG_COUNT // total UI 숫자
 };
+enum class TeamColor
+{
+	NO_TEAM = -1,
+	BLUE,
+	RED
+};
+
+enum class ISSModuleName
+{
+	// 이름 의미있는 걸로 바꾸는 게 좋을까
+	// 하지만 실제 ISS 이름은 PART1보다 더 이해하기 어려운 이름인 게 함정 ㅋㅋ
+	NO_MODULE = -1,
+	PART1,
+	PART2,
+	PART3,
+	PART4,
+	PART5,
+	PART6,
+	PART7,
+	PART8
+};
+const unsigned int	MODULE_NUMBER = 8;
 
 // 게임 셋팅
 const unsigned int	MAX_PLAYER_NUM = 8;
