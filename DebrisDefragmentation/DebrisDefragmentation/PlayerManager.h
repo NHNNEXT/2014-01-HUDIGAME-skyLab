@@ -24,8 +24,8 @@ public:
 	DDCamera*	GetCamera() const { return m_Camera; }
 	void		SetCamera( DDCamera* val ) { m_Camera = val; }
 
+	// 카메라 플레이어 분리 후 사용 안하여 주석처리함
 	// 카메라 시점 방향을 가져오는 함수, yaw(y) pitch(x) roll(z)로 가져옴
-	// 카메라 플레이어 분리 후 사용 X
 	// D3DXVECTOR3 GetCameraViewingDirection();
 
 

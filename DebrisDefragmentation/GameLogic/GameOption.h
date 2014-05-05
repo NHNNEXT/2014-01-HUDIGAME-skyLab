@@ -80,7 +80,7 @@ const int			OXYGEN_COUNSUMED = 1;
 const int			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10;
 const int			GAS_FOR_GOFORWARD = 30;
 
-const int			DEFAULT_OXYGEN = 200;
+const int			DEFAULT_OXYGEN = 3000;
 const int			DEFAULT_FUEL = 5000;
 const int			DEFAULT_HP = 100;
 
@@ -121,3 +121,5 @@ const int			VK_2 = 0x32;
 #define				Z_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 1.0f )
 
 
+// Alpha Object Management
+const int			ORDER_COMPASS_UI = 1;

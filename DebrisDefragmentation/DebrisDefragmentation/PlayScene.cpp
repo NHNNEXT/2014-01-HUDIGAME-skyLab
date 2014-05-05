@@ -133,10 +133,19 @@ void PlayScene::Init()
 void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
+	
+	// player가 로그인해있지 않으면 루프는 패스.
+	if ( !GNetworkManager->IsPlayerLogon() )
+	{
+		return;
+	}
 
 	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
-	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ
+	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ	
 	// 05.04 김성환
+	// 서버가 없을 때 GETPLAYER하면 PLAYER가 없으므로 
+	// 프로그램이 죽는 문제를 방지하기 위해 PLAYER ID CHECK하는 부분을 넣음
+	// 코드가 구구절절하고 IF문 내부 순서만 바껴도 제대로 동작하지 않음..
 	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
@@ -195,20 +204,16 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.		
 	// 고개 돌리기는 서버로 보낼 필요 없이 클라이언트에서만 적용
 	// 04.27 김성환
-	if ( GNetworkManager->IsPlayerLogon() )
-	{
-		DDPoint currentMousePos = GetMousePosition();
-		g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
-			currentMousePos.GetY() - m_PrevMousePosition.GetY(),
-			currentMousePos.GetX() - m_PrevMousePosition.GetX(),
-			0
-			);	
-
-		MousePointer( MOUSE_POINTER_ON, currentMousePos );
-		UpdateUI();
-	}
 	
+	DDPoint currentMousePos = GetMousePosition();
+	g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
+		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
+		currentMousePos.GetX() - m_PrevMousePosition.GetX(),
+		0
+		);
 
+	MousePointer( MOUSE_POINTER_ON, currentMousePos );
+	UpdateUI();	
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정

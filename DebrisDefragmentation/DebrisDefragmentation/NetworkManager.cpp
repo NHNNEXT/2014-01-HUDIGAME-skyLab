@@ -222,15 +222,13 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		// camera 설정
 		DDCamera* camera = DDCamera::Create();
 		g_PlayerManager->SetCamera( camera );
-		g_SceneManager->GetScene()->AddChild(camera);
+		g_SceneManager->GetScene()->AddChild(camera, ORDER_COMPASS_UI);
 		camera->SetFollowingObject( g_PlayerManager->GetPlayer( m_MyPlayerId ) );
-// 		camera->SetPosition( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPosition() );
-// 		camera->SetRotation( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotation() );
 
 		// 콤파스 설정
 		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
 		compassUI->Init();
-		camera->AddChild( compassUI );
+		camera->AddChild( compassUI, ORDER_COMPASS_UI );
 	}
 }
 

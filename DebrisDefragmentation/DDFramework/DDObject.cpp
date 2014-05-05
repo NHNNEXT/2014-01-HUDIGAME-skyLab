@@ -6,8 +6,6 @@
 DDObject::DDObject() 
 {
 	D3DXMatrixIdentity( &m_Matrix );
-	D3DXMatrixIdentity( &m_MatrixTransform );
-	D3DXMatrixIdentity( &m_MatrixRotation );
 }
 
 DDObject::~DDObject()
@@ -78,7 +76,12 @@ DDVECTOR3 DDObject::GetAxisX()
 
 void DDObject::RenderChildNodes()
 {
-	for ( const auto& child : m_ChildList )
+	for ( const auto& child : m_NormalChildList )
+	{
+		child->Render();
+	}
+	
+	for ( const auto& child : m_AhphaChildList )
 	{
 		child->Render();
 	}
@@ -86,29 +89,54 @@ void DDObject::RenderChildNodes()
 
 void DDObject::UpdateChildNodes( float dTime )
 {
-	for ( const auto& child : m_ChildList )
+	for ( const auto& child : m_NormalChildList )
+	{
+		child->Update( dTime );
+	}
+
+	for ( const auto& child : m_AhphaChildList )
 	{
 		child->Update( dTime );
 	}
 }
 
-void DDObject::AddChild( DDObject* object )
+void DDObject::AddChild( DDObject* object, int alphaIndex)
 {
 	auto deleter = DeleteAlignedClass;
 	std::shared_ptr<DDObject> object_ptr( object, deleter );
 	object->SetParent( this );
-	m_ChildList.push_back( object_ptr );
+	
+	if ( 0 != alphaIndex )
+	{
+		object_ptr->SetAlphaIndex( alphaIndex );
+		m_AhphaChildList.push_back( object_ptr );
+		m_AhphaChildList.sort( []( std::shared_ptr<DDObject> a, std::shared_ptr<DDObject> b ) -> bool {
+			return ( a->GetAlphaIndex() < b->GetAlphaIndex() ) ? true : false; } );		
+		return ;	
+	}
+	m_NormalChildList.push_back( object_ptr );
+	
 }
 
 void DDObject::RemoveChild( DDObject* object )
 {
-	for ( auto& iter = m_ChildList.begin(); iter != m_ChildList.end(); iter++ )
+	// 일반 리스트에서 검색
+	for ( auto& iter = m_NormalChildList.begin(); iter != m_NormalChildList.end(); iter++ )
 	{
 		if ( ( *iter ).get() == object )
 		{
 			//( *iter )->Release();
 			//SafeDelete( *iter );
-			m_ChildList.erase( iter );
+			m_NormalChildList.erase( iter );
+			break;
+		}
+	}
+	// alpha값이 있는 list도 검색
+	for ( const auto& iter : m_AhphaChildList )
+	{
+		if ( iter.get() == object )
+		{
+			m_AhphaChildList.remove( iter );
 			break;
 		}
 	}

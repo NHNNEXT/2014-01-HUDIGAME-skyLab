@@ -31,7 +31,10 @@ void CompassUI::Init()
 	// Use D3DX to create a texture from a file based image
 	// if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\3DModel\\banana.bmp", &m_pTexture ) ) )
 	if ( FAILED( D3DXCreateTextureFromFile( pD3DDevice, L".\\Resources\\Image\\compass.png", &m_pTexture ) ) )
+	{
+		printf_s( "loading compass failed" );
 		return;
+	}
 
 	// Create the vertex buffer.
 	if ( FAILED( pD3DDevice->CreateVertexBuffer( 50 * 2 * sizeof( CUSTOMVERTEX ),
@@ -180,17 +183,15 @@ void CompassUI::RenderItSelf()
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
-
-
-	// 조심해!!
-	// alpha blending.. 안먹음
-	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
-	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
-
-	// alpha testing.. 문제는 콤파스의 알파를 날려버린다는거.. 안보임 ㄷㄷ
-	pD3DDevice->SetRenderState( D3DRS_ALPHATESTENABLE, TRUE );
-	pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
-	pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
+	
+// 	// alpha testing.. 문제는 콤파스의 알파를 날려버린다는거.. 안보임 ㄷㄷ
+// 	pD3DDevice->SetRenderState( D3DRS_ALPHATESTENABLE, TRUE );
+// 	pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
+// 	pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
+// 
+// 	pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+// 	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+// 	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
 
 
 	// Render the vertex buffer contents
