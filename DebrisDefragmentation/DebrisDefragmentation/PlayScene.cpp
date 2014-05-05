@@ -100,7 +100,7 @@ void PlayScene::Init()
 // 	}
 
 	// test ObjectISS added
-	DDModel* pObjectISS = DDModel::Create( L"ObjectISS.x" );
+	DDModel* pObjectISS = DDModel::Create( L"iss.x" );
 	AddChild( pObjectISS );
 
 	// 조심해! 하드 코딩

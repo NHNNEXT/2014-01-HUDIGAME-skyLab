@@ -105,6 +105,9 @@ protected:
 	DDVECTOR3		m_Rotation{ .0f, .0f, .0f };
 	DDVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 	
+	// update주기 체크용 임시
+	long long		m_UpdateCycles = 0;
+
 private : 
 	// NVI 함수 내용
 	void RenderChildNodes();

@@ -11,6 +11,11 @@
 #include <Windows.h>
 #include <math.h>
 
+#include <d3dx9.h>
+#include <array>
+#include <vector>
+#include <tuple>
+#include <d3dx9math.h>
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 

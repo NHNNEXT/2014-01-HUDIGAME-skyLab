@@ -25,6 +25,14 @@ Player::~Player()
 
 void Player::Init()
 {	
+	InitCollisionBox();
+
+	// dummy player 일 경우 character model을 추가하지 않는다.
+	if ( m_PlayerId > REAL_PLAYER_NUM - 1 )
+	{		
+		return;
+	}
+
 	m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
 	AddChild( m_CharacterModel );
 	
@@ -34,7 +42,6 @@ void Player::Init()
 		m_CharacterModel->SetVisible( false );
 	}
 
-	InitCollisionBox();
 }
 
 
