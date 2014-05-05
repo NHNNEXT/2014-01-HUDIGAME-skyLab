@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "GameConfig.h"
+#include "GameOption.h"
 
 namespace GameMatrix
 {

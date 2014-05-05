@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "ISS.h"
-#include <algorithm>
+
 #include "Physics.h"
 
 ISS::ISS()

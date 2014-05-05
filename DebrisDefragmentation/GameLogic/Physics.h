@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "GameConfig.h"
+#include "GameOption.h"
 #include "CollisionBox.h"
 /*
 작성자 : 최경욱

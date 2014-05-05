@@ -159,10 +159,10 @@ const int			VK_2 = 0x32;
 
 
 // Axis Set
-#define				ZERO_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 0.0f )
-#define				X_AXIS_VECTOR3		D3DXVECTOR3( 1.0f, 0.0f, 0.0f )
-#define				Y_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 1.0f, 0.0f )
-#define				Z_AXIS_VECTOR3		D3DXVECTOR3( 0.0f, 0.0f, 1.0f )
+const D3DXVECTOR3	ZERO_VECTOR3{ 0.0f, 0.0f, 0.0f };
+const D3DXVECTOR3	X_AXIS_VECTOR3{ 1.0f, 0.0f, 0.0f };
+const D3DXVECTOR3	Y_AXIS_VECTOR3{ 0.0f, 1.0f, 0.0f };
+const D3DXVECTOR3	Z_AXIS_VECTOR3{ 0.0f, 0.0f, 1.0f };
 
 
 // Alpha Object Management

@@ -1,4 +1,5 @@
-﻿#include "ClassComponent.h"
+﻿#include "stdafx.h"
+#include "ClassComponent.h"
 #include "Physics.h"
 #include "Rigidbody.h"
 

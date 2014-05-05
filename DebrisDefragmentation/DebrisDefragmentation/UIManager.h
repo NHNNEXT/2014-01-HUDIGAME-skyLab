@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "DDMacro.h"
-#include "GameConfig.h"
 #include "DDUI.h"
 #include "GameOption.h"
 

@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "Actor.h"
+#include "BaseObject.h"
 
 BaseObject::BaseObject()
 {

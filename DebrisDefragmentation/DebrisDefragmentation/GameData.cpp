@@ -26,6 +26,7 @@ bool GameData::Init()
 
 	// 5.4 문진상
 	// 30줄이면 될 걸 왜 3줄로 짰어요??
+	// 깨알같구만 ㅋㅋㅋㅋ
 
 	// init JSON
 	FILE* file;

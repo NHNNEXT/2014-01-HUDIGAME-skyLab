@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "GameConfig.h"
+#include "GameOption.h"
 #include "CollisionBox.h"
 
 class BaseObject

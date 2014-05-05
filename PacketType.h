@@ -317,6 +317,16 @@ struct RespawnResult : public PacketHeader
 	float mRotationX, mRotationY, mRotationZ;
 };
 
+struct CollisionRequest : public PacketHeader
+{
+
+};
+
+struct CollisionResult : public PacketHeader
+{
+
+};
+
 
 // 일단 새 플레이어 생성하는 것에 대해서만
 // 나중에는 플레이어 오브젝트 구분해야 함

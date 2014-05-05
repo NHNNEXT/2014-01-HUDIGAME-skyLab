@@ -40,9 +40,6 @@
     <ClInclude Include="ActorManager.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="GameConfig.h">
-      <Filter>Config</Filter>
-    </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Logic</Filter>
     </ClInclude>
@@ -69,9 +66,6 @@
     </ClInclude>
     <ClInclude Include="MatrixTransform.h">
       <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="Collide.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CollisionBox.h">
       <Filter>Component</Filter>

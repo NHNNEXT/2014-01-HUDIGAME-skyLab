@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "GameConfig.h"
+#include "GameOption.h"
+#include "GameMacro.h"
 
 //전방선언
 struct Rigidbody;

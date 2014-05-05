@@ -1,7 +1,8 @@
 ﻿#include "stdafx.h"
 #include "Actor.h"
+
 #include "Physics.h"
-#include "GameConfig.h"
+#include "GameOption.h"
 
 Actor::Actor()
 {

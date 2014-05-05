@@ -92,9 +92,7 @@
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="ClassComponent.h" />
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="Collide.h" />
     <ClInclude Include="CollisionBox.h" />
-    <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Striker.h" />
     <ClInclude Include="Character.h" />
