@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include <array>
+#include <d3dx9.h>
 
 enum class CharacterClass
 {
@@ -40,8 +41,38 @@ enum class ISSModuleName
 	PART5,
 	PART6,
 	PART7,
+	PART8,
+	PART9,
 };
-const unsigned int	MODULE_NUMBER = 8;
+const unsigned int	MODULE_NUMBER = 10;
+
+const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_POSITION
+= {
+	D3DXVECTOR3( -0.75f, 0.0f, -12.5f ),
+	D3DXVECTOR3( -0.75f, 0.0f, 12.5f ),
+	D3DXVECTOR3( -0.75f, 2.5f, -5.5f ),
+	D3DXVECTOR3( -0.75f, 2.5f, 5.5f ),
+	D3DXVECTOR3( -0.2f, 2.7f, 0.5f ),
+	D3DXVECTOR3( -0.2f, -0.2f, 0.0f ),
+	D3DXVECTOR3( -0.2f, -2.9f, 0.0f ),
+	D3DXVECTOR3( -0.2f, -4.4f, 0.0f ),
+	D3DXVECTOR3( -0.2f, -5.8f, 0.0f ),
+	D3DXVECTOR3( -0.2f, -7.8f, 0.0f ),
+};
+
+const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_AXIS_LENGTH
+= {
+	D3DXVECTOR3( 0.5f, 10.5f, 3.5f ),
+	D3DXVECTOR3( 0.5f, 10.5f, 3.5f ),
+	D3DXVECTOR3( 0.5f, 3.0f, 1.5f ),
+	D3DXVECTOR3( 0.5f, 3.0f, 1.5f ),
+	D3DXVECTOR3( 0.8f, 0.7f, 2.5f ),
+	D3DXVECTOR3( 0.8f, 2.0f, 0.5f ),
+	D3DXVECTOR3( 0.8f, 0.5f, 2.1f ),
+	D3DXVECTOR3( 0.8f, 0.7f, 0.5f ),
+	D3DXVECTOR3( 0.8f, 0.5f, 3.5f ),
+	D3DXVECTOR3( 0.8f, 1.4f, 0.5f ),
+};
 
 const float ISS_MOVE_WEIGHT = 5.0f;
 

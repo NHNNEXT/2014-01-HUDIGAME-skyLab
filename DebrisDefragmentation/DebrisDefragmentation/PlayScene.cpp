@@ -99,9 +99,9 @@ void PlayScene::Init()
 // 		AddChild( tempDebris );
 // 	}
 
-	// test iss added
-	DDModel* pIss = DDModel::Create( L"iss.x" );
-	AddChild( pIss );
+	// test ObjectISS added
+	DDModel* pObjectISS = DDModel::Create( L"ObjectISS.x" );
+	AddChild( pObjectISS );
 
 	// 조심해! 하드 코딩
 	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것

@@ -120,7 +120,7 @@ void Player::InitCollisionBox()
 {
 	// collision box는 어떤 객체이냐에 따라서 다르게 구현된다.
 	m_CollisionBox.SetCenterPosition( D3DXVECTOR3( CHARACTER_CB_CENTER_POS_X, CHARACTER_CB_CENTER_POS_Y, CHARACTER_CB_CENTER_POS_Z ) );
-	m_CollisionBox.SetLength( CHARACTER_CB_LENGTH_X, CHARACTER_CB_LENGTH_Y, CHARACTER_CB_LENGTH_Z);
+	m_CollisionBox.SetLength( D3DXVECTOR3(CHARACTER_CB_LENGTH_X, CHARACTER_CB_LENGTH_Y, CHARACTER_CB_LENGTH_Z) );
 
 	m_CollisionBox.InitAxisDir();
 	m_CollisionBox.InitPointList();

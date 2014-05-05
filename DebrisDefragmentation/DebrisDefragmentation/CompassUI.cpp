@@ -2,6 +2,7 @@
 #include "ObjectManager.h"
 
 
+
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 
 struct CUSTOMVERTEX
@@ -98,18 +99,18 @@ void CompassUI::RenderItSelf()
 	D3DXVec3Transform( &tempPos, &m_Position, &parentTransform );
 	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
 
-	// ISS의 위치는 ISS의 위치 그대로 사용 - 이미 월드 좌표계
-	DDVECTOR3 IssDirection = GObjectManager->GetIssPosition() - currentPos;
+	// ObjectISS의 위치는 ObjectISS의 위치 그대로 사용 - 이미 월드 좌표계
+	DDVECTOR3 ObjectISSDirection = GObjectManager->GetObjectISSPosition() - currentPos;
 
 	// 위에서 구한 상대 좌표에 의한 벡터를 다시 현재 계산이 진행되는 로컬 좌표계 기준으로 변환 - 로컬 좌표계의 z벡터와 계산이 필요하므로 회전이 적용되어야 한다
 	D3DXVECTOR4 tempDirection;
-	D3DXVec3Transform( &tempDirection, &IssDirection, &parentTransform );
-	IssDirection = DDVECTOR3( tempDirection.x, tempDirection.y, tempDirection.z );
+	D3DXVec3Transform( &tempDirection, &ObjectISSDirection, &parentTransform );
+	ObjectISSDirection = DDVECTOR3( tempDirection.x, tempDirection.y, tempDirection.z );
 
 
 	// 이렇게 구한 벡터를 xy평면에 투영하고, 단위 벡터로 만들자
-	float directionYLength = D3DXVec3Dot( &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &IssDirection );
-	float directionXLength = D3DXVec3Dot( &DDVECTOR3( 1.0f, 0.0f, 0.0f ), &IssDirection );
+	float directionYLength = D3DXVec3Dot( &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &ObjectISSDirection );
+	float directionXLength = D3DXVec3Dot( &DDVECTOR3( 1.0f, 0.0f, 0.0f ), &ObjectISSDirection );
 
 	DDVECTOR3 projectedVector = ( directionYLength * DDVECTOR3( 0.0f, 1.0f, 0.0f ) ) + ( directionXLength * DDVECTOR3( 1.0f, 0.0f, 0.0f ) );
 	D3DXVec3Normalize( &projectedVector, &projectedVector );
@@ -130,10 +131,10 @@ void CompassUI::RenderItSelf()
 	/**** look-at transform ****/
 	
 	/* 각도를 구하는 과정 */
-	// 회전할 각도는 z축과 ISS로 향하는 사이 각도를 구하면 된다.
-	DDVECTOR3 IssDirectionUnit;
-	D3DXVec3Normalize( &IssDirectionUnit, &IssDirection );
-	angle = acos( (float)D3DXVec3Dot( &IssDirectionUnit, &DDVECTOR3( 0.0f, 0.0f, 1.0f ) ) );
+	// 회전할 각도는 z축과 ObjectISS로 향하는 사이 각도를 구하면 된다.
+	DDVECTOR3 ObjectISSDirectionUnit;
+	D3DXVec3Normalize( &ObjectISSDirectionUnit, &ObjectISSDirection );
+	angle = acos( (float)D3DXVec3Dot( &ObjectISSDirectionUnit, &DDVECTOR3( 0.0f, 0.0f, 1.0f ) ) );
 
 	/* 회전 축을 구하는 과정 */
 	// 회전축은 로컬 좌표계의 y축을 tilt transform한 결과
