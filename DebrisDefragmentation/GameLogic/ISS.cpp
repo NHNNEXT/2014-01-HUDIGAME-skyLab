@@ -15,7 +15,15 @@ ISS::~ISS()
 void ISS::Init()
 {
 	// 각각의 모듈을 초기화
+	m_ModuleList[0].Init( ISSModuleName::PART0 );
+	m_ModuleList[1].Init( ISSModuleName::PART1 );
+	m_ModuleList[2].Init( ISSModuleName::PART2 );
+	m_ModuleList[3].Init( ISSModuleName::PART3 );
 
+	m_ModuleList[4].Init( ISSModuleName::PART4 );
+	m_ModuleList[5].Init( ISSModuleName::PART5 );
+	m_ModuleList[6].Init( ISSModuleName::PART6 );
+	m_ModuleList[7].Init( ISSModuleName::PART7 );
 }
 
 void ISS::UpdateItSelf( float dTime )
@@ -23,7 +31,30 @@ void ISS::UpdateItSelf( float dTime )
 	// 점령 상태 확인
 	// 점령 상태에 따라서 현재 위치 이동
 	// 자신의 위치에 따라서 m_Matrix 업데이트
-	
+
+	// 조심해!
+	// 순회하지 말고 카운트를 항상 들고 있고, 변화가 있으면 그 카운트를 변경하는 방식으로 바꿀 것
+	unsigned int blueCount = 0;
+	unsigned int redCount = 0;
+
+	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
+		[&]( const ISSModule &eachModule )
+	{
+		switch ( eachModule.GetOwner() )
+		{
+		case TeamColor::BLUE:
+			++blueCount;
+			break;
+		case TeamColor::RED:
+			++redCount;
+			break;
+		default:
+			break;
+		}
+	}
+	);
+
+	m_Position.x += ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 }
 
 std::tuple<ISSModuleName, TeamColor> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )

@@ -18,6 +18,77 @@ struct CollisionBox
 		}
 	}
 
+	void SetCenterPosition( const D3DXVECTOR3 &newCenterPos )
+	{
+		m_CenterPos = newCenterPos;
+	}
+
+	void SetLength( float lenX, float lenY, float lenZ )
+	{
+		m_AxisLen[0] = lenX;
+		m_AxisLen[1] = lenY;
+		m_AxisLen[2] = lenZ;
+	}
+
+	// Init함수는 순서에 유의할 것
+	void InitAxisDir()
+	{
+		m_AxisDir[0] = X_AXIS_VECTOR3;
+		m_AxisDir[1] = Y_AXIS_VECTOR3;
+		m_AxisDir[2] = Z_AXIS_VECTOR3;
+	}
+
+	void InitPointList()
+	{
+		m_PointList[0] = D3DXVECTOR3(
+			m_CenterPos.x - m_AxisLen[0],
+			m_CenterPos.y + m_AxisLen[1],
+			m_CenterPos.z + m_AxisLen[2]
+			);
+		m_PointList[1] = D3DXVECTOR3(
+			m_CenterPos.x + m_AxisLen[0],
+			m_CenterPos.y + m_AxisLen[1],
+			m_CenterPos.z + m_AxisLen[2]
+			);
+		m_PointList[2] = D3DXVECTOR3(
+			m_CenterPos.x + m_AxisLen[0],
+			m_CenterPos.y + m_AxisLen[1],
+			m_CenterPos.z - m_AxisLen[2]
+			);
+		m_PointList[3] = D3DXVECTOR3(
+			m_CenterPos.x - m_AxisLen[0],
+			m_CenterPos.y + m_AxisLen[1],
+			m_CenterPos.z - m_AxisLen[2]
+			);
+		m_PointList[4] = D3DXVECTOR3(
+			m_CenterPos.x - m_AxisLen[0],
+			m_CenterPos.y - m_AxisLen[1],
+			m_CenterPos.z + m_AxisLen[2]
+			);
+		m_PointList[5] = D3DXVECTOR3(
+			m_CenterPos.x + m_AxisLen[0],
+			m_CenterPos.y - m_AxisLen[1],
+			m_CenterPos.z + m_AxisLen[2]
+			);
+		m_PointList[6] = D3DXVECTOR3(
+			m_CenterPos.x + m_AxisLen[0],
+			m_CenterPos.y - m_AxisLen[1],
+			m_CenterPos.z - m_AxisLen[2]
+			);
+		m_PointList[7] = D3DXVECTOR3(
+			m_CenterPos.x - m_AxisLen[0],
+			m_CenterPos.y - m_AxisLen[1],
+			m_CenterPos.z - m_AxisLen[2]
+			);
+	}
+
+	void InitRadius()
+	{
+		m_Radius = sqrt( m_AxisLen[0] * m_AxisLen[0]
+			+ m_AxisLen[1] * m_AxisLen[1]
+			+ m_AxisLen[2] * m_AxisLen[2] );
+	}
+
 	D3DXVECTOR3									m_CenterPos{ 0.0f, 0.0f, 0.0f };	// 기준점 - 상자 중심
 	std::array<D3DXVECTOR3, VECTOR_DIRECTION_3>	m_AxisDir;							// 월드 좌표계를 기준으로 상자 좌표계의 세 축 (박스의 회전 상태)
 	std::array<float, VECTOR_DIRECTION_3>		m_AxisLen;							// 각각의 축에 대한 길이 (박스 크기)

@@ -19,22 +19,44 @@ void ISSModule::Init( ISSModuleName moduleName )
 	switch ( m_ModuleName )
 	{
 	case ISSModuleName::NO_MODULE:
+		// 여기 들어오면 안 된다.
+		break;
+	case ISSModuleName::PART0:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+
+		m_CollisionBox.SetCenterPosition( ZERO_VECTOR3 );
+		m_CollisionBox.SetLength( 0.0f, 0.0f, 0.0f );
+
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
+		// m_ControlPoint의 collisionBox도 초기화
 		break;
 	case ISSModuleName::PART1:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	case ISSModuleName::PART2:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	case ISSModuleName::PART3:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	case ISSModuleName::PART4:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	case ISSModuleName::PART5:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	case ISSModuleName::PART6:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	case ISSModuleName::PART7:
-		break;
-	case ISSModuleName::PART8:
+		SetPosition( 0.0f, 0.0f, 0.0f );
+		m_ControlPoint.SetPosition( 0.0f, 0.0f, 0.0f );
 		break;
 	default:
 		break;
