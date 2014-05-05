@@ -61,7 +61,7 @@ private:
 	void InitCollisionBox();
 	void DrawCollisionBox();
 
-	unsigned int					m_PlayerId;
+	int								m_PlayerId;
 	std::shared_ptr<ClassComponent>	m_ClassComponent; // shared_ptr기본 생성자에서 초기화
 	DDModel*						m_CharacterModel = nullptr;
 	//DDCamera*						m_Camera = nullptr;		

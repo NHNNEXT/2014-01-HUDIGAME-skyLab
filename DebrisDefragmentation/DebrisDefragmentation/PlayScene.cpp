@@ -62,7 +62,7 @@ void PlayScene::Init()
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
-	int debrisCount = g_GameData->GetDebrisNumber();
+	unsigned int debrisCount = g_GameData->GetDebrisNumber();
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
