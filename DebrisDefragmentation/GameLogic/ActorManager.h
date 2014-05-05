@@ -47,6 +47,7 @@ public:
 	*/
 	std::tuple<int, D3DXVECTOR3> DetectTarget( int actorId, float x, float y, float z );
 
+
 	// get other object data
 	// 지금은 없습니다.
 

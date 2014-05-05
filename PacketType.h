@@ -5,6 +5,8 @@
 #define MAX_NAME_LEN	30
 #define MAX_COMMENT_LEN	40
 
+// 조심해!!
+// 패킷 종류 - 스킬인지, 게임 진행 상태인지에 따라서 숫자 구간 나눠서 사용하자
 enum PacketTypes
 {
 	PKT_NONE = 0,
@@ -44,6 +46,12 @@ enum PacketTypes
 
 	PKT_CS_COLLISION = 23,
 	PKT_SC_COLLISION = 24,
+
+	PKT_CS_OCCUPY = 25,
+	PKT_SC_OCCUPY = 26,
+
+	PKT_CS_DESTROY = 27,
+	PKT_SC_DESTROY = 28,
 
 	PKT_MAX = 1024
 };
@@ -560,6 +568,108 @@ struct GameStateResult : public PacketHeader
 	int		mPlayerId;
 
 	// 추가할 것
+};
+
+// 점령! - 빈 곳이면 점령하고 상대방 소유면 빈 곳으로, 우리편 소유면 그냥 그대로
+struct SkillOccupyRequest : public PacketHeader
+{
+	SkillOccupyRequest( )
+	{
+		mSize = sizeof( SkillOccupyRequest );
+		mType = PKT_CS_OCCUPY;
+		mPlayerId = -1;
+
+		mPosX = 0.0f;
+		mPosY = 0.0f;
+		mPosZ = 0.0f;
+
+		mRotationX = 0.0f;
+		mRotationY = 0.0f;
+		mRotationZ = 0.0f;
+	}
+
+	int		mPlayerId;
+
+	float mPosX;
+	float mPosY;
+	float mPosZ;
+
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
+};
+
+// 점령 상태가 바뀌면 어떤 것이 바뀌었는지, 소유팀은 어디인지, 스킬은 누가 썼는지 전송
+struct SkillOccupyResult : public PacketHeader
+{
+	SkillOccupyResult( )
+	{
+		mSize = sizeof( SkillOccupyResult );
+		mType = PKT_SC_OCCUPY;
+		mPlayerId = -1;
+
+		mModule = -1;
+		mOccupyTeam = -1;
+
+		mIssvelocityX = 0.0f;
+		m_IssPosition = 0.0f;
+	}
+
+	int		mPlayerId;
+
+	int		mModule;
+	int		mOccupyTeam;
+
+	float	mIssvelocityX;
+	float	m_IssPosition;
+};
+
+// 파괴! - 걸리는 모듈이 있으면 체력을 깎자
+struct SkillDestroyRequest : public PacketHeader
+{
+	SkillDestroyRequest( )
+	{
+		mSize = sizeof( SkillDestroyRequest );
+		mType = PKT_CS_DESTROY;
+		mPlayerId = -1;
+
+		mPosX = 0.0f;
+		mPosY = 0.0f;
+		mPosZ = 0.0f;
+
+		mRotationX = 0.0f;
+		mRotationY = 0.0f;
+		mRotationZ = 0.0f;
+	}
+
+	int		mPlayerId;
+
+	float mPosX;
+	float mPosY;
+	float mPosZ;
+
+	float mRotationX;
+	float mRotationY;
+	float mRotationZ;
+};
+
+// 파괴! - 어떤 모듈인지, 누가 부순건지, 지금 체력은 얼마인지 
+struct SkillDestroyResult : public PacketHeader
+{
+	SkillDestroyResult( )
+	{
+		mSize = sizeof( SkillDestroyResult );
+		mType = PKT_SC_DESTROY;
+		mPlayerId = -1;
+
+		mModule = -1;
+		mModulHP = 1.0f;
+	}
+
+	int		mPlayerId;
+
+	int		mModule;
+	float	mModulHP;
 };
 
 #pragma pack(pop)

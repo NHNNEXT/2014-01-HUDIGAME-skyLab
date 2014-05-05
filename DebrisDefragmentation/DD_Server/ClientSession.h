@@ -67,6 +67,8 @@ public:
 	void	HandleGameStateRequest( GameStateRequest& inPacket );
 	void	HandleDeadRequest( DeadRequest& inPacket );
 	void	HandleRespawnRequest( RespawnRequest& inPacket );
+	void	HandleOccupyRequest( SkillOccupyRequest& inPacket );
+	void	HandleDestroyRequest( SkillDestroyRequest& inPacket );
 
 	int				GetPlayerId() { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }

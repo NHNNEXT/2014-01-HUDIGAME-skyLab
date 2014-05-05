@@ -710,7 +710,7 @@ void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 	
-	printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
+	// printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	DeadResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -764,3 +764,31 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	}
 }
 
+REGISTER_HANDLER( PKT_CS_OCCUPY )
+{
+	SkillOccupyRequest inPacket = static_cast<SkillOccupyRequest&>( pktBase );
+	session->HandleOccupyRequest( inPacket );
+}
+
+void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	// actorManager를 통해서 스킬을 시전하면
+	// actorManager는 멤버 변수인 ISS를 통해서 확인하고
+	// 소유주 변경에 따른 ISS 속도를 변경하고
+	// 세션에 변경 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환
+	// 반환받은 결과를 방송!
+}
+
+REGISTER_HANDLER( PKT_CS_DESTROY )
+{
+	SkillDestroyRequest inPacket = static_cast<SkillDestroyRequest&>( pktBase );
+	session->HandleDestroyRequest( inPacket );
+}
+
+void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+}
