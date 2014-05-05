@@ -49,8 +49,13 @@ void ClientManager::OnPeriodWork()
 	}
 
 	// 게임 상태를 업데이트 하자
+	// 충돌했는지 판단도 여기서함	
 	if ( m_ActorManager.Update() )
 	{
+		int player = std::get<0>( m_ActorManager.GetCrashedPlayers() );
+		int target = std::get<1>( m_ActorManager.GetCrashedPlayers() );
+		BroadcastCollision( player, target );
+		printf_s( "crash %d to %d", player, target );
 		// SyncAll();
 	}
 	SyncAll();
@@ -125,6 +130,20 @@ void ClientManager::SyncAll( )
 		client->SyncCurrentStatus();
 	}
 }
+
+
+
+void ClientManager::BroadcastCollision( int playerId, int targetId )
+{
+	for ( auto& it : mClientList )
+	{
+		if ( ( it.second )->GetPlayerId() == playerId || ( it.second )->GetPlayerId() == targetId )
+		{
+			( it.second )->BroadcastCollisionResult();
+		}
+	}
+}
+
 
 
 void ClientManager::InitPlayerState( ClientSession* caller )

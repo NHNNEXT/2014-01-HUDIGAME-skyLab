@@ -1,5 +1,6 @@
 ﻿#include "CompassUI.h"
 #include "ObjectManager.h"
+#include "GameOption.h"
 
 
 
@@ -109,14 +110,14 @@ void CompassUI::RenderItSelf()
 
 
 	// 이렇게 구한 벡터를 xy평면에 투영하고, 단위 벡터로 만들자
-	float directionYLength = D3DXVec3Dot( &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &ObjectISSDirection );
-	float directionXLength = D3DXVec3Dot( &DDVECTOR3( 1.0f, 0.0f, 0.0f ), &ObjectISSDirection );
+	float directionYLength = D3DXVec3Dot( &Y_AXIS_VECTOR3, &ObjectISSDirection );
+	float directionXLength = D3DXVec3Dot( &X_AXIS_VECTOR3, &ObjectISSDirection );
 
-	DDVECTOR3 projectedVector = ( directionYLength * DDVECTOR3( 0.0f, 1.0f, 0.0f ) ) + ( directionXLength * DDVECTOR3( 1.0f, 0.0f, 0.0f ) );
+	DDVECTOR3 projectedVector = ( directionYLength * Y_AXIS_VECTOR3 ) + ( directionXLength * X_AXIS_VECTOR3 );
 	D3DXVec3Normalize( &projectedVector, &projectedVector );
 
 	// x축과 투영된 벡터의 사이 각도를 구하자 - 회전할 각도
-	float angle = acos( (float)D3DXVec3Dot( &projectedVector, &DDVECTOR3( 1.0f, 0.0f, 0.0f ) ) );
+	float angle = acos( (float)D3DXVec3Dot( &projectedVector, &X_AXIS_VECTOR3 ) );
 
 	/* 회전 축을 구하는 과정 */
 	// 이건 z축이다.
@@ -125,7 +126,7 @@ void CompassUI::RenderItSelf()
 
 	/* 실제로 회전을 적용하는 과정 */
 	D3DXMATRIXA16 tiltTransform;
-	D3DXMatrixRotationAxis( &tiltTransform, &DDVECTOR3( 0.0f, 0.0f, 1.0f ), tempSign * angle );
+	D3DXMatrixRotationAxis( &tiltTransform, &Z_AXIS_VECTOR3, tempSign * angle );
 	
 	
 	/**** look-at transform ****/
@@ -134,12 +135,12 @@ void CompassUI::RenderItSelf()
 	// 회전할 각도는 z축과 ObjectISS로 향하는 사이 각도를 구하면 된다.
 	DDVECTOR3 ObjectISSDirectionUnit;
 	D3DXVec3Normalize( &ObjectISSDirectionUnit, &ObjectISSDirection );
-	angle = acos( (float)D3DXVec3Dot( &ObjectISSDirectionUnit, &DDVECTOR3( 0.0f, 0.0f, 1.0f ) ) );
+	angle = acos( (float)D3DXVec3Dot( &ObjectISSDirectionUnit, &Z_AXIS_VECTOR3 ) );
 
 	/* 회전 축을 구하는 과정 */
 	// 회전축은 로컬 좌표계의 y축을 tilt transform한 결과
 	D3DXVECTOR4 tempAxis;
-	D3DXVec3Transform( &tempAxis, &DDVECTOR3( 0.0f, 1.0f, 0.0f ), &tiltTransform );
+	D3DXVec3Transform( &tempAxis, &Y_AXIS_VECTOR3, &tiltTransform );
 	DDVECTOR3 rotationAxis( tempAxis.x, tempAxis.y, tempAxis.z );
 
 	/* 회전을 적용하는 과정 */

@@ -31,7 +31,7 @@ public:
 	// 조심해!!
 	// 한 번에 방송하지 말고 변화가 있는 애들만 안에서 골라서 싱크 시키자
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
-	bool Update( );
+	bool Update();
 
 	/*
 		인자로 받은 id가 유효한지(list에 등록되어 있는지) 판정
@@ -39,6 +39,7 @@ public:
 	*/
 	bool IsValidId( int actorId );
 	Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
+	std::tuple<int, int>& GetCrashedPlayers() { return m_CrashedPlayers; }
 
 	/*
 		입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환
@@ -53,13 +54,15 @@ private:
 	// 지금은 싱글 스레드니까 락은 필요없다.
 	// SRWLOCK m_SRWLock;
 
+	bool CheckCollision();
+
 	DWORD m_PrevTime = 0;
 
 	// player list
+	std::tuple<int, int>				m_CrashedPlayers{ 0, 0 };
 	std::array<Actor*, MAX_PLAYER_NUM>	m_ActorList;
 	ISS									m_ISS;
 
-	bool CheckCollision();
 
 	// other objects
 	// 지금은 없음요

@@ -42,6 +42,9 @@ enum PacketTypes
 	PKT_CS_RESPAWN = 21,
 	PKT_SC_RESPAWN = 22,
 
+	PKT_CS_COLLISION = 23,
+	PKT_SC_COLLISION = 24,
+
 	PKT_MAX = 1024
 };
 
@@ -317,6 +320,7 @@ struct RespawnResult : public PacketHeader
 	float mRotationX, mRotationY, mRotationZ;
 };
 
+// 일단 안씀.. 충돌체크는 서버에서
 struct CollisionRequest : public PacketHeader
 {
 
@@ -324,7 +328,18 @@ struct CollisionRequest : public PacketHeader
 
 struct CollisionResult : public PacketHeader
 {
+	CollisionResult()
+	{
+		mSize = sizeof ( CollisionResult );
+		mType = PKT_SC_COLLISION;
+		mPlayerId = -1;		
+		mVelocityX = mVelocityY = mVelocityZ = 0;
+		mPosX = mPosY = mPosZ = 0;
+	}
 
+	int		mPlayerId;
+	float	mVelocityX, mVelocityY, mVelocityZ;
+	float	mPosX, mPosY, mPosZ;
 };
 
 

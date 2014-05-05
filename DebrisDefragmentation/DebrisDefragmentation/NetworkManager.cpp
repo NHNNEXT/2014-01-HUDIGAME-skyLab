@@ -206,6 +206,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_NEW, HandleNewResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEAD, HandleDeadResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_RESPAWN, HandleRespawnResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -362,4 +363,14 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 
 	player->SetPosition( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ );
 	player->SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+}
+
+void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
+{
+	CollisionResult inPacket = reinterpret_cast<CollisionResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+	
+	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }

@@ -95,16 +95,16 @@ protected:
 	
 	// visible updatable 
 	bool			m_VisibleFlag = true;
-	bool			m_UpdatableFlag = true;
-		
-	// world coordinate
-	D3DXMATRIXA16	m_Matrix;			
+	bool			m_UpdatableFlag = true;			
 
 	// local coordinate
 	DDVECTOR3		m_Position{ .0f, .0f, .0f };	// c++11에서 나온 균일한 중괄호 초기화라함.
 	DDVECTOR3		m_Rotation{ .0f, .0f, .0f };
 	DDVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
-	
+
+	// world coordinate
+	D3DXMATRIXA16	m_Matrix;
+
 	// update주기 체크용 임시
 	long long		m_UpdateCycles = 0;
 

@@ -26,6 +26,9 @@ public:
 	// 현재 게임 상태를 접속중인 모든 클라이언트에 동기화 시킴 - 무서운 녀석이다. 봉인
 	void SyncAll();
 
+	// 충돌한 플레이어들을의 속도 및 위치를 방송
+	void BroadcastCollision( int playerId, int targetId );
+
 	// 다른 플레이어들 정보를 가져옴 - 처음 접속한 세션에서 호출
 	void InitPlayerState( ClientSession* caller );
 

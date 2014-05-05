@@ -302,6 +302,32 @@ void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 
 }
 
+void ClientSession::BroadcastCollisionResult()
+{
+	CollisionResult outPacket;
+
+	D3DXVECTOR3 position = m_Character.GetPosition();
+	D3DXVECTOR3 rotation = m_Character.GetRotation();
+	D3DXVECTOR3 velocity = m_Character.GetVelocity();
+
+	outPacket.mPlayerId = m_Character.GetCharacterId();
+
+	outPacket.mPosX = position.x;
+	outPacket.mPosY = position.y;
+	outPacket.mPosZ = position.z;
+
+	outPacket.mVelocityX = velocity.x;
+	outPacket.mVelocityY = velocity.y;
+	outPacket.mVelocityZ = velocity.z;
+
+	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
 void ClientSession::SyncCurrentStatus()
 {
 	SyncResult outPacket;

@@ -55,7 +55,7 @@ void ISS::UpdateItSelf( float dTime )
 	);
 
 	// 이동
-	m_RigidBody.m_Velocity.x == ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+	m_RigidBody.m_Velocity.x = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 	Physics::CalcCurrentPosition( &m_Position, m_RigidBody.m_Velocity, dTime );
 
 	// m_Matrix에 결과 저장

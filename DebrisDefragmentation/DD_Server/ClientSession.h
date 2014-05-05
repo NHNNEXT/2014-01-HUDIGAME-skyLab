@@ -73,6 +73,7 @@ public:
 	void			SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }
 	
 	// 현재 내 상태를 나를 포함한 전체 플레이어에게 전달
+	void	BroadcastCollisionResult();
 	void	SyncCurrentStatus();
 
 	// 현재 내 상태를 targetClient에게 전달

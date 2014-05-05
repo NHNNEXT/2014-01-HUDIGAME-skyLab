@@ -202,6 +202,8 @@ bool ActorManager::CheckCollision()
 					* ( iVelocity - jVelocity ) * collisionDirection
 					);
 
+				m_CrashedPlayers = std::make_tuple( i, j );
+
 				returnVal = true;
 			}
 		}
