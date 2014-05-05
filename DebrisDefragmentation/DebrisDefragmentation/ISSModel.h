@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DDModel.h"
 class ISSModel :
 	public DDModel

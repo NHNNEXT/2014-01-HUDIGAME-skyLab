@@ -115,21 +115,21 @@ void ObjectISS::DrawModuleCollisionBox( ISSModule & module )
 	point[9] = currentPoint[4];
 	Line->Begin( );
 
-	Line->DrawTransform( point, 10, &viewMat, D3DXCOLOR( 0.8f, 0.8f, 0.8f, 1.0f ) );
+	Line->DrawTransform( point, 10, &viewMat, D3DXCOLOR( 0.2f, 0.6f, 1.0f, 1.0f ) );
 
 	// 비어 있는 선 그리기
 	D3DXVECTOR3 pointT[2];
 	pointT[0] = currentPoint[7];
 	pointT[1] = currentPoint[3];
-	Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( 0.8f, 0.8f, 0.8f, 1.0f ) );
+	Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( 0.2f, 0.6f, 1.0f, 1.0f ) );
 
 	pointT[0] = currentPoint[6];
 	pointT[1] = currentPoint[2];
-	Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( 0.8f, 0.8f, 0.8f, 1.0f ) );
+	Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( 0.2f, 0.6f, 1.0f, 1.0f ) );
 
 	pointT[0] = currentPoint[5];
 	pointT[1] = currentPoint[1];
-	Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( 0.8f, 0.8f, 0.8f, 1.0f ) );
+	Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( 0.2f, 0.6f, 1.0f, 1.0f ) );
 
 	Line->End( );
 	Line->Release( );

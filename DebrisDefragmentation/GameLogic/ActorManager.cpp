@@ -127,7 +127,7 @@ bool ActorManager::CheckCollision()
 			boxJ = m_ISS.GetModuleCollisionBox( j );
 
 			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_ActorList[i]->GetPosition();
-			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
+			// if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
 				// continue;
 
 			// 충돌체크 - 주석은 아래 플레이어간 충돌 참조
