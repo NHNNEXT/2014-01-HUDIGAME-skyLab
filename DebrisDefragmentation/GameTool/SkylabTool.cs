@@ -131,12 +131,12 @@ namespace GameTool
             Application.Exit();
         }
 
-        // 호랑이 한 마리랑 데브리 2000개쯤 불러오는 함수
+        // 화면에 오브젝트들 불러오는 함수
         private void testMeshLoad()
         {
             // test character
-            string path = "spaceMan.x";
-            m_Model = new GameTool.Class.GamePlayer(path);
+            string playerPath = "spaceMan.x";
+            m_Model = new GameTool.Class.GamePlayer(playerPath);
             m_Scene.AddChild(ref m_Model);
 
             // test Debris
@@ -152,6 +152,17 @@ namespace GameTool
                 debris.SetPosition(randX, randY, randZ);
                 m_Scene.AddChild(ref debris);
             }
+
+            // test SkyBox
+            string skyboxPath = "skybox.x";
+            GameTool.Class.GameModel skybox = new GameTool.Class.GameModel(skyboxPath);
+            m_Scene.AddChild(ref skybox);
+
+            // test Earth
+            string earthPath = "earth.x";
+            GameTool.Class.GameModel earth = new GameTool.Class.GameModel(earthPath);
+            earth.Unwrapping().IncreasePositionY(-800);
+            m_Scene.AddChild(ref earth);
         }
 
         private void RenderScene()
