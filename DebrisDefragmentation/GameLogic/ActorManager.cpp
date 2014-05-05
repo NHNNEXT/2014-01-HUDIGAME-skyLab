@@ -104,9 +104,6 @@ bool ActorManager::IsValidId( int actorId )
 
 bool ActorManager::CheckCollision()
 {
-	///# 그러니까.. 매 업데이트마다 모든 액터를 돌면서 서로 n * n-1 만큼 충돌 체크??
-	///# 액터의 수가 많지 않으니까.. 이렇게 해도 되지만.. 원칙적으로는 이렇게 하면 안됨.. delta 가 있는 애들만.. 
-
 	bool returnVal = false; // 충돌이 있는지 알려줌 - 클라이언트들에게 업데이트하라고 시켜야 되니까
 
 	// 순회하면서 각 액터들이 충돌하는지 확인
@@ -114,7 +111,10 @@ bool ActorManager::CheckCollision()
 	// 전달 방식은 충돌 후 이동 방향(서로 반대 방향)을 전달한다.
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
-		if ( m_ActorList[i] == nullptr || !m_ActorList[i]->IsMoving() )
+		// 조심해!!
+		// 일단 지금은 항상 움직이는 상태...
+		// 움직임이 있는 애들만 체크
+		if ( m_ActorList[i] == nullptr || !m_ActorList[i]->IsMoving( ) )
 			continue;
 
 		const CollisionBox* boxI = m_ActorList[i]->GetCollisionBox();

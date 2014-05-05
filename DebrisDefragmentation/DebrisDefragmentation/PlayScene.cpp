@@ -14,6 +14,7 @@
 #include "ObjectManager.h"
 #include "SkyBox.h"
 #include "GameData.h"
+#include "ObjectISS.h"
 
 PlayScene::PlayScene()
 {
@@ -100,8 +101,12 @@ void PlayScene::Init()
 // 	}
 
 	// test ObjectISS added
-	DDModel* pObjectISS = DDModel::Create( L"iss.x" );
-	AddChild( pObjectISS );
+	// DDModel* pObjectISS = DDModel::Create( L"iss.x" );
+	// AddChild( pObjectISS );
+
+	ObjectISS* pObjectISS = ObjectISS::Create( );
+	pObjectISS->Init();
+	AddChild( static_cast<DDObject*>( pObjectISS ) );
 
 	// 조심해! 하드 코딩
 	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것

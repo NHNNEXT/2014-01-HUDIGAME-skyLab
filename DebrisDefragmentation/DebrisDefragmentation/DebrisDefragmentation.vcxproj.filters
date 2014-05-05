@@ -74,6 +74,9 @@
     <ClCompile Include="ObjectISS.cpp">
       <Filter>Scene\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="ISSModel.cpp">
+      <Filter>Scene\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -120,6 +123,9 @@
       <Filter>Scene\Objects</Filter>
     </ClInclude>
     <ClInclude Include="ObjectISS.h">
+      <Filter>Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ISSModel.h">
       <Filter>Scene\Objects</Filter>
     </ClInclude>
   </ItemGroup>

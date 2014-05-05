@@ -84,6 +84,7 @@
     <ClCompile Include="CharacterModel.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="ISSModel.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CompassUI.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="CharacterModel.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="ISSModel.h" />
     <ClInclude Include="ObjectISS.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="CompassUI.h" />

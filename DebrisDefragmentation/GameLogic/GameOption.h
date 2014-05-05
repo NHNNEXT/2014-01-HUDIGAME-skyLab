@@ -48,6 +48,7 @@ const unsigned int	MODULE_NUMBER = 10;
 
 const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_POSITION
 = {
+	/*
 	D3DXVECTOR3( -0.75f, 0.0f, -12.5f ),
 	D3DXVECTOR3( -0.75f, 0.0f, 12.5f ),
 	D3DXVECTOR3( -0.75f, 2.5f, -5.5f ),
@@ -58,6 +59,17 @@ const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_POSITION
 	D3DXVECTOR3( -0.2f, -4.4f, 0.0f ),
 	D3DXVECTOR3( -0.2f, -5.8f, 0.0f ),
 	D3DXVECTOR3( -0.2f, -7.8f, 0.0f ),
+	*/
+	D3DXVECTOR3( -0.75f, 7.5f, -12.5f ),
+	D3DXVECTOR3( -0.75f, 7.5f, 12.5f ),
+	D3DXVECTOR3( -0.75f, 4.5f, -5.5f ),
+	D3DXVECTOR3( -0.75f, 4.5f, 5.5f ),
+	D3DXVECTOR3( -0.2f, 10.2f, 0.5f ),
+	D3DXVECTOR3( -0.2f, 7.3f, 0.0f ),
+	D3DXVECTOR3( -0.2f, 4.6f, 0.0f ),
+	D3DXVECTOR3( -0.2f, 3.1f, 0.0f ),
+	D3DXVECTOR3( -0.2f, 1.7f, 0.0f ),
+	D3DXVECTOR3( -0.2f, -0.3f, 0.0f ),
 };
 
 const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_AXIS_LENGTH
