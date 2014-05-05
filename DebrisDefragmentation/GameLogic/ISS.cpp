@@ -54,7 +54,23 @@ void ISS::UpdateItSelf( float dTime )
 	}
 	);
 
-	m_Position.x += ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+	// 이동
+	m_RigidBody.m_Velocity.x == ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+	Physics::CalcCurrentPosition( &m_Position, m_RigidBody.m_Velocity, dTime );
+
+	// m_Matrix에 결과 저장
+	D3DXQUATERNION	qRotation;
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
+
+	// 조심해!!
+	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
+	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
+		[&]( ISSModule &eachModule )
+	{
+		eachModule.SetMatrix( m_Matrix );
+	}
+	);
 }
 
 std::tuple<ISSModuleName, TeamColor> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )

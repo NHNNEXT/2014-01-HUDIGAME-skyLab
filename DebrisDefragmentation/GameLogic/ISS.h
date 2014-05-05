@@ -20,6 +20,8 @@ public:
 	std::tuple<ISSModuleName, TeamColor>	Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor );
 	std::tuple<ISSModuleName, float>		Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
 
+	const CollisionBox* GetModuleCollisionBox( int idx ) { return m_ModuleList[idx].GetCollisionBox(); }
+
 private:
 	virtual void UpdateItSelf( float dTime );
 

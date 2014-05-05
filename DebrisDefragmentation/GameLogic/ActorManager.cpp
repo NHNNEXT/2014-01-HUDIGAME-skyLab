@@ -21,6 +21,7 @@ ActorManager::~ActorManager()
 void ActorManager::Init( )
 {
 	m_PrevTime = timeGetTime( );
+	m_ISS.Init();
 	// InitializeSRWLock( &m_SRWLock );
 }
 
@@ -87,6 +88,8 @@ bool ActorManager::Update( )
 		}
 	}
 
+	m_ISS.Update( dt );
+
 	// 충돌 체크
 	return CheckCollision();
 }
@@ -111,17 +114,50 @@ bool ActorManager::CheckCollision()
 	// 전달 방식은 충돌 후 이동 방향(서로 반대 방향)을 전달한다.
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
-		if ( m_ActorList[i] == nullptr )
+		if ( m_ActorList[i] == nullptr || !m_ActorList[i]->IsMoving() )
 			continue;
 
 		const CollisionBox* boxI = m_ActorList[i]->GetCollisionBox();
+		const CollisionBox* boxJ = nullptr;
 
+		// ISS와의 충돌 확인
+		for ( int j = 0; j < MODULE_NUMBER; ++j )
+		{
+			// 각각의 모듈의 충돌 박스를 가져온다.
+			boxJ = m_ISS.GetModuleCollisionBox( j );
+
+			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_ActorList[i]->GetPosition();
+			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
+				// continue;
+
+			// 충돌체크 - 주석은 아래 플레이어간 충돌 참조
+			if ( Physics::IsCollide( boxI, boxJ ) )
+			{
+				// 이 경우에는 ISS는 그대로 있고 플레이어만 튕긴다.
+				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
+
+				D3DXVECTOR3 relativeVelocity = -m_ActorList[i]->GetVelocity();
+				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
+				{
+					return false;
+				}
+
+				// 조심해!!
+				// 반사되지 않고 입사각의 반대로 튕기고 있다.
+				m_ActorList[i]->IncreaseVelocity( relativeVelocity * 2.0f );
+
+				returnVal = true;
+			}
+		}
+
+
+		// 플레이어간 충돌 체크
 		for ( int j = i + 1; j < MAX_PLAYER_NUM; ++j )
 		{
 			if ( m_ActorList[j] == nullptr )
 				continue;
 
-			const CollisionBox* boxJ = m_ActorList[j]->GetCollisionBox();
+			boxJ = m_ActorList[j]->GetCollisionBox();
 
 			// 두 점의 거리가 가까우면 체크 안 함
 			D3DXVECTOR3 collisionDirection = m_ActorList[j]->GetPosition() - m_ActorList[i]->GetPosition();

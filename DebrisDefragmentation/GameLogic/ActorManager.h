@@ -2,6 +2,7 @@
 
 #include "GameOption.h"
 #include "Actor.h"
+#include "ISS.h"
 
 class ActorManager
 {
@@ -55,7 +56,8 @@ private:
 	DWORD m_PrevTime = 0;
 
 	// player list
-	std::array<Actor*, MAX_PLAYER_NUM> m_ActorList;
+	std::array<Actor*, MAX_PLAYER_NUM>	m_ActorList;
+	ISS									m_ISS;
 
 	bool CheckCollision();
 

@@ -14,6 +14,8 @@ public:
 	{}
 	~ClientManager() {}
 
+	void Init() { m_ActorManager.Init(); }
+
 	ClientSession* CreateClient( SOCKET sock );
 
 	void BroadcastPacket( ClientSession* from, PacketHeader* pkt );

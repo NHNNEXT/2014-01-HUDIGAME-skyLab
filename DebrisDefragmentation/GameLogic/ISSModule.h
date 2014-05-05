@@ -23,12 +23,14 @@ public:
 	float DecreaseHP();
 	const CollisionBox* GetControlPointBox();
 
+	void SetMatrix( const D3DXMATRIXA16 &matrix ) { m_Matrix = matrix; }
+
 	TeamColor Occupy( TeamColor callerColor );
 	TeamColor GetOwner() const { return m_CurrentOwner; }
 	ISSModuleName GetModuleName() const { return m_ModuleName; }
 
 private:
-	virtual void UpdateItSelf( float dTime );
+	// virtual void UpdateItSelf( float dTime );
 
 	ISSControlPoint	m_ControlPoint;
 	ISSModuleName	m_ModuleName = ISSModuleName::NO_MODULE;

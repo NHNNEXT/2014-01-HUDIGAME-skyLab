@@ -16,7 +16,7 @@ public:
 	BaseObject();
 	virtual ~BaseObject();
 
-	void Update( float dTime );
+	virtual void Update( float dTime );
 
 	void SetPosition( D3DXVECTOR3 pos ) { m_Position = pos; }
 	void SetPosition( float x, float y, float z ) { m_Position = D3DXVECTOR3( x, y, z ); }

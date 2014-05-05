@@ -38,11 +38,14 @@ public:
 	// 자전 금지
 	void StopSpin();
 
-	float GetMass() const { return m_RigidBody.m_Mass; }
+	float	GetMass() const { return m_RigidBody.m_Mass; }
+	bool	IsMoving() const { return m_MovingFlag; }
+	void	SetMovingFlag( bool flag ) { m_MovingFlag = flag; }
 
 protected:
 	std::shared_ptr<ClassComponent> m_CharacterClass;
 	Rigidbody	m_RigidBody;
+	bool		m_MovingFlag = true;
 
 private:
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
