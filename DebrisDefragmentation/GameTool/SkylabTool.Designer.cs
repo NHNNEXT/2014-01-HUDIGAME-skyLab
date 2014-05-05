@@ -207,7 +207,7 @@
             this.View.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.View.TabIndex = 1;
             this.View.TabStop = false;
-            this.View.MouseEnter += new System.EventHandler(this.ViewMouseEnver);
+            this.View.MouseEnter += new System.EventHandler(this.ViewMouseEnvet);
             this.View.MouseLeave += new System.EventHandler(this.ViewMouseLeave);
             this.View.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ViewMouseMove);
             this.View.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.InputProc);

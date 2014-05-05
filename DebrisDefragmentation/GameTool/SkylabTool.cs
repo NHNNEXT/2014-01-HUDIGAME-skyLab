@@ -135,7 +135,7 @@ namespace GameTool
         private void testMeshLoad()
         {
             // test character
-            string path = "tiger.x";
+            string path = "spaceMan.x";
             m_Model = new GameTool.Class.GamePlayer(path);
             m_Scene.AddChild(ref m_Model);
 
@@ -161,7 +161,7 @@ namespace GameTool
 
         private void AddCamera()
         {
-            m_Model.AddChild(ref m_Camera);
+            m_Camera.SetFollowingObject(m_Model);
         }
 
         private void AddLight()
@@ -181,7 +181,7 @@ namespace GameTool
             CameraViewVecZ.Text = m_Camera.GetViewDirectionZ().ToString();
         }
 
-        private void ViewMouseEnver(object sender, EventArgs e)
+        private void ViewMouseEnvet(object sender, EventArgs e)
         {
             this.View.Focus();
         }

@@ -73,6 +73,11 @@ namespace GameTool.Class
             return m_Camera.GetViewDirectionZ();
         }
 
+        public void SetFollowingObject( GameTool.Class.GameObject obj )
+        {
+            m_Camera.SetFollwingObject( obj.Unwrapping() );
+        }
+
         // 멤버변수
         private DDWrapper.GameCamera m_Camera = null;
     }

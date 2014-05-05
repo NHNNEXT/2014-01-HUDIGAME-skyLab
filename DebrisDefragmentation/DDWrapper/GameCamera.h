@@ -17,6 +17,8 @@ namespace DDWrapper
 
 		void SetPosition( float x, float y, float z ) { m_pObject->SetPosition( x, y, z ); };
 
+		void SetFollwingObject( GameObject^ obj ) { dynamic_cast<DDCamera*>( m_pObject )->SetFollowingObject( obj->GetPointer() ); }
+
 		const float GetViewDirectionX() { return m_pObject->GetViewDirection().x; }
 		const float GetViewDirectionY() { return m_pObject->GetViewDirection().y; }
 		const float GetViewDirectionZ() { return m_pObject->GetViewDirection().z; }
