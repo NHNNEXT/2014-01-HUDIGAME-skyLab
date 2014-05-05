@@ -84,7 +84,7 @@
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
     <ClInclude Include="ISS.h" />
-    <ClInclude Include="ISSAccessPoint.h" />
+    <ClInclude Include="ISSControlPoint.h" />
     <ClInclude Include="ISSModule.h" />
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="Protector.h" />
@@ -105,7 +105,7 @@
   <ItemGroup>
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="ISS.cpp" />
-    <ClCompile Include="ISSAccessPoint.cpp" />
+    <ClCompile Include="ISSControlPoint.cpp" />
     <ClCompile Include="ISSModule.cpp" />
     <ClCompile Include="Protector.cpp" />
     <ClCompile Include="BaseObject.cpp" />

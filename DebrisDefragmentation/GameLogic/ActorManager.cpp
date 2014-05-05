@@ -190,10 +190,11 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 			continue;
 
 		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
-		if ( Physics::IntersectionCheckRayBox( &tempAxis, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
+		float tempDistance = static_cast<float>( HUGE );
+		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
-			float tempDistance = D3DXVec3Length( &( startPoint - m_ActorList[i]->GetPosition() ) );
+			// 정확하게는 두 물체의 기준점 사이의 거리를 비교하는 것이 아니라 교차점과 스킬을 사용한 객체의 기준점의 거리를 구해서 비교해야 함
 			if ( tempDistance < currentDistance )
 			{
 				currentDistance = tempDistance;

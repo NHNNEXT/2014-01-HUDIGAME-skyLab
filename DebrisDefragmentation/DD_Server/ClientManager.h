@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <map>
+#include <unordered_map>
 #include <WinSock2.h>
 #include "ActorManager.h"
 
@@ -35,7 +35,7 @@ private:
 	void ClientPeriodWork();
 
 private:
-	typedef std::map<SOCKET, ClientSession*> ClientList;
+	typedef std::unordered_map<SOCKET, ClientSession*> ClientList;
 	ClientList	mClientList;
 
 	DWORD			mLastGCTick;

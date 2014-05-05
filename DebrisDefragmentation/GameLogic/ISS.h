@@ -17,8 +17,8 @@ public:
 
 	void Init();
 
-	ISSModuleName						Occupy( int skillUserId );
-	std::tuple<ISSModuleName, float>	Destroy( int skillUserId );
+	std::tuple<ISSModuleName, TeamColor>	Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor );
+	std::tuple<ISSModuleName, float>		Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
 
 private:
 	virtual void UpdateItSelf( float dTime );

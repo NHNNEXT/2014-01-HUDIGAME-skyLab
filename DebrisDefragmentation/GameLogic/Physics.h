@@ -5,9 +5,7 @@
 /*
 작성자 : 최경욱
 작성일 : 2014. 4. 6
-내용 : 물리적 계산 수행(물체 운동, 회전, 충돌 등)
-
-일단 다음 주 로직 만들기 전에는 복사해서 씁니다 ㅠ
+내용 : 물리적 계산 수행(물체 운동, 회전, 충돌, 타겟검출 등)
 */
 
 namespace Physics
@@ -161,7 +159,7 @@ namespace Physics
 	}
 	*/
 	
-	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
+	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, _Inout_ float* distance, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
 	{
 		D3DXVECTOR3 tempIntersection( 0.0f, 0.0f, 0.0f );
 		D3DXVECTOR3 intersectionPoint( 0.0f, 0.0f, 0.0f );
@@ -259,7 +257,11 @@ namespace Physics
 		}
 		// 여기서 회전 축을 계산하자
 		// 스핀 축은 물체의 원점과 intersectionPoint를 잇는 벡터와, ray 벡터에 수직 - 외적
-		D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box->m_CenterPos - intersectionPoint ), &viewDirection );
+		if (spinAxis != nullptr )
+			D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box->m_CenterPos - intersectionPoint ), &viewDirection );
+
+		if (distance != nullptr )
+			*distance = D3DXVec3Length( &( startPoint - intersectionPoint ) );
 
 		return true;
 	}

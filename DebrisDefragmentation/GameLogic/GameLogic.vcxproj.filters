@@ -91,7 +91,7 @@
     <ClInclude Include="ISSModule.h">
       <Filter>Object\ISS</Filter>
     </ClInclude>
-    <ClInclude Include="ISSAccessPoint.h">
+    <ClInclude Include="ISSControlPoint.h">
       <Filter>Object\ISS</Filter>
     </ClInclude>
   </ItemGroup>
@@ -129,7 +129,7 @@
     <ClCompile Include="ISSModule.cpp">
       <Filter>Object\ISS</Filter>
     </ClCompile>
-    <ClCompile Include="ISSAccessPoint.cpp">
+    <ClCompile Include="ISSControlPoint.cpp">
       <Filter>Object\ISS</Filter>
     </ClCompile>
   </ItemGroup>
