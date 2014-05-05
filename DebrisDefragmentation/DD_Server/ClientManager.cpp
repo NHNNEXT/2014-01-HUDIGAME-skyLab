@@ -53,7 +53,7 @@ void ClientManager::OnPeriodWork()
 	{
 		// SyncAll();
 	}
-	// SyncAll();
+	SyncAll();
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();
@@ -110,7 +110,7 @@ void ClientManager::FlushClientSend()
 	}
 }
 
-/*
+
 void ClientManager::SyncAll( )
 {
 	///# ㄷㄷㄷ 너무하다..
@@ -125,7 +125,7 @@ void ClientManager::SyncAll( )
 		client->SyncCurrentStatus();
 	}
 }
-*/
+
 
 void ClientManager::InitPlayerState( ClientSession* caller )
 {

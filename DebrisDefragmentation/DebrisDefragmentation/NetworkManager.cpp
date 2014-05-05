@@ -270,9 +270,20 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	SyncResult inPacket = reinterpret_cast<SyncResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	// 서버의 충돌박스 그리기 용 임시..
+	int dummyPlayerID = -1;
+	if ( inPacket.mPlayerId != -1 )
+	{
+		dummyPlayerID = inPacket.mPlayerId + REAL_PLAYER_NUM;
+
+		g_PlayerManager->AddPlayer( dummyPlayerID );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	}
+
+// 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
+// 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+// 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }
 
 void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
@@ -281,15 +292,15 @@ void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
-	Player* player = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	player->GoForward();
-	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
+	targetPlayer->GoForward();
+	targetPlayer->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 
 	if ( inPacket.mSpinAxisX == 0.0f && inPacket.mSpinAxisY == 0.0f && inPacket.mSpinAxisZ == 0.0f )
 		return;
 
-	player->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
+	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
 	// player->SetSpin( DDVECTOR3( 1.0f, 1.0f, 0.0f ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PUSH from %d player\n", inPacket.mPlayerId );
@@ -301,15 +312,15 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
-	Player* player = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	player->GoForward();
-	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
+	targetPlayer->GoForward();
+	targetPlayer->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 
 	if ( inPacket.mSpinAxisX == 0.0f && inPacket.mSpinAxisY == 0.0f && inPacket.mSpinAxisZ == 0.0f )
 		return;
 
-	player->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
+	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
 }

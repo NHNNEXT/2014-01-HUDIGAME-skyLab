@@ -74,7 +74,7 @@ void Player::UpdateItSelf( float dTime )
 	if ( m_ClassComponent->IsAccelerating() )
 	{
 		/// config.h
-		if ( timeGetTime() - m_ClassComponent->GetAccelerationStartTime() > 500 )
+		if ( timeGetTime() - m_ClassComponent->GetAccelerationStartTime() > ACCELERATION_TIME )
 		{
 			// 가속 끝났다
 			m_ClassComponent->SetIsAccelerating( false );
@@ -186,6 +186,33 @@ void Player::DrawCollisionBox()
 	point[8] = currentPoint[7];
 	point[9] = currentPoint[4];
 	Line->Begin();
+
+	// 조심해!!!
+	// dummy 용 임시, 더미 플레이어 제거시 제거할 것.
+	if ( m_PlayerId > REAL_PLAYER_NUM - 1 )
+	{
+		Line->DrawTransform( point, 10, &viewMat, D3DXCOLOR( .0f, 1.0f, .0f, 1.0f ) );
+
+		// 비어 있는 선 그리기
+		D3DXVECTOR3 pointT[2];
+		pointT[0] = currentPoint[7];
+		pointT[1] = currentPoint[3];
+		Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( .0f, 1.0f, .0f, 1.0f ) );
+
+		pointT[0] = currentPoint[6];
+		pointT[1] = currentPoint[2];
+		Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( .0f, 1.0f, .0f, 1.0f ) );
+
+		pointT[0] = currentPoint[5];
+		pointT[1] = currentPoint[1];
+		Line->DrawTransform( pointT, 2, &viewMat, D3DXCOLOR( .0f, 1.0f, .0f, 1.0f ) );
+
+		Line->End();
+		Line->Release();
+		return;
+	}
+
+
 	Line->DrawTransform( point, 10, &viewMat, D3DXCOLOR( 1.0f, 0.0f, 1.0f, 1.0f ) );
 
 	// 비어 있는 선 그리기
