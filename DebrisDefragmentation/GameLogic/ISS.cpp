@@ -89,7 +89,6 @@ std::tuple<ISSModuleName, TeamColor> ISS::Occupy( const D3DXVECTOR3 &viewDirecti
 		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].Occupy( callerColor ) );
 	}
 
-	// 임시 리턴값
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM );
 }
 
@@ -126,6 +125,5 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>(targetModule)].DecreaseHP() );
 	}
 
-	//임시 리턴값
 	return std::make_tuple( ISSModuleName::NO_MODULE, 0.0f );
 }

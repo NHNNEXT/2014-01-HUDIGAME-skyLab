@@ -23,11 +23,11 @@ struct CollisionBox
 		m_CenterPos = newCenterPos;
 	}
 
-	void SetLength( float lenX, float lenY, float lenZ )
+	void SetLength( const D3DXVECTOR3 &length )
 	{
-		m_AxisLen[0] = lenX;
-		m_AxisLen[1] = lenY;
-		m_AxisLen[2] = lenZ;
+		m_AxisLen[0] = length.x;
+		m_AxisLen[1] = length.y;
+		m_AxisLen[2] = length.z;
 	}
 
 	// Init함수는 순서에 유의할 것

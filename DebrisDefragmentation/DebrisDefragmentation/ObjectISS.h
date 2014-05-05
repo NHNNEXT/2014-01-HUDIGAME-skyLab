@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "DDModel.h"
-class ISS :
+class ObjectISS :
 	public DDModel
 {
 public:
-	ISS();
-	ISS( std::wstring modelPath );
-	virtual ~ISS();
+	ObjectISS();
+	ObjectISS( std::wstring modelPath );
+	virtual ~ObjectISS();
 
-	CREATE_OBJECT_WSTRING( ISS, modelpath );
+	CREATE_OBJECT_WSTRING( ObjectISS, modelpath );
 
 private:
 	virtual void UpdateItSelf( float dTime );
