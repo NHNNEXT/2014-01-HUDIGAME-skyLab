@@ -1,5 +1,5 @@
-﻿#include "main.h"
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "main.h"
 #include "DDApplication.h"
 #include "PlayScene.h"
 #include "GameManager.h"

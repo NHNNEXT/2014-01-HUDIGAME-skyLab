@@ -1,5 +1,7 @@
 ﻿#pragma once
+
 #include "DDConfig.h"
+#include "DDMacro.h"
 
 class DDRenderer : public Singleton<DDRenderer>
 {

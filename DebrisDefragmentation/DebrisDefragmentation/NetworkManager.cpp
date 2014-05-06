@@ -1,4 +1,5 @@
-﻿#include "NetworkManager.h"
+﻿#include "stdafx.h"
+#include "NetworkManager.h"
 #include "DDNetwork.h"
 #include "PacketType.h"
 #include "PlayerManager.h"
@@ -189,7 +190,7 @@ void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
 	RespawnRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
-	outPacket.mCharacterClass = static_cast<int>( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetClassComponent().GetTeam() );
+	outPacket.mCharacterClass = static_cast<int>( characterClass );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }

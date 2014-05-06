@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "DDConfig.h"
+#include "DDMacro.h"
 #include "DDCircularBuffer.h"
 #include "DDPacketHeader.h"
 

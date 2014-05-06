@@ -1,4 +1,4 @@
-﻿#include "DDConfig.h"
+﻿#include "stdafx.h"
 #include "DDModel.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"

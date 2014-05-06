@@ -71,7 +71,7 @@ void Player::UpdateItSelf( float dTime )
 {
 	
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
-	if ( !m_ClassComponent->CheckRemainOxygen() && !m_ClassComponent->IsAlive() )
+	if ( !m_ClassComponent->UseOxygen(OXYGEN_COUNSUMED) )
 	{
 		printf( "player is dead\n" );
 		GNetworkManager->SendDeadRequest();

@@ -60,7 +60,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DDFramework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DDFramework.lib;winmm.lib;d3d9.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;comctl32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

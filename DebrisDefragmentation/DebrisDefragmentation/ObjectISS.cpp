@@ -1,4 +1,5 @@
-﻿#include "ObjectISS.h"
+﻿#include "stdafx.h"
+#include "ObjectISS.h"
 #include "ISSModel.h"
 #include "Physics.h"
 

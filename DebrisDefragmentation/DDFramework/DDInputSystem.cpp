@@ -1,4 +1,5 @@
-﻿#include "DDInputSystem.h"
+﻿#include "stdafx.h"
+#include "DDInputSystem.h"
 #include "DDApplication.h"
 
 DDInputSystem::DDInputSystem()

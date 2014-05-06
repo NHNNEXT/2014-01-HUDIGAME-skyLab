@@ -1,4 +1,5 @@
-﻿#include "ObjectManager.h"
+﻿#include "stdafx.h"
+#include "ObjectManager.h"
 
 ObjectManager* GObjectManager = nullptr;
 

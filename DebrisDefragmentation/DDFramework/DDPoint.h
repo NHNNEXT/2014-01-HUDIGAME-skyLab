@@ -7,7 +7,6 @@
 	내용 : 평면상의 좌표를 표현하고 연산하는 데이터 타입 정의 (NNGameFramework와 동일)
 */
 
-#include "DDConfig.h"
 // agebreak : 자주 쓰이고, 변하지 않는 헤더는 PreCompiled Header에 넣는게 좋다.
 // pre-compiled header로 이동
 

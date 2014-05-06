@@ -1,4 +1,5 @@
-﻿#include "CompassUI.h"
+﻿#include "stdafx.h"
+#include "CompassUI.h"
 #include "ObjectManager.h"
 #include "GameOption.h"
 
@@ -155,7 +156,8 @@ void CompassUI::RenderItSelf()
 	// 부모의 어파인 변환을 적용
 	if ( nullptr != m_pParent )
 	{
-		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &m_pParent->GetMatrix() );
+		D3DXMATRIXA16 pMat = m_pParent->GetMatrix();
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &pMat );
 	}
 
 	// 자신+부모의 어파인 변환을 월드좌표계에 적용

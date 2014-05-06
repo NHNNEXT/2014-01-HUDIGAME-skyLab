@@ -1,4 +1,5 @@
-﻿#include "DDCamera.h"
+﻿#include "stdafx.h"
+#include "DDCamera.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"
 

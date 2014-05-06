@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "DDConfig.h"
+#include "DDMacro.h"
 
 // agebreak : 전방 선언을 활용하면 Include 할 필요가 없다
 // 전방 선언

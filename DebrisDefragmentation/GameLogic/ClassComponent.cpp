@@ -17,7 +17,7 @@ ClassComponent::~ClassComponent()
 void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 {
 	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Fuel, m_Oxygen, m_HP );
-	if ( !CheckRemainGas( GAS_FOR_GOFORWARD ) )
+	if ( !UseGas( GAS_FOR_GOFORWARD ) )
 	{
 		return;
 	}
@@ -60,9 +60,9 @@ void ClassComponent::StopSpin( Rigidbody& rigidbody )
 	rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 
-bool ClassComponent::CheckRemainOxygen()
+bool ClassComponent::UseOxygen( int oxygenUse )
 {
-	if ( OXYGEN_COUNSUMED > m_Oxygen )
+	if ( oxygenUse > m_Oxygen )
 	{
 		// 산소 부족시 체력 감소
 		m_HP -= HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT; ///# 경계값 확인 잘 할 것
@@ -72,18 +72,18 @@ bool ClassComponent::CheckRemainOxygen()
 	else
 	{
 		// 산소가 충분하면
-		m_Oxygen -= OXYGEN_COUNSUMED;
+		m_Oxygen -= oxygenUse;
 		return true;
 	}
 }
 
-bool ClassComponent::CheckRemainGas( int gasWillBeUsed )
+bool ClassComponent::UseGas( int gasUse )
 {
-	if ( gasWillBeUsed > m_Fuel )
+	if ( gasUse > m_Fuel )
 	{
 		return false;
 	}
-	m_Fuel -= gasWillBeUsed;
+	m_Fuel -= gasUse;
 	return true;
 
 }

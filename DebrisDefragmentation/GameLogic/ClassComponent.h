@@ -52,8 +52,8 @@ public:
 	void	SetHP( int val ) { m_HP = val; }
 
 	bool	IsAlive() { return ( m_HP > 0 ) ? true : false; }
-	bool	CheckRemainGas( int gasWillBeUsed );
-	bool	CheckRemainOxygen();
+	bool	UseGas( int gasUse );
+	bool	UseOxygen(int oxygenUse);
 
 
 	TeamColor	GetTeam() const { return m_Team; }

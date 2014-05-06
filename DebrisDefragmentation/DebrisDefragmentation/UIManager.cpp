@@ -1,4 +1,5 @@
-﻿#include "UIManager.h"
+﻿#include "stdafx.h"
+#include "UIManager.h"
 
 extern std::shared_ptr<UIManager> g_UIManager = nullptr;
 

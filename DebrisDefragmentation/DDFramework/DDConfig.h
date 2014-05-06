@@ -1,6 +1,9 @@
 ﻿#pragma once 
 
-#include "stdafx.h"
-#include "DDMacro.h"
+#include "d3dx9.h"
+#include <map>
+#include <memory>
+#include <windows.h>
+#include <list>
 
-typedef D3DXVECTOR3		DDVECTOR3;
+typedef		D3DXVECTOR3		DDVECTOR3;

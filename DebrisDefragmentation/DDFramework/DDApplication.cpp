@@ -1,4 +1,5 @@
-﻿#include "DDApplication.h"
+﻿#include "stdafx.h"
+#include "DDApplication.h"
 #include "DDInputSystem.h"
 #include "DDRenderer.h"
 #include "DDSceneDirector.h"

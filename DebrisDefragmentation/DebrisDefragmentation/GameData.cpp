@@ -1,4 +1,5 @@
-﻿#include "GameData.h"
+﻿#include "stdafx.h"
+#include "GameData.h"
 
 
 using namespace rapidjson;

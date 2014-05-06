@@ -1,5 +1,7 @@
-﻿#include "SceneManager.h"
+﻿#include "stdafx.h"
+#include "SceneManager.h"
 #include "PlayScene.h"
+#include "DDScene.h"
 
 std::shared_ptr<SceneManager> g_SceneManager = nullptr;
 
