@@ -3,12 +3,21 @@
 *** DebrisDefragmentation\DebrisDefragmentation\Resources 를 실행 파일이 있는 폴더에 복사해주세요.
 *** JSON dll 폴더의 System.Net.Json.dll 파일을 GameTool 실행 파일이 있는 곳에 올려주세요.
 
+*** 조작법
+	앞으로 이동 	: w
+	정지		: s
+	카메라 회전	: 마우스 이동
+	
+	캐릭터 방향 카메라 방향으로 회전 : space
+	
+	다른 캐릭터 밀기	: 1
+	다른 캐릭터 당기기	: 2
+	ISS module 점령		: 3
+	ISS module 부수기	: 4
+
 >>> Tool
-	
-	
 
 >>> framework
-
 
 >>> logic & physics
 	캐릭터 죽음 판정 및 리스폰 기능 추가
