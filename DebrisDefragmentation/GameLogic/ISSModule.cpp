@@ -149,6 +149,9 @@ void ISSModule::Init( ISSModuleName moduleName )
 TeamColor ISSModule::Occupy( TeamColor callerColor )
 {
 	// 점령 로직이 복잡해지면 오토마타로 변경해서 구현해야?
+	if ( m_CurrentOwner == callerColor )
+		return m_CurrentOwner;
+
 	m_CurrentOwner = ( m_CurrentOwner == TeamColor::NO_TEAM ) ? callerColor : TeamColor::NO_TEAM;
 
 	printf_s( "[DEBUG] ISS MODULE %d is occupied : %d", m_ModuleName, m_CurrentOwner );

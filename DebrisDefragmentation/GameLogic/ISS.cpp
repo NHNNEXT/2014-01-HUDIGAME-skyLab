@@ -83,8 +83,8 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		m_ModuleList[static_cast<int>( targetModule )].Occupy( callerColor );
 
 		// 운동 상태 변경
-		unsigned int blueCount = 0;
-		unsigned int redCount = 0;
+		int blueCount = 0;
+		int redCount = 0;
 
 		std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 			[&]( const ISSModule &eachModule )

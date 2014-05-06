@@ -55,6 +55,7 @@ void ObjectISS::InitCollisionBox( )
 
 void ObjectISS::DrawModuleCollisionBox( ISSModule & module )
 {
+
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance( )->GetDevice( );
 
 	const CollisionBox* currentBox = module.GetCollisionBox();
