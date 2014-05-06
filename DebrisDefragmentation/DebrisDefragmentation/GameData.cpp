@@ -30,7 +30,7 @@ bool GameData::Init()
 
 	// init JSON
 	FILE* file;
-	// 이 파일은 해당 폴더에 있어야 한다!
+	
 	std::string JsonRawData;
 
 	if ( !fopen_s( &file, GAME_DATA_PATH.c_str(), "r" ) )

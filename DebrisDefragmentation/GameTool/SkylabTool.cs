@@ -172,6 +172,11 @@ namespace GameTool
 
         private void AddCamera()
         {
+            // 조심해!!
+            // 왜 scene 밑에 카메라를 넣으면 화면이 제대로 안 보이는지?;;
+            // 현재는 카메라가 혼자 둥둥 떠있는데 FollowingObject가 제대로 안 되고 있고
+            // 우주인 외에 아무것도 안 보임 ㄷㄷ
+            //m_Scene.AddChild(ref m_Camera);
             m_Camera.SetFollowingObject(m_Model);
         }
 

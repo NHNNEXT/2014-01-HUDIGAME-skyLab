@@ -10,7 +10,8 @@ enum class CharacterClass : int
 	ENGINEER,
 	PROTECTOR
 };
-
+// 주의 : 순서를 함부로 바꾸지 말 것. 대재앙이 일어난다
+// UI_FILENAME_LIST와 함께 바꿀 것
 enum class ClientUITag : int
 {
 	UI_OXYGEN_TAG,
@@ -150,6 +151,8 @@ const float			UI_FRAME_POSITION_X = 0.0f;
 const float			UI_FRAME_POSITION_Y = 50.0f;
 
 const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
+// 주의 : 순서를 함부로 바꾸지 말 것. 대재앙이 일어난다.
+// ClientUITag와 함께 바꿀 것
 const std::array<std::wstring, size_t( ClientUITag::UI_TAG_COUNT )> UI_FILENAME_LIST
 	= {
 		L"OxygenUI.png",

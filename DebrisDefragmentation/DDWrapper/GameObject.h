@@ -23,6 +23,7 @@ namespace DDWrapper
 
 		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
 		void AddChild( DDWrapper::GameObject^ object ) { m_pObject->AddChild( object->GetPointer() ); };
+		
 		// AddChild는 포인터를 받아야 되는데 C#은 포인터를 못 써서 만든 메소드들
 		// 별 거 아니지만 이렇게 쓸려면 Model, Camera, Light가 Object 위에 선언되어 있어야 함
 		// 		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };

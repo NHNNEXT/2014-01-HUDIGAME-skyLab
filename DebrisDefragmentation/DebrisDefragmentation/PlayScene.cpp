@@ -233,6 +233,7 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	MousePointer( MOUSE_POINTER_ON, currentMousePos );
 	UpdateUI();	
+	UpdateISS();
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정
@@ -289,7 +290,7 @@ void PlayScene::UpdateUI()
 	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->SetScale( currentFuel / static_cast<float>( DEFAULT_FUEL ), 1, 1 );
 }
 
-void PlayScene::LoadJSON()
+void PlayScene::UpdateISS()
 {
-
+	
 }

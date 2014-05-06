@@ -4,6 +4,7 @@
 
 class DDLight;
 class Player;
+class ObjectISS;
 
 class PlayScene :
 	public DDScene
@@ -27,12 +28,13 @@ private:
 	void AddUI();
 	void UpdateUI();
 
-	// JSON 관련 함수들
-	void LoadJSON();
+	// ISS 관련 함수들
+	void UpdateISS();
 
 	DDLight*	m_pDirectonalLight = nullptr;
 
 	DDPoint		m_PrevMousePosition{.0f,.0f};
 
+	ObjectISS*	m_pObjectISS = nullptr;
 };
 
