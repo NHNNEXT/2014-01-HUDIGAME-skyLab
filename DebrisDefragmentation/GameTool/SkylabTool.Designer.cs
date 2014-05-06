@@ -105,6 +105,8 @@
             this.JsonFileList = new System.Windows.Forms.ListBox();
             this.JSONSearchFilebtn = new System.Windows.Forms.Button();
             this.RenderOnOffBtn = new System.Windows.Forms.Button();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -122,6 +124,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -649,6 +652,7 @@
             // 
             this.Status.Controls.Add(this.CameraModelStat);
             this.Status.Controls.Add(this.JSONConfig);
+            this.Status.Controls.Add(this.tabPage1);
             this.Status.Location = new System.Drawing.Point(779, 28);
             this.Status.Name = "Status";
             this.Status.SelectedIndex = 0;
@@ -848,6 +852,26 @@
             this.RenderOnOffBtn.UseVisualStyleBackColor = true;
             this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupBox10);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(465, 696);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Location = new System.Drawing.Point(4, 4);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(455, 216);
+            this.groupBox10.TabIndex = 0;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "ISS";
+            // 
             // skyLabTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -886,6 +910,7 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -970,6 +995,8 @@
         private System.Windows.Forms.ListBox JSONVariables;
         private System.Windows.Forms.Button MdoifyValue;
         private System.Windows.Forms.Label JSONKeyLabel;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.GroupBox groupBox10;
     }
 }
 

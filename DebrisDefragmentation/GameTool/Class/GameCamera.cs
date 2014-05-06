@@ -9,9 +9,9 @@ namespace GameTool.Class
     class GameCamera : GameObject
     {
         // 생성자
-        public GameCamera()
+        public GameCamera(float width, float height)
         {
-            m_Camera = new DDWrapper.GameCamera();
+            m_Camera = new DDWrapper.GameCamera(width, height);
         }
 
         public override void AttachParent(ref GameTool.Class.GameObject parent)
@@ -36,6 +36,11 @@ namespace GameTool.Class
                      m_Camera.GetPositionY() + y,
                      m_Camera.GetPositionZ() + z
                  );
+        }
+
+        public void SetPosition( float x, float y, float z)
+        {
+            m_Camera.SetPosition(x, y, z);
         }
 
         public void ResetCamera()

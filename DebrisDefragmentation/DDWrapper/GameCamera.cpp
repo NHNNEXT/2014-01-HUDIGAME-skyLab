@@ -4,9 +4,10 @@
 namespace DDWrapper
 {
 
-	GameCamera::GameCamera()
+	GameCamera::GameCamera( float width, float height )
 	{
 		m_pObject = GameCamera::Create();
+		SetAspectRatio( width, height );
 	}
 
 	GameCamera::~GameCamera()

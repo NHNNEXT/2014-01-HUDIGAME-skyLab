@@ -32,7 +32,7 @@ namespace GameTool
         private DDWrapper.Renderer m_Renderer = new DDWrapper.Renderer();
         
         // Camera
-        private GameTool.Class.GameCamera m_Camera = new GameTool.Class.GameCamera();
+        private GameTool.Class.GameCamera m_Camera = null;
 
         // Scene
         private GameTool.Class.GameScene m_Scene = null;
@@ -137,6 +137,7 @@ namespace GameTool
             // test character
             string playerPath = "spaceMan.x";
             m_Model = new GameTool.Class.GamePlayer(playerPath);
+            m_Model.SetPosition(0, 0, 0);
             m_Scene.AddChild(ref m_Model);
 
             // test Debris
@@ -156,12 +157,13 @@ namespace GameTool
             // test SkyBox
             string skyboxPath = "skybox.x";
             GameTool.Class.GameModel skybox = new GameTool.Class.GameModel(skyboxPath);
+            skybox.SetPosition(0, 0, 0);
             m_Scene.AddChild(ref skybox);
 
             // test Earth
             string earthPath = "earth.x";
             GameTool.Class.GameModel earth = new GameTool.Class.GameModel(earthPath);
-            earth.Unwrapping().IncreasePositionY(-800);
+            earth.SetPosition(0, -800, 0);
             m_Scene.AddChild(ref earth);
         }
 
@@ -172,6 +174,7 @@ namespace GameTool
 
         private void AddCamera()
         {
+            m_Camera = new GameTool.Class.GameCamera(this.View.Size.Width, this.View.Size.Height);
             // 조심해!!
             // 왜 scene 밑에 카메라를 넣으면 화면이 제대로 안 보이는지?;;
             // 현재는 카메라가 혼자 둥둥 떠있는데 FollowingObject가 제대로 안 되고 있고
