@@ -503,12 +503,14 @@ REGISTER_HANDLER( PKT_CS_ACCELERATION )
 void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+	printf_s( "goforward %d\n", inPacket.mPlayerId );
 
 	// 이걸 멤버 유저에게 적용하고 
 	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 	m_Character.GoForward();
 
 	D3DXVECTOR3 position = m_Character.GetPosition();
+	D3DXVECTOR3 vel = m_Character.GetVelocity();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
@@ -516,6 +518,10 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	outPacket.mPosX = position.x;
 	outPacket.mPosY = position.y;
 	outPacket.mPosZ = position.z;
+
+	outPacket.mVelocityX = vel.x;
+	outPacket.mVelocityY = vel.y;
+	outPacket.mVelocityZ = vel.z;
 
 	outPacket.mRotationX = inPacket.mRotationX;
 	outPacket.mRotationY = inPacket.mRotationY;

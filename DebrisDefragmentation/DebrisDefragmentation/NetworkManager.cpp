@@ -290,6 +290,10 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 		
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	Player* player = g_PlayerManager->GetPlayer( inPacket.mPlayerId );
+	
+	printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
+	printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
+
 	player->GoForward();
 	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	player->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
