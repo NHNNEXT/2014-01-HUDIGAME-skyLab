@@ -2,6 +2,7 @@
 #include "DDNetwork.h"
 #include "PacketType.h"
 #include "PlayerManager.h"
+#include "ObjectManager.h"
 #include "MatrixTransform.h"
 #include "SceneManager.h"
 #include "CompassUI.h"
@@ -193,6 +194,46 @@ void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
+void NetworkManager::SendSkillOccupy()
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	SkillOccupyRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+
+	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
+	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
+	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
+
+	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
+	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
+	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
+void NetworkManager::SendSkillDestroy()
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	SkillDestroyRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+
+	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
+	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
+	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
+
+	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
+	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
+	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
 void NetworkManager::RegisterHandles()
 {
 	// 여기에서 핸들러를 등록하자
@@ -207,6 +248,8 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEAD, HandleDeadResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_RESPAWN, HandleRespawnResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_OCCUPY, HandleOccupyResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY, HandleDestroyResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -373,4 +416,24 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+}
+
+void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )
+{
+	SkillOccupyResult inPacket = reinterpret_cast<SkillOccupyResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// ISS의 운동 상태를 바꾼다.
+	GObjectManager->GetISS()->SetOwner(inPacket.mModule, inPacket.mOccupyTeam );
+	GObjectManager->GetISS()->SetPosition( DDVECTOR3( inPacket.mIssPositionX, 0.0f, 0.0f ) );
+	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( inPacket.mIssVelocityX, 0.0f, 0.0f ) );
+}
+
+void NetworkManager::HandleDestroyResult( DDPacketHeader& pktBase )
+{
+	SkillDestroyResult inPacket = reinterpret_cast<SkillDestroyResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// ISS의 체력을 바꾼다.
+	GObjectManager->GetISS()->SetHP( inPacket.mModule, inPacket.mModuleHP );
 }

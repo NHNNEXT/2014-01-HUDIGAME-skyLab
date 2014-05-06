@@ -86,7 +86,7 @@ const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_AXIS_LENGTH
 	D3DXVECTOR3( 0.8f, 1.4f, 0.5f ),
 };
 
-const float ISS_MOVE_WEIGHT = 5.0f;
+const float ISS_MOVE_WEIGHT = 0.1f;
 const float ISS_BASE_DAMAGE = 0.1;
 
 // 각 모듈의 초기 위치(모델), 충돌상자 중심점, 충돌상자의 각 축에 대한 길이, 
@@ -169,7 +169,8 @@ const int			VK_W = 0x57;
 const int			VK_S = 0x53;
 const int			VK_1 = 0x31;
 const int			VK_2 = 0x32;
-
+const int			VK_3 = 0x33;
+const int			VK_4 = 0x34;
 
 // Axis Set
 const D3DXVECTOR3	ZERO_VECTOR3{ 0.0f, 0.0f, 0.0f };

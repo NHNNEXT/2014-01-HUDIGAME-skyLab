@@ -104,9 +104,15 @@ void PlayScene::Init()
 	// DDModel* pObjectISS = DDModel::Create( L"iss.x" );
 	// AddChild( pObjectISS );
 
+	// 조심해!
+	// 내부 구현 아직 제대로 안 된 상태
+	GObjectManager = new ObjectManager;
+
 	ObjectISS* pObjectISS = ObjectISS::Create( );
 	pObjectISS->Init();
 	AddChild( static_cast<DDObject*>( pObjectISS ) );
+
+	GObjectManager->RegisterObjectISS( pObjectISS );
 
 	// 조심해! 하드 코딩
 	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것
@@ -119,10 +125,6 @@ void PlayScene::Init()
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
-
-	// 조심해!
-	// 내부 구현 아직 제대로 안 된 상태
-	GObjectManager = new ObjectManager;
 
 // 	RECT rect;
 // 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );
@@ -195,6 +197,18 @@ void PlayScene::UpdateItSelf( float dTime )
 	{
 		// 2 : 당기기 스킬 시전!
 		GNetworkManager->SendSkillPull();
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_3 ) )
+	{
+		// 3 : 점령 스킬 시전!
+		GNetworkManager->SendSkillOccupy();
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_4 ) )
+	{
+		// 4 : 파괴 스킬 시전!
+		GNetworkManager->SendSkillDestroy();
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

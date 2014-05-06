@@ -15,6 +15,9 @@ public:
 	virtual ~ObjectISS();
 
 	void Init();
+	void SetVelocity( DDVECTOR3 val ) { m_RigidBody.m_Velocity = val; }
+	void SetOwner( int moduleIdx, int color );
+	void SetHP( int moduleIdx, float hp );
 
 	CREATE_OBJECT( ObjectISS );
 

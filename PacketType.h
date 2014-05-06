@@ -611,8 +611,8 @@ struct SkillOccupyResult : public PacketHeader
 		mModule = -1;
 		mOccupyTeam = -1;
 
-		mIssvelocityX = 0.0f;
-		mIssPosition = 0.0f;
+		mIssVelocityX = 0.0f;
+		mIssPositionX = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -620,8 +620,8 @@ struct SkillOccupyResult : public PacketHeader
 	int		mModule;
 	int		mOccupyTeam;
 
-	float	mIssvelocityX;
-	float	mIssPosition;
+	float	mIssVelocityX;
+	float	mIssPositionX;
 };
 
 // 파괴! - 걸리는 모듈이 있으면 체력을 깎자

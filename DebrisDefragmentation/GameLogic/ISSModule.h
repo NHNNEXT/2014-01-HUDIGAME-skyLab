@@ -21,12 +21,14 @@ public:
 
 	void Init( ISSModuleName moduleName );
 	float DecreaseHP();
+	void SetHP( float hp ) { m_HealthPoint = hp; }
 	const CollisionBox* GetControlPointBox();
 
 	void SetMatrix( const D3DXMATRIXA16 &matrix ) { m_Matrix = matrix; }
 
 	TeamColor Occupy( TeamColor callerColor );
 	TeamColor GetOwner() const { return m_CurrentOwner; }
+	void SetOwner( TeamColor color ) { m_CurrentOwner = color; }
 	ISSModuleName GetModuleName() const { return m_ModuleName; }
 
 private:

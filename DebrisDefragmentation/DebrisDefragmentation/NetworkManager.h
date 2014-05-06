@@ -20,6 +20,8 @@ public:
 	void SendSkillPull();
 	void SendDeadRequest();
 	void SendRespawnRequest(CharacterClass characterClass);
+	void SendSkillOccupy();
+	void SendSkillDestroy();
 
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }
@@ -40,6 +42,9 @@ public:
 	static void HandleCollisionResult( DDPacketHeader& pktBase );
 	static void HandlePushResult( DDPacketHeader& pktBase );
 	static void HandlePullResult( DDPacketHeader& pktBase );
+
+	static void HandleOccupyResult( DDPacketHeader& pktBase );
+	static void HandleDestroyResult( DDPacketHeader& pktBase );
 
 private:
 	static int m_MyPlayerId;

@@ -134,3 +134,13 @@ void ObjectISS::DrawModuleCollisionBox( ISSModule & module )
 	Line->End( );
 	Line->Release( );
 }
+
+void ObjectISS::SetOwner( int moduleIdx, int color )
+{
+	m_ModuleList[moduleIdx].SetOwner( static_cast<TeamColor>( color ) );
+}
+
+void ObjectISS::SetHP( int moduleIdx, float hp )
+{
+	m_ModuleList[moduleIdx].SetHP( hp );
+}
