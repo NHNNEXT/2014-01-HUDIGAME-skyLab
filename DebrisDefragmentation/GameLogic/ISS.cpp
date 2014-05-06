@@ -104,9 +104,9 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		);
 
 		// 이동
-		m_RigidBody.m_Velocity.x = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+		m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_Position.x, m_RigidBody.m_Velocity.x );
+		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_Position.z, m_RigidBody.m_Velocity.z );
 	}
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );

@@ -796,8 +796,8 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 
 	outPacket.mModule = static_cast<int>( moduleName );
 	outPacket.mOccupyTeam = static_cast<int>( teamColor );
-	outPacket.mIssPositionX = IssPosX;
-	outPacket.mIssVelocityX = IssVelocityX;
+	outPacket.mIssPositionZ = IssPosX;
+	outPacket.mIssVelocityZ = IssVelocityX;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

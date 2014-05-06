@@ -31,7 +31,7 @@ void ObjectISS::RenderItSelf( )
 	std::for_each( m_ModuleList.begin( ), m_ModuleList.end( ),
 		[&]( ISSModule &eachModule )
 	{
-		eachModule.SetMatrix( m_Matrix );
+		// eachModule.SetMatrix( m_Matrix );
 		DrawModuleCollisionBox( eachModule );
 	}
 	);

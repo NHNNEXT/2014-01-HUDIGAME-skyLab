@@ -425,8 +425,8 @@ void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )
 
 	// ISS의 운동 상태를 바꾼다.
 	GObjectManager->GetISS()->SetOwner(inPacket.mModule, inPacket.mOccupyTeam );
-	GObjectManager->GetISS()->SetPosition( DDVECTOR3( inPacket.mIssPositionX, 0.0f, 0.0f ) );
-	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( inPacket.mIssVelocityX, 0.0f, 0.0f ) );
+	GObjectManager->GetISS()->SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
+	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
 }
 
 void NetworkManager::HandleDestroyResult( DDPacketHeader& pktBase )
