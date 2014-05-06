@@ -100,10 +100,6 @@ void PlayScene::Init()
 // 		AddChild( tempDebris );
 // 	}
 
-	// test ObjectISS added
-	// DDModel* pObjectISS = DDModel::Create( L"iss.x" );
-	// AddChild( pObjectISS );
-
 	// 조심해!
 	// 내부 구현 아직 제대로 안 된 상태
 	GObjectManager = new ObjectManager;

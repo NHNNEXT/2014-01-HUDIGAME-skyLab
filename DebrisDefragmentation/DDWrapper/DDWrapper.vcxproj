@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>../DDFramework/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../DDFramework/;../GameLogic/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -83,10 +83,12 @@
   <ItemGroup>
     <ClInclude Include="DDWrapper.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameInputSystem.h" />
     <ClInclude Include="GameLight.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePhysics.h" />
+    <ClInclude Include="GameClassComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
@@ -95,10 +97,12 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="DDWrapper.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameInputSystem.cpp" />
     <ClCompile Include="GameLight.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePhysics.cpp" />
+    <ClCompile Include="GameClassComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

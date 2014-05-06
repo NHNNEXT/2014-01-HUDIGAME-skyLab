@@ -4,13 +4,6 @@
 
 namespace DDWrapper {
 
-	// DDWrapper 안에서 사용할 유틸리티들
-	public ref class Utilities
-	{
-	public:
-		
-	};
-
 	// Wrapper 내부에 구현된 클래스들의 기본 구조
 	/*
 		public ref class 클래스 이름

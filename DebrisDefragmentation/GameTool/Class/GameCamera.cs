@@ -73,7 +73,7 @@ namespace GameTool.Class
             return m_Camera.GetViewDirectionZ();
         }
 
-        public void SetFollowingObject( GameTool.Class.GameObject obj )
+        public void SetFollowingObject( ref GameTool.Class.GamePlayer obj )
         {
             m_Camera.SetFollwingObject( obj.Unwrapping() );
         }
