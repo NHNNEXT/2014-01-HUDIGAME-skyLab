@@ -43,7 +43,7 @@ public:
 	void TurnBody( float x, float y, float z );
 
 	// Getter Setter
-	ClassComponent& GetClassComponent() { return *m_ClassComponent.get(); }
+	ClassComponent* GetClassComponent() { return m_ClassComponent.get(); }
 	void ChangeClass( CharacterClass characterClass );
 
 	DDVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }

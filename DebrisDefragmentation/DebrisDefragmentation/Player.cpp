@@ -5,6 +5,7 @@
 #include "PlayerManager.h"
 
 #include "Physics.h"
+#include "MatrixTransform.h"
 
 Player::Player()
 {
@@ -61,6 +62,13 @@ void Player::RenderItSelf()
 		D3DXMATRIXA16 spinTransform;
 		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_ClassComponent->GetSpinTime( ) );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
+
+// 		D3DXQUATERNION qt;
+// 		D3DXVECTOR3 scl, pos;
+// 		D3DXMatrixDecompose( &scl, &qt, &pos, &spinTransform );
+// 		auto ypt = GameMatrix::QuaternionToYawPitchRoll( qt );
+// 		
+// 		g_PlayerManager->GetCamera()->IncreaseRotation( D3DXVECTOR3( std::get<1>( ypt ), std::get<0>( ypt ), std::get<2>( ypt ) ) );
 	}
 
 	DrawCollisionBox();
@@ -73,9 +81,11 @@ void Player::UpdateItSelf( float dTime )
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	if ( !m_ClassComponent->UseOxygen(OXYGEN_COUNSUMED) )
 	{
-		printf( "player is dead\n" );
-		GNetworkManager->SendDeadRequest();
-		// return;
+		if ( !m_ClassComponent->IsAlive() )
+		{
+			printf( "player is dead\n" );
+			GNetworkManager->SendDeadRequest();
+		}
 	}
 
 	if ( m_ClassComponent->IsAccelerating() )

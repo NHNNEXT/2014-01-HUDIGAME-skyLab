@@ -142,10 +142,12 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
 	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ	
 	// 05.04 김성환
-	// 서버가 없을 때 GETPLAYER하면 PLAYER가 없으므로 
-	// 프로그램이 죽는 문제를 방지하기 위해 PLAYER ID CHECK하는 부분을 넣음
-	// 코드가 구구절절하고 IF문 내부 순서만 바껴도 제대로 동작하지 않음..
-	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
+
+	Player * pl= g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() );
+	ClassComponent* cc = pl->GetClassComponent();
+	cc->GetOxygen();
+	if ( !(cc->IsAlive()) )
+//	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
 		if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

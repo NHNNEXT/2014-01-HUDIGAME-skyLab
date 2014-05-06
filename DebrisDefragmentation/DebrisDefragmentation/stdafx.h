@@ -11,6 +11,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <tuple>
 
 #include <cstdio>
 #include <fstream>
