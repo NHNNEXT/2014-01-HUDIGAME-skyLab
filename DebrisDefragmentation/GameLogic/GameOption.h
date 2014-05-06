@@ -3,7 +3,7 @@
 #include <array>
 #include <d3dx9.h>
 
-enum class CharacterClass
+enum class CharacterClass : int
 {
 	NO_CLASS = -1,
 	STRIKER,
@@ -11,7 +11,7 @@ enum class CharacterClass
 	PROTECTOR
 };
 
-enum class ClientUITag
+enum class ClientUITag : int
 {
 	UI_OXYGEN_TAG,
 	UI_FUEL_TAG,
@@ -21,14 +21,14 @@ enum class ClientUITag
 
 
 // ISS
-enum class TeamColor
+enum class TeamColor : int
 {
 	NO_TEAM = -1,
 	BLUE,
 	RED
 };
 
-enum class ISSModuleName
+enum class ISSModuleName : int
 {
 	// 이름 의미있는 걸로 바꾸는 게 좋을까
 	// 하지만 실제 ISS 이름은 PART1보다 더 이해하기 어려운 이름인 게 함정 ㅋㅋ
@@ -87,6 +87,7 @@ const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_AXIS_LENGTH
 };
 
 const float ISS_MOVE_WEIGHT = 5.0f;
+const float ISS_BASE_DAMAGE = 0.1;
 
 // 각 모듈의 초기 위치(모델), 충돌상자 중심점, 충돌상자의 각 축에 대한 길이, 
 

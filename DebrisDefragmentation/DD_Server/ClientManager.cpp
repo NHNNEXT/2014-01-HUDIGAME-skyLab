@@ -52,6 +52,9 @@ void ClientManager::OnPeriodWork()
 	// 충돌했는지 판단도 여기서함	
 	if ( m_ActorManager.Update() )
 	{
+		// 조심해!!
+		// 지금은 2명 밖에 안 되는데... 여러명이 있을 경우도 처리가 필요함
+		// 충돌 기록이 있는 모든 플레이어를 기록했다가 처리해야 함
 		int player = std::get<0>( m_ActorManager.GetCrashedPlayers() );
 		int target = std::get<1>( m_ActorManager.GetCrashedPlayers() );
 		BroadcastCollision( player, target );

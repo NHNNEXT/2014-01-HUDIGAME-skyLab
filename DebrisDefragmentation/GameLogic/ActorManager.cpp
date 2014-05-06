@@ -245,3 +245,23 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 
 	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }
+
+std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryCoccupy( int actorId, float x, float y, float z )
+{
+	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
+	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
+
+	// 조심해!
+	// team color는 임시로 홀짝으로 구분
+	TeamColor callerColor = ( actorId % 2 == 0 ) ? TeamColor::RED : TeamColor::BLUE;
+
+	return m_ISS.Occupy( viewDirection, startPoint, callerColor );
+}
+
+std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x, float y, float z )
+{
+	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
+	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
+
+	return m_ISS.Destroy( viewDirection, startPoint );
+}

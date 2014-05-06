@@ -33,30 +33,6 @@ void ISS::UpdateItSelf( float dTime )
 	// 점령 상태에 따라서 현재 위치 이동
 	// 자신의 위치에 따라서 m_Matrix 업데이트
 
-	// 조심해!
-	// 순회하지 말고 카운트를 항상 들고 있고, 변화가 있으면 그 카운트를 변경하는 방식으로 바꿀 것
-	unsigned int blueCount = 0;
-	unsigned int redCount = 0;
-
-	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
-		[&]( const ISSModule &eachModule )
-	{
-		switch ( eachModule.GetOwner() )
-		{
-		case TeamColor::BLUE:
-			++blueCount;
-			break;
-		case TeamColor::RED:
-			++redCount;
-			break;
-		default:
-			break;
-		}
-	}
-	);
-
-	// 이동
-	m_RigidBody.m_Velocity.x = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 	Physics::CalcCurrentPosition( &m_Position, m_RigidBody.m_Velocity, dTime );
 
 	// m_Matrix에 결과 저장
@@ -74,7 +50,7 @@ void ISS::UpdateItSelf( float dTime )
 	);
 }
 
-std::tuple<ISSModuleName, TeamColor> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )
+std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )
 {
 	float currentDistance = static_cast<float>( HUGE );
 	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
@@ -103,10 +79,37 @@ std::tuple<ISSModuleName, TeamColor> ISS::Occupy( const D3DXVECTOR3 &viewDirecti
 	// 걸리는 애가 있으면 그 모듈의 상태를 바꾸고 변화가 적용된 모듈 id와 점령 상태 반환
 	if ( targetModule != ISSModuleName::NO_MODULE )
 	{
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].Occupy( callerColor ) );
+		// 점령 상태 전환
+		m_ModuleList[static_cast<int>( targetModule )].Occupy( callerColor );
+
+		// 운동 상태 변경
+		unsigned int blueCount = 0;
+		unsigned int redCount = 0;
+
+		std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
+			[&]( const ISSModule &eachModule )
+		{
+			switch ( eachModule.GetOwner() )
+			{
+			case TeamColor::BLUE:
+				++blueCount;
+				break;
+			case TeamColor::RED:
+				++redCount;
+				break;
+			default:
+				break;
+			}
+		}
+		);
+
+		// 이동
+		m_RigidBody.m_Velocity.x = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+
+		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_Position.x, m_RigidBody.m_Velocity.x );
 	}
 
-	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM );
+	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );
 }
 
 std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )

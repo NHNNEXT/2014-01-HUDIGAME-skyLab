@@ -612,7 +612,7 @@ struct SkillOccupyResult : public PacketHeader
 		mOccupyTeam = -1;
 
 		mIssvelocityX = 0.0f;
-		m_IssPosition = 0.0f;
+		mIssPosition = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -621,7 +621,7 @@ struct SkillOccupyResult : public PacketHeader
 	int		mOccupyTeam;
 
 	float	mIssvelocityX;
-	float	m_IssPosition;
+	float	mIssPosition;
 };
 
 // 파괴! - 걸리는 모듈이 있으면 체력을 깎자
@@ -663,13 +663,13 @@ struct SkillDestroyResult : public PacketHeader
 		mPlayerId = -1;
 
 		mModule = -1;
-		mModulHP = 1.0f;
+		mModuleHP = 1.0f;
 	}
 
 	int		mPlayerId;
 
 	int		mModule;
-	float	mModulHP;
+	float	mModuleHP;
 };
 
 #pragma pack(pop)

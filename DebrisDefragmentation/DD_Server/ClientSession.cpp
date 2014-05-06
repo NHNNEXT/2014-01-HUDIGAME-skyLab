@@ -778,7 +778,32 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 	// actorManager는 멤버 변수인 ISS를 통해서 확인하고
 	// 소유주 변경에 따른 ISS 속도를 변경하고
 	// 세션에 변경 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환
+	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
+	TeamColor teamColor = TeamColor::NO_TEAM;
+	float IssPosX = 0.0f;
+	float IssVelocityX = 0.0f;
+
+	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ActorManager->TryCoccupy( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+
+	// 변경사항 없으면 리턴
+	if ( moduleName == ISSModuleName::NO_MODULE )
+		return;
+
 	// 반환받은 결과를 방송!
+	SkillOccupyResult outPacket;
+
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	outPacket.mModule = static_cast<int>( moduleName );
+	outPacket.mOccupyTeam = static_cast<int>( teamColor );
+	outPacket.mIssPosition = IssPosX;
+	outPacket.mIssvelocityX = IssVelocityX;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
 }
 
 REGISTER_HANDLER( PKT_CS_DESTROY )
@@ -791,4 +816,26 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
+	float moduleHP = 1.0f;
+
+	std::tie( moduleName, moduleHP ) = m_ActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+
+	// 변경사항 없으면 리턴
+	if ( moduleName == ISSModuleName::NO_MODULE )
+		return;
+
+	// 반환받은 결과를 방송!
+	SkillDestroyResult outPacket;
+
+	outPacket.mPlayerId = inPacket.mPlayerId;
+
+	outPacket.mModule = static_cast<int>( moduleName );
+	outPacket.mModuleHP = moduleHP;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
 }
