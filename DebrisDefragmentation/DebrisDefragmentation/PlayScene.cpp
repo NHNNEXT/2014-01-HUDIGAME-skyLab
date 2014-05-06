@@ -113,15 +113,7 @@ void PlayScene::Init()
 	AddChild( static_cast<DDObject*>( pObjectISS ) );
 
 	GObjectManager->RegisterObjectISS( pObjectISS );
-
-	// 조심해! 하드 코딩
-	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것
-	if ( !SetCursorPos( 500, 500 ) )
-	{
-		// error!
-		return;
-	}
-
+	
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
@@ -244,12 +236,12 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 	{
 		// 마우스 커서 500, 500에 놓기
 		/// config.h
-		POINT pt = { 500, 500 };
+		POINT pt = { DDApplication::GetInstance()->GetScreenWidth() / 2, DDApplication::GetInstance()->GetScreenHeight() / 2 };
 		::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
 		::SetCursorPos( pt.x, pt.y );
 
 		// 이전 포지션 위치를 500, 500에 놓기
-		m_PrevMousePosition = DDPoint( 500, 500 );
+		m_PrevMousePosition = DDPoint( static_cast<float>( DDApplication::GetInstance()->GetScreenWidth() / 2 ), static_cast<float>( DDApplication::GetInstance()->GetScreenHeight() / 2) );
 
 		// 커서 숨기기
 		::ShowCursor( false );

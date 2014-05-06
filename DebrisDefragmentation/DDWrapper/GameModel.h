@@ -10,7 +10,7 @@ namespace DDWrapper
 	public ref class GameModel : public GameObject
 	{
 	public:
-		GameModel() { m_pObject = new DDModel(); };
+		GameModel() { /*m_pObject = new DDModel();*/ };
 		GameModel( System::String^ filepath );
 		~GameModel();
 

@@ -8,7 +8,7 @@ namespace DDWrapper
 	public ref class GameObject
 	{
 	public:
-		GameObject() : m_pObject( new DDObject() ) {};
+		GameObject() : m_pObject( DDObject::Create() ) {};
 		~GameObject();
 
 		void Release() { m_pObject->Release(); };

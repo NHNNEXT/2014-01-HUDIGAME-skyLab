@@ -260,11 +260,19 @@ namespace Physics
 		}
 		// 여기서 회전 축을 계산하자
 		// 스핀 축은 물체의 원점과 intersectionPoint를 잇는 벡터와, ray 벡터에 수직 - 외적
-		if (spinAxis != nullptr )
-			D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box->m_CenterPos - intersectionPoint ), &viewDirection );
+		if ( spinAxis != nullptr )
+		{
+			D3DXVECTOR3 centerToIntersection = box->m_CenterPos - intersectionPoint;
+			D3DXVec3Cross( spinAxis, &centerToIntersection, &viewDirection );
+		}
+			
 
-		if (distance != nullptr )
-			*distance = D3DXVec3Length( &( startPoint - intersectionPoint ) );
+		if ( distance != nullptr )
+		{
+			D3DXVECTOR3 startpointToIntersection = startPoint - intersectionPoint;
+			*distance = D3DXVec3Length( &startpointToIntersection );
+		}
+			
 
 		return true;
 	}
