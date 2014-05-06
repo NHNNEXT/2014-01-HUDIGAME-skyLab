@@ -466,8 +466,32 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	GClientManager->InitPlayerState( this );
 
 	// 기타 게임 정보 전송
-	// 현재는 없음
 	//GameStateResult outPacket;
+
+	// ISS state
+	IssStateResult currentIssState;
+
+	currentIssState.mIssPositionZ = m_ActorManager->GetIssPositionZ();
+	currentIssState.mIssVelocityZ = m_ActorManager->GetIssVelocityZ();
+
+	SendRequest( &currentIssState );
+
+	// ISS module state
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		IssModuleStateResult currentIssModuleState;
+
+		TeamColor color = TeamColor::NO_TEAM;
+		float hp = 1.0f;
+
+		std::tie( color, hp ) = m_ActorManager->GetModuleState( i );
+
+		currentIssModuleState.mModuleIdx = i;
+		currentIssModuleState.mOwner = static_cast<int>( color );
+		currentIssModuleState.mHP = hp;
+
+		SendRequest( &currentIssModuleState );
+	}
 }
 
 REGISTER_HANDLER( PKT_CS_ACCELERATION )

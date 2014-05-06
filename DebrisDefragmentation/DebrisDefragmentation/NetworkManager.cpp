@@ -251,6 +251,8 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_OCCUPY, HandleOccupyResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY, HandleDestroyResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -275,6 +277,10 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		compassUI->Init();
 		camera->AddChild( compassUI, ORDER_COMPASS_UI );
 	}
+
+	GameStateRequest outPacket;
+	outPacket.mPlayerId = m_MyPlayerId;
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
 void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
@@ -437,4 +443,24 @@ void NetworkManager::HandleDestroyResult( DDPacketHeader& pktBase )
 
 	// ISS의 체력을 바꾼다.
 	GObjectManager->GetISS()->SetHP( inPacket.mModule, inPacket.mModuleHP );
+}
+
+void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
+{
+	IssStateResult inPacket = reinterpret_cast<IssStateResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// ISS의 위치와 속도를 바꾼다.
+	GObjectManager->GetISS()->SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
+	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
+}
+
+void NetworkManager::HandleIssModuleStateResult( DDPacketHeader& pktBase )
+{
+	IssModuleStateResult inPacket = reinterpret_cast<IssModuleStateResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// ISS의 체력을 바꾼다.
+	GObjectManager->GetISS()->SetOwner( inPacket.mModuleIdx, inPacket.mOwner );
+	GObjectManager->GetISS()->SetHP( inPacket.mModuleIdx, inPacket.mHP );
 }

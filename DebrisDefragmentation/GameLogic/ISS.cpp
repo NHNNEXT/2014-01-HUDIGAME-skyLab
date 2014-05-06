@@ -147,3 +147,8 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, 0.0f );
 }
+
+std::tuple<TeamColor, float> ISS::GetModuleState( int moduleIdx )
+{
+	return std::make_tuple( m_ModuleList[moduleIdx].GetOwner(), m_ModuleList[moduleIdx].GetHP() );
+}

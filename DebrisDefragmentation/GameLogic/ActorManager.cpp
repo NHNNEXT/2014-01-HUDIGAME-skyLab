@@ -265,3 +265,8 @@ std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x,
 
 	return m_ISS.Destroy( viewDirection, startPoint );
 }
+
+std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )
+{
+	return m_ISS.GetModuleState( moduleIdx );
+}
