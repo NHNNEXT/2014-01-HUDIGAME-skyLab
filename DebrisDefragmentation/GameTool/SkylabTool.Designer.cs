@@ -104,9 +104,12 @@
             this.JSONLoadFilebtn = new System.Windows.Forms.Button();
             this.JsonFileList = new System.Windows.Forms.ListBox();
             this.JSONSearchFilebtn = new System.Windows.Forms.Button();
-            this.RenderOnOffBtn = new System.Windows.Forms.Button();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ObjectTool = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.RenderOnOffBtn = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.FPSshow = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -124,7 +127,9 @@
             this.groupBox6.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.ObjectTool.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -220,7 +225,7 @@
             this.CameraConfig.Controls.Add(this.CameraResetBtn);
             this.CameraConfig.Controls.Add(this.CameraViewVector);
             this.CameraConfig.Controls.Add(this.groupBox1);
-            this.CameraConfig.Location = new System.Drawing.Point(328, 7);
+            this.CameraConfig.Location = new System.Drawing.Point(186, 56);
             this.CameraConfig.Name = "CameraConfig";
             this.CameraConfig.Size = new System.Drawing.Size(131, 278);
             this.CameraConfig.TabIndex = 2;
@@ -371,7 +376,7 @@
             this.TimerStatus.Controls.Add(this.label7);
             this.TimerStatus.Location = new System.Drawing.Point(6, 7);
             this.TimerStatus.Name = "TimerStatus";
-            this.TimerStatus.Size = new System.Drawing.Size(174, 43);
+            this.TimerStatus.Size = new System.Drawing.Size(162, 43);
             this.TimerStatus.TabIndex = 3;
             this.TimerStatus.TabStop = false;
             this.TimerStatus.Text = "Timer";
@@ -402,7 +407,7 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(6, 56);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(174, 430);
+            this.groupBox2.Size = new System.Drawing.Size(162, 634);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Player";
@@ -411,9 +416,9 @@
             // 
             this.PlayerStatusReset.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.PlayerStatusReset.ForeColor = System.Drawing.Color.Coral;
-            this.PlayerStatusReset.Location = new System.Drawing.Point(8, 393);
+            this.PlayerStatusReset.Location = new System.Drawing.Point(8, 400);
             this.PlayerStatusReset.Name = "PlayerStatusReset";
-            this.PlayerStatusReset.Size = new System.Drawing.Size(160, 31);
+            this.PlayerStatusReset.Size = new System.Drawing.Size(148, 31);
             this.PlayerStatusReset.TabIndex = 7;
             this.PlayerStatusReset.Text = "Reset";
             this.PlayerStatusReset.UseVisualStyleBackColor = false;
@@ -431,7 +436,7 @@
             this.groupBox5.Controls.Add(this.label20);
             this.groupBox5.Location = new System.Drawing.Point(8, 264);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(160, 130);
+            this.groupBox5.Size = new System.Drawing.Size(148, 130);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Velocity";
@@ -458,14 +463,14 @@
             // 
             this.PlayerVelocityZ.Location = new System.Drawing.Point(25, 70);
             this.PlayerVelocityZ.Name = "PlayerVelocityZ";
-            this.PlayerVelocityZ.Size = new System.Drawing.Size(129, 21);
+            this.PlayerVelocityZ.Size = new System.Drawing.Size(117, 21);
             this.PlayerVelocityZ.TabIndex = 2;
             // 
             // PlayerVelocityY
             // 
             this.PlayerVelocityY.Location = new System.Drawing.Point(25, 43);
             this.PlayerVelocityY.Name = "PlayerVelocityY";
-            this.PlayerVelocityY.Size = new System.Drawing.Size(129, 21);
+            this.PlayerVelocityY.Size = new System.Drawing.Size(117, 21);
             this.PlayerVelocityY.TabIndex = 3;
             // 
             // label18
@@ -481,7 +486,7 @@
             // 
             this.PlayerVelocityX.Location = new System.Drawing.Point(25, 16);
             this.PlayerVelocityX.Name = "PlayerVelocityX";
-            this.PlayerVelocityX.Size = new System.Drawing.Size(129, 21);
+            this.PlayerVelocityX.Size = new System.Drawing.Size(117, 21);
             this.PlayerVelocityX.TabIndex = 4;
             // 
             // label19
@@ -514,7 +519,7 @@
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Location = new System.Drawing.Point(8, 128);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(160, 130);
+            this.groupBox4.Size = new System.Drawing.Size(148, 130);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Accelation";
@@ -541,14 +546,14 @@
             // 
             this.PlayerAccelZ.Location = new System.Drawing.Point(25, 70);
             this.PlayerAccelZ.Name = "PlayerAccelZ";
-            this.PlayerAccelZ.Size = new System.Drawing.Size(129, 21);
+            this.PlayerAccelZ.Size = new System.Drawing.Size(117, 21);
             this.PlayerAccelZ.TabIndex = 2;
             // 
             // PlayerAccelY
             // 
             this.PlayerAccelY.Location = new System.Drawing.Point(25, 43);
             this.PlayerAccelY.Name = "PlayerAccelY";
-            this.PlayerAccelY.Size = new System.Drawing.Size(129, 21);
+            this.PlayerAccelY.Size = new System.Drawing.Size(117, 21);
             this.PlayerAccelY.TabIndex = 3;
             // 
             // label11
@@ -564,7 +569,7 @@
             // 
             this.PlayerAccelX.Location = new System.Drawing.Point(25, 16);
             this.PlayerAccelX.Name = "PlayerAccelX";
-            this.PlayerAccelX.Size = new System.Drawing.Size(129, 21);
+            this.PlayerAccelX.Size = new System.Drawing.Size(117, 21);
             this.PlayerAccelX.TabIndex = 4;
             // 
             // label12
@@ -595,7 +600,7 @@
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Location = new System.Drawing.Point(8, 20);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(160, 102);
+            this.groupBox3.Size = new System.Drawing.Size(148, 102);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PlayerPos";
@@ -604,14 +609,14 @@
             // 
             this.PlayerPosZ.Location = new System.Drawing.Point(25, 70);
             this.PlayerPosZ.Name = "PlayerPosZ";
-            this.PlayerPosZ.Size = new System.Drawing.Size(129, 21);
+            this.PlayerPosZ.Size = new System.Drawing.Size(117, 21);
             this.PlayerPosZ.TabIndex = 2;
             // 
             // PlayerPosY
             // 
             this.PlayerPosY.Location = new System.Drawing.Point(25, 43);
             this.PlayerPosY.Name = "PlayerPosY";
-            this.PlayerPosY.Size = new System.Drawing.Size(129, 21);
+            this.PlayerPosY.Size = new System.Drawing.Size(117, 21);
             this.PlayerPosY.TabIndex = 3;
             // 
             // label8
@@ -627,7 +632,7 @@
             // 
             this.PlayerPosX.Location = new System.Drawing.Point(25, 16);
             this.PlayerPosX.Name = "PlayerPosX";
-            this.PlayerPosX.Size = new System.Drawing.Size(129, 21);
+            this.PlayerPosX.Size = new System.Drawing.Size(117, 21);
             this.PlayerPosX.TabIndex = 4;
             // 
             // label9
@@ -650,9 +655,9 @@
             // 
             // Status
             // 
-            this.Status.Controls.Add(this.CameraModelStat);
             this.Status.Controls.Add(this.JSONConfig);
-            this.Status.Controls.Add(this.tabPage1);
+            this.Status.Controls.Add(this.CameraModelStat);
+            this.Status.Controls.Add(this.ObjectTool);
             this.Status.Location = new System.Drawing.Point(779, 28);
             this.Status.Name = "Status";
             this.Status.SelectedIndex = 0;
@@ -661,6 +666,7 @@
             // 
             // CameraModelStat
             // 
+            this.CameraModelStat.Controls.Add(this.groupBox11);
             this.CameraModelStat.Controls.Add(this.TimerStatus);
             this.CameraModelStat.Controls.Add(this.CameraConfig);
             this.CameraModelStat.Controls.Add(this.groupBox2);
@@ -841,6 +847,27 @@
             this.JSONSearchFilebtn.UseVisualStyleBackColor = true;
             this.JSONSearchFilebtn.Click += new System.EventHandler(this.SearchJsonFiles);
             // 
+            // ObjectTool
+            // 
+            this.ObjectTool.Controls.Add(this.groupBox10);
+            this.ObjectTool.Location = new System.Drawing.Point(4, 22);
+            this.ObjectTool.Name = "ObjectTool";
+            this.ObjectTool.Padding = new System.Windows.Forms.Padding(3);
+            this.ObjectTool.Size = new System.Drawing.Size(465, 696);
+            this.ObjectTool.TabIndex = 2;
+            this.ObjectTool.Text = "ObjectTool";
+            this.ObjectTool.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.listBox1);
+            this.groupBox10.Location = new System.Drawing.Point(4, 4);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(455, 337);
+            this.groupBox10.TabIndex = 0;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "ISS";
+            // 
             // RenderOnOffBtn
             // 
             this.RenderOnOffBtn.ForeColor = System.Drawing.SystemColors.HotTrack;
@@ -852,25 +879,33 @@
             this.RenderOnOffBtn.UseVisualStyleBackColor = true;
             this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
             // 
-            // tabPage1
+            // listBox1
             // 
-            this.tabPage1.Controls.Add(this.groupBox10);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(465, 696);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(7, 12);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(248, 316);
+            this.listBox1.TabIndex = 0;
             // 
-            // groupBox10
+            // groupBox11
             // 
-            this.groupBox10.Location = new System.Drawing.Point(4, 4);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(455, 216);
-            this.groupBox10.TabIndex = 0;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "ISS";
+            this.groupBox11.Controls.Add(this.FPSshow);
+            this.groupBox11.Location = new System.Drawing.Point(186, 7);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(136, 43);
+            this.groupBox11.TabIndex = 4;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "FPS";
+            // 
+            // FPSshow
+            // 
+            this.FPSshow.AutoSize = true;
+            this.FPSshow.Location = new System.Drawing.Point(20, 20);
+            this.FPSshow.Name = "FPSshow";
+            this.FPSshow.Size = new System.Drawing.Size(17, 12);
+            this.FPSshow.TabIndex = 1;
+            this.FPSshow.Text = "00";
             // 
             // skyLabTool
             // 
@@ -910,7 +945,10 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.ObjectTool.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -995,8 +1033,11 @@
         private System.Windows.Forms.ListBox JSONVariables;
         private System.Windows.Forms.Button MdoifyValue;
         private System.Windows.Forms.Label JSONKeyLabel;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage ObjectTool;
         private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Label FPSshow;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

@@ -9,15 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Json;
-using System.Text.RegularExpressions;
 
 namespace GameTool
 {
     public partial class skyLabTool : Form
     {
         // Json Config 파일을 다루기 위한 변수
-        JsonObjectCollection g_JsonCollection = new JsonObjectCollection();
-        string m_jsonFilePath = @".\Resources\Json\";
+        private GameTool.Class.JSONInOut JsonControl = new GameTool.Class.JSONInOut();
         // render를 할지 말지 결정하는 bool값
         bool g_IsRenderable = true;
 
@@ -78,7 +76,7 @@ namespace GameTool
             m_Scene = new GameTool.Class.GameScene();
 
             AddLight();
-            testMeshLoad();
+            LoadMeshes();
 
             AddCamera();
         }
@@ -132,7 +130,7 @@ namespace GameTool
         }
 
         // 화면에 오브젝트들 불러오는 함수
-        private void testMeshLoad()
+        private void LoadMeshes()
         {
             // test character
             string playerPath = "spaceMan.x";
@@ -143,7 +141,7 @@ namespace GameTool
             // test Debris
             string debrisPath = "debris.x";
             float randX, randY, randZ;
-            for (int i = 0; i < Convert.ToUInt32(g_JsonCollection["debrisNumber"].GetValue()); ++i)
+            for (int i = 0; i < JsonControl.GetUintVariable(GameTool.Class.ENUM_JSONVAR.DEBRIS_NUMBER); ++i)
             {
                 GameTool.Class.GameModel debris = new GameTool.Class.GameModel(debrisPath);
                 randX = r.Next(-200, 200);
@@ -312,110 +310,22 @@ namespace GameTool
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-        //                                       Second Tab                                        //
+        //                                       JSON Cobfig Tab                                   //
         /////////////////////////////////////////////////////////////////////////////////////////////
 
         private void LoadJsonFile(object sender, EventArgs e)
         {
-            if ( this.JsonFileList.SelectedIndices.Count > 0 )
-            {
-                string fileName = JsonFileList.SelectedItem.ToString();
-                StreamReader sr = new StreamReader(m_jsonFilePath + fileName);
-
-                // 파일에서 다 읽는다
-                string jsonText = sr.ReadToEnd();
-
-                // 빈 파일이면?
-                if (jsonText.Length == 0)
-                {
-                    // 파싱 없이 리턴
-                    MessageBox.Show("Empty File!");
-                    return;
-                }
-
-                // 파싱한 다음
-                JsonTextParser parser = new JsonTextParser();
-                JsonObject obj = parser.Parse(jsonText);
-
-                // JSON 전역 객체로 전달한다
-                g_JsonCollection = (JsonObjectCollection)obj;
-
-                ShowJsonData();
-
-                MessageBox.Show("Load Json Success!");
-
-                // 스트림 리더를 닫는다.
-                sr.Close();
-
-                // 시작 버튼을 선택 가능하게
-                ConfigRestartBtn.Enabled = true;
-            }
-        }
-
-        // Json 데이터를 리스트로 보여줌
-        private void ShowJsonData()
-        {
-            JSONVariables.Items.Clear();
-
-            JSONVariables.Items.Add("debrisNumber : " + g_JsonCollection["debrisNumber"].GetValue().ToString());
+            JsonControl.LoadJsonFile(JsonFileList, JSONVariables, ConfigRestartBtn);
         }
 
         private void SearchJsonFiles(object sender, EventArgs e)
         {
-            // 우선 파일 리스트를 비우고
-            JsonFileList.Items.Clear();
-
-            // Tool 이 실행된 폴더를 찾도록 한다
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(m_jsonFilePath);
-
-            foreach(System.IO.FileInfo f in di.GetFiles())
-            {
-                // 설정파일 규약을 좀 정해야겠네요
-                if (f.Extension.ToString() == ".json")
-                {
-                    JsonFileList.Items.Add(f.Name);
-                }
-            }
+            JsonControl.SearchJsonFiles(JsonFileList);
         }
 
         private void SaveJsonFile(object sender, EventArgs e)
         {
-            // 파일명이 있어야겠죠?
-            if (JSONNameToSave.Text.Length > 0)
-            {
-                if (IsCorrectFileName(JSONNameToSave.Text))
-                {
-                    StreamWriter sw = new StreamWriter(JSONNameToSave.Text + ".json");
-
-                    // 파일에 쓴다
-                    sw.Write(g_JsonCollection.ToString());
-
-                    MessageBox.Show("Save Json Success!");
-
-                    // 스트림 라이터를 닫는다
-                    sw.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid File Name!");
-                    return;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Empty File Name!");
-                return;
-            }
-        }
-
-        private bool IsCorrectFileName(string fileName)
-        {
-            Regex rg = new Regex(@"[!@#$%^&*/\\]");
-            if (rg.Matches(fileName).Count > 0)
-            {
-                return false;
-            }
-            return true;
+            JsonControl.SaveJsonFile(JSONNameToSave);
         }
 
         private void GetJsonVariable(object sender, EventArgs e)
@@ -428,28 +338,7 @@ namespace GameTool
 
         private void JSONModifyBtn(object sender, EventArgs e)
         {
-            string key = JSONKeyLabel.Text;
-
-            if (JSONVarBar.Text.Length > 0)
-            {
-                JsonObject job = g_JsonCollection[key];
-
-                switch ( job.GetValue().GetType().Name )
-                {
-                    case "String":
-                        break;
-                    case "Double":
-                        g_JsonCollection.Remove(job);
-                        g_JsonCollection.Add(new JsonNumericValue(key, Convert.ToUInt32(JSONVarBar.Text)));
-                        break;
-                    case "Boolean":
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            ShowJsonData();
+            JsonControl.JSONModifyBtn(JSONKeyLabel, JSONVarBar, JSONVariables);
         }
     }
 }
