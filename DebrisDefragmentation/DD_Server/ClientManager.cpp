@@ -61,7 +61,7 @@ void ClientManager::OnPeriodWork()
 		printf_s( "crash %d to %d", player, target );
 		// SyncAll();
 	}
-	SyncAll();
+	SyncAll(); ///# 이거 안쓸거라며?
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();

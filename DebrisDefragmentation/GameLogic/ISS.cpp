@@ -15,6 +15,8 @@ ISS::~ISS()
 void ISS::Init()
 {
 	// 각각의 모듈을 초기화
+
+	///# 꼭 이렇게 해야만 하는가?
 	m_ModuleList[0].Init( ISSModuleName::PART0 );
 	m_ModuleList[1].Init( ISSModuleName::PART1 );
 	m_ModuleList[2].Init( ISSModuleName::PART2 );

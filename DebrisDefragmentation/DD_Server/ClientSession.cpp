@@ -339,7 +339,7 @@ void ClientSession::SyncCurrentStatus()
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
 	// 조심해!!
-	// 패킷 내부 변수를 아예 벡터로 만들어서 한 번에 복사하자
+	// 패킷 내부 변수를 아예 벡터로 만들어서 한 번에 복사하자 ///# POD 타입의 구조체로 만들어서 복사하는 것은 가능.
 	outPacket.mPosX = position.x;
 	outPacket.mPosY = position.y;
 	outPacket.mPosZ = position.z;
@@ -360,7 +360,8 @@ void ClientSession::SyncCurrentStatus()
 	}
 }
 
-void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock )
+
+void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock ) ///# 이걸 왜 socket을 받나? 바로 대상의 포인터를 받아서 처리하면 편할텐데? 
 {
 	SyncResult outPacket;
 
@@ -410,6 +411,8 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 	// 팀별 정하는 부분.. 지금은 들어온순서대로 차례차례 배치함
 	// 나중에 캐릭터 진영 결정하는 부분 추가할 때 정리할 것.
 	// 04.29 김성환
+
+	///# 좋지 않은 코드다.. 이게 순서대로 된다는 보장이 있남? 위의 ActorManager::RegisterUser에서 순서대로  charId를 반환한다는 보장이 있나?
 	if ( characterId % 2 == 1 )
 	{
 		m_Character.GetClassComponent().SetTeam( TeamColor::BLUE );
@@ -439,6 +442,7 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	NewResult newPlayerPacket;
 	newPlayerPacket.mPlayerId = mPlayerId;
 
+	///# D3DXVECTOR를 생성 인자로 받는 Float3D 구조체 하나 만들어서 쓰면 편하겠지?
 	D3DXVECTOR3 tempContainer = m_Character.GetPosition();
 	newPlayerPacket.mPosX = tempContainer.x;
 	newPlayerPacket.mPosY = tempContainer.y;
@@ -467,6 +471,8 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 
 	// 기타 게임 정보 전송
 	//GameStateResult outPacket;
+
+	///# 아래 IssStateResult와 IssModuleStateResult 패킷 2개가 항상 같이 가는 구조라면 패킷 하나로 합치고 SendRequest도 한번만 하는게 좋다.
 
 	// ISS state
 	IssStateResult currentIssState;
@@ -503,7 +509,7 @@ REGISTER_HANDLER( PKT_CS_ACCELERATION )
 void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-	printf_s( "goforward %d\n", inPacket.mPlayerId );
+	printf_s( "goforward %d\n", inPacket.mPlayerId ); ///# 이 패킷 받을때마다 printf할겨? 보통 이런거는 logger만들어서 분리하는게 좋다.
 
 	// 이걸 멤버 유저에게 적용하고 
 	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
@@ -512,6 +518,8 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	D3DXVECTOR3 position = m_Character.GetPosition();
 	D3DXVECTOR3 vel = m_Character.GetVelocity();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
+	///# 적용에 문제가 있는 경우는 어떤 경우인가? 그런 경우가 있다면 에러 처리 확실하게.
+
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = inPacket.mPlayerId;
 
@@ -597,6 +605,8 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 
 REGISTER_HANDLER( PKT_CS_SYNC )
 {
+	///# 사실 이런 종류의 (클라를 믿어야 하는) 패킷은 안만드는게 좋다. 클라가 dos공격하면 우짤라고 ㅋㅋ
+	///# 일단 주석 처리가 되어 있지만 아예 빼놓도록...
 	SyncRequest inPacket = static_cast<SyncRequest&>( pktBase );
 	session->HandleSyncRequest( inPacket );
 }
@@ -627,6 +637,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis; 
 	
+	/// mPlayerId를 보낸 값으로 쓰지 않고, 내가 갖고 있는 값으로 쓰도록 한다... 
 	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 	
 	// 타겟이 없으면 그냥 무시
@@ -849,6 +860,7 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
 	float moduleHP = 1.0f;
 
+	/// 클라에서 보내주는 playerId 믿지 않도록. 반드시 해당 ID가 존재하는지 검사 할 것.
 	std::tie( moduleName, moduleHP ) = m_ActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 
 	// 변경사항 없으면 리턴

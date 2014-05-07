@@ -15,11 +15,13 @@ void ISSModule::Init( ISSModuleName moduleName )
 {
 	m_ModuleName = moduleName;
 
+
+	///# 아래 코드 간단하게 될 것 같은데.. ISSModuleName::PARTxxx와 ISS_MODULE_POSITION[xxx] 1:1 맵핑 안되나?
 	// 어떤 모듈이 되는지에 따라서 위치 정보 바꿔가면서 초기화
 	switch ( m_ModuleName )
 	{
 	case ISSModuleName::NO_MODULE:
-		// 여기 들어오면 안 된다.
+		// 여기 들어오면 안 된다. ///# 그러면 assert걸어라..
 		break;
 	case ISSModuleName::PART0:
 		SetPosition( ISS_MODULE_POSITION[0] );

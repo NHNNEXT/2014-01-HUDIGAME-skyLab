@@ -19,7 +19,9 @@ public:
 
 	void	InitTeamPosition();
 	ClassComponent& GetClassComponent() { return *m_CharacterClass.get(); }
-	void	GoForward() { m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); }	
+
+	///# 아래처럼 인라인 안될것 같은 구현은 CPP로 분리.
+	void	GoForward() { m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); }	 
 	void	Stop() { m_CharacterClass->Stop( m_RigidBody ); }	
 	void	TurnBody( float x, float y, float z ) { m_CharacterClass->TurnBody( m_Rotation, x, y, z ); }
 

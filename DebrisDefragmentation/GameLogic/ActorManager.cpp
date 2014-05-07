@@ -214,6 +214,8 @@ bool ActorManager::CheckCollision()
 
 std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, float y, float z )
 {
+	///# actorId를 클라가 보낸 값을 믿는다는거지? 만일 가라로 보내면.. 아래 배열 터져서 서버가 죽게 되지...
+	///# 
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
 	float currentDistance = static_cast<float>( HUGE );
@@ -229,6 +231,8 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 			continue;
 
 		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
+		
+		///# 헐.. double값을 float로 강제 캐스팅?? 
 		float tempDistance = static_cast<float>( HUGE );
 		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
@@ -246,13 +250,13 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }
 
-std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryCoccupy( int actorId, float x, float y, float z )
+std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryCoccupy( int actorId, float x, float y, float z ) ///# typo??
 {
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 
 	// 조심해!
-	// team color는 임시로 홀짝으로 구분
+	// team color는 임시로 홀짝으로 구분 ///# 결국 기술부채
 	TeamColor callerColor = ( actorId % 2 == 0 ) ? TeamColor::RED : TeamColor::BLUE;
 
 	return m_ISS.Occupy( viewDirection, startPoint, callerColor );
@@ -260,6 +264,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryCoccupy( int
 
 std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x, float y, float z )
 {
+	///# actorId 검사 필수.
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 
