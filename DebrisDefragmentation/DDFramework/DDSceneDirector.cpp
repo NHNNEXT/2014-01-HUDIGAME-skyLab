@@ -1,4 +1,5 @@
-﻿#include "DDSceneDirector.h"
+﻿#include "stdafx.h"
+#include "DDSceneDirector.h"
 
 #include "DDConfig.h"
 #include "DDScene.h"	

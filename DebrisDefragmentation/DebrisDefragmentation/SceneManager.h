@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "DDConfig.h"
+#include "GameMacro.h"
+#include <string>
 
 class PlayScene;
 

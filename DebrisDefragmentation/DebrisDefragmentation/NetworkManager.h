@@ -46,6 +46,9 @@ public:
 	static void HandleOccupyResult( DDPacketHeader& pktBase );
 	static void HandleDestroyResult( DDPacketHeader& pktBase );
 
+	static void HandleIssStateResult( DDPacketHeader& pktBase );
+	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
+
 private:
 	static int m_MyPlayerId;
 	

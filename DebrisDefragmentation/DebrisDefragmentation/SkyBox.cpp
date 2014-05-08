@@ -1,4 +1,5 @@
-﻿#include "SkyBox.h"
+﻿#include "stdafx.h"
+#include "SkyBox.h"
 
 SkyBox::SkyBox()
 {

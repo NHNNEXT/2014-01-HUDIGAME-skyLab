@@ -209,8 +209,10 @@ namespace Physics
 				// 그 중 하나는 사실 음의 방향이지만 거리는 절대값을 가지므로 둘 다 아주 큰 값을 가지는 한 쌍이 되는 현상 발생
 				// 예를 들어 원래 -123 : 124 조합이 123 : 124 조합으로 바뀜 
 				// in - in - out - out >>> in - out - in - out
-				tempDistance1 = D3DXVec3Length( &( lowerPoint - startPoint ) );
-				tempDistance2 = D3DXVec3Length( &( upperPoint - startPoint ) );
+				D3DXVECTOR3 lowerLen = lowerPoint - startPoint;
+				D3DXVECTOR3 upperLen = upperPoint - startPoint;
+				tempDistance1 = D3DXVec3Length( &lowerLen );
+				tempDistance2 = D3DXVec3Length( &upperLen );
 
 				// 결국 아래의 값에 방향을 추가해주어야 한다
 				// 좀 더 깔끔한 방법을 찾아야 될텐데...
@@ -258,11 +260,19 @@ namespace Physics
 		}
 		// 여기서 회전 축을 계산하자
 		// 스핀 축은 물체의 원점과 intersectionPoint를 잇는 벡터와, ray 벡터에 수직 - 외적
-		if (spinAxis != nullptr )
-			D3DXVec3Cross( spinAxis, &D3DXVECTOR3( box->m_CenterPos - intersectionPoint ), &viewDirection );
+		if ( spinAxis != nullptr )
+		{
+			D3DXVECTOR3 centerToIntersection = box->m_CenterPos - intersectionPoint;
+			D3DXVec3Cross( spinAxis, &centerToIntersection, &viewDirection );
+		}
+			
 
-		if (distance != nullptr )
-			*distance = D3DXVec3Length( &( startPoint - intersectionPoint ) );
+		if ( distance != nullptr )
+		{
+			D3DXVECTOR3 startpointToIntersection = startPoint - intersectionPoint;
+			*distance = D3DXVec3Length( &startpointToIntersection );
+		}
+			
 
 		return true;
 	}

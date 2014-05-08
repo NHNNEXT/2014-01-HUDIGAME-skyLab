@@ -28,6 +28,7 @@ PlayScene::PlayScene( std::wstring sceneName )
 
 PlayScene::~PlayScene()
 {
+	delete m_pObjectISS;
 	delete GObjectManager;
 	delete GNetworkManager;
 }
@@ -100,24 +101,20 @@ void PlayScene::Init()
 // 		AddChild( tempDebris );
 // 	}
 
+	// test ObjectISS added
+	// DDModel* pObjectISS = DDModel::Create( L"iss.x" );
+	// AddChild( pObjectISS );
+
 	// 조심해!
 	// 내부 구현 아직 제대로 안 된 상태
 	GObjectManager = new ObjectManager;
 
-	ObjectISS* pObjectISS = ObjectISS::Create( );
-	pObjectISS->Init();
-	AddChild( static_cast<DDObject*>( pObjectISS ) );
+	m_pObjectISS = ObjectISS::Create();
+	m_pObjectISS->Init();
+	AddChild( static_cast<DDObject*>( m_pObjectISS ) );
 
-	GObjectManager->RegisterObjectISS( pObjectISS );
-
-	// 조심해! 하드 코딩
-	// scene 함수에 화면 중심 좌표 구하는 함수 만들어서 거기로 가게 할 것
-	if ( !SetCursorPos( 500, 500 ) )
-	{
-		// error!
-		return;
-	}
-
+	GObjectManager->RegisterObjectISS( m_pObjectISS );
+	
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
@@ -146,10 +143,12 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
 	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ	
 	// 05.04 김성환
-	// 서버가 없을 때 GETPLAYER하면 PLAYER가 없으므로 
-	// 프로그램이 죽는 문제를 방지하기 위해 PLAYER ID CHECK하는 부분을 넣음
-	// 코드가 구구절절하고 IF문 내부 순서만 바껴도 제대로 동작하지 않음..
-	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
+
+	Player * pl= g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() );
+	ClassComponent* cc = pl->GetClassComponent();
+	cc->GetOxygen();
+	if ( !(cc->IsAlive()) )
+//	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
 		if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
@@ -241,12 +240,12 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 	{
 		// 마우스 커서 500, 500에 놓기
 		/// config.h
-		POINT pt = { 500, 500 };
+		POINT pt = { DDApplication::GetInstance()->GetScreenWidth() / 2, DDApplication::GetInstance()->GetScreenHeight() / 2 };
 		::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
 		::SetCursorPos( pt.x, pt.y );
 
 		// 이전 포지션 위치를 500, 500에 놓기
-		m_PrevMousePosition = DDPoint( 500, 500 );
+		m_PrevMousePosition = DDPoint( static_cast<float>( DDApplication::GetInstance()->GetScreenWidth() / 2 ), static_cast<float>( DDApplication::GetInstance()->GetScreenHeight() / 2) );
 
 		// 커서 숨기기
 		::ShowCursor( false );
@@ -288,5 +287,5 @@ void PlayScene::UpdateUI()
 
 void PlayScene::UpdateISS()
 {
-	
+
 }

@@ -5,7 +5,7 @@
 	작성일 : 2014. 4. 6
 	내용 : 인풋 값을 업데이트해서 기록하고, 요청받은 키에 대한 현재 상태를 반환 (NNGameFramework와 동일)
 */
-#include "DDConfig.h"
+#include "DDMacro.h"
 #include "DDPoint.h"
 
 enum KeyState

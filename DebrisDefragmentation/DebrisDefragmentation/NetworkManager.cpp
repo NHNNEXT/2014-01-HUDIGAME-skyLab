@@ -1,4 +1,5 @@
-﻿#include "NetworkManager.h"
+﻿#include "stdafx.h"
+#include "NetworkManager.h"
 #include "DDNetwork.h"
 #include "PacketType.h"
 #include "PlayerManager.h"
@@ -31,14 +32,11 @@ void NetworkManager::Connect()
 	bool connection = false;
 
 	/// config.h
-	if ( USE_LOCAL_SERVER )
-	{
-		connection = DDNetwork::GetInstance()->Connect( "localhost", 9001 );
-	}
-	else
-	{
-		connection = DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
-	}
+#ifdef USE_LOCAL_SERVER
+	connection = DDNetwork::GetInstance()->Connect( "localhost", 9001 );
+#else
+	connection = DDNetwork::GetInstance()->Connect( "10.73.45.144", 9001 );
+#endif	
 	
 	if ( connection )
 	{
@@ -189,7 +187,7 @@ void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
 	RespawnRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
-	outPacket.mCharacterClass = static_cast<int>( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetClassComponent().GetTeam() );
+	outPacket.mCharacterClass = static_cast<int>( characterClass );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -250,6 +248,8 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_OCCUPY, HandleOccupyResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY, HandleDestroyResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -274,6 +274,10 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		compassUI->Init();
 		camera->AddChild( compassUI, ORDER_COMPASS_UI );
 	}
+
+	GameStateRequest outPacket;
+	outPacket.mPlayerId = m_MyPlayerId;
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
 void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
@@ -283,6 +287,10 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 		
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	Player* player = g_PlayerManager->GetPlayer( inPacket.mPlayerId );
+	
+	printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
+	printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
+
 	player->GoForward();
 	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 	player->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
@@ -315,6 +323,7 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	// 서버의 충돌박스 그리기 용 임시..
+#ifdef USE_CHARACTER_COLLISION_BOX
 	int dummyPlayerID = -1;
 	if ( inPacket.mPlayerId != -1 )
 	{
@@ -324,7 +333,10 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 		g_PlayerManager->GetPlayer( dummyPlayerID )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 		g_PlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 	}
+#else
+#endif
 
+	// 원래 sync 하던거. 더미 켤때는 주석처리할 것
 // 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 // 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
 // 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
@@ -399,11 +411,14 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	// player::changeClass 내용 구현 후 적용할 것. 지금은 껍데기만 있음..
 	//g_PlayerManager->GetPlayer( m_MyPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
 
-	player->GetClassComponent().SetOxygen( DEFAULT_OXYGEN );
-	player->GetClassComponent().SetHP( DEFAULT_HP );
-	player->GetClassComponent().SetFuel( DEFAULT_FUEL );
+
+	printf_s( "respawn player" );
+	player->GetClassComponent()->SetOxygen( DEFAULT_OXYGEN );
+	player->GetClassComponent()->SetHP( DEFAULT_HP );
+	player->GetClassComponent()->SetFuel( DEFAULT_FUEL );
 	player->SetUpdatable( true );
 
+	player->SetVelocity( ZERO_VECTOR3 );
 	player->SetPosition( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ );
 	player->SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
 }
@@ -425,8 +440,8 @@ void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )
 
 	// ISS의 운동 상태를 바꾼다.
 	GObjectManager->GetISS()->SetOwner(inPacket.mModule, inPacket.mOccupyTeam );
-	GObjectManager->GetISS()->SetPosition( DDVECTOR3( inPacket.mIssPositionX, 0.0f, 0.0f ) );
-	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( inPacket.mIssVelocityX, 0.0f, 0.0f ) );
+	GObjectManager->GetISS()->SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
+	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
 }
 
 void NetworkManager::HandleDestroyResult( DDPacketHeader& pktBase )
@@ -436,4 +451,24 @@ void NetworkManager::HandleDestroyResult( DDPacketHeader& pktBase )
 
 	// ISS의 체력을 바꾼다.
 	GObjectManager->GetISS()->SetHP( inPacket.mModule, inPacket.mModuleHP );
+}
+
+void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
+{
+	IssStateResult inPacket = reinterpret_cast<IssStateResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// ISS의 위치와 속도를 바꾼다.
+	GObjectManager->GetISS()->SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
+	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
+}
+
+void NetworkManager::HandleIssModuleStateResult( DDPacketHeader& pktBase )
+{
+	IssModuleStateResult inPacket = reinterpret_cast<IssModuleStateResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// ISS의 체력을 바꾼다.
+	GObjectManager->GetISS()->SetOwner( inPacket.mModuleIdx, inPacket.mOwner );
+	GObjectManager->GetISS()->SetHP( inPacket.mModuleIdx, inPacket.mHP );
 }

@@ -1,4 +1,5 @@
-﻿#include "PlayerManager.h"
+﻿#include "stdafx.h"
+#include "PlayerManager.h"
 #include "NetworkManager.h"
 #include "Player.h"
 #include "SceneManager.h"

@@ -1,11 +1,12 @@
-﻿#include "DDCamera.h"
+﻿#include "stdafx.h"
+#include "DDCamera.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"
 
 
-DDCamera::DDCamera() :
-m_LookatPoint( 0.0f, 0.0f, 10.0f )
-{
+DDCamera::DDCamera():
+m_LookatPoint(0.0f, 0.0f, 10.0f)
+{	
 	SetPosition( 0.0f, 0.0f, 0.0f );
 	SetAspectRatio();
 }
@@ -29,7 +30,7 @@ void DDCamera::RenderItSelf()
 
 		vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
 	}
-	else
+	else 
 	{
 		D3DXMATRIXA16 tmpMatrix;
 		D3DXQUATERNION	qRotation;
@@ -52,8 +53,7 @@ void DDCamera::RenderItSelf()
 		vUpVec = DDVECTOR3( tmpMatrix._21, tmpMatrix._22, tmpMatrix._23 );
 
 	}
-
-
+	
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
@@ -78,5 +78,3 @@ void DDCamera::SetAspectRatio( float width, float height )
 	WindowsWidth = width;
 	WindowsHeight = height;
 }
-
-

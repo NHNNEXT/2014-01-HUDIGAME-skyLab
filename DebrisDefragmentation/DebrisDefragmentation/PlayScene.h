@@ -28,13 +28,12 @@ private:
 	void AddUI();
 	void UpdateUI();
 
-	// ISS 관련 함수들
+	// JSON 관련 함수들
 	void UpdateISS();
 
 	DDLight*	m_pDirectonalLight = nullptr;
 
 	DDPoint		m_PrevMousePosition{.0f,.0f};
-
 	ObjectISS*	m_pObjectISS = nullptr;
 };
 

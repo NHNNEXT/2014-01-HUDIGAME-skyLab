@@ -15,6 +15,8 @@ ISS::~ISS()
 void ISS::Init()
 {
 	// 각각의 모듈을 초기화
+
+	///# 꼭 이렇게 해야만 하는가?
 	m_ModuleList[0].Init( ISSModuleName::PART0 );
 	m_ModuleList[1].Init( ISSModuleName::PART1 );
 	m_ModuleList[2].Init( ISSModuleName::PART2 );
@@ -83,8 +85,8 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		m_ModuleList[static_cast<int>( targetModule )].Occupy( callerColor );
 
 		// 운동 상태 변경
-		unsigned int blueCount = 0;
-		unsigned int redCount = 0;
+		int blueCount = 0;
+		int redCount = 0;
 
 		std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 			[&]( const ISSModule &eachModule )
@@ -104,9 +106,9 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		);
 
 		// 이동
-		m_RigidBody.m_Velocity.x = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+		m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_Position.x, m_RigidBody.m_Velocity.x );
+		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_Position.z, m_RigidBody.m_Velocity.z );
 	}
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );
@@ -146,4 +148,9 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 	}
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, 0.0f );
+}
+
+std::tuple<TeamColor, float> ISS::GetModuleState( int moduleIdx )
+{
+	return std::make_tuple( m_ModuleList[moduleIdx].GetOwner(), m_ModuleList[moduleIdx].GetHP() );
 }

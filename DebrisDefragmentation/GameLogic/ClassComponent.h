@@ -9,9 +9,9 @@ class ClassComponent
 {
 public:
 	ClassComponent();
-	~ClassComponent();
+	~ClassComponent(); ///# 이거 왜 퍅셔미 아니??
 
-	CREATE_FUNC( ClassComponent );
+	CREATE_FUNC( ClassComponent ); ///# 클래스 콤포넌트가 직접 생성되는 경우가 의도 맞나? 잘못된 디자인 같은데...
 
 	// 작성자 : 최경욱	
 	// 
@@ -52,8 +52,8 @@ public:
 	void	SetHP( int val ) { m_HP = val; }
 
 	bool	IsAlive() { return ( m_HP > 0 ) ? true : false; }
-	bool	CheckRemainGas( int gasWillBeUsed );
-	bool	CheckRemainOxygen();
+	bool	UseGas( int gasUse );
+	bool	UseOxygen(int oxygenUse);
 
 
 	TeamColor	GetTeam() const { return m_Team; }

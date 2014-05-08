@@ -22,6 +22,7 @@ public:
 	void Init( ISSModuleName moduleName );
 	float DecreaseHP();
 	void SetHP( float hp ) { m_HealthPoint = hp; }
+	float GetHP() const { return m_HealthPoint; }
 	const CollisionBox* GetControlPointBox();
 
 	void SetMatrix( const D3DXMATRIXA16 &matrix ) { m_Matrix = matrix; }

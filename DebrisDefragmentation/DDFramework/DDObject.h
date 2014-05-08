@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DDConfig.h"
+#include "DDMacro.h"
 #include "DDRenderer.h"
 
 // 전방선언

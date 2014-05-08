@@ -1,4 +1,5 @@
-﻿#include "GameData.h"
+﻿#include "stdafx.h"
+#include "GameData.h"
 
 
 using namespace rapidjson;
@@ -30,7 +31,7 @@ bool GameData::Init()
 
 	// init JSON
 	FILE* file;
-	
+
 	std::string JsonRawData;
 
 	if ( !fopen_s( &file, GAME_DATA_PATH.c_str(), "r" ) )

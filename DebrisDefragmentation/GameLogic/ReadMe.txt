@@ -1,37 +1,13 @@
-﻿========================================================================
-    STATIC LIBRARY : GameLogic Project Overview
-========================================================================
+﻿# 피드백
 
-AppWizard has created this GameLogic library project for you.
-
-This file contains a summary of what you will find in each of the files that
-make up your GameLogic application.
+* GameOption.h 파일안에 옵션 이외의 내용도 많이 들어 있는데.. 분리할 것..
+대부분의 내용은 게임에서 쓰이는 상수에 관련된 내용 --> Config 또는 Environment 등의 네이밍 추천.
 
 
-GameLogic.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
-
-GameLogic.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
+* 전체적으로 함수의 리턴값에 tuple을 많이 쓰고 있는데.. 
+리턴값이 두개 이상인 경우가 많은 것은 좋은 디자인이 아니라고 보면 된다.
+실제로 두가지 이상의 일을 하나의 함수가 하는 경우라는 뜻...
 
 
-/////////////////////////////////////////////////////////////////////////////
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named GameLogic.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+* 지난번에 피드백 준 부분에서도 안고쳐진 부분들이 종종 보이는데.. ;;
+고친 부분은 ///# 해놓은 부분 지울 것.

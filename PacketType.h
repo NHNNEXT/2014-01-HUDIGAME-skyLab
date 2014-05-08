@@ -53,6 +53,12 @@ enum PacketTypes
 	PKT_CS_DESTROY = 27,
 	PKT_SC_DESTROY = 28,
 
+	PKT_CS_ISS_STATE = 29,
+	PKT_SC_ISS_STATE = 30,
+
+	PKT_CS_ISS_MODULE_STATE = 31,
+	PKT_SC_ISS_MODULE_STATE = 32,
+
 	PKT_MAX = 1024
 };
 
@@ -358,7 +364,7 @@ struct NewResult : public PacketHeader
 	NewResult()
 	{
 		mSize = sizeof( NewResult );
-		mType = PKT_CS_SYNC;
+		mType = PKT_SC_NEW;
 		mPlayerId = -1;
 
 		mPosX = 0.0f;
@@ -611,8 +617,8 @@ struct SkillOccupyResult : public PacketHeader
 		mModule = -1;
 		mOccupyTeam = -1;
 
-		mIssVelocityX = 0.0f;
-		mIssPositionX = 0.0f;
+		mIssVelocityZ = 0.0f;
+		mIssPositionZ = 0.0f;
 	}
 
 	int		mPlayerId;
@@ -620,8 +626,8 @@ struct SkillOccupyResult : public PacketHeader
 	int		mModule;
 	int		mOccupyTeam;
 
-	float	mIssVelocityX;
-	float	mIssPositionX;
+	float	mIssVelocityZ;
+	float	mIssPositionZ;
 };
 
 // 파괴! - 걸리는 모듈이 있으면 체력을 깎자
@@ -670,6 +676,67 @@ struct SkillDestroyResult : public PacketHeader
 
 	int		mModule;
 	float	mModuleHP;
+};
+
+// 지금 ISS 위치, 속도 알려주세요
+struct IssStateRequest : public PacketHeader
+{
+	IssStateRequest()
+	{
+		mSize = sizeof( IssStateRequest );
+		mType = PKT_CS_ISS_STATE;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+// 지금 ISS 위치, 속도 알려드립니다.
+struct IssStateResult : public PacketHeader
+{
+	IssStateResult()
+	{
+		mSize = sizeof( IssStateResult );
+		mType = PKT_SC_ISS_STATE;
+
+		mIssPositionZ = 0.0f;
+		mIssVelocityZ = 0.0f;
+	}
+	
+	float	mIssPositionZ;
+	float	mIssVelocityZ;
+};
+
+// 지금 ISS 모듈 소유자 및 체력 알려주세요
+struct IssModuleStateRequest : public PacketHeader
+{
+	IssModuleStateRequest()
+	{
+		mSize = sizeof( IssModuleStateRequest );
+		mType = PKT_CS_ISS_MODULE_STATE;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+// 지금 ISS 모듈 소유자 및 체력 알려드립니다.
+struct IssModuleStateResult : public PacketHeader
+{
+	IssModuleStateResult()
+	{
+		mSize = sizeof( IssModuleStateResult );
+		mType = PKT_SC_ISS_MODULE_STATE;
+		mModuleIdx = -1;
+
+		mOwner = -1;
+		mHP = 1.0f;
+	}
+
+	int		mModuleIdx;
+
+	int		mOwner;
+	float	mHP;
 };
 
 #pragma pack(pop)

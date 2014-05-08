@@ -1,4 +1,5 @@
-﻿#include "ISSModel.h"
+﻿#include "stdafx.h"
+#include "ISSModel.h"
 
 
 ISSModel::ISSModel()

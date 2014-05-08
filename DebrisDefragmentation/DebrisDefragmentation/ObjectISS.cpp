@@ -1,4 +1,5 @@
-﻿#include "ObjectISS.h"
+﻿#include "stdafx.h"
+#include "ObjectISS.h"
 #include "ISSModel.h"
 #include "Physics.h"
 
@@ -31,7 +32,7 @@ void ObjectISS::RenderItSelf( )
 	std::for_each( m_ModuleList.begin( ), m_ModuleList.end( ),
 		[&]( ISSModule &eachModule )
 	{
-		eachModule.SetMatrix( m_Matrix );
+		// eachModule.SetMatrix( m_Matrix );
 		DrawModuleCollisionBox( eachModule );
 	}
 	);
@@ -55,6 +56,7 @@ void ObjectISS::InitCollisionBox( )
 
 void ObjectISS::DrawModuleCollisionBox( ISSModule & module )
 {
+
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance( )->GetDevice( );
 
 	const CollisionBox* currentBox = module.GetCollisionBox();

@@ -7,6 +7,7 @@
 */
 
 #include "DDConfig.h"
+#include "DDMacro.h"
 
 // class DDRenderer;
 // class DDSceneDirector;
