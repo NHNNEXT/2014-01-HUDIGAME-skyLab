@@ -33,7 +33,7 @@ public:
 	void InitPlayerState( ClientSession* caller );
 
 	// 다른 세션에 패킷을 전송
-	void DirectSend( const SOCKET& sock, PacketHeader* pkt );
+	// void DirectSend( const SOCKET& sock, PacketHeader* pkt );
 
 private:
 	void CollectGarbageSessions();

@@ -157,13 +157,13 @@ void ClientManager::InitPlayerState( ClientSession* caller )
 		if ( caller == client )
 			continue;
 
-		client->SendCurrentStatus( caller->GetSock() );
+		client->SendCurrentStatus( caller );
 	}
 }
 
-void ClientManager::DirectSend( const SOCKET& sock, PacketHeader* pkt )
+/*
+void ClientManager::DirectSend( ClientSession* targetClient, PacketHeader* pkt )
 {
-	ClientSession* targetClient = mClientList[sock];
-
 	targetClient->SendRequest( pkt );
 }
+*/

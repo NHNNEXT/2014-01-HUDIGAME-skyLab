@@ -15,18 +15,10 @@ ISS::~ISS()
 void ISS::Init()
 {
 	// 각각의 모듈을 초기화
-
-	///# 꼭 이렇게 해야만 하는가?
-	m_ModuleList[0].Init( ISSModuleName::PART0 );
-	m_ModuleList[1].Init( ISSModuleName::PART1 );
-	m_ModuleList[2].Init( ISSModuleName::PART2 );
-	m_ModuleList[3].Init( ISSModuleName::PART3 );
-	m_ModuleList[4].Init( ISSModuleName::PART4 );
-	m_ModuleList[5].Init( ISSModuleName::PART5 );
-	m_ModuleList[6].Init( ISSModuleName::PART6 );
-	m_ModuleList[7].Init( ISSModuleName::PART7 );
-	m_ModuleList[8].Init( ISSModuleName::PART8 );
-	m_ModuleList[9].Init( ISSModuleName::PART9 );
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		m_ModuleList[i].Init( static_cast<ISSModuleName>( i ) );
+	}
 }
 
 void ISS::UpdateItSelf( float dTime )

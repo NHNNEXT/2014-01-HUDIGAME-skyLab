@@ -78,7 +78,7 @@ public:
 	void	SyncCurrentStatus();
 
 	// 현재 내 상태를 targetClient에게 전달
-	void	SendCurrentStatus( const SOCKET& targetClientSock );
+	void	SendCurrentStatus( ClientSession* targetClient );
 
 private:
 

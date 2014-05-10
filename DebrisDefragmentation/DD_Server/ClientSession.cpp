@@ -338,7 +338,7 @@ void ClientSession::SyncCurrentStatus()
 }
 
 
-void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock ) ///# 이걸 왜 socket을 받나? 바로 대상의 포인터를 받아서 처리하면 편할텐데? 
+void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 {
 	SyncResult outPacket;
 
@@ -348,7 +348,8 @@ void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock ) ///# 이
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
-	GClientManager->DirectSend( targetClientSock, &outPacket );
+	targetClient->SendRequest( &outPacket );
+	// GClientManager->DirectSend( targetClientSock, &outPacket );
 }
 
 // 각 패킷을 처리하는 핸들러를 만들자

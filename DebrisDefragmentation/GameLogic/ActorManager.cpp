@@ -242,8 +242,6 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 
 		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
 		
-		///# 헐.. double값을 float로 강제 캐스팅?? 
-		
 		float tempDistance = std::numeric_limits<float>::infinity();
 		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
@@ -261,7 +259,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }
 
-std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int actorId, float x, float y, float z ) ///# typo??
+std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int actorId, float x, float y, float z ) 
 {
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
@@ -275,7 +273,6 @@ std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int 
 
 std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x, float y, float z )
 {
-	///# actorId 검사 필수.
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 

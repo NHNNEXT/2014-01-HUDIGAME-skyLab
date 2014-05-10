@@ -67,3 +67,18 @@ void Actor::InitTeamPosition()
 			break;
 	}
 }
+
+void Actor::GoForward() 
+{ 
+	m_CharacterClass->GoForward( GetViewDirection(), m_RigidBody ); 
+}
+
+void Actor::Stop() 
+{ 
+	m_CharacterClass->Stop( m_RigidBody ); 
+}
+
+void Actor::TurnBody( float x, float y, float z ) 
+{ 
+	m_CharacterClass->TurnBody( m_Rotation, x, y, z ); 
+}

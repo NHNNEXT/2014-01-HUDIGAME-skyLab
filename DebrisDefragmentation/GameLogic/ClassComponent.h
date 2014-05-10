@@ -9,7 +9,7 @@ class ClassComponent
 {
 public:
 	ClassComponent();
-	~ClassComponent(); ///# 이거 왜 퍅셔미 아니??
+	virtual ~ClassComponent();
 
 	CREATE_FUNC( ClassComponent ); ///# 클래스 콤포넌트가 직접 생성되는 경우가 의도 맞나? 잘못된 디자인 같은데...
 

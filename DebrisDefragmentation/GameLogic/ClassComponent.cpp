@@ -65,7 +65,8 @@ bool ClassComponent::UseOxygen( int oxygenUse )
 	if ( oxygenUse > m_Oxygen )
 	{
 		// 산소 부족시 체력 감소
-		m_HP -= HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT; ///# 경계값 확인 잘 할 것
+		m_HP -= HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT;
+		m_HP = ( m_HP < 0.0f ) ? 0.0f : m_HP;
 		
 		return false;
 	}
@@ -83,7 +84,10 @@ bool ClassComponent::UseGas( int gasUse )
 	{
 		return false;
 	}
+
 	m_Fuel -= gasUse;
+	m_Fuel = ( m_Fuel < 0.0f ) ? 0.0f : m_Fuel;
+
 	return true;
 
 }
