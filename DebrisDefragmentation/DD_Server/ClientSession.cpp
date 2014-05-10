@@ -25,6 +25,7 @@ struct InitializeHandlers
 } _init_handlers_;
 
 struct RegisterHandler
+
 {
 	RegisterHandler( int pktType, HandlerFunc handler )
 	{
@@ -306,19 +307,10 @@ void ClientSession::BroadcastCollisionResult()
 {
 	CollisionResult outPacket;
 
-	D3DXVECTOR3 position = m_Character.GetPosition();
-	D3DXVECTOR3 rotation = m_Character.GetRotation();
-	D3DXVECTOR3 velocity = m_Character.GetVelocity();
-
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
-
-	outPacket.mVelocityX = velocity.x;
-	outPacket.mVelocityY = velocity.y;
-	outPacket.mVelocityZ = velocity.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );
@@ -332,25 +324,10 @@ void ClientSession::SyncCurrentStatus()
 {
 	SyncResult outPacket;
 
-	D3DXVECTOR3 position = m_Character.GetPosition();
-	D3DXVECTOR3 rotation = m_Character.GetRotation();
-	D3DXVECTOR3 velocity = m_Character.GetVelocity();
-
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	// 조심해!!
-	// 패킷 내부 변수를 아예 벡터로 만들어서 한 번에 복사하자 ///# POD 타입의 구조체로 만들어서 복사하는 것은 가능.
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
-
-	// outPacket.mRotationX = rotation.x;
-	// outPacket.mRotationY = rotation.y;
-	// outPacket.mRotationZ = rotation.z;
-
-	outPacket.mVelocityX = velocity.x;
-	outPacket.mVelocityY = velocity.y;
-	outPacket.mVelocityZ = velocity.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );
@@ -365,19 +342,10 @@ void ClientSession::SendCurrentStatus( const SOCKET& targetClientSock ) ///# 이
 {
 	SyncResult outPacket;
 
-	D3DXVECTOR3 position = m_Character.GetPosition();
-	D3DXVECTOR3 rotation = m_Character.GetRotation();
-	D3DXVECTOR3 velocity = m_Character.GetVelocity();
-
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
-
-	outPacket.mVelocityX = velocity.x;
-	outPacket.mVelocityY = velocity.y;
-	outPacket.mVelocityZ = velocity.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
 	GClientManager->DirectSend( targetClientSock, &outPacket );
@@ -438,25 +406,16 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// 내 캐릭터를 다른 플레이어들에게 방송
 	NewResult newPlayerPacket;
 	newPlayerPacket.mPlayerId = mPlayerId;
 
-	///# D3DXVECTOR를 생성 인자로 받는 Float3D 구조체 하나 만들어서 쓰면 편하겠지?
-	D3DXVECTOR3 tempContainer = m_Character.GetPosition();
-	newPlayerPacket.mPosX = tempContainer.x;
-	newPlayerPacket.mPosY = tempContainer.y;
-	newPlayerPacket.mPosZ = tempContainer.z;
-
-	tempContainer = m_Character.GetVelocity();
-	newPlayerPacket.mVelocityX = tempContainer.x;
-	newPlayerPacket.mVelocityY = tempContainer.y;
-	newPlayerPacket.mVelocityZ = tempContainer.z;
-
-	tempContainer = m_Character.GetRotation();
-	newPlayerPacket.mRotationX = tempContainer.x;
-	newPlayerPacket.mRotationY = tempContainer.y;
-	newPlayerPacket.mRotationZ = tempContainer.z;
+	D3DXVECTOR3toFloat3D( newPlayerPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( newPlayerPacket.mVelocity, m_Character.GetVelocity() );
+	D3DXVECTOR3toFloat3D( newPlayerPacket.mRotation, m_Character.GetRotation() );
 
 	if ( !Broadcast( &newPlayerPacket ) )
 	{
@@ -473,6 +432,7 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	//GameStateResult outPacket;
 
 	///# 아래 IssStateResult와 IssModuleStateResult 패킷 2개가 항상 같이 가는 구조라면 패킷 하나로 합치고 SendRequest도 한번만 하는게 좋다.
+	// 개별 모듈 업데이트가 필요한 경우를 위해 분리해두는 걸로 진행
 
 	// ISS state
 	IssStateResult currentIssState;
@@ -509,31 +469,24 @@ REGISTER_HANDLER( PKT_CS_ACCELERATION )
 void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-	printf_s( "goforward %d\n", inPacket.mPlayerId ); ///# 이 패킷 받을때마다 printf할겨? 보통 이런거는 logger만들어서 분리하는게 좋다.
+	// printf_s( "goforward %d\n", inPacket.mPlayerId ); ///# 이 패킷 받을때마다 printf할겨? 보통 이런거는 logger만들어서 분리하는게 좋다.
+
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
 
 	// 이걸 멤버 유저에게 적용하고 
-	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	m_Character.SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 	m_Character.GoForward();
 
-	D3DXVECTOR3 position = m_Character.GetPosition();
-	D3DXVECTOR3 vel = m_Character.GetVelocity();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	///# 적용에 문제가 있는 경우는 어떤 경우인가? 그런 경우가 있다면 에러 처리 확실하게.
 
 	AccelerarionResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
-
-	outPacket.mVelocityX = vel.x;
-	outPacket.mVelocityY = vel.y;
-	outPacket.mVelocityZ = vel.z;
-
-	outPacket.mRotationX = inPacket.mRotationX;
-	outPacket.mRotationY = inPacket.mRotationY;
-	outPacket.mRotationZ = inPacket.mRotationZ;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -552,19 +505,19 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// 이걸 멤버 유저에게 적용하고 
 	m_Character.Stop();
 
-	D3DXVECTOR3 position = m_Character.GetPosition();
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	StopResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 
 	// printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
 
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -583,40 +536,25 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// 이걸 멤버 유저에게 적용하고  
 	//m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 	// turn body는 increase가 아니라 set을 사용함
-	m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	m_Character.SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	RotationResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 
-	outPacket.mRotationX = inPacket.mRotationX;
-	outPacket.mRotationY = inPacket.mRotationY;
-	outPacket.mRotationZ = inPacket.mRotationZ;
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
 	}
-}
-
-REGISTER_HANDLER( PKT_CS_SYNC )
-{
-	///# 사실 이런 종류의 (클라를 믿어야 하는) 패킷은 안만드는게 좋다. 클라가 dos공격하면 우짤라고 ㅋㅋ
-	///# 일단 주석 처리가 되어 있지만 아예 빼놓도록...
-	SyncRequest inPacket = static_cast<SyncRequest&>( pktBase );
-	session->HandleSyncRequest( inPacket );
-}
-
-void ClientSession::HandleSyncRequest( SyncRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	// 싱크 요청이 오면 전체 동기화
-	// GClientManager->SyncAll();
 }
 
 REGISTER_HANDLER( PKT_CS_SKILL_PUSH )
@@ -629,6 +567,9 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
 	// 캐릭터에 적용 안 한다. 패킷에 담겨온 회전 정보는 카메라의 회전 정보일뿐 캐릭터의 회전 정보가 아니다.
 	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
@@ -638,7 +579,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	D3DXVECTOR3 spinAxis; 
 	
 	/// mPlayerId를 보낸 값으로 쓰지 않고, 내가 갖고 있는 값으로 쓰도록 한다... 
-	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -654,24 +595,15 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	SkillPushResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
 
 	D3DXVECTOR3 position = targetCharacter->GetPosition();
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
+	D3DXVECTOR3toFloat3D( outPacket.mSpinAxis, spinAxis );
 
-	D3DXVECTOR3 velocity = targetCharacter->GetVelocity();
-	outPacket.mVelocityX = velocity.x;
-	outPacket.mVelocityY = velocity.y;
-	outPacket.mVelocityZ = velocity.z;
-
-	outPacket.mSpinAxisX = spinAxis.x;
-	outPacket.mSpinAxisY = spinAxis.y;
-	outPacket.mSpinAxisZ = spinAxis.z;
-
-	printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
+	// printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
 
 	outPacket.mSpinAngularVelocity = 1.0f;
 
@@ -692,6 +624,9 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
 	// 같은 이유
 	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
@@ -700,7 +635,7 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis;
 
-	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -715,22 +650,12 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	SkillPushResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
 
-	D3DXVECTOR3 position = targetCharacter->GetPosition();
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
-
-	D3DXVECTOR3 velocity = targetCharacter->GetVelocity();
-	outPacket.mVelocityX = velocity.x;
-	outPacket.mVelocityY = velocity.y;
-	outPacket.mVelocityZ = velocity.z;
-
-	outPacket.mSpinAxisX = spinAxis.x;
-	outPacket.mSpinAxisY = spinAxis.y;
-	outPacket.mSpinAxisZ = spinAxis.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
+	D3DXVECTOR3toFloat3D( outPacket.mSpinAxis, spinAxis );
 
 	outPacket.mSpinAngularVelocity = 1.0f;
 
@@ -751,10 +676,13 @@ void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 	
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	DeadResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -773,6 +701,9 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	m_Character.InitTeamPosition();
 	
 	printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
@@ -785,18 +716,11 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	RespawnResult outPacket;
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 	outPacket.mCharacterClass = inPacket.mCharacterClass;
 
-	D3DXVECTOR3 position = m_Character.GetPosition();	
-	outPacket.mPosX = position.x;
-	outPacket.mPosY = position.y;
-	outPacket.mPosZ = position.z;
-	
-	D3DXVECTOR3 rotation = m_Character.GetRotation();
-	outPacket.mRotationX = rotation.x;
-	outPacket.mRotationY = rotation.y;
-	outPacket.mRotationZ = rotation.z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -815,6 +739,9 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	// actorManager를 통해서 스킬을 시전하면
 	// actorManager는 멤버 변수인 ISS를 통해서 확인하고
 	// 소유주 변경에 따른 ISS 속도를 변경하고
@@ -824,7 +751,7 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 	float IssPosX = 0.0f;
 	float IssVelocityX = 0.0f;
 
-	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ActorManager->TryCoccupy( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ActorManager->TryOccupy( inPacket.mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
 	// 변경사항 없으면 리턴
 	if ( moduleName == ISSModuleName::NO_MODULE )
@@ -833,7 +760,7 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 	// 반환받은 결과를 방송!
 	SkillOccupyResult outPacket;
 
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 
 	outPacket.mModule = static_cast<int>( moduleName );
 	outPacket.mOccupyTeam = static_cast<int>( teamColor );
@@ -857,11 +784,14 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
 	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
 	float moduleHP = 1.0f;
 
 	/// 클라에서 보내주는 playerId 믿지 않도록. 반드시 해당 ID가 존재하는지 검사 할 것.
-	std::tie( moduleName, moduleHP ) = m_ActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	std::tie( moduleName, moduleHP ) = m_ActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
 	// 변경사항 없으면 리턴
 	if ( moduleName == ISSModuleName::NO_MODULE )
@@ -870,7 +800,7 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 	// 반환받은 결과를 방송!
 	SkillDestroyResult outPacket;
 
-	outPacket.mPlayerId = inPacket.mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 
 	outPacket.mModule = static_cast<int>( moduleName );
 	outPacket.mModuleHP = moduleHP;

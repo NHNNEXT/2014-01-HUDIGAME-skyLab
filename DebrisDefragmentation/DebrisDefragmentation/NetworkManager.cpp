@@ -60,15 +60,11 @@ void NetworkManager::SendAcceleration()
 	if ( m_MyPlayerId == -1 )
 		return;
 
-//	g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GoForward();
-
 	AccelerarionRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
-
-	outPacket.mRotationX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationX(); 
-	outPacket.mRotationY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
+	
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -98,15 +94,10 @@ void NetworkManager::SendTurnBody()
 	outPacket.mPlayerId = m_MyPlayerId;
 
 	// 카메라 플레이어 분리 후 getcameraviewingdirection은 사용X
-	//D3DXVECTOR3 angles = g_PlayerManager->GetCameraViewingDirection();
-	D3DXVECTOR3 angles = g_PlayerManager->GetCamera()->GetRotation();	
 
-	outPacket.mRotationX = angles.x;
-	outPacket.mRotationY = angles.y;
-	outPacket.mRotationZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
-// 	outPacket.mRotationX = D3DXToDegree( angles.x );
-// 	outPacket.mRotationY = D3DXToDegree( angles.y );
-// 	outPacket.mRotationZ = D3DXToDegree( angles.z );
+	outPacket.mRotation.x = g_PlayerManager->GetCamera()->GetRotation().x;
+	outPacket.mRotation.y = g_PlayerManager->GetCamera()->GetRotation().y;
+	outPacket.mRotation.z = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -120,18 +111,8 @@ void NetworkManager::SendSkillPush()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-
-	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
-	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
-	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
-
-	// camera 방향으로 push 발사
-	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
-	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
-// 	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
-// 	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
-// 	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -145,18 +126,8 @@ void NetworkManager::SendSkillPull()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-
-	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
-	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
-	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
-
-	// camera 방향으로 push 발사
-	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
-	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
-	// 	outPacket.mRotationX = g_PlayerManager->GetCameraViewingDirection().x;
-	// 	outPacket.mRotationY = g_PlayerManager->GetCameraViewingDirection().y;
-	// 	outPacket.mRotationZ = g_PlayerManager->GetCameraViewingDirection().z;
+	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -201,13 +172,8 @@ void NetworkManager::SendSkillOccupy()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
-	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
-	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
-
-	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
-	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
+	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -221,13 +187,8 @@ void NetworkManager::SendSkillDestroy()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mPosX = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionX();
-	outPacket.mPosY = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionY();
-	outPacket.mPosZ = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPositionZ();
-
-	outPacket.mRotationX = g_PlayerManager->GetCamera()->GetRotationX();
-	outPacket.mRotationY = g_PlayerManager->GetCamera()->GetRotationY();
-	outPacket.mRotationZ = g_PlayerManager->GetCamera()->GetRotationZ();
+	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -288,13 +249,13 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	Player* player = g_PlayerManager->GetPlayer( inPacket.mPlayerId );
 	
-	printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
-	printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
+	// printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
+	// printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
 
 	player->GoForward();
-	player->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	player->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
-	player->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	player->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	player->SetRotation( DDVECTOR3( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z ) );
+	player->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -304,7 +265,7 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 		
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );		
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
 }
 
 void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
@@ -313,7 +274,7 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->TurnBody(inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->TurnBody(inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 
@@ -330,16 +291,11 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 		dummyPlayerID = inPacket.mPlayerId + REAL_PLAYER_NUM;
 
 		g_PlayerManager->AddPlayer( dummyPlayerID );
-		g_PlayerManager->GetPlayer( dummyPlayerID )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-		g_PlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 	}
 #else
 #endif
-
-	// 원래 sync 하던거. 더미 켤때는 주석처리할 것
-// 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-// 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition(DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-// 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity(DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
 }
 
 void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
@@ -350,13 +306,13 @@ void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
 	targetPlayer->GoForward();
-	targetPlayer->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	targetPlayer->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 
-	if ( inPacket.mSpinAxisX == 0.0f && inPacket.mSpinAxisY == 0.0f && inPacket.mSpinAxisZ == 0.0f )
+	if ( inPacket.mSpinAxis.x == 0.0f && inPacket.mSpinAxis.y == 0.0f && inPacket.mSpinAxis.z == 0.0f )
 		return;
 
-	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
+	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxis.x, inPacket.mSpinAxis.y, inPacket.mSpinAxis.z ), inPacket.mSpinAngularVelocity );
 	// player->SetSpin( DDVECTOR3( 1.0f, 1.0f, 0.0f ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PUSH from %d player\n", inPacket.mPlayerId );
@@ -370,13 +326,13 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
 	targetPlayer->GoForward();
-	targetPlayer->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	targetPlayer->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 
-	if ( inPacket.mSpinAxisX == 0.0f && inPacket.mSpinAxisY == 0.0f && inPacket.mSpinAxisZ == 0.0f )
+	if ( inPacket.mSpinAxis.x == 0.0f && inPacket.mSpinAxis.y == 0.0f && inPacket.mSpinAxis.z == 0.0f )
 		return;
 
-	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxisX, inPacket.mSpinAxisY, inPacket.mSpinAxisZ ), inPacket.mSpinAngularVelocity );
+	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxis.x, inPacket.mSpinAxis.y, inPacket.mSpinAxis.z ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
 }
@@ -387,9 +343,9 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation( DDVECTOR3( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetRotation( DDVECTOR3( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 }
 
 
@@ -419,8 +375,8 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	player->SetUpdatable( true );
 
 	player->SetVelocity( ZERO_VECTOR3 );
-	player->SetPosition( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ );
-	player->SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
+	player->SetPosition( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z );
+	player->SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 }
 
 void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
@@ -429,8 +385,8 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPosX, inPacket.mPosY, inPacket.mPosZ ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocityX, inPacket.mVelocityY, inPacket.mVelocityZ ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 }
 
 void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )

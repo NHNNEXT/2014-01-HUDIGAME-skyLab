@@ -61,7 +61,6 @@ public:
 	void	HandleAccelerationRequest( AccelerarionRequest& inPacket );
 	void	HandleStopRequest( StopRequest& inPacket );
 	void	HandleRotationRequest( RotationRequest& inPacket );
-	void	HandleSyncRequest( SyncRequest& inPacket );
 	void	HandleSkillPushRequest( SkillPushRequest& inPacket );
 	void	HandleSkillPullRequest( SkillPullRequest& inPacket );
 	void	HandleGameStateRequest( GameStateRequest& inPacket );
@@ -88,13 +87,6 @@ private:
 
 	void	LoginDone( int pid );
 	void	UpdateDone();
-
-
-private:
-	// double			mPosX;
-	// double			mPosY;
-	// double			mPosZ;
-	// char				mPlayerName[MAX_NAME_LEN];
 
 private:
 	bool			mConnected;

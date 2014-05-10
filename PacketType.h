@@ -1,9 +1,38 @@
 ﻿#pragma once
 
+#include <d3dx9.h>
+
 #define MAX_CHAT_LEN	1024
 
 #define MAX_NAME_LEN	30
 #define MAX_COMMENT_LEN	40
+
+// POD type
+// http://en.wikipedia.org/wiki/Plain_Old_Data_Structures
+struct Float3D
+{
+	float x = 0.0f;
+	float y = 0.0f;
+	float z = 0.0f;
+};
+
+// Float3D가 POD 이므로 사용자 지정 생성자를 만들 수 없음
+// D3DXVECTOR3와 Float3D 사이의 변환을 간단하게 하는 함수를 따로 정의
+// 복사 대입 생성자도 정의할 수 없으므로 참조자를 이용한 연산으로 구현
+static void Float3DtoD3DXVECTOR3( _Out_ D3DXVECTOR3& target, _In_ const Float3D& src )
+{
+	target.x = src.x;
+	target.y = src.y;
+	target.z = src.z;
+}
+
+static void D3DXVECTOR3toFloat3D( _Out_ Float3D& target, _In_ const D3DXVECTOR3& src )
+{
+	target.x = src.x;
+	target.y = src.y;
+	target.z = src.z;
+}
+
 
 // 조심해!!
 // 패킷 종류 - 스킬인지, 게임 진행 상태인지에 따라서 숫자 구간 나눠서 사용하자
@@ -103,17 +132,11 @@ struct AccelerarionRequest : public PacketHeader
 		mSize = sizeof( AccelerarionRequest );
 		mType = PKT_CS_ACCELERATION;
 		mPlayerId = -1;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int	mPlayerId;
 
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mRotation;
 };
 
 // 가속 - id, 위치, 속도, 방향(현재 회전 각도 - 나중에는 행렬자체를 넘겨야 할 수도 있어)
@@ -124,33 +147,13 @@ struct AccelerarionResult : public PacketHeader
 		mSize = sizeof( AccelerarionResult );
 		mType = PKT_SC_ACCELERATION;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int	mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mVelocityX;
-	float mVelocityY;
-	float mVelocityZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mPos;
+	Float3D mVelocity;
+	Float3D mRotation;
 };
 
 // 장비를 정지합니다.
@@ -174,17 +177,11 @@ struct StopResult : public PacketHeader
 		mSize = sizeof( StopResult );
 		mType = PKT_SC_STOP;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
+	Float3D mPos;
 };
 
 // 회전 좀 하겠습니다. - 나중에는 각도만이 아니라 회전 변환 행렬 전체를 보내야?
@@ -195,17 +192,11 @@ struct RotationRequest : public PacketHeader
 		mSize = sizeof( RotationRequest );
 		mType = PKT_CS_ROTATION;
 		mPlayerId = -1;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mRotation;
 };
 
 // 회전 해라.
@@ -216,17 +207,11 @@ struct RotationResult : public PacketHeader
 		mSize = sizeof( RotationResult );
 		mType = PKT_SC_ROTATION;
 		mPlayerId = -1;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mRotation;
 };
 
 // 주기적인 동기화를 위해서 - 오브젝트들은 어떻게 하지... 일단 플레이어만 하자
@@ -249,25 +234,12 @@ struct SyncResult : public PacketHeader
 		mSize = sizeof( SyncResult );
 		mType = PKT_SC_SYNC;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mVelocityX;
-	float mVelocityY;
-	float mVelocityZ;
+	Float3D mPos; 
+	Float3D mVelocity;
 };
 
 
@@ -317,21 +289,13 @@ struct RespawnResult : public PacketHeader
 		mType = PKT_SC_RESPAWN;
 		mPlayerId = -1;
 		mCharacterClass = 0; // no_class
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 	int		mCharacterClass;
 
-	float mPosX, mPosY, mPosZ;
-	float mRotationX, mRotationY, mRotationZ;
+	Float3D mPos;
+	Float3D mRotation;
 };
 
 // 일단 안씀.. 충돌체크는 서버에서
@@ -347,13 +311,12 @@ struct CollisionResult : public PacketHeader
 		mSize = sizeof ( CollisionResult );
 		mType = PKT_SC_COLLISION;
 		mPlayerId = -1;		
-		mVelocityX = mVelocityY = mVelocityZ = 0;
-		mPosX = mPosY = mPosZ = 0;
 	}
 
-	int		mPlayerId;
-	float	mVelocityX, mVelocityY, mVelocityZ;
-	float	mPosX, mPosY, mPosZ;
+	int		mPlayerId; 
+	
+	Float3D mPos;
+	Float3D mVelocity;
 };
 
 
@@ -366,33 +329,13 @@ struct NewResult : public PacketHeader
 		mSize = sizeof( NewResult );
 		mType = PKT_SC_NEW;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mVelocityX;
-	float mVelocityY;
-	float mVelocityZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mPos;
+	Float3D mVelocity;
+	Float3D mRotation;
 };
 
 // 밀기 스킬 시전!
@@ -404,25 +347,12 @@ struct SkillPushRequest : public PacketHeader
 		mSize = sizeof( SkillPushRequest );
 		mType = PKT_CS_SKILL_PUSH;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mPos;
+	Float3D mRotation;
 };
 
 // 타겟이 있으면 운동 상태를 바꿔놓고, 바뀐 운동 상태를 전송
@@ -438,35 +368,15 @@ struct SkillPushResult : public PacketHeader
 		mPlayerId = -1;
 		mTargetId = -1;
 
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
-
-		mSpinAxisX = 0.0f;
-		mSpinAxisY = 0.0f;
-		mSpinAxisZ = 0.0f;
-
 		mSpinAngularVelocity = 0.0f;
 	}
 
 	int		mPlayerId;
 	int		mTargetId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mVelocityX;
-	float mVelocityY;
-	float mVelocityZ;
-
-	float mSpinAxisX;
-	float mSpinAxisY;
-	float mSpinAxisZ;
+	Float3D mPos;
+	Float3D mVelocity;
+	Float3D mSpinAxis;
 
 	float mSpinAngularVelocity;
 };
@@ -480,25 +390,12 @@ struct SkillPullRequest : public PacketHeader
 		mSize = sizeof( SkillPullRequest );
 		mType = PKT_CS_SKILL_PULL;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mPos;
+	Float3D mRotation;
 };
 
 // 타겟이 있으면 운동 상태를 바꿔놓고, 바뀐 운동 상태를 전송
@@ -514,35 +411,15 @@ struct SkillPullResult : public PacketHeader
 		mPlayerId = -1;
 		mTargetId = -1;
 
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mVelocityX = 0.0f;
-		mVelocityY = 0.0f;
-		mVelocityZ = 0.0f;
-
-		mSpinAxisX = 0.0f;
-		mSpinAxisY = 0.0f;
-		mSpinAxisZ = 0.0f;
-
 		mSpinAngularVelocity = 0.0f;
 	}
 
 	int		mPlayerId;
 	int		mTargetId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mVelocityX;
-	float mVelocityY;
-	float mVelocityZ;
-
-	float mSpinAxisX;
-	float mSpinAxisY;
-	float mSpinAxisZ;
+	Float3D mPos;
+	Float3D mVelocity;
+	Float3D mSpinAxis;
 
 	float mSpinAngularVelocity;
 };
@@ -584,25 +461,12 @@ struct SkillOccupyRequest : public PacketHeader
 		mSize = sizeof( SkillOccupyRequest );
 		mType = PKT_CS_OCCUPY;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mPos;
+	Float3D mRotation;
 };
 
 // 점령 상태가 바뀌면 어떤 것이 바뀌었는지, 소유팀은 어디인지, 스킬은 누가 썼는지 전송
@@ -638,25 +502,12 @@ struct SkillDestroyRequest : public PacketHeader
 		mSize = sizeof( SkillDestroyRequest );
 		mType = PKT_CS_DESTROY;
 		mPlayerId = -1;
-
-		mPosX = 0.0f;
-		mPosY = 0.0f;
-		mPosZ = 0.0f;
-
-		mRotationX = 0.0f;
-		mRotationY = 0.0f;
-		mRotationZ = 0.0f;
 	}
 
 	int		mPlayerId;
 
-	float mPosX;
-	float mPosY;
-	float mPosZ;
-
-	float mRotationX;
-	float mRotationY;
-	float mRotationZ;
+	Float3D mPos;
+	Float3D mRotation;
 };
 
 // 파괴! - 어떤 모듈인지, 누가 부순건지, 지금 체력은 얼마인지 

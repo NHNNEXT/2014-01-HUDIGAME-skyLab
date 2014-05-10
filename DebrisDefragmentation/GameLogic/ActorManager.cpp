@@ -72,6 +72,18 @@ void ActorManager::DeleteActor( int actorId )
 		// delete m_ActorList[actorId];
 		m_ActorList[actorId] = nullptr;
 	}
+
+	// 만약 모든 플레이어가 나간 빈 방이 되면 게임 상태 초기화
+	int currentPlayerNumber = 0;
+
+	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
+	{
+		if ( m_ActorList[playerId] != nullptr )
+			++currentPlayerNumber;
+	}
+
+	if ( currentPlayerNumber == 0 )
+		Init();
 }
 
 bool ActorManager::Update( )
@@ -250,7 +262,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }
 
-std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryCoccupy( int actorId, float x, float y, float z ) ///# typo??
+std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int actorId, float x, float y, float z ) ///# typo??
 {
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();

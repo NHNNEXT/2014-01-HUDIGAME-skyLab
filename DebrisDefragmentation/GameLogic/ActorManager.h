@@ -51,7 +51,7 @@ public:
 		점령 스킬을 사용한 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환
 		최경욱 2014. 5. 6
 	*/
-	std::tuple<ISSModuleName, TeamColor, float, float> TryCoccupy( int actorId, float x, float y, float z );
+	std::tuple<ISSModuleName, TeamColor, float, float> TryOccupy( int actorId, float x, float y, float z );
 
 	/*
 		파괴 스킬을 사용한 결과 - 모듈이름, 체력 - 를 반환

@@ -61,7 +61,7 @@ void ClientManager::OnPeriodWork()
 		printf_s( "crash %d to %d", player, target );
 		// SyncAll();
 	}
-	SyncAll(); ///# 이거 안쓸거라며?
+	SyncAll(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();
@@ -121,11 +121,7 @@ void ClientManager::FlushClientSend()
 
 void ClientManager::SyncAll( )
 {
-	///# ㄷㄷㄷ 너무하다..
-
-	// 조심해!
-	// 작업 오버헤드가 너무 큰 것 같은데...
-	// 일단 이번 주는 컴퓨터를 믿고 그냥 ㄱㄱ
+	// 동기화 디버깅 수단으로 사용
 	for ( ClientList::const_iterator it = mClientList.begin(); it != mClientList.end(); ++it )
 	{
 		ClientSession* client = it->second;

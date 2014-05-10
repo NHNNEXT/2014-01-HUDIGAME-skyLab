@@ -28,7 +28,6 @@ PlayScene::PlayScene( std::wstring sceneName )
 
 PlayScene::~PlayScene()
 {
-	delete m_pObjectISS;
 	delete GObjectManager;
 	delete GNetworkManager;
 }
