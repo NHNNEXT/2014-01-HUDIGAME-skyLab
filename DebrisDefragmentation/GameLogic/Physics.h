@@ -3,6 +3,8 @@
 
 #include "GameOption.h"
 #include "CollisionBox.h"
+#include <limits>
+
 /*
 작성자 : 최경욱
 작성일 : 2014. 4. 6
@@ -47,8 +49,8 @@ namespace Physics
 
 	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
 	{
-		minAlong = static_cast<float>( HUGE );
-		maxAlong = static_cast<float>( -HUGE );
+		minAlong = std::numeric_limits<float>::infinity();
+		maxAlong = -std::numeric_limits<float>::infinity();
 
 		float dotVal = dotVal = D3DXVec3Dot( &axis, &centerPos );
 		minAlong = dotVal - axisLen;
@@ -57,8 +59,8 @@ namespace Physics
 
 	void static SATtest( const D3DXVECTOR3& axis, const std::array<D3DXVECTOR3, 8>& points, float& minAlong, float& maxAlong )
 	{
-		minAlong = static_cast<float>( HUGE );
-		maxAlong = static_cast<float>( -HUGE );
+		minAlong = std::numeric_limits<float>::infinity();
+		maxAlong = -std::numeric_limits<float>::infinity();
 
 		for ( int i = 0; i < 8; i++ )
 		{
@@ -165,8 +167,8 @@ namespace Physics
 		D3DXVECTOR3 tempIntersection( 0.0f, 0.0f, 0.0f );
 		D3DXVECTOR3 intersectionPoint( 0.0f, 0.0f, 0.0f );
 
-		float maxDistance = static_cast<float>( HUGE );
-		float minDistance = static_cast<float>( -HUGE );
+		float maxDistance = std::numeric_limits<float>::infinity();
+		float minDistance = -std::numeric_limits<float>::infinity();
 
 		for ( int i = 0; i < VECTOR_DIRECTION_3; ++i )
 		{

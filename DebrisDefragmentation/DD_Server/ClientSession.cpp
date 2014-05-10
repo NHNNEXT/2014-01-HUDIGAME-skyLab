@@ -579,7 +579,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	D3DXVECTOR3 spinAxis; 
 	
 	/// mPlayerId를 보낸 값으로 쓰지 않고, 내가 갖고 있는 값으로 쓰도록 한다... 
-	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
+	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -635,7 +635,7 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis;
 
-	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( inPacket.mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
+	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )

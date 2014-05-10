@@ -226,11 +226,9 @@ bool ActorManager::CheckCollision()
 
 std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, float y, float z )
 {
-	///# actorId를 클라가 보낸 값을 믿는다는거지? 만일 가라로 보내면.. 아래 배열 터져서 서버가 죽게 되지...
-	///# 
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
-	float currentDistance = static_cast<float>( HUGE );
+	float currentDistance = std::numeric_limits<float>::infinity();
 	int targetId = -1;
 	
 	D3DXVECTOR3 spinAxis( 0.0f, 0.0f, 0.0f );
@@ -245,7 +243,8 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
 		
 		///# 헐.. double값을 float로 강제 캐스팅?? 
-		float tempDistance = static_cast<float>( HUGE );
+		
+		float tempDistance = std::numeric_limits<float>::infinity();
 		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트

@@ -54,7 +54,7 @@ void ISS::UpdateItSelf( float dTime )
 
 std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )
 {
-	float currentDistance = static_cast<float>( HUGE );
+	float currentDistance = std::numeric_limits<float>::infinity();
 	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
 
 	// 자신에게 등록된 모듈들을 차례대로 돌면서 
@@ -63,7 +63,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 		[&]( ISSModule &eachModule )
 	{
-		float tempDistance = static_cast<float>( HUGE );
+		float tempDistance = std::numeric_limits<float>::infinity();
 		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, viewDirection, startPoint, eachModule.GetControlPointBox() ) )
 		{
 			// 조심해!
@@ -116,7 +116,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 
 std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
 {
-	float currentDistance = static_cast<float>( HUGE );
+	float currentDistance = std::numeric_limits<float>::infinity();
 	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
 
 	// 자신에게 등록된 모듈들을 차례대로 돌면서 
@@ -125,7 +125,7 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 		[&]( ISSModule &eachModule )
 	{
 		// intersection 확인
-		float tempDistance = static_cast<float>( HUGE );
+		float tempDistance = std::numeric_limits<float>::infinity();
 		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, viewDirection, startPoint, eachModule.GetCollisionBox() ) )
 		{
 			// 조심해!
