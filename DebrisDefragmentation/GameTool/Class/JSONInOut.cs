@@ -13,6 +13,16 @@ namespace GameTool.Class
     public enum ENUM_JSONVAR
     {
         DEBRIS_NUMBER,
+        ISS_PART_1,
+        ISS_PART_2,
+        ISS_PART_3,
+        ISS_PART_4,
+        ISS_PART_5,
+        ISS_PART_6,
+        ISS_PART_7,
+        ISS_PART_8,
+        ISS_PART_9,
+        ISS_PART_10
     }
 
     class JSONInOut
@@ -123,7 +133,7 @@ namespace GameTool.Class
                 return;
             }
         }
-
+        // 파일명이 적합한지 알아보는 함수
         private bool IsCorrectFileName(string fileName)
         {
             Regex rg = new Regex(@"[!@#$%^&*/\\]");
@@ -133,7 +143,8 @@ namespace GameTool.Class
             }
             return true;
         }
-
+        // JSONKeyLabe의 Text를 Key값으로 가져오고 해당하는 Value를 Json 데이터에서 지우고 새로 삽입(변경)
+        // 이때 삽입되는 값은 JSONVarBar에 있는 값. 변경된 값을 최종적으로 Variable List에 출력해준다
         public void JSONModifyBtn(Label JSONKeyLabel, TextBox JSONVarBar, ListBox VariableList)
         {
             string key = JSONKeyLabel.Text;
