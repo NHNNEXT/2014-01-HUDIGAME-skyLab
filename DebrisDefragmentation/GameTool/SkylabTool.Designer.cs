@@ -87,7 +87,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.Status = new System.Windows.Forms.TabControl();
-            this.CameraModelStat = new System.Windows.Forms.TabPage();
             this.JSONConfig = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.JSONKeyLabel = new System.Windows.Forms.Label();
@@ -104,12 +103,16 @@
             this.JSONLoadFilebtn = new System.Windows.Forms.Button();
             this.JsonFileList = new System.Windows.Forms.ListBox();
             this.JSONSearchFilebtn = new System.Windows.Forms.Button();
-            this.ObjectTool = new System.Windows.Forms.TabPage();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.RenderOnOffBtn = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.CameraModelStat = new System.Windows.Forms.TabPage();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.FPSshow = new System.Windows.Forms.Label();
+            this.ObjectTool = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.RenderOnOffBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -121,15 +124,17 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.Status.SuspendLayout();
-            this.CameraModelStat.SuspendLayout();
             this.JSONConfig.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.CameraModelStat.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.ObjectTool.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            this.groupBox11.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -209,7 +214,7 @@
             // 
             // View
             // 
-            this.View.Location = new System.Drawing.Point(13, 28);
+            this.View.Location = new System.Drawing.Point(1, 3);
             this.View.Name = "View";
             this.View.Size = new System.Drawing.Size(760, 570);
             this.View.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -664,20 +669,6 @@
             this.Status.Size = new System.Drawing.Size(473, 722);
             this.Status.TabIndex = 5;
             // 
-            // CameraModelStat
-            // 
-            this.CameraModelStat.Controls.Add(this.groupBox11);
-            this.CameraModelStat.Controls.Add(this.TimerStatus);
-            this.CameraModelStat.Controls.Add(this.CameraConfig);
-            this.CameraModelStat.Controls.Add(this.groupBox2);
-            this.CameraModelStat.Location = new System.Drawing.Point(4, 22);
-            this.CameraModelStat.Name = "CameraModelStat";
-            this.CameraModelStat.Padding = new System.Windows.Forms.Padding(3);
-            this.CameraModelStat.Size = new System.Drawing.Size(465, 696);
-            this.CameraModelStat.TabIndex = 0;
-            this.CameraModelStat.Text = "Camera & Model";
-            this.CameraModelStat.UseVisualStyleBackColor = true;
-            // 
             // JSONConfig
             // 
             this.JSONConfig.Controls.Add(this.groupBox7);
@@ -847,6 +838,39 @@
             this.JSONSearchFilebtn.UseVisualStyleBackColor = true;
             this.JSONSearchFilebtn.Click += new System.EventHandler(this.SearchJsonFiles);
             // 
+            // CameraModelStat
+            // 
+            this.CameraModelStat.Controls.Add(this.groupBox11);
+            this.CameraModelStat.Controls.Add(this.TimerStatus);
+            this.CameraModelStat.Controls.Add(this.CameraConfig);
+            this.CameraModelStat.Controls.Add(this.groupBox2);
+            this.CameraModelStat.Location = new System.Drawing.Point(4, 22);
+            this.CameraModelStat.Name = "CameraModelStat";
+            this.CameraModelStat.Padding = new System.Windows.Forms.Padding(3);
+            this.CameraModelStat.Size = new System.Drawing.Size(465, 696);
+            this.CameraModelStat.TabIndex = 0;
+            this.CameraModelStat.Text = "Camera & Model";
+            this.CameraModelStat.UseVisualStyleBackColor = true;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.FPSshow);
+            this.groupBox11.Location = new System.Drawing.Point(186, 7);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(136, 43);
+            this.groupBox11.TabIndex = 4;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "FPS";
+            // 
+            // FPSshow
+            // 
+            this.FPSshow.AutoSize = true;
+            this.FPSshow.Location = new System.Drawing.Point(20, 20);
+            this.FPSshow.Name = "FPSshow";
+            this.FPSshow.Size = new System.Drawing.Size(17, 12);
+            this.FPSshow.TabIndex = 1;
+            this.FPSshow.Text = "00";
+            // 
             // ObjectTool
             // 
             this.ObjectTool.Controls.Add(this.groupBox10);
@@ -868,17 +892,6 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ISS";
             // 
-            // RenderOnOffBtn
-            // 
-            this.RenderOnOffBtn.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.RenderOnOffBtn.Location = new System.Drawing.Point(13, 605);
-            this.RenderOnOffBtn.Name = "RenderOnOffBtn";
-            this.RenderOnOffBtn.Size = new System.Drawing.Size(99, 23);
-            this.RenderOnOffBtn.TabIndex = 6;
-            this.RenderOnOffBtn.Text = "Render On/Off";
-            this.RenderOnOffBtn.UseVisualStyleBackColor = true;
-            this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
-            // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
@@ -888,33 +901,56 @@
             this.listBox1.Size = new System.Drawing.Size(248, 316);
             this.listBox1.TabIndex = 0;
             // 
-            // groupBox11
+            // tabControl1
             // 
-            this.groupBox11.Controls.Add(this.FPSshow);
-            this.groupBox11.Location = new System.Drawing.Point(186, 7);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(136, 43);
-            this.groupBox11.TabIndex = 4;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "FPS";
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 28);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(773, 722);
+            this.tabControl1.TabIndex = 7;
             // 
-            // FPSshow
+            // tabPage1
             // 
-            this.FPSshow.AutoSize = true;
-            this.FPSshow.Location = new System.Drawing.Point(20, 20);
-            this.FPSshow.Name = "FPSshow";
-            this.FPSshow.Size = new System.Drawing.Size(17, 12);
-            this.FPSshow.TabIndex = 1;
-            this.FPSshow.Text = "00";
+            this.tabPage1.Controls.Add(this.RenderOnOffBtn);
+            this.tabPage1.Controls.Add(this.View);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(765, 696);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(192, 74);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // RenderOnOffBtn
+            // 
+            this.RenderOnOffBtn.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.RenderOnOffBtn.Location = new System.Drawing.Point(6, 579);
+            this.RenderOnOffBtn.Name = "RenderOnOffBtn";
+            this.RenderOnOffBtn.Size = new System.Drawing.Size(99, 23);
+            this.RenderOnOffBtn.TabIndex = 6;
+            this.RenderOnOffBtn.Text = "Render On/Off";
+            this.RenderOnOffBtn.UseVisualStyleBackColor = true;
+            this.RenderOnOffBtn.Click += new System.EventHandler(this.RenderOnOff);
             // 
             // skyLabTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 762);
-            this.Controls.Add(this.RenderOnOffBtn);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.Status);
-            this.Controls.Add(this.View);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "skyLabTool";
@@ -937,7 +973,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.Status.ResumeLayout(false);
-            this.CameraModelStat.ResumeLayout(false);
             this.JSONConfig.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -945,10 +980,13 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
-            this.ObjectTool.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
+            this.CameraModelStat.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            this.ObjectTool.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1017,7 +1055,6 @@
         private System.Windows.Forms.TabControl Status;
         private System.Windows.Forms.TabPage CameraModelStat;
         private System.Windows.Forms.TabPage JSONConfig;
-        private System.Windows.Forms.Button RenderOnOffBtn;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox8;
@@ -1038,6 +1075,10 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label FPSshow;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button RenderOnOffBtn;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
