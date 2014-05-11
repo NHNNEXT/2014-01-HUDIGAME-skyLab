@@ -97,11 +97,17 @@ private:
 
 	DWORD m_PrevTime = 0;
 
-	// player list
+	// 충돌한 아이들 저장하기 위한 변수
 	std::set<int>						m_CollidedPlayers;
-	std::array<Actor*, MAX_PLAYER_NUM>	m_ActorList;
-	ISS									m_ISS;
 
+	// player list
+	std::array<Actor*, MAX_PLAYER_NUM>	m_ActorList;
+
+	// teamList - playerId를 저장
+	std::set<int> m_TeamBlue;
+	std::set<int> m_TeamRed;
+
+	ISS									m_ISS;
 
 	// other objects
 	// 지금은 없음요

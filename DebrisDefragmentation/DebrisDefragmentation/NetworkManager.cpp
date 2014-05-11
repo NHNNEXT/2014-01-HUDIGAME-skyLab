@@ -63,8 +63,6 @@ void NetworkManager::SendAcceleration()
 	AccelerarionRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
-	
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -234,6 +232,9 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
 		compassUI->Init();
 		camera->AddChild( compassUI, ORDER_COMPASS_UI );
+
+		// 팀 설정
+		g_PlayerManager->GetPlayer( m_MyPlayerId )->SetTeam( static_cast<TeamColor>(inPacket.mTeamColor) );
 	}
 
 	GameStateRequest outPacket;

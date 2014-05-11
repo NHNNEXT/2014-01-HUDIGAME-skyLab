@@ -22,6 +22,9 @@ public:
 	CREATE_OBJECT_INTEGER( Player , plyerId);
 	void Init();	
 	
+	void		SetTeam( TeamColor color ) { m_ClassComponent->SetTeam( color ); }
+	TeamColor	GetTeam() { m_ClassComponent->GetTeam(); }
+
 	// 현재 바라보는 방향으로 가속도 부여
 	void GoForward() { m_ClassComponent->GoForward( GetViewDirection(), m_RigidBody ); }
 

@@ -244,6 +244,8 @@ void ClientSession::LoginDone( int pid )
 	LoginResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId = pid;
+	outPacket.mTeamColor = static_cast<int>( m_Character.GetTeam() );
+
 	GClientManager->RegisterSession( mPlayerId, this );
 
 	SendRequest( &outPacket );
@@ -376,22 +378,6 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 
 	m_Character.SetCharacterId( characterId );
 	m_Character.Init();
-
-	// 조심해!!
-	// 1. 여기있는게 맞나싶고.. 
-	// 팀별 정하는 부분.. 지금은 들어온순서대로 차례차례 배치함
-	// 나중에 캐릭터 진영 결정하는 부분 추가할 때 정리할 것.
-	// 04.29 김성환
-
-	///# 좋지 않은 코드다.. 이게 순서대로 된다는 보장이 있남? 위의 ActorManager::RegisterUser에서 순서대로  charId를 반환한다는 보장이 있나?
-	if ( characterId % 2 == 1 )
-	{
-		m_Character.GetClassComponent().SetTeam( TeamColor::BLUE );
-	}
-	else
-	{
-		m_Character.GetClassComponent().SetTeam( TeamColor::RED );
-	}
 	m_Character.InitTeamPosition();
 
 	// 접속한 아이에게 아이디를 할당해준다.
@@ -477,12 +463,9 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 이걸 멤버 유저에게 적용하고 
-	m_Character.SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
+	// 조심해!!
+	// 추진제 잔량 확인해서 잔량 안 되면 안 보낸다.
 	m_Character.GoForward();
-
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
-	///# 적용에 문제가 있는 경우는 어떤 경우인가? 그런 경우가 있다면 에러 처리 확실하게.
 
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -511,10 +494,9 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 이걸 멤버 유저에게 적용하고 
+	// 이걸 멤버 유저에게 적용하고 - 멈추는 건 자유다
 	m_Character.Stop();
 
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	StopResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
@@ -542,12 +524,11 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 이걸 멤버 유저에게 적용하고  
+	// 이걸 멤버 유저에게 적용하고 - 회전도 자유다
 	//m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 	// turn body는 increase가 아니라 set을 사용함
 	m_Character.SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	RotationResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
@@ -596,7 +577,6 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 
 	targetCharacter->SetAccelerarion( targetCharacter->GetPosition() - m_Character.GetPosition() );
 	
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	SkillPushResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
@@ -651,7 +631,6 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 
 	targetCharacter->SetAccelerarion( m_Character.GetPosition() - targetCharacter->GetPosition() );
 
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송!
 	SkillPushResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
@@ -682,6 +661,8 @@ void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
+	// 판단은 서버가 한다! - 이런거 보내지 마라
+
 	// printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	DeadResult outPacket;
@@ -710,6 +691,8 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	m_Character.InitTeamPosition();
 	
 	printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
+
+	// 이것도 보내지 마라
 
 	// 조심해!!! 
 	// 클래스 추가하고 구현할 때,

@@ -112,7 +112,8 @@ void Character::ChangeClass( CharacterClass newClass )
 	case CharacterClass::PROTECTOR:
 		// break;
 	default:
-		m_ClassCompnent = nullptr;
+		// 여기 들어오지 마라
+		assert( false );
 		break;
 	}
 }

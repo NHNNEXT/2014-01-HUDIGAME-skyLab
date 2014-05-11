@@ -57,7 +57,7 @@ public:
 
 
 	TeamColor	GetTeam() const { return m_Team; }
-	void	SetTeam( TeamColor val ) { m_Team = val; }
+	void		SetTeam( TeamColor val ) { m_Team = val; }
 
 protected:	
 	bool		m_IsAccelerating = false;

@@ -27,6 +27,9 @@ public:
 	void	SetAccelerarion( const D3DXVECTOR3 &direction );
 	void	IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
 
+	void		SetTeam( TeamColor color ) { m_CharacterClass->SetTeam( color ); }
+	TeamColor	GetTeam() { return m_CharacterClass->GetTeam(); }
+
 	D3DXVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
 
 	// 지정한 축과 각속도로 자전

@@ -21,7 +21,17 @@ ActorManager::~ActorManager()
 void ActorManager::Init( )
 {
 	m_PrevTime = timeGetTime( );
+
 	m_ISS.Init();
+	m_TeamBlue.clear();
+	m_TeamRed.clear();
+
+	std::for_each( m_ActorList.begin(), m_ActorList.end(), []( Actor* each )
+	{
+		each = nullptr;
+	} 
+	);
+
 	// InitializeSRWLock( &m_SRWLock );
 }
 
@@ -37,6 +47,19 @@ int ActorManager::RegisterUser( Actor* newActor )
 		if ( m_ActorList[actorId] == nullptr )
 		{
 			m_ActorList[actorId] = newActor;
+
+			// 팀 추가 - 더 적은 팀에 배치
+			if ( m_TeamBlue.size() < m_TeamRed.size() )
+			{
+				m_ActorList[actorId]->SetTeam( TeamColor::BLUE );
+				m_TeamBlue.insert( actorId );
+			}
+			else
+			{
+				m_ActorList[actorId]->SetTeam( TeamColor::RED );
+				m_TeamRed.insert( actorId );
+			}
+
 			return actorId;
 		}
 	}
@@ -68,6 +91,10 @@ void ActorManager::DeleteActor( int actorId )
 {
 	if ( m_ActorList[actorId] != nullptr )
 	{
+		// 일단 배치된 팀에서 빼자.
+		m_TeamBlue.erase( actorId );
+		m_TeamRed.erase( actorId );
+
 		// 객체의 삭제는 생성한 clientSession에서 한다
 		// delete m_ActorList[actorId];
 		m_ActorList[actorId] = nullptr;
@@ -260,11 +287,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int 
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
 	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetPosition();
 
-	// 조심해!
-	// team color는 임시로 홀짝으로 구분 ///# 결국 기술부채
-	TeamColor callerColor = ( actorId % 2 == 0 ) ? TeamColor::RED : TeamColor::BLUE;
-
-	return m_ISS.Occupy( viewDirection, startPoint, callerColor );
+	return m_ISS.Occupy( viewDirection, startPoint, m_ActorList[actorId]->GetTeam() );
 }
 
 std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x, float y, float z )

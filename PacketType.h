@@ -131,9 +131,12 @@ struct LoginResult : public PacketHeader
 		mSize = sizeof( LoginResult );
 		mType = PKT_SC_LOGIN;
 		mPlayerId = -1;
+
+		mTeamColor = -1;
 	}
 
 	int		mPlayerId;
+	int		mTeamColor;
 };
 
 // 가속 좀 하겠습니다.
@@ -147,8 +150,6 @@ struct AccelerarionRequest : public PacketHeader
 	}
 
 	int	mPlayerId;
-
-	Float3D mRotation;
 };
 
 // 가속 - id, 위치, 속도, 방향(현재 회전 각도 - 나중에는 행렬자체를 넘겨야 할 수도 있어)

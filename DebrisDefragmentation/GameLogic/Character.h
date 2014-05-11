@@ -22,12 +22,9 @@ public:
 	int		GetCharacterId() const { return m_CharacterId; }
 	void	SetCharacterId( int characterId ) { m_CharacterId = characterId; }
 
-	
-
 private:
 	virtual void UpdateItSelf( float dTime );
 
-	int				m_CharacterId = -1;
-	ClassComponent*	m_ClassCompnent = nullptr;
+	int m_CharacterId = -1;
 };
 
