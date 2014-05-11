@@ -20,6 +20,7 @@ public:
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
 	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation(x,y,z); }
 
+	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
 	void	AddForce( const D3DXVECTOR3 &direction );
 
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }

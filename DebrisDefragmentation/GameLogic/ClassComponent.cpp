@@ -97,5 +97,8 @@ void ClassComponent::AddForce( const D3DXVECTOR3 &direction )
 	SetAccelerationStartTime( timeGetTime() );
 	SetIsAccelerating( true );
 
-	m_Rigidbody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
+	D3DXVECTOR3 normalVec( ZERO_VECTOR3 );
+	D3DXVec3Normalize( &normalVec, &direction );
+
+	m_Rigidbody.m_Acceleration += ( normalVec * PUSHPULL_WEIGHT );
 }

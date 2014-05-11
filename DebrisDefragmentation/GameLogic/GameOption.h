@@ -89,6 +89,7 @@ const float ISS_BASE_DAMAGE = 0.1f;
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
 const unsigned int	MAX_PLAYER_NUM = REAL_PLAYER_NUM * 2; // 더미 플레이어 수에 맞추도록 * 2함
 const float			ACCELERATION_WEIGHT = 1.0f;
+const float			PUSHPULL_WEIGHT = 5.0f;
 const float			COLLISION_ACCELERATION_WEIGHT = 0.5f;
 const unsigned int	ACCELERATION_TIME = 500;
 

@@ -16,17 +16,18 @@ Actor::~Actor()
 }
 
 
-void Actor::SetAccelerarion( const D3DXVECTOR3 &direction )
-{
-	m_CharacterClass->SetAccelerationStartTime( timeGetTime() );
-	m_CharacterClass->SetIsAccelerating( true );
-
-	m_RigidBody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
-}
+// void Actor::SetAccelerarion( const D3DXVECTOR3 &direction )
+// {
+// 	m_CharacterClass->SetAccelerationStartTime( timeGetTime() );
+// 	m_CharacterClass->SetIsAccelerating( true );
+// 
+// 	m_RigidBody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
+// }
 
 void Actor::IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity )
 {
-	m_RigidBody.m_Velocity += deltaVelocity;
+	//m_RigidBody.m_Velocity += deltaVelocity;
+	m_CharacterClass->SetVelocity( m_CharacterClass->GetVelocity() + deltaVelocity );
 }
 
 void Actor::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

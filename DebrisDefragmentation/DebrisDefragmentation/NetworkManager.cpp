@@ -307,9 +307,10 @@ void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	targetPlayer->GoForward();
-// 	targetPlayer->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-// 	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	//targetPlayer->GoForward();
+	targetPlayer->GetClassComponent()->AddForce( DDVECTOR3( inPacket.mForce.x, inPacket.mForce.y, inPacket.mForce.z ) );
+	targetPlayer->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	targetPlayer->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 
 	if ( inPacket.mSpinAxis.x == 0.0f && inPacket.mSpinAxis.y == 0.0f && inPacket.mSpinAxis.z == 0.0f )
 		return;
@@ -327,7 +328,7 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	targetPlayer->GoForward();
+	targetPlayer->GetClassComponent()->AddForce( DDVECTOR3( inPacket.mForce.x, inPacket.mForce.y, inPacket.mForce.z ) );
 	targetPlayer->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
 	targetPlayer->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 

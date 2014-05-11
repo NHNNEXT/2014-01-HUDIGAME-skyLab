@@ -28,7 +28,7 @@ void ISS::UpdateItSelf( float dTime )
 	// 자신의 위치에 따라서 m_Matrix 업데이트
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	Physics::CalcCurrentPosition( &tmpVec3, m_RigidBody.m_Velocity, dTime );
+	Physics::CalcCurrentPosition( &tmpVec3, m_CharacterClass->GetVelocity(), dTime );
 	GetTransform().SetPosition( tmpVec3 );
 
 	// m_Matrix에 결과 저장
@@ -100,9 +100,10 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		);
 
 		// 이동
-		m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+		//m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
+		m_CharacterClass->SetVelocity( D3DXVECTOR3( .0f, .0f, (blueCount - redCount) * ISS_MOVE_WEIGHT ) );
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), GetTransform().GetPositionZ(), m_RigidBody.m_Velocity.z );
+		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), GetTransform().GetPositionZ(), m_CharacterClass->GetVelocity().z );
 	}
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );

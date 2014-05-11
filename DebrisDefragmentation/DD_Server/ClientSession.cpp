@@ -573,8 +573,8 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	printf_s( "push target : %d\n", targetId );
 	
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
-
-	targetCharacter->SetAccelerarion( targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition() );
+	D3DXVECTOR3 force = targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition();
+	targetCharacter->GetClassComponent().AddForce( force );
 	
 	SkillPushResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -583,6 +583,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	D3DXVECTOR3toFloat3D( outPacket.mPos, targetCharacter->GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, targetCharacter->GetVelocity() );
 	D3DXVECTOR3toFloat3D( outPacket.mSpinAxis, spinAxis );
+	D3DXVECTOR3toFloat3D( outPacket.mForce, force );
 
 	// printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
 
@@ -622,9 +623,8 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	// for debugging
 	printf_s( "pull target : %d\n", targetId );
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
-
-	targetCharacter->SetAccelerarion( m_Character.GetTransform().GetPosition() - targetCharacter->GetTransform().GetPosition() );
-	
+	D3DXVECTOR3 force = targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition();
+	targetCharacter->GetClassComponent().AddForce( -force );
 
 	SkillPullResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -633,6 +633,7 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	D3DXVECTOR3toFloat3D( outPacket.mPos, targetCharacter->GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, targetCharacter->GetVelocity() );
 	D3DXVECTOR3toFloat3D( outPacket.mSpinAxis, spinAxis );
+	D3DXVECTOR3toFloat3D( outPacket.mForce, -force );
 
 	outPacket.mSpinAngularVelocity = 1.0f;
 

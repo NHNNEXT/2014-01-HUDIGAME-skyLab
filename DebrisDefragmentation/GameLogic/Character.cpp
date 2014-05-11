@@ -80,7 +80,9 @@ void Character::UpdateItSelf( float dTime )
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_CharacterClass->GetSpinTime() );
+		D3DXVECTOR3 tmpSpinAxis = GetClassComponent().GetSpinAxis();
+		float tmpSpinAngle = GetClassComponent().GetSpinAngle();
+		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_CharacterClass->GetSpinTime() );
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 	}
 
@@ -89,14 +91,16 @@ void Character::UpdateItSelf( float dTime )
 		if ( timeGetTime( ) - m_CharacterClass->GetAccelerationStartTime() > ACCELERATION_TIME )
 		{
 			// 가속 끝났다
-			m_CharacterClass->SetIsAccelerating( false );
-			m_RigidBody.m_Acceleration = D3DXVECTOR3( 0, 0, 0 );
+			m_CharacterClass->SetIsAccelerating( false );			
+			m_CharacterClass->SetAcceleration( ZERO_VECTOR3 );
 		}
 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	Physics::CalcCurrentPosition( &tmpVec3, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	D3DXVECTOR3 tmpVel = GetClassComponent().GetVelocity();
+	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetClassComponent().GetAcceleration(), dTime );
 	GetTransform().SetPosition( tmpVec3 );
+	GetClassComponent().SetVelocity( tmpVel );
 
 	// printf_s( "%f / %f / %f\n", m_Position.x, m_Position.y, m_Position.z );
 }

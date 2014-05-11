@@ -222,8 +222,8 @@ void ActorManager::CheckCollision()
 					return;
 				}
 
-				float iMass = m_ActorList[i]->GetMass();
-				float jMass = m_ActorList[j]->GetMass();
+				float iMass = m_ActorList[i]->GetClassComponent().GetMass();
+				float jMass = m_ActorList[j]->GetClassComponent().GetMass();
 
 				float iVelocity = D3DXVec3Dot( &( m_ActorList[i]->GetVelocity() ), &collisionDirection );
 				float jVelocity = D3DXVec3Dot( &( m_ActorList[j]->GetVelocity() ), &collisionDirection );

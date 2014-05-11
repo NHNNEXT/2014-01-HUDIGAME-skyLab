@@ -11,9 +11,6 @@
     <Filter Include="Scene\Environment">
       <UniqueIdentifier>{c0cb755e-35b8-4fdc-89b8-c597160ccf9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Objects">
-      <UniqueIdentifier>{30ca701b-63f9-4417-9a35-ae3e59c26223}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Character">
       <UniqueIdentifier>{3170486a-84bb-4930-a465-eac2f81f6310}</UniqueIdentifier>
     </Filter>
@@ -29,8 +26,11 @@
     <Filter Include="GameManagers">
       <UniqueIdentifier>{919601a6-5c8f-474d-91d8-1cd4edbe7ab9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\obj">
+    <Filter Include="Scene\BaseObjects">
       <UniqueIdentifier>{2764fdb6-45b6-4105-ba5e-15f7ef1d8afd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObjects">
+      <UniqueIdentifier>{30ca701b-63f9-4417-9a35-ae3e59c26223}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +41,7 @@
       <Filter>Scene\Player</Filter>
     </ClCompile>
     <ClCompile Include="Debris.cpp">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="GameData.cpp">
       <Filter>GameManagers</Filter>
@@ -66,34 +66,34 @@
       <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="CompassUI.cpp">
       <Filter>Scene\Player</Filter>
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="ObjectISS.cpp">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="ISSModel.cpp">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="DDLight.cpp">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
     <ClCompile Include="DDModel.cpp">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
     <ClCompile Include="DDUI.cpp">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
     <ClCompile Include="DDCamera.cpp">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
     <ClCompile Include="ClientObject.cpp">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,7 +104,7 @@
       <Filter>Scene\Player</Filter>
     </ClInclude>
     <ClInclude Include="Debris.h">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h">
       <Filter>GameManagers</Filter>
@@ -132,34 +132,34 @@
       <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="CompassUI.h">
       <Filter>Scene\Player</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="ObjectISS.h">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="ISSModel.h">
-      <Filter>Scene\Objects</Filter>
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="DDLight.h">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
     <ClInclude Include="DDModel.h">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
     <ClInclude Include="DDUI.h">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
     <ClInclude Include="DDCamera.h">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
     <ClInclude Include="ClientObject.h">
-      <Filter>Scene\obj</Filter>
+      <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

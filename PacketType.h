@@ -390,6 +390,7 @@ struct SkillPushResult : public PacketHeader
 	Float3D mPos;
 	Float3D mVelocity;
 	Float3D mSpinAxis;
+	Float3D mForce;
 
 	float mSpinAngularVelocity;
 };
@@ -433,6 +434,7 @@ struct SkillPullResult : public PacketHeader
 	Float3D mPos;
 	Float3D mVelocity;
 	Float3D mSpinAxis;
+	Float3D mForce;
 
 	float mSpinAngularVelocity;
 };
