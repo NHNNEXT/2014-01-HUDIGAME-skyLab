@@ -27,6 +27,7 @@ namespace GameTool.Class
 
     class JSONInOut
     {
+        DDWrapper.GameEnvironment m_Environment = new DDWrapper.GameEnvironment();
         JsonObjectCollection m_JsonCollection = new JsonObjectCollection();
         const string m_jsonFilePath = @".\Resources\Json\";
 
@@ -71,7 +72,7 @@ namespace GameTool.Class
         {
             lb.Items.Clear();
 
-            lb.Items.Add("debrisNumber : " + m_JsonCollection["debrisNumber"].GetValue().ToString());
+            lb.Items.Add("debrisNumber : " + m_JsonCollection[m_Environment.GetJsonKey((int)DDWrapper.JsonKeyValues.JSON_DEBRIS_NUMBER)].GetValue().ToString());
         }
 
         // JSON 데이터 가져오는 곳
@@ -80,7 +81,7 @@ namespace GameTool.Class
             switch(variable)
             {
                 case ENUM_JSONVAR.DEBRIS_NUMBER:
-                    return Convert.ToUInt32(m_JsonCollection["debrisNumber"].GetValue());
+                    return Convert.ToUInt32(m_JsonCollection[m_Environment.GetJsonKey((int)DDWrapper.JsonKeyValues.JSON_DEBRIS_NUMBER)].GetValue());
                 default:
                     return 0;
             }

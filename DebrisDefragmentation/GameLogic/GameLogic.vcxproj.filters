@@ -127,4 +127,9 @@
       <Filter>Object\ISS</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\GameTool\Class\JsonEnum.cs">
+      <Filter>Config</Filter>
+    </None>
+  </ItemGroup>
 </Project>

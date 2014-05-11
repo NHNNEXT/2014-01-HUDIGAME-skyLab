@@ -81,8 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DDWrapper.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameEnvironment.h" />
     <ClInclude Include="GameInputSystem.h" />
     <ClInclude Include="GameLight.h" />
     <ClInclude Include="GameModel.h" />
@@ -95,8 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="DDWrapper.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameEnvironment.cpp" />
     <ClCompile Include="GameInputSystem.cpp" />
     <ClCompile Include="GameLight.cpp" />
     <ClCompile Include="GameModel.cpp" />

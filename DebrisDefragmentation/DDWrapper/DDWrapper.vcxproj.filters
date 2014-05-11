@@ -34,11 +34,13 @@
     <ClInclude Include="GameClassComponent.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="DDWrapper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="GameInputSystem.h">
       <Filter>DDFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnvironment.h">
+      <Filter>GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,10 +66,12 @@
       <Filter>GameLogic</Filter>
     </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="DDWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp" />
     <ClCompile Include="GameInputSystem.cpp">
       <Filter>DDFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnvironment.cpp">
+      <Filter>GameLogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
