@@ -95,21 +95,23 @@ void Player::UpdateItSelf( float dTime )
 		{
 			// 가속 끝났다
 			m_ClassComponent->SetIsAccelerating( false );
-			m_RigidBody.m_Acceleration = DDVECTOR3( 0, 0, 0 );
+			m_RigidBody.m_Acceleration = ZERO_VECTOR3;
 		}
 	}
 
-	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
+	Physics::CalcCurrentPosition( &tmpVec3, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	GetTransform().SetPosition( tmpVec3 );
 }
 
 void Player::LookAt( float x, float y, float z )
 {
-	g_PlayerManager->GetCamera()->IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_SENSITIVITY );
+	g_PlayerManager->GetCamera()->GetTransform().IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_SENSITIVITY );
 }
 
 void Player::TurnBody( float x, float y, float z )
 {
-	m_ClassComponent->TurnBody( m_Rotation, x, y, z );		
+	m_ClassComponent->TurnBody( m_Transform, x, y, z );		
 }
 
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

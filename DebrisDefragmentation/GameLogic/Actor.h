@@ -48,7 +48,7 @@ public:
 
 protected:
 	std::shared_ptr<ClassComponent> m_CharacterClass;
-	Rigidbody	m_RigidBody;
+	Rigidbody	m_RigidBody;	
 	bool		m_MovingFlag = true;
 
 private:

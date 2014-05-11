@@ -313,7 +313,7 @@ void ClientSession::BroadcastCollisionResult()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
@@ -330,7 +330,7 @@ void ClientSession::SyncCurrentStatus()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
@@ -348,7 +348,7 @@ void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
@@ -402,9 +402,9 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	NewResult newPlayerPacket;
 	newPlayerPacket.mPlayerId = mPlayerId;
 
-	D3DXVECTOR3toFloat3D( newPlayerPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( newPlayerPacket.mPos, m_Character.GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( newPlayerPacket.mVelocity, m_Character.GetVelocity() );
-	D3DXVECTOR3toFloat3D( newPlayerPacket.mRotation, m_Character.GetRotation() );
+	D3DXVECTOR3toFloat3D( newPlayerPacket.mRotation, m_Character.GetTransform().GetRotation() );
 
 	if ( !Broadcast( &newPlayerPacket ) )
 	{
@@ -463,16 +463,15 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 조심해!!
-	// 추진제 잔량 확인해서 잔량 안 되면 안 보낸다.
+	// 이걸 멤버 유저에게 적용하고 	
 	m_Character.GoForward();
 
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetTransform().GetPosition() );
 	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetRotation() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetTransform().GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -502,7 +501,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 
 	// printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetTransform().GetPosition() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -527,12 +526,12 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	// 이걸 멤버 유저에게 적용하고 - 회전도 자유다
 	//m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 	// turn body는 increase가 아니라 set을 사용함
-	m_Character.SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
+	m_Character.GetTransform().SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 
 	RotationResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetRotation() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetTransform().GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -571,19 +570,18 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 
 	// 타겟이 있으면 
 	// for debugging
-	printf_s( "target : %d\n", targetId );
+	printf_s( "push target : %d\n", targetId );
 	
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 
-	targetCharacter->SetAccelerarion( targetCharacter->GetPosition() - m_Character.GetPosition() );
+	targetCharacter->SetAccelerarion( targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition() );
 	
 	SkillPushResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
 
-	D3DXVECTOR3 position = targetCharacter->GetPosition();
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, targetCharacter->GetTransform().GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, targetCharacter->GetVelocity() );
 	D3DXVECTOR3toFloat3D( outPacket.mSpinAxis, spinAxis );
 
 	// printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
@@ -610,10 +608,6 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
-	// 같은 이유
-	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
-
 	// 우선 타겟이 있는지 확인
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis;
@@ -626,17 +620,18 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 
 	// 타겟이 있으면 
 	// for debugging
-	printf_s( "target : %d\n", targetId );
+	printf_s( "pull target : %d\n", targetId );
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 
-	targetCharacter->SetAccelerarion( m_Character.GetPosition() - targetCharacter->GetPosition() );
+	targetCharacter->SetAccelerarion( m_Character.GetTransform().GetPosition() - targetCharacter->GetTransform().GetPosition() );
+	
 
-	SkillPushResult outPacket;
+	SkillPullResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mVelocity, m_Character.GetVelocity() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, targetCharacter->GetTransform().GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mVelocity, targetCharacter->GetVelocity() );
 	D3DXVECTOR3toFloat3D( outPacket.mSpinAxis, spinAxis );
 
 	outPacket.mSpinAngularVelocity = 1.0f;
@@ -705,8 +700,8 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mCharacterClass = inPacket.mCharacterClass;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetRotation() );
+	D3DXVECTOR3toFloat3D( outPacket.mPos, m_Character.GetTransform().GetPosition() );
+	D3DXVECTOR3toFloat3D( outPacket.mRotation, m_Character.GetTransform().GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

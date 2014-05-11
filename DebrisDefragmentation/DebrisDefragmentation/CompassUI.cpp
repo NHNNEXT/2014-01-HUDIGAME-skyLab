@@ -20,7 +20,7 @@ CompassUI::CompassUI()
 
 CompassUI::CompassUI( std::wstring modelPath ) : DDModel( modelPath )
 {
-	SetPosition( 0.0f, 0.0f, 0.0f );
+	GetTransform().SetPosition( 0.0f, 0.0f, 0.0f );
 }
 
 CompassUI::~CompassUI()
@@ -81,15 +81,15 @@ void CompassUI::RenderItSelf()
 
 	D3DXQUATERNION	qRotation;
 
-	D3DXMatrixIdentity( &m_Matrix );
-
-	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
-
-	// matrix를 affine변환이 적용된 형태로 변환	
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
+// 	D3DXMatrixIdentity( &m_Matrix );
+// 
+// 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
+// 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( GetTransform().GetRotationZ() ) );
+// 
+// 	// matrix를 affine변환이 적용된 형태로 변환	
+// 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 	
-	
+	m_Matrix = GetTransform().MatrixTransform();
 	/**** tilt transform ****/
 
 	/* 각도를 구하는 과정 */
@@ -98,7 +98,7 @@ void CompassUI::RenderItSelf()
 	D3DXMatrixMultiply( &parentTransform, &m_Matrix, &parentTransform );
 
 	D3DXVECTOR4 tempPos;
-	D3DXVec3Transform( &tempPos, &m_Position, &parentTransform );
+	D3DXVec3Transform( &tempPos, &GetTransform().GetPosition(), &parentTransform );
 	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
 
 	// ObjectISS의 위치는 ObjectISS의 위치 그대로 사용 - 이미 월드 좌표계

@@ -9,6 +9,7 @@
 
 #include "GameOption.h"
 #include "CollisionBox.h"
+#include "Transform.h"
 
 class BaseObject
 {
@@ -18,20 +19,22 @@ public:
 
 	virtual void Update( float dTime );
 
-	void SetPosition( D3DXVECTOR3 pos ) { m_Position = pos; }
-	void SetPosition( float x, float y, float z ) { m_Position = D3DXVECTOR3( x, y, z ); }
-	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = D3DXVECTOR3( scaleX, scaleY, scaleZ ); }
-	void SetRotation( D3DXVECTOR3 rot ) { m_Rotation = rot; }
-	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = D3DXVECTOR3( rotationX, rotationY, rotationZ ); }
-	
-
-	D3DXVECTOR3 GetPosition() const { return m_Position; }
-	D3DXVECTOR3 GetScale() const { return m_Scale; }
-	D3DXVECTOR3 GetRotation() const { return m_Rotation; }
-	void		IncreaseRotation(float x, float y, float z)	{ m_Rotation += D3DXVECTOR3( x, y, z ); }
+// 	void SetPosition( D3DXVECTOR3 pos ) { m_Position = pos; }
+// 	void SetPosition( float x, float y, float z ) { m_Position = D3DXVECTOR3( x, y, z ); }
+// 	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = D3DXVECTOR3( scaleX, scaleY, scaleZ ); }
+// 	void SetRotation( D3DXVECTOR3 rot ) { m_Rotation = rot; }
+// 	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = D3DXVECTOR3( rotationX, rotationY, rotationZ ); }
+// 	
+// 
+// 	D3DXVECTOR3 GetPosition() const { return m_Position; }
+// 	D3DXVECTOR3 GetScale() const { return m_Scale; }
+// 	D3DXVECTOR3 GetRotation() const { return m_Rotation; }
+// 	void		IncreaseRotation(float x, float y, float z)	{ m_Rotation += D3DXVECTOR3( x, y, z ); }
 	
 	// 현재 바라보는 방향의 벡터를 월드좌표계 기준으로 반환
 	D3DXVECTOR3 GetViewDirection();
+
+	Transform& GetTransform() { return m_Transform; }
 
 	// 인자로 넣은 회전 변환을 적용한 상태에서 바라보는 방향을 월드 좌표계 기준으로 반환
 	D3DXVECTOR3 GetViewDirection( float x, float y, float z );
@@ -41,9 +44,10 @@ public:
 
 protected:
 	D3DXMATRIXA16	m_Matrix;
-	D3DXVECTOR3		m_Position{ 0.0f, 0.0f, 0.0f };
-	D3DXVECTOR3		m_Rotation{ 0.0f, 0.0f, 0.0f };
-	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
+	Transform		m_Transform;
+// 	D3DXVECTOR3		m_Position{ 0.0f, 0.0f, 0.0f };
+// 	D3DXVECTOR3		m_Rotation{ 0.0f, 0.0f, 0.0f };
+// 	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 	CollisionBox	m_CollisionBox;		// 충돌 박스의 기본 값 저장
 	CollisionBox	m_TtransformedBox;	// 물체가 회전함에 따라 기본 박스가 변형된 값 저장
 

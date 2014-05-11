@@ -57,7 +57,7 @@ void PlayScene::Init()
 
 	// earth :: 바닥에 지구를 깐다!
 	DDModel* earth = DDModel::Create( L"earth.x" );
-	earth->SetPosition( 0, -800, 0 );
+	earth->GetTransform().SetPosition( 0, -800, 0 );
 	AddChild( earth );
 
 	// test debris
@@ -68,12 +68,12 @@ void PlayScene::Init()
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
 		tempDebris = Debris::Create( L"debris.x" );
-		tempDebris->SetPosition(
+		tempDebris->GetTransform().SetPosition(
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20
 			);
-		tempDebris->SetScale( 0.1f, 0.1f, 0.1f );
+		tempDebris->GetTransform().SetScale( 0.1f, 0.1f, 0.1f );
 
 		AddChild( tempDebris );
 	}
@@ -257,7 +257,7 @@ void PlayScene::AddUI()
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_OXYGEN_TAG, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FRAME_TAG, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
 	// frame 크기는 60%로
-	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->SetScale( 0.6f, 0.6f, 0.6f );
+	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->GetTransform().SetScale( 0.6f, 0.6f, 0.6f );
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FUEL_TAG, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 }
 
@@ -275,8 +275,8 @@ void PlayScene::UpdateUI()
 	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->SetScale( currentOxygen / static_cast<float>(DEFAULT_OXYGEN), 1, 1 );
-	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->SetScale( currentFuel / static_cast<float>( DEFAULT_FUEL ), 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen / static_cast<float>( DEFAULT_OXYGEN ), 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / static_cast<float>( DEFAULT_FUEL ), 1, 1 );
 }
 
 void PlayScene::UpdateISS()

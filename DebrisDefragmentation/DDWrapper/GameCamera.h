@@ -11,11 +11,11 @@ namespace DDWrapper
 		GameCamera(float width, float height);
 		~GameCamera();
 
-		const float GetPositionX() { return m_pObject->GetPositionX(); }
-		const float GetPositionY() { return m_pObject->GetPositionY(); }
-		const float GetPositionZ() { return m_pObject->GetPositionZ(); }
-
-		void SetPosition( float x, float y, float z ) { m_pObject->SetPosition( x, y, z ); };
+// 		const float GetPositionX() { return m_pObject->GetPositionX(); }
+// 		const float GetPositionY() { return m_pObject->GetPositionY(); }
+// 		const float GetPositionZ() { return m_pObject->GetPositionZ(); }
+// 
+// 		void SetPosition( float x, float y, float z ) { m_pObject->SetPosition( x, y, z ); };
 		// 왜 static_cast냐면 dynamic_cast는 캐스팅이 안 될 수도 있기 때문입니다 물론 static_cast 쓰면 더 위험
 		// void Render() { static_cast<DDCamera*>(m_pObject)->Render(); };
 		void SetFollwingObject( GameObject^ obj ) { dynamic_cast<DDCamera*>( m_pObject )->SetFollowingObject( obj->GetPointer() ); }

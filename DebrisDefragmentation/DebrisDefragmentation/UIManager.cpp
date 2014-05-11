@@ -25,7 +25,7 @@ DDUI* UIManager::CreateUI( ClientUITag tag, float x, float y )
 	// 해당하는 List 인덱스에 UI를 만든다
 	m_UIObjectList[index] = DDUI::Create();
 	m_UIObjectList[index]->InitUI( filePath );
-	m_UIObjectList[index]->SetPosition( x, y, 0 );
+	m_UIObjectList[index]->GetTransform().SetPosition( x, y, 0 );
 
 	return m_UIObjectList[index];
 }

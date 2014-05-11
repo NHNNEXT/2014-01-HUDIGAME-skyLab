@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "GameOption.h"
 #include "GameMacro.h"
+#include "Transform.h"
 
 //전방선언
 struct Rigidbody;
@@ -19,7 +20,9 @@ public:
 	void	Stop( Rigidbody& rigidbody );	// 가속도 및 속도 0으로 변경	
 
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
-	void	TurnBody( D3DXVECTOR3& rotation, float x, float y, float z ) { rotation = D3DXVECTOR3( x, y, z ); } 
+	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation(x,y,z); }
+
+	void	SetAcceleration( const D3DXVECTOR3 &direction );
 
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }
 	void	SetAccelerationStartTime( DWORD val ) { m_AccelerationStartTime = val; }
@@ -63,7 +66,7 @@ protected:
 	bool		m_IsAccelerating = false;
 	bool		m_IsSpin = false;	
 	
-	TeamColor		m_Team = TeamColor::NO_TEAM;
+	TeamColor	m_Team = TeamColor::NO_TEAM;
 
 	// 산소 및 추진체 관련
 	int			m_Oxygen = DEFAULT_OXYGEN;

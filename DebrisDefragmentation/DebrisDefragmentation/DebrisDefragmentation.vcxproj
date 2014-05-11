@@ -84,8 +84,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CharacterModel.cpp" />
+    <ClCompile Include="DDCamera.cpp" />
+    <ClCompile Include="DDLight.cpp" />
+    <ClCompile Include="DDModel.cpp" />
+    <ClCompile Include="DDUI.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="ISSModel.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
     <ClCompile Include="main.cpp" />
@@ -105,8 +110,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
     <ClInclude Include="CharacterModel.h" />
+    <ClInclude Include="DDCamera.h" />
+    <ClInclude Include="DDLight.h" />
+    <ClInclude Include="DDModel.h" />
+    <ClInclude Include="DDUI.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="ClientObject.h" />
     <ClInclude Include="ISSModel.h" />
     <ClInclude Include="ObjectISS.h" />
     <ClInclude Include="main.h" />

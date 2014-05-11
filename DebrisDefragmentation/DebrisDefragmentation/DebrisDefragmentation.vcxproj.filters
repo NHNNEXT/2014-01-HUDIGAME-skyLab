@@ -29,6 +29,9 @@
     <Filter Include="GameManagers">
       <UniqueIdentifier>{919601a6-5c8f-474d-91d8-1cd4edbe7ab9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\obj">
+      <UniqueIdentifier>{2764fdb6-45b6-4105-ba5e-15f7ef1d8afd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -76,6 +79,21 @@
     </ClCompile>
     <ClCompile Include="ISSModel.cpp">
       <Filter>Scene\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DDLight.cpp">
+      <Filter>Scene\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="DDModel.cpp">
+      <Filter>Scene\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="DDUI.cpp">
+      <Filter>Scene\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="DDCamera.cpp">
+      <Filter>Scene\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientObject.cpp">
+      <Filter>Scene\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +145,21 @@
     </ClInclude>
     <ClInclude Include="ISSModel.h">
       <Filter>Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DDLight.h">
+      <Filter>Scene\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="DDModel.h">
+      <Filter>Scene\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="DDUI.h">
+      <Filter>Scene\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="DDCamera.h">
+      <Filter>Scene\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientObject.h">
+      <Filter>Scene\obj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

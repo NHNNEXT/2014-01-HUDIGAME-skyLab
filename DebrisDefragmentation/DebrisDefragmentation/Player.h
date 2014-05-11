@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "DDObject.h"
+#include "ClientObject.h"
 #include "DDModel.h"
 #include "rigidbody.h"
 #include "ClassComponent.h"
@@ -11,7 +11,7 @@ class CharacterModel;
 
 // avatar를 멤버변수로 컴퍼짓함 
 class Player :
-	public DDObject
+	public ClientObject
 {
 public:
 	Player();

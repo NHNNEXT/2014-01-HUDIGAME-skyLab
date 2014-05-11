@@ -7,7 +7,7 @@
 #include "ISSModule.h"
 
 class ObjectISS :
-	public DDObject
+	public ClientObject
 {
 public:
 	ObjectISS();

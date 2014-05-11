@@ -123,7 +123,7 @@ const float			CHARACTER_CB_CENTER_POS_Z = 0.0f;
 // 추진체 관련
 const int			OXYGEN_COUNSUMED = 1;
 const int			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10;
-const int			GAS_FOR_GOFORWARD = 30;
+const int			FUEL_FOR_GOFORWARD = 30;
 
 const int			DEFAULT_OXYGEN = 3000;
 const int			DEFAULT_FUEL = 5000;
@@ -166,7 +166,7 @@ const std::array<std::wstring, size_t( ClientUITag::UI_TAG_COUNT )> UI_FILENAME_
 
 // Config
 #define				USE_LOCAL_SERVER
-//#define				USE_CHARACTER_COLLISION_BOX
+#define				USE_CHARACTER_COLLISION_BOX
 const bool			MOUSE_POINTER_ON = true;
 const float			MOUSE_ROTATION_SENSITIVITY = 0.1f;
 

@@ -38,17 +38,7 @@ void DDObject::Update( float dTime )
 }
 
 void DDObject::AffineTransfrom()
-{
-	D3DXQUATERNION	qRotation;	
-
-	D3DXMatrixIdentity( &m_Matrix );
-
-	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z) );
-
-	// matrix를 affine변환이 적용된 형태로 변환	
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
-
+{	
 	// 부모의 좌표계에다 내 변환된 좌표계를 누적 시킨다!
 	// 부모의 어파인 변환을 적용
 	if ( nullptr != m_pParent )

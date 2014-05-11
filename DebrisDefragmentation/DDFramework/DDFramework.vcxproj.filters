@@ -83,16 +83,7 @@
     <ClInclude Include="DDObject.h">
       <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
-    <ClInclude Include="DDModel.h">
-      <Filter>Framework\Presentation\Object</Filter>
-    </ClInclude>
     <ClInclude Include="DDScene.h">
-      <Filter>Framework\Presentation\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="DDLight.h">
-      <Filter>Framework\Presentation\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="DDCamera.h">
       <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
     <ClInclude Include="DDNetwork.h">
@@ -103,9 +94,6 @@
     </ClInclude>
     <ClInclude Include="DDPacketHeader.h">
       <Filter>Framework\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="DDUI.h">
-      <Filter>Framework\Presentation\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,16 +118,7 @@
     <ClCompile Include="DDObject.cpp">
       <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
-    <ClCompile Include="DDModel.cpp">
-      <Filter>Framework\Presentation\Object</Filter>
-    </ClCompile>
     <ClCompile Include="DDScene.cpp">
-      <Filter>Framework\Presentation\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="DDLight.cpp">
-      <Filter>Framework\Presentation\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="DDCamera.cpp">
       <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
     <ClCompile Include="DDNetwork.cpp">
@@ -147,9 +126,6 @@
     </ClCompile>
     <ClCompile Include="DDCircularBuffer.cpp">
       <Filter>Framework\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="DDUI.cpp">
-      <Filter>Framework\Presentation\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

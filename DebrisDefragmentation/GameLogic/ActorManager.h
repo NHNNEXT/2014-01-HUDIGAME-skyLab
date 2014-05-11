@@ -62,8 +62,8 @@ public:
 		현재 ISS 위치 및 속도 정보 리턴
 		최경욱 2014. 5. 6
 	*/
-	float GetIssPositionZ() const { return m_ISS.GetPosition().z; }
-	float GetIssVelocityZ() const { return m_ISS.GetVelocity().z; }
+	float GetIssPositionZ() { return m_ISS.GetTransform().GetPositionZ(); }
+	float GetIssVelocityZ() { return m_ISS.GetVelocity().z; }
 
 	/*
 		현재 ISS 각 모듈의 소유자 및 체력 정보 반환

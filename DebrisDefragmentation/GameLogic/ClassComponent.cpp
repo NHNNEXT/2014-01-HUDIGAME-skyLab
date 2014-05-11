@@ -17,7 +17,7 @@ ClassComponent::~ClassComponent()
 void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 {
 	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Fuel, m_Oxygen, m_HP );
-	if ( !UseFuel( GAS_FOR_GOFORWARD ) )
+	if ( !UseFuel( FUEL_FOR_GOFORWARD ) )
 	{
 		return;
 	}
@@ -66,7 +66,7 @@ bool ClassComponent::UseOxygen( int oxygenUse )
 	{
 		// 산소 부족시 체력 감소
 		m_HP -= HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT;
-		m_HP = ( m_HP < 0.0f ) ? 0.0f : m_HP;
+		m_HP = ( m_HP < 0 ) ? 0 : m_HP;
 		
 		return false;
 	}
@@ -86,8 +86,16 @@ bool ClassComponent::UseFuel( int fuelUse )
 	}
 
 	m_Fuel -= fuelUse;
-	m_Fuel = ( m_Fuel < 0.0f ) ? 0.0f : m_Fuel;
+	m_Fuel = ( m_Fuel < 0 ) ? 0 : m_Fuel;
 
 	return true;
 
+}
+
+void ClassComponent::SetAcceleration( const D3DXVECTOR3 &direction )
+{
+	SetAccelerationStartTime( timeGetTime() );
+	SetIsAccelerating( true );
+
+	//m_RigidBody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
 }

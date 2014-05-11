@@ -16,7 +16,7 @@ void ISSModule::Init( ISSModuleName moduleName )
 	m_ModuleName = moduleName;
 
 	// 자신의 위치 초기화
-	SetPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
+	GetTransform().SetPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
 
 	// 충돌 박스 초기화
 	m_CollisionBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );

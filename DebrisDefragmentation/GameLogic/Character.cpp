@@ -71,8 +71,8 @@ void Character::UpdateItSelf( float dTime )
 {
 	// 변환 행렬 업데이트 - 충돌 박스가 연산할 때 이 행렬값이 최신으로 갱신되어 있어야 하므로
 	D3DXQUATERNION	qRotation;
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( GetTransform().GetRotationZ() ) );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform().GetScale(), NULL, &qRotation, &GetTransform().GetPosition() );
 
 	if ( m_CharacterClass->IsSpinning() )
 	{
@@ -94,7 +94,9 @@ void Character::UpdateItSelf( float dTime )
 		}
 	}
 
-	Physics::CalcCurrentPosition( &m_Position, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
+	Physics::CalcCurrentPosition( &tmpVec3, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	GetTransform().SetPosition( tmpVec3 );
 
 	// printf_s( "%f / %f / %f\n", m_Position.x, m_Position.y, m_Position.z );
 }

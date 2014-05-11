@@ -88,6 +88,9 @@
     <ClInclude Include="ISSControlPoint.h">
       <Filter>Object\ISS</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="ISSControlPoint.cpp">
       <Filter>Object\ISS</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

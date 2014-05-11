@@ -56,12 +56,12 @@ void Actor::InitTeamPosition()
 	switch ( GetClassComponent().GetTeam() )
 	{
 		case TeamColor::RED:
-			SetPosition( RED_TEAM_POSITION );
-			SetRotation( RED_TEAM_ROTATION );
+			GetTransform().SetPosition( RED_TEAM_POSITION );
+			GetTransform().SetRotation( RED_TEAM_ROTATION );
 			break;
 		case TeamColor::BLUE:
-			SetPosition( BLUE_TEAM_POSITION );
-			SetRotation( BLUE_TEAM_ROTATION );
+			GetTransform().SetPosition( BLUE_TEAM_POSITION );
+			GetTransform().SetRotation( BLUE_TEAM_ROTATION );
 			break;
 		default:
 			break;
@@ -80,5 +80,5 @@ void Actor::Stop()
 
 void Actor::TurnBody( float x, float y, float z ) 
 { 
-	m_CharacterClass->TurnBody( m_Rotation, x, y, z ); 
+	m_CharacterClass->TurnBody( m_Transform, x, y, z ); 
 }
