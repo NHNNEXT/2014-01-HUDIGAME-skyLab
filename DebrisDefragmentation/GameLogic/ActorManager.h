@@ -28,8 +28,7 @@ public:
 	// void	ChangeActor( Actor* newActor, int actorId );
 	void	DeleteActor( int actorId );
 
-	// 조심해!!
-	// 한 번에 방송하지 말고 변화가 있는 애들만 안에서 골라서 싱크 시키자
+	
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
 	bool Update();
 

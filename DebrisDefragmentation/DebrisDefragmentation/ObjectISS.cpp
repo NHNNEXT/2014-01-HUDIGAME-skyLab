@@ -27,8 +27,6 @@ void ObjectISS::UpdateItSelf( float dTime )
 
 void ObjectISS::RenderItSelf( )
 {
-	// 조심해!!
-	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
 	std::for_each( m_ModuleList.begin( ), m_ModuleList.end( ),
 		[&]( ISSModule &eachModule )
 	{

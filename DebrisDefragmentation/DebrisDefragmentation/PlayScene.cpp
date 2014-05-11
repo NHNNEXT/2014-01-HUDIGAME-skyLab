@@ -147,7 +147,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	ClassComponent* cc = pl->GetClassComponent();
 	cc->GetOxygen();
 	if ( !(cc->IsAlive()) )
-//	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
+	//	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
 		if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

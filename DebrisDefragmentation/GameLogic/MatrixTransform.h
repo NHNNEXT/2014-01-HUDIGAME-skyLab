@@ -6,7 +6,7 @@
 namespace GameMatrix
 {
 	///# Float3D 같은거 하나 만들어 놓으면 아주 편한데 말이지..
-	static std::tuple<float,float,float>   RㄹotationMatrixToYawPitchRoll( const D3DXMATRIXA16 &m ) 
+	static std::tuple<float,float,float>   RotationMatrixToYawPitchRoll( const D3DXMATRIXA16 &m ) 
 	{
 		float	x, y, z;
 		
@@ -54,8 +54,6 @@ namespace GameMatrix
 	// quaternion 값을 yaw pitch roll 로 변환
 	// return 값이 tuple이므로 auto로 받을 것..
 	// 04.28 김성환
-	///# 이런거 DX같은데 있지 않남?
-	// 없답니다 ㅠ
 	static std::tuple<float, float, float> QuaternionToYawPitchRoll( D3DXQUATERNION& q1 ) {
 		float yaw = 0;
 		float roll = 0;
