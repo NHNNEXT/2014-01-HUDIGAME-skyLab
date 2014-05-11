@@ -95,8 +95,8 @@ const float ISS_BASE_DAMAGE = 0.1f;
 
 
 // 게임 셋팅
-const unsigned int	MAX_PLAYER_NUM = 8 * 2; // 더미 플레이어 수에 맞추도록 * 2함
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
+const unsigned int	MAX_PLAYER_NUM = REAL_PLAYER_NUM * 2; // 더미 플레이어 수에 맞추도록 * 2함
 const float			ACCELERATION_WEIGHT = 1.0f;
 const float			COLLISION_ACCELERATION_WEIGHT = 0.5f;
 const unsigned int	ACCELERATION_TIME = 500;
@@ -134,7 +134,7 @@ const int			OXYGEN_COUNSUMED = 1;
 const int			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10;
 const int			GAS_FOR_GOFORWARD = 30;
 
-const int			DEFAULT_OXYGEN = 20000;
+const int			DEFAULT_OXYGEN = 300;
 const int			DEFAULT_FUEL = 5000;
 const int			DEFAULT_HP = 100;
 
@@ -164,7 +164,7 @@ const std::array<std::wstring, size_t( ClientUITag::UI_TAG_COUNT )> UI_FILENAME_
 
 // Config
 #define				USE_LOCAL_SERVER
-#define				USE_CHARACTER_COLLISION_BOX
+//#define				USE_CHARACTER_COLLISION_BOX
 const bool			MOUSE_POINTER_ON = true;
 const float			MOUSE_ROTATION_SENSITIVITY = 0.1f;
 

@@ -14,7 +14,8 @@ DDInputSystem::~DDInputSystem()
 
 void DDInputSystem::UpdateKeyState()
 {
-	if ( GetFocus() == NULL ) return;
+	//if ( GetFocus() == NULL ) return;
+	if ( GetFocus() != DDApplication::GetInstance()->GetHWND() ) return;
 
 	for ( int i = 0; i<256; i++ )
 	{

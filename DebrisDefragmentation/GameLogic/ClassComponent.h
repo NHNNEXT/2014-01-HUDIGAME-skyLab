@@ -52,7 +52,7 @@ public:
 	void	SetHP( int val ) { m_HP = val; }
 
 	bool	IsAlive() { return ( m_HP > 0 ) ? true : false; }
-	bool	UseGas( int gasUse );
+	bool	UseFuel( int fuelUse );
 	bool	UseOxygen(int oxygenUse);
 
 
