@@ -14,7 +14,7 @@ public:
 	{}
 	~ClientManager() {}
 
-	void Init() { m_ActorManager.Init(); }
+	void Init();
 
 	ClientSession* CreateClient( SOCKET sock );
 
@@ -26,14 +26,13 @@ public:
 	// 현재 게임 상태를 접속중인 모든 클라이언트에 동기화 시킴 - 무서운 녀석이다. 봉인
 	void SyncAll();
 
-	// 충돌한 플레이어들을의 속도 및 위치를 방송
-	void BroadcastCollision( int playerId, int targetId );
-
 	// 다른 플레이어들 정보를 가져옴 - 처음 접속한 세션에서 호출
 	void InitPlayerState( ClientSession* caller );
 
-	// 다른 세션에 패킷을 전송
-	// void DirectSend( const SOCKET& sock, PacketHeader* pkt );
+	// 새롭게 추가된 mClientIdList에 세션을 등록하고, 삭제하는 함수
+	// session에서 호출한다.
+	void RegisterSession( int idx, ClientSession* session ) { if ( !mClientIdList[idx] ) mClientIdList[idx] = session; }
+	void DeleteSession( int idx, ClientSession* session ) { if ( mClientIdList[idx] == session ) mClientIdList[idx] = nullptr; }
 
 private:
 	void CollectGarbageSessions();
@@ -41,11 +40,17 @@ private:
 
 private:
 	typedef std::unordered_map<SOCKET, ClientSession*> ClientList;
-	ClientList	mClientList;
+	ClientList						mClientList;
+
+	// 직접 패킷을 보낼 때 id를 기반으로 보내기 위한 자료구조
+	// ClientList의 키를 id로 사용하는 것을 고려했으나
+	// 현재 id로 사용하는 값은 게임 로직내에서 id의 의미가 강하므로 지금처럼 ActorManager가 id를 발급하는 것이 맞다고 판단 - 접속이 이루어진 후에 
+	// 그래서 id를 기반으로 session에 바로 접근할 수 있는 자료구조 가운데, 현재 최대 인원이 8명으로 정해져있으므로 std::array 사용
+	std::array<ClientSession*, MAX_PLAYER_NUM>	mClientIdList;
 
 	DWORD			mLastGCTick;
 	DWORD			mLastClientWorkTick;
-	ActorManager	m_ActorManager;
+	ActorManager	mActorManager;
 };
 
 extern ClientManager* GClientManager;

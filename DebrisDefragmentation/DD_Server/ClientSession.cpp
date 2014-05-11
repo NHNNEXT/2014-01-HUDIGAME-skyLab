@@ -90,6 +90,7 @@ void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
 	m_ActorManager->DeleteActor( m_Character.GetCharacterId() );
+	GClientManager->DeleteSession( mPlayerId, this );
 
 	if ( !IsConnected( ) )
 		return;
@@ -243,6 +244,7 @@ void ClientSession::LoginDone( int pid )
 	LoginResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId = pid;
+	GClientManager->RegisterSession( mPlayerId, this );
 
 	SendRequest( &outPacket );
 

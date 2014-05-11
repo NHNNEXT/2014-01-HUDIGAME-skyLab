@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "GameOption.h"
+#include <set>
 #include "Actor.h"
 #include "ISS.h"
 
@@ -30,7 +31,7 @@ public:
 
 	
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
-	bool Update();
+	void Update();
 
 	/*
 		인자로 받은 id가 유효한지(list에 등록되어 있는지) 판정
@@ -38,7 +39,6 @@ public:
 	*/
 	bool IsValidId( int actorId );
 	Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
-	std::tuple<int, int>& GetCrashedPlayers() { return m_CrashedPlayers; }
 
 	/*
 		입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환
@@ -71,6 +71,21 @@ public:
 	*/
 	std::tuple<TeamColor, float> GetModuleState( int moduleIdx );
 
+	/*
+		충돌한 플레이어들의 index를 반환하는 함수
+		최경욱 2014. 5. 11
+	*/
+	std::set<int> GetCollidedPlayerId() { return m_CollidedPlayers; }
+
+	/*
+		충돌한 플레이어들의 index를 초기화 함수
+		클라이언트 매니저가 충돌한 플레이어들 아이디를 받아간 후에는 초기화해서 충돌 결과를 방송한 플레이어를 다시 방송하지 않도록 함
+		자체적으로 업데이트 단계에서 충돌 체크 전에 초기화해도 되지만 
+		혹시라도 구조 변경때문에 클라이언트 매니저가 내용을 가져 가지 않은 상태에서 다시 진입하는 경우가 생길까봐 위험하지만 외부에서 수동으로 처리
+		최경욱 2014. 5. 11
+	*/
+	void ClearCollidedPlayer() { m_CollidedPlayers.clear(); }
+
 	// get other object data
 	// 지금은 없습니다.
 
@@ -78,12 +93,12 @@ private:
 	// 지금은 싱글 스레드니까 락은 필요없다.
 	// SRWLOCK m_SRWLock;
 
-	bool CheckCollision();
+	void CheckCollision();
 
 	DWORD m_PrevTime = 0;
 
 	// player list
-	std::tuple<int, int>				m_CrashedPlayers{ 0, 0 };
+	std::set<int>						m_CollidedPlayers;
 	std::array<Actor*, MAX_PLAYER_NUM>	m_ActorList;
 	ISS									m_ISS;
 

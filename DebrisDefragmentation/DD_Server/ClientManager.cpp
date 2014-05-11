@@ -3,6 +3,8 @@
 #include "..\..\PacketType.h"
 #include "ClientSession.h"
 #include "ClientManager.h"
+#include <set>
+#include <algorithm>
 
 ClientManager* GClientManager = nullptr;
 
@@ -12,7 +14,7 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 
 	ClientSession* client = new ClientSession( sock );
 	mClientList.insert( ClientList::value_type( sock, client ) );
-	client->SetActorManager( &m_ActorManager );
+	client->SetActorManager( &mActorManager );
 
 	return client;
 }
@@ -50,17 +52,20 @@ void ClientManager::OnPeriodWork()
 
 	// 게임 상태를 업데이트 하자
 	// 충돌했는지 판단도 여기서함	
-	if ( m_ActorManager.Update() )
+	mActorManager.Update();
+	std::set<int> collidedIdList = mActorManager.GetCollidedPlayerId();
+	mActorManager.ClearCollidedPlayer();
+
+	std::for_each( collidedIdList.begin(), collidedIdList.end(), [&]( const int& each )
 	{
-		// 조심해!!
-		// 지금은 2명 밖에 안 되는데... 여러명이 있을 경우도 처리가 필요함
-		// 충돌 기록이 있는 모든 플레이어를 기록했다가 처리해야 함
-		int player = std::get<0>( m_ActorManager.GetCrashedPlayers() );
-		int target = std::get<1>( m_ActorManager.GetCrashedPlayers() );
-		BroadcastCollision( player, target );
-		printf_s( "crash %d to %d", player, target );
-		// SyncAll();
+		// each 클라이언트별로 BroadcastCollisionResult(); 해줘야 한다
+		// 순회할 수는 없는 노릇이고
+		// n의 제곱... 리스트를 하나 더 만들어도 되나...
+		assert( mClientIdList[each] );
+		mClientIdList[each]->BroadcastCollisionResult();
 	}
+	);
+	
 	SyncAll(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
@@ -75,8 +80,7 @@ void ClientManager::CollectGarbageSessions()
 	std::vector<ClientSession*> disconnectedSessions;
 
 	///FYI: C++ 11 람다를 이용한 스타일
-	std::for_each( mClientList.begin(), mClientList.end(),
-		[&]( ClientList::const_reference it )
+	std::for_each( mClientList.begin(), mClientList.end(), [&]( ClientList::const_reference it )
 	{
 		ClientSession* client = it.second;
 
@@ -118,7 +122,6 @@ void ClientManager::FlushClientSend()
 	}
 }
 
-
 void ClientManager::SyncAll( )
 {
 	// 동기화 디버깅 수단으로 사용
@@ -129,21 +132,6 @@ void ClientManager::SyncAll( )
 		client->SyncCurrentStatus();
 	}
 }
-
-
-
-void ClientManager::BroadcastCollision( int playerId, int targetId )
-{
-	for ( auto& it : mClientList )
-	{
-		if ( ( it.second )->GetPlayerId() == playerId || ( it.second )->GetPlayerId() == targetId )
-		{
-			( it.second )->BroadcastCollisionResult();
-		}
-	}
-}
-
-
 
 void ClientManager::InitPlayerState( ClientSession* caller )
 {
@@ -161,9 +149,12 @@ void ClientManager::InitPlayerState( ClientSession* caller )
 	}
 }
 
-/*
-void ClientManager::DirectSend( ClientSession* targetClient, PacketHeader* pkt )
+void ClientManager::Init()
 {
-	targetClient->SendRequest( pkt );
+	mActorManager.Init();
+	std::for_each( mClientIdList.begin(), mClientIdList.end(), []( ClientSession* each )
+	{
+		each = nullptr;
+	} 
+	);
 }
-*/

@@ -19,7 +19,7 @@ public:
 	void	ChangeClass( CharacterClass newClass );
 
 	// player 상태 가져오기
-	int		GetCharacterId() { return m_CharacterId; }
+	int		GetCharacterId() const { return m_CharacterId; }
 	void	SetCharacterId( int characterId ) { m_CharacterId = characterId; }
 
 	

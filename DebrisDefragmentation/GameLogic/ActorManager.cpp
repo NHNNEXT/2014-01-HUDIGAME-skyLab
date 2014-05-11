@@ -86,7 +86,7 @@ void ActorManager::DeleteActor( int actorId )
 		Init();
 }
 
-bool ActorManager::Update( )
+void ActorManager::Update( )
 {
 	DWORD currentTime = timeGetTime( );
 	float dt = ( static_cast<float>( currentTime - m_PrevTime ) ) / 1000.f;
@@ -103,7 +103,7 @@ bool ActorManager::Update( )
 	m_ISS.Update( dt );
 
 	// 충돌 체크
-	return CheckCollision();
+	CheckCollision();
 }
 
 bool ActorManager::IsValidId( int actorId )
@@ -114,10 +114,8 @@ bool ActorManager::IsValidId( int actorId )
 	return false;
 }
 
-bool ActorManager::CheckCollision()
+void ActorManager::CheckCollision()
 {
-	bool returnVal = false; // 충돌이 있는지 알려줌 - 클라이언트들에게 업데이트하라고 시켜야 되니까
-
 	// 순회하면서 각 액터들이 충돌하는지 확인
 	// 충돌하는 애들 있으면 각각에게 충돌 판정을 전달한다.
 	// 전달 방식은 충돌 후 이동 방향(서로 반대 방향)을 전달한다.
@@ -151,17 +149,17 @@ bool ActorManager::CheckCollision()
 				D3DXVECTOR3 relativeVelocity = -m_ActorList[i]->GetVelocity();
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
 				{
-					return false;
+					return;
 				}
 
 				// 조심해!!
 				// 반사되지 않고 입사각의 반대로 튕기고 있다.
 				m_ActorList[i]->IncreaseVelocity( relativeVelocity * 2.0f );
 
-				returnVal = true;
+				// ISS와 충돌한 플레이어의 아이디를 추가한다.
+				m_CollidedPlayers.insert( i );
 			}
 		}
-
 
 		// 플레이어간 충돌 체크
 		for ( int j = i + 1; j < MAX_PLAYER_NUM; ++j )
@@ -194,7 +192,7 @@ bool ActorManager::CheckCollision()
 				D3DXVECTOR3 relativeVelocity = m_ActorList[j]->GetVelocity() - m_ActorList[i]->GetVelocity();
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
 				{
-					return false;
+					return;
 				}
 
 				float iMass = m_ActorList[i]->GetMass();
@@ -214,14 +212,12 @@ bool ActorManager::CheckCollision()
 					* ( iVelocity - jVelocity ) * collisionDirection
 					);
 
-				m_CrashedPlayers = std::make_tuple( i, j );
-
-				returnVal = true;
+				// 충돌한 플레이어의 아이디를 추가한다.
+				m_CollidedPlayers.insert( i );
+				m_CollidedPlayers.insert( j );
 			}
 		}
 	}
-
-	return returnVal;
 }
 
 std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, float y, float z )

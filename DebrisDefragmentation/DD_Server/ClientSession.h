@@ -69,7 +69,7 @@ public:
 	void	HandleOccupyRequest( SkillOccupyRequest& inPacket );
 	void	HandleDestroyRequest( SkillDestroyRequest& inPacket );
 
-	int				GetPlayerId() { return mPlayerId; }
+	int				GetPlayerId() const { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }
 	void			SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }
 	
