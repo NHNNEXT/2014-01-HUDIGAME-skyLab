@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Transform.h"
 
 
@@ -18,10 +18,10 @@ D3DXMATRIXA16 Transform::MatrixTransform()
 
 	D3DXMatrixIdentity( &tempMatrix );
 
-	// rotation¿¡¼­ ÄõÅÍ´Ï¾ğ »ı¼º, yaw ptich roll Àº y, x, z ¼ø¼­ÀÓ
+	// rotationì—ì„œ ì¿¼í„°ë‹ˆì–¸ ìƒì„±, yaw ptich roll ì€ y, x, z ìˆœì„œì„
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( m_Rotation.y ), D3DXToRadian( m_Rotation.x ), D3DXToRadian( m_Rotation.z ) );
 
-	// matrix¸¦ affineº¯È¯ÀÌ Àû¿ëµÈ ÇüÅÂ·Î º¯È¯	
+	// matrixë¥¼ affineë³€í™˜ì´ ì ìš©ëœ í˜•íƒœë¡œ ë³€í™˜	
 	D3DXMatrixTransformation( &tempMatrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
 
 	return tempMatrix;

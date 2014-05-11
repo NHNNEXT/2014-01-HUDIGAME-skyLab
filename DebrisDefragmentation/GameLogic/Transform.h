@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 #include <d3dx9.h>
 
@@ -10,7 +10,7 @@ public:
 
 	D3DXMATRIXA16 MatrixTransform();
 
-	// local position ∞¸∑√
+	// local position Í¥ÄÎ†®
 	const D3DXVECTOR3 GetPosition() { return m_Position; }
 	const float GetPositionX() const { return m_Position.x; }
 	const float GetPositionY() const { return m_Position.y; }
@@ -22,7 +22,7 @@ public:
 	void SetPosition( D3DXVECTOR3 position ) { m_Position = position; }
 	void SetPosition( float x, float y, float z ) { m_Position = D3DXVECTOR3( x, y, z ); }
 
-	// local rotation ∞¸∑√
+	// local rotation Í¥ÄÎ†®
 	const D3DXVECTOR3 GetRotation() const { return m_Rotation; }
 	const float GetRotationX() const { return m_Rotation.x; }
 	const float GetRotationY() const { return m_Rotation.y; }
@@ -34,7 +34,7 @@ public:
 	void SetRotation( D3DXVECTOR3 rotation ) { m_Rotation = rotation; }
 	void SetRotation( float rotationX, float rotationY, float rotationZ ) { m_Rotation = D3DXVECTOR3( rotationX, rotationY, rotationZ ); }
 
-	// local scale ∞¸∑√
+	// local scale Í¥ÄÎ†®
 	const D3DXVECTOR3 GetScale() { return m_Scale; }
 	const float GetScaleX() const { return m_Scale.x; }
 	const float GetScaleY() const { return m_Scale.y; }
@@ -50,7 +50,7 @@ public:
 private:
 
 	// local coordinate
-	D3DXVECTOR3		m_Position{ .0f, .0f, .0f };	// c++11ø°º≠ ≥™ø¬ ±’¿œ«— ¡ﬂ∞˝»£ √ ±‚»≠∂Û«‘.
+	D3DXVECTOR3		m_Position{ .0f, .0f, .0f };	// c++11ÏóêÏÑú ÎÇòÏò® Í∑†ÏùºÌïú Ï§ëÍ¥ÑÌò∏ Ï¥àÍ∏∞ÌôîÎùºÌï®.
 	D3DXVECTOR3		m_Rotation{ .0f, .0f, .0f };
 	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 
