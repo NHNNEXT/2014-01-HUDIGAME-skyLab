@@ -26,10 +26,10 @@ public:
 	TeamColor	GetTeam() { m_ClassComponent->GetTeam(); }
 
 	// 현재 바라보는 방향으로 가속도 부여
-	void GoForward() { m_ClassComponent->GoForward( GetViewDirection(), m_RigidBody ); }
+	void GoForward() { m_ClassComponent->GoForward( GetViewDirection() ); }
 
 	// 가속도 및 속도 0으로 변경
-	void Stop() { m_ClassComponent->Stop( m_RigidBody ); }
+	void Stop() { m_ClassComponent->Stop(); }
 
 	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
 
@@ -40,8 +40,6 @@ public:
 	void StopSpin();
 
 	// 바라보는 방향 회전
-	//void LookAt( float x, float y, float z ) { m_CharacterClass->LookAt( m_HeadDirection, x, y, z ); }
-
 	void LookAt( float x, float y, float z );
 	void TurnBody( float x, float y, float z );
 
@@ -49,10 +47,10 @@ public:
 	ClassComponent* GetClassComponent() { return m_ClassComponent.get(); }
 	void ChangeClass( CharacterClass characterClass );
 
-	DDVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
-	DDVECTOR3 GetAcceleration() const { return m_RigidBody.m_Acceleration; }
-	void SetVelocity( DDVECTOR3 val ) { m_RigidBody.m_Velocity = val; }	
-	void SetAcceleration( DDVECTOR3 val ) { m_RigidBody.m_Acceleration = val; }
+// 	DDVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
+// 	DDVECTOR3 GetAcceleration() const { return m_RigidBody.m_Acceleration; }
+// 	void SetVelocity( DDVECTOR3 val ) { m_RigidBody.m_Velocity = val; }	
+// 	void SetAcceleration( DDVECTOR3 val ) { m_RigidBody.m_Acceleration = val; }
 	//DDVECTOR3 GetHeadDirection() { return m_HeadDirection; }
 	int GetGas() { return m_ClassComponent->GetFuel(); }
 	int GetOxygen() { return m_ClassComponent->GetOxygen(); }
@@ -70,7 +68,7 @@ private:
 	//DDCamera*						m_Camera = nullptr;		
 
 	//DDVECTOR3	m_HeadDirection{ .0f, .0f, .0f };
-	Rigidbody		m_RigidBody;			// rigidbody 자체 초기화
+	//Rigidbody		m_RigidBody;			// rigidbody 자체 초기화
 	CollisionBox	m_CollisionBox;
 };
 

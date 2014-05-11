@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "DDObject.h"
+#include "ClientObject.h"
 
 namespace DDWrapper
 {
@@ -8,7 +8,7 @@ namespace DDWrapper
 	public ref class GameObject
 	{
 	public:
-		GameObject() : m_pObject( new DDObject() ) {};
+		GameObject() : m_pObject( new ClientObject() ) {};
 		~GameObject();
 
 		void Release() { m_pObject->Release(); };
@@ -16,12 +16,12 @@ namespace DDWrapper
 		void Render() { m_pObject->Render(); };
 		void Update( float dTime ) { m_pObject->Update( dTime ); };
 
-		const DDObject* GetParent() { return m_pObject->GetParent(); };
-		const std::list<std::shared_ptr<DDObject>>& GetChildList() { return m_pObject->GetChildList(); };
+		//const ClientObject* GetParent() { return m_pObject->GetParent(); };
+		//const std::list<std::shared_ptr<ClientObject>>& GetChildList() { return m_pObject->GetChildList(); };
 
-		DDObject* GetPointer() { return m_pObject; }
+		ClientObject* GetPointer() { return m_pObject; }
 
-		void AddChild( DDObject* object ) { m_pObject->AddChild( object ); };
+		void AddChild( ClientObject* object ) { m_pObject->AddChild( object ); };
 		void AddChild( DDWrapper::GameObject^ object ) { m_pObject->AddChild( object->GetPointer() ); };
 		
 		// AddChild는 포인터를 받아야 되는데 C#은 포인터를 못 써서 만든 메소드들
@@ -29,7 +29,7 @@ namespace DDWrapper
 		// 		void AddChild( DDWrapper::GameModel^ object ) { AddChild( object->GetPointer() ); };
 		// 		void AddChild( DDWrapper::GameCamera^ object ) { AddChild( object->GetPointer() ); };
 		// 		void AddChild( DDWrapper::GameLight^ object ) { AddChild( object->GetPointer() ); };
-		void RemoveChild( DDObject* object ) { m_pObject->RemoveChild( object ); };
+		void RemoveChild( ClientObject* object ) { m_pObject->RemoveChild( object ); };
 
 		const D3DXMATRIXA16 GetMatrix() { return m_pObject->GetMatrix(); };
 
@@ -79,7 +79,7 @@ namespace DDWrapper
 		// z축 방향 벡터를 월드 좌표계 기준으로 반환
 		DDVECTOR3 GetViewDirection() { return m_pObject->GetViewDirection(); };
 	protected:
-		DDObject* m_pObject;
+		ClientObject* m_pObject;
 	};
 
 }

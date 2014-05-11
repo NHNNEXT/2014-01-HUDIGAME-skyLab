@@ -60,7 +60,9 @@ void Player::RenderItSelf()
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXMatrixRotationAxis( &spinTransform, &m_RigidBody.m_SpinAxis, m_RigidBody.m_SpinAngle * m_ClassComponent->GetSpinTime( ) );
+		D3DXVECTOR3 tmpSpinAxis = m_ClassComponent->GetRigidbody().m_SpinAxis;
+		float tmpSpinAngle = m_ClassComponent->GetRigidbody().m_SpinAngle;
+		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_ClassComponent->GetSpinTime( ) );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 
 // 		D3DXQUATERNION qt;
@@ -95,13 +97,16 @@ void Player::UpdateItSelf( float dTime )
 		{
 			// 가속 끝났다
 			m_ClassComponent->SetIsAccelerating( false );
-			m_RigidBody.m_Acceleration = ZERO_VECTOR3;
+			m_ClassComponent->SetAcceleration(ZERO_VECTOR3);
 		}
 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	Physics::CalcCurrentPosition( &tmpVec3, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	D3DXVECTOR3 tmpVel = GetClassComponent()->GetVelocity();
+	D3DXVECTOR3 tmpAcc = GetClassComponent()->GetAcceleration();
+	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
+	GetClassComponent()->SetVelocity( tmpVel );
 }
 
 void Player::LookAt( float x, float y, float z )
@@ -116,14 +121,14 @@ void Player::TurnBody( float x, float y, float z )
 
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_ClassComponent->SetSpin( rotationAxis, angularVelocity, m_RigidBody );
+	m_ClassComponent->SetSpin( rotationAxis, angularVelocity);
 	m_ClassComponent->SetSpinTime( 0.0f );
 	m_ClassComponent->SetSpinnigFlag( true );
 }
 
 void Player::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_ClassComponent->AddSpin( rotationAxis, angularVelocity, m_RigidBody );
+	m_ClassComponent->AddSpin( rotationAxis, angularVelocity);
 	// m_SpinTime = 0.0f;
 	m_ClassComponent->SetSpinnigFlag( true );
 }
@@ -132,7 +137,7 @@ void Player::StopSpin( )
 {
 	m_ClassComponent->SetSpinnigFlag( false );
 	m_ClassComponent->SetSpinTime( 0.0f );
-	m_ClassComponent->StopSpin( m_RigidBody );
+	m_ClassComponent->StopSpin();
 }
 
 void Player::InitCollisionBox()

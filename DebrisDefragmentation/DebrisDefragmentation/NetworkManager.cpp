@@ -257,7 +257,7 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	player->GoForward();
 	player->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
 	player->GetTransform().SetRotation( DDVECTOR3( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z ) );
-	player->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	player->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -294,7 +294,7 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 
 		g_PlayerManager->AddPlayer( dummyPlayerID );
 		g_PlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-		g_PlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 	}
 #else
 #endif
@@ -329,7 +329,7 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
 	targetPlayer->GoForward();
 	targetPlayer->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	targetPlayer->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	targetPlayer->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 
 	if ( inPacket.mSpinAxis.x == 0.0f && inPacket.mSpinAxis.y == 0.0f && inPacket.mSpinAxis.z == 0.0f )
 		return;
@@ -347,7 +347,7 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( DDVECTOR3( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 }
 
 
@@ -376,7 +376,7 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	player->GetClassComponent()->SetFuel( DEFAULT_FUEL );
 	player->SetUpdatable( true );
 
-	player->SetVelocity( ZERO_VECTOR3 );
+	player->GetClassComponent()->SetVelocity( ZERO_VECTOR3 );
 	player->GetTransform().SetPosition( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z );
 	player->GetTransform().SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
 }
@@ -388,7 +388,7 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
 }
 
 void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )

@@ -14,7 +14,7 @@ ClassComponent::~ClassComponent()
 
 
 
-void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
+void ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
 {
 	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Fuel, m_Oxygen, m_HP );
 	if ( !UseFuel( FUEL_FOR_GOFORWARD ) )
@@ -32,32 +32,32 @@ void ClassComponent::GoForward( D3DXVECTOR3 viewDirection, Rigidbody& rb )
 	//Physics::GetNormalVector( &viewDirection, &normalVec );
 	D3DXVec3Normalize( &normalVec, &viewDirection );
 
-	rb.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
+	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
 }
 
-void ClassComponent::Stop( Rigidbody& rb )
+void ClassComponent::Stop()
 {
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
-	rb.m_Acceleration = ZERO_VECTOR3;
-	rb.m_Velocity = ZERO_VECTOR3;
+	m_Rigidbody.m_Acceleration = ZERO_VECTOR3;
+	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
 }
 
-void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity, Rigidbody& rigidbody )
+void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	rigidbody.m_SpinAngle = angularVelocity;
-	rigidbody.m_SpinAxis = rotationAxis;
+	m_Rigidbody.m_SpinAngle = angularVelocity;
+	m_Rigidbody.m_SpinAxis = rotationAxis;
 }
 
-void ClassComponent::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity, Rigidbody& rigidbody )
+void ClassComponent::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
 	// 조심해!!
 	// 구현 중
 }
 
-void ClassComponent::StopSpin( Rigidbody& rigidbody )
+void ClassComponent::StopSpin()
 {
-	rigidbody.m_SpinAngle = 0.0f;
-	rigidbody.m_SpinAxis = ZERO_VECTOR3;
+	m_Rigidbody.m_SpinAngle = 0.0f;
+	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 
 bool ClassComponent::UseOxygen( int oxygenUse )
@@ -92,10 +92,10 @@ bool ClassComponent::UseFuel( int fuelUse )
 
 }
 
-void ClassComponent::SetAcceleration( const D3DXVECTOR3 &direction )
+void ClassComponent::AddForce( const D3DXVECTOR3 &direction )
 {
 	SetAccelerationStartTime( timeGetTime() );
 	SetIsAccelerating( true );
 
-	//m_RigidBody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
+	m_Rigidbody.m_Acceleration += ( direction * ACCELERATION_WEIGHT );
 }

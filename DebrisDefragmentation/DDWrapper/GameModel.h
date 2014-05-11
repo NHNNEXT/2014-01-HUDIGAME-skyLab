@@ -16,7 +16,7 @@ namespace DDWrapper
 
 		void AddChild( GameCamera^ camera ) { m_pObject->AddChild( camera->GetPointer() ); };
 
-		DDVECTOR3 GetPosition() { return m_pObject->GetPosition(); }
+		DDVECTOR3 GetPosition() { return m_pObject->GetTransform().GetPosition(); }
 		const float GetPositionX() { return m_pObject->GetPositionX(); }
 		const float GetPositionY() { return m_pObject->GetPositionY(); }
 		const float GetPositionZ() { return m_pObject->GetPositionZ(); }
