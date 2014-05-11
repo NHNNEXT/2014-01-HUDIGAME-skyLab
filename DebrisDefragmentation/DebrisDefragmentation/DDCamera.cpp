@@ -21,7 +21,8 @@ void DDCamera::RenderItSelf()
 	if ( m_EmbeddedCamera || m_FollowingObject == nullptr )
 	{
 		D3DXVECTOR4 tempEye;
-		D3DXVec3Transform( &tempEye, &GetTransform().GetPosition(), &m_Matrix );
+		D3DXVECTOR3 pos = GetTransform().GetPosition();
+		D3DXVec3Transform( &tempEye, &pos, &m_Matrix );
 		vEyePt = DDVECTOR3( tempEye.x, tempEye.y, tempEye.z );
 
 		D3DXVECTOR4 tempLook;
@@ -40,10 +41,13 @@ void DDCamera::RenderItSelf()
 		D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( m_FollowingObject->GetTransform().GetRotationZ() ) );
 
 		// matrix를 affine변환이 적용된 형태로 변환	
-		D3DXMatrixTransformation( &tmpMatrix, NULL, NULL, &GetTransform().GetScale(), NULL, &qRotation, &m_FollowingObject->GetTransform().GetPosition() );
+		D3DXVECTOR3 scale = GetTransform().GetScale();
+		D3DXVECTOR3 fPos = m_FollowingObject->GetTransform().GetPosition();
+		D3DXMatrixTransformation( &tmpMatrix, NULL, NULL, &scale, NULL, &qRotation, &fPos );
 
 		D3DXVECTOR4 tempEye;
-		D3DXVec3Transform( &tempEye, &GetTransform().GetPosition(), &tmpMatrix );
+		D3DXVECTOR3 pos = GetTransform().GetPosition();
+		D3DXVec3Transform( &tempEye, &pos, &tmpMatrix );
 		vEyePt = DDVECTOR3( tempEye.x, tempEye.y, tempEye.z );
 
 		D3DXVECTOR4 tempLook;

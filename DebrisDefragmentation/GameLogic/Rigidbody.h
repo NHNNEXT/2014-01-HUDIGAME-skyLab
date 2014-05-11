@@ -11,4 +11,7 @@ struct Rigidbody
 	D3DXVECTOR3	m_Velocity{ 0.0f, 0.0f, 0.0f };
 	D3DXVECTOR3	m_SpinAxis{ 0.0f, 0.0f, 0.0f };
 	float		m_SpinAngle = 0.0f;
+
+	bool		m_IsAccelerating = false;
+	bool		m_IsSpin = false;
 };

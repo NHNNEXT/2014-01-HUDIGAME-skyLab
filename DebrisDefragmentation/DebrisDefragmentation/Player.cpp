@@ -60,17 +60,17 @@ void Player::RenderItSelf()
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXVECTOR3 tmpSpinAxis = m_ClassComponent->GetRigidbody().m_SpinAxis;
-		float tmpSpinAngle = m_ClassComponent->GetRigidbody().m_SpinAngle;
+		D3DXVECTOR3 tmpSpinAxis = m_ClassComponent->GetSpinAxis();
+		float tmpSpinAngle = m_ClassComponent->GetSpinAngle();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_ClassComponent->GetSpinTime( ) );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 
 // 		D3DXQUATERNION qt;
 // 		D3DXVECTOR3 scl, pos;
 // 		D3DXMatrixDecompose( &scl, &qt, &pos, &spinTransform );
-// 		auto ypt = GameMatrix::QuaternionToYawPitchRoll( qt );
+// 		auto ypr = GameMatrix::QuaternionToYawPitchRoll( qt );
 // 		
-// 		g_PlayerManager->GetCamera()->IncreaseRotation( D3DXVECTOR3( std::get<1>( ypt ), std::get<0>( ypt ), std::get<2>( ypt ) ) );
+// 		g_PlayerManager->GetCamera()->GetTransform().IncreaseRotation( D3DXVECTOR3( std::get<1>( ypr ), std::get<0>( ypr ), std::get<2>( ypr ) ) );
 	}
 
 	DrawCollisionBox();
@@ -102,11 +102,11 @@ void Player::UpdateItSelf( float dTime )
 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	D3DXVECTOR3 tmpVel = GetClassComponent()->GetVelocity();
-	D3DXVECTOR3 tmpAcc = GetClassComponent()->GetAcceleration();
+	D3DXVECTOR3 tmpVel = GetClassComponent().GetVelocity();
+	D3DXVECTOR3 tmpAcc = GetClassComponent().GetAcceleration();
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
-	GetClassComponent()->SetVelocity( tmpVel );
+	GetClassComponent().SetVelocity( tmpVel );
 }
 
 void Player::LookAt( float x, float y, float z )

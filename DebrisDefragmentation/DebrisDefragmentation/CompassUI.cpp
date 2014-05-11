@@ -98,7 +98,8 @@ void CompassUI::RenderItSelf()
 	D3DXMatrixMultiply( &parentTransform, &m_Matrix, &parentTransform );
 
 	D3DXVECTOR4 tempPos;
-	D3DXVec3Transform( &tempPos, &GetTransform().GetPosition(), &parentTransform );
+	D3DXVECTOR3 pos = GetTransform().GetPosition();
+	D3DXVec3Transform( &tempPos, &pos, &parentTransform );
 	DDVECTOR3 currentPos( tempPos.x, tempPos.y, tempPos.z );
 
 	// ObjectISS의 위치는 ObjectISS의 위치 그대로 사용 - 이미 월드 좌표계

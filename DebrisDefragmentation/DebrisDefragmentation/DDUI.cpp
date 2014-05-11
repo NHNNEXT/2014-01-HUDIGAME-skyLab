@@ -32,7 +32,8 @@ void DDUI::RenderItSelf()
 	m_pUIObject->SetTransform( &m_Matrix );
 	m_pUIObject->Begin( D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE );
 	//m_pUIObject->Draw( m_pTexture, &m_Rect, &m_Center, &m_Position, m_Color );
-	m_pUIObject->Draw( m_pTexture, NULL, NULL, &m_Transform.GetPosition(), m_Color );
+	D3DXVECTOR3 pos = m_Transform.GetPosition();
+	m_pUIObject->Draw( m_pTexture, NULL, NULL, &pos, m_Color );
 	m_pUIObject->End();
 }
 

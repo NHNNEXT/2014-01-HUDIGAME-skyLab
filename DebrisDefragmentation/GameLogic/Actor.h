@@ -24,8 +24,6 @@ public:
 	void	Stop();
 	void	TurnBody( float x, float y, float z );
 
-	//void	SetAccelerarion( const D3DXVECTOR3 &direction );	
-
 	void		SetTeam( TeamColor color ) { m_CharacterClass->SetTeam( color ); }
 	TeamColor	GetTeam() { return m_CharacterClass->GetTeam(); }
 

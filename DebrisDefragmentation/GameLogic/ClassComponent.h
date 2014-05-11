@@ -26,8 +26,8 @@ public:
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }
 	void	SetAccelerationStartTime( DWORD val ) { m_AccelerationStartTime = val; }
 
-	bool	IsAccelerating() const { return m_IsAccelerating; }
-	void	SetIsAccelerating( bool val ) { m_IsAccelerating = val; }
+	bool	IsAccelerating() const { return m_Rigidbody.m_IsAccelerating; }
+	void	SetIsAccelerating( bool val ) { m_Rigidbody.m_IsAccelerating = val; }
 
 	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
 
@@ -37,8 +37,8 @@ public:
 	// 자전 금지
 	void StopSpin();
 
-	void	SetSpinnigFlag( bool flag ) { m_IsSpin = flag; }
-	bool	IsSpinning() { return m_IsSpin; }
+	void	SetSpinnigFlag( bool flag ) { m_Rigidbody.m_IsSpin = flag; }
+	bool	IsSpinning() { return m_Rigidbody.m_IsSpin; }
 	void	AddSpinTime( float dt ) { m_SpinTime += dt; }
 	float	GetSpinTime() { return m_SpinTime; }
 	void	SetSpinTime( float time ) { m_SpinTime = time; }
@@ -57,14 +57,14 @@ public:
 	bool	UseFuel( int fuelUse );
 	bool	UseOxygen(int oxygenUse);
 
-	Rigidbody	GetRigidbody() { return m_Rigidbody; }
-	void		SetRigidbody( Rigidbody val ) { m_Rigidbody = val; }
+// 	Rigidbody	GetRigidbody() { return m_Rigidbody; }
+// 	void		SetRigidbody( Rigidbody val ) { m_Rigidbody = val; }
 
-	float&			GetMass() { return m_Rigidbody.m_Mass; }
-	D3DXVECTOR3&	GetAcceleration() { return m_Rigidbody.m_Acceleration; }
-	D3DXVECTOR3&	GetVelocity() { return m_Rigidbody.m_Velocity; }
-	D3DXVECTOR3&	GetSpinAxis() { return m_Rigidbody.m_SpinAxis; }
-	float			GetSpinAngle() { return m_Rigidbody.m_SpinAngle; }
+	const float&		GetMass() const { return m_Rigidbody.m_Mass; }
+	const D3DXVECTOR3&	GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
+	const D3DXVECTOR3&	GetVelocity() const { return m_Rigidbody.m_Velocity; }
+	const D3DXVECTOR3&	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
+	const float&		GetSpinAngle() const { return m_Rigidbody.m_SpinAngle; }
 	void		SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
 	void		SetAcceleration( D3DXVECTOR3 accel ) { m_Rigidbody.m_Acceleration = accel; }
 	void		SetVelocity( D3DXVECTOR3 velocity ) { m_Rigidbody.m_Velocity = velocity; }
@@ -76,8 +76,8 @@ public:
 	void		SetTeam( TeamColor val ) { m_Team = val; }
 
 protected:	
-	bool		m_IsAccelerating = false;
-	bool		m_IsSpin = false;	
+// 	bool		m_IsAccelerating = false;
+// 	bool		m_IsSpin = false;	
 	
 	TeamColor	m_Team = TeamColor::NO_TEAM;
 	Rigidbody	m_Rigidbody;

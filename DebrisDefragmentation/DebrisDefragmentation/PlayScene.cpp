@@ -142,7 +142,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
 	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ	
 	// 05.04 김성환
-	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent()->IsAlive() )
+	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
 		if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

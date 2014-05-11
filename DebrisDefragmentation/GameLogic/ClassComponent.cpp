@@ -25,7 +25,7 @@ void ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
 	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
 	// 나중에는 타이머 만들어서 써볼까?
 	m_AccelerationStartTime = timeGetTime();
-	m_IsAccelerating = true;
+	SetIsAccelerating(true);
 
 	D3DXVECTOR3 normalVec( 0, 0, 0 );
 	//D3DXVECTOR3 viewDirection( GetViewDirection() );
