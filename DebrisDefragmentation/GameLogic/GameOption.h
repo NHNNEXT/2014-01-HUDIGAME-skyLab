@@ -134,7 +134,7 @@ const int			OXYGEN_COUNSUMED = 1;
 const int			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10;
 const int			GAS_FOR_GOFORWARD = 30;
 
-const int			DEFAULT_OXYGEN = 300;
+const int			DEFAULT_OXYGEN = 3000;
 const int			DEFAULT_FUEL = 5000;
 const int			DEFAULT_HP = 100;
 
