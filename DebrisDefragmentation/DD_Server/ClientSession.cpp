@@ -467,14 +467,9 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 이걸 멤버 유저에게 적용하고 	
-	if ( m_Character.GetClassComponent().GetFuel() < FUEL_FOR_GOFORWARD )
-	{
-		// 남은 연료가 없다. ㅂㅂ
+	// 스킬 사용
+	if ( !m_Character.GetClassComponent().GoForward( m_Character.GetViewDirection() ) )
 		return;
-	}
-
-	m_Character.GoForward();
 
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -504,7 +499,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 		return;
 
 	// 이걸 멤버 유저에게 적용하고 - 멈추는 건 자유다
-	m_Character.Stop();
+	m_Character.GetClassComponent().Stop( );
 
 	StopResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -584,7 +579,12 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 	D3DXVECTOR3 force = targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition();
-	targetCharacter->GetClassComponent().AddForce( force );
+	m_Character.GetClassComponent().SkillPush( targetCharacter->GetClassComponent(), force );
+
+	// 원칙적으로 모든 스킬 사용에 의한 결과 반영 작업은 classComponent의 각 스킬 함수 안에서 처리하는 게 좋을 것 같다
+	// 그런데 부분적으로 현재 플레이어-액터 안에 있는 변수들의 조작이 필요한 작업들은 여기서 처리하는데..
+	// 구조 변경이 필요할지도...
+	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 	
 	SkillPushResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -594,10 +594,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	outPacket.mVelocity = Float3D( targetCharacter->GetVelocity() );
 	outPacket.mSpinAxis = Float3D( spinAxis );
 	outPacket.mForce = Float3D( force );
-
-	// printf_s( "%f / %f / %f\n", spinAxis.x, spinAxis.y, spinAxis.z );
-
-	outPacket.mSpinAngularVelocity = 1.0f;
+	outPacket.mSpinAngularVelocity = DEFAULT_SPIN_ANGULAR_VELOCITY;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -625,6 +622,8 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 
 	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 
+	printf_s( "try to pull", targetId );
+
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
 		return;
@@ -632,9 +631,13 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	// 타겟이 있으면 
 	// for debugging
 	printf_s( "pull target : %d\n", targetId );
+
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
-	D3DXVECTOR3 force = targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition();
-	targetCharacter->GetClassComponent().AddForce( -force );
+	D3DXVECTOR3 force = targetCharacter->GetTransform( ).GetPosition( ) - m_Character.GetTransform( ).GetPosition( );
+	m_Character.GetClassComponent( ).SkillPull( targetCharacter->GetClassComponent( ), force );
+
+	// 이것도...
+	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	SkillPullResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -667,8 +670,8 @@ void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// 판단은 서버가 한다! - 이런거 보내지 마라
-
+	// 판단은 서버가 한다! - 이런거 보내지 마라(지금은)
+	/*
 	// printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	DeadResult outPacket;
@@ -679,6 +682,7 @@ void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
 	{
 		Disconnect();
 	}
+	*/
 }
 
 REGISTER_HANDLER( PKT_CS_RESPAWN )
@@ -696,9 +700,7 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 
 	m_Character.InitTeamPosition();
 	
-	printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
-
-	// 이것도 보내지 마라
+	// printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
 
 	// 조심해!!! 
 	// 클래스 추가하고 구현할 때,

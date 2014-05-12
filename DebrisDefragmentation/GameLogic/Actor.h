@@ -14,7 +14,7 @@
 class Actor : public BaseObject
 {
 public:
-	Actor();
+	Actor( CharacterClass actorClass = CharacterClass::STRIKER );
 	virtual ~Actor();
 
 	void	InitTeamPosition();

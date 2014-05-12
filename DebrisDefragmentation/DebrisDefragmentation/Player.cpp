@@ -3,6 +3,9 @@
 #include "CharacterModel.h"
 #include "NetworkManager.h"
 #include "PlayerManager.h"
+#include "Striker.h"
+#include "Engineer.h"
+#include "Protector.h"
 
 #include "Physics.h"
 #include "MatrixTransform.h"
@@ -11,12 +14,26 @@ Player::Player()
 {
 }
 
-Player::Player( int playerId )
+Player::Player( int playerId, CharacterClass actorClass )
 {
 	// 조심해!!
 	// 나중에 인자 입력받아서 클래스 종류별로 m_avatar에 지정해줄 것
-	m_ClassComponent = ClassComponent::Create();
 	m_PlayerId = playerId;
+	switch ( actorClass )
+	{
+	case CharacterClass::STRIKER:
+		m_ClassComponent = Striker::Create( );
+		break;
+	case CharacterClass::ENGINEER:
+		m_ClassComponent = Engineer::Create( );
+		break;
+	case CharacterClass::PROTECTOR:
+		m_ClassComponent = Protector::Create( );
+		break;
+	default:
+		assert( false );
+		break;
+	}
 }
 
 

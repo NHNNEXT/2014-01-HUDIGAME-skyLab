@@ -15,11 +15,11 @@ class Player :
 {
 public:
 	Player();
-	Player( int playerId );
+	Player( int playerId, CharacterClass actorClass = CharacterClass::STRIKER );
 	virtual ~Player();
 
 	//static Player* Create( int playerId );
-	CREATE_OBJECT_INTEGER( Player , plyerId);
+	CREATE_OBJECT_INTEGER( Player , plyerId );
 	void Init();	
 	
 	void		SetTeam( TeamColor color ) { m_ClassComponent->SetTeam( color ); }

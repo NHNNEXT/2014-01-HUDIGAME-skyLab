@@ -14,12 +14,12 @@ ClassComponent::~ClassComponent()
 
 
 
-void ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
+bool ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
 {
 	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Fuel, m_Oxygen, m_HP );
 	if ( !UseFuel( FUEL_FOR_GOFORWARD ) )
 	{
-		return;
+		return false;
 	}
 
 	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
@@ -33,6 +33,8 @@ void ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
 	D3DXVec3Normalize( &normalVec, &viewDirection );
 
 	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
+
+	return true;
 }
 
 void ClassComponent::Stop()
@@ -40,6 +42,21 @@ void ClassComponent::Stop()
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
 	m_Rigidbody.m_Acceleration = ZERO_VECTOR3;
 	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
+}
+
+void ClassComponent::SkillPush( ClassComponent& targetComponent, D3DXVECTOR3 force )
+{
+	targetComponent.AddForce( force );
+}
+
+void ClassComponent::SkillPull( ClassComponent& targetComponent, D3DXVECTOR3 force )
+{
+	targetComponent.AddForce( -force );
+}
+
+void ClassComponent::SkillShareFuel()
+{
+
 }
 
 void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

@@ -1,13 +1,31 @@
 ﻿#include "stdafx.h"
 #include "Actor.h"
+#include "Striker.h"
+#include "Engineer.h"
+#include "Protector.h"
 
 #include "Physics.h"
 #include "GameOption.h"
 
-Actor::Actor()
+Actor::Actor( CharacterClass actorClass )
 {
-	m_CharacterClass = ClassComponent::Create(); ///# 이게 의도가 맞음? 엔지니어 프로텍터 스트라이커에 따라 다르게 생성되는게 의도 아닌가??	
-	///# static 멤버 함수는 virtual이 될 수 없음을 참고.
+	// 조심해!!
+	// 팩토리 하나 만들어야 될 듯
+	switch ( actorClass )
+	{
+	case CharacterClass::STRIKER:
+		m_CharacterClass = Striker::Create( );
+		break;
+	case CharacterClass::ENGINEER:
+		m_CharacterClass = Engineer::Create( );
+		break;
+	case CharacterClass::PROTECTOR:
+		m_CharacterClass = Protector::Create( );
+		break;
+	default:
+		assert( false );
+		break;
+	}
 }
 
 
@@ -61,7 +79,7 @@ void Actor::InitTeamPosition()
 
 void Actor::GoForward() 
 { 
-	m_CharacterClass->GoForward( GetViewDirection()); 
+	m_CharacterClass->GoForward( GetViewDirection() ); 
 }
 
 void Actor::Stop() 

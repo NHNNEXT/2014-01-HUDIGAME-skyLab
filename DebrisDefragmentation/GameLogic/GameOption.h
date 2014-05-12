@@ -79,6 +79,7 @@ const float			ACCELERATION_WEIGHT = 1.0f;
 const float			PUSHPULL_WEIGHT = 5.0f;
 const float			COLLISION_ACCELERATION_WEIGHT = 0.5f;
 const unsigned int	ACCELERATION_TIME = 500;
+const float			DEFAULT_SPIN_ANGULAR_VELOCITY = 1.0f;
 
 #define				BLUE_TEAM_POSITION	D3DXVECTOR3(100.0f, .0f, .0f)
 #define				RED_TEAM_POSITION	D3DXVECTOR3(-100.0f, .0f, .0f)
@@ -108,7 +109,7 @@ const float			CHARACTER_CB_CENTER_POS_Z = 0.0f;
 
 // 추진체 관련
 const float			OXYGEN_COUNSUMED = 1.0f;
-const float			DEFAULT_CONSUMPTION = 60.0f;
+const float			DEFAULT_CONSUMPTION = 10.0f;
 const float			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10.0f;
 const float			FUEL_FOR_GOFORWARD = 30.0f;
 

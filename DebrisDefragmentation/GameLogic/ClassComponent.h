@@ -10,15 +10,25 @@ public:
 	ClassComponent();
 	virtual ~ClassComponent();
 
-	CREATE_FUNC( ClassComponent ); ///# 클래스 콤포넌트가 직접 생성되는 경우가 의도 맞나? 잘못된 디자인 같은데...
-
-	// 작성자 : 최경욱	
-	// 
-	void GoForward( D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
+	// 사용자들이 사용하는 스킬들!
+	bool GoForward( D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
 	void Stop();	// 가속도 및 속도 0으로 변경	
 
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
-	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation(x,y,z); }
+	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation( x, y, z ); }
+
+	void	SkillPush( ClassComponent& targetComponent, D3DXVECTOR3 force );
+	void	SkillPull( ClassComponent& targetComponent, D3DXVECTOR3 force );
+	void	SkillShareFuel();
+
+
+
+
+
+
+	// 작성자 : 최경욱	
+	// 
+	
 
 	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
 	void	AddForce( const D3DXVECTOR3 &direction );
