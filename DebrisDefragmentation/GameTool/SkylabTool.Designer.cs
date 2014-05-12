@@ -113,6 +113,10 @@
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.RenderOnOffBtn = new System.Windows.Forms.Button();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
+            this.ObjectViewZ = new System.Windows.Forms.PictureBox();
+            this.ObjectViewX = new System.Windows.Forms.PictureBox();
+            this.ObjectViewY = new System.Windows.Forms.PictureBox();
+            this.ObjectViewPP = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
@@ -135,6 +139,11 @@
             this.groupBox10.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tab_GameRender.SuspendLayout();
+            this.tab_ISSPartRender.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewPP)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -936,6 +945,10 @@
             // 
             // tab_ISSPartRender
             // 
+            this.tab_ISSPartRender.Controls.Add(this.ObjectViewPP);
+            this.tab_ISSPartRender.Controls.Add(this.ObjectViewY);
+            this.tab_ISSPartRender.Controls.Add(this.ObjectViewX);
+            this.tab_ISSPartRender.Controls.Add(this.ObjectViewZ);
             this.tab_ISSPartRender.Location = new System.Drawing.Point(4, 22);
             this.tab_ISSPartRender.Name = "tab_ISSPartRender";
             this.tab_ISSPartRender.Padding = new System.Windows.Forms.Padding(3);
@@ -943,6 +956,38 @@
             this.tab_ISSPartRender.TabIndex = 1;
             this.tab_ISSPartRender.Text = "ISSPartRender";
             this.tab_ISSPartRender.UseVisualStyleBackColor = true;
+            // 
+            // ObjectViewZ
+            // 
+            this.ObjectViewZ.Location = new System.Drawing.Point(4, 356);
+            this.ObjectViewZ.Name = "ObjectViewZ";
+            this.ObjectViewZ.Size = new System.Drawing.Size(375, 335);
+            this.ObjectViewZ.TabIndex = 2;
+            this.ObjectViewZ.TabStop = false;
+            // 
+            // ObjectViewX
+            // 
+            this.ObjectViewX.Location = new System.Drawing.Point(4, 6);
+            this.ObjectViewX.Name = "ObjectViewX";
+            this.ObjectViewX.Size = new System.Drawing.Size(375, 335);
+            this.ObjectViewX.TabIndex = 3;
+            this.ObjectViewX.TabStop = false;
+            // 
+            // ObjectViewY
+            // 
+            this.ObjectViewY.Location = new System.Drawing.Point(385, 6);
+            this.ObjectViewY.Name = "ObjectViewY";
+            this.ObjectViewY.Size = new System.Drawing.Size(375, 335);
+            this.ObjectViewY.TabIndex = 4;
+            this.ObjectViewY.TabStop = false;
+            // 
+            // ObjectViewPP
+            // 
+            this.ObjectViewPP.Location = new System.Drawing.Point(385, 356);
+            this.ObjectViewPP.Name = "ObjectViewPP";
+            this.ObjectViewPP.Size = new System.Drawing.Size(375, 335);
+            this.ObjectViewPP.TabIndex = 5;
+            this.ObjectViewPP.TabStop = false;
             // 
             // skyLabTool
             // 
@@ -987,6 +1032,11 @@
             this.groupBox10.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tab_GameRender.ResumeLayout(false);
+            this.tab_ISSPartRender.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewPP)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1079,6 +1129,10 @@
         private System.Windows.Forms.TabPage tab_GameRender;
         private System.Windows.Forms.Button RenderOnOffBtn;
         private System.Windows.Forms.TabPage tab_ISSPartRender;
+        private System.Windows.Forms.PictureBox ObjectViewPP;
+        private System.Windows.Forms.PictureBox ObjectViewY;
+        private System.Windows.Forms.PictureBox ObjectViewX;
+        private System.Windows.Forms.PictureBox ObjectViewZ;
     }
 }
 
