@@ -11,6 +11,6 @@ namespace DDWrapper
 		~GameLight();
 
 	protected:
-		ClientObject* Create() { return new ClientObject(); };
+		DDLight* Create() { return DDLight::Create(); };
 	};
 }

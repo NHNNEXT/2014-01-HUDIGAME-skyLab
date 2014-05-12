@@ -22,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DD_Server", "DD_Server\DD_S
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLogic", "GameLogic\GameLogic.vcxproj", "{528C19C0-239E-4031-90CC-CA342CB49AF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentGameTool", "IndependentGameTool\IndependentGameTool.csproj", "{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -96,6 +98,16 @@ Global
 		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Win32.ActiveCfg = Release|Win32
 		{528C19C0-239E-4031-90CC-CA342CB49AF0}.Release|Win32.Build.0 = Release|Win32
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B329CF9F-83C8-4B93-8C95-5BC35A8279CE}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

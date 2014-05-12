@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "GameCamera.h"
 
-
 namespace DDWrapper
 {
 

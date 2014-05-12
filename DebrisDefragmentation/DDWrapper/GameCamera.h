@@ -10,22 +10,21 @@ namespace DDWrapper
 		GameCamera(float width, float height);
 		~GameCamera();
 
-// 		const float GetPositionX() { return m_pObject->GetPositionX(); }
-// 		const float GetPositionY() { return m_pObject->GetPositionY(); }
-// 		const float GetPositionZ() { return m_pObject->GetPositionZ(); }
+		const float GetPositionX() { return m_pObject->GetTransform().GetPositionX(); }
+		const float GetPositionY() { return m_pObject->GetTransform().GetPositionY(); }
+		const float GetPositionZ() { return m_pObject->GetTransform().GetPositionZ(); }
 // 
-// 		void SetPosition( float x, float y, float z ) { m_pObject->SetPosition( x, y, z ); };
+		void SetPosition( float x, float y, float z ) { m_pObject->GetTransform().SetPosition( x, y, z ); };
 		
-		// 조심해!! 헬게이트 ㅠㅠ
-		//void SetFollwingObject( GameObject^ obj ) { m_pObject->SetFollowingObject( obj->GetPointer() ); }
-		//void SetAspectRatio( float width, float height ) { m_pObject->SetAspectRatio( width, height ); }
+		void SetFollwingObject( GameObject^ obj ) { dynamic_cast<DDCamera*>(m_pObject)->SetFollowingObject( obj->GetPointer() ); }
+		void SetAspectRatio( float width, float height ) { dynamic_cast<DDCamera*>( m_pObject )->SetAspectRatio( width, height ); }
 
 		const float GetViewDirectionX() { return m_pObject->GetViewDirection().x; }
 		const float GetViewDirectionY() { return m_pObject->GetViewDirection().y; }
 		const float GetViewDirectionZ() { return m_pObject->GetViewDirection().z; }
 
 	protected:
-		ClientObject* Create() { m_pObject = new ClientObject();  return m_pObject; };
+		DDCamera* Create() { m_pObject = DDCamera::Create();  return dynamic_cast<DDCamera*>(m_pObject); };
 		
 	private:
 
