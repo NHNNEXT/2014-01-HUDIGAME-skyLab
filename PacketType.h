@@ -63,6 +63,9 @@ enum PacketTypes
 	PKT_CS_ISS_MODULE_STATE = 105,
 	PKT_SC_ISS_MODULE_STATE = 106,
 
+	PKT_CS_GAME_RESULT = 151,
+	PKT_SC_GAME_RESULT = 152,
+
 
 	// 플레이어 상태에 관련된 패킷
 	PKT_CS_DEAD = 201,
@@ -609,5 +612,37 @@ struct IssModuleStateResult : public PacketHeader
 	int		mOwner;
 	float	mHP;
 };
+
+// PKT_CS_GAME_RESULT = 151,
+// PKT_SC_GAME_RESULT = 152,
+
+// 지금 ISS 모듈 소유자 및 체력 알려주세요
+struct GameResultRequest : public PacketHeader
+{
+	GameResultRequest()
+	{
+		mSize = sizeof( GameResultRequest );
+		mType = PKT_CS_GAME_RESULT;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+// 게임 결과 
+struct GameResultResult : public PacketHeader
+{
+	GameResultResult()
+	{
+		mSize = sizeof( GameResultResult );
+		mType = PKT_SC_GAME_RESULT;
+		mWinnerTeam = -1;
+	}
+
+	int		mWinnerTeam;
+
+	// 나중에 부가 정보 추가할 것
+};
+
 
 #pragma pack(pop)

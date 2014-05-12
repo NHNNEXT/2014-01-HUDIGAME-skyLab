@@ -88,6 +88,8 @@ public:
 	void ClearCollidedPlayer() { m_CollidedPlayers.clear(); }
 	void ClearDeadPlayer() { m_DeadPlayers.clear(); }
 
+	TeamColor GetWinnerTeam() { return m_WinnerTeam; }
+
 	// get other object data
 	// 지금은 없습니다.
 
@@ -110,7 +112,8 @@ private:
 	std::set<int> m_TeamBlue;
 	std::set<int> m_TeamRed;
 
-	ISS									m_ISS;
+	ISS			m_ISS;
+	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
 	// other objects
 	// 지금은 없음요

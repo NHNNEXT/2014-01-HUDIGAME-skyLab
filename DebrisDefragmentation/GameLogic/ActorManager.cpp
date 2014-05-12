@@ -32,6 +32,8 @@ void ActorManager::Init( )
 	} 
 	);
 
+	m_WinnerTeam = TeamColor::NO_TEAM;
+
 	// InitializeSRWLock( &m_SRWLock );
 }
 
@@ -133,6 +135,17 @@ void ActorManager::Update( )
 	}
 
 	m_ISS.Update( dt );
+
+	float posIss = m_ISS.GetTransform().GetPositionZ();
+
+	if ( posIss > WINNING_DISTANCE )
+	{
+		m_WinnerTeam = TeamColor::BLUE;
+	}
+	else if ( posIss < -WINNING_DISTANCE )
+	{
+		m_WinnerTeam = TeamColor::RED;
+	}
 
 	// 충돌 체크
 	CheckCollision();

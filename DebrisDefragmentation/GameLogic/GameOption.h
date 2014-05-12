@@ -85,6 +85,7 @@ const unsigned int	ACCELERATION_TIME = 500;
 #define				BLUE_TEAM_ROTATION	D3DXVECTOR3(.0f, 270.0f, .0f)
 #define				RED_TEAM_ROTATION	D3DXVECTOR3(.0f, 90.0f, .0f)
 
+const float			WINNING_DISTANCE = 150.0f;
 
 // collision box
 /*

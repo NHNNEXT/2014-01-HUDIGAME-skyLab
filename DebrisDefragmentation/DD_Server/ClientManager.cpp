@@ -79,6 +79,17 @@ void ClientManager::OnPeriodWork()
 		mClientIdList[each]->BroadcastCollisionResult();
 	}
 	);
+
+	// 조심해!!
+	// 뭔가 이벤트 방식이 아니라 풀링 방식이 되어 가는 게 불안하다.
+	TeamColor winnerTeam = mActorManager.GetWinnerTeam();
+	if ( winnerTeam != TeamColor::NO_TEAM )
+	{
+		GameResultResult outPacket;
+		outPacket.mWinnerTeam = static_cast<int>( winnerTeam );
+
+		BroadcastPacket( nullptr, &outPacket );
+	}
 	
 	SyncAll(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
 
@@ -102,7 +113,6 @@ void ClientManager::CollectGarbageSessions()
 			disconnectedSessions.push_back( client );
 	}
 	);
-
 
 	///FYI: C언어 스타일의 루프
 	for ( size_t i = 0; i<disconnectedSessions.size(); ++i )

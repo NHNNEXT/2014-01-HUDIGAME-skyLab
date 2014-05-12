@@ -49,6 +49,8 @@ public:
 	static void HandleIssStateResult( DDPacketHeader& pktBase );
 	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
 
+	static void HandleGameResultResult( DDPacketHeader& pktBase );
+
 private:
 	static int m_MyPlayerId;
 	
