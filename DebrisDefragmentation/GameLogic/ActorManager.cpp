@@ -43,7 +43,7 @@ int ActorManager::RegisterUser( Actor* newActor )
 	// 어떻게 효율적으로 비어있는 index를 찾고 그걸 세션에게 할당할 지 잘 모르겠네요
 	// 일단 이렇게 처음부터 순회하면서 비어있는 자리가 있으면 거기에 포인터 등록하고 idx 반환하도록 하는데...
 
-	///# 배열의 크기가 크지 않으면 아래처럼 해도 됨. 커지면 아래처럼 하면 안되고 free-pool을 만들어 유지해야 함. ObjectPool<> 참고.
+	// 일단 배열이 크지 않으므로 이렇게 가자
 	for ( unsigned int actorId = 0; actorId < MAX_PLAYER_NUM; ++actorId )
 	{
 		if ( m_ActorList[actorId] == nullptr )

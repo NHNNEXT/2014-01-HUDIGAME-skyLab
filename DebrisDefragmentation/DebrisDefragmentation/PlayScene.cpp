@@ -271,8 +271,8 @@ void PlayScene::UpdateUI()
 // 		return;
 // 	}
 
-	int currentOxygen = g_PlayerManager->GetPlayer( myId )->GetOxygen();
-	int currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
+	float currentOxygen = g_PlayerManager->GetPlayer( myId )->GetOxygen();
+	float currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
 	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen / static_cast<float>( DEFAULT_OXYGEN ), 1, 1 );

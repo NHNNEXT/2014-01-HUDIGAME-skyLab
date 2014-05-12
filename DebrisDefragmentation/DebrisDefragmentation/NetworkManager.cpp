@@ -425,6 +425,12 @@ void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
 	// ISS의 위치와 속도를 바꾼다.
 	GObjectManager->GetISS()->GetTransform().SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
 	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
+
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		GObjectManager->GetISS( )->SetOwner( i, inPacket.mModuleOwner[i] );
+		GObjectManager->GetISS( )->SetHP( i, inPacket.mModuleHP[i] );
+	}
 }
 
 void NetworkManager::HandleIssModuleStateResult( DDPacketHeader& pktBase )

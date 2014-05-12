@@ -5,7 +5,8 @@
 
 namespace GameMatrix
 {
-	///# Float3D 같은거 하나 만들어 놓으면 아주 편한데 말이지..
+	// 조심해!!
+	// Float3D를 추가했는데 지금은 이 함수를 안 쓰므로 나중에 반영하자
 	static std::tuple<float,float,float>   RotationMatrixToYawPitchRoll( const D3DXMATRIXA16 &m ) 
 	{
 		float	x, y, z;

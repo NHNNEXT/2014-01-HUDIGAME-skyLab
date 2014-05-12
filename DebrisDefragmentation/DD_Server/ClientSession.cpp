@@ -433,33 +433,24 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	// 기타 게임 정보 전송
 	//GameStateResult outPacket;
 
-	///# 아래 IssStateResult와 IssModuleStateResult 패킷 2개가 항상 같이 가는 구조라면 패킷 하나로 합치고 SendRequest도 한번만 하는게 좋다.
-	// 개별 모듈 업데이트가 필요한 경우를 위해 분리해두는 걸로 진행
-
 	// ISS state
 	IssStateResult currentIssState;
 
 	currentIssState.mIssPositionZ = m_ActorManager->GetIssPositionZ();
 	currentIssState.mIssVelocityZ = m_ActorManager->GetIssVelocityZ();
 
-	SendRequest( &currentIssState );
-
-	// ISS module state
 	for ( int i = 0; i < MODULE_NUMBER; ++i )
 	{
-		IssModuleStateResult currentIssModuleState;
-
 		TeamColor color = TeamColor::NO_TEAM;
 		float hp = 1.0f;
 
 		std::tie( color, hp ) = m_ActorManager->GetModuleState( i );
 
-		currentIssModuleState.mModuleIdx = i;
-		currentIssModuleState.mOwner = static_cast<int>( color );
-		currentIssModuleState.mHP = hp;
-
-		SendRequest( &currentIssModuleState );
+		currentIssState.mModuleOwner[i] = static_cast<int>( color );
+		currentIssState.mModuleHP[i] = hp;
 	}
+
+	SendRequest( &currentIssState );
 }
 
 REGISTER_HANDLER( PKT_CS_ACCELERATION )
@@ -471,7 +462,7 @@ REGISTER_HANDLER( PKT_CS_ACCELERATION )
 void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-	// printf_s( "goforward %d\n", inPacket.mPlayerId ); ///# 이 패킷 받을때마다 printf할겨? 보통 이런거는 logger만들어서 분리하는게 좋다.
+	// printf_s( "goforward %d\n", inPacket.mPlayerId ); 
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -791,7 +782,6 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
 	float moduleHP = 1.0f;
 
-	/// 클라에서 보내주는 playerId 믿지 않도록. 반드시 해당 ID가 존재하는지 검사 할 것.
 	std::tie( moduleName, moduleHP ) = m_ActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 
 	// 변경사항 없으면 리턴

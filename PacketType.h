@@ -1,6 +1,8 @@
 ﻿#pragma once
 
+// packet에 이런 애들을 인클루드해도 상관이 없을까요...
 #include <d3dx9.h>
+#include "GameOption.h"
 
 #define MAX_CHAT_LEN	1024
 
@@ -565,7 +567,9 @@ struct IssStateRequest : public PacketHeader
 	int		mPlayerId;
 };
 
-// 지금 ISS 위치, 속도 알려드립니다.
+// 지금 ISS 위치, 속도, 모듈 상태 알려드립니다.
+// 하나 하나 다 복사 하다가 뭔가 아닌 것 같아서 배열로 갑니다.
+// 배열 복사도 된다고 하셔서...
 struct IssStateResult : public PacketHeader
 {
 	IssStateResult()
@@ -575,10 +579,16 @@ struct IssStateResult : public PacketHeader
 
 		mIssPositionZ = 0.0f;
 		mIssVelocityZ = 0.0f;
+
+		memset( mModuleOwner, 0, sizeof( mModuleOwner ) );
+		memset( mModuleHP, 0, sizeof( mModuleHP ) );
 	}
 	
 	float	mIssPositionZ;
 	float	mIssVelocityZ;
+
+	int		mModuleOwner[MODULE_NUMBER];
+	float	mModuleHP[MODULE_NUMBER];
 };
 
 // 지금 ISS 모듈 소유자 및 체력 알려주세요
