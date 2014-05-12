@@ -93,17 +93,25 @@ enum PacketTypes
 	PKT_CS_SKILL_PUSH = 307,
 	PKT_SC_SKILL_PUSH = 308,
 
-	PKT_CS_SKILL_PULL = 309,
-	PKT_SC_SKILL_PULL = 310,
-
 	PKT_CS_OCCUPY = 311,
 	PKT_SC_OCCUPY = 312,
 
 	PKT_CS_DESTROY = 313,
 	PKT_SC_DESTROY = 314,
 
+	PKT_CS_SHARE_FUEL = 315,
+	PKT_SC_SHARE_FUEL = 316,
+
 
 	// 플레이어 특수 스킬에 관련된 패킷
+	// scout
+	PKT_CS_SKILL_PULL = 401,
+	PKT_SC_SKILL_PULL = 402,
+
+	// protector
+
+
+	// engineer
 
 
 	// 기타 패킷
@@ -374,7 +382,6 @@ struct SkillPushRequest : public PacketHeader
 
 	int		mPlayerId;
 
-	Float3D mPos;
 	Float3D mRotation;
 };
 
@@ -418,7 +425,6 @@ struct SkillPullRequest : public PacketHeader
 
 	int		mPlayerId;
 
-	Float3D mPos;
 	Float3D mRotation;
 };
 
@@ -654,5 +660,41 @@ struct GameResultResult : public PacketHeader
 	// 나중에 부가 정보 추가할 것
 };
 
+struct ShareFuelRequest : public PacketHeader
+{
+	ShareFuelRequest( )
+	{
+		mSize = sizeof( ShareFuelRequest );
+		mType = PKT_CS_SHARE_FUEL;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+
+	Float3D mRotation;
+};
+
+struct ShareFuelResult : public PacketHeader
+{
+	ShareFuelResult( )
+	{
+		mSize = sizeof( ShareFuelResult );
+		mType = PKT_SC_SHARE_FUEL;
+		
+		mPlayerId = -1;
+		mPlayerFuel = 0.0f;
+
+		mTargetId = -1;
+		mTargetFuel = 0.0f;
+	}
+
+	int		mPlayerId;
+	float	mPlayerFuel;
+
+	int		mTargetId;
+	float	mTargetFuel;
+
+	// 나중에 부가 정보 추가할 것
+};
 
 #pragma pack(pop)

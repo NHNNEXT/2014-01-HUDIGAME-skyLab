@@ -19,7 +19,7 @@ public:
 
 	void	SkillPush( ClassComponent& targetComponent, D3DXVECTOR3 force );
 	void	SkillPull( ClassComponent& targetComponent, D3DXVECTOR3 force );
-	void	SkillShareFuel();
+	void	SkillShareFuel( ClassComponent& targetComponent );
 
 
 
@@ -59,6 +59,7 @@ public:
 	float	GetOxygen() const { return m_Oxygen; }
 	void	SetOxygen( float val ) { m_Oxygen = val; }
 	void	IncreaseOxygen( float val ) { m_Oxygen += val; }
+	void	IncreaseFuel( float val ) { m_Fuel += val; }
 
 	float	GetHP() const { return m_HP; }
 	void	SetHP( float val ) { m_HP = val; }
@@ -85,9 +86,10 @@ public:
 	void		SetSpinAxis( D3DXVECTOR3 spinAxis ) { m_Rigidbody.m_SpinAxis = spinAxis; }
 	void		SetSpinAngle( float spinAngle ) { m_Rigidbody.m_SpinAngle = spinAngle; }
 
-
 	TeamColor	GetTeam() const { return m_Team; }
 	void		SetTeam( TeamColor val ) { m_Team = val; }
+
+	CharacterClass GetCharacterClassName() { return m_ClassName; }
 
 protected:	
 // 	bool		m_IsAccelerating = false;
@@ -102,5 +104,7 @@ protected:
 	float		m_HP = DEFAULT_HP;
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
+
+	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
 };
 

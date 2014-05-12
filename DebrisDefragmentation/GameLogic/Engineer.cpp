@@ -4,6 +4,7 @@
 
 Engineer::Engineer()
 {
+	m_ClassName = CharacterClass::ENGINEER;
 }
 
 

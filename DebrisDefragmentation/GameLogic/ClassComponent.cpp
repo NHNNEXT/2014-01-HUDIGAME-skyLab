@@ -54,9 +54,10 @@ void ClassComponent::SkillPull( ClassComponent& targetComponent, D3DXVECTOR3 for
 	targetComponent.AddForce( -force );
 }
 
-void ClassComponent::SkillShareFuel()
+void ClassComponent::SkillShareFuel( ClassComponent& targetComponent )
 {
-
+	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
+	targetComponent.IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
 }
 
 void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

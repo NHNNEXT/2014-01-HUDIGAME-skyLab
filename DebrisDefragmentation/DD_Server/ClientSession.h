@@ -68,6 +68,7 @@ public:
 	void	HandleRespawnRequest( RespawnRequest& inPacket );
 	void	HandleOccupyRequest( SkillOccupyRequest& inPacket );
 	void	HandleDestroyRequest( SkillDestroyRequest& inPacket );
+	void	HandleShareFuelRequest( ShareFuelRequest& inPacket );
 
 	int				GetPlayerId() const { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }

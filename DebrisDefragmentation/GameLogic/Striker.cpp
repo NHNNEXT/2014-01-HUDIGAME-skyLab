@@ -4,6 +4,7 @@
 
 Striker::Striker()
 {
+	m_ClassName = CharacterClass::STRIKER;
 }
 
 

@@ -42,6 +42,7 @@ public:
 	static void HandleCollisionResult( DDPacketHeader& pktBase );
 	static void HandlePushResult( DDPacketHeader& pktBase );
 	static void HandlePullResult( DDPacketHeader& pktBase );
+	static void HandleShareFuelResult( DDPacketHeader& pktBase );
 
 	static void HandleOccupyResult( DDPacketHeader& pktBase );
 	static void HandleDestroyResult( DDPacketHeader& pktBase );

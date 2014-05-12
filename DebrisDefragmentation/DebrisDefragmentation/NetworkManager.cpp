@@ -110,7 +110,6 @@ void NetworkManager::SendSkillPush()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
 	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
@@ -125,7 +124,6 @@ void NetworkManager::SendSkillPull()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
 	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
@@ -211,6 +209,8 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY, HandleDestroyResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
+	DDNetwork::GetInstance( )->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
+	DDNetwork::GetInstance( )->RegisterHandler( PKT_SC_SHARE_FUEL, HandleShareFuelResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -453,4 +453,13 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
+}
+
+void NetworkManager::HandleShareFuelResult( DDPacketHeader& pktBase )
+{
+	ShareFuelResult inPacket = reinterpret_cast<ShareFuelResult&>( pktBase );
+	DDNetwork::GetInstance( )->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetFuel( inPacket.mPlayerFuel );
+	g_PlayerManager->GetPlayer( inPacket.mTargetId )->GetClassComponent( ).SetFuel( inPacket.mTargetFuel );
 }

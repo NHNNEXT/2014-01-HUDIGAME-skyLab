@@ -4,6 +4,7 @@
 
 Protector::Protector()
 {
+	m_ClassName = CharacterClass::PROTECTOR;
 }
 
 

@@ -616,13 +616,15 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
+	// scout 특수 스킬입니다.
+	if ( m_Character.GetClassComponent().GetCharacterClassName() != CharacterClass::STRIKER )
+		return;
+
 	// 우선 타겟이 있는지 확인
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis;
 
 	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
-
-	printf_s( "try to pull", targetId );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -630,7 +632,7 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 
 	// 타겟이 있으면 
 	// for debugging
-	printf_s( "pull target : %d\n", targetId );
+	// printf_s( "pull target : %d\n", targetId );
 
 	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
 	D3DXVECTOR3 force = targetCharacter->GetTransform( ).GetPosition( ) - m_Character.GetTransform( ).GetPosition( );
@@ -802,5 +804,50 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
+	}
+}
+
+
+REGISTER_HANDLER( PKT_CS_SHARE_FUEL )
+{
+	ShareFuelRequest inPacket = static_cast<ShareFuelRequest&>( pktBase );
+	session->HandleShareFuelRequest( inPacket );
+}
+
+void ClientSession::HandleShareFuelRequest( ShareFuelRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
+	// 나눠 줄 연료가 없다ㅠ
+	if ( m_Character.GetClassComponent( ).GetFuel( ) < DEFAULT_FUEL_SHARE_AMOUNT )
+		return;
+
+	int targetId = -1;
+	D3DXVECTOR3 spinAxis;
+
+	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
+
+	// 타겟이 없으면 그냥 무시
+	if ( targetId == -1 )
+		return;
+
+	m_Character.GetClassComponent().SkillShareFuel( m_ActorManager->GetActor( targetId )->GetClassComponent() );
+
+	// 반환받은 결과를 방송!
+	ShareFuelResult outPacket;
+
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mPlayerFuel = m_Character.GetClassComponent().GetFuel();
+
+	outPacket.mTargetId = targetId;
+	outPacket.mTargetFuel = m_ActorManager->GetActor( targetId )->GetClassComponent().GetFuel();
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect( );
 	}
 }

@@ -116,6 +116,7 @@ const float			FUEL_FOR_GOFORWARD = 30.0f;
 const float			DEFAULT_OXYGEN = 3000.0f;
 const float			DEFAULT_FUEL = 5000.0f;
 const float			DEFAULT_HP = 100.0f;
+const float			DEFAULT_FUEL_SHARE_AMOUNT = 1000;
 
 
 // SKILL
