@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameEnvironment.h"
+#include "Environment.h"
 
 namespace DDWrapper
 {

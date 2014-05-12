@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "GameObject.h"
-#include "DDLight.h"
 
 namespace DDWrapper
 {
@@ -12,6 +11,6 @@ namespace DDWrapper
 		~GameLight();
 
 	protected:
-		DDLight* Create() { return DDLight::Create(); };
+		ClientObject* Create() { return new ClientObject(); };
 	};
 }

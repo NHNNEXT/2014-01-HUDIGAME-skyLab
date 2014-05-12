@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "GameObject.h"
-#include "DDModel.h"
 #include "GameCamera.h"
 
 
@@ -10,7 +9,7 @@ namespace DDWrapper
 	public ref class GameModel : public GameObject
 	{
 	public:
-		GameModel() { m_pObject = new DDModel(); };
+		GameModel() { m_pObject = new ClientObject(); };
 		GameModel( System::String^ filepath );
 		~GameModel();
 
