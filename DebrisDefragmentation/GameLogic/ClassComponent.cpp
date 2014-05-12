@@ -60,7 +60,7 @@ void ClassComponent::StopSpin()
 	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 
-bool ClassComponent::UseOxygen( int oxygenUse )
+bool ClassComponent::UseOxygen( float oxygenUse )
 {
 	if ( oxygenUse > m_Oxygen )
 	{
@@ -78,7 +78,7 @@ bool ClassComponent::UseOxygen( int oxygenUse )
 	}
 }
 
-bool ClassComponent::UseFuel( int fuelUse )
+bool ClassComponent::UseFuel( float fuelUse )
 {
 	if ( fuelUse > m_Fuel )
 	{
@@ -101,4 +101,9 @@ void ClassComponent::AddForce( const D3DXVECTOR3 &direction )
 	D3DXVec3Normalize( &normalVec, &direction );
 
 	m_Rigidbody.m_Acceleration += ( normalVec * PUSHPULL_WEIGHT );
+}
+
+void ClassComponent::Update( float dt )
+{
+	UseOxygen( dt * DEFAULT_CONSUMPTION );
 }

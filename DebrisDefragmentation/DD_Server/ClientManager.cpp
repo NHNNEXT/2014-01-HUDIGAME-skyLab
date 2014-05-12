@@ -65,6 +65,20 @@ void ClientManager::OnPeriodWork()
 		mClientIdList[each]->BroadcastCollisionResult();
 	}
 	);
+
+	// 죽은 애들 찾아서 방송하자
+	std::set<int> deadPlayer = mActorManager.GetDeadPlayerId();
+	mActorManager.ClearDeadPlayer();
+
+	std::for_each( deadPlayer.begin(), deadPlayer.end(), [&]( const int& each )
+	{
+		// each 클라이언트별로 BroadcastCollisionResult(); 해줘야 한다
+		// 순회할 수는 없는 노릇이고
+		// n의 제곱... 리스트를 하나 더 만들어도 되나...
+		assert( mClientIdList[each] );
+		mClientIdList[each]->BroadcastCollisionResult();
+	}
+	);
 	
 	SyncAll(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
 

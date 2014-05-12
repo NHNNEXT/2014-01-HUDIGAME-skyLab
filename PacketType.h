@@ -11,27 +11,32 @@
 // http://en.wikipedia.org/wiki/Plain_Old_Data_Structures
 struct Float3D
 {
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
+	Float3D()
+		: m_X( 0.0f ), m_Y( 0.0f ), m_Z( 0.0f )
+	{}
+
+	Float3D( D3DXVECTOR3 src ) 
+		: m_X( src.x ), m_Y( src.y ), m_Z( src.z )
+	{}
+
+	Float3D& operator=( const Float3D& rhs )
+	{
+		m_X = rhs.m_X;
+		m_Y = rhs.m_Y;
+		m_Z = rhs.m_Z;
+
+		return *this;
+	}
+
+	D3DXVECTOR3 GetD3DVEC()
+	{
+		return D3DXVECTOR3( m_X, m_Y, m_Z );
+	}
+
+	float m_X = 0.0f;
+	float m_Y = 0.0f;
+	float m_Z = 0.0f;
 };
-
-// Float3D가 POD 이므로 사용자 지정 생성자를 만들 수 없음
-// D3DXVECTOR3와 Float3D 사이의 변환을 간단하게 하는 함수를 따로 정의
-// 복사 대입 생성자도 정의할 수 없으므로 참조자를 이용한 연산으로 구현
-static void Float3DtoD3DXVECTOR3( _Out_ D3DXVECTOR3& target, _In_ const Float3D& src )
-{
-	target.x = src.x;
-	target.y = src.y;
-	target.z = src.z;
-}
-
-static void D3DXVECTOR3toFloat3D( _Out_ Float3D& target, _In_ const D3DXVECTOR3& src )
-{
-	target.x = src.x;
-	target.y = src.y;
-	target.z = src.z;
-}
 
 
 // 조심해!!

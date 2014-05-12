@@ -79,7 +79,6 @@ void Player::RenderItSelf()
 
 void Player::UpdateItSelf( float dTime )
 {
-	
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	if ( !m_ClassComponent->UseOxygen(OXYGEN_COUNSUMED) )
 	{
@@ -107,6 +106,9 @@ void Player::UpdateItSelf( float dTime )
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
 	GetClassComponent().SetVelocity( tmpVel );
+
+	// 산소량 감소등의 작업 처리
+	GetClassComponent().Update( dTime );
 }
 
 void Player::LookAt( float x, float y, float z )

@@ -43,19 +43,23 @@ public:
 	float	GetSpinTime() { return m_SpinTime; }
 	void	SetSpinTime( float time ) { m_SpinTime = time; }
 	
-	int		GetFuel() const { return m_Fuel; }
-	void	SetFuel( int val ) { m_Fuel = val; }
+	float	GetFuel() const { return m_Fuel; }
+	void	SetFuel( float val ) { m_Fuel = val; }
 
-	int		GetOxygen() const { return m_Oxygen; }
-	void	SetOxygen( int val ) { m_Oxygen = val; }
-	void	IncreaseOxygen( int val ) { m_Oxygen += val; }
+	float	GetOxygen() const { return m_Oxygen; }
+	void	SetOxygen( float val ) { m_Oxygen = val; }
+	void	IncreaseOxygen( float val ) { m_Oxygen += val; }
 
-	int		GetHP() const { return m_HP; }
-	void	SetHP( int val ) { m_HP = val; }
+	float	GetHP() const { return m_HP; }
+	void	SetHP( float val ) { m_HP = val; }
 
 	bool	IsAlive() { return ( m_HP > 0 ) ? true : false; }
-	bool	UseFuel( int fuelUse );
-	bool	UseOxygen(int oxygenUse);
+	bool	UseFuel( float fuelUse );
+	bool	UseOxygen( float oxygenUse );
+
+	// 주기적으로 처리해야 하는 일들
+	// 예를 들어 산소량 감소와 같은 일을 처리 
+	void	Update( float dt );
 
 // 	Rigidbody	GetRigidbody() { return m_Rigidbody; }
 // 	void		SetRigidbody( Rigidbody val ) { m_Rigidbody = val; }
@@ -83,9 +87,9 @@ protected:
 	Rigidbody	m_Rigidbody;
 	
 	// 산소 및 추진체 관련
-	int			m_Oxygen = DEFAULT_OXYGEN;
-	int			m_Fuel = DEFAULT_FUEL;
-	int			m_HP = DEFAULT_HP;
+	float		m_Oxygen = DEFAULT_OXYGEN;
+	float		m_Fuel = DEFAULT_FUEL;
+	float		m_HP = DEFAULT_HP;
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
 };

@@ -124,6 +124,11 @@ void ActorManager::Update( )
 		if ( m_ActorList[actorId] != nullptr )
 		{
 			m_ActorList[actorId]->Update( dt );
+			if ( !m_ActorList[actorId]->GetClassComponent().IsAlive() )
+			{
+				// 죽음 패킷 보내자
+				m_DeadPlayers.insert( actorId );
+			}
 		}
 	}
 

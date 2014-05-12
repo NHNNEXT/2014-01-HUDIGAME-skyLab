@@ -76,6 +76,7 @@ public:
 		최경욱 2014. 5. 11
 	*/
 	std::set<int> GetCollidedPlayerId() { return m_CollidedPlayers; }
+	std::set<int> GetDeadPlayerId() { return m_DeadPlayers; }
 
 	/*
 		충돌한 플레이어들의 index를 초기화 함수
@@ -85,6 +86,7 @@ public:
 		최경욱 2014. 5. 11
 	*/
 	void ClearCollidedPlayer() { m_CollidedPlayers.clear(); }
+	void ClearDeadPlayer() { m_DeadPlayers.clear(); }
 
 	// get other object data
 	// 지금은 없습니다.
@@ -99,6 +101,7 @@ private:
 
 	// 충돌한 아이들 저장하기 위한 변수
 	std::set<int>						m_CollidedPlayers;
+	std::set<int>						m_DeadPlayers;
 
 	// player list
 	std::array<Actor*, MAX_PLAYER_NUM>	m_ActorList;

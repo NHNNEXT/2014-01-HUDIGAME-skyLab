@@ -102,6 +102,9 @@ void Character::UpdateItSelf( float dTime )
 	GetTransform().SetPosition( tmpVec3 );
 	GetClassComponent().SetVelocity( tmpVel );
 
+	// 산소량 감소등의 작업 처리
+	GetClassComponent().Update( dTime );
+
 	// printf_s( "%f / %f / %f\n", m_Position.x, m_Position.y, m_Position.z );
 }
 

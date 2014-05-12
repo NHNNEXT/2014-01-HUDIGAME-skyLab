@@ -94,9 +94,9 @@ void NetworkManager::SendTurnBody()
 
 	// 카메라 플레이어 분리 후 getcameraviewingdirection은 사용X
 
-	outPacket.mRotation.x = g_PlayerManager->GetCamera()->GetTransform().GetRotationX();
-	outPacket.mRotation.y = g_PlayerManager->GetCamera()->GetTransform().GetRotationY();
-	outPacket.mRotation.z = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotationZ();
+	outPacket.mRotation.m_X = g_PlayerManager->GetCamera()->GetTransform().GetRotationX();
+	outPacket.mRotation.m_Y = g_PlayerManager->GetCamera()->GetTransform().GetRotationY();
+	outPacket.mRotation.m_Z = g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -110,8 +110,8 @@ void NetworkManager::SendSkillPush()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetTransform().GetRotation() );
+	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
+	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -125,8 +125,8 @@ void NetworkManager::SendSkillPull()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetTransform().GetRotation() );
+	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
+	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -145,7 +145,8 @@ void NetworkManager::SendDeadRequest()
 	// player가 update되지 않도록 막음.. 계속 senddeadrequest를 호출할 수 없도록..
 	g_PlayerManager->GetPlayer( m_MyPlayerId )->SetUpdatable( false );
 
-	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+	// 지금은 게임 로직 계산은 서버에서만 하므로 일단 보내지 않음
+	// DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
 // 캐릭터가 리스폰될 때 보냄.
@@ -171,8 +172,8 @@ void NetworkManager::SendSkillOccupy()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetTransform().GetRotation() );
+	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
+	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -186,8 +187,8 @@ void NetworkManager::SendSkillDestroy()
 
 	outPacket.mPlayerId = m_MyPlayerId;
 
-	D3DXVECTOR3toFloat3D( outPacket.mPos, g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
-	D3DXVECTOR3toFloat3D( outPacket.mRotation, g_PlayerManager->GetCamera()->GetTransform().GetRotation() );
+	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
+	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -255,9 +256,10 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	// printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
 
 	player->GoForward();
-	player->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	player->GetTransform().SetRotation( DDVECTOR3( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z ) );
-	player->GetClassComponent().SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+
+	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
+	player->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -267,7 +269,7 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 		
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );		
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
 }
 
 void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
@@ -276,7 +278,7 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->TurnBody(inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->TurnBody( inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 
@@ -293,8 +295,8 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 		dummyPlayerID = inPacket.mPlayerId + REAL_PLAYER_NUM;
 
 		g_PlayerManager->AddPlayer( dummyPlayerID );
-		g_PlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-		g_PlayerManager->GetPlayer( dummyPlayerID )->GetClassComponent().SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 	}
 #else
 #endif
@@ -308,14 +310,14 @@ void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
 	//targetPlayer->GoForward();
-	targetPlayer->GetClassComponent().AddForce( DDVECTOR3( inPacket.mForce.x, inPacket.mForce.y, inPacket.mForce.z ) );
-	targetPlayer->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	targetPlayer->GetClassComponent().SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	targetPlayer->GetClassComponent().AddForce( inPacket.mForce.GetD3DVEC() );
+	targetPlayer->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	targetPlayer->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 
-	if ( inPacket.mSpinAxis.x == 0.0f && inPacket.mSpinAxis.y == 0.0f && inPacket.mSpinAxis.z == 0.0f )
+	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
 		return;
 
-	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxis.x, inPacket.mSpinAxis.y, inPacket.mSpinAxis.z ), inPacket.mSpinAngularVelocity );
+	targetPlayer->SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
 	// player->SetSpin( DDVECTOR3( 1.0f, 1.0f, 0.0f ), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PUSH from %d player\n", inPacket.mPlayerId );
@@ -328,14 +330,14 @@ void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mTargetId );
 	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	targetPlayer->GetClassComponent().AddForce( DDVECTOR3( inPacket.mForce.x, inPacket.mForce.y, inPacket.mForce.z ) );
-	targetPlayer->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	targetPlayer->GetClassComponent().SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	targetPlayer->GetClassComponent().AddForce( inPacket.mForce.GetD3DVEC() );
+	targetPlayer->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	targetPlayer->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 
-	if ( inPacket.mSpinAxis.x == 0.0f && inPacket.mSpinAxis.y == 0.0f && inPacket.mSpinAxis.z == 0.0f )
+	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
 		return;
 
-	targetPlayer->SetSpin( DDVECTOR3( inPacket.mSpinAxis.x, inPacket.mSpinAxis.y, inPacket.mSpinAxis.z ), inPacket.mSpinAngularVelocity );
+	targetPlayer->SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
 
 	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
 }
@@ -346,9 +348,9 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( DDVECTOR3( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
 
@@ -359,6 +361,9 @@ void NetworkManager::HandleDeadResult( DDPacketHeader& pktBase )
 
 	// 죽으면 처리할 부분 추가할 것
 	// fps 게임에서 죽으면 다른 캐릭터 보는 view로 바꿔준다거나, scene을 바꿔준다거나...	
+
+	// 죽어라
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetHP( 0.0f );
 }
 
 void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
@@ -378,8 +383,8 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	player->SetUpdatable( true );
 
 	player->GetClassComponent().SetVelocity( ZERO_VECTOR3 );
-	player->GetTransform().SetPosition( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z );
-	player->GetTransform().SetRotation( inPacket.mRotation.x, inPacket.mRotation.y, inPacket.mRotation.z );
+	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
 }
 
 void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
@@ -388,8 +393,8 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( DDVECTOR3( inPacket.mPos.x, inPacket.mPos.y, inPacket.mPos.z ) );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( DDVECTOR3( inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z ) );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
 void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )

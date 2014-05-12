@@ -122,13 +122,14 @@ const float			CHARACTER_CB_CENTER_POS_Z = 0.0f;
 
 
 // 추진체 관련
-const int			OXYGEN_COUNSUMED = 1;
-const int			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10;
-const int			FUEL_FOR_GOFORWARD = 30;
+const float			OXYGEN_COUNSUMED = 1.0f;
+const float			DEFAULT_CONSUMPTION = 60.0f;
+const float			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10.0f;
+const float			FUEL_FOR_GOFORWARD = 30.0f;
 
-const int			DEFAULT_OXYGEN = 3000;
-const int			DEFAULT_FUEL = 5000;
-const int			DEFAULT_HP = 100;
+const float			DEFAULT_OXYGEN = 3000.0f;
+const float			DEFAULT_FUEL = 5000.0f;
+const float			DEFAULT_HP = 100.0f;
 
 
 // SKILL
