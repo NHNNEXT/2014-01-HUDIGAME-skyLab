@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "DDMacro.h"
 #include "DDUI.h"
-#include "GameOption.h"
+#include "Environment.h"
 
 class UIManager
 {

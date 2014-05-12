@@ -275,7 +275,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			// 정확하게는 두 물체의 기준점 사이의 거리를 비교하는 것이 아니라 교차점과 스킬을 사용한 객체의 기준점의 거리를 구해서 비교해야 함
-			if ( tempDistance < currentDistance )
+			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
 			{
 				currentDistance = tempDistance;
 				spinAxis = tempAxis;

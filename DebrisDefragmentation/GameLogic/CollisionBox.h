@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "GameOption.h"
+#include "Environment.h"
 
 struct CollisionBox
 {

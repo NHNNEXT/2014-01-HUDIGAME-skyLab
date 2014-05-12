@@ -477,6 +477,12 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 		return;
 
 	// 이걸 멤버 유저에게 적용하고 	
+	if ( m_Character.GetClassComponent().GetFuel() < FUEL_FOR_GOFORWARD )
+	{
+		// 남은 연료가 없다. ㅂㅂ
+		return;
+	}
+
 	m_Character.GoForward();
 
 	AccelerarionResult outPacket;

@@ -3,7 +3,7 @@
 #include "DDResourceManager.h"
 #include "stdafx.h"
 #include "GameMacro.h"
-#include "GameOption.h"
+#include "Environment.h"
 
 // enum JsonDataListTag
 // {

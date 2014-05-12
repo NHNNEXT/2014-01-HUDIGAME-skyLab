@@ -63,7 +63,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 			// 조심해!
 			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
 			// 더 가까운 애로 교체
-			if ( tempDistance < currentDistance )
+			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
 			{
 				currentDistance = tempDistance;
 				targetModule = eachModule.GetModuleName();
@@ -126,7 +126,7 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 			// 조심해!
 			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
 			// 더 가까운 애로 교체
-			if ( tempDistance < currentDistance )
+			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
 			{
 				currentDistance = tempDistance;
 				targetModule = eachModule.GetModuleName();
