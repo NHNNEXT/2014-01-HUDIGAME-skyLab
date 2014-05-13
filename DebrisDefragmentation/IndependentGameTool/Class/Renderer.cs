@@ -15,8 +15,9 @@ namespace GameTool.Class
 
         }
 
-        Device m_device = null;
-        
+        // devices for ISS Renderer
+        private List<Device> m_deviceList = new List<Device>();
+
         // D3D Device를 할당한다
         public void CreateDevice(System.Windows.Forms.Control display)
         {
@@ -25,8 +26,10 @@ namespace GameTool.Class
                 PresentParameters presentParams = new PresentParameters();
                 presentParams.Windowed = true;
                 presentParams.SwapEffect = SwapEffect.Discard;
-                m_device = new Device(0, DeviceType.Hardware, display,
+                Device device = new Device(0, DeviceType.Hardware, display,
                     CreateFlags.SoftwareVertexProcessing, presentParams);
+
+                m_deviceList.Add(device);
             }
             catch (DirectXException)
             {
@@ -35,12 +38,21 @@ namespace GameTool.Class
             }
         }
 
+        public void ClearRenderDevices()
+        {
+            m_deviceList.Clear();
+        }
+
         public void Render()
         {
-            m_device.Clear(ClearFlags.Target, 
-                System.Drawing.Color.FromArgb(0, 0, 255).ToArgb(), 
+            foreach (Device dc in m_deviceList)
+            {
+                dc.Clear(ClearFlags.Target,
+                System.Drawing.Color.FromArgb(0, 0, 255).ToArgb(),
                 1.0f, 0);
-            m_device.Present();
+
+                dc.Present();
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GameTool
 {
     public partial class IndependentGameTool : Form
     {
-        Class.Renderer m_Renderer = null;
+        Class.Renderer m_Renderer = new Class.Renderer();
 
         public IndependentGameTool()
         {
@@ -20,8 +20,12 @@ namespace GameTool
 
         private void ISSRenderStart(object sender, EventArgs e)
         {
-            m_Renderer = new Class.Renderer();
+            m_Renderer.ClearRenderDevices();
             m_Renderer.CreateDevice(this.ObjectViewPP);
+            m_Renderer.CreateDevice(this.ObjectViewX);
+            m_Renderer.CreateDevice(this.ObjectViewY);
+            m_Renderer.CreateDevice(this.ObjectViewZ);
+
             Render();
         }
 
