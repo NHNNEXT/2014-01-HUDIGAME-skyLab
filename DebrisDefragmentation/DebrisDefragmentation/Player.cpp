@@ -80,7 +80,7 @@ void Player::RenderItSelf()
 		D3DXVECTOR3 tmpSpinAxis = m_ClassComponent->GetSpinAxis();
 		float tmpSpinAngle = m_ClassComponent->GetSpinAngle();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_ClassComponent->GetSpinTime( ) );
-		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
+		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 
 // 		D3DXQUATERNION qt;
 // 		D3DXVECTOR3 scl, pos;

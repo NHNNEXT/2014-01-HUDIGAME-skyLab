@@ -2,6 +2,8 @@
 #include "DDCamera.h"
 #include "DDRenderer.h"
 #include "DDApplication.h"
+#include "PlayerManager.h"
+#include "NetworkManager.h"
 
 
 DDCamera::DDCamera():
@@ -16,24 +18,10 @@ DDCamera::~DDCamera()
 }
 
 void DDCamera::RenderItSelf()
-{
-	DDVECTOR3 vEyePt, vLookatPt, vUpVec;
-	if ( m_EmbeddedCamera || m_FollowingObject == nullptr )
+{	
+	if ( m_FirstPersonCamera && m_FollowingObject != nullptr )
 	{
-		D3DXVECTOR4 tempEye;
-		D3DXVECTOR3 pos = GetTransform().GetPosition();
-		D3DXVec3Transform( &tempEye, &pos, &m_Matrix );
-		vEyePt = DDVECTOR3( tempEye.x, tempEye.y, tempEye.z );
-
-		D3DXVECTOR4 tempLook;
-		D3DXVec3Transform( &tempLook, &m_LookatPoint, &m_Matrix );
-		vLookatPt = DDVECTOR3( tempLook.x, tempLook.y, tempLook.z );
-
-		vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
-	}
-	else 
-	{
-	//	D3DXMATRIXA16 m_Matrix;
+		//	D3DXMATRIXA16 m_Matrix;
 		D3DXQUATERNION	qRotation;
 		D3DXMatrixIdentity( &m_Matrix );
 
@@ -45,19 +33,31 @@ void DDCamera::RenderItSelf()
 		D3DXVECTOR3 fPos = m_FollowingObject->GetTransform().GetPosition();
 		D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &scale, NULL, &qRotation, &fPos );
 
-		D3DXVECTOR4 tempEye;
-		D3DXVECTOR3 pos = GetTransform().GetPosition();
-		D3DXVec3Transform( &tempEye, &pos, &m_Matrix );
-		vEyePt = DDVECTOR3( tempEye.x, tempEye.y, tempEye.z );
-
-		D3DXVECTOR4 tempLook;
-		D3DXVec3Transform( &tempLook, &m_LookatPoint, &m_Matrix );
-		vLookatPt = DDVECTOR3( tempLook.x, tempLook.y, tempLook.z );
-
-		vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
-
+		ClassComponent& cc = g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent();
+		if ( cc.IsSpinning() )
+		{
+			// 플레이어와 카메라의 회전 동기화
+			D3DXMATRIXA16 spinTransform;
+			D3DXVECTOR3 tmpSpinAxis = cc.GetSpinAxis();
+			float tmpSpinAngle = cc.GetSpinAngle();
+			D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * cc.GetSpinTime() );
+			D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
+		}
 	}
 	
+
+	D3DXVECTOR4 tempEye;
+	D3DXVECTOR3 pos = GetTransform().GetPosition();
+	D3DXVec3Transform( &tempEye, &pos, &m_Matrix );
+	D3DXVECTOR3 vEyePt = DDVECTOR3( tempEye.x, tempEye.y, tempEye.z );
+
+	D3DXVECTOR4 tempLook;
+	D3DXVec3Transform( &tempLook, &m_LookatPoint, &m_Matrix );
+	D3DXVECTOR3 vLookatPt = DDVECTOR3( tempLook.x, tempLook.y, tempLook.z );
+
+	D3DXVECTOR3 vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
+
+
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
