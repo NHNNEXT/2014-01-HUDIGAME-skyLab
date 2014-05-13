@@ -19,7 +19,11 @@ namespace GameTool.Class
         private Mesh ISSMesh = null;
         D3D.Material[] ISSMaterials;
         D3D.Texture[] ISSTextures;
-        const string filename = "ISS.x";
+        const string filename = ".\\Resources\\3DModel\\iss.x";
+
+        // camera
+        int Width = 375;
+        int Height = 335;
 
         // devices for ISS Renderer
         private Device m_device = null;
@@ -29,10 +33,10 @@ namespace GameTool.Class
 
         }
 
-        private void LoadMesh(string filename, ref Mesh mesh, ref Material[] meshmaterials, ref Texture[] meshtextures, Device device)
+        private void LoadMesh(string filename, ref Mesh mesh, ref Material[] meshmaterials, ref Texture[] meshtextures)
         {
             ExtendedMaterial[] materialarray;
-            mesh = Mesh.FromFile(filename, MeshFlags.Managed, device, out materialarray);
+            mesh = Mesh.FromFile(filename, MeshFlags.Managed, m_device, out materialarray);
 
             if ((materialarray != null) && (materialarray.Length > 0))
             {
@@ -46,17 +50,27 @@ namespace GameTool.Class
 
                     if ((materialarray[i].TextureFilename != null) && (materialarray[i].TextureFilename != string.Empty))
                     {
-                        meshtextures[i] = TextureLoader.FromFile(device, materialarray[i].TextureFilename);
+                        meshtextures[i] = TextureLoader.FromFile(m_device, materialarray[i].TextureFilename);
                     }
                 }
             }
 
-            mesh = mesh.Clone(mesh.Options.Value, CustomVertex.PositionNormalTextured.Format, device);
+            mesh = mesh.Clone(mesh.Options.Value, CustomVertex.PositionNormalTextured.Format, m_device);
             mesh.ComputeNormals();
 
             VertexBuffer vertices = mesh.VertexBuffer;
             GraphicsStream stream = vertices.Lock(0, 0, LockFlags.None);
             vertices.Unlock();
+        }
+
+        private void DrawMesh(Mesh mesh, Material[] meshmaterials, Texture[] meshtextures)
+        {
+            for (int i = 0; i < meshmaterials.Length; i++)
+            {
+                m_device.Material = meshmaterials[i];
+                m_device.SetTexture(0, meshtextures[i]);
+                mesh.DrawSubset(i);
+            }
         }
 
         // D3D Device를 할당한다
@@ -76,6 +90,8 @@ namespace GameTool.Class
                 m_device.RenderState.ZBufferEnable = true;
                 m_device.RenderState.Lighting = false;
                 m_device.RenderState.CullMode = Cull.Clockwise;
+
+                Init();
             }
             catch (DirectXException)
             {
@@ -84,11 +100,28 @@ namespace GameTool.Class
             }
         }
 
+        private void SetUpCamera()
+        {
+            m_device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, (float)this.Width / (float)this.Height, 0.3f, 500f);
+            m_device.Transform.View = Matrix.LookAtLH(new Vector3(20, 5, 13), new Vector3(8, 7, 0), new Vector3(0, 0, 1));
+        }
+
+        private void Init()
+        {
+            LoadMesh(filename, ref ISSMesh, ref ISSMaterials, ref ISSTextures);
+            SetUpCamera();
+        }
+
         public void Render()
         {
-            m_device.Clear(ClearFlags.Target,
-                System.Drawing.Color.FromArgb(0, 0, 0).ToArgb(),
-                1.0f, 0);
+            m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.DarkSlateBlue, 1.0f, 0);
+            m_device.BeginScene();
+
+            m_device.Transform.World = Matrix.Identity;
+            m_device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
+
+            DrawMesh(ISSMesh, ISSMaterials, ISSTextures);
+            m_device.EndScene();
             m_device.Present();
         }
     }
