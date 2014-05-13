@@ -76,7 +76,7 @@ void ClientManager::OnPeriodWork()
 		// 순회할 수는 없는 노릇이고
 		// n의 제곱... 리스트를 하나 더 만들어도 되나...
 		assert( mClientIdList[each] );
-		mClientIdList[each]->BroadcastCollisionResult();
+		mClientIdList[each]->BroadcastDeadResult();
 	}
 	);
 
