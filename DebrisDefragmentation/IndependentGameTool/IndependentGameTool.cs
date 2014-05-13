@@ -20,7 +20,6 @@ namespace GameTool
 
         private void ISSRenderStart(object sender, EventArgs e)
         {
-            m_Renderer.ClearRenderDevices();
             m_Renderer.CreateDevice(this.ObjectViewPP);
             m_Renderer.CreateDevice(this.ObjectViewX);
             m_Renderer.CreateDevice(this.ObjectViewY);

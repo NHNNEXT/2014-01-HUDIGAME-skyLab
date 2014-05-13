@@ -96,6 +96,7 @@
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.FPSshow = new System.Windows.Forms.Label();
             this.ObjectTool = new System.Windows.Forms.TabPage();
+            this.ISSRenderBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -105,7 +106,6 @@
             this.ObjectViewY = new System.Windows.Forms.PictureBox();
             this.ObjectViewX = new System.Windows.Forms.PictureBox();
             this.ObjectViewZ = new System.Windows.Forms.PictureBox();
-            this.ISSRrenderBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -783,7 +783,7 @@
             // 
             // ObjectTool
             // 
-            this.ObjectTool.Controls.Add(this.ISSRrenderBtn);
+            this.ObjectTool.Controls.Add(this.ISSRenderBtn);
             this.ObjectTool.Controls.Add(this.groupBox10);
             this.ObjectTool.Location = new System.Drawing.Point(4, 22);
             this.ObjectTool.Name = "ObjectTool";
@@ -792,6 +792,16 @@
             this.ObjectTool.TabIndex = 2;
             this.ObjectTool.Text = "ObjectTool";
             this.ObjectTool.UseVisualStyleBackColor = true;
+            // 
+            // ISSRenderBtn
+            // 
+            this.ISSRenderBtn.Location = new System.Drawing.Point(11, 573);
+            this.ISSRenderBtn.Name = "ISSRenderBtn";
+            this.ISSRenderBtn.Size = new System.Drawing.Size(103, 35);
+            this.ISSRenderBtn.TabIndex = 1;
+            this.ISSRenderBtn.Text = "ISSRender";
+            this.ISSRenderBtn.UseVisualStyleBackColor = true;
+            this.ISSRenderBtn.Click += new System.EventHandler(this.ISSRenderStart);
             // 
             // groupBox10
             // 
@@ -878,16 +888,6 @@
             this.ObjectViewZ.Size = new System.Drawing.Size(375, 335);
             this.ObjectViewZ.TabIndex = 2;
             this.ObjectViewZ.TabStop = false;
-            // 
-            // ISSRrenderBtn
-            // 
-            this.ISSRrenderBtn.Location = new System.Drawing.Point(11, 573);
-            this.ISSRrenderBtn.Name = "ISSRrenderBtn";
-            this.ISSRrenderBtn.Size = new System.Drawing.Size(103, 35);
-            this.ISSRrenderBtn.TabIndex = 1;
-            this.ISSRrenderBtn.Text = "ISSRrender";
-            this.ISSRrenderBtn.UseVisualStyleBackColor = true;
-            this.ISSRrenderBtn.Click += new System.EventHandler(this.ISSRenderStart);
             // 
             // IndependentGameTool
             // 
@@ -1016,7 +1016,7 @@
         private System.Windows.Forms.PictureBox ObjectViewY;
         private System.Windows.Forms.PictureBox ObjectViewX;
         private System.Windows.Forms.PictureBox ObjectViewZ;
-        private System.Windows.Forms.Button ISSRrenderBtn;
+        private System.Windows.Forms.Button ISSRenderBtn;
     }
 }
 
