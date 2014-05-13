@@ -1,4 +1,4 @@
-﻿namespace IndependentGameTool
+﻿namespace GameTool
 {
     partial class IndependentGameTool
     {
@@ -105,6 +105,7 @@
             this.ObjectViewY = new System.Windows.Forms.PictureBox();
             this.ObjectViewX = new System.Windows.Forms.PictureBox();
             this.ObjectViewZ = new System.Windows.Forms.PictureBox();
+            this.ISSRrenderBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -782,6 +783,7 @@
             // 
             // ObjectTool
             // 
+            this.ObjectTool.Controls.Add(this.ISSRrenderBtn);
             this.ObjectTool.Controls.Add(this.groupBox10);
             this.ObjectTool.Location = new System.Drawing.Point(4, 22);
             this.ObjectTool.Name = "ObjectTool";
@@ -877,14 +879,24 @@
             this.ObjectViewZ.TabIndex = 2;
             this.ObjectViewZ.TabStop = false;
             // 
-            // skyLabTool
+            // ISSRrenderBtn
+            // 
+            this.ISSRrenderBtn.Location = new System.Drawing.Point(11, 573);
+            this.ISSRrenderBtn.Name = "ISSRrenderBtn";
+            this.ISSRrenderBtn.Size = new System.Drawing.Size(103, 35);
+            this.ISSRrenderBtn.TabIndex = 1;
+            this.ISSRrenderBtn.Text = "ISSRrender";
+            this.ISSRrenderBtn.UseVisualStyleBackColor = true;
+            this.ISSRrenderBtn.Click += new System.EventHandler(this.ISSRenderStart);
+            // 
+            // IndependentGameTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 762);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.Status);
-            this.Name = "skyLabTool";
+            this.Name = "IndependentGameTool";
             this.Text = "skyLab";
             ((System.ComponentModel.ISupportInitialize)(this.View)).EndInit();
             this.CameraConfig.ResumeLayout(false);
@@ -1004,6 +1016,7 @@
         private System.Windows.Forms.PictureBox ObjectViewY;
         private System.Windows.Forms.PictureBox ObjectViewX;
         private System.Windows.Forms.PictureBox ObjectViewZ;
+        private System.Windows.Forms.Button ISSRrenderBtn;
     }
 }
 

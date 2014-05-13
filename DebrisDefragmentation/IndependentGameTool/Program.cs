@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IndependentGameTool
+namespace GameTool
 {
     static class Program
     {

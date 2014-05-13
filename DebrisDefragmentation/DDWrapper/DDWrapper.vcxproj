@@ -82,13 +82,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameEnvironment.h" />
     <ClInclude Include="GameInputSystem.h" />
-    <ClInclude Include="GameLight.h" />
-    <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GamePhysics.h" />
     <ClInclude Include="GameClassComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
@@ -96,13 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameEnvironment.cpp" />
     <ClCompile Include="GameInputSystem.cpp" />
-    <ClCompile Include="GameLight.cpp" />
-    <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GamePhysics.cpp" />
     <ClCompile Include="GameClassComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Stdafx.cpp">

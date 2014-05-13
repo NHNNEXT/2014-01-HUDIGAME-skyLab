@@ -7,7 +7,7 @@ using System.Net.Json;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
-using GameEnvironment;
+using GameTool.GameEnvironment;
 
 namespace GameTool.Class
 {
