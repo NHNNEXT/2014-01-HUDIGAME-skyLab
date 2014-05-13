@@ -128,7 +128,9 @@ namespace GameTool
 
             Application.Exit();
         }
-
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
         // 화면에 오브젝트들 불러오는 함수
         private void LoadMeshes()
         {
