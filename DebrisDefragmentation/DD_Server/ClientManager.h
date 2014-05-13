@@ -50,7 +50,6 @@ private:
 
 	DWORD			mLastGCTick;
 	DWORD			mLastClientWorkTick;
-	ActorManager	mActorManager;
 };
 
 extern ClientManager* GClientManager;

@@ -72,7 +72,6 @@ public:
 
 	int				GetPlayerId() const { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }
-	void			SetActorManager( ActorManager* manager ) { m_ActorManager = manager; }
 	
 	// 현재 내 상태를 나를 포함한 전체 플레이어에게 전달
 	void	BroadcastCollisionResult();
@@ -108,7 +107,6 @@ private:
 	int				mDbUpdateCount; ///< DB에 주기적으로 업데이트 하기 위한 변수
 
 	Character		m_Character;
-	ActorManager*	m_ActorManager = nullptr;
 
 	friend class ClientManager;
 };

@@ -4,6 +4,7 @@
 #include "Physics.h"
 
 // using Physics::operator&;
+ActorManager* GActorManager = nullptr;
 
 ActorManager::ActorManager()
 {
@@ -126,7 +127,7 @@ void ActorManager::Update( )
 		if ( m_ActorList[actorId] != nullptr )
 		{
 			m_ActorList[actorId]->Update( dt );
-			if ( !m_ActorList[actorId]->GetClassComponent().IsAlive() )
+			if ( !m_ActorList[actorId]->GetClassComponent()->IsAlive() )
 			{
 				// 죽음 패킷 보내자
 				m_DeadPlayers.insert( actorId );
@@ -136,7 +137,7 @@ void ActorManager::Update( )
 
 	m_ISS.Update( dt );
 
-	float posIss = m_ISS.GetTransform().GetPositionZ();
+	float posIss = m_ISS.GetTransform()->GetPositionZ();
 
 	if ( posIss > WINNING_DISTANCE )
 	{
@@ -181,7 +182,7 @@ void ActorManager::CheckCollision()
 			// 각각의 모듈의 충돌 박스를 가져온다.
 			boxJ = m_ISS.GetModuleCollisionBox( j );
 
-			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_ActorList[i]->GetTransform().GetPosition();
+			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_ActorList[i]->GetTransform()->GetPosition();
 			// if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
 				// continue;
 
@@ -215,7 +216,7 @@ void ActorManager::CheckCollision()
 			boxJ = m_ActorList[j]->GetCollisionBox();
 
 			// 두 점의 거리가 가까우면 체크 안 함
-			D3DXVECTOR3 collisionDirection = m_ActorList[j]->GetTransform().GetPosition() - m_ActorList[i]->GetTransform().GetPosition();
+			D3DXVECTOR3 collisionDirection = m_ActorList[j]->GetTransform()->GetPosition() - m_ActorList[i]->GetTransform()->GetPosition();
 			// printf_s( "%f / %f\n", D3DXVec3Length( &collisionDirection ), m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius );
 			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
 				continue;
@@ -240,8 +241,8 @@ void ActorManager::CheckCollision()
 					return;
 				}
 
-				float iMass = m_ActorList[i]->GetClassComponent().GetMass();
-				float jMass = m_ActorList[j]->GetClassComponent().GetMass();
+				float iMass = m_ActorList[i]->GetClassComponent()->GetMass();
+				float jMass = m_ActorList[j]->GetClassComponent()->GetMass();
 
 				float iVelocity = D3DXVec3Dot( &( m_ActorList[i]->GetVelocity() ), &collisionDirection );
 				float jVelocity = D3DXVec3Dot( &( m_ActorList[j]->GetVelocity() ), &collisionDirection );
@@ -274,7 +275,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 	
 	D3DXVECTOR3 spinAxis( 0.0f, 0.0f, 0.0f );
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
-	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform().GetPosition();
+	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform()->GetPosition();
 	
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
@@ -303,7 +304,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int actorId, float x, float y, float z ) 
 {
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
-	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform().GetPosition();
+	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform()->GetPosition();
 
 	return m_ISS.Occupy( viewDirection, startPoint, m_ActorList[actorId]->GetTeam() );
 }
@@ -311,7 +312,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int 
 std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x, float y, float z )
 {
 	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
-	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform().GetPosition();
+	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform()->GetPosition();
 
 	return m_ISS.Destroy( viewDirection, startPoint );
 }

@@ -17,9 +17,9 @@ public:
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
 	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation( x, y, z ); }
 
-	void	SkillPush( ClassComponent& targetComponent, D3DXVECTOR3 force );
-	void	SkillPull( ClassComponent& targetComponent, D3DXVECTOR3 force );
-	void	SkillShareFuel( ClassComponent& targetComponent );
+	void	SkillPush( ClassComponent* targetComponent, D3DXVECTOR3 force );
+	void	SkillPull( ClassComponent* targetComponent, D3DXVECTOR3 force );
+	void	SkillShareFuel( ClassComponent* targetComponent );
 
 
 

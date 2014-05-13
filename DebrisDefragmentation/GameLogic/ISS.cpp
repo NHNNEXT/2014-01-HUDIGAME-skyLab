@@ -27,14 +27,14 @@ void ISS::UpdateItSelf( float dTime )
 	// 점령 상태에 따라서 현재 위치 이동
 	// 자신의 위치에 따라서 m_Matrix 업데이트
 
-	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
+	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();
 	Physics::CalcCurrentPosition( &tmpVec3, m_CharacterClass->GetVelocity(), dTime );
-	GetTransform().SetPosition( tmpVec3 );
+	GetTransform()->SetPosition( tmpVec3 );
 
 	// m_Matrix에 결과 저장
 	D3DXQUATERNION	qRotation;
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( GetTransform().GetRotationZ() ) );
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform().GetScale(), NULL, &qRotation, &GetTransform().GetPosition() );
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform()->GetRotationY() ), D3DXToRadian( GetTransform()->GetRotationX() ), D3DXToRadian( GetTransform()->GetRotationZ() ) );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform()->GetScale(), NULL, &qRotation, &GetTransform()->GetPosition() );
 
 	// 조심해!!
 	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
@@ -103,7 +103,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		//m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 		m_CharacterClass->SetVelocity( D3DXVECTOR3( .0f, .0f, (blueCount - redCount) * ISS_MOVE_WEIGHT ) );
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), GetTransform().GetPositionZ(), m_CharacterClass->GetVelocity().z );
+		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), GetTransform()->GetPositionZ(), m_CharacterClass->GetVelocity().z );
 	}
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );

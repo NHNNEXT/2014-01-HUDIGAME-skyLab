@@ -89,7 +89,7 @@ bool ClientSession::PostRecv( )
 void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
-	m_ActorManager->DeleteActor( m_Character.GetCharacterId() );
+	GActorManager->DeleteActor( m_Character.GetCharacterId() );
 	GClientManager->DeleteSession( mPlayerId, this );
 
 	if ( !IsConnected( ) )
@@ -313,7 +313,7 @@ void ClientSession::BroadcastCollisionResult()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
@@ -343,7 +343,7 @@ void ClientSession::SyncCurrentStatus()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
@@ -361,7 +361,7 @@ void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
@@ -382,7 +382,7 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 
 	// 로그인 됐으면 플레이어 만들고
 	// pid를 할당 받아야 되는데
-	int characterId = m_ActorManager->RegisterUser( &m_Character );
+	int characterId = GActorManager->RegisterUser( &m_Character );
 	if ( characterId == -1 )
 	{
 		// 더 못 들어온다.
@@ -415,9 +415,9 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	NewResult newPlayerPacket;
 	newPlayerPacket.mPlayerId = mPlayerId;
 
-	newPlayerPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	newPlayerPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 	newPlayerPacket.mVelocity = Float3D( m_Character.GetVelocity() );
-	newPlayerPacket.mRotation = Float3D( m_Character.GetTransform().GetRotation() );
+	newPlayerPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
 
 	if ( !Broadcast( &newPlayerPacket ) )
 	{
@@ -436,15 +436,15 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	// ISS state
 	IssStateResult currentIssState;
 
-	currentIssState.mIssPositionZ = m_ActorManager->GetIssPositionZ();
-	currentIssState.mIssVelocityZ = m_ActorManager->GetIssVelocityZ();
+	currentIssState.mIssPositionZ = GActorManager->GetIssPositionZ();
+	currentIssState.mIssVelocityZ = GActorManager->GetIssVelocityZ();
 
 	for ( int i = 0; i < MODULE_NUMBER; ++i )
 	{
 		TeamColor color = TeamColor::NO_TEAM;
 		float hp = 1.0f;
 
-		std::tie( color, hp ) = m_ActorManager->GetModuleState( i );
+		std::tie( color, hp ) = GActorManager->GetModuleState( i );
 
 		currentIssState.mModuleOwner[i] = static_cast<int>( color );
 		currentIssState.mModuleHP[i] = hp;
@@ -468,15 +468,15 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 		return;
 
 	// 스킬 사용
-	if ( !m_Character.GetClassComponent().GoForward( m_Character.GetViewDirection() ) )
+	if ( !m_Character.GetClassComponent()->GoForward( m_Character.GetViewDirection() ) )
 		return;
 
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
-	outPacket.mRotation = Float3D( m_Character.GetTransform().GetRotation() );
+	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -499,14 +499,14 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 		return;
 
 	// 이걸 멤버 유저에게 적용하고 - 멈추는 건 자유다
-	m_Character.GetClassComponent().Stop( );
+	m_Character.GetClassComponent()->Stop( );
 
 	StopResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
 	// printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -531,12 +531,12 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	// 이걸 멤버 유저에게 적용하고 - 회전도 자유다
 	//m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 	// turn body는 increase가 아니라 set을 사용함
-	m_Character.GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
+	m_Character.GetTransform()->SetRotation( inPacket.mRotation.GetD3DVEC() );
 
 	RotationResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
-	outPacket.mRotation = Float3D( m_Character.GetTransform().GetRotation() );
+	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -567,7 +567,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	D3DXVECTOR3 spinAxis; 
 	
 	/// mPlayerId를 보낸 값으로 쓰지 않고, 내가 갖고 있는 값으로 쓰도록 한다... 
-	std::tie(targetId, spinAxis) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
+	std::tie( targetId, spinAxis ) = GActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 	
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -577,9 +577,9 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	// for debugging
 	printf_s( "push target : %d\n", targetId );
 	
-	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
-	D3DXVECTOR3 force = targetCharacter->GetTransform().GetPosition() - m_Character.GetTransform().GetPosition();
-	m_Character.GetClassComponent().SkillPush( targetCharacter->GetClassComponent(), force );
+	Actor* targetCharacter = GActorManager->GetInstance<Actor>( targetId );
+	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - m_Character.GetTransform()->GetPosition();
+	m_Character.GetClassComponent()->SkillPush( targetCharacter->GetClassComponent(), force );
 
 	// 원칙적으로 모든 스킬 사용에 의한 결과 반영 작업은 classComponent의 각 스킬 함수 안에서 처리하는 게 좋을 것 같다
 	// 그런데 부분적으로 현재 플레이어-액터 안에 있는 변수들의 조작이 필요한 작업들은 여기서 처리하는데..
@@ -590,7 +590,7 @@ void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
 
-	outPacket.mPos = Float3D( targetCharacter->GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( targetCharacter->GetTransform()->GetPosition() );
 	outPacket.mVelocity = Float3D( targetCharacter->GetVelocity() );
 	outPacket.mSpinAxis = Float3D( spinAxis );
 	outPacket.mForce = Float3D( force );
@@ -617,14 +617,14 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 		return;
 
 	// scout 특수 스킬입니다.
-	if ( m_Character.GetClassComponent().GetCharacterClassName() != CharacterClass::STRIKER )
+	if ( m_Character.GetClassComponent()->GetCharacterClassName() != CharacterClass::STRIKER )
 		return;
 
 	// 우선 타겟이 있는지 확인
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis;
 
-	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
+	std::tie( targetId, spinAxis ) = GActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
@@ -634,9 +634,9 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	// for debugging
 	// printf_s( "pull target : %d\n", targetId );
 
-	Actor* targetCharacter = m_ActorManager->GetActor( targetId );
-	D3DXVECTOR3 force = targetCharacter->GetTransform( ).GetPosition( ) - m_Character.GetTransform( ).GetPosition( );
-	m_Character.GetClassComponent( ).SkillPull( targetCharacter->GetClassComponent( ), force );
+	Actor* targetCharacter = GActorManager->GetInstance<Actor>( targetId );
+	D3DXVECTOR3 force = targetCharacter->GetTransform( )->GetPosition( ) - m_Character.GetTransform( )->GetPosition( );
+	m_Character.GetClassComponent( )->SkillPull( targetCharacter->GetClassComponent( ), force );
 
 	// 이것도...
 	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
@@ -645,7 +645,7 @@ void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetId = targetId;
 
-	outPacket.mPos = Float3D( targetCharacter->GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( targetCharacter->GetTransform()->GetPosition() );
 	outPacket.mVelocity = Float3D( targetCharacter->GetVelocity() );
 	outPacket.mSpinAxis = Float3D( spinAxis );
 	outPacket.mForce = Float3D( -force );
@@ -715,8 +715,8 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mCharacterClass = inPacket.mCharacterClass;
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
-	outPacket.mRotation = Float3D( m_Character.GetTransform().GetRotation() );
+	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
+	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -747,7 +747,7 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 	float IssPosX = 0.0f;
 	float IssVelocityX = 0.0f;
 
-	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ActorManager->TryOccupy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
+	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = GActorManager->TryOccupy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 
 	// 변경사항 없으면 리턴
 	if ( moduleName == ISSModuleName::NO_MODULE )
@@ -786,7 +786,7 @@ void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
 	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
 	float moduleHP = 1.0f;
 
-	std::tie( moduleName, moduleHP ) = m_ActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
+	std::tie( moduleName, moduleHP ) = GActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 
 	// 변경사항 없으면 리턴
 	if ( moduleName == ISSModuleName::NO_MODULE )
@@ -822,28 +822,28 @@ void ClientSession::HandleShareFuelRequest( ShareFuelRequest& inPacket )
 		return;
 
 	// 나눠 줄 연료가 없다ㅠ
-	if ( m_Character.GetClassComponent( ).GetFuel( ) < DEFAULT_FUEL_SHARE_AMOUNT )
+	if ( m_Character.GetClassComponent( )->GetFuel( ) < DEFAULT_FUEL_SHARE_AMOUNT )
 		return;
 
 	int targetId = -1;
 	D3DXVECTOR3 spinAxis;
 
-	std::tie( targetId, spinAxis ) = m_ActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
+	std::tie( targetId, spinAxis ) = GActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
 
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == -1 )
 		return;
 
-	m_Character.GetClassComponent().SkillShareFuel( m_ActorManager->GetActor( targetId )->GetClassComponent() );
+	m_Character.GetClassComponent()->SkillShareFuel( GActorManager->GetInstance<ClassComponent>( targetId ) );
 
 	// 반환받은 결과를 방송!
 	ShareFuelResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId;
-	outPacket.mPlayerFuel = m_Character.GetClassComponent().GetFuel();
+	outPacket.mPlayerFuel = m_Character.GetClassComponent()->GetFuel();
 
 	outPacket.mTargetId = targetId;
-	outPacket.mTargetFuel = m_ActorManager->GetActor( targetId )->GetClassComponent().GetFuel();
+	outPacket.mTargetFuel = GActorManager->GetInstance<ClassComponent>( targetId )->GetFuel();
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

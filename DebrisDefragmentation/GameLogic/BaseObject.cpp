@@ -44,7 +44,7 @@ D3DXVECTOR3 BaseObject::GetViewDirection(float x, float y, float z)
 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( y ), D3DXToRadian( x ), D3DXToRadian( z ) );
 
 	// matrix를 affine변환이 적용된 형태로 변환 - 생략 가능?
-	D3DXMatrixTransformation( &tempMatrix, NULL, NULL, &GetTransform().GetScale(), NULL, &qRotation, &GetTransform().GetPosition() );
+	D3DXMatrixTransformation( &tempMatrix, NULL, NULL, &GetTransform()->GetScale(), NULL, &qRotation, &GetTransform()->GetPosition() );
 
 	return D3DXVECTOR3( tempMatrix._31, tempMatrix._32, tempMatrix._33 );
 }

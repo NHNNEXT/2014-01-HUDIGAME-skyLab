@@ -13,6 +13,28 @@ public:
 
 	void Init( );
 
+	/*
+		인덱스와 타입을 인자로 받아서 해당하는 액터의 포인터를 반환
+		인자로 받을 수 있는 타입은 Actor, Transform, ClassComponent
+		최경욱 2014. 5. 13
+	*/
+	template<typename T>
+	T* GetInstance( int key )
+	{
+		void* returnPtr = nullptr;
+
+		// typeid로 비교하면 되려나
+		if ( typeid( T ) == typeid( Actor ) )
+			returnPtr = m_ActorList[key];
+		else if ( typeid( T ) == typeid( Transform ) )
+			returnPtr = m_ActorList[key]->GetTransform();
+		else if ( typeid( T ) == typeid( ClassComponent ) )
+			returnPtr = m_ActorList[key]->GetClassComponent();
+		
+		return static_cast<T*>( returnPtr );
+	}
+
+
 	/* 
 		클라이언트 처음 접속하면 클라이언트 세션이 해당 플레이어의 액터-게임 캐릭터-를 등록한다.
 		클라이언트 세션의 멤버 액터의 포인터를 인자로 넣어서 등록하고,
@@ -38,7 +60,7 @@ public:
 		최경욱 2014. 4. 22
 	*/
 	bool IsValidId( int actorId );
-	Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
+	// Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
 
 	/*
 		입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환
@@ -62,7 +84,7 @@ public:
 		현재 ISS 위치 및 속도 정보 리턴
 		최경욱 2014. 5. 6
 	*/
-	float GetIssPositionZ() { return m_ISS.GetTransform().GetPositionZ(); }
+	float GetIssPositionZ() { return m_ISS.GetTransform()->GetPositionZ(); }
 	float GetIssVelocityZ() { return m_ISS.GetVelocity().z; }
 
 	/*
@@ -119,3 +141,4 @@ private:
 	// 지금은 없음요
 };
 
+extern ActorManager* GActorManager;

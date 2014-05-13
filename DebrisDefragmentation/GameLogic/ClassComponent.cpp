@@ -44,20 +44,20 @@ void ClassComponent::Stop()
 	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
 }
 
-void ClassComponent::SkillPush( ClassComponent& targetComponent, D3DXVECTOR3 force )
+void ClassComponent::SkillPush( ClassComponent* targetComponent, D3DXVECTOR3 force )
 {
-	targetComponent.AddForce( force );
+	targetComponent->AddForce( force );
 }
 
-void ClassComponent::SkillPull( ClassComponent& targetComponent, D3DXVECTOR3 force )
+void ClassComponent::SkillPull( ClassComponent* targetComponent, D3DXVECTOR3 force )
 {
-	targetComponent.AddForce( -force );
+	targetComponent->AddForce( -force );
 }
 
-void ClassComponent::SkillShareFuel( ClassComponent& targetComponent )
+void ClassComponent::SkillShareFuel( ClassComponent* targetComponent )
 {
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
-	targetComponent.IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
+	targetComponent->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
 }
 
 void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

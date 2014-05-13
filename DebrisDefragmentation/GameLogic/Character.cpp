@@ -71,8 +71,8 @@ void Character::UpdateItSelf( float dTime )
 {
 	// 변환 행렬 업데이트 - 충돌 박스가 연산할 때 이 행렬값이 최신으로 갱신되어 있어야 하므로
 	D3DXQUATERNION	qRotation;
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( GetTransform().GetRotationZ() ) );
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform().GetScale(), NULL, &qRotation, &GetTransform().GetPosition() );
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform()->GetRotationY() ), D3DXToRadian( GetTransform()->GetRotationX() ), D3DXToRadian( GetTransform()->GetRotationZ() ) );
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform()->GetScale(), NULL, &qRotation, &GetTransform()->GetPosition() );
 
 	if ( m_CharacterClass->IsSpinning() )
 	{
@@ -80,8 +80,8 @@ void Character::UpdateItSelf( float dTime )
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXVECTOR3 tmpSpinAxis = GetClassComponent().GetSpinAxis();
-		float tmpSpinAngle = GetClassComponent().GetSpinAngle();
+		D3DXVECTOR3 tmpSpinAxis = GetClassComponent()->GetSpinAxis();
+		float tmpSpinAngle = GetClassComponent()->GetSpinAngle();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_CharacterClass->GetSpinTime() );
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 	}
@@ -96,14 +96,14 @@ void Character::UpdateItSelf( float dTime )
 		}
 	}
 
-	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	D3DXVECTOR3 tmpVel = GetClassComponent().GetVelocity();
-	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetClassComponent().GetAcceleration(), dTime );
-	GetTransform().SetPosition( tmpVec3 );
-	GetClassComponent().SetVelocity( tmpVel );
+	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();
+	D3DXVECTOR3 tmpVel = GetClassComponent()->GetVelocity();
+	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetClassComponent()->GetAcceleration(), dTime );
+	GetTransform()->SetPosition( tmpVec3 );
+	GetClassComponent()->SetVelocity( tmpVel );
 
 	// 산소량 감소등의 작업 처리
-	GetClassComponent().Update( dTime );
+	GetClassComponent()->Update( dTime );
 
 	// printf_s( "%f / %f / %f\n", m_Position.x, m_Position.y, m_Position.z );
 }

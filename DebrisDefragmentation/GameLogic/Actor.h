@@ -18,7 +18,7 @@ public:
 	virtual ~Actor();
 
 	void	InitTeamPosition();
-	ClassComponent& GetClassComponent() { return *m_CharacterClass.get(); }
+	ClassComponent* GetClassComponent() { return m_CharacterClass.get(); }
 
 	void	GoForward();
 	void	Stop();

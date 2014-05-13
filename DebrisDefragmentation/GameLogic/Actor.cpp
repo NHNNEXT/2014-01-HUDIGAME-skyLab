@@ -62,15 +62,15 @@ void Actor::StopSpin( )
 
 void Actor::InitTeamPosition()
 {
-	switch ( GetClassComponent().GetTeam() )
+	switch ( GetClassComponent()->GetTeam() )
 	{
 		case TeamColor::RED:
-			GetTransform().SetPosition( RED_TEAM_POSITION );
-			GetTransform().SetRotation( RED_TEAM_ROTATION );
+			GetTransform()->SetPosition( RED_TEAM_POSITION );
+			GetTransform()->SetRotation( RED_TEAM_ROTATION );
 			break;
 		case TeamColor::BLUE:
-			GetTransform().SetPosition( BLUE_TEAM_POSITION );
-			GetTransform().SetRotation( BLUE_TEAM_ROTATION );
+			GetTransform()->SetPosition( BLUE_TEAM_POSITION );
+			GetTransform()->SetRotation( BLUE_TEAM_ROTATION );
 			break;
 		default:
 			break;

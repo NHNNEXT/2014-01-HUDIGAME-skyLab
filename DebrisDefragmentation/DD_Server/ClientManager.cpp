@@ -14,7 +14,6 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 
 	ClientSession* client = new ClientSession( sock );
 	mClientList.insert( ClientList::value_type( sock, client ) );
-	client->SetActorManager( &mActorManager );
 
 	return client;
 }
@@ -52,9 +51,9 @@ void ClientManager::OnPeriodWork()
 
 	// 게임 상태를 업데이트 하자
 	// 충돌했는지 판단도 여기서함	
-	mActorManager.Update();
-	std::set<int> collidedIdList = mActorManager.GetCollidedPlayerId();
-	mActorManager.ClearCollidedPlayer();
+	GActorManager->Update();
+	std::set<int> collidedIdList = GActorManager->GetCollidedPlayerId();
+	GActorManager->ClearCollidedPlayer();
 
 	std::for_each( collidedIdList.begin(), collidedIdList.end(), [&]( const int& each )
 	{
@@ -67,8 +66,8 @@ void ClientManager::OnPeriodWork()
 	);
 
 	// 죽은 애들 찾아서 방송하자
-	std::set<int> deadPlayer = mActorManager.GetDeadPlayerId();
-	mActorManager.ClearDeadPlayer();
+	std::set<int> deadPlayer = GActorManager->GetDeadPlayerId();
+	GActorManager->ClearDeadPlayer();
 
 	std::for_each( deadPlayer.begin(), deadPlayer.end(), [&]( const int& each )
 	{
@@ -82,7 +81,7 @@ void ClientManager::OnPeriodWork()
 
 	// 조심해!!
 	// 뭔가 이벤트 방식이 아니라 풀링 방식이 되어 가는 게 불안하다.
-	TeamColor winnerTeam = mActorManager.GetWinnerTeam();
+	TeamColor winnerTeam = GActorManager->GetWinnerTeam();
 	if ( winnerTeam != TeamColor::NO_TEAM )
 	{
 		GameResultResult outPacket;
@@ -175,7 +174,9 @@ void ClientManager::InitPlayerState( ClientSession* caller )
 
 void ClientManager::Init()
 {
-	mActorManager.Init();
+	GActorManager = new ActorManager;
+	GActorManager->Init();
+
 	std::for_each( mClientIdList.begin(), mClientIdList.end(), []( ClientSession* each )
 	{
 		each = nullptr;
