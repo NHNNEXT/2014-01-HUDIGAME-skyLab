@@ -80,7 +80,7 @@ void Player::RenderItSelf()
 		D3DXVECTOR3 tmpSpinAxis = m_ClassComponent->GetSpinAxis();
 		float tmpSpinAngle = m_ClassComponent->GetSpinAngle();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_ClassComponent->GetSpinTime( ) );
-		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 
 // 		D3DXQUATERNION qt;
 // 		D3DXVECTOR3 scl, pos;
@@ -104,21 +104,18 @@ void Player::UpdateItSelf( float dTime )
 	}
 
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
-	if ( !m_ClassComponent->UseOxygen(OXYGEN_COUNSUMED) )
-	{
-		
-	}
+	m_ClassComponent->Update( dTime );
 
-	if ( m_ClassComponent->IsAccelerating() )
-	{
-		/// config.h
-		if ( timeGetTime() - m_ClassComponent->GetAccelerationStartTime() > ACCELERATION_TIME )
-		{
-			// 가속 끝났다
-			m_ClassComponent->SetIsAccelerating( false );
-			m_ClassComponent->SetAcceleration(ZERO_VECTOR3);
-		}
-	}
+// 	if ( m_ClassComponent->IsAccelerating() )
+// 	{
+// 		/// config.h
+// 		if ( timeGetTime() - m_ClassComponent->GetAccelerationStartTime() > ACCELERATION_TIME )
+// 		{
+// 			// 가속 끝났다
+// 			m_ClassComponent->SetIsAccelerating( false );
+// 			m_ClassComponent->SetAcceleration(ZERO_VECTOR3);
+// 		}
+// 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
 	D3DXVECTOR3 tmpVel = GetClassComponent().GetVelocity();
@@ -126,9 +123,6 @@ void Player::UpdateItSelf( float dTime )
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
 	GetClassComponent().SetVelocity( tmpVel );
-
-	// 산소량 감소등의 작업 처리
-	GetClassComponent().Update( dTime );
 }
 
 void Player::LookAt( float x, float y, float z )

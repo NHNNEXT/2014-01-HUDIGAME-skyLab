@@ -360,9 +360,6 @@ void NetworkManager::HandleDeadResult( DDPacketHeader& pktBase )
 
 	// 죽으면 처리할 부분 추가할 것
 	// fps 게임에서 죽으면 다른 캐릭터 보는 view로 바꿔준다거나, scene을 바꿔준다거나...	
-// 	
-// 	// player가 update되지 않도록 막음.. 계속 senddeadrequest를 호출할 수 없도록..
-// 	g_PlayerManager->GetPlayer( m_MyPlayerId )->SetUpdatable( false );
 
 	// 죽어라
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetHP( 0.0f );

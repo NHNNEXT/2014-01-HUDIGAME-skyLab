@@ -33,9 +33,9 @@ void DDCamera::RenderItSelf()
 	}
 	else 
 	{
-		D3DXMATRIXA16 tmpMatrix;
+	//	D3DXMATRIXA16 m_Matrix;
 		D3DXQUATERNION	qRotation;
-		D3DXMatrixIdentity( &tmpMatrix );
+		D3DXMatrixIdentity( &m_Matrix );
 
 		// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
 		D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( m_FollowingObject->GetTransform().GetRotationZ() ) );
@@ -43,18 +43,18 @@ void DDCamera::RenderItSelf()
 		// matrix를 affine변환이 적용된 형태로 변환	
 		D3DXVECTOR3 scale = GetTransform().GetScale();
 		D3DXVECTOR3 fPos = m_FollowingObject->GetTransform().GetPosition();
-		D3DXMatrixTransformation( &tmpMatrix, NULL, NULL, &scale, NULL, &qRotation, &fPos );
+		D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &scale, NULL, &qRotation, &fPos );
 
 		D3DXVECTOR4 tempEye;
 		D3DXVECTOR3 pos = GetTransform().GetPosition();
-		D3DXVec3Transform( &tempEye, &pos, &tmpMatrix );
+		D3DXVec3Transform( &tempEye, &pos, &m_Matrix );
 		vEyePt = DDVECTOR3( tempEye.x, tempEye.y, tempEye.z );
 
 		D3DXVECTOR4 tempLook;
-		D3DXVec3Transform( &tempLook, &m_LookatPoint, &tmpMatrix );
+		D3DXVec3Transform( &tempLook, &m_LookatPoint, &m_Matrix );
 		vLookatPt = DDVECTOR3( tempLook.x, tempLook.y, tempLook.z );
 
-		vUpVec = DDVECTOR3( tmpMatrix._21, tmpMatrix._22, tmpMatrix._23 );
+		vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
 
 	}
 	
@@ -65,7 +65,7 @@ void DDCamera::RenderItSelf()
 	D3DXMATRIXA16 matProj;
 	// 주의 : 반드시 SetAspectRatio() 먼저 해둘 것
 	float aspectRatio = WindowsWidth / WindowsHeight;
-	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 5, aspectRatio, 1.0f, 2000.0f );
+	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 5, aspectRatio, 0.5f, 2000.0f );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
 }
 

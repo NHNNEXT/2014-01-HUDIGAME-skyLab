@@ -80,6 +80,7 @@ void ClassComponent::StopSpin()
 
 bool ClassComponent::UseOxygen( float oxygenUse )
 {
+	//printf_s( "oxygen use : %0.2f\n", oxygenUse );
 	if ( oxygenUse > m_Oxygen )
 	{
 		// 산소 부족시 체력 감소
@@ -104,7 +105,7 @@ bool ClassComponent::UseFuel( float fuelUse )
 	}
 
 	m_Fuel -= fuelUse;
-	m_Fuel = ( m_Fuel < 0 ) ? 0 : m_Fuel;
+	m_Fuel = ( m_Fuel < 0.0f ) ? 0.0f : m_Fuel;
 
 	return true;
 
@@ -123,7 +124,19 @@ void ClassComponent::AddForce( const D3DXVECTOR3 &direction )
 
 void ClassComponent::Update( float dt )
 {
-	UseOxygen( dt * DEFAULT_CONSUMPTION );
+	// 기본 산소 소모
+	UseOxygen( dt * OXYGEN_CONSUMPTION );
+
+	// 가속
+	if ( IsAccelerating() )
+	{
+		if ( timeGetTime() - GetAccelerationStartTime() > ACCELERATION_TIME )
+		{
+			// 가속 끝났다
+			SetIsAccelerating( false );
+			SetAcceleration( ZERO_VECTOR3 );
+		}
+	}
 }
 
 void ClassComponent::ResetStatus()

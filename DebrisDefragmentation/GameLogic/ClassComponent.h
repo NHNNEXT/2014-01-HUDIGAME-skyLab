@@ -11,8 +11,8 @@ public:
 	virtual ~ClassComponent();
 
 	// 사용자들이 사용하는 스킬들!
-	bool GoForward( D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
-	void Stop();	// 가속도 및 속도 0으로 변경	
+	bool	GoForward( D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
+	void	Stop();	// 가속도 및 속도 0으로 변경	
 
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
 	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation( x, y, z ); }
@@ -21,14 +21,6 @@ public:
 	void	SkillPull( ClassComponent* targetComponent, D3DXVECTOR3 force );
 	void	SkillShareFuel( ClassComponent* targetComponent );
 	void	ResetStatus();
-
-
-
-
-
-	// 작성자 : 최경욱	
-	// 
-	
 
 	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
 	void	AddForce( const D3DXVECTOR3 &direction );
@@ -39,13 +31,13 @@ public:
 	bool	IsAccelerating() const { return m_Rigidbody.m_IsAccelerating; }
 	void	SetIsAccelerating( bool val ) { m_Rigidbody.m_IsAccelerating = val; }
 
-	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+	void	SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
 
 	// 현재 자전에 추가 자전 요소 추가 : 차차 구현
-	void AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+	void	AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
 
 	// 자전 금지
-	void StopSpin();
+	void	StopSpin();
 
 	void	SetSpinnigFlag( bool flag ) { m_Rigidbody.m_IsSpin = flag; }
 	bool	IsSpinning() { return m_Rigidbody.m_IsSpin; }

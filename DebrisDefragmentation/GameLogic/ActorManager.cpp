@@ -120,7 +120,7 @@ void ActorManager::Update( )
 {
 	DWORD currentTime = timeGetTime( );
 	float dt = ( static_cast<float>( currentTime - m_PrevTime ) ) / 1000.f;
-	m_PrevTime = currentTime;
+	m_PrevTime = currentTime;	
 
 	for ( unsigned int actorId = 0; actorId < MAX_PLAYER_NUM; ++actorId )
 	{

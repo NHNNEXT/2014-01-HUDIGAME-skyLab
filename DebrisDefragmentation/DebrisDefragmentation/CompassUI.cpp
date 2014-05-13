@@ -2,6 +2,7 @@
 #include "CompassUI.h"
 #include "ObjectManager.h"
 #include "GameOption.h"
+#include "PlayerManager.h"
 
 
 
@@ -81,20 +82,13 @@ void CompassUI::RenderItSelf()
 
 	D3DXQUATERNION	qRotation;
 
-// 	D3DXMatrixIdentity( &m_Matrix );
-// 
-// 	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
-// 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform().GetRotationY() ), D3DXToRadian( GetTransform().GetRotationX() ), D3DXToRadian( GetTransform().GetRotationZ() ) );
-// 
-// 	// matrix를 affine변환이 적용된 형태로 변환	
-// 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &m_Scale, NULL, &qRotation, &m_Position );
-	
 	m_Matrix = GetTransform().MatrixTransform();
 	/**** tilt transform ****/
 
 	/* 각도를 구하는 과정 */
 	// 내 위치는 m_Position에 m_Matrix를 곱한 결과 (월드 좌표계)
 	D3DXMATRIXA16 parentTransform = m_pParent->GetMatrix();
+	//D3DXMATRIXA16 parentTransform = g_PlayerManager->GetCamera()->GetMatrix();
 	D3DXMatrixMultiply( &parentTransform, &m_Matrix, &parentTransform );
 
 	D3DXVECTOR4 tempPos;
@@ -189,14 +183,9 @@ void CompassUI::RenderItSelf()
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
 	
-// 	// alpha testing.. 문제는 콤파스의 알파를 날려버린다는거.. 안보임 ㄷㄷ
-// 	pD3DDevice->SetRenderState( D3DRS_ALPHATESTENABLE, TRUE );
-// 	pD3DDevice->SetRenderState( D3DRS_ALPHAREF, 0x00000088 );
-// 	pD3DDevice->SetRenderState( D3DRS_ALPHAFUNC, D3DCMP_GREATER );
-// 
-// 	pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
-// 	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
-// 	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+	pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
 
 
 	// Render the vertex buffer contents
