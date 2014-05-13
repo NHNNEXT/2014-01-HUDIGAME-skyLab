@@ -35,7 +35,7 @@ public:
 private:
 	// virtual void UpdateItSelf( float dTime );
 
-	ISSControlPoint	m_ControlPoint;
+	ISSControlPoint	m_ControlPoint; ///# 이놈의 정체는? 포함하고 있는 객체의 부모와 this의 부모가 같을 이유가?
 	ISSModuleName	m_ModuleName = ISSModuleName::NO_MODULE;
 	TeamColor		m_CurrentOwner = TeamColor::NO_TEAM;
 	float			m_HealthPoint = 1.0f;

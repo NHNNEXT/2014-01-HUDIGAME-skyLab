@@ -1,5 +1,5 @@
 ﻿#pragma once
-#pragma warning( disable:4505 )
+#pragma warning( disable:4505 ) ///# 이거 왜했지? 경고를 끄려면 반드시 주석으로 이유를 기록할 것
 
 #include "GameOption.h"
 #include "CollisionBox.h"
@@ -47,6 +47,7 @@ namespace Physics
 		pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
 	}
 
+	///# static을 앞에 쓰도록.
 	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
 	{
 		minAlong = std::numeric_limits<float>::infinity();

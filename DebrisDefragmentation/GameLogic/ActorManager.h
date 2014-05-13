@@ -75,6 +75,7 @@ public:
 		충돌한 플레이어들의 index를 반환하는 함수
 		최경욱 2014. 5. 11
 	*/
+	
 	std::set<int> GetCollidedPlayerId() { return m_CollidedPlayers; }
 	std::set<int> GetDeadPlayerId() { return m_DeadPlayers; }
 

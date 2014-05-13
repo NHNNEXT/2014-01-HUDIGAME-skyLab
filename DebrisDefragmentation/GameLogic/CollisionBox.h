@@ -88,6 +88,8 @@ struct CollisionBox
 	}
 
 	D3DXVECTOR3									m_CenterPos{ 0.0f, 0.0f, 0.0f };	// 기준점 - 상자 중심
+	
+	///# 아래를 굳이 배열로 할것까지 있남.
 	std::array<D3DXVECTOR3, VECTOR_DIRECTION_3>	m_AxisDir;							// 월드 좌표계를 기준으로 상자 좌표계의 세 축 (박스의 회전 상태)
 	D3DXVECTOR3									m_AxisLen;							// 각각의 축에 대한 길이 (박스 크기)
 	std::array<D3DXVECTOR3, BOX_POINT_COUNT>	m_PointList;						// 각 지점 좌표들을 아예 계산하지 말고 박아두자

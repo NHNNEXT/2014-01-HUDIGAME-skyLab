@@ -313,8 +313,8 @@ void ClientSession::BroadcastCollisionResult()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
-	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
+	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() ); ///# 그냥 대입 하면 된다. operator= 구현 해놓고선...
+	outPacket.mVelocity = Float3D( m_Character.GetVelocity() ); ///# 마찬가지
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );
@@ -343,7 +343,7 @@ void ClientSession::SyncCurrentStatus()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() ); ///# 이어동문
 	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
@@ -361,7 +361,9 @@ void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	//outPacket.mPos = Float3D( m_Character.GetTransform().GetPosition() );
+	outPacket.mPos = m_Character.GetTransform().GetPosition(); ///# 복사대입생성자 만들어놨으면 바로 이렇게 그냥 대입하면 되잖아?
+
 	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
@@ -760,8 +762,8 @@ void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
 
 	outPacket.mModule = static_cast<int>( moduleName );
 	outPacket.mOccupyTeam = static_cast<int>( teamColor );
-	outPacket.mIssPositionZ = IssPosX;
-	outPacket.mIssVelocityZ = IssVelocityX;
+	outPacket.mIssPositionZ = IssPosX; ///# ???
+	outPacket.mIssVelocityZ = IssVelocityX; ///# 왜죠??? 
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

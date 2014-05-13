@@ -17,7 +17,7 @@ struct Float3D
 		: m_X( 0.0f ), m_Y( 0.0f ), m_Z( 0.0f )
 	{}
 
-	Float3D( D3DXVECTOR3 src ) 
+	Float3D( D3DXVECTOR3 src )  ///# const D3DXVECTOR3& src
 		: m_X( src.x ), m_Y( src.y ), m_Z( src.z )
 	{}
 
