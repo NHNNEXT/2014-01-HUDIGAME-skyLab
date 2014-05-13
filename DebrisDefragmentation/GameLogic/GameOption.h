@@ -113,7 +113,7 @@ const float			DEFAULT_CONSUMPTION = 10.0f;
 const float			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10.0f;
 const float			FUEL_FOR_GOFORWARD = 30.0f;
 
-const float			DEFAULT_OXYGEN = 3000.0f;
+const float			DEFAULT_OXYGEN = 300.0f;
 const float			DEFAULT_FUEL = 5000.0f;
 const float			DEFAULT_HP = 100.0f;
 const float			DEFAULT_FUEL_SHARE_AMOUNT = 1000;

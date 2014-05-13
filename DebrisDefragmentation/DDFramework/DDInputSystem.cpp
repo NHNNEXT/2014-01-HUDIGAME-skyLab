@@ -14,9 +14,8 @@ DDInputSystem::~DDInputSystem()
 
 void DDInputSystem::UpdateKeyState()
 {
-	//if ( GetFocus() == NULL ) return;
-	if ( GetFocus() != DDApplication::GetInstance()->GetHWND() ) return;
-
+	if ( ::GetFocus() != DDApplication::GetInstance()->GetHWND() ) return;
+	
 	for ( int i = 0; i<256; i++ )
 	{
 		m_PrevKeyState[i] = m_NowKeyState[i];
@@ -33,7 +32,7 @@ void DDInputSystem::UpdateKeyState()
 }
 
 KeyState DDInputSystem::GetKeyState( int key )
-{
+{	
 	// 직전에 안 눌려지던 키가 눌려지고 있다면
 	if ( m_PrevKeyState[key] == false && m_NowKeyState[key] == true )
 	{

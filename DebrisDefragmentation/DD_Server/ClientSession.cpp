@@ -715,6 +715,9 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mCharacterClass = inPacket.mCharacterClass;
 
+	// 캐릭터의 모든 값을 초기화
+	m_Character.GetClassComponent()->ResetStatus();
+
 	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
 	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
 

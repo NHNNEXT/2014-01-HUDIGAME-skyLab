@@ -20,7 +20,7 @@ public:
 	void	SkillPush( ClassComponent* targetComponent, D3DXVECTOR3 force );
 	void	SkillPull( ClassComponent* targetComponent, D3DXVECTOR3 force );
 	void	SkillShareFuel( ClassComponent* targetComponent );
-
+	void	ResetStatus();
 
 
 
@@ -64,7 +64,7 @@ public:
 	float	GetHP() const { return m_HP; }
 	void	SetHP( float val ) { m_HP = val; }
 
-	bool	IsAlive() { return ( m_HP > 0 ) ? true : false; }
+	bool	IsAlive() { return ( m_HP > 0.0f ) ? true : false; }
 	bool	UseFuel( float fuelUse );
 	bool	UseOxygen( float oxygenUse );
 

@@ -16,7 +16,7 @@ ClassComponent::~ClassComponent()
 
 bool ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
 {
-	printf_s( "GAS : %d	OXYGEN : %d		HP : %d\n", m_Fuel, m_Oxygen, m_HP );
+	printf_s( "GAS : %0.2f	OXYGEN : %0.2f		HP : %0.2f\n", m_Fuel, m_Oxygen, m_HP );
 	if ( !UseFuel( FUEL_FOR_GOFORWARD ) )
 	{
 		return false;
@@ -124,4 +124,16 @@ void ClassComponent::AddForce( const D3DXVECTOR3 &direction )
 void ClassComponent::Update( float dt )
 {
 	UseOxygen( dt * DEFAULT_CONSUMPTION );
+}
+
+void ClassComponent::ResetStatus()
+{
+	SetOxygen( DEFAULT_OXYGEN );
+	SetHP( DEFAULT_HP );
+	SetFuel( DEFAULT_FUEL );
+	SetVelocity( ZERO_VECTOR3 );
+
+	m_SpinTime = .0f;
+	m_AccelerationStartTime = .0f;
+	m_Rigidbody.Init();
 }

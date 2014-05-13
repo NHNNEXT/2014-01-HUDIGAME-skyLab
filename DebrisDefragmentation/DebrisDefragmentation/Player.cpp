@@ -96,14 +96,17 @@ void Player::RenderItSelf()
 
 void Player::UpdateItSelf( float dTime )
 {
+	if ( !m_ClassComponent->IsAlive() )
+	{
+		return;
+		//printf( "player is dead\n" );
+		//GNetworkManager->SendDeadRequest();
+	}
+
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	if ( !m_ClassComponent->UseOxygen(OXYGEN_COUNSUMED) )
 	{
-		if ( !m_ClassComponent->IsAlive() )
-		{
-			printf( "player is dead\n" );
-			GNetworkManager->SendDeadRequest();
-		}
+		
 	}
 
 	if ( m_ClassComponent->IsAccelerating() )

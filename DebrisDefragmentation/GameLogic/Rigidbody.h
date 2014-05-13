@@ -6,6 +6,11 @@
 // 4.21 김성환
 struct Rigidbody
 {
+	void Init()
+	{
+		ZeroMemory( this, sizeof( Rigidbody ) );
+		m_Mass = 1.0f;
+	}
 	float		m_Mass = 1.0f;
 	D3DXVECTOR3	m_Acceleration{ 0.0f, 0.0f, 0.0f };
 	D3DXVECTOR3	m_Velocity{ 0.0f, 0.0f, 0.0f };

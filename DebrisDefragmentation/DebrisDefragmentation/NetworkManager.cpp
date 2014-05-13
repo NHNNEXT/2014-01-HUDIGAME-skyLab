@@ -129,23 +129,22 @@ void NetworkManager::SendSkillPull()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-
-// 캐릭터가 죽으면 보냄..
-// 05.03 김성환
-void NetworkManager::SendDeadRequest()
-{
-	if ( m_MyPlayerId == -1 )
-		return;
-
-	DeadRequest outPacket;
-
-	outPacket.mPlayerId = m_MyPlayerId;
-	// player가 update되지 않도록 막음.. 계속 senddeadrequest를 호출할 수 없도록..
-	g_PlayerManager->GetPlayer( m_MyPlayerId )->SetUpdatable( false );
-
-	// 지금은 게임 로직 계산은 서버에서만 하므로 일단 보내지 않음
-	// DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
-}
+// 
+// // 캐릭터가 죽으면 보냄..
+// // 05.03 김성환
+// void NetworkManager::SendDeadRequest()
+// {
+// 	if ( m_MyPlayerId == -1 )
+// 		return;
+// 
+// 	DeadRequest outPacket;
+// 
+// 	outPacket.mPlayerId = m_MyPlayerId;
+// 	
+// 
+// 	// 지금은 게임 로직 계산은 서버에서만 하므로 일단 보내지 않음
+// 	// DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+// }
 
 // 캐릭터가 리스폰될 때 보냄.
 void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
@@ -361,6 +360,9 @@ void NetworkManager::HandleDeadResult( DDPacketHeader& pktBase )
 
 	// 죽으면 처리할 부분 추가할 것
 	// fps 게임에서 죽으면 다른 캐릭터 보는 view로 바꿔준다거나, scene을 바꿔준다거나...	
+// 	
+// 	// player가 update되지 않도록 막음.. 계속 senddeadrequest를 호출할 수 없도록..
+// 	g_PlayerManager->GetPlayer( m_MyPlayerId )->SetUpdatable( false );
 
 	// 죽어라
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetHP( 0.0f );
@@ -377,12 +379,8 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 
 
 	printf_s( "respawn player" );
-	player->GetClassComponent().SetOxygen( DEFAULT_OXYGEN );
-	player->GetClassComponent().SetHP( DEFAULT_HP );
-	player->GetClassComponent().SetFuel( DEFAULT_FUEL );
-	player->SetUpdatable( true );
+	player->GetClassComponent().ResetStatus();
 
-	player->GetClassComponent().SetVelocity( ZERO_VECTOR3 );
 	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
 	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
 }

@@ -18,7 +18,7 @@ public:
 	void SendTurnBody();
 	void SendSkillPush();
 	void SendSkillPull();
-	void SendDeadRequest();
+	//void SendDeadRequest();
 	void SendRespawnRequest(CharacterClass characterClass);
 	void SendSkillOccupy();
 	void SendSkillDestroy();
