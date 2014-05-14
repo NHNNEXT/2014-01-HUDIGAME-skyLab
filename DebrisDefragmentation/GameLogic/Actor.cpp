@@ -38,26 +38,7 @@ void Actor::IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity )
 	m_CharacterClass->SetVelocity( m_CharacterClass->GetVelocity() + deltaVelocity );
 }
 
-void Actor::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
-{ 
-	m_CharacterClass->SetSpin( rotationAxis, angularVelocity); 
-	m_CharacterClass->SetSpinTime( 0.0f );
-	m_CharacterClass->SetSpinnigFlag( true );
-}
 
-void Actor::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity ) 
-{ 
-	m_CharacterClass->AddSpin( rotationAxis, angularVelocity); 
-	// m_SpinTime = 0.0f;
-	m_CharacterClass->SetSpinnigFlag( true );
-}
-
-void Actor::StopSpin( ) 
-{ 
-	m_CharacterClass->SetSpinnigFlag( false );
-	m_CharacterClass->SetSpinTime( 0.0f );
-	m_CharacterClass->StopSpin(); 
-}
 
 
 void Actor::InitTeamPosition()

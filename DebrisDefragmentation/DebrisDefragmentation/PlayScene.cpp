@@ -179,25 +179,25 @@ void PlayScene::UpdateItSelf( float dTime )
 	if ( KEY_DOWN == GetKeyState( VK_1 ) )
 	{
 		// 1 : 밀기 스킬 시전!
-		GNetworkManager->SendSkillPush();
+		GNetworkManager->SendUsingSkill( ClassSkill::PUSH );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_2 ) )
 	{
 		// 2 : 당기기 스킬 시전!
-		GNetworkManager->SendSkillPull();
+		GNetworkManager->SendUsingSkill( ClassSkill::PULL );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_3 ) )
 	{
 		// 3 : 점령 스킬 시전!
-		GNetworkManager->SendSkillOccupy();
+		GNetworkManager->SendUsingSkill( ClassSkill::OCCUPY );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_4 ) )
 	{
 		// 4 : 파괴 스킬 시전!
-		GNetworkManager->SendSkillDestroy();
+		GNetworkManager->SendUsingSkill( ClassSkill::DESTROY );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

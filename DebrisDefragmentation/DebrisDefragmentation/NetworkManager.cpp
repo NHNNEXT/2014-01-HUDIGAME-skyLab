@@ -9,6 +9,7 @@
 #include "CompassUI.h"
 #include "PlayScene.h"
 #include "GameOption.h"
+#include "ClassComponent.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -101,30 +102,16 @@ void NetworkManager::SendTurnBody()
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendSkillPush()
+void NetworkManager::SendUsingSkill( ClassSkill skilType )
 {
 	if ( m_MyPlayerId == -1 )
 		return;
 
-	SkillPushRequest outPacket;
+	UsingSkillRequest outPacket;
 
 	outPacket.mPlayerId = m_MyPlayerId;
-
-	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
-
-	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
-}
-
-void NetworkManager::SendSkillPull()
-{
-	if ( m_MyPlayerId == -1 )
-		return;
-
-	SkillPullRequest outPacket;
-
-	outPacket.mPlayerId = m_MyPlayerId;
-
-	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
+	outPacket.mSkill = skilType;
+	outPacket.mDirection = g_PlayerManager->GetCamera()->GetTransform().GetRotation(); // 카메라 방향 넣어 줘야 한다.
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
@@ -160,36 +147,6 @@ void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendSkillOccupy()
-{
-	if ( m_MyPlayerId == -1 )
-		return;
-
-	SkillOccupyRequest outPacket;
-
-	outPacket.mPlayerId = m_MyPlayerId;
-
-	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
-	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
-
-	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
-}
-
-void NetworkManager::SendSkillDestroy()
-{
-	if ( m_MyPlayerId == -1 )
-		return;
-
-	SkillDestroyRequest outPacket;
-
-	outPacket.mPlayerId = m_MyPlayerId;
-
-	outPacket.mPos = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetPosition() );
-	outPacket.mRotation = Float3D( g_PlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotation() );
-
-	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
-}
-
 void NetworkManager::RegisterHandles()
 {
 	// 여기에서 핸들러를 등록하자
@@ -197,19 +154,17 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ACCELERATION, HandleGoForwardResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STOP, HandleStopResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ROTATION, HandleTurnBodyResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_USING_SKILL, HandleUsingSkillResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SYNC, HandleSyncResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PUSH, HandlePushResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_SKILL_PULL, HandlePullResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_NEW, HandleNewResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEAD, HandleDeadResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_RESPAWN, HandleRespawnResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_OCCUPY, HandleOccupyResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY, HandleDestroyResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
-	DDNetwork::GetInstance( )->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
-	DDNetwork::GetInstance( )->RegisterHandler( PKT_SC_SHARE_FUEL, HandleShareFuelResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleCharacterStateResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
@@ -301,44 +256,47 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 #endif
 }
 
-void NetworkManager::HandlePushResult( DDPacketHeader& pktBase )
+void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 {
-	SkillPushResult inPacket = reinterpret_cast<SkillPushResult&>( pktBase );
+	UsingSkillResult inPacket = reinterpret_cast<UsingSkillResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	g_PlayerManager->AddPlayer( inPacket.mTargetId );
-	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	//targetPlayer->GoForward();
-	targetPlayer->GetClassComponent().AddForce( inPacket.mForce.GetD3DVEC() );
-	targetPlayer->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	targetPlayer->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
-
-	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
-		return;
-
-	targetPlayer->SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
-	// player->SetSpin( DDVECTOR3( 1.0f, 1.0f, 0.0f ), inPacket.mSpinAngularVelocity );
-
-	printf_s( "[SKILL] PUSH from %d player\n", inPacket.mPlayerId );
+	// 지금은 특별히 하는 일 없음
+	// 스킬 쓴 캐릭터에 변경이 필요한 작업 일단 여기서 처리
+	// 스킬 사용에 따른 행동 포인트 등의 지표가 변화가 생긴다면 그걸 처리하는 함수를 따로 만들어야 할 듯
+	if ( inPacket.mSkill == ClassSkill::SHARE_FUEL )
+	{
+		g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().IncreaseFuel( -DEFAULT_FUEL_SHARE_AMOUNT );
+	}
+	else if ( inPacket.mSkill == ClassSkill::SHARE_OXYGEN )
+	{
+		g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().IncreaseOxygen( -DEFAULT_OXYGEN_SHARE_AMOUNT );
+	}
 }
 
-void NetworkManager::HandlePullResult( DDPacketHeader& pktBase )
+void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 {
-	SkillPullResult inPacket = reinterpret_cast<SkillPullResult&>( pktBase );
+	KineticStateResult inPacket = reinterpret_cast<KineticStateResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	g_PlayerManager->AddPlayer( inPacket.mTargetId );
-	Player* targetPlayer = g_PlayerManager->GetPlayer( inPacket.mTargetId );
-	targetPlayer->GetClassComponent().AddForce( inPacket.mForce.GetD3DVEC() );
-	targetPlayer->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	targetPlayer->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 
 	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
 		return;
 
-	targetPlayer->SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetSpin( inPacket.mForce.GetD3DVEC(), inPacket.mSpinAngularVelocity );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
+}
 
-	printf_s( "[SKILL] PULL from %d player\n", inPacket.mPlayerId );
+void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
+{
+	CharacterStateResult inPacket = reinterpret_cast<CharacterStateResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetFuel( inPacket.mFuel );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetOxygen( inPacket.mOxygen );
 }
 
 void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
@@ -392,26 +350,6 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
-void NetworkManager::HandleOccupyResult( DDPacketHeader& pktBase )
-{
-	SkillOccupyResult inPacket = reinterpret_cast<SkillOccupyResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	// ISS의 운동 상태를 바꾼다.
-	GObjectManager->GetISS()->SetOwner(inPacket.mModule, inPacket.mOccupyTeam );
-	GObjectManager->GetISS()->GetTransform().SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
-	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
-}
-
-void NetworkManager::HandleDestroyResult( DDPacketHeader& pktBase )
-{
-	SkillDestroyResult inPacket = reinterpret_cast<SkillDestroyResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	// ISS의 체력을 바꾼다.
-	GObjectManager->GetISS()->SetHP( inPacket.mModule, inPacket.mModuleHP );
-}
-
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
 {
 	IssStateResult inPacket = reinterpret_cast<IssStateResult&>( pktBase );
@@ -448,13 +386,4 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
-}
-
-void NetworkManager::HandleShareFuelResult( DDPacketHeader& pktBase )
-{
-	ShareFuelResult inPacket = reinterpret_cast<ShareFuelResult&>( pktBase );
-	DDNetwork::GetInstance( )->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetFuel( inPacket.mPlayerFuel );
-	g_PlayerManager->GetPlayer( inPacket.mTargetId )->GetClassComponent( ).SetFuel( inPacket.mTargetFuel );
 }

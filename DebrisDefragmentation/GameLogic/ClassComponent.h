@@ -14,13 +14,18 @@ public:
 	bool	GoForward( D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
 	void	Stop();	// 가속도 및 속도 0으로 변경	
 
+	void	ResetStatus();
+
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
 	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation( x, y, z ); }
 
-	void	SkillPush( ClassComponent* targetComponent, D3DXVECTOR3 force );
-	void	SkillPull( ClassComponent* targetComponent, D3DXVECTOR3 force );
-	void	SkillShareFuel( ClassComponent* targetComponent );
-	void	ResetStatus();
+	// 적절한 스킬 사용 함수를 호출한다.
+	virtual bool UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction ) = 0;
+
+	bool		SkillPush( int id, const D3DXVECTOR3& direction );
+	bool		SkillShareFuel( int id, const D3DXVECTOR3& direction );
+	bool		SkillOccupy( int id, const D3DXVECTOR3& direction );
+	bool		SkillDestroy( int id, const D3DXVECTOR3& direction );
 
 	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
 	void	AddForce( const D3DXVECTOR3 &direction );
@@ -46,12 +51,12 @@ public:
 	void	SetSpinTime( float time ) { m_SpinTime = time; }
 	
 	float	GetFuel() const { return m_Fuel; }
-	void	SetFuel( float val ) { m_Fuel = val; }
+	void	SetFuel( float val ) { m_Fuel = val < 0.0f ? 0.0f : val; }
 
 	float	GetOxygen() const { return m_Oxygen; }
-	void	SetOxygen( float val ) { m_Oxygen = val; }
-	void	IncreaseOxygen( float val ) { m_Oxygen += val; }
-	void	IncreaseFuel( float val ) { m_Fuel += val; }
+	void	SetOxygen( float val ){ m_Oxygen = val < 0.0f ? 0.0f : val; }
+	void	IncreaseOxygen( float val ) { m_Oxygen = ( m_Oxygen + val < 0 ) ? 0.0f : ( m_Oxygen + val ); }
+	void	IncreaseFuel( float val ) { m_Fuel = ( m_Fuel + val < 0 ) ? 0.0f : ( m_Fuel + val ); }
 
 	float	GetHP() const { return m_HP; }
 	void	SetHP( float val ) { m_HP = val; }

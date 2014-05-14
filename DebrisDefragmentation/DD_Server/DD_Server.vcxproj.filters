@@ -48,6 +48,9 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>DDServer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="CircularBuffer.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>DDServer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

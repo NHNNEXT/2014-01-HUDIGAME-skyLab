@@ -12,7 +12,7 @@
 
 class ClientSession;
 class ClientManager;
-class ActorManager;
+class GameManager;
 struct DatabaseJobContext;
 
 struct OverlappedIO : public OVERLAPPED
@@ -26,9 +26,9 @@ struct OverlappedIO : public OVERLAPPED
 class ClientSession : public ObjectPool<ClientSession>
 {
 public:
-	ClientSession( SOCKET sock )
+	ClientSession( SOCKET sock, GameManager* gameManager )
 		: mConnected( false ), mLogon( false ), mSocket( sock ), mPlayerId( -1 ), mSendBuffer( BUFSIZE ), mRecvBuffer( BUFSIZE ), mOverlappedRequested( 0 )
-		, /* mPosX( 0 ), mPosY( 0 ), mPosZ( 0 ), */ mDbUpdateCount( 0 )
+		, /* mPosX( 0 ), mPosY( 0 ), mPosZ( 0 ), */ mDbUpdateCount( 0 ), m_GameManager( gameManager )
 	{
 		memset( &mClientAddr, 0, sizeof( SOCKADDR_IN ) );
 		//memset( mPlayerName, 0, sizeof( mPlayerName ) );
@@ -61,22 +61,23 @@ public:
 	void	HandleAccelerationRequest( AccelerarionRequest& inPacket );
 	void	HandleStopRequest( StopRequest& inPacket );
 	void	HandleRotationRequest( RotationRequest& inPacket );
-	void	HandleSkillPushRequest( SkillPushRequest& inPacket );
-	void	HandleSkillPullRequest( SkillPullRequest& inPacket );
 	void	HandleGameStateRequest( GameStateRequest& inPacket );
 	void	HandleDeadRequest( DeadRequest& inPacket );
 	void	HandleRespawnRequest( RespawnRequest& inPacket );
-	void	HandleOccupyRequest( SkillOccupyRequest& inPacket );
-	void	HandleDestroyRequest( SkillDestroyRequest& inPacket );
-	void	HandleShareFuelRequest( ShareFuelRequest& inPacket );
+	void	HandleUsingSkillRequest( UsingSkillRequest& inPacket );
 
 	int				GetPlayerId() const { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }
 	
+	void	SetGameManager( GameManager* manager ) { m_GameManager = manager; }
+
 	// 현재 내 상태를 나를 포함한 전체 플레이어에게 전달
 	void	BroadcastCollisionResult();
 	void	BroadcastDeadResult();
 	void	SyncCurrentStatus();
+
+	void	BroadcastKineticState( );
+	void	BroadcastCharacterState( );
 
 	// 현재 내 상태를 targetClient에게 전달
 	void	SendCurrentStatus( ClientSession* targetClient );
@@ -107,6 +108,7 @@ private:
 	int				mDbUpdateCount; ///< DB에 주기적으로 업데이트 하기 위한 변수
 
 	Character		m_Character;
+	GameManager*	m_GameManager = nullptr;
 
 	friend class ClientManager;
 };

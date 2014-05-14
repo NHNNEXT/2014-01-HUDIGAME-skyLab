@@ -89,6 +89,7 @@
     <ClInclude Include="ISSControlPoint.h" />
     <ClInclude Include="ISSModule.h" />
     <ClInclude Include="MatrixTransform.h" />
+    <ClInclude Include="ObjectTable.h" />
     <ClInclude Include="Protector.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ActorManager.h" />
@@ -108,6 +109,7 @@
     <ClCompile Include="ISS.cpp" />
     <ClCompile Include="ISSControlPoint.cpp" />
     <ClCompile Include="ISSModule.cpp" />
+    <ClCompile Include="ObjectTable.cpp" />
     <ClCompile Include="Protector.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="ActorManager.cpp" />

@@ -11,6 +11,30 @@ enum class CharacterClass : int
 	PROTECTOR
 };
 
+enum class ClassSkill : int
+{
+	NO_SKILL = -1,
+
+	PUSH,
+	OCCUPY,
+	DESTROY,
+	SHARE_FUEL,
+
+	// STRIKER
+	PULL,
+	SET_MINE,
+	MOVE_FAST,
+
+	// PROTECTOR
+	WARNING,
+	SHARE_OXYGEN,
+	EMP,
+
+	// ENGINEER
+	GATHER,
+	SET_SENTRY_GUN,
+	SET_DESPENSER,
+};
 
 // ISS
 enum class TeamColor : int
@@ -71,6 +95,7 @@ const float ISS_BASE_DAMAGE = 0.1f;
 
 // 각 모듈의 초기 위치(모델), 충돌상자 중심점, 충돌상자의 각 축에 대한 길이, 
 
+const int			NOTHING = -1;
 
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
@@ -116,6 +141,7 @@ const float			DEFAULT_OXYGEN = 10000.0f;
 const float			DEFAULT_FUEL = 5000.0f;
 const float			DEFAULT_HP = 100.0f;
 const float			DEFAULT_FUEL_SHARE_AMOUNT = 1000;
+const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 
 
 // SKILL

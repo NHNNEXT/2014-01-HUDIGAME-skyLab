@@ -33,6 +33,11 @@ D3DXVECTOR3 BaseObject::GetViewDirection()
 	return D3DXVECTOR3( tempMatrix._31, tempMatrix._32, tempMatrix._33 );
 }
 
+D3DXVECTOR3 BaseObject::GetViewDirection( const D3DXVECTOR3& direction )
+{
+	return GetViewDirection( direction.x, direction.y, direction.z );
+}
+
 D3DXVECTOR3 BaseObject::GetViewDirection(float x, float y, float z)
 {
 	D3DXQUATERNION	qRotation;

@@ -3,6 +3,7 @@
 #include "..\..\PacketType.h"
 #include "ClientManager.h"
 #include "GameOption.h"
+#include "GameManager.h"
 
 typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
 
@@ -89,7 +90,7 @@ bool ClientSession::PostRecv( )
 void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
-	GActorManager->DeleteActor( m_Character.GetCharacterId() );
+	m_GameManager->DeleteCharacter( m_Character.GetCharacterId() );
 	GClientManager->DeleteSession( mPlayerId, this );
 
 	if ( !IsConnected( ) )
@@ -354,6 +355,41 @@ void ClientSession::SyncCurrentStatus()
 	}
 }
 
+void ClientSession::BroadcastKineticState()
+{
+	KineticStateResult outPacket;
+
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mVelocity = m_Character.GetVelocity();
+	outPacket.mSpinAxis = m_Character.GetClassComponent()->GetSpinAxis();
+	outPacket.mForce = m_Character.GetClassComponent()->GetAcceleration();
+	outPacket.mSpinAngularVelocity = m_Character.GetClassComponent()->GetSpinAngle();
+
+	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect( );
+	}
+}
+
+void ClientSession::BroadcastCharacterState()
+{
+	CharacterStateResult outPacket;
+
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mFuel = m_Character.GetClassComponent()->GetFuel();
+	outPacket.mOxygen = m_Character.GetClassComponent()->GetOxygen();
+
+	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect( );
+	}
+}
+
 
 void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 {
@@ -382,7 +418,7 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 
 	// 로그인 됐으면 플레이어 만들고
 	// pid를 할당 받아야 되는데
-	int characterId = GActorManager->RegisterUser( &m_Character );
+	int characterId = m_GameManager->RegisterCharacter( &m_Character );
 	if ( characterId == -1 )
 	{
 		// 더 못 들어온다.
@@ -436,15 +472,15 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	// ISS state
 	IssStateResult currentIssState;
 
-	currentIssState.mIssPositionZ = GActorManager->GetIssPositionZ();
-	currentIssState.mIssVelocityZ = GActorManager->GetIssVelocityZ();
+	currentIssState.mIssPositionZ = m_GameManager->GetIssPositionZ( );
+	currentIssState.mIssVelocityZ = m_GameManager->GetIssVelocityZ( );
 
 	for ( int i = 0; i < MODULE_NUMBER; ++i )
 	{
 		TeamColor color = TeamColor::NO_TEAM;
 		float hp = 1.0f;
 
-		std::tie( color, hp ) = GActorManager->GetModuleState( i );
+		std::tie( color, hp ) = m_GameManager->GetModuleState( i );
 
 		currentIssState.mModuleOwner[i] = static_cast<int>( color );
 		currentIssState.mModuleHP[i] = hp;
@@ -545,119 +581,6 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	}
 }
 
-REGISTER_HANDLER( PKT_CS_SKILL_PUSH )
-{
-	SkillPushRequest inPacket = static_cast<SkillPushRequest&>( pktBase );
-	session->HandleSkillPushRequest( inPacket );
-}
-
-void ClientSession::HandleSkillPushRequest( SkillPushRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	// 일단 유저가 보내온 값을 적용시켜서 판단할까...적어도 회전 값은 적용하는 것이 맞을 것 같다.
-	// 캐릭터에 적용 안 한다. 패킷에 담겨온 회전 정보는 카메라의 회전 정보일뿐 캐릭터의 회전 정보가 아니다.
-	// m_Character.SetRotation( inPacket.mRotationX, inPacket.mRotationY, inPacket.mRotationZ );
-
-	// 우선 타겟이 있는지 확인
-	int targetId = -1;
-	D3DXVECTOR3 spinAxis; 
-	
-	/// mPlayerId를 보낸 값으로 쓰지 않고, 내가 갖고 있는 값으로 쓰도록 한다... 
-	std::tie( targetId, spinAxis ) = GActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
-	
-	// 타겟이 없으면 그냥 무시
-	if ( targetId == -1 )
-		return;
-
-	// 타겟이 있으면 
-	// for debugging
-	printf_s( "push target : %d\n", targetId );
-	
-	Actor* targetCharacter = GActorManager->GetInstance<Actor>( targetId );
-	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - m_Character.GetTransform()->GetPosition();
-	m_Character.GetClassComponent()->SkillPush( targetCharacter->GetClassComponent(), force );
-
-	// 원칙적으로 모든 스킬 사용에 의한 결과 반영 작업은 classComponent의 각 스킬 함수 안에서 처리하는 게 좋을 것 같다
-	// 그런데 부분적으로 현재 플레이어-액터 안에 있는 변수들의 조작이 필요한 작업들은 여기서 처리하는데..
-	// 구조 변경이 필요할지도...
-	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
-	
-	SkillPushResult outPacket;
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mTargetId = targetId;
-
-	outPacket.mPos = Float3D( targetCharacter->GetTransform()->GetPosition() );
-	outPacket.mVelocity = Float3D( targetCharacter->GetVelocity() );
-	outPacket.mSpinAxis = Float3D( spinAxis );
-	outPacket.mForce = Float3D( force );
-	outPacket.mSpinAngularVelocity = DEFAULT_SPIN_ANGULAR_VELOCITY;
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-}
-
-REGISTER_HANDLER( PKT_CS_SKILL_PULL )
-{
-	SkillPullRequest inPacket = static_cast<SkillPullRequest&>( pktBase );
-	session->HandleSkillPullRequest( inPacket );
-}
-
-void ClientSession::HandleSkillPullRequest( SkillPullRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	// scout 특수 스킬입니다.
-	if ( m_Character.GetClassComponent()->GetCharacterClassName() != CharacterClass::STRIKER )
-		return;
-
-	// 우선 타겟이 있는지 확인
-	int targetId = -1;
-	D3DXVECTOR3 spinAxis;
-
-	std::tie( targetId, spinAxis ) = GActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
-
-	// 타겟이 없으면 그냥 무시
-	if ( targetId == -1 )
-		return;
-
-	// 타겟이 있으면 
-	// for debugging
-	// printf_s( "pull target : %d\n", targetId );
-
-	Actor* targetCharacter = GActorManager->GetInstance<Actor>( targetId );
-	D3DXVECTOR3 force = targetCharacter->GetTransform( )->GetPosition( ) - m_Character.GetTransform( )->GetPosition( );
-	m_Character.GetClassComponent( )->SkillPull( targetCharacter->GetClassComponent( ), force );
-
-	// 이것도...
-	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
-
-	SkillPullResult outPacket;
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mTargetId = targetId;
-
-	outPacket.mPos = Float3D( targetCharacter->GetTransform()->GetPosition() );
-	outPacket.mVelocity = Float3D( targetCharacter->GetVelocity() );
-	outPacket.mSpinAxis = Float3D( spinAxis );
-	outPacket.mForce = Float3D( -force );
-
-	outPacket.mSpinAngularVelocity = 1.0f;
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-}
 
 REGISTER_HANDLER( PKT_CS_DEAD )
 {
@@ -728,129 +651,33 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	}
 }
 
-REGISTER_HANDLER( PKT_CS_OCCUPY )
+REGISTER_HANDLER( PKT_CS_USING_SKILL )
 {
-	SkillOccupyRequest inPacket = static_cast<SkillOccupyRequest&>( pktBase );
-	session->HandleOccupyRequest( inPacket );
+	UsingSkillRequest inPacket = static_cast<UsingSkillRequest&>( pktBase );
+	session->HandleUsingSkillRequest( inPacket );
 }
 
-void ClientSession::HandleOccupyRequest( SkillOccupyRequest& inPacket )
+void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
-	// actorManager를 통해서 스킬을 시전하면
-	// actorManager는 멤버 변수인 ISS를 통해서 확인하고
-	// 소유주 변경에 따른 ISS 속도를 변경하고
-	// 세션에 변경 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환
-	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
-	TeamColor teamColor = TeamColor::NO_TEAM;
-	float IssPosX = 0.0f;
-	float IssVelocityX = 0.0f;
-
-	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = GActorManager->TryOccupy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
-
-	// 변경사항 없으면 리턴
-	if ( moduleName == ISSModuleName::NO_MODULE )
+	// 스킬 시전!
+	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection.GetD3DVEC() ) )
 		return;
 
-	// 반환받은 결과를 방송!
-	SkillOccupyResult outPacket;
+	// 스킬이 적용된 대상은 스킬을 실행하는 과정에서 방송하도록 함
 
+	// 난 내가 쓴 스킬에 대해서 방송한다.
+	UsingSkillResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
-
-	outPacket.mModule = static_cast<int>( moduleName );
-	outPacket.mOccupyTeam = static_cast<int>( teamColor );
-	outPacket.mIssPositionZ = IssPosX;
-	outPacket.mIssVelocityZ = IssVelocityX;
+	outPacket.mSkill = inPacket.mSkill;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
-	}
-}
-
-REGISTER_HANDLER( PKT_CS_DESTROY )
-{
-	SkillDestroyRequest inPacket = static_cast<SkillDestroyRequest&>( pktBase );
-	session->HandleDestroyRequest( inPacket );
-}
-
-void ClientSession::HandleDestroyRequest( SkillDestroyRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
-	float moduleHP = 1.0f;
-
-	std::tie( moduleName, moduleHP ) = GActorManager->TryDestroy( inPacket.mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
-
-	// 변경사항 없으면 리턴
-	if ( moduleName == ISSModuleName::NO_MODULE )
-		return;
-
-	// 반환받은 결과를 방송!
-	SkillDestroyResult outPacket;
-
-	outPacket.mPlayerId = mPlayerId;
-
-	outPacket.mModule = static_cast<int>( moduleName );
-	outPacket.mModuleHP = moduleHP;
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-}
-
-
-REGISTER_HANDLER( PKT_CS_SHARE_FUEL )
-{
-	ShareFuelRequest inPacket = static_cast<ShareFuelRequest&>( pktBase );
-	session->HandleShareFuelRequest( inPacket );
-}
-
-void ClientSession::HandleShareFuelRequest( ShareFuelRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	// 나눠 줄 연료가 없다ㅠ
-	if ( m_Character.GetClassComponent( )->GetFuel( ) < DEFAULT_FUEL_SHARE_AMOUNT )
-		return;
-
-	int targetId = -1;
-	D3DXVECTOR3 spinAxis;
-
-	std::tie( targetId, spinAxis ) = GActorManager->DetectTarget( mPlayerId, inPacket.mRotation.m_X, inPacket.mRotation.m_Y, inPacket.mRotation.m_Z );
-
-	// 타겟이 없으면 그냥 무시
-	if ( targetId == -1 )
-		return;
-
-	m_Character.GetClassComponent()->SkillShareFuel( GActorManager->GetInstance<ClassComponent>( targetId ) );
-
-	// 반환받은 결과를 방송!
-	ShareFuelResult outPacket;
-
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mPlayerFuel = m_Character.GetClassComponent()->GetFuel();
-
-	outPacket.mTargetId = targetId;
-	outPacket.mTargetFuel = GActorManager->GetInstance<ClassComponent>( targetId )->GetFuel();
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect( );
 	}
 }

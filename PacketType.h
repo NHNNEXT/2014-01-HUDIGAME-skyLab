@@ -79,8 +79,13 @@ enum PacketTypes
 	PKT_CS_COLLISION = 205,
 	PKT_SC_COLLISION = 206,
 
+	PKT_CS_KINETIC_STATE = 207,
+	PKT_SC_KINETIC_STATE = 208, // 운동 상태
 
-	// 플레이어 기본 스킬에 관련된 패킷
+	PKT_CS_CHARACTER_STATE = 209,
+	PKT_SC_CHARACTER_STATE = 210, // 연료, 산소 등 
+
+	// 플레이어 스킬에 관련된 패킷
 	PKT_CS_ACCELERATION = 301,
 	PKT_SC_ACCELERATION = 302,
 
@@ -90,29 +95,8 @@ enum PacketTypes
 	PKT_CS_ROTATION = 305,
 	PKT_SC_ROTATION = 306,
 
-	PKT_CS_SKILL_PUSH = 307,
-	PKT_SC_SKILL_PUSH = 308,
-
-	PKT_CS_OCCUPY = 311,
-	PKT_SC_OCCUPY = 312,
-
-	PKT_CS_DESTROY = 313,
-	PKT_SC_DESTROY = 314,
-
-	PKT_CS_SHARE_FUEL = 315,
-	PKT_SC_SHARE_FUEL = 316,
-
-
-	// 플레이어 특수 스킬에 관련된 패킷
-	// scout
-	PKT_CS_SKILL_PULL = 401,
-	PKT_SC_SKILL_PULL = 402,
-
-	// protector
-
-
-	// engineer
-
+	PKT_CS_USING_SKILL = 307,
+	PKT_SC_USING_SKILL = 308,
 
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
@@ -369,90 +353,39 @@ struct NewResult : public PacketHeader
 	Float3D mRotation;
 };
 
-// 밀기 스킬 시전!
-// 지금 보는 방향을 기준으로 스킬 시전
-struct SkillPushRequest : public PacketHeader
+// 스킬 사용
+struct UsingSkillRequest : public PacketHeader
 {
-	SkillPushRequest()
+	UsingSkillRequest()
 	{
-		mSize = sizeof( SkillPushRequest );
-		mType = PKT_CS_SKILL_PUSH;
+		mSize = sizeof( UsingSkillRequest );
+		mType = PKT_CS_USING_SKILL;
 		mPlayerId = -1;
+
+		mSkill = ClassSkill::NO_SKILL;
 	}
 
-	int		mPlayerId;
+	int			mPlayerId;
 
-	Float3D mRotation;
+	ClassSkill	mSkill;
+	Float3D		mDirection;
 };
 
-// 타겟이 있으면 운동 상태를 바꿔놓고, 바뀐 운동 상태를 전송
-// 플러스 시전한 애가 누군지는 알려주자
-// 주의!! 여기에 적힌 mPlayerId는 스킬 시전자 / mTargetId는 스킬을 당한 애
-// 기타 패킷에 적힌 상태 정보는 mTargetId의 상태
-struct SkillPushResult : public PacketHeader
+// 사용 결과
+struct UsingSkillResult : public PacketHeader
 {
-	SkillPushResult()
+	UsingSkillResult()
 	{
-		mSize = sizeof( SkillPushResult );
-		mType = PKT_SC_SKILL_PUSH;
+		mSize = sizeof( UsingSkillResult );
+		mType = PKT_SC_USING_SKILL;
 		mPlayerId = -1;
-		mTargetId = -1;
 
-		mSpinAngularVelocity = 0.0f;
+		mSkill = ClassSkill::NO_SKILL;
 	}
 
-	int		mPlayerId;
-	int		mTargetId;
+	int			mPlayerId;
 
-	Float3D mPos;
-	Float3D mVelocity;
-	Float3D mSpinAxis;
-	Float3D mForce;
-
-	float mSpinAngularVelocity;
-};
-
-// 당기기 스킬 시전!
-// 지금 보는 방향을 기준으로 스킬 시전
-struct SkillPullRequest : public PacketHeader
-{
-	SkillPullRequest()
-	{
-		mSize = sizeof( SkillPullRequest );
-		mType = PKT_CS_SKILL_PULL;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
-
-	Float3D mRotation;
-};
-
-// 타겟이 있으면 운동 상태를 바꿔놓고, 바뀐 운동 상태를 전송
-// 플러스 시전한 애가 누군지는 알려주자
-// 주의!! 여기에 적힌 mPlayerId는 스킬 시전자 / mTargetId는 스킬을 당한 애
-// 기타 패킷에 적힌 상태 정보는 mTargetId의 상태
-struct SkillPullResult : public PacketHeader
-{
-	SkillPullResult()
-	{
-		mSize = sizeof( SkillPullResult );
-		mType = PKT_SC_SKILL_PULL;
-		mPlayerId = -1;
-		mTargetId = -1;
-
-		mSpinAngularVelocity = 0.0f;
-	}
-
-	int		mPlayerId;
-	int		mTargetId;
-
-	Float3D mPos;
-	Float3D mVelocity;
-	Float3D mSpinAxis;
-	Float3D mForce;
-
-	float mSpinAngularVelocity;
+	ClassSkill	mSkill;
 };
 
 // 로그인을 성공하면 지금 게임 상태를 모두 전송 받는다.
@@ -482,82 +415,6 @@ struct GameStateResult : public PacketHeader
 	int		mPlayerId;
 
 	// 추가할 것
-};
-
-// 점령! - 빈 곳이면 점령하고 상대방 소유면 빈 곳으로, 우리편 소유면 그냥 그대로
-struct SkillOccupyRequest : public PacketHeader
-{
-	SkillOccupyRequest( )
-	{
-		mSize = sizeof( SkillOccupyRequest );
-		mType = PKT_CS_OCCUPY;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
-
-	Float3D mPos;
-	Float3D mRotation;
-};
-
-// 점령 상태가 바뀌면 어떤 것이 바뀌었는지, 소유팀은 어디인지, 스킬은 누가 썼는지 전송
-struct SkillOccupyResult : public PacketHeader
-{
-	SkillOccupyResult( )
-	{
-		mSize = sizeof( SkillOccupyResult );
-		mType = PKT_SC_OCCUPY;
-		mPlayerId = -1;
-
-		mModule = -1;
-		mOccupyTeam = -1;
-
-		mIssVelocityZ = 0.0f;
-		mIssPositionZ = 0.0f;
-	}
-
-	int		mPlayerId;
-
-	int		mModule;
-	int		mOccupyTeam;
-
-	float	mIssVelocityZ;
-	float	mIssPositionZ;
-};
-
-// 파괴! - 걸리는 모듈이 있으면 체력을 깎자
-struct SkillDestroyRequest : public PacketHeader
-{
-	SkillDestroyRequest( )
-	{
-		mSize = sizeof( SkillDestroyRequest );
-		mType = PKT_CS_DESTROY;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
-
-	Float3D mPos;
-	Float3D mRotation;
-};
-
-// 파괴! - 어떤 모듈인지, 누가 부순건지, 지금 체력은 얼마인지 
-struct SkillDestroyResult : public PacketHeader
-{
-	SkillDestroyResult( )
-	{
-		mSize = sizeof( SkillDestroyResult );
-		mType = PKT_SC_DESTROY;
-		mPlayerId = -1;
-
-		mModule = -1;
-		mModuleHP = 1.0f;
-	}
-
-	int		mPlayerId;
-
-	int		mModule;
-	float	mModuleHP;
 };
 
 // 지금 ISS 위치, 속도 알려주세요
@@ -629,10 +486,7 @@ struct IssModuleStateResult : public PacketHeader
 	float	mHP;
 };
 
-// PKT_CS_GAME_RESULT = 151,
-// PKT_SC_GAME_RESULT = 152,
-
-// 지금 ISS 모듈 소유자 및 체력 알려주세요
+// 게임 결과를 알려주세요
 struct GameResultRequest : public PacketHeader
 {
 	GameResultRequest()
@@ -660,41 +514,73 @@ struct GameResultResult : public PacketHeader
 	// 나중에 부가 정보 추가할 것
 };
 
-struct ShareFuelRequest : public PacketHeader
+// 운동 상태 좀 알려주세요
+struct KineticStateRequest : public PacketHeader
 {
-	ShareFuelRequest( )
+	KineticStateRequest( )
 	{
-		mSize = sizeof( ShareFuelRequest );
-		mType = PKT_CS_SHARE_FUEL;
+		mSize = sizeof( KineticStateRequest );
+		mType = PKT_CS_KINETIC_STATE;
 		mPlayerId = -1;
 	}
 
 	int		mPlayerId;
-
-	Float3D mRotation;
 };
 
-struct ShareFuelResult : public PacketHeader
+// 넌 지금 이러고 있단다
+struct KineticStateResult : public PacketHeader
 {
-	ShareFuelResult( )
+	KineticStateResult( )
 	{
-		mSize = sizeof( ShareFuelResult );
-		mType = PKT_SC_SHARE_FUEL;
-		
+		mSize = sizeof( KineticStateResult );
+		mType = PKT_SC_KINETIC_STATE;
 		mPlayerId = -1;
-		mPlayerFuel = 0.0f;
 
-		mTargetId = -1;
-		mTargetFuel = 0.0f;
+		mSpinAngularVelocity = 0.0f;
 	}
 
 	int		mPlayerId;
-	float	mPlayerFuel;
 
-	int		mTargetId;
-	float	mTargetFuel;
+	Float3D mPos;
+	Float3D mForce;
+	Float3D mVelocity;
+	Float3D mSpinAxis;
+	// Float3D mForce; // 적용되는 시점이 차이가 날 수 밖에 없으므로 다른 방식으로 동기화 할 것
 
-	// 나중에 부가 정보 추가할 것
+	float mSpinAngularVelocity;
 };
+
+// 운동 상태 좀 알려주세요
+struct CharacterStateRequest : public PacketHeader
+{
+	CharacterStateRequest( )
+	{
+		mSize = sizeof( CharacterStateRequest );
+		mType = PKT_CS_CHARACTER_STATE;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+// 넌 지금 이러고 있단다
+struct CharacterStateResult : public PacketHeader
+{
+	CharacterStateResult( )
+	{
+		mSize = sizeof( CharacterStateResult );
+		mType = PKT_SC_KINETIC_STATE;
+		mPlayerId = -1;
+
+		mFuel = 0.0f;
+		mOxygen = 0.0f;
+	}
+
+	int		mPlayerId;
+
+	float	mFuel;
+	float	mOxygen;
+};
+
 
 #pragma pack(pop)

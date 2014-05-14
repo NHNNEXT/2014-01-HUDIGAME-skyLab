@@ -30,16 +30,6 @@ public:
 	D3DXVECTOR3 GetVelocity() const { return m_CharacterClass->GetVelocity(); }
 	void	IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
 
-	// 지정한 축과 각속도로 자전
-	// input : 자전축은 물체의 로컬좌표계 기준으로 사용, 각속도는 말그대로 단위 시간에 회전하는 각도
-	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
-
-	// 현재 자전에 추가 자전 요소 추가 : 차차 구현
-	void AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
-
-	// 자전 금지
-	void StopSpin();
-
 	//float	GetMass() const { return m_RigidBody.m_Mass; }
 	bool	IsMoving() const { return m_MovingFlag; }
 	void	SetMovingFlag( bool flag ) { m_MovingFlag = flag; }

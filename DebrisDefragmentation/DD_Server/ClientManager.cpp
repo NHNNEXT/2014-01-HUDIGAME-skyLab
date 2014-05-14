@@ -3,6 +3,7 @@
 #include "..\..\PacketType.h"
 #include "ClientSession.h"
 #include "ClientManager.h"
+#include "GameManager.h"
 #include <set>
 #include <algorithm>
 
@@ -12,7 +13,7 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 {
 	assert( LThreadType == THREAD_CLIENT );
 
-	ClientSession* client = new ClientSession( sock );
+	ClientSession* client = new ClientSession( sock, &mGameManager );
 	mClientList.insert( ClientList::value_type( sock, client ) );
 
 	return client;
@@ -51,9 +52,9 @@ void ClientManager::OnPeriodWork()
 
 	// 게임 상태를 업데이트 하자
 	// 충돌했는지 판단도 여기서함	
-	GActorManager->Update();
-	std::set<int> collidedIdList = GActorManager->GetCollidedPlayerId();
-	GActorManager->ClearCollidedPlayer();
+	mGameManager.Update();
+	std::set<int> collidedIdList = mGameManager.GetCollidedPlayerId( );
+	mGameManager.ClearCollidedPlayer( );
 
 	std::for_each( collidedIdList.begin(), collidedIdList.end(), [&]( const int& each )
 	{
@@ -66,8 +67,8 @@ void ClientManager::OnPeriodWork()
 	);
 
 	// 죽은 애들 찾아서 방송하자
-	std::set<int> deadPlayer = GActorManager->GetDeadPlayerId();
-	GActorManager->ClearDeadPlayer();
+	std::set<int> deadPlayer = mGameManager.GetDeadPlayerId( );
+	mGameManager.ClearDeadPlayer( );
 
 	std::for_each( deadPlayer.begin(), deadPlayer.end(), [&]( const int& each )
 	{
@@ -81,7 +82,7 @@ void ClientManager::OnPeriodWork()
 
 	// 조심해!!
 	// 뭔가 이벤트 방식이 아니라 풀링 방식이 되어 가는 게 불안하다.
-	TeamColor winnerTeam = GActorManager->GetWinnerTeam();
+	TeamColor winnerTeam = mGameManager.GetWinnerTeam( );
 	if ( winnerTeam != TeamColor::NO_TEAM )
 	{
 		GameResultResult outPacket;
@@ -174,12 +175,32 @@ void ClientManager::InitPlayerState( ClientSession* caller )
 
 void ClientManager::Init()
 {
-	GActorManager = new ActorManager;
-	GActorManager->Init();
+	mGameManager.Init();
 
 	std::for_each( mClientIdList.begin(), mClientIdList.end(), []( ClientSession* each )
 	{
 		each = nullptr;
 	} 
 	);
+}
+
+void ClientManager::BroadcastModuleState( int idx )
+{
+	IssStateResult outPacket;
+
+	outPacket.mIssPositionZ = mGameManager.GetIssPositionZ( );
+	outPacket.mIssVelocityZ = mGameManager.GetIssVelocityZ( );
+
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		TeamColor color = TeamColor::NO_TEAM;
+		float hp = 1.0f;
+
+		std::tie( color, hp ) = mGameManager.GetModuleState( i );
+
+		outPacket.mModuleOwner[i] = static_cast<int>( color );
+		outPacket.mModuleHP[i] = hp;
+	}
+
+	BroadcastPacket( nullptr, &outPacket );
 }

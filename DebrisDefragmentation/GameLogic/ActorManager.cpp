@@ -1,22 +1,21 @@
 ﻿#include "stdafx.h"
 #include "ActorManager.h"
+#include "Character.h"
+#include "ObjectTable.h"
 
 #include "Physics.h"
-
-// using Physics::operator&;
-ActorManager* GActorManager = nullptr;
 
 ActorManager::ActorManager()
 {
 	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
 	{
-		m_ActorList[playerId] = nullptr;
+		m_CharacterList[playerId] = nullptr;
 	}
 }
 
-
 ActorManager::~ActorManager()
 {
+	delete GObjectTable;
 }
 
 void ActorManager::Init( )
@@ -27,43 +26,44 @@ void ActorManager::Init( )
 	m_TeamBlue.clear();
 	m_TeamRed.clear();
 
-	std::for_each( m_ActorList.begin(), m_ActorList.end(), []( Actor* each )
-	{
-		each = nullptr;
-	} 
-	);
+	m_CharacterList.fill( nullptr );
+
+	GObjectTable = new ObjectTable;
+	GObjectTable->Init( this );
 
 	m_WinnerTeam = TeamColor::NO_TEAM;
 
 	// InitializeSRWLock( &m_SRWLock );
 }
 
-int ActorManager::RegisterUser( Actor* newActor )
+int ActorManager::RegisterCharacter( Character* newCharacter )
 {
 	// user id를 manager에 등록된 actor index와 같게 유지하면 객체들 인터랙션을 처리할 때 유리할 것 같은데
 	// 어떻게 효율적으로 비어있는 index를 찾고 그걸 세션에게 할당할 지 잘 모르겠네요
 	// 일단 이렇게 처음부터 순회하면서 비어있는 자리가 있으면 거기에 포인터 등록하고 idx 반환하도록 하는데...
 
 	// 일단 배열이 크지 않으므로 이렇게 가자
-	for ( unsigned int actorId = 0; actorId < MAX_PLAYER_NUM; ++actorId )
+	for ( unsigned int characterId = 0; characterId < MAX_PLAYER_NUM; ++characterId )
 	{
-		if ( m_ActorList[actorId] == nullptr )
+		if ( m_CharacterList[characterId] == nullptr )
 		{
-			m_ActorList[actorId] = newActor;
+			m_CharacterList[characterId] = newCharacter;
 
 			// 팀 추가 - 더 적은 팀에 배치
 			if ( m_TeamBlue.size() < m_TeamRed.size() )
 			{
-				m_ActorList[actorId]->SetTeam( TeamColor::BLUE );
-				m_TeamBlue.insert( actorId );
+				m_CharacterList[characterId]->SetTeam( TeamColor::BLUE );
+				m_TeamBlue.insert( characterId );
 			}
 			else
 			{
-				m_ActorList[actorId]->SetTeam( TeamColor::RED );
-				m_TeamRed.insert( actorId );
+				m_CharacterList[characterId]->SetTeam( TeamColor::RED );
+				m_TeamRed.insert( characterId );
 			}
 
-			return actorId;
+			GObjectTable->SetCharacter( newCharacter, characterId );
+
+			return characterId;
 		}
 	}
 
@@ -90,17 +90,19 @@ void ActorManager::ChangeActor( Actor* newActor, int actorId )
 }
 */
 
-void ActorManager::DeleteActor( int actorId )
+void ActorManager::DeleteCharacter( int characterId )
 {
-	if ( m_ActorList[actorId] != nullptr )
+	if ( m_CharacterList[characterId] != nullptr )
 	{
 		// 일단 배치된 팀에서 빼자.
-		m_TeamBlue.erase( actorId );
-		m_TeamRed.erase( actorId );
+		m_TeamBlue.erase( characterId );
+		m_TeamRed.erase( characterId );
+
+		GObjectTable->SetCharacter( nullptr, characterId );
 
 		// 객체의 삭제는 생성한 clientSession에서 한다
 		// delete m_ActorList[actorId];
-		m_ActorList[actorId] = nullptr;
+		m_CharacterList[characterId] = nullptr;
 	}
 
 	// 만약 모든 플레이어가 나간 빈 방이 되면 게임 상태 초기화
@@ -108,7 +110,7 @@ void ActorManager::DeleteActor( int actorId )
 
 	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
 	{
-		if ( m_ActorList[playerId] != nullptr )
+		if ( m_CharacterList[playerId] != nullptr )
 			++currentPlayerNumber;
 	}
 
@@ -124,10 +126,10 @@ void ActorManager::Update( )
 
 	for ( unsigned int actorId = 0; actorId < MAX_PLAYER_NUM; ++actorId )
 	{
-		if ( m_ActorList[actorId] != nullptr )
+		if ( m_CharacterList[actorId] != nullptr )
 		{
-			m_ActorList[actorId]->Update( dt );
-			if ( !m_ActorList[actorId]->GetClassComponent()->IsAlive() )
+			m_CharacterList[actorId]->Update( dt );
+			if ( !m_CharacterList[actorId]->GetClassComponent()->IsAlive() )
 			{
 				// 죽음 패킷 보내자
 				m_DeadPlayers.insert( actorId );
@@ -152,9 +154,9 @@ void ActorManager::Update( )
 	CheckCollision();
 }
 
-bool ActorManager::IsValidId( int actorId )
+bool ActorManager::IsValidId( int characterId )
 {
-	if ( m_ActorList[actorId] != nullptr )
+	if ( m_CharacterList[characterId] != nullptr )
 		return true;
 
 	return false;
@@ -170,10 +172,10 @@ void ActorManager::CheckCollision()
 		// 조심해!!
 		// 일단 지금은 항상 움직이는 상태...
 		// 움직임이 있는 애들만 체크
-		if ( m_ActorList[i] == nullptr || !m_ActorList[i]->IsMoving( ) )
+		if ( m_CharacterList[i] == nullptr || !m_CharacterList[i]->IsMoving() )
 			continue;
 
-		const CollisionBox* boxI = m_ActorList[i]->GetCollisionBox();
+		const CollisionBox* boxI = m_CharacterList[i]->GetCollisionBox();
 		const CollisionBox* boxJ = nullptr;
 
 		// ISS와의 충돌 확인
@@ -182,7 +184,7 @@ void ActorManager::CheckCollision()
 			// 각각의 모듈의 충돌 박스를 가져온다.
 			boxJ = m_ISS.GetModuleCollisionBox( j );
 
-			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_ActorList[i]->GetTransform()->GetPosition();
+			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_CharacterList[i]->GetTransform()->GetPosition();
 			// if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
 				// continue;
 
@@ -192,7 +194,7 @@ void ActorManager::CheckCollision()
 				// 이 경우에는 ISS는 그대로 있고 플레이어만 튕긴다.
 				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
 
-				D3DXVECTOR3 relativeVelocity = -m_ActorList[i]->GetVelocity();
+				D3DXVECTOR3 relativeVelocity = -m_CharacterList[i]->GetVelocity();
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
 				{
 					return;
@@ -200,7 +202,7 @@ void ActorManager::CheckCollision()
 
 				// 조심해!!
 				// 반사되지 않고 입사각의 반대로 튕기고 있다.
-				m_ActorList[i]->IncreaseVelocity( relativeVelocity * 2.0f );
+				m_CharacterList[i]->IncreaseVelocity( relativeVelocity * 2.0f );
 
 				// ISS와 충돌한 플레이어의 아이디를 추가한다.
 				m_CollidedPlayers.insert( i );
@@ -210,13 +212,13 @@ void ActorManager::CheckCollision()
 		// 플레이어간 충돌 체크
 		for ( int j = i + 1; j < MAX_PLAYER_NUM; ++j )
 		{
-			if ( m_ActorList[j] == nullptr )
+			if ( m_CharacterList[j] == nullptr )
 				continue;
 
-			boxJ = m_ActorList[j]->GetCollisionBox();
+			boxJ = m_CharacterList[j]->GetCollisionBox();
 
 			// 두 점의 거리가 가까우면 체크 안 함
-			D3DXVECTOR3 collisionDirection = m_ActorList[j]->GetTransform()->GetPosition() - m_ActorList[i]->GetTransform()->GetPosition();
+			D3DXVECTOR3 collisionDirection = m_CharacterList[j]->GetTransform()->GetPosition() - m_CharacterList[i]->GetTransform()->GetPosition();
 			// printf_s( "%f / %f\n", D3DXVec3Length( &collisionDirection ), m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius );
 			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
 				continue;
@@ -235,25 +237,25 @@ void ActorManager::CheckCollision()
 				// 아직 충돌 상태에서 벗어나지 못한 상태로 다시 충돌 판정을 하게 되고 서로의 운동량을 다시 바꾸게 됨
 				// 결국 물체는 다시 가까워지는 방향으로 운동량이 변하게 되고, 서로 떨어지지 못한 채 계속 충돌 판정을 받게 됨
 				// 그래서 두 물체의 운동 상태가 서로에게서 멀어지고 있는 중이라면 충돌에 의한 운동량 변화를 적용하지 않음
-				D3DXVECTOR3 relativeVelocity = m_ActorList[j]->GetVelocity() - m_ActorList[i]->GetVelocity();
+				D3DXVECTOR3 relativeVelocity = m_CharacterList[j]->GetVelocity() - m_CharacterList[i]->GetVelocity();
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
 				{
 					return;
 				}
 
-				float iMass = m_ActorList[i]->GetClassComponent()->GetMass();
-				float jMass = m_ActorList[j]->GetClassComponent()->GetMass();
+				float iMass = m_CharacterList[i]->GetClassComponent()->GetMass();
+				float jMass = m_CharacterList[j]->GetClassComponent()->GetMass();
 
-				float iVelocity = D3DXVec3Dot( &( m_ActorList[i]->GetVelocity() ), &collisionDirection );
-				float jVelocity = D3DXVec3Dot( &( m_ActorList[j]->GetVelocity() ), &collisionDirection );
+				float iVelocity = D3DXVec3Dot( &( m_CharacterList[i]->GetVelocity() ), &collisionDirection );
+				float jVelocity = D3DXVec3Dot( &( m_CharacterList[j]->GetVelocity() ), &collisionDirection );
 				
 				// 질량에 비례해서 운동 상태 변경
-				m_ActorList[i]->IncreaseVelocity( 
+				m_CharacterList[i]->IncreaseVelocity(
 					( 2 * jMass / ( iMass + jMass ) )
 					* ( jVelocity - iVelocity ) * collisionDirection
 					);
 
-				m_ActorList[j]->IncreaseVelocity(
+				m_CharacterList[j]->IncreaseVelocity(
 					( 2 * iMass / ( iMass + jMass ) )
 					* ( iVelocity - jVelocity ) * collisionDirection
 					);
@@ -266,7 +268,7 @@ void ActorManager::CheckCollision()
 	}
 }
 
-std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, float y, float z )
+std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int characterId, const D3DXVECTOR3& direction )
 {
 	// 충돌 박스의 각 점들을 조합해서 만들 수 있는 면 6개에 대해서
 	// 요청한 액터의 뷰( z축 ) 방향과 각각의 면이 교차하는지 확인한다.
@@ -274,18 +276,18 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 	int targetId = -1;
 	
 	D3DXVECTOR3 spinAxis( 0.0f, 0.0f, 0.0f );
-	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
-	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform()->GetPosition();
+	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
+	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
 	
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
-		if ( i == actorId || m_ActorList[i] == nullptr )
+		if ( i == characterId || m_CharacterList[i] == nullptr )
 			continue;
 
 		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
 		
 		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_ActorList[i]->GetCollisionBox() ) )
+		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_CharacterList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			// 정확하게는 두 물체의 기준점 사이의 거리를 비교하는 것이 아니라 교차점과 스킬을 사용한 객체의 기준점의 거리를 구해서 비교해야 함
@@ -301,20 +303,45 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int actorId, float x, f
 	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }
 
-std::tuple<ISSModuleName, TeamColor, float, float> ActorManager::TryOccupy( int actorId, float x, float y, float z ) 
+bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 {
-	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
-	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform()->GetPosition();
+	// 이 로직도 ISS 내부로 밀어넣는 게 좋을 것 같은데
+	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
+	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
 
-	return m_ISS.Occupy( viewDirection, startPoint, m_ActorList[actorId]->GetTeam() );
+	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
+	TeamColor teamColor = TeamColor::NO_TEAM;
+	float IssPosX = 0.0f;
+	float IssVelocityX = 0.0f;
+
+	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ISS.Occupy( viewDirection, startPoint, m_CharacterList[characterId]->GetTeam() );
+
+	if ( moduleName == ISSModuleName::NO_MODULE )
+		return false;
+
+	// 방송할 것
+	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( moduleName ), ClassSkill::OCCUPY );
+
+	return true;
 }
 
-std::tuple<ISSModuleName, float> ActorManager::TryDestroy( int actorId, float x, float y, float z )
+bool ActorManager::DestroyISS( int characterId, D3DXVECTOR3 direction )
 {
-	D3DXVECTOR3 viewDirection = m_ActorList[actorId]->GetViewDirection( x, y, z );
-	D3DXVECTOR3	startPoint = m_ActorList[actorId]->GetTransform()->GetPosition();
+	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
+	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
+	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
+	float moduleHP = 1.0f;
 
-	return m_ISS.Destroy( viewDirection, startPoint );
+	std::tie( moduleName, moduleHP ) = m_ISS.Destroy( viewDirection, startPoint );
+
+	// 변경사항 없으면 리턴
+	if ( moduleName == ISSModuleName::NO_MODULE )
+		return false;
+
+	// 방송할 것
+	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( moduleName ), ClassSkill::DESTROY );
+
+	return true;
 }
 
 std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )

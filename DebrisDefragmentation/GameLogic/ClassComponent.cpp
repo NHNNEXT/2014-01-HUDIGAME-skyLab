@@ -2,6 +2,9 @@
 #include "ClassComponent.h"
 #include "Physics.h"
 #include "Rigidbody.h"
+#include "ActorManager.h"
+#include "Character.h"
+#include "ObjectTable.h"
 
 ClassComponent::ClassComponent()
 {
@@ -44,26 +47,72 @@ void ClassComponent::Stop()
 	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
 }
 
-void ClassComponent::SkillPush( ClassComponent* targetComponent, D3DXVECTOR3 force )
+bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 {
-	targetComponent->AddForce( force );
+	int targetId = NOTHING;
+	D3DXVECTOR3 spinAxis;
+
+	// 타겟을 검출한다.
+	std::tie( targetId, spinAxis ) = GObjectTable->GetActorManager()->DetectTarget( id, direction );
+
+	if ( targetId == NOTHING )
+		return false;
+
+	// 타겟이 있으므로 스킬 결과를 반영한다.
+	D3DXVECTOR3 force = GObjectTable->GetInstance<Transform>( targetId )->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
+	
+	// 변화 적용
+	GObjectTable->GetInstance<ClassComponent>( targetId )->AddForce( force );
+	GObjectTable->GetInstance<ClassComponent>( targetId )->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
+
+	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
+
+	return true;
 }
 
-void ClassComponent::SkillPull( ClassComponent* targetComponent, D3DXVECTOR3 force )
+bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 {
-	targetComponent->AddForce( -force );
-}
+	int targetId = NOTHING;
+	D3DXVECTOR3 spinAxis; // 사용은 안 함
 
-void ClassComponent::SkillShareFuel( ClassComponent* targetComponent )
-{
+	// 나눠 줄 연료가 없다ㅠ
+	if ( GetFuel() < DEFAULT_FUEL_SHARE_AMOUNT )
+		return false;
+
+	std::tie( targetId, spinAxis ) = GObjectTable->GetActorManager()->DetectTarget( id, direction );
+
+	// 타겟이 없으면 그냥 무시
+	if ( targetId == NOTHING )
+		return false;
+
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
-	targetComponent->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
+	GObjectTable->GetInstance<ClassComponent>( targetId )->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
+
+	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_FUEL );
+
+	return true;
+}
+
+bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
+{
+	// 판정은 GActorManager에 맞기자
+	// 방송도 GActorManager가 OccupyISS 진행하면서 하는 걸로
+	return GObjectTable->GetActorManager()->OccupyISS( id, direction );
+}
+
+bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
+{
+	// 판정은 GActorManager에 맞기자
+	// 방송도 GActorManager가 DestroyISS 진행하면서 하는 걸로
+	return GObjectTable->GetActorManager()->DestroyISS( id, direction );
 }
 
 void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
 	m_Rigidbody.m_SpinAngle = angularVelocity;
 	m_Rigidbody.m_SpinAxis = rotationAxis;
+	SetSpinTime( 0.0f );
+	SetSpinnigFlag( true );
 }
 
 void ClassComponent::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
@@ -74,6 +123,8 @@ void ClassComponent::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 
 void ClassComponent::StopSpin()
 {
+	SetSpinnigFlag( false );
+	SetSpinTime( 0.0f );
 	m_Rigidbody.m_SpinAngle = 0.0f;
 	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
@@ -146,7 +197,7 @@ void ClassComponent::ResetStatus()
 	SetFuel( DEFAULT_FUEL );
 	SetVelocity( ZERO_VECTOR3 );
 
-	m_SpinTime = .0f;
-	m_AccelerationStartTime = .0f;
+	m_SpinTime = 0;
+	m_AccelerationStartTime = 0;
 	m_Rigidbody.Init();
 }

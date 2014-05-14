@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 #include <WinSock2.h>
-#include "ActorManager.h"
+#include "GameManager.h"
 
 class ClientSession;
 struct PacketHeader;
@@ -19,6 +19,7 @@ public:
 	ClientSession* CreateClient( SOCKET sock );
 
 	void BroadcastPacket( ClientSession* from, PacketHeader* pkt );
+	void BroadcastModuleState( int idx );
 
 	void OnPeriodWork();
 	void FlushClientSend();
@@ -32,6 +33,7 @@ public:
 	// 새롭게 추가된 mClientIdList에 세션을 등록하고, 삭제하는 함수
 	// session에서 호출한다.
 	void RegisterSession( int idx, ClientSession* session ) { if ( !mClientIdList[idx] ) mClientIdList[idx] = session; }
+	ClientSession* GetSession( int idx ) { return mClientIdList[idx]; }
 	void DeleteSession( int idx, ClientSession* session ) { if ( mClientIdList[idx] == session ) mClientIdList[idx] = nullptr; }
 
 private:
@@ -40,7 +42,8 @@ private:
 
 private:
 	typedef std::unordered_map<SOCKET, ClientSession*> ClientList;
-	ClientList						mClientList;
+	ClientList					mClientList;
+	GameManager					mGameManager;
 
 	// 직접 패킷을 보낼 때 id를 기반으로 보내기 위한 자료구조
 	// ClientList의 키를 id로 사용하는 것을 고려했으나
