@@ -46,7 +46,29 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 
 bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 {
-	return false;
+	int targetId = NOTHING;
+	D3DXVECTOR3 spinAxis; // 사용은 안 함
+
+	// 나눠 줄 연료가 없다ㅠ
+	if ( m_Oxygen < DEFAULT_OXYGEN_SHARE_AMOUNT )
+		return false;
+
+	std::tie( targetId, spinAxis ) = GObjectTable->GetActorManager()->DetectTarget( id, direction );
+
+	// 타겟이 없으면 그냥 무시
+	if ( targetId == NOTHING )
+		return false;
+
+	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
+		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
+		return;
+
+	m_Oxygen -= DEFAULT_OXYGEN_SHARE_AMOUNT;
+	GObjectTable->GetInstance<ClassComponent>( targetId )->IncreaseOxygen( DEFAULT_OXYGEN_SHARE_AMOUNT );
+
+	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_OXYGEN );
+
+	return true;
 }
 
 bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )

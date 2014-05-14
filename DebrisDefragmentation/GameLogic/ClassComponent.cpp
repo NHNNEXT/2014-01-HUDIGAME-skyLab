@@ -76,7 +76,7 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	D3DXVECTOR3 spinAxis; // 사용은 안 함
 
 	// 나눠 줄 연료가 없다ㅠ
-	if ( GetFuel() < DEFAULT_FUEL_SHARE_AMOUNT )
+	if ( m_Fuel < DEFAULT_FUEL_SHARE_AMOUNT )
 		return false;
 
 	std::tie( targetId, spinAxis ) = GObjectTable->GetActorManager()->DetectTarget( id, direction );
@@ -84,6 +84,10 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	// 타겟이 없으면 그냥 무시
 	if ( targetId == NOTHING )
 		return false;
+
+	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
+		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
+		return;
 
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
 	GObjectTable->GetInstance<ClassComponent>( targetId )->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
