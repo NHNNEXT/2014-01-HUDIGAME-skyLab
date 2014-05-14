@@ -74,7 +74,7 @@ public:
 
 	const float&		GetMass() const { return m_Rigidbody.m_Mass; }
 	const D3DXVECTOR3&	GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
-	const D3DXVECTOR3&	GetVelocity() const { return m_Rigidbody.m_Velocity; }
+	const D3DXVECTOR3&	GetVelocity() const { return m_Rigidbody.m_Velocity * m_SpeedConstant; } // 순간 가속을 할 수 있으므로 상수를 곱해서 반환 - 내부에서 직접 참조하면 안 되는데
 	const D3DXVECTOR3&	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
 	const float&		GetSpinAngle() const { return m_Rigidbody.m_SpinAngle; }
 	void		SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
@@ -89,9 +89,6 @@ public:
 	CharacterClass GetCharacterClassName() { return m_ClassName; }
 
 protected:	
-// 	bool		m_IsAccelerating = false;
-// 	bool		m_IsSpin = false;	
-	
 	TeamColor	m_Team = TeamColor::NO_TEAM;
 	Rigidbody	m_Rigidbody;
 	
@@ -101,6 +98,7 @@ protected:
 	float		m_HP = DEFAULT_HP;
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
+	float		m_SpeedConstant = 1.0f;
 
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
 };

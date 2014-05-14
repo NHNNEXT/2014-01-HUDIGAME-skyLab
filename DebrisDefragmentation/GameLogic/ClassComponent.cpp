@@ -87,7 +87,7 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 
 	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
 		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
-		return;
+		return false;
 
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
 	GObjectTable->GetInstance<ClassComponent>( targetId )->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
@@ -201,6 +201,7 @@ void ClassComponent::ResetStatus()
 	SetFuel( DEFAULT_FUEL );
 	SetVelocity( ZERO_VECTOR3 );
 
+	m_SpeedConstant = 1.0f;
 	m_SpinTime = 0;
 	m_AccelerationStartTime = 0;
 	m_Rigidbody.Init();

@@ -58,6 +58,8 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	targetCharacter->GetClassComponent()->AddForce( -force );
 	targetCharacter->GetClassComponent()->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
+	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PULL );
+
 	return true;
 }
 
@@ -68,5 +70,9 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 
 bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 {
-	return false;
+	m_SpeedConstant = SCOUT_MOVE_FAST_CONSTANT;
+
+	GObjectTable->GetActorManager()->BroadcastSkillResult( id, ClassSkill::MOVE_FAST );
+
+	return true;
 }

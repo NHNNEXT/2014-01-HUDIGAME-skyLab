@@ -146,4 +146,4 @@ const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 
 // SKILL
 const float			SKILL_RANGE = 50;
-
+const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;

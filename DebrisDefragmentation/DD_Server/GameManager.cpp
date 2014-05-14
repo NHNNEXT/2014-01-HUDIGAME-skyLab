@@ -16,6 +16,7 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 {
 	// 매니저에게 접근해서
 	// 어떻게든 세션을 알아내서 스킬 타입에 따라서 적합한 패킷을 방송하도록 시킨다
+	// 각각의 스킬들의 성격이 다른데  
 
 	switch ( skillType )
 	{
