@@ -21,9 +21,23 @@ namespace GameTool.Class
         D3D.Texture[] ISSTextures;
         const string filename = ".\\Resources\\3DModel\\iss.x";
 
-        // camera
-        int Width = 375;
-        int Height = 335;
+        // camera variables
+        int Width = 760;
+        int Height = 680;
+
+        // viewports
+        Viewport defaultViewport;
+        Viewport AxisXViewport;
+        Viewport AxisYViewport;
+        Viewport AxisZViewport;
+
+        enum VIEWPORT
+        {
+            PERSPECTIVE,
+            AXIS_X,
+            AXIS_Y,
+            AXIS_Z
+        }
 
         // devices for ISS Renderer
         private Device m_device = null;
@@ -89,7 +103,7 @@ namespace GameTool.Class
                 // device options
                 m_device.RenderState.ZBufferEnable = true;
                 m_device.RenderState.Lighting = false;
-                m_device.RenderState.CullMode = Cull.Clockwise;
+                m_device.RenderState.CullMode = Cull.None;
 
                 Init();
             }
@@ -103,24 +117,70 @@ namespace GameTool.Class
         private void SetUpCamera()
         {
             m_device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, (float)this.Width / (float)this.Height, 0.3f, 500f);
-            m_device.Transform.View = Matrix.LookAtLH(new Vector3(20, 5, 13), new Vector3(8, 7, 0), new Vector3(0, 0, 1));
+        }
+
+        private void ChangeCamera(VIEWPORT v)
+        {
+            switch (v)
+            {
+                case VIEWPORT.PERSPECTIVE:
+                    m_device.Transform.View = Matrix.LookAtLH(new Vector3(30, 15, 15), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
+                    m_device.Viewport = defaultViewport;
+                    break;
+                case VIEWPORT.AXIS_X:
+                    m_device.Transform.View = Matrix.LookAtLH(new Vector3(60, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
+                    m_device.Viewport = AxisXViewport;
+                    break;
+                case VIEWPORT.AXIS_Y:
+                    m_device.Transform.View = Matrix.LookAtLH(new Vector3(0, 60, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
+                    m_device.Viewport = AxisYViewport;
+                    break;
+                case VIEWPORT.AXIS_Z:
+                    m_device.Transform.View = Matrix.LookAtLH(new Vector3(0, 0, 60), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+                    m_device.Viewport = AxisZViewport;
+                    break;
+                default:
+                    m_device.Transform.View = Matrix.LookAtLH(new Vector3(20, 5, 13), new Vector3(0, 0, 0), new Vector3(0, 0, 1));
+                    break;
+            }
+        }
+
+        private void ReallocateViewPort()
+        {
+            defaultViewport = m_device.Viewport;
+            defaultViewport.Width /= 2;
+            defaultViewport.Height /= 2;
+            AxisXViewport = defaultViewport;
+            AxisYViewport = defaultViewport;
+            AxisZViewport = defaultViewport;
+
+            AxisYViewport.X = AxisXViewport.Width;
+            AxisZViewport.Y = AxisXViewport.Height;
+            defaultViewport.X = AxisYViewport.X;
+            defaultViewport.Y = AxisZViewport.Y;
         }
 
         private void Init()
         {
             LoadMesh(filename, ref ISSMesh, ref ISSMaterials, ref ISSTextures);
             SetUpCamera();
+            ReallocateViewPort();
         }
 
         public void Render()
         {
-            m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.DarkSlateBlue, 1.0f, 0);
+            m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.Black, 1.0f, 0);
             m_device.BeginScene();
 
             m_device.Transform.World = Matrix.Identity;
             m_device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
+            
+            foreach(VIEWPORT v in Enum.GetValues(typeof(VIEWPORT)) )
+            {
+                ChangeCamera(v);
+                DrawMesh(ISSMesh, ISSMaterials, ISSTextures);
+            }
 
-            DrawMesh(ISSMesh, ISSMaterials, ISSTextures);
             m_device.EndScene();
             m_device.Present();
         }
