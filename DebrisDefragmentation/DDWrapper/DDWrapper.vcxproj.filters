@@ -13,19 +13,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameCamera.h">
-      <Filter>DDFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLight.h">
-      <Filter>DDFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="GameModel.h">
-      <Filter>DDFramework</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>DDFramework</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePhysics.h">
       <Filter>DDFramework</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
@@ -44,19 +32,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameCamera.cpp">
-      <Filter>DDFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLight.cpp">
-      <Filter>DDFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="GameModel.cpp">
-      <Filter>DDFramework</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>DDFramework</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePhysics.cpp">
       <Filter>DDFramework</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">

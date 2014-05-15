@@ -46,6 +46,7 @@
     <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
     <IncludePath>..\DebrisDefragmentation;$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -81,13 +82,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameEnvironment.h" />
     <ClInclude Include="GameInputSystem.h" />
-    <ClInclude Include="GameLight.h" />
-    <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GamePhysics.h" />
     <ClInclude Include="GameClassComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
@@ -95,13 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameEnvironment.cpp" />
     <ClCompile Include="GameInputSystem.cpp" />
-    <ClCompile Include="GameLight.cpp" />
-    <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GamePhysics.cpp" />
     <ClCompile Include="GameClassComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Stdafx.cpp">
