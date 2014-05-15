@@ -7,10 +7,7 @@
 
 ActorManager::ActorManager()
 {
-	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
-	{
-		m_CharacterList[playerId] = nullptr;
-	}
+	m_CharacterList.fill( nullptr );
 }
 
 ActorManager::~ActorManager()
@@ -41,6 +38,11 @@ int ActorManager::RegisterCharacter( Character* newCharacter )
 	// user id를 manager에 등록된 actor index와 같게 유지하면 객체들 인터랙션을 처리할 때 유리할 것 같은데
 	// 어떻게 효율적으로 비어있는 index를 찾고 그걸 세션에게 할당할 지 잘 모르겠네요
 	// 일단 이렇게 처음부터 순회하면서 비어있는 자리가 있으면 거기에 포인터 등록하고 idx 반환하도록 하는데...
+
+	///# 관리해야할 객체를 순회할 일이 없으면 hash_map<id, Actor*>로 관리.
+	///# 이 경우 할당되지 않은 객체에 대한 free 리스트는 따로 관리 list<Actor*>
+	///# 그런데 이 프로젝트는 ActorList를 충돌 체크 등의 이유로 순회를 많이 하고 그 수도 많이 않음. 그러면 배열로 하는게 좋음.
+	///# 다시 userid와 actor index 일치 문제로 돌아와서... userid를 순차적으로 발급이 가능한거라면.. 예를 들어 1~16까지... 그러면 배열 순회도 쉽지? array[playerId-BASE_IDX] 이런식으로 찾으면 되니까..
 
 	// 일단 배열이 크지 않으므로 이렇게 가자
 	for ( unsigned int characterId = 0; characterId < MAX_PLAYER_NUM; ++characterId )
@@ -92,6 +94,9 @@ void ActorManager::ChangeActor( Actor* newActor, int actorId )
 
 void ActorManager::DeleteCharacter( int characterId )
 {
+	///# 아래는 assert 걸어야 되는거다.
+	///# 유효하지 않은 actorId가 들어오는 상황은 버그.
+
 	if ( m_CharacterList[characterId] != nullptr )
 	{
 		// 일단 배치된 팀에서 빼자.

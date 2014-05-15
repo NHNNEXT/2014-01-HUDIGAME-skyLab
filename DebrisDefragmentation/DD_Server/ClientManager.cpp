@@ -50,6 +50,10 @@ void ClientManager::OnPeriodWork()
 		mLastClientWorkTick = currTick;
 	}
 
+	///# 아래 게임 로직에 해당하는 부분은 사실 따로 분리해서 처리하는게 맞다.
+	///# 여기는 클라이언트 세션 관리하는 로직이 있는 곳인데, 게임 콘텐츠가 마구 끼어들면 보기 좋지 않다.
+	/// 아래 부분을 전부 ActorManager안에 넣고...   mActorManager->DoPeriodWork(); 이런식으로..
+
 	// 게임 상태를 업데이트 하자
 	// 충돌했는지 판단도 여기서함	
 	mGameManager.Update();
@@ -176,12 +180,7 @@ void ClientManager::InitPlayerState( ClientSession* caller )
 void ClientManager::Init()
 {
 	mGameManager.Init();
-
-	std::for_each( mClientIdList.begin(), mClientIdList.end(), []( ClientSession* each )
-	{
-		each = nullptr;
-	} 
-	);
+	mClientIdList.fill( nullptr );
 }
 
 void ClientManager::BroadcastModuleState( int idx )

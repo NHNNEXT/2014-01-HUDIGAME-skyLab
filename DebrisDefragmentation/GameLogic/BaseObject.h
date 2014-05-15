@@ -50,7 +50,7 @@ protected:
 // 	D3DXVECTOR3		m_Rotation{ 0.0f, 0.0f, 0.0f };
 // 	D3DXVECTOR3		m_Scale{ 1.0f, 1.0f, 1.0f };
 	CollisionBox	m_CollisionBox;		// 충돌 박스의 기본 값 저장
-	CollisionBox	m_TtransformedBox;	// 물체가 회전함에 따라 기본 박스가 변형된 값 저장
+	CollisionBox	m_TtransformedBox;	// 물체가 회전함에 따라 기본 박스가 변형된 값 저장 ///# 이걸 굳이 멤버변수로 둔 이유가 있나?
 
 private:
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }

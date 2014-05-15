@@ -139,6 +139,9 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 	if ( targetModule != ISSModuleName::NO_MODULE )
 	{
 		// 캐스팅을 쓰는 건 안 좋은 것 같은데, 자료구조를 맵으로 바꿔야하나...
+		///# 당연히 구조적으로 별로다.. 모듈 리스트의 인덱스와 모듈 이름이 상호 호환되게 하는게 좋음
+		///# 그게 힘들면 Name to Module Convertor라고 만들던가..
+
 		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>(targetModule)].DecreaseHP() );
 	}
 

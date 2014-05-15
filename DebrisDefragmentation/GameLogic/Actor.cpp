@@ -10,7 +10,7 @@
 Actor::Actor( CharacterClass actorClass )
 {
 	// 조심해!!
-	// 팩토리 하나 만들어야 될 듯
+	// 팩토리 하나 만들어야 될 듯 ///# 그래 보통 이런경우 팩토리를 만들지.
 	switch ( actorClass )
 	{
 	case CharacterClass::STRIKER:

@@ -32,9 +32,13 @@ public:
 
 	// 새롭게 추가된 mClientIdList에 세션을 등록하고, 삭제하는 함수
 	// session에서 호출한다.
+
+	///# 한줄에 깔끔하게 안되는 것들은 차라리 CPP로 분리해라. 이 함수가 자주 불리는 것도 아니고.. 인라인 해도 이득이 없다.
 	void RegisterSession( int idx, ClientSession* session ) { if ( !mClientIdList[idx] ) mClientIdList[idx] = session; }
 	ClientSession* GetSession( int idx ) { return mClientIdList[idx]; }
-	void DeleteSession( int idx, ClientSession* session ) { if ( mClientIdList[idx] == session ) mClientIdList[idx] = nullptr; }
+
+	///# 그리고 만일 if 문이 아니면 그냥 넘어가는 함수?? Register / Deregister 쌍은 논리적으로 100% 무결하게 맞아떨어져야 한다. 차라리 assert 활용.
+	void DeleteSession( int idx, ClientSession* session ) { if ( mClientIdList[idx] == session ) mClientIdList[idx] = nullptr; } ///# 네이밍 조심: Deregister
 
 private:
 	void CollectGarbageSessions();

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#pragma warning( disable:4505 )
+#pragma warning( disable:4505 ) ///# 이거 왜했지? 경고를 끄려면 반드시 주석으로 이유를 기록할 것
 
 #include "GameOption.h"
 #include "CollisionBox.h"
@@ -47,7 +47,7 @@ namespace Physics
 		pos->z = pos->z + ( 0.5f * acceleration.z * dt * dt );
 	}
 
-	void static SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
+	static void SATtest( const D3DXVECTOR3& axis, const D3DXVECTOR3& centerPos, const float& axisLen, float& minAlong, float& maxAlong )
 	{
 		minAlong = std::numeric_limits<float>::infinity();
 		maxAlong = -std::numeric_limits<float>::infinity();
@@ -57,7 +57,7 @@ namespace Physics
 		maxAlong = dotVal + axisLen;
 	}
 
-	void static SATtest( const D3DXVECTOR3& axis, const std::array<D3DXVECTOR3, 8>& points, float& minAlong, float& maxAlong )
+	static void SATtest( const D3DXVECTOR3& axis, const std::array<D3DXVECTOR3, 8>& points, float& minAlong, float& maxAlong )
 	{
 		minAlong = std::numeric_limits<float>::infinity();
 		maxAlong = -std::numeric_limits<float>::infinity();
@@ -77,7 +77,7 @@ namespace Physics
 	}
 
 	// 두 최대 최소 구간이 서로 겹치는지 리턴
-	bool static Overlaps( float min1, float max1, float min2, float max2 )
+	static bool Overlaps( float min1, float max1, float min2, float max2 )
 	{
 		return IsBetweenOrdered( min2, min1, max1 ) || IsBetweenOrdered( min1, min2, max2 );
 	}
@@ -110,7 +110,7 @@ namespace Physics
 	}
 	*/
 
-	bool static IsCollide( const CollisionBox *box1, const CollisionBox *box2 )
+	static bool IsCollide( const CollisionBox *box1, const CollisionBox *box2 )
 	{
 		// TransformCollisionBox( box1 );
 		// TransformCollisionBox( box2 );
@@ -156,13 +156,13 @@ namespace Physics
 
 	/*
 	CollisionBox의 복사를 최소화하기 위해 포인터를 이용해 전달하면서 operator 연산은 봉인...
-	bool static operator& ( const CollisionBox* lhs, const CollisionBox* rhs )
+	static bool operator& ( const CollisionBox* lhs, const CollisionBox* rhs )
 	{
 		return IsCollide( lhs, rhs );
 	}
 	*/
 	
-	bool static IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, _Inout_ float* distance, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
+	static bool IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, _Inout_ float* distance, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
 	{
 		D3DXVECTOR3 tempIntersection( 0.0f, 0.0f, 0.0f );
 		D3DXVECTOR3 intersectionPoint( 0.0f, 0.0f, 0.0f );
