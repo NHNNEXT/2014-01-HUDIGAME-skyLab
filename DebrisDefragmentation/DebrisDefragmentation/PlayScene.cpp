@@ -64,18 +64,20 @@ void PlayScene::Init()
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
 	unsigned int debrisCount = g_GameData->GetDebrisNumber();
+	tempDebris = Debris::Create( L"debris.x" );
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
-		tempDebris = Debris::Create( L"debris.x" );
-		tempDebris->GetTransform().SetPosition(
+		//tempDebris = Debris::Create( L"debris.x" );
+		Debris* newDebri = new Debris( *tempDebris );
+		newDebri->GetTransform().SetPosition(
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20
 			);
-		tempDebris->GetTransform().SetScale( 0.1f, 0.1f, 0.1f );
+		newDebri->GetTransform().SetScale( 0.1f, 0.1f, 0.1f );
 
-		AddChild( tempDebris );
+		AddChild( newDebri );
 	}
 
 	///////////////////////////////////////////////////////////////////
