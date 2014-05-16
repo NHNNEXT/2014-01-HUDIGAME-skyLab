@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+
 #include "ActorManager.h"
 #include "Character.h"
 #include "ObjectTable.h"

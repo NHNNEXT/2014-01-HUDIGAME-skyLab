@@ -3,6 +3,7 @@
 #include "DDRenderer.h"
 #include "DDApplication.h"
 
+
 DDModel::DDModel()
 {
 }
@@ -14,7 +15,7 @@ DDModel::DDModel( std::wstring path )
 
 DDModel::~DDModel()
 {
-	Cleanup();
+	Cleanup();	
 }
 
 bool DDModel::InitModel( std::wstring path )

@@ -1,8 +1,12 @@
 ﻿#pragma once
 
-// unreferenced local function has been removed 경고 숨기기위해서 사용
-// 이 헤더 파일을 참조하지만 모든 함수를 사용하는 것은 아니라서 경고가 나타남
 #pragma warning( disable:4505 )
+	// unreferenced local function has been removed 경고 숨기기위해서 사용		
+	// warning 4505는 사용되지 않는 함수가 있다는 경고인데, 
+	// 실제로 사용중인데도 메세지가 떴었음.(IsCollide, Intersection어쩌구~) 해결방법을 못 찾던 도중에 
+	// 박민근 교수님께 물어보니 교수님께서 끄라고 하시어...
+	// 혹시 방법을 찾으신 분은 바꿔주세요~
+
 
 #include "GameOption.h"
 #include "CollisionBox.h"

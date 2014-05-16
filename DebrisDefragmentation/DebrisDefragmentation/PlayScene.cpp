@@ -7,8 +7,6 @@
 #include "DDUI.h"
 #include "Player.h"
 #include "NetworkManager.h"
-#include "FuelUI.h"
-#include "OxygenUI.h"
 #include "PlayerManager.h"
 #include "UIManager.h"
 #include "ObjectManager.h"

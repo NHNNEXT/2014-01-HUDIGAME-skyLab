@@ -16,6 +16,7 @@
 #include <vector>
 #include <tuple>
 #include <d3dx9math.h>
+#include <set>
 
 #include <algorithm>
 

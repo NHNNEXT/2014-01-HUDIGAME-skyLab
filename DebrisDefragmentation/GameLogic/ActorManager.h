@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "GameOption.h"
-#include <set>
 #include "ISS.h"
 
 class Character;
