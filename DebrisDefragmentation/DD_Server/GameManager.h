@@ -9,6 +9,7 @@ public:
 	~GameManager();
 
 	void BroadcastSkillResult( int idx, ClassSkill skillType );
+	void DoPeriodWork();
 
 private:
 

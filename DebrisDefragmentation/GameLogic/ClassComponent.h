@@ -16,7 +16,7 @@ public:
 
 	void	ResetStatus();
 
-	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 04.27김성환
+	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 
 	void	TurnBody( Transform& tr, float x, float y, float z ) { tr.SetRotation( x, y, z ); }
 
 	// 적절한 스킬 사용 함수를 호출한다.

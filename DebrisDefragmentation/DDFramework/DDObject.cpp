@@ -17,7 +17,6 @@ void DDObject::Release( )
 {
 }
 
-// 작성자 : 김성환
 // 작성일 : 14.04.06
 // 내용 : object의 affine변환 및 자식 노드 render
 void DDObject::Render()

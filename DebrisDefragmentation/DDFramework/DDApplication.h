@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 /*
-	작성자 : 최경욱
 	작성일 : 2014. 4. 4
 	내용 : 프레임웍 기반이 되는 application (NNGameFramework와 거의 동일)
 */

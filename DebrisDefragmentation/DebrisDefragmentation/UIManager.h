@@ -12,7 +12,6 @@ public:
 	CREATE_FUNC( UIManager );
 
 	// 바꿨슴다
-	// 5. 4 문진상
 	DDUI*	CreateUI( ClientUITag tag, float x, float y );
 
 	DDUI*	GetUI( ClientUITag tag ) { return m_UIObjectMap[tag]; }

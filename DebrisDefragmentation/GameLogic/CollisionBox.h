@@ -6,16 +6,9 @@ struct CollisionBox
 {
 	CollisionBox()
 	{
-		for ( unsigned int i = 0; i < VECTOR_DIRECTION_3; ++i )
-		{
-			m_AxisDir[i] = ZERO_VECTOR3;
-			m_AxisLen[i] = 0.0f;
-		}
-
-		for ( unsigned int i = 0; i < BOX_POINT_COUNT; ++i )
-		{
-			m_PointList[i] = ZERO_VECTOR3;
-		}
+		m_AxisLen = ZERO_VECTOR3;
+		m_AxisDir.fill( ZERO_VECTOR3 );
+		m_PointList.fill( ZERO_VECTOR3 );
 	}
 
 	void SetCenterPosition( const D3DXVECTOR3 &newCenterPos )
@@ -87,10 +80,10 @@ struct CollisionBox
 			+ m_AxisLen.z * m_AxisLen.z );
 	}
 
-	///# 아래를 굳이 배열로 할것까지 있남.
+	// 충돌 체크할 때 반복문을 이용해서 쉽게 접근할 수 있도록 좌표축과 점은 배열로 저장
 	D3DXVECTOR3									m_CenterPos{ 0.0f, 0.0f, 0.0f };	// 기준점 - 상자 중심
-	std::array<D3DXVECTOR3, VECTOR_DIRECTION_3>	m_AxisDir;							// 월드 좌표계를 기준으로 상자 좌표계의 세 축 (박스의 회전 상태)
 	D3DXVECTOR3									m_AxisLen;							// 각각의 축에 대한 길이 (박스 크기)
+	std::array<D3DXVECTOR3, BOX_POINT_COUNT>	m_AxisDir;							// 각 지점 좌표들을 아예 계산하지 말고 박아두자
 	std::array<D3DXVECTOR3, BOX_POINT_COUNT>	m_PointList;						// 각 지점 좌표들을 아예 계산하지 말고 박아두자
 	float										m_Radius = 0.0f;					// 충돌 체크를 할 조건 설정 (너무 멀면 안 하려고)
 };

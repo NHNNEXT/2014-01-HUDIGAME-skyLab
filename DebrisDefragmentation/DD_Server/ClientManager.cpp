@@ -19,6 +19,18 @@ ClientSession* ClientManager::CreateClient( SOCKET sock )
 	return client;
 }
 
+void ClientManager::RegisterSession( int idx, ClientSession* session ) 
+{ 
+	assert( mClientIdList[idx] == nullptr );
+	mClientIdList[idx] = session;
+}
+
+void ClientManager::DeregisterSession( int idx, ClientSession* session ) 
+{ 
+	assert( mClientIdList[idx] == session );
+	mClientIdList[idx] = nullptr; 
+}
+
 void ClientManager::BroadcastPacket( ClientSession* from, PacketHeader* pkt )
 {
 	///FYI: C++ STL iterator 스타일의 루프
@@ -50,50 +62,8 @@ void ClientManager::OnPeriodWork()
 		mLastClientWorkTick = currTick;
 	}
 
-	///# 아래 게임 로직에 해당하는 부분은 사실 따로 분리해서 처리하는게 맞다.
-	///# 여기는 클라이언트 세션 관리하는 로직이 있는 곳인데, 게임 콘텐츠가 마구 끼어들면 보기 좋지 않다.
-	/// 아래 부분을 전부 ActorManager안에 넣고...   mActorManager->DoPeriodWork(); 이런식으로..
-
-	// 게임 상태를 업데이트 하자
-	// 충돌했는지 판단도 여기서함	
-	mGameManager.Update();
-	std::set<int> collidedIdList = mGameManager.GetCollidedPlayerId( );
-	mGameManager.ClearCollidedPlayer( );
-
-	std::for_each( collidedIdList.begin(), collidedIdList.end(), [&]( const int& each )
-	{
-		// each 클라이언트별로 BroadcastCollisionResult(); 해줘야 한다
-		// 순회할 수는 없는 노릇이고
-		// n의 제곱... 리스트를 하나 더 만들어도 되나...
-		assert( mClientIdList[each] );
-		mClientIdList[each]->BroadcastCollisionResult();
-	}
-	);
-
-	// 죽은 애들 찾아서 방송하자
-	std::set<int> deadPlayer = mGameManager.GetDeadPlayerId( );
-	mGameManager.ClearDeadPlayer( );
-
-	std::for_each( deadPlayer.begin(), deadPlayer.end(), [&]( const int& each )
-	{
-		// each 클라이언트별로 BroadcastCollisionResult(); 해줘야 한다
-		// 순회할 수는 없는 노릇이고
-		// n의 제곱... 리스트를 하나 더 만들어도 되나...
-		assert( mClientIdList[each] );
-		mClientIdList[each]->BroadcastDeadResult();
-	}
-	);
-
-	// 조심해!!
-	// 뭔가 이벤트 방식이 아니라 풀링 방식이 되어 가는 게 불안하다.
-	TeamColor winnerTeam = mGameManager.GetWinnerTeam( );
-	if ( winnerTeam != TeamColor::NO_TEAM )
-	{
-		GameResultResult outPacket;
-		outPacket.mWinnerTeam = static_cast<int>( winnerTeam );
-
-		BroadcastPacket( nullptr, &outPacket );
-	}
+	// 게임 로직에 관련 된 것도 진행
+	mGameManager.DoPeriodWork();
 	
 	SyncAll(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
 

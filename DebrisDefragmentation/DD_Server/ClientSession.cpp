@@ -91,7 +91,7 @@ void ClientSession::Disconnect( )
 {
 	// 내 캐릭터는 내가 지우고 나가자
 	m_GameManager->DeleteCharacter( m_Character.GetCharacterId() );
-	GClientManager->DeleteSession( mPlayerId, this );
+	GClientManager->DeregisterSession( mPlayerId, this );
 
 	if ( !IsConnected( ) )
 		return;
@@ -630,7 +630,6 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	// 조심해!!! 
 	// 클래스 추가하고 구현할 때,
 	// 받은 패킷에 있는 클래스대로 리스폰시 classComponent변경해줄 것.
-	// 05.04 김성환
 	// m_Character.ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준

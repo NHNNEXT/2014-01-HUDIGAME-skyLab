@@ -3,7 +3,6 @@
 #include "GameOption.h"
 
 // 강체 변환관련 변수들을 가짐, 연산은 Physics에서..
-// 4.21 김성환
 struct Rigidbody
 {
 	void Init()

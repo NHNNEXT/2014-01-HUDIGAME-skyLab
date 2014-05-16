@@ -2,7 +2,6 @@
 
 // 일단 easy game server 코드 그대로 옮김
 // 2014. 4. 15
-// 최경욱
 
 class DDCircularBuffer
 {

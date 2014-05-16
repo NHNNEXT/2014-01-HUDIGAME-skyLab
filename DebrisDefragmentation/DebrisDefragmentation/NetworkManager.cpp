@@ -82,7 +82,6 @@ void NetworkManager::SendStop()
 }
 
 // lookat 방향으로 몸을 회전
-// 04.27 김성환
 void NetworkManager::SendTurnBody()
 {
 	if ( m_MyPlayerId == -1 )
@@ -118,7 +117,6 @@ void NetworkManager::SendUsingSkill( ClassSkill skilType )
 
 // 
 // // 캐릭터가 죽으면 보냄..
-// // 05.03 김성환
 // void NetworkManager::SendDeadRequest()
 // {
 // 	if ( m_MyPlayerId == -1 )

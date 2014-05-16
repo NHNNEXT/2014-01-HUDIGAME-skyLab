@@ -54,3 +54,38 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 		break;
 	}
 }
+
+void GameManager::DoPeriodWork()
+{
+	// 게임 로직 진행
+	Update();
+
+	// 충돌 결과 방송
+	std::for_each( m_CollidedPlayers.begin(), m_CollidedPlayers.end(), []( const int& each )
+	{
+		// 방송 요청
+		GClientManager->GetSession( each )->BroadcastCollisionResult();
+		printf_s( "collision : %d \n", each );
+	}
+	);
+	m_CollidedPlayers.clear();
+
+	// 죽음(산소 == 0) 방송
+	std::for_each( m_DeadPlayers.begin(), m_DeadPlayers.end(), []( const int& each )
+	{
+		// 방송 요청
+		GClientManager->GetSession( each )->BroadcastDeadResult();
+	}
+	);
+	m_DeadPlayers.clear();
+
+	// 게임 종료 조건 확인
+	if ( m_WinnerTeam != TeamColor::NO_TEAM )
+	{
+		// 방송 요청
+		GameResultResult outPacket;
+		outPacket.mWinnerTeam = static_cast<int>( m_WinnerTeam );
+
+		GClientManager->BroadcastPacket( nullptr, &outPacket );
+	}
+}

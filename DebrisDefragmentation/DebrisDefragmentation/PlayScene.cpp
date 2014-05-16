@@ -130,7 +130,7 @@ void PlayScene::Init()
 
 // 조심해!!
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
-// 4. 23. UI 업데이트 하는 부분을 추가했습니다. 문진상
+// 4. 23. UI 업데이트 하는 부분을 추가했습니다. 
 void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
@@ -143,7 +143,6 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
 	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ	
-	// 05.04 김성환
 	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent().IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
@@ -213,7 +212,6 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.		
 	// 고개 돌리기는 서버로 보낼 필요 없이 클라이언트에서만 적용
-	// 04.27 김성환
 	
 	DDPoint currentMousePos = GetMousePosition();
 	g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
@@ -229,7 +227,6 @@ void PlayScene::UpdateItSelf( float dTime )
 
 // Mouse Pointer 가릴지 살려둘지 결정
 // true 시키면 커서가 계속 가운데로 이동함
-// 04.21 김성환
 void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 {
 	if ( !mousePointer )

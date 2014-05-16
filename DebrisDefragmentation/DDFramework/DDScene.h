@@ -23,7 +23,6 @@ public:
 	//void Render();
 
 protected:	
-	// 작성자 : 최경욱 4.8
 	// input : int값의 키
 	// output : 인자로 넘긴 키의 현재 상태를 받아오는 함수
 	KeyState	GetKeyState( int key );

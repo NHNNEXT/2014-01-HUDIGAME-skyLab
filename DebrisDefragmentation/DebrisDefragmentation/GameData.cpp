@@ -24,8 +24,6 @@ bool GameData::Init()
 // 
 // 	m_Document.Parse<0>( json.c_str() );
 
-
-	// 5.4 문진상
 	// 30줄이면 될 걸 왜 3줄로 짰어요??
 	// 깨알같구만 ㅋㅋㅋㅋ
 

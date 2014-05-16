@@ -1,12 +1,14 @@
 ﻿#pragma once
-#pragma warning( disable:4505 ) ///# 이거 왜했지? 경고를 끄려면 반드시 주석으로 이유를 기록할 것
+
+// unreferenced local function has been removed 경고 숨기기위해서 사용
+// 이 헤더 파일을 참조하지만 모든 함수를 사용하는 것은 아니라서 경고가 나타남
+#pragma warning( disable:4505 )
 
 #include "GameOption.h"
 #include "CollisionBox.h"
 #include <limits>
 
 /*
-작성자 : 최경욱
 작성일 : 2014. 4. 6
 내용 : 물리적 계산 수행(물체 운동, 회전, 충돌, 타겟검출 등)
 */
