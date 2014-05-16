@@ -4,6 +4,7 @@
 #include <array>
 #include <d3dx9.h>
 #include "..\GameTool\Class\jsonEnum.cs"
+#include <map>
 
 const int			VECTOR_DIRECTION_3 = 3;
 const int			BOX_POINT_COUNT = 8;
@@ -31,13 +32,13 @@ enum class ClientUITag : int
 const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
 // 주의 : 순서를 함부로 바꾸지 말 것. 대재앙이 일어난다.
 // ClientUITag와 함께 바꿀 것
-const std::array<std::wstring, size_t( ClientUITag::UI_TAG_COUNT )> UI_FILENAME_LIST
-= {
-	L"OxygenUI.png",
-	L"FuelUI.png",
-	L"Frame.png"
+// agebreak : 위의 내용을 아래와 같이 바꾸면 대재앙을 막을수 있다!
+const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
+{
+	{ ClientUITag::UI_OXYGEN_TAG, L"OxygenUI.png" },
+	{ ClientUITag::UI_FUEL_TAG, L"FuelUI.png" },
+	{ ClientUITag::UI_FRAME_TAG, L"Frame.png" }
 };
-
 
 // Config
 #define				USE_LOCAL_SERVER

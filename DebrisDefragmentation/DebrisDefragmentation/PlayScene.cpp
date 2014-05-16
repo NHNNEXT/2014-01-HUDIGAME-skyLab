@@ -259,7 +259,7 @@ void PlayScene::AddUI()
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_OXYGEN_TAG, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FRAME_TAG, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
 	// frame 크기는 60%로
-	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->GetTransform().SetScale( 0.6f, 0.6f, 0.6f );
+	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->GetTransform().SetScale( 0.6f );
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FUEL_TAG, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 }
 
@@ -277,8 +277,8 @@ void PlayScene::UpdateUI()
 	float currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen / static_cast<float>( DEFAULT_OXYGEN ), 1, 1 );
-	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / static_cast<float>( DEFAULT_FUEL ), 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen /  DEFAULT_OXYGEN , 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / DEFAULT_FUEL , 1, 1 );
 }
 
 void PlayScene::UpdateISS()

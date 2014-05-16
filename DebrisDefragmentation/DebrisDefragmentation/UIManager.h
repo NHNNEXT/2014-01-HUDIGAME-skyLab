@@ -15,10 +15,10 @@ public:
 	// 5. 4 문진상
 	DDUI*	CreateUI( ClientUITag tag, float x, float y );
 
-	DDUI*	GetUI( ClientUITag tag ) { return m_UIObjectList[static_cast<int>(tag)]; }
+	DDUI*	GetUI( ClientUITag tag ) { return m_UIObjectMap[tag]; }
 private:
 
-	std::array<DDUI*, size_t(ClientUITag::UI_TAG_COUNT)> m_UIObjectList;
+	std::map<ClientUITag, DDUI*> m_UIObjectMap;
 
 };
 
