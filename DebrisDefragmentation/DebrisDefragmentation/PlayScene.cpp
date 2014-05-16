@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "PlayScene.h"
+#include "PlayScene.h"	// agebreak : 이 많은 헤더파일을 정말로 다 쓰나? 안쓰는 헤더파일은 제거할것. 컴파일 시간에 영향을 줌
 #include "Debris.h"
 #include "DDInputSystem.h"
 #include "DDApplication.h"
@@ -63,18 +63,19 @@ void PlayScene::Init()
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	Debris* tempDebris = nullptr;
-	unsigned int debrisCount = g_GameData->GetDebrisNumber();
+	unsigned int debrisCount = g_GameData->GetDebrisNumber();	
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
-		tempDebris = Debris::Create( L"debris.x" );
+		// agebreak : 매번마다 x파일을 로딩하고 메쉬를 생성한다. 클론으로 바꿀것
+		tempDebris = Debris::Create(L"debris.x");
 		tempDebris->GetTransform().SetPosition(
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20
 			);
-		tempDebris->GetTransform().SetScale( 0.1f, 0.1f, 0.1f );
-
+		tempDebris->GetTransform().SetScale( 0.1f);
+		
 		AddChild( tempDebris );
 	}
 
@@ -207,6 +208,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 문교수 커피가 든 컵을 들고 오다가 커피가 손에 닿자...
 	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...라고 말씀하셨다.
 	// ㅋㅋㅋㅋ 카멕님이 적으셨습니까
+	// agebreak :  뭐여 이 주석은? ㅡ.ㅡ;; 
 
 	// 마우스 좌표 변화를 받아온다
 	// 변화량을 기준으로 캐릭터한데 회전하라고 시킨다.		
@@ -257,7 +259,7 @@ void PlayScene::AddUI()
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_OXYGEN_TAG, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FRAME_TAG, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
 	// frame 크기는 60%로
-	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->GetTransform().SetScale( 0.6f, 0.6f, 0.6f );
+	g_UIManager->GetUI(ClientUITag::UI_FRAME_TAG)->GetTransform().SetScale(0.6f);
 	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FUEL_TAG, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
 }
 
@@ -275,8 +277,8 @@ void PlayScene::UpdateUI()
 	float currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
-	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen / static_cast<float>( DEFAULT_OXYGEN ), 1, 1 );
-	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / static_cast<float>( DEFAULT_FUEL ), 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen /  DEFAULT_OXYGEN, 1, 1 );
+	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel /  DEFAULT_FUEL, 1, 1 );
 }
 
 void PlayScene::UpdateISS()

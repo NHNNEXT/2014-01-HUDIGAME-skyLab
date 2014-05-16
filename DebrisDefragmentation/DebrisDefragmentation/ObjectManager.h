@@ -17,4 +17,4 @@ private:
 	ObjectISS* m_ObjectISS = nullptr;
 };
 
-extern ObjectManager* GObjectManager;
+extern ObjectManager* GObjectManager;	// agebreak : 왜 싱글톤으로 안하고?

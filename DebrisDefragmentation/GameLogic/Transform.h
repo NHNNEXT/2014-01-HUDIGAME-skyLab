@@ -45,6 +45,7 @@ public:
 	void IncreaseScaleZ( float z ) { m_Scale.z += z; }
 	void SetScale( D3DXVECTOR3 scale ) { m_Scale = scale; }
 	void SetScale( float scaleX, float scaleY, float scaleZ ) { m_Scale = D3DXVECTOR3( scaleX, scaleY, scaleZ ); }
+	void SetScale(float scale) { m_Scale = D3DXVECTOR3(scale, scale, scale); }	// agebreak : 이런 함수를 만들어 놓으면 유용함
 
 
 private:
