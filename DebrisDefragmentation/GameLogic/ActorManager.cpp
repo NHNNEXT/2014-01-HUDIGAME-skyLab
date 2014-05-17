@@ -84,7 +84,7 @@ void ActorManager::ChangeActor( Actor* newActor, int actorId )
 }
 */
 
-void ActorManager::DeleteCharacter( int characterId )
+void ActorManager::DeregisterCharacter( int characterId )
 {
 	assert( m_CharacterList[characterId] );
 
@@ -131,7 +131,7 @@ void ActorManager::Update( )
 
 	m_ISS.Update( dt );
 
-	float posIss = m_ISS.GetTransform()->GetPositionZ();
+	float posIss = m_ISS.GetPosition();
 
 	if ( posIss > WINNING_DISTANCE )
 	{

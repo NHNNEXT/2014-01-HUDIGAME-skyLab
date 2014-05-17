@@ -95,7 +95,6 @@ void ClientManager::CollectGarbageSessions()
 		mClientList.erase( client->mSocket );
 		delete client;
 	}
-
 }
 
 void ClientManager::ClientPeriodWork()

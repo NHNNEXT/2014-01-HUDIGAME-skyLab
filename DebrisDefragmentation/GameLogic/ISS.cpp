@@ -19,29 +19,24 @@ void ISS::Init()
 	{
 		m_ModuleList[i].Init( static_cast<ISSModuleName>( i ) );
 	}
+
+	m_CurrentPos = 0.0f;
+	m_Velocity = 0.0f;
 }
 
-void ISS::UpdateItSelf( float dTime )
+void ISS::Update( float dTime )
 {
-	// 점령 상태 확인
-	// 점령 상태에 따라서 현재 위치 이동
-	// 자신의 위치에 따라서 m_Matrix 업데이트
-
-	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();
-	Physics::CalcCurrentPosition( &tmpVec3, m_CharacterClass->GetVelocity(), dTime );
-	GetTransform()->SetPosition( tmpVec3 );
-
-	// m_Matrix에 결과 저장
-	D3DXQUATERNION	qRotation;
-	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform()->GetRotationY() ), D3DXToRadian( GetTransform()->GetRotationX() ), D3DXToRadian( GetTransform()->GetRotationZ() ) );
-	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform()->GetScale(), NULL, &qRotation, &GetTransform()->GetPosition() );
+	// 현재 속도로 이동해서 현재 위치 계산 - 기존 속도 공식을 이용하기 위해서 벡터로 변환해서 계산
+	D3DXVECTOR3 currentPos( 0.0f, 0.0f, m_CurrentPos );
+	Physics::CalcCurrentPosition( &currentPos, D3DXVECTOR3( 0.0f, 0.0f, m_Velocity ), dTime );
+	m_CurrentPos = currentPos.z;
 
 	// 조심해!!
 	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 		[&]( ISSModule &eachModule )
 	{
-		eachModule.SetMatrix( m_Matrix );
+		eachModule.SetISSPos( m_CurrentPos );
 	}
 	);
 }
@@ -101,9 +96,9 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 
 		// 이동
 		//m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
-		m_CharacterClass->SetVelocity( D3DXVECTOR3( .0f, .0f, (blueCount - redCount) * ISS_MOVE_WEIGHT ) );
+		m_Velocity = ( blueCount - redCount ) * ISS_MOVE_WEIGHT;
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), GetTransform()->GetPositionZ(), m_CharacterClass->GetVelocity().z );
+		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_CurrentPos, m_Velocity );
 	}
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );

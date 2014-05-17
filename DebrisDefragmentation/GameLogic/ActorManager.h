@@ -27,7 +27,7 @@ public:
 		새롭게 등록할 캐릭터 포인터와 id를 넘겨서 등록한다.
 	*/
 	// void	ChangeActor( Actor* newActor, int actorId );
-	void	DeleteCharacter( int characterId );
+	void	DeregisterCharacter( int characterId );
 
 	
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
@@ -56,8 +56,8 @@ public:
 	/*
 		현재 ISS 위치 및 속도 정보 리턴
 	*/
-	float GetIssPositionZ() { return m_ISS.GetTransform()->GetPositionZ(); }
-	float GetIssVelocityZ() { return m_ISS.GetVelocity().z; }
+	float GetIssPositionZ() { return m_ISS.GetPosition(); }
+	float GetIssVelocityZ() { return m_ISS.GetVelocity(); }
 
 	/*
 		현재 ISS 각 모듈의 소유자 및 체력 정보 반환

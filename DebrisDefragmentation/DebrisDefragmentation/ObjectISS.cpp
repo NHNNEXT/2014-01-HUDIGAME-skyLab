@@ -23,7 +23,7 @@ void ObjectISS::Init( )
 void ObjectISS::UpdateItSelf( float dTime )
 {
 	D3DXVECTOR3 tmpVec3 = m_Transform.GetPosition();
-	Physics::CalcCurrentPosition( &tmpVec3, &m_RigidBody.m_Velocity, m_RigidBody.m_Acceleration, dTime );
+	Physics::CalcCurrentPosition( &tmpVec3, m_RigidBody.m_Velocity, dTime );
 	m_Transform.SetPosition( tmpVec3 );
 }
 

@@ -25,7 +25,7 @@ public:
 	float GetHP() const { return m_HealthPoint; }
 	const CollisionBox* GetControlPointBox();
 
-	void SetMatrix( const D3DXMATRIXA16 &matrix ) { m_Matrix = matrix; }
+	void SetISSPos( float pos ) { m_ISSPos = pos; }
 
 	TeamColor Occupy( TeamColor callerColor );
 	TeamColor GetOwner() const { return m_CurrentOwner; }
@@ -33,11 +33,13 @@ public:
 	ISSModuleName GetModuleName() const { return m_ModuleName; }
 
 private:
-	// virtual void UpdateItSelf( float dTime );
+	virtual void UpdateItSelf( float dTime );
 
 	ISSControlPoint	m_ControlPoint; ///# 이놈의 정체는? 포함하고 있는 객체의 부모와 this의 부모가 같을 이유가?
 	ISSModuleName	m_ModuleName = ISSModuleName::NO_MODULE;
 	TeamColor		m_CurrentOwner = TeamColor::NO_TEAM;
+	float			m_ISSPos = 0.0f;
 	float			m_HealthPoint = 1.0f;
+
 };
 

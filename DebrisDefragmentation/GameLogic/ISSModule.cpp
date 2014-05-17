@@ -24,6 +24,9 @@ void ISSModule::Init( ISSModuleName moduleName )
 	m_CollisionBox.InitAxisDir();
 	m_CollisionBox.InitPointList();
 	m_CollisionBox.InitRadius();
+
+	m_ISSPos = 0.0f;
+	m_HealthPoint = 1.0f;
 }
 
 TeamColor ISSModule::Occupy( TeamColor callerColor )
@@ -34,7 +37,7 @@ TeamColor ISSModule::Occupy( TeamColor callerColor )
 
 	m_CurrentOwner = ( m_CurrentOwner == TeamColor::NO_TEAM ) ? callerColor : TeamColor::NO_TEAM;
 
-	printf_s( "[DEBUG] ISS MODULE %d is occupied : %d", m_ModuleName, m_CurrentOwner );
+	printf_s( "[DEBUG] ISS MODULE %d is occupied : %d\n", m_ModuleName, m_CurrentOwner );
 	
 	return m_CurrentOwner;
 }
@@ -47,7 +50,7 @@ float ISSModule::DecreaseHP()
 	if ( m_HealthPoint < 0 )
 		m_HealthPoint = 0.0f;
 
-	printf_s( "[DEBUG] ISS MODULE %d HP : %f", m_ModuleName, m_HealthPoint );
+	printf_s( "[DEBUG] ISS MODULE %d HP : %f\n", m_ModuleName, m_HealthPoint );
 
 	return m_HealthPoint;
 }
@@ -59,4 +62,11 @@ const CollisionBox* ISSModule::GetControlPointBox()
 
 	// 우선은 모듈 자체의 충돌 박스 반환
 	return GetCollisionBox();
+}
+
+void ISSModule::UpdateItSelf( float dTime )
+{
+	// ISS의 위치를 반영해서 자신의 위치를 수정한다.
+	// m_Matrix를 수정해야 하는데 _43 성분이 현재 z 위치
+	m_Matrix._43 = m_ISSPos;
 }

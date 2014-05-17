@@ -6,16 +6,18 @@
 
 #pragma once
 
-#include "Actor.h"
 #include "ISSModule.h"
 
-class ISS : public Actor
+class ISS
 {
 public:
 	ISS();
-	virtual ~ISS();
+	~ISS();
 
 	void Init();
+	void Update( float dTime );
+	float GetPosition() { return m_CurrentPos; }
+	float GetVelocity() { return m_Velocity; }
 
 	std::tuple<ISSModuleName, TeamColor, float, float>	
 		Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor );
@@ -24,10 +26,11 @@ public:
 		Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
 
 	const CollisionBox* GetModuleCollisionBox( int idx ) { return m_ModuleList[idx].GetCollisionBox(); }
+	
 	std::tuple<TeamColor, float> GetModuleState( int moduleIdx );
 
 private:
-	virtual void UpdateItSelf( float dTime );
-
 	std::array<ISSModule, MODULE_NUMBER> m_ModuleList;
+	float	m_CurrentPos = 0.0f;
+	float	m_Velocity = 0.0f;
 };
