@@ -32,12 +32,9 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 		break;
 	case ClassSkill::SHARE_FUEL:
 	case ClassSkill::SHARE_OXYGEN:
-		GClientManager->GetSession( idx )->BroadcastCharacterState();
-		break;
 	case ClassSkill::MOVE_FAST:
 	case ClassSkill::EMP:
-		// 대상 캐릭터 - 내부 변수 잠시 수정해서 사용하도록
-		// 대상 팀
+		GClientManager->GetSession( idx )->BroadcastCharacterState();
 		break;
 	case ClassSkill::WARNING:
 		// 이벤트 타입, 남은 시간

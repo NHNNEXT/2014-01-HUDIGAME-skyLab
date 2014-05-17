@@ -46,6 +46,10 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 
 bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SHARE_OXYGEN )] > 0.0f )
+		return false;
+
 	int targetId = NOTHING;
 	D3DXVECTOR3 spinAxis; // 사용은 안 함
 
@@ -68,10 +72,35 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_OXYGEN );
 
+	// 스킬 썼으면 쿨 적용시키자
+	m_CooldownTable[static_cast<int>( ClassSkill::SHARE_OXYGEN )] = COOLDOWN_SHARE_OXYGEN;
+
 	return true;
 }
 
 bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )
 {
-	return false;
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::EMP )] > 0.0f )
+		return false;
+
+	// 돌면서 거리 안에 오는 애들은 다 EMP 효과 적용
+	std::vector<int> targets = GObjectTable->GetActorManager()->DetectTargetsInRange( id, SKILL_RANGE );
+
+	std::for_each( targets.begin(), targets.end(), [&]( const int& each )
+	{
+		// 상대편에만 적용
+		if ( GObjectTable->GetInstance<ClassComponent>( each )->GetTeam() != GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
+		{
+			// EMP 쿨다운 적용하고 방송도 해버리자
+			GObjectTable->GetInstance<ClassComponent>( each )->SetGlobalCooldown( COOLDOWN_EMP );
+			GObjectTable->GetActorManager()->BroadcastSkillResult( each, ClassSkill::EMP );
+		}
+	}
+	);
+
+	// 스킬 썼으면 쿨 적용시키자
+	m_CooldownTable[static_cast<int>( ClassSkill::EMP )] = COOLDOWN_EMP;
+
+	return true;
 }

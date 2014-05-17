@@ -569,17 +569,19 @@ struct CharacterStateResult : public PacketHeader
 	CharacterStateResult( )
 	{
 		mSize = sizeof( CharacterStateResult );
-		mType = PKT_SC_KINETIC_STATE;
+		mType = PKT_SC_CHARACTER_STATE;
 		mPlayerId = -1;
 
 		mFuel = 0.0f;
 		mOxygen = 0.0f;
+		mGlobalCooldownTime = 0.0f;
 	}
 
 	int		mPlayerId;
 
 	float	mFuel;
 	float	mOxygen;
+	float	mGlobalCooldownTime;
 };
 
 

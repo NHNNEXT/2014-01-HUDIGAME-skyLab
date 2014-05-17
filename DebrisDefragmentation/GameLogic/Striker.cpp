@@ -41,6 +41,10 @@ bool Striker::UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction )
 
 bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::PULL )] > 0.0f )
+		return false;
+
 	int targetId = NOTHING;
 	D3DXVECTOR3 spinAxis;
 
@@ -59,6 +63,9 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	targetCharacter->GetClassComponent()->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PULL );
+	
+	// 스킬 썼으면 쿨 적용시키자
+	m_CooldownTable[static_cast<int>( ClassSkill::PULL )] = COOLDOWN_PULL;
 
 	return true;
 }
@@ -70,9 +77,16 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 
 bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::MOVE_FAST )] > 0.0f )
+		return false;
+
 	m_SpeedConstant = SCOUT_MOVE_FAST_CONSTANT;
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( id, ClassSkill::MOVE_FAST );
+
+	// 스킬 썼으면 쿨 적용시키자
+	m_CooldownTable[static_cast<int>( ClassSkill::MOVE_FAST )] = COOLDOWN_MOVE_FAST;
 
 	return true;
 }

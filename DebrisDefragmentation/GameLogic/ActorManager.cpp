@@ -306,6 +306,24 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int characterId, const 
 	return std::tuple<int, D3DXVECTOR3>( targetId, spinAxis );
 }
 
+std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float range )
+{
+	std::vector<int> targets;
+
+	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	{
+		if ( i == characterId || m_CharacterList[i] == nullptr )
+			continue;
+
+		float distance = D3DXVec3Length( &D3DXVECTOR3(m_CharacterList[i]->GetTransform()->GetPosition() - m_CharacterList[characterId]->GetTransform()->GetPosition() ) );
+
+		if ( range > distance )
+			targets.push_back( i );
+	}
+
+	return targets;
+}
+
 bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 {
 	// 이 로직도 ISS 내부로 밀어넣는 게 좋을 것 같은데

@@ -390,6 +390,7 @@ void ClientSession::BroadcastCharacterState()
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mFuel = m_Character.GetClassComponent()->GetFuel();
 	outPacket.mOxygen = m_Character.GetClassComponent()->GetOxygen();
+	outPacket.mGlobalCooldownTime = m_Character.GetClassComponent()->GetGlobalCooldown();
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );

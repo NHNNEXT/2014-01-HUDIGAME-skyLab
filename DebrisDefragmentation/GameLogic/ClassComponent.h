@@ -65,6 +65,9 @@ public:
 	bool	UseFuel( float fuelUse );
 	bool	UseOxygen( float oxygenUse );
 
+	void	SetGlobalCooldown( float time ) { m_GlobalCooldown = ( m_GlobalCooldown < time ) ? time : m_GlobalCooldown; }
+	float	GetGlobalCooldown() { return m_GlobalCooldown; }
+
 	// 주기적으로 처리해야 하는 일들
 	// 예를 들어 산소량 감소와 같은 일을 처리 
 	void	Update( float dt );

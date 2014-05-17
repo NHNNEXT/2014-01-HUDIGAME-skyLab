@@ -64,6 +64,11 @@ public:
 	*/
 	std::tuple<TeamColor, float> GetModuleState( int moduleIdx );
 
+	/*
+		입력받은 범위 안에 있는 캐릭터 id반환	
+	*/
+	std::vector<int> DetectTargetsInRange( int characterId, float range );
+
 	// get other object data
 	// 지금은 없습니다.
 
