@@ -101,5 +101,8 @@ protected:
 	float		m_SpeedConstant = 1.0f;
 
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
+
+	float		m_GlobalCooldown = 0.0f;
+	std::array<float, BASIC_SKILL_NUMBER + SPECIAL_SKILL_NUMBER> m_CooldownTable;
 };
 

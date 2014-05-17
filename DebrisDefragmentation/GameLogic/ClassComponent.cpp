@@ -8,6 +8,7 @@
 
 ClassComponent::ClassComponent()
 {
+	m_CooldownTable.fill( 0.0f );
 }
 
 
@@ -49,6 +50,10 @@ void ClassComponent::Stop()
 
 bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>(ClassSkill::PUSH)] > 0.0f )
+		return false;
+
 	int targetId = NOTHING;
 	D3DXVECTOR3 spinAxis;
 
@@ -67,11 +72,18 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
 
+	// 스킬 썼으면 쿨 적용시키자
+	m_CooldownTable[static_cast<int>( ClassSkill::PUSH )] = COOLDOWN_PUSH;
+
 	return true;
 }
 
 bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SHARE_FUEL )] > 0.0f )
+		return false;
+
 	int targetId = NOTHING;
 	D3DXVECTOR3 spinAxis; // 사용은 안 함
 
@@ -94,21 +106,44 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_FUEL );
 
+	// 스킬 썼으면 쿨 적용시키자
+	m_CooldownTable[static_cast<int>( ClassSkill::SHARE_FUEL )] = COOLDOWN_SHARE_FUEL;
+
 	return true;
 }
 
 bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] > 0.0f )
+		return false;
+
 	// 판정은 GActorManager에 맞기자
 	// 방송도 GActorManager가 OccupyISS 진행하면서 하는 걸로
-	return GObjectTable->GetActorManager()->OccupyISS( id, direction );
+	bool returnVal = GObjectTable->GetActorManager()->OccupyISS( id, direction );
+
+	// 스킬 썼으면 쿨 적용시키자
+	if ( returnVal )
+		m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] = COOLDOWN_OCCUPY;
+
+	return returnVal;
 }
 
 bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 {
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::DESTROY )] > 0.0f )
+		return false;
+
 	// 판정은 GActorManager에 맞기자
 	// 방송도 GActorManager가 DestroyISS 진행하면서 하는 걸로
-	return GObjectTable->GetActorManager()->DestroyISS( id, direction );
+	bool returnVal = GObjectTable->GetActorManager()->DestroyISS( id, direction );
+
+	// 스킬 썼으면 쿨 적용시키자
+	if ( returnVal )
+		m_CooldownTable[static_cast<int>( ClassSkill::DESTROY )] = COOLDOWN_DESTROY;
+
+	return returnVal;
 }
 
 void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
@@ -192,6 +227,20 @@ void ClassComponent::Update( float dt )
 			SetAcceleration( ZERO_VECTOR3 );
 		}
 	}
+
+	// 쿨타임 업데이트
+	m_GlobalCooldown -= 0.0f;
+	if ( m_GlobalCooldown < 0.0f )
+		m_GlobalCooldown = 0.0f;
+
+	std::for_each( m_CooldownTable.begin(), m_CooldownTable.end(), [&]( float& eachCooldown )
+	{
+		eachCooldown -= dt;
+
+		if ( eachCooldown < 0.0f )
+			eachCooldown = 0.0f;
+	} 
+	);
 }
 
 void ClassComponent::ResetStatus()
