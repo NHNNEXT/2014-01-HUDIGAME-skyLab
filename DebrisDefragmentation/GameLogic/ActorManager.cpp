@@ -313,6 +313,7 @@ bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 
 	// 방송할 것
 	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( moduleName ), ClassSkill::OCCUPY );
+	printf_s( "occupy \n" );
 
 	return true;
 }

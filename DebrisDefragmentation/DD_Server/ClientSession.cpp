@@ -89,17 +89,26 @@ bool ClientSession::PostRecv( )
 
 void ClientSession::Disconnect( )
 {
-	// 내 캐릭터는 내가 지우고 나가자
-	m_GameManager->DeleteCharacter( m_Character.GetCharacterId() );
-	GClientManager->DeregisterSession( mPlayerId, this );
+	// 여기서 게임 로직에 관련된 작업을 하는 경우
+	// 클라에서 접속을 끊으면 한 번 호출되어서 로직에 관련된 자원을 정리하고 mConnected를 false로 바꾼다.
+	// 하지만 아직 ClietnManager의 mClientList에 ClientSession은 남아 있는 상태이다
+	// 이 ClientSession은 CollectGarbageSessions()이 호출되어야 정리되는데, 주기가 1초이다.
+	// 문제는 이 1초라는 시간이 지나기 전에 서버 스레드에서 GClientManager->FlushClientSend()를 실행한다.
+	// 아직 mClientList에 ClientSession은 남아 있고, 접속 상태를 false로 바뀌어 있으므로
+	// SendFlush() 하다가 false를 반환한다.
+	// 그러면 ClietnManager는 다시 접속을 해제하도록 Disconnect( )를 호출하게 되고
+	// 다시 로직 관련 자원을 해제하려고 시도한다. 그리고 assert()에서 걸리게 된다.
 
 	if ( !IsConnected( ) )
 		return;
 
+	// 내 캐릭터는 내가 지우고 나가자
+	m_GameManager->DeleteCharacter( m_Character.GetCharacterId() );
+	GClientManager->DeregisterSession( mPlayerId, this );
+
 	printf( "[DEBUG] Client Disconnected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
 
 	/// 즉각 해제
-
 	LINGER lingerOption;
 	lingerOption.l_onoff = 1;
 	lingerOption.l_linger = 0;

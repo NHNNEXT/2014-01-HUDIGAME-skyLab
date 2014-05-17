@@ -28,7 +28,6 @@ Actor::Actor( CharacterClass actorClass )
 	}
 }
 
-
 Actor::~Actor()
 {
 }
@@ -37,9 +36,6 @@ void Actor::IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity )
 {
 	m_CharacterClass->SetVelocity( m_CharacterClass->GetVelocity() + deltaVelocity );
 }
-
-
-
 
 void Actor::InitTeamPosition()
 {
