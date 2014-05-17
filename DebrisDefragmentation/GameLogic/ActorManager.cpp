@@ -176,25 +176,36 @@ void ActorManager::CheckCollision()
 			// 각각의 모듈의 충돌 박스를 가져온다.
 			boxJ = m_ISS.GetModuleCollisionBox( j );
 
-			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - m_CharacterList[i]->GetTransform()->GetPosition();
-			// if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
-				// continue;
+			// 멀면 확인 안 함
+			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - boxI->m_CenterPos;
+			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
+				continue;
 
-			// 충돌체크 - 주석은 아래 플레이어간 충돌 참조
 			if ( Physics::IsCollide( boxI, boxJ ) )
 			{
-				// 이 경우에는 ISS는 그대로 있고 플레이어만 튕긴다.
-				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
+				printf_s( "collision : TRUE\n" );
 
-				D3DXVECTOR3 relativeVelocity = -m_CharacterList[i]->GetVelocity();
+				// 상대 속도가 서로 멀어지는 방향이라면 확인 안 함
+				D3DXVECTOR3 relativeVelocity = D3DXVECTOR3( 0.0f, 0.0f, m_ISS.GetVelocity() ) - m_CharacterList[i]->GetVelocity();
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
 				{
+					printf_s( "damm relativeVelocity\n" );
 					return;
 				}
 
-				// 조심해!!
-				// 반사되지 않고 입사각의 반대로 튕기고 있다.
-				m_CharacterList[i]->IncreaseVelocity( relativeVelocity * 2.0f );
+				// 이 경우에는 ISS는 그대로 있고 플레이어만 튕긴다.
+				// 우선 운동 방향을 구하고
+				D3DXVec3Normalize( &collisionDirection, &m_CharacterList[i]->GetVelocity() );
+
+				// 충돌면의 수직 벡터를 구한 뒤
+				D3DXVECTOR3 normalVec( ZERO_VECTOR3 );
+				Physics::IntersectionCheckRayBox( nullptr, nullptr, &normalVec, collisionDirection, m_CharacterList[i]->GetTransform()->GetPosition(), boxJ );
+
+				// 두 벡터를 이용해서 반사 벡터를 구하고
+				D3DXVECTOR3 reflectionVec = Physics::GetReflectionVector( collisionDirection, normalVec );
+
+				// 원래 운동 속도의 크기로 반사벡터 방향으로 속도를 바꾼다
+				m_CharacterList[i]->GetClassComponent()->SetVelocity( reflectionVec * D3DXVec3Length( &m_CharacterList[i]->GetVelocity() ) );
 
 				// ISS와 충돌한 플레이어의 아이디를 추가한다.
 				m_CollidedPlayers.insert( i );
@@ -209,7 +220,7 @@ void ActorManager::CheckCollision()
 
 			boxJ = m_CharacterList[j]->GetCollisionBox();
 
-			// 두 점의 거리가 가까우면 체크 안 함
+			// 두 점의 거리가 멀면 체크 안 함
 			D3DXVECTOR3 collisionDirection = m_CharacterList[j]->GetTransform()->GetPosition() - m_CharacterList[i]->GetTransform()->GetPosition();
 			// printf_s( "%f / %f\n", D3DXVec3Length( &collisionDirection ), m_ActorList[i]->GetCollisionBox().m_Radius + m_ActorList[j]->GetCollisionBox().m_Radius );
 			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
@@ -279,7 +290,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int characterId, const 
 		D3DXVECTOR3 tempAxis( 0.0f, 0.0f, 0.0f );
 		
 		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, viewDirection, startPoint, m_CharacterList[i]->GetCollisionBox() ) )
+		if ( Physics::IntersectionCheckRayBox( &tempAxis, &tempDistance, nullptr, viewDirection, startPoint, m_CharacterList[i]->GetCollisionBox() ) )
 		{
 			// 거리 구해서 더 짧으면 인덱스 업데이트
 			// 정확하게는 두 물체의 기준점 사이의 거리를 비교하는 것이 아니라 교차점과 스킬을 사용한 객체의 기준점의 거리를 구해서 비교해야 함

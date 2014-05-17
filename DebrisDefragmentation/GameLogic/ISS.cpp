@@ -53,7 +53,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		[&]( ISSModule &eachModule )
 	{
 		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, viewDirection, startPoint, eachModule.GetControlPointBox() ) )
+		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, eachModule.GetControlPointBox() ) )
 		{
 			// 조심해!
 			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
@@ -116,7 +116,7 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 	{
 		// intersection 확인
 		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, viewDirection, startPoint, eachModule.GetCollisionBox() ) )
+		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, eachModule.GetCollisionBox() ) )
 		{
 			// 조심해!
 			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외

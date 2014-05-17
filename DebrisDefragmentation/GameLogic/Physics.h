@@ -167,7 +167,9 @@ namespace Physics
 		return IsCollide( lhs, rhs );
 	}
 	*/
-	
+
+	/*
+	// directx Intersects() 함수를 이용하는 방식으로 대체
 	static bool IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, _Inout_ float* distance, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
 	{
 		D3DXVECTOR3 tempIntersection( 0.0f, 0.0f, 0.0f );
@@ -284,5 +286,114 @@ namespace Physics
 
 		return true;
 	}
+	*/
+
+	static std::array<std::tuple<int, int, int>, 12> BoundingBoxTrianglePoints =
+	{
+		std::make_tuple( 2, 1, 5 ),
+		std::make_tuple( 2, 5, 6 ),
+		std::make_tuple( 3, 0, 4 ),
+		std::make_tuple( 3, 4, 7 ),
+		std::make_tuple( 0, 1, 2 ),
+		std::make_tuple( 0, 2, 3 ),
+		std::make_tuple( 4, 5, 6 ),
+		std::make_tuple( 4, 6, 7 ),
+		std::make_tuple( 3, 2, 6 ),
+		std::make_tuple( 3, 6, 7 ),
+		std::make_tuple( 0, 1, 5 ),
+		std::make_tuple( 0, 5, 4 )
+	};
+
+	static bool IntersectionCheckRayBox( _Inout_ D3DXVECTOR3* spinAxis, _Inout_ float* distance, _Inout_ D3DXVECTOR3* normalVec, const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, const CollisionBox* box )
+	{
+		/*
+			BOOL D3DXIntersectTri(
+				_In_   const D3DXVECTOR3 *p0,
+				_In_   const D3DXVECTOR3 *p1,
+				_In_   const D3DXVECTOR3 *p2,
+				_In_   const D3DXVECTOR3 *pRayPos,
+				_In_   const D3DXVECTOR3 *pRayDir,
+				_Out_  FLOAT *pU,
+				_Out_  FLOAT *pV,
+				_Out_  FLOAT *pDist
+				);
+
+			V1 + U(V2 - V1) + V(V3 - V1).
+		*/
+		bool intersectionFlag = false;
+		D3DXVECTOR3 intersectionPoint( 0.0f, 0.0f, 0.0f );
+		D3DXVECTOR3 normalVector( 0.0f, 0.0f, 0.0f );
+		float intersectionDistance = std::numeric_limits<float>::infinity();
+
+		for ( int i = 0; i < 12; ++i )
+		{
+			float tempU, tempV, tempDist;
+			tempU = tempV = 0.0f;
+			tempDist = std::numeric_limits<float>::infinity();
+
+			if ( D3DXIntersectTri(
+					&box->m_PointList[std::get<0>( BoundingBoxTrianglePoints[i] )],
+					&box->m_PointList[std::get<1>( BoundingBoxTrianglePoints[i] )],
+					&box->m_PointList[std::get<2>( BoundingBoxTrianglePoints[i] )],
+					&startPoint, &viewDirection,
+					&tempU, &tempV, &tempDist ) 
+				)
+			{
+				intersectionFlag = true;
+
+				// 겹치는 점이 있으면 일단 거리 비교
+				if ( tempDist < intersectionDistance )
+				{
+					intersectionDistance = tempDist;
+					intersectionPoint = 
+						box->m_PointList[std::get<0>( BoundingBoxTrianglePoints[i] )] 
+						+ box->m_PointList[std::get<1>( BoundingBoxTrianglePoints[i] )] * tempU
+						+ box->m_PointList[std::get<2>( BoundingBoxTrianglePoints[i] )] * tempV;
+
+					normalVector = box->m_AxisDir[i / 4];
+				}
+			}
+		}
+
+		// 교차하지 않음
+		if ( !intersectionFlag )
+			return false;
+
+		// 스핀 축은 물체의 원점과 intersectionPoint를 잇는 벡터와, ray 벡터에 수직 - 외적
+		if ( spinAxis != nullptr )
+		{
+			D3DXVECTOR3 centerToIntersection = box->m_CenterPos - intersectionPoint;
+			D3DXVec3Cross( spinAxis, &centerToIntersection, &viewDirection );
+		}
+
+		// 교차점까지의 거리
+		if ( distance != nullptr )
+		{
+			*distance = intersectionDistance;
+		}
+
+		// 교차한 면의 수직 벡터
+		if ( normalVec != nullptr )
+		{
+			*normalVec = normalVector;
+		}
+
+		return intersectionFlag;
+	}
+
+	static D3DXVECTOR3 GetReflectionVector( const D3DXVECTOR3& srcVec, const D3DXVECTOR3& normalVec )
+	{
+		D3DXMATRIX reflectionTransform;
+		D3DXMatrixRotationAxis( &reflectionTransform, &normalVec, D3DX_PI );
+
+		D3DXVECTOR4 tempVector;
+		D3DXVec3Transform( &tempVector, &srcVec, &reflectionTransform );
+
+		D3DXVECTOR3 reflectionVector = -tempVector;
+
+		return reflectionVector;
+	}
 };
 
+
+	

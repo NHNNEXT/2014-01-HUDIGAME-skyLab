@@ -147,3 +147,12 @@ const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 // SKILL
 const float			SKILL_RANGE = 50;
 const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
+
+
+// 각 스킬의 사거리, 쿨다운타임
+// 쿨다움 타임 - 일종의 마나로 볼 수 있음
+// 시간에 비례해서 수치가 증가하고, 스킬을 사용하기 위해서는 1회 소비 비용보다 현재 가진 수치가 더 커야 함
+// 증가 최대치를 제한해서 연속해서 사용할 수 있는 수를 제한 - 1회 사용 후 
+// 각 클래스는 자신이 사용하는 스킬들에 대해서 이 수치를 저장할 수 있는 테이블이 필요
+
+
