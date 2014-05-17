@@ -92,6 +92,8 @@ public:
 	CharacterClass GetCharacterClassName() { return m_ClassName; }
 
 protected:	
+	void		SetCooldown( ClassSkill skillType );
+
 	TeamColor	m_Team = TeamColor::NO_TEAM;
 	Rigidbody	m_Rigidbody;
 	
@@ -106,6 +108,6 @@ protected:
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
 
 	float		m_GlobalCooldown = 0.0f;
-	std::array<float, BASIC_SKILL_NUMBER + SPECIAL_SKILL_NUMBER> m_CooldownTable;
+	std::array<float, TOTAL_SKILL_NUMBER> m_CooldownTable;
 };
 

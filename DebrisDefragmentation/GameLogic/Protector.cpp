@@ -73,7 +73,7 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_OXYGEN );
 
 	// 스킬 썼으면 쿨 적용시키자
-	m_CooldownTable[static_cast<int>( ClassSkill::SHARE_OXYGEN )] = COOLDOWN_SHARE_OXYGEN;
+	SetCooldown( ClassSkill::SHARE_OXYGEN );
 
 	return true;
 }
@@ -93,14 +93,14 @@ bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )
 		if ( GObjectTable->GetInstance<ClassComponent>( each )->GetTeam() != GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
 		{
 			// EMP 쿨다운 적용하고 방송도 해버리자
-			GObjectTable->GetInstance<ClassComponent>( each )->SetGlobalCooldown( COOLDOWN_EMP );
+			GObjectTable->GetInstance<ClassComponent>( each )->SetGlobalCooldown( EMP_TIME );
 			GObjectTable->GetActorManager()->BroadcastSkillResult( each, ClassSkill::EMP );
 		}
 	}
 	);
 
 	// 스킬 썼으면 쿨 적용시키자
-	m_CooldownTable[static_cast<int>( ClassSkill::EMP )] = COOLDOWN_EMP;
+	SetCooldown( ClassSkill::EMP );
 
 	return true;
 }

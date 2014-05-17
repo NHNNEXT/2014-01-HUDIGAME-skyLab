@@ -73,7 +73,7 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
 
 	// 스킬 썼으면 쿨 적용시키자
-	m_CooldownTable[static_cast<int>( ClassSkill::PUSH )] = COOLDOWN_PUSH;
+	SetCooldown( ClassSkill::PUSH );
 
 	return true;
 }
@@ -107,7 +107,7 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_FUEL );
 
 	// 스킬 썼으면 쿨 적용시키자
-	m_CooldownTable[static_cast<int>( ClassSkill::SHARE_FUEL )] = COOLDOWN_SHARE_FUEL;
+	SetCooldown( ClassSkill::SHARE_FUEL );
 
 	return true;
 }
@@ -124,7 +124,7 @@ bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
 
 	// 스킬 썼으면 쿨 적용시키자
 	if ( returnVal )
-		m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] = COOLDOWN_OCCUPY;
+		SetCooldown( ClassSkill::OCCUPY );
 
 	return returnVal;
 }
@@ -141,7 +141,7 @@ bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 
 	// 스킬 썼으면 쿨 적용시키자
 	if ( returnVal )
-		m_CooldownTable[static_cast<int>( ClassSkill::DESTROY )] = COOLDOWN_DESTROY;
+		SetCooldown( ClassSkill::DESTROY );
 
 	return returnVal;
 }
@@ -254,4 +254,10 @@ void ClassComponent::ResetStatus()
 	m_SpinTime = 0;
 	m_AccelerationStartTime = 0;
 	m_Rigidbody.Init();
+}
+
+void ClassComponent::SetCooldown( ClassSkill skillType )
+{
+	m_GlobalCooldown = COOLDOWN_GLOBAL;
+	m_CooldownTable[static_cast<int>( skillType )] = SKILL_COOLDOWN_TABLE[static_cast<int>( skillType )];
 }

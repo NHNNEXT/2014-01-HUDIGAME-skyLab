@@ -36,7 +36,7 @@ enum class ClassSkill : int
 	SET_DESPENSER,
 };
 const unsigned int BASIC_SKILL_NUMBER = 4;
-const unsigned int SPECIAL_SKILL_NUMBER = 3;
+const unsigned int TOTAL_SKILL_NUMBER = 13;
 
 // ISS
 enum class TeamColor : int
@@ -149,7 +149,7 @@ const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 // SKILL
 const float			SKILL_RANGE = 50;
 const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
-
+const float			EMP_TIME = 2.0f;
 
 // Cooldown time
 // 모든 스킬은 cooldown time을 가지고 있고, 이 값이 0이 되면 즉시 쓸 수 있다.
@@ -158,19 +158,42 @@ const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
 // EMP같은 스킬(와우 도적의 발차기)을 맞으면 global cooldowm time이 증가
 // cooldown time은 매 프레임 dt를 기준으로 감소 시키므로 초단위로 생성할 것
 const float			COOLDOWN_GLOBAL = 1.0f;
-const float			COOLDOWN_PUSH = 1.0f;
-const float			COOLDOWN_OCCUPY = 1.0f;
-const float			COOLDOWN_DESTROY = 1.0f;
-const float			COOLDOWN_SHARE_FUEL = 1.0f;
+const std::array<float, TOTAL_SKILL_NUMBER> SKILL_COOLDOWN_TABLE
+= {
+	1.0f,	// COOLDOWN_PUSH
+	1.0f,	// COOLDOWN_OCCUPY
+	1.0f,	// COOLDOWN_DESTROY
+	1.0f,	// COOLDOWN_SHARE_FUEL
 
-const float			COOLDOWN_PULL = 1.0f;
-const float			COOLDOWN_SET_MINE = 1.0f;
-const float			COOLDOWN_MOVE_FAST = 1.0f;
+	1.0f,	// COOLDOWN_PULL
+	1.0f,	// COOLDOWN_SET_MINE
+	1.0f,	// COOLDOWN_MOVE_FAST
 
-const float			COOLDOWN_WARNING = 1.0f;
-const float			COOLDOWN_SHARE_OXYGEN = 1.0f;
-const float			COOLDOWN_EMP = 1.0f;
+	1.0f,	// COOLDOWN_WARNING
+	1.0f,	// COOLDOWN_SHARE_OXYGEN
+	1.0f,	// COOLDOWN_EMP
 
-const float			COOLDOWN_GATHER = 1.0f;
-const float			COOLDOWN_SET_SENTRY_GUN = 1.0f;
-const float			COOLDOWN_SET_DESPENSER = 1.0f;
+	1.0f,	// COOLDOWN_GATHER
+	1.0f,	// COOLDOWN_SET_SENTRY_GUN
+	1.0f,	// COOLDOWN_SET_DESPENSER
+};
+
+
+/*
+	const float			COOLDOWN_PUSH = 1.0f;
+	const float			COOLDOWN_OCCUPY = 1.0f;
+	const float			COOLDOWN_DESTROY = 1.0f;
+	const float			COOLDOWN_SHARE_FUEL = 1.0f;
+
+	const float			COOLDOWN_PULL = 1.0f;
+	const float			COOLDOWN_SET_MINE = 1.0f;
+	const float			COOLDOWN_MOVE_FAST = 1.0f;
+
+	const float			COOLDOWN_WARNING = 1.0f;
+	const float			COOLDOWN_SHARE_OXYGEN = 1.0f;
+	const float			COOLDOWN_EMP = 1.0f;
+
+	const float			COOLDOWN_GATHER = 1.0f;
+	const float			COOLDOWN_SET_SENTRY_GUN = 1.0f;
+	const float			COOLDOWN_SET_DESPENSER = 1.0f;
+*/

@@ -65,7 +65,7 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PULL );
 	
 	// 스킬 썼으면 쿨 적용시키자
-	m_CooldownTable[static_cast<int>( ClassSkill::PULL )] = COOLDOWN_PULL;
+	SetCooldown( ClassSkill::PULL );
 
 	return true;
 }
@@ -86,7 +86,7 @@ bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 	GObjectTable->GetActorManager()->BroadcastSkillResult( id, ClassSkill::MOVE_FAST );
 
 	// 스킬 썼으면 쿨 적용시키자
-	m_CooldownTable[static_cast<int>( ClassSkill::MOVE_FAST )] = COOLDOWN_MOVE_FAST;
+	SetCooldown( ClassSkill::MOVE_FAST );
 
 	return true;
 }
