@@ -102,7 +102,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
-            this.ObjectViewPP = new System.Windows.Forms.PictureBox();
+            this.ObjectView = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -125,7 +125,7 @@
             this.tabControl1.SuspendLayout();
             this.tab_GameRender.SuspendLayout();
             this.tab_ISSPartRender.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewPP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
             this.SuspendLayout();
             // 
             // View
@@ -839,7 +839,7 @@
             // 
             // tab_ISSPartRender
             // 
-            this.tab_ISSPartRender.Controls.Add(this.ObjectViewPP);
+            this.tab_ISSPartRender.Controls.Add(this.ObjectView);
             this.tab_ISSPartRender.Location = new System.Drawing.Point(4, 22);
             this.tab_ISSPartRender.Name = "tab_ISSPartRender";
             this.tab_ISSPartRender.Padding = new System.Windows.Forms.Padding(3);
@@ -848,14 +848,14 @@
             this.tab_ISSPartRender.Text = "ISSPartRender";
             this.tab_ISSPartRender.UseVisualStyleBackColor = true;
             // 
-            // ObjectViewPP
+            // ObjectView
             // 
-            this.ObjectViewPP.Location = new System.Drawing.Point(3, 3);
-            this.ObjectViewPP.Name = "ObjectViewPP";
-            this.ObjectViewPP.Size = new System.Drawing.Size(760, 680);
-            this.ObjectViewPP.TabIndex = 5;
-            this.ObjectViewPP.TabStop = false;
-            this.ObjectViewPP.Click += new System.EventHandler(this.ISSPartRenderClick);
+            this.ObjectView.Location = new System.Drawing.Point(3, 3);
+            this.ObjectView.Name = "ObjectView";
+            this.ObjectView.Size = new System.Drawing.Size(760, 680);
+            this.ObjectView.TabIndex = 5;
+            this.ObjectView.TabStop = false;
+            this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
             // 
             // IndependentGameTool
             // 
@@ -897,7 +897,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tab_GameRender.ResumeLayout(false);
             this.tab_ISSPartRender.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ObjectViewPP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -977,7 +977,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tab_GameRender;
         private System.Windows.Forms.TabPage tab_ISSPartRender;
-        private System.Windows.Forms.PictureBox ObjectViewPP;
+        private System.Windows.Forms.PictureBox ObjectView;
         private System.Windows.Forms.Button ISSRenderBtn;
     }
 }
