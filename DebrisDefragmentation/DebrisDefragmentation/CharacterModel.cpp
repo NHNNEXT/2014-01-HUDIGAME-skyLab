@@ -8,9 +8,9 @@ CharacterModel::CharacterModel()
 {
 }
 
-CharacterModel::CharacterModel( std::wstring modelPath ) : DDModel( modelPath )
-{
-}
+// CharacterModel::CharacterModel( std::wstring modelPath ) : DDModel( modelPath )
+// {
+// }
 
 
 CharacterModel::~CharacterModel()

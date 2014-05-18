@@ -8,9 +8,9 @@ Debris::Debris( )
 }
 
 
-Debris::Debris( std::wstring modelPath ) : DDModel( modelPath )
-{
-}
+// Debris::Debris( std::wstring modelPath ) : DDModel( modelPath )
+// {
+// }
 
 Debris::~Debris( )
 {

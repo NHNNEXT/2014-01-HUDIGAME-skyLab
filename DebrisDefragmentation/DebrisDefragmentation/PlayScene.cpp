@@ -30,6 +30,19 @@ PlayScene::~PlayScene()
 	delete GNetworkManager;
 }
 
+
+void PlayScene::InitModelPool()
+{
+	m_ModelPool.InitModel( ModelType::DEBRIS, L"debris.x" );
+	m_ModelPool.InitModel( ModelType::SKYBOX, L"skybox.x" );
+	m_ModelPool.InitModel( ModelType::EARTH, L"earth.x" );
+	m_ModelPool.InitModel( ModelType::PLAYER_MODEL, L"spaceMan.x" );
+	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );
+	
+
+}
+
+
 void PlayScene::Init()
 {	
 	if ( !g_GameData->Init() )
@@ -39,6 +52,9 @@ void PlayScene::Init()
 		return;
 	}
 
+	// model pool 초기화
+	InitModelPool();
+	
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
 	
@@ -50,25 +66,30 @@ void PlayScene::Init()
 	AddChild( m_pDirectonalLight );
 	
 	// test skybox
-	SkyBox* sb = SkyBox::Create( L"skybox.x" );
+	//SkyBox* sb = SkyBox::Create( L"skybox.x" );
+	SkyBox* sb = SkyBox::Create();
+	sb->SetModelMesh( m_ModelPool.GetModel( ModelType::SKYBOX ) );
 	AddChild( sb );
 
 	// earth :: 바닥에 지구를 깐다!
-	DDModel* earth = DDModel::Create( L"earth.x" );
+	//DDModel* earth = DDModel::Create( L"earth.x" );
+	DDModel* earth = DDModel::Create();
+	earth->SetModelMesh( m_ModelPool.GetModel( ModelType::EARTH ) );
 	earth->GetTransform().SetPosition( 0, -800, 0 );
 	AddChild( earth );
 
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
-	Debris* tempDebris = nullptr;
+	
 	unsigned int debrisCount = g_GameData->GetDebrisNumber();
-
-	tempDebris = Debris::Create( L"debris.x" );
+	//Debris* tempDebris = nullptr;
+	//tempDebris = Debris::Create( L"debris.x" );	
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
 		//tempDebris = Debris::Create( L"debris.x" );
-		Debris* newDebri = new Debris( *tempDebris );
+		Debris* newDebri = Debris::Create();
+		newDebri->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
 		newDebri->GetTransform().SetPosition(
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
 			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
@@ -78,40 +99,14 @@ void PlayScene::Init()
 
 		AddChild( newDebri );
 	}
-
-	///////////////////////////////////////////////////////////////////
-	////////////복잡한 데브리 잘 들어가는지 확인하는 함수//////////////
-	////////////   생각보다 로딩이 많이 느려져서 봉인    //////////////
-	///////////////////////////////////////////////////////////////////
-// 	for ( unsigned int i = 0; i < 100; ++i )
-// 	{
-// 		int randX = rand();
-// 		int randY = rand();
-// 		int randZ = rand();
-// 
-// 		tempDebris = Debris::Create( L"debrisOne.x" );
-// 		tempDebris->SetPosition(
-// 			static_cast<float>( ( randX % 200 ) - 100 ) / 20,
-// 			static_cast<float>( ( randY % 200 ) - 100 ) / 20,
-// 			static_cast<float>( ( randZ % 200 ) - 100 ) / 20
-// 			);
-// 		tempDebris->SetScale( 0.02f, 0.02f, 0.02f );
-// 		tempDebris->SetRotation( randX % 360, randX % 360, randX % 360 );
-// 		
-// 		AddChild( tempDebris );
-// 	}
-
-	// test ObjectISS added
-	// DDModel* pObjectISS = DDModel::Create( L"iss.x" );
-	// AddChild( pObjectISS );
-
+	
 	// 조심해!
 	// 내부 구현 아직 제대로 안 된 상태
 	GObjectManager = new ObjectManager;
 
 	m_pObjectISS = ObjectISS::Create();
 	m_pObjectISS->Init();
-	AddChild( static_cast<DDObject*>( m_pObjectISS ) );
+	AddChild( m_pObjectISS );
 
 	GObjectManager->RegisterObjectISS( m_pObjectISS );
 	

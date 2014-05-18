@@ -183,7 +183,7 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		camera->SetFollowingObject( g_PlayerManager->GetPlayer( m_MyPlayerId ) );
 
 		// 콤파스 설정
-		CompassUI* compassUI = CompassUI::Create( L"tiger.x" );
+		CompassUI* compassUI = CompassUI::Create();
 		compassUI->Init();
 		camera->AddChild( compassUI, ORDER_COMPASS_UI );
 

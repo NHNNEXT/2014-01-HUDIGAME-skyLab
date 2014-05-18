@@ -5,12 +5,13 @@ class CompassUI :
 {
 public:
 	CompassUI();
-	CompassUI( std::wstring modelPath );
+	//CompassUI( std::wstring modelPath );
 	virtual ~CompassUI();
 
 	void Init();
 
-	CREATE_OBJECT_WSTRING( CompassUI, modelPath );
+	//CREATE_OBJECT_WSTRING( CompassUI, modelPath );
+	CREATE_OBJECT( CompassUI );
 
 private:
 	virtual void UpdateItSelf( float dTime );

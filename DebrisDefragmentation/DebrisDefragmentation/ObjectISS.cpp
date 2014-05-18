@@ -2,6 +2,9 @@
 #include "ObjectISS.h"
 #include "ISSModel.h"
 #include "Physics.h"
+#include "SceneManager.h"
+#include "ModelPool.h"
+#include "PlayScene.h"
 
 ObjectISS::ObjectISS()
 {
@@ -16,7 +19,9 @@ void ObjectISS::Init( )
 {
 	InitCollisionBox( );
 
-	m_CharacterModel = ISSModel::Create( L"iss.x" );
+	//m_CharacterModel = ISSModel::Create( L"iss.x" );
+	m_CharacterModel = ISSModel::Create();
+	m_CharacterModel->SetModelMesh( g_SceneManager->GetScene()->GetModelPool().GetModel( ModelType::ISS ) );
 	AddChild( m_CharacterModel );
 }
 

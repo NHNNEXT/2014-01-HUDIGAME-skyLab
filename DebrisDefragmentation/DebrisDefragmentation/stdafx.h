@@ -15,6 +15,7 @@
 
 #include <cstdio>
 #include <fstream>
+#include <unordered_map>
 
 #include <assert.h>
 #include <time.h>

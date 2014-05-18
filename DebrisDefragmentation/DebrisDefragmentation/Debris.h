@@ -5,10 +5,11 @@ class Debris :
 {
 public:
 	Debris();
-	Debris( std::wstring modelPath );
+	//Debris( std::wstring modelPath );
 	virtual ~Debris();
 
-	CREATE_OBJECT_WSTRING( Debris, modelpath );
+	//CREATE_OBJECT_WSTRING( Debris, modelpath );
+	CREATE_OBJECT( Debris );
 	
 private:
 	virtual void UpdateItSelf( float dTime );

@@ -17,12 +17,13 @@ struct CUSTOMVERTEX
 
 CompassUI::CompassUI()
 {
-}
-
-CompassUI::CompassUI( std::wstring modelPath ) : DDModel( modelPath )
-{
 	GetTransform().SetPosition( 0.0f, 0.0f, 0.0f );
 }
+
+// CompassUI::CompassUI( std::wstring modelPath ) : DDModel( modelPath )
+// {
+// 	GetTransform().SetPosition( 0.0f, 0.0f, 0.0f );
+// }
 
 CompassUI::~CompassUI()
 {

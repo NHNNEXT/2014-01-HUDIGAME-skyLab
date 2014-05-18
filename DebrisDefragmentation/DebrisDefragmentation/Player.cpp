@@ -9,6 +9,8 @@
 
 #include "Physics.h"
 #include "MatrixTransform.h"
+#include "SceneManager.h"
+#include "PlayScene.h"
 
 Player::Player()
 {
@@ -51,7 +53,9 @@ void Player::Init()
 		return;
 	}
 
-	m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
+	//m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
+	m_CharacterModel = CharacterModel::Create();
+	m_CharacterModel->SetModelMesh( g_SceneManager->GetScene()->GetModelPool().GetModel(ModelType::PLAYER_MODEL) );
 	AddChild( m_CharacterModel );
 	
 	// 내 캐릭터의 visible 끔.	

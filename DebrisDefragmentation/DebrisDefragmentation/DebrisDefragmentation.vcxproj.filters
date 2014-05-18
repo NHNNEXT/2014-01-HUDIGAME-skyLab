@@ -92,6 +92,9 @@
     <ClCompile Include="ClientObject.cpp">
       <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
+    <ClCompile Include="ModelPool.cpp">
+      <Filter>Scene\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="ClientObject.h">
       <Filter>Scene\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelPool.h">
+      <Filter>Scene\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

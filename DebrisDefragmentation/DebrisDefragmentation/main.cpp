@@ -14,7 +14,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 {
 #ifdef _DEBUG
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	// _CrtSetBreakAlloc( 24262 );
+	//_CrtSetBreakAlloc( 758 );
 	AllocConsole();
 	FILE* console;
 	freopen_s( &console, "CONOUT$", "wt", stdout );

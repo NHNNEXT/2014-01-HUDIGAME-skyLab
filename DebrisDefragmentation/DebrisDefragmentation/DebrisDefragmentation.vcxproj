@@ -91,6 +91,7 @@
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="ISSModel.cpp" />
+    <ClCompile Include="ModelPool.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CompassUI.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="Debris.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="ISSModel.h" />
+    <ClInclude Include="ModelPool.h" />
     <ClInclude Include="ObjectISS.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="CompassUI.h" />
