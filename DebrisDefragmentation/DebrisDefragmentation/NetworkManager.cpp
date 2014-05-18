@@ -211,7 +211,7 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 
 	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
 	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
-	player->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	player->GetClassComponent()->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -248,7 +248,7 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 
 		g_PlayerManager->AddPlayer( dummyPlayerID );
 		g_PlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-		g_PlayerManager->GetPlayer( dummyPlayerID )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+		g_PlayerManager->GetPlayer( dummyPlayerID )->GetClassComponent()->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 	}
 #else
 #endif
@@ -264,11 +264,11 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 	// 스킬 사용에 따른 행동 포인트 등의 지표가 변화가 생긴다면 그걸 처리하는 함수를 따로 만들어야 할 듯
 	if ( inPacket.mSkill == ClassSkill::SHARE_FUEL )
 	{
-		g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().IncreaseFuel( -DEFAULT_FUEL_SHARE_AMOUNT );
+		g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->IncreaseFuel( -DEFAULT_FUEL_SHARE_AMOUNT );
 	}
 	else if ( inPacket.mSkill == ClassSkill::SHARE_OXYGEN )
 	{
-		g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().IncreaseOxygen( -DEFAULT_OXYGEN_SHARE_AMOUNT );
+		g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->IncreaseOxygen( -DEFAULT_OXYGEN_SHARE_AMOUNT );
 	}
 }
 
@@ -279,13 +279,13 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 
 	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
 		return;
 
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetSpin( inPacket.mForce.GetD3DVEC(), inPacket.mSpinAngularVelocity );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetSpin( inPacket.mForce.GetD3DVEC(), inPacket.mSpinAngularVelocity );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
 }
 
 void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
@@ -293,8 +293,8 @@ void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
 	CharacterStateResult inPacket = reinterpret_cast<CharacterStateResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetFuel( inPacket.mFuel );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetOxygen( inPacket.mOxygen );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetFuel( inPacket.mFuel );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetOxygen( inPacket.mOxygen );
 }
 
 void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
@@ -305,7 +305,7 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
 
@@ -318,7 +318,7 @@ void NetworkManager::HandleDeadResult( DDPacketHeader& pktBase )
 	// fps 게임에서 죽으면 다른 캐릭터 보는 view로 바꿔준다거나, scene을 바꿔준다거나...	
 
 	// 죽어라
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetHP( 0.0f );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetHP( 0.0f );
 }
 
 void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
@@ -332,7 +332,7 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 
 
 	printf_s( "respawn player" );
-	player->GetClassComponent().ResetStatus();
+	player->GetClassComponent()->ResetStatus();
 
 	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
 	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
@@ -345,7 +345,7 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	
 	g_PlayerManager->AddPlayer( inPacket.mPlayerId );
 	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent().SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	g_PlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 }
 
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )

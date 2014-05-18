@@ -122,11 +122,11 @@ void Player::UpdateItSelf( float dTime )
 // 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	D3DXVECTOR3 tmpVel = GetClassComponent().GetVelocity();
-	D3DXVECTOR3 tmpAcc = GetClassComponent().GetAcceleration();
+	D3DXVECTOR3 tmpVel = GetClassComponent()->GetVelocity();
+	D3DXVECTOR3 tmpAcc = GetClassComponent()->GetAcceleration();
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
-	GetClassComponent().SetVelocity( tmpVel );
+	GetClassComponent()->SetVelocity( tmpVel );
 }
 
 void Player::LookAt( float x, float y, float z )
