@@ -33,7 +33,8 @@ void ObjectISS::RenderItSelf( )
 		[&]( ISSModule &eachModule )
 	{
 		// eachModule.SetMatrix( m_Matrix );
-		DrawModuleCollisionBox( eachModule );
+		DrawCollisionBox( eachModule.GetCollisionBox() );
+		DrawCollisionBox( eachModule.GetControlPointBox() );
 	}
 	);
 }
@@ -54,12 +55,9 @@ void ObjectISS::InitCollisionBox( )
 	m_ModuleList[9].Init( ISSModuleName::PART9 );
 }
 
-void ObjectISS::DrawModuleCollisionBox( ISSModule & module )
+void ObjectISS::DrawCollisionBox( const CollisionBox* box )
 {
-
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance( )->GetDevice( );
-
-	const CollisionBox* currentBox = module.GetCollisionBox();
 
 	D3DXVECTOR4 tempMat;
 	D3DXVECTOR3 currentPos;
@@ -67,28 +65,28 @@ void ObjectISS::DrawModuleCollisionBox( ISSModule & module )
 	D3DXVECTOR3 currentAxis[3];
 
 	// 각 점 좌표
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[0], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[0], &m_Matrix );
 	currentPoint[0] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[1], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[1], &m_Matrix );
 	currentPoint[1] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[2], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[2], &m_Matrix );
 	currentPoint[2] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[3], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[3], &m_Matrix );
 	currentPoint[3] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[4], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[4], &m_Matrix );
 	currentPoint[4] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[5], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[5], &m_Matrix );
 	currentPoint[5] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[6], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[6], &m_Matrix );
 	currentPoint[6] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-	D3DXVec3Transform( &tempMat, &currentBox->m_PointList[7], &m_Matrix );
+	D3DXVec3Transform( &tempMat, &box->m_PointList[7], &m_Matrix );
 	currentPoint[7] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
 	// 그리기

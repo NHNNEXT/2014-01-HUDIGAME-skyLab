@@ -25,6 +25,12 @@ void ISSModule::Init( ISSModuleName moduleName )
 	m_CollisionBox.InitPointList();
 	m_CollisionBox.InitRadius();
 
+	m_ControlBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
+	m_ControlBox.SetLength( CONTROL_POINT_AXIS_LENGTH );
+	m_ControlBox.InitAxisDir();
+	m_ControlBox.InitPointList();
+	m_ControlBox.InitRadius();
+
 	m_ISSPos = 0.0f;
 	m_HealthPoint = 1.0f;
 }
@@ -57,11 +63,36 @@ float ISSModule::DecreaseHP()
 
 const CollisionBox* ISSModule::GetControlPointBox()
 {
-	// m_ControlPoint의 충돌 박스를 계산해서 반환
-	// return m_ControlPoint.GetCollisionBox();
+	// GetCollisionBox()와 같은 방식으로 m_ControlBox에 m_Matrix의 변환을 적용해서 그 결과를 반환한다.
+	// 이 함수를 호출하는 것은 ISS 클래스이고, 
+	D3DXVECTOR4 tempMat;
 
-	// 우선은 모듈 자체의 충돌 박스 반환
-	return GetCollisionBox();
+	// 현재 위치
+	D3DXVec3Transform( &tempMat, &m_ControlBox.m_CenterPos, &m_Matrix );
+	m_TransformedBox.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+
+	// 각 점 좌표
+	D3DXVec3TransformCoordArray(
+		m_TransformedBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
+		m_ControlBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
+		&m_Matrix, BOX_POINT_COUNT
+		);
+
+	// 축
+	for ( int i = 0; i < 3; ++i )
+	{
+		// 마지막 항을 0으로 해야 평행이동 값이 벡터에 반영되지 않음
+		D3DXVECTOR4 tempAxis = D3DXVECTOR4( m_ControlBox.m_AxisDir[i].x, m_ControlBox.m_AxisDir[i].y, m_ControlBox.m_AxisDir[i].z, 0 );
+
+		D3DXVec4Transform( &tempMat, &tempAxis, &m_Matrix );
+		m_TransformedBox.m_AxisDir[i] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+
+		m_TransformedBox.m_AxisLen[i] = m_ControlBox.m_AxisLen[i];
+	}
+
+	m_TransformedBox.m_Radius = m_ControlBox.m_Radius;
+
+	return &m_TransformedBox;
 }
 
 void ISSModule::UpdateItSelf( float dTime )

@@ -35,11 +35,16 @@ public:
 private:
 	virtual void UpdateItSelf( float dTime );
 
-	ISSControlPoint	m_ControlPoint; ///# 이놈의 정체는? 포함하고 있는 객체의 부모와 this의 부모가 같을 이유가?
+	// ISSControlPoint	m_ControlPoint; ///# 이놈의 정체는? 포함하고 있는 객체의 부모와 this의 부모가 같을 이유가?
 	ISSModuleName	m_ModuleName = ISSModuleName::NO_MODULE;
 	TeamColor		m_CurrentOwner = TeamColor::NO_TEAM;
 	float			m_ISSPos = 0.0f;
 	float			m_HealthPoint = 1.0f;
 
+	// control point를 그냥 충돌 박스 형태로만 가지고 있어도 될 것 같은데
+	// 그런데 이것도 기본값 + 변환 적용 버전 2개로 만들어야 하나
+	// 어차피 GetCollisionBox()할 때 변환 적용해서 반환하니까
+	// 변환 결과가 저장되는 변수는 공유할 수 있을 듯
+	CollisionBox	m_ControlBox;
 };
 

@@ -26,7 +26,7 @@ private:
 	virtual void UpdateItSelf( float dTime );
 
 	void InitCollisionBox( );
-	void DrawModuleCollisionBox( ISSModule & module );
+	void DrawCollisionBox( const CollisionBox* box );
 
 	DDModel*		m_CharacterModel = nullptr;
 
