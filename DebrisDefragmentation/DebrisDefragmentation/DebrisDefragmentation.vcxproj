@@ -89,7 +89,6 @@
     <ClCompile Include="DDModel.cpp" />
     <ClCompile Include="DDUI.cpp" />
     <ClCompile Include="Debris.cpp" />
-    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="ISSModel.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
@@ -115,7 +114,6 @@
     <ClInclude Include="DDModel.h" />
     <ClInclude Include="DDUI.h" />
     <ClInclude Include="Debris.h" />
-    <ClInclude Include="GameData.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="ISSModel.h" />
     <ClInclude Include="ObjectISS.h" />

@@ -98,7 +98,7 @@
             this.ObjectTool = new System.Windows.Forms.TabPage();
             this.ISSRenderBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.ObjectPartList = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
@@ -799,22 +799,22 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.listBox1);
+            this.groupBox10.Controls.Add(this.ObjectPartList);
             this.groupBox10.Location = new System.Drawing.Point(4, 4);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(455, 337);
+            this.groupBox10.Size = new System.Drawing.Size(455, 359);
             this.groupBox10.TabIndex = 0;
             this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "ISS";
+            this.groupBox10.Text = "ObjectPartList";
             // 
-            // listBox1
+            // ObjectPartList
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(7, 12);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(248, 316);
-            this.listBox1.TabIndex = 0;
+            this.ObjectPartList.FormattingEnabled = true;
+            this.ObjectPartList.ItemHeight = 12;
+            this.ObjectPartList.Location = new System.Drawing.Point(7, 20);
+            this.ObjectPartList.Name = "ObjectPartList";
+            this.ObjectPartList.Size = new System.Drawing.Size(248, 316);
+            this.ObjectPartList.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -973,7 +973,7 @@
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label FPSshow;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox ObjectPartList;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tab_GameRender;
         private System.Windows.Forms.TabPage tab_ISSPartRender;

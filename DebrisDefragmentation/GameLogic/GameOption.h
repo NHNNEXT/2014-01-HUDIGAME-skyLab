@@ -2,6 +2,7 @@
 
 #include <array>
 #include <d3dx9.h>
+#include <map>
 
 enum class CharacterClass : int
 {
@@ -63,6 +64,21 @@ enum class ISSModuleName : int
 	PART9,
 };
 const unsigned int	MODULE_NUMBER = 10;
+
+// JSON 파일에서 불러오기 위한 ISSModule 변수
+const std::map<ISSModuleName, std::string> JSON_ISS_PART_NAME =
+{
+	{ ISSModuleName::PART0, "0" },
+	{ ISSModuleName::PART1, "1" },
+	{ ISSModuleName::PART2, "2" },
+	{ ISSModuleName::PART3, "3" },
+	{ ISSModuleName::PART4, "4" },
+	{ ISSModuleName::PART5, "5" },
+	{ ISSModuleName::PART6, "6" },
+	{ ISSModuleName::PART7, "7" },
+	{ ISSModuleName::PART8, "8" },
+	{ ISSModuleName::PART9, "9" },
+};
 
 const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_POSITION
 = {

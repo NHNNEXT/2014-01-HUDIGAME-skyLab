@@ -55,5 +55,10 @@ namespace GameTool
                 m_Renderer.ZoomInOutCameraPosition(1);
             }
         }
+
+        private void ObjViewMouseLeave(object sender, EventArgs e)
+        {
+            this.Focus();
+        }
     }
 }

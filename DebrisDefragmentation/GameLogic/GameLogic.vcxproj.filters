@@ -26,8 +26,8 @@
     <Filter Include="Object\Character">
       <UniqueIdentifier>{d68c1acb-d289-4b1b-b898-a9853506cf78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Event">
-      <UniqueIdentifier>{bfdfe883-085c-41c2-bfb0-155974baf0c9}</UniqueIdentifier>
+    <Filter Include="Event">
+      <UniqueIdentifier>{b609d32e-b19f-4817-aa79-28abd8bb127c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,8 +100,11 @@
     <ClInclude Include="ObjectTable.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>Config</Filter>
+    </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Object\Event</Filter>
+      <Filter>Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,13 +150,11 @@
     <ClCompile Include="ObjectTable.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Object\Event</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\GameTool\Class\JsonEnum.cs">
+    <ClCompile Include="GameData.cpp">
       <Filter>Config</Filter>
-    </None>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

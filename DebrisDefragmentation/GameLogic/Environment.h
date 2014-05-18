@@ -3,7 +3,6 @@
 #include <string>
 #include <array>
 #include <d3dx9.h>
-#include "..\GameTool\Class\jsonEnum.cs"
 #include <map>
 
 const int			VECTOR_DIRECTION_3 = 3;
@@ -19,8 +18,7 @@ const float			UI_FRAME_POSITION_X = 0.0f;
 const float			UI_FRAME_POSITION_Y = 50.0f;
 
 
-// 주의 : 순서를 함부로 바꾸지 말 것. 대재앙이 일어난다
-// UI_FILENAME_LIST와 함께 바꿀 것
+// UI_FILENAME_LIST와 동기화시킬 것
 enum class ClientUITag : int
 {
 	UI_OXYGEN_TAG,
@@ -30,9 +28,9 @@ enum class ClientUITag : int
 };
 
 const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
-// 주의 : 순서를 함부로 바꾸지 말 것. 대재앙이 일어난다.
-// ClientUITag와 함께 바꿀 것
-// agebreak : 위의 내용을 아래와 같이 바꾸면 대재앙을 막을수 있다!
+
+// ClientUITag와 동기화시킬 것
+// agebreak : 위의 내용을 아래와 같이 바꾸면 대재앙을 막을수 있다! // 그렇군요!
 const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
 {
 	{ ClientUITag::UI_OXYGEN_TAG, L"OxygenUI.png" },
@@ -65,11 +63,19 @@ const D3DXVECTOR3	Z_AXIS_VECTOR3{ 0.0f, 0.0f, 1.0f };
 // Alpha Object Management
 const int			ORDER_COMPASS_UI = 1;
 
-// JSON key 값은 여기서만 바꿉니다
-const std::array<std::string, size_t( JsonKeyValues::JSON_TOTAL_KEY_COUNT )> JSON_KEY_LIST
-= {
-	"debrisNumber"
+
+// 주의! 아래쪽의 JSON_KEY_LIST와 순서를 동기화시켜야 합니다
+// 주의! Tool 에서 사용하는 JsonKeyValues와 동기화시켜야 합니다
+enum JsonKeyValues : int
+{
+	JSON_DEBRIS_NUMBER = 0,
+	JSON_ISS,
+	JSON_TOTAL_KEY_COUNT
 };
 
-// 복잡한 JSON 키 값 한 번에 뽑아오세요
-static const char* GetJsonKeyFromList( JsonKeyValues keyNumber ) { return JSON_KEY_LIST[(int)keyNumber].c_str(); }
+// 주의! JsonKeyVales를 바꾸면 이쪽도 같이 바꾸자
+const std::map<JsonKeyValues, std::string> JSON_KEY_MAP =
+{
+	{ JsonKeyValues::JSON_DEBRIS_NUMBER, "debrisNumber" },
+	{ JsonKeyValues::JSON_ISS, "ISS" },
+};

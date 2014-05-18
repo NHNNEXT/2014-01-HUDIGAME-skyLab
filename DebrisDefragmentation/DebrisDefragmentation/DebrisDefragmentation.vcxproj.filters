@@ -43,9 +43,6 @@
     <ClCompile Include="Debris.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="GameData.cpp">
-      <Filter>GameManagers</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="NetworkManager.cpp">
       <Filter>Network</Filter>
@@ -105,9 +102,6 @@
     </ClInclude>
     <ClInclude Include="Debris.h">
       <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameData.h">
-      <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PacketType.h">
       <Filter>Network</Filter>

@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameData.h"
-
+#include "Environment.h"
 
 using namespace rapidjson;
 
@@ -28,7 +28,7 @@ bool GameData::Init()
 	// 깨알같구만 ㅋㅋㅋㅋ
 
 	// init JSON
-	FILE* file;
+	FILE* file = nullptr;
 
 	std::string JsonRawData;
 
@@ -43,10 +43,12 @@ bool GameData::Init()
 
 		fclose( file );
 	}
+
 	// 설정 파일 로드 실패시 false 리턴
 	else
 	{
 		MessageBox( NULL, L"JSON File Load Fail!", L"Message Box", MB_OK );
+		assert( false ); // 디버깅 모드에서 걸리도록
 		return false;
 	}
 
@@ -56,6 +58,24 @@ bool GameData::Init()
 
 	// Json File Mapping
 	m_Document.Parse<0>( JsonRawData.c_str() );
-	
+	// 에러 체크
+	assert( m_Document.IsObject() );
 	return true;
+}
+
+D3DXVECTOR3 GameData::GetISSPosition( ISSModuleName name )
+{
+	const char* iss = JSON_KEY_MAP.at( JSON_ISS ).c_str();
+	const char* module = JSON_ISS_PART_NAME.at( name ).c_str();
+
+	Value& position = m_Document[iss]["Position"][module];
+	// 조심해! double 에서 float으로 바꾸고 있음!
+	return D3DXVECTOR3( position[SizeType( 0 )].GetDouble(),
+		position[SizeType( 1 )].GetDouble(),
+		position[SizeType( 2 )].GetDouble() );
+}
+
+int GameData::GetDebrisNumber()
+{
+	return m_Document[JSON_KEY_MAP.at( JSON_DEBRIS_NUMBER ).c_str()].GetInt();
 }

@@ -23,7 +23,7 @@ namespace GameTool.Class
         private Mesh ISSMesh = null;
         D3D.Material[] ISSMaterials;
         D3D.Texture[] ISSTextures;
-        const string filename = ".\\Resources\\3DModel\\iss.x";
+        const string filename = ".\\Resources\\3DModel\\debris.x";
 
         // camera variables
         int Width = 760;
@@ -182,6 +182,11 @@ namespace GameTool.Class
             m_device.Lights[0].Diffuse = Color.White;
             m_device.Lights[0].Direction = new Vector3(5, 5, 5);
             m_device.Lights[0].Enabled = true;
+
+            m_device.Lights[1].Type = LightType.Point;
+            m_device.Lights[1].Ambient = Color.White;
+            m_device.Lights[1].Direction = new Vector3(10, 10, 10);
+            m_device.Lights[1].Enabled = true;
         }
 
         private void Init()

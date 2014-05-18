@@ -84,6 +84,7 @@
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
     <ClInclude Include="ISS.h" />
@@ -108,6 +109,7 @@
   <ItemGroup>
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="ISS.cpp" />
     <ClCompile Include="ISSControlPoint.cpp" />
     <ClCompile Include="ISSModule.cpp" />
@@ -126,9 +128,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Transform.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\GameTool\Class\JsonEnum.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
