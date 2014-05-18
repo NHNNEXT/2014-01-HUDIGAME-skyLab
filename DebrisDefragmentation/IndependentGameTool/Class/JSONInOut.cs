@@ -31,7 +31,7 @@ namespace GameTool.Class
         JsonObjectCollection m_JsonCollection = new JsonObjectCollection();
         const string m_jsonFilePath = @".\Resources\Json\";
 
-        public void LoadJsonFile(ListBox JsonList, ListBox VariableList, Button StartBtn)
+        public void LoadJsonFile(ListBox JsonList, TreeView VariableList, Button StartBtn)
         {
             if (JsonList.SelectedIndices.Count > 0)
             {
@@ -56,6 +56,7 @@ namespace GameTool.Class
                 // JSON 멤버 변수로 전달한다
                 m_JsonCollection = (JsonObjectCollection)obj;
 
+                // TreeVIew에 계층별로 집어넣는다
                 ShowJsonData(VariableList);
 
                 MessageBox.Show("Load Json Success!");
@@ -68,11 +69,12 @@ namespace GameTool.Class
             }
         }
 
-        private void ShowJsonData(ListBox lb)
+        // TreeView에 JsonData를 구축하는 함수
+        private void ShowJsonData(TreeView treeView)
         {
-            lb.Items.Clear();
+            treeView.Nodes.Clear();
 
-            lb.Items.Add("debrisNumber : " + m_JsonCollection[JSONEnvironment.GetJsonKey(JSONEnvironment.JsonKeyValues.JSON_DEBRIS_NUMBER)].GetValue().ToString());
+            treeView.Nodes.Add("debrisNumber : " + m_JsonCollection[JSONEnvironment.GetJsonKey(JSONEnvironment.JsonKeyValues.JSON_DEBRIS_NUMBER)].GetValue().ToString());
         }
 
         // JSON 데이터 가져오는 곳
@@ -146,7 +148,7 @@ namespace GameTool.Class
         }
         // JSONKeyLabe의 Text를 Key값으로 가져오고 해당하는 Value를 Json 데이터에서 지우고 새로 삽입(변경)
         // 이때 삽입되는 값은 JSONVarBar에 있는 값. 변경된 값을 최종적으로 Variable List에 출력해준다
-        public void JSONModifyBtn(Label JSONKeyLabel, TextBox JSONVarBar, ListBox VariableList)
+        public void JSONModifyBtn(Label JSONKeyLabel, TextBox JSONVarBar, TreeView VariableList)
         {
             string key = JSONKeyLabel.Text;
 

@@ -81,13 +81,12 @@
             this.JSONKeyLabel = new System.Windows.Forms.Label();
             this.MdoifyValue = new System.Windows.Forms.Button();
             this.JSONVarBar = new System.Windows.Forms.TextBox();
-            this.JSONVariables = new System.Windows.Forms.ListBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.JSONSaveFilebtn = new System.Windows.Forms.Button();
             this.JSONNameToSave = new System.Windows.Forms.TextBox();
-            this.ConfigRestartBtn = new System.Windows.Forms.Button();
+            this.RenderStartBtn = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.JSONLoadFilebtn = new System.Windows.Forms.Button();
             this.JsonFileList = new System.Windows.Forms.ListBox();
@@ -103,6 +102,7 @@
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
+            this.JsonVariables = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -593,10 +593,10 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.JsonVariables);
             this.groupBox7.Controls.Add(this.JSONKeyLabel);
             this.groupBox7.Controls.Add(this.MdoifyValue);
             this.groupBox7.Controls.Add(this.JSONVarBar);
-            this.groupBox7.Controls.Add(this.JSONVariables);
             this.groupBox7.Location = new System.Drawing.Point(4, 247);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(455, 301);
@@ -630,19 +630,10 @@
             this.JSONVarBar.Size = new System.Drawing.Size(154, 21);
             this.JSONVarBar.TabIndex = 5;
             // 
-            // JSONVariables
-            // 
-            this.JSONVariables.FormattingEnabled = true;
-            this.JSONVariables.ItemHeight = 12;
-            this.JSONVariables.Location = new System.Drawing.Point(8, 20);
-            this.JSONVariables.Name = "JSONVariables";
-            this.JSONVariables.Size = new System.Drawing.Size(275, 268);
-            this.JSONVariables.TabIndex = 2;
-            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.groupBox9);
-            this.groupBox6.Controls.Add(this.ConfigRestartBtn);
+            this.groupBox6.Controls.Add(this.RenderStartBtn);
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Location = new System.Drawing.Point(4, 7);
             this.groupBox6.Name = "groupBox6";
@@ -689,17 +680,17 @@
             this.JSONNameToSave.Size = new System.Drawing.Size(321, 21);
             this.JSONNameToSave.TabIndex = 0;
             // 
-            // ConfigRestartBtn
+            // RenderStartBtn
             // 
-            this.ConfigRestartBtn.Enabled = false;
-            this.ConfigRestartBtn.Font = new System.Drawing.Font("Bernard MT Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ConfigRestartBtn.ForeColor = System.Drawing.Color.Crimson;
-            this.ConfigRestartBtn.Location = new System.Drawing.Point(14, 176);
-            this.ConfigRestartBtn.Name = "ConfigRestartBtn";
-            this.ConfigRestartBtn.Size = new System.Drawing.Size(429, 52);
-            this.ConfigRestartBtn.TabIndex = 2;
-            this.ConfigRestartBtn.Text = "S T A R T";
-            this.ConfigRestartBtn.UseVisualStyleBackColor = true;
+            this.RenderStartBtn.Enabled = false;
+            this.RenderStartBtn.Font = new System.Drawing.Font("Bernard MT Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RenderStartBtn.ForeColor = System.Drawing.Color.Crimson;
+            this.RenderStartBtn.Location = new System.Drawing.Point(14, 176);
+            this.RenderStartBtn.Name = "RenderStartBtn";
+            this.RenderStartBtn.Size = new System.Drawing.Size(429, 52);
+            this.RenderStartBtn.TabIndex = 2;
+            this.RenderStartBtn.Text = "S T A R T";
+            this.RenderStartBtn.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
@@ -722,6 +713,7 @@
             this.JSONLoadFilebtn.TabIndex = 2;
             this.JSONLoadFilebtn.Text = "Load File";
             this.JSONLoadFilebtn.UseVisualStyleBackColor = true;
+            this.JSONLoadFilebtn.Click += new System.EventHandler(this.LoadJsonFile);
             // 
             // JsonFileList
             // 
@@ -741,6 +733,7 @@
             this.JSONSearchFilebtn.TabIndex = 0;
             this.JSONSearchFilebtn.Text = "Searching";
             this.JSONSearchFilebtn.UseVisualStyleBackColor = true;
+            this.JSONSearchFilebtn.Click += new System.EventHandler(this.SearchJsonFile);
             // 
             // CameraModelStat
             // 
@@ -857,6 +850,13 @@
             this.ObjectView.TabStop = false;
             this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
             // 
+            // JsonVariables
+            // 
+            this.JsonVariables.Location = new System.Drawing.Point(7, 20);
+            this.JsonVariables.Name = "JsonVariables";
+            this.JsonVariables.Size = new System.Drawing.Size(276, 275);
+            this.JsonVariables.TabIndex = 7;
+            // 
             // IndependentGameTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -960,13 +960,12 @@
         private System.Windows.Forms.Button JSONLoadFilebtn;
         private System.Windows.Forms.ListBox JsonFileList;
         private System.Windows.Forms.Button JSONSearchFilebtn;
-        private System.Windows.Forms.Button ConfigRestartBtn;
+        private System.Windows.Forms.Button RenderStartBtn;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Button JSONSaveFilebtn;
         private System.Windows.Forms.TextBox JSONNameToSave;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox JSONVarBar;
-        private System.Windows.Forms.ListBox JSONVariables;
         private System.Windows.Forms.Button MdoifyValue;
         private System.Windows.Forms.Label JSONKeyLabel;
         private System.Windows.Forms.TabPage ObjectTool;
@@ -979,6 +978,7 @@
         private System.Windows.Forms.TabPage tab_ISSPartRender;
         private System.Windows.Forms.PictureBox ObjectView;
         private System.Windows.Forms.Button ISSRenderBtn;
+        private System.Windows.Forms.TreeView JsonVariables;
     }
 }
 

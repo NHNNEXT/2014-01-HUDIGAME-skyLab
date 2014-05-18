@@ -12,6 +12,7 @@ namespace GameTool
     public partial class IndependentGameTool : Form
     {
         Class.Renderer m_Renderer = new Class.Renderer();
+        Class.JSONInOut m_JsonManager = new Class.JSONInOut();
 
         public IndependentGameTool()
         {
@@ -59,6 +60,16 @@ namespace GameTool
         private void ObjViewMouseLeave(object sender, EventArgs e)
         {
             this.Focus();
+        }
+
+        private void SearchJsonFile(object sender, EventArgs e)
+        {
+            m_JsonManager.SearchJsonFiles(this.JsonFileList);
+        }
+
+        private void LoadJsonFile(object sender, EventArgs e)
+        {
+            m_JsonManager.LoadJsonFile(JsonFileList, JsonVariables, RenderStartBtn);
         }
     }
 }
