@@ -183,15 +183,11 @@ void ActorManager::CheckCollision()
 
 			if ( Physics::IsCollide( boxI, boxJ ) )
 			{
-				printf_s( "collision : TRUE\n" );
-
 				// 상대 속도가 서로 멀어지는 방향이라면 확인 안 함
-				D3DXVECTOR3 relativeVelocity = D3DXVECTOR3( 0.0f, 0.0f, m_ISS.GetVelocity() ) - m_CharacterList[i]->GetVelocity();
-				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
-				{
-					printf_s( "damm relativeVelocity\n" );
+				// D3DXVECTOR3 relativeVelocity = D3DXVECTOR3( 0.0f, 0.0f, m_ISS.GetVelocity() ) - m_CharacterList[i]->GetVelocity();
+				D3DXVECTOR3 relativeVelocity = m_CharacterList[i]->GetVelocity() - D3DXVECTOR3( 0.0f, 0.0f, m_ISS.GetVelocity() );
+				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) < 0 )
 					return;
-				}
 
 				// 이 경우에는 ISS는 그대로 있고 플레이어만 튕긴다.
 				// 우선 운동 방향을 구하고
@@ -230,7 +226,6 @@ void ActorManager::CheckCollision()
 			if ( Physics::IsCollide( boxI, boxJ ) )
 			// if ( m_ActorList[i]->GetCollisionBox() & m_ActorList[j]->GetCollisionBox() )
 			{
-				printf_s( "collision!\n" );
 				// 두 물체의 중심점을 잇는 단위 벡터 생성
 				D3DXVec3Normalize( &collisionDirection, &collisionDirection );
 
@@ -240,11 +235,10 @@ void ActorManager::CheckCollision()
 				// 아직 충돌 상태에서 벗어나지 못한 상태로 다시 충돌 판정을 하게 되고 서로의 운동량을 다시 바꾸게 됨
 				// 결국 물체는 다시 가까워지는 방향으로 운동량이 변하게 되고, 서로 떨어지지 못한 채 계속 충돌 판정을 받게 됨
 				// 그래서 두 물체의 운동 상태가 서로에게서 멀어지고 있는 중이라면 충돌에 의한 운동량 변화를 적용하지 않음
-				D3DXVECTOR3 relativeVelocity = m_CharacterList[j]->GetVelocity() - m_CharacterList[i]->GetVelocity();
-				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) > 0 )
-				{
+				// D3DXVECTOR3 relativeVelocity = m_CharacterList[j]->GetVelocity() - m_CharacterList[i]->GetVelocity();
+				D3DXVECTOR3 relativeVelocity = m_CharacterList[i]->GetVelocity() - m_CharacterList[j]->GetVelocity();
+				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) < 0 )
 					return;
-				}
 
 				float iMass = m_CharacterList[i]->GetClassComponent()->GetMass();
 				float jMass = m_CharacterList[j]->GetClassComponent()->GetMass();
@@ -342,7 +336,6 @@ bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 
 	// 방송할 것
 	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( moduleName ), ClassSkill::OCCUPY );
-	printf_s( "occupy \n" );
 
 	return true;
 }

@@ -116,7 +116,10 @@ bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
 {
 	// 쿨탐 체크
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] > 0.0f )
+	{
+		printf_s( "COOLDOWN : %f / %f\n", m_GlobalCooldown, m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] );
 		return false;
+	}
 
 	// 판정은 GActorManager에 맞기자
 	// 방송도 GActorManager가 OccupyISS 진행하면서 하는 걸로
@@ -229,7 +232,7 @@ void ClassComponent::Update( float dt )
 	}
 
 	// 쿨타임 업데이트
-	m_GlobalCooldown -= 0.0f;
+	m_GlobalCooldown -= dt;
 	if ( m_GlobalCooldown < 0.0f )
 		m_GlobalCooldown = 0.0f;
 

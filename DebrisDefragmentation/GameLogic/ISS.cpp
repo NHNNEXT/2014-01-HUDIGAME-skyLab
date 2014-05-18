@@ -37,6 +37,7 @@ void ISS::Update( float dTime )
 		[&]( ISSModule &eachModule )
 	{
 		eachModule.SetISSPos( m_CurrentPos );
+		eachModule.Update( dTime );
 	}
 	);
 }
@@ -46,9 +47,10 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 	float currentDistance = std::numeric_limits<float>::infinity();
 	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
 
+	printf_s( "try to occupy\n" );
+
 	// 자신에게 등록된 모듈들을 차례대로 돌면서 
 	// 유저의 position 에서 viewDirection 방향의 ray를 쏴서 걸리는 점령 포인트가 있는지 확인 - 거리도 포함해서 계산
-
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 		[&]( ISSModule &eachModule )
 	{
@@ -100,6 +102,8 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 
 		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_CurrentPos, m_Velocity );
 	}
+
+	printf_s( "no target module\n" );
 
 	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );
 }
