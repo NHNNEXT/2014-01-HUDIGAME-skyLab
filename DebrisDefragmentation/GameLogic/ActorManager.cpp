@@ -20,6 +20,8 @@ void ActorManager::Init( )
 {
 	m_PrevTime = timeGetTime( );
 
+	m_Event.Init();
+
 	m_ISS.Init();
 	m_TeamBlue.clear();
 	m_TeamRed.clear();
@@ -128,6 +130,9 @@ void ActorManager::Update( )
 			}
 		}
 	}
+
+	// 게임 내 재난 상황 이벤트 업데이트
+	m_Event.Update( dt );
 
 	m_ISS.Update( dt );
 

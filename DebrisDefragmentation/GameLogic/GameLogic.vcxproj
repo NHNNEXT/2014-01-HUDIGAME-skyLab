@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
     <ClInclude Include="ISS.h" />
@@ -106,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engineer.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="ISS.cpp" />
     <ClCompile Include="ISSControlPoint.cpp" />
     <ClCompile Include="ISSModule.cpp" />

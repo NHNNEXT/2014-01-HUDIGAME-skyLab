@@ -26,6 +26,9 @@
     <Filter Include="Object\Character">
       <UniqueIdentifier>{d68c1acb-d289-4b1b-b898-a9853506cf78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Event">
+      <UniqueIdentifier>{bfdfe883-085c-41c2-bfb0-155974baf0c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -97,6 +100,9 @@
     <ClInclude Include="ObjectTable.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Object\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -140,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="ObjectTable.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Object\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

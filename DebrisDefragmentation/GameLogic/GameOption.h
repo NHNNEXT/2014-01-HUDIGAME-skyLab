@@ -213,3 +213,11 @@ const std::array<float, TOTAL_SKILL_NUMBER> SKILL_COOLDOWN_TABLE
 	const float			COOLDOWN_SET_SENTRY_GUN = 1.0f;
 	const float			COOLDOWN_SET_DESPENSER = 1.0f;
 */
+
+enum class GameEvent : int
+{
+	// 
+	NO_EVENT = -1,
+	DEBRIS_STORM,
+	SOLAR_WIND,
+};

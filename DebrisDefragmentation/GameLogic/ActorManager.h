@@ -2,6 +2,7 @@
 
 #include "GameOption.h"
 #include "ISS.h"
+#include "Event.h"
 
 class Character;
 
@@ -91,6 +92,7 @@ protected:
 	std::set<int> m_TeamBlue;
 	std::set<int> m_TeamRed;
 
+	Event		m_Event;
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
