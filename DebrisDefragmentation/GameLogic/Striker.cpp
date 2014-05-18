@@ -83,10 +83,31 @@ bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 
 	m_SpeedConstant = SCOUT_MOVE_FAST_CONSTANT;
 
+	// 시간이 지나면 끝내야 될텐데
+	// 어떤 방식으로 컨트롤할까..
+	// 일단 쿨탐과 같은 방식으로 진행하자
+	// 스킬 쓰면 시간을 설정하고 dt만큼 감소 시키다가 0이 되면 가속 상수 원래대로 되돌리기
+
+
+
 	GObjectTable->GetActorManager()->BroadcastSkillResult( id, ClassSkill::MOVE_FAST );
 
 	// 스킬 썼으면 쿨 적용시키자
 	SetCooldown( ClassSkill::MOVE_FAST );
 
 	return true;
+}
+
+void Striker::DoPeriodWork( float dTime )
+{
+	if ( m_RemainFastMove > 0.0f )
+	{
+		m_RemainFastMove -= dTime;
+		
+		if ( m_RemainFastMove <= 0.0f )
+		{
+			m_RemainFastMove = 0.0f;
+			m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
+		}
+	}
 }

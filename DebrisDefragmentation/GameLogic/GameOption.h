@@ -144,7 +144,7 @@ const float			DEFAULT_FUEL = 5000.0f;
 const float			DEFAULT_HP = 100.0f;
 const float			DEFAULT_FUEL_SHARE_AMOUNT = 1000;
 const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
-
+const float			DEFAULT_MOVE_CONSTANT = 1.0f;
 
 // SKILL
 const float			SKILL_RANGE = 50;

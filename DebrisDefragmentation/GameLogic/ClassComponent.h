@@ -109,5 +109,7 @@ protected:
 
 	float		m_GlobalCooldown = 0.0f;
 	std::array<float, TOTAL_SKILL_NUMBER> m_CooldownTable;
+
+	virtual void DoPeriodWork( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 };
 

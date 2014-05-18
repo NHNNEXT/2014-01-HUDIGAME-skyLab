@@ -241,6 +241,8 @@ void ClassComponent::Update( float dt )
 			eachCooldown = 0.0f;
 	} 
 	);
+
+	DoPeriodWork( dt );
 }
 
 void ClassComponent::ResetStatus()

@@ -104,3 +104,9 @@ bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )
 
 	return true;
 }
+
+void Protector::DoPeriodWork( float dTime )
+{
+	// 스킬이나 캐릭터 상태 변화 필요한 부분 ㄱㄱ
+	UNREFERENCED_PARAMETER( dTime );
+}

@@ -52,3 +52,9 @@ bool Engineer::SkillDespenser( int id, const D3DXVECTOR3& direction )
 {
 	return false;
 }
+
+void Engineer::DoPeriodWork( float dTime )
+{
+	// 스킬이나 캐릭터 상태 변화 필요한 부분 ㄱㄱ
+	UNREFERENCED_PARAMETER( dTime );
+}
