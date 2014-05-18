@@ -34,6 +34,7 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 	if ( mi->m_pMeshMaterials == NULL )
 	{
 		// out of memory
+		assert( 0 );
 		return false;
 	}
 
@@ -41,6 +42,7 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 	if ( mi->m_pMeshTexture == NULL )
 	{
 		// out of memory
+		assert( 0 );
 		return false;
 	}
 
@@ -60,6 +62,7 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 			{
 				//MessageBox( NULL, L"no texture map", L"Meshes.exe", MB_OK );
 				// no texture error
+				assert( 0 );
 				return false;
 			}
 		}
@@ -71,6 +74,7 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 	if ( !SetNormalVector( mi ) )
 	{
 		// failed compute normal vector 
+		assert( 0 );
 		return false;
 	}
 
@@ -126,10 +130,11 @@ void ModelPool::ClearModelPool()
 	// model별로 순회면서 mesh, texture, material등의 resource를 해제	
 	for ( auto eachModel : m_ObjectMap )
 	{
-		if ( Cleanup( eachModel.second ) )
+		if ( !Cleanup( eachModel.second ) )
 		{ 
 			// cleanup error
 			printf_s( "Model mesh clean up failed\n" );
+			assert( 0 );			
 		}
 		delete eachModel.second;
 	}
