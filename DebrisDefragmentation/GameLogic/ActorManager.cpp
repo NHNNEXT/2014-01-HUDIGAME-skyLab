@@ -5,6 +5,7 @@
 #include "ObjectTable.h"
 
 #include "Physics.h"
+#include "GameData.h"
 
 ActorManager::ActorManager()
 {
@@ -18,6 +19,9 @@ ActorManager::~ActorManager()
 
 void ActorManager::Init( )
 {
+	g_GameData = GameData::Create();
+	g_GameData->Init();
+
 	m_PrevTime = timeGetTime( );
 
 	m_Event.Init();
