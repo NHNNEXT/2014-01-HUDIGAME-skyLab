@@ -47,7 +47,7 @@ public:
 
 	void	Disconnect();
 
-	bool	IsConnected() const { return mConnected; }
+ 	bool	IsConnected() const { return mConnected; }
 
 	void	DatabaseJobDone( DatabaseJobContext* result );
 
@@ -74,6 +74,7 @@ public:
 	// 현재 내 상태를 나를 포함한 전체 플레이어에게 전달
 	void	BroadcastCollisionResult();
 	void	BroadcastDeadResult();
+	void	BroadcastBuildResult();
 	void	SyncCurrentStatus();
 
 	void	BroadcastKineticState( );

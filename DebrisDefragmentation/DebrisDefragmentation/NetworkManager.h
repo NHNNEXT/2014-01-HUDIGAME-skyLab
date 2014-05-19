@@ -26,6 +26,8 @@ public:
 
 	void RegisterHandles();
 
+	
+
 	static void HandleLoginResult( DDPacketHeader& pktBase );
 	static void HandleSyncResult( DDPacketHeader& pktBase );
 	static void HandleNewResult( DDPacketHeader& pktBase );
@@ -38,7 +40,8 @@ public:
 	static void HandleTurnBodyResult( DDPacketHeader& pktBase );
 
 	static void HandleUsingSkillResult( DDPacketHeader& pktBase );
-
+	
+	static void HandleBuildDispenserResult( DDPacketHeader& pktBase );
 	static void HandleIssStateResult( DDPacketHeader& pktBase );
 	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
 	static void HandleGameResultResult( DDPacketHeader& pktBase );

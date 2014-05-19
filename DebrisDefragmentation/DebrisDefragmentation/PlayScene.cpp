@@ -137,7 +137,7 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	// 캐릭터가 죽어있으면.. 아래는 실행이 안되고 종료..
 	// 캐릭터 컴포넌트까지 접근이 좀 구구절절하다...ㅠㅠ	
-	if ( !g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent()->IsAlive() )
+	if ( !GPlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent()->IsAlive() )
 	{
 		// space 누르면 respawn request보낸다.
 		if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
@@ -195,6 +195,12 @@ void PlayScene::UpdateItSelf( float dTime )
 		GNetworkManager->SendUsingSkill( ClassSkill::DESTROY );
 	}
 
+	if ( KEY_DOWN == GetKeyState( VK_5 ) )
+	{
+		// 4 : 파괴 스킬 시전!
+		GNetworkManager->SendUsingSkill( ClassSkill::SET_DISPENSER );
+	}
+
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
 	{
 		GNetworkManager->SendTurnBody();
@@ -208,7 +214,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	// 고개 돌리기는 서버로 보낼 필요 없이 클라이언트에서만 적용
 	
 	DDPoint currentMousePos = GetMousePosition();
-	g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
+	GPlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->LookAt(
 		currentMousePos.GetY() - m_PrevMousePosition.GetY(),
 		currentMousePos.GetX() - m_PrevMousePosition.GetX(),
 		0
@@ -264,8 +270,8 @@ void PlayScene::UpdateUI()
 // 		return;
 // 	}
 
-	float currentOxygen = g_PlayerManager->GetPlayer( myId )->GetOxygen();
-	float currentFuel = g_PlayerManager->GetPlayer( myId )->GetGas();
+	float currentOxygen = GPlayerManager->GetPlayer( myId )->GetOxygen();
+	float currentFuel = GPlayerManager->GetPlayer( myId )->GetGas();
 
 	// 현재는 front가 pFuelUI
 	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen /  DEFAULT_OXYGEN , 1, 1 );

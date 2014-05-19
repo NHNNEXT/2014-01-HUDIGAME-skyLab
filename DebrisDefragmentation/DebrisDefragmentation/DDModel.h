@@ -23,18 +23,14 @@ class DDModel :
 {
 public:
 	DDModel();
-	//DDModel( std::wstring filePath );
 	virtual ~DDModel();
-
-	//CREATE_OBJECT_WSTRING( DDModel, filePath );
+	
 	CREATE_OBJECT( DDModel );
-	void SetModelMesh( MeshInfo* mi ) { m_MeshInfo = mi;	}
+	void			SetModelMesh( MeshInfo* mi ) { m_MeshInfo = mi;	}
 
 protected:
-	virtual void RenderItSelf();
+	virtual void	RenderItSelf();
 
-
-	// LPDIRECT3DDEVICE9	m_pD3DDevice = nullptr;
 	MeshInfo*		m_MeshInfo = nullptr;
 };
 

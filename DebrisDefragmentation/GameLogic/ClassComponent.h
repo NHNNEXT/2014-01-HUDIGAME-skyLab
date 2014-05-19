@@ -26,6 +26,7 @@ public:
 	bool		SkillShareFuel( int id, const D3DXVECTOR3& direction );
 	bool		SkillOccupy( int id, const D3DXVECTOR3& direction );
 	bool		SkillDestroy( int id, const D3DXVECTOR3& direction );
+	/*bool		SkillBuildDispenser( int id, const D3DXVECTOR3& direction );*/
 
 	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
 	void	AddForce( const D3DXVECTOR3 &direction );

@@ -4,6 +4,9 @@
 #include "ClientManager.h"
 #include "GameOption.h"
 #include "GameManager.h"
+#include "ObjectTable.h"
+#include "Transform.h"
+#include "Dispenser.h"
 
 typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
 
@@ -382,6 +385,21 @@ void ClientSession::BroadcastKineticState()
 		Disconnect( );
 	}
 }
+
+void ClientSession::BroadcastBuildResult()
+{
+	BuildResult outPacket;
+	
+	//outPacket.mPlayerId = mPlayerId;
+	outPacket.mTargetPos = GObjectTable->GetActorManager()->GetLastSturture()->GetTransform()->GetPosition();
+	
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
 
 void ClientSession::BroadcastCharacterState()
 {

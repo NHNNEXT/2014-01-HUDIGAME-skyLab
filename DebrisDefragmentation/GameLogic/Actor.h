@@ -13,7 +13,7 @@
 class Actor : public BaseObject
 {
 public:
-	Actor( CharacterClass actorClass = CharacterClass::STRIKER );
+	Actor( CharacterClass actorClass = CharacterClass::ENGINEER );
 	virtual ~Actor();
 
 	void	InitTeamPosition();

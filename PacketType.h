@@ -98,6 +98,8 @@ enum PacketTypes
 	PKT_CS_USING_SKILL = 307,
 	PKT_SC_USING_SKILL = 308,
 
+	PKT_SC_BUILD_DISPENSER = 309,
+
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
 	PKT_SC_SYNC = 902,
@@ -582,6 +584,19 @@ struct CharacterStateResult : public PacketHeader
 	float	mFuel;
 	float	mOxygen;
 	float	mGlobalCooldownTime;
+};
+
+struct BuildResult : public PacketHeader
+{
+	BuildResult()
+	{
+		mSize = sizeof( BuildResult );
+		mType = PKT_SC_BUILD_DISPENSER;
+		mPlayerId = -1;
+	}
+
+	int			mPlayerId;
+	Float3D		mTargetPos;
 };
 
 

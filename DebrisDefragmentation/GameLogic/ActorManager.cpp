@@ -6,6 +6,7 @@
 
 #include "Physics.h"
 #include "GameData.h"
+#include "Dispenser.h"
 
 ActorManager::ActorManager()
 {
@@ -367,6 +368,37 @@ bool ActorManager::DestroyISS( int characterId, D3DXVECTOR3 direction )
 
 	return true;
 }
+
+bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
+{
+	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
+	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
+	ISSModuleName moduleName = ISSModuleName::NO_MODULE;	
+
+	moduleName = m_ISS.ModuleInRay( viewDirection, startPoint );
+
+	// 레이에 맞는 모듈이 없으면 리턴
+	if ( moduleName == ISSModuleName::NO_MODULE )
+		return false;
+
+	// 있으면 모듈 위치에 디스펜서 생성
+	// 조심해!! 구체적인 위치는 나중에 손볼 것.(현재 플레이어의 x랑 iss x랑 기울기갖고 지지고 볶으면 나올 듯)
+	D3DXVECTOR3 dispenserPos = m_ISS.GetModule( moduleName )->GetTransform()->GetPosition();
+
+	// 플레이어의 위치쪽으로 x값을 편향해서 생성
+	dispenserPos.x = ( direction.x > 0 )? - 2.0f : 2.0f;
+
+	Dispenser* newDispenser = new Dispenser();
+	newDispenser->GetTransform()->SetPosition( dispenserPos );
+
+	m_StructureList.push_back( newDispenser );
+
+	// 방송할 것
+	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( characterId ), ClassSkill::SET_DISPENSER );
+
+	return true;
+}
+
 
 std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )
 {

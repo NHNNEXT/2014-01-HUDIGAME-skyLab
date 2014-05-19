@@ -19,9 +19,8 @@ void ObjectISS::Init( )
 {
 	InitCollisionBox( );
 
-	//m_CharacterModel = ISSModel::Create( L"iss.x" );
 	m_CharacterModel = ISSModel::Create();
-	m_CharacterModel->SetModelMesh( g_SceneManager->GetScene()->GetModelPool().GetModel( ModelType::ISS ) );
+	m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::ISS ) );
 	AddChild( m_CharacterModel );
 }
 

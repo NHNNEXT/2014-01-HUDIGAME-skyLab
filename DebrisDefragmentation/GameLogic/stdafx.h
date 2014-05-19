@@ -17,6 +17,7 @@
 #include <tuple>
 #include <d3dx9math.h>
 #include <set>
+#include <list>
 
 #include <algorithm>
 #include <random> 

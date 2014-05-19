@@ -34,7 +34,7 @@ enum class ClassSkill : int
 	// ENGINEER
 	GATHER,
 	SET_SENTRY_GUN,
-	SET_DESPENSER,
+	SET_DISPENSER,
 };
 const unsigned int BASIC_SKILL_NUMBER = 4;
 const unsigned int TOTAL_SKILL_NUMBER = 13;

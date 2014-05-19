@@ -6,10 +6,6 @@ ISSModel::ISSModel()
 {
 }
 
-// ISSModel::ISSModel( std::wstring modelPath ) : DDModel( modelPath )
-// {
-// }
-
 ISSModel::~ISSModel()
 {
 }

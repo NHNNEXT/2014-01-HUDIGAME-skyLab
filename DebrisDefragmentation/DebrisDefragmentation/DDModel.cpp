@@ -7,11 +7,6 @@
 DDModel::DDModel()
 {
 }
-// 
-// DDModel::DDModel( std::wstring path )
-// {
-// 	
-// }
 
 DDModel::~DDModel()
 {

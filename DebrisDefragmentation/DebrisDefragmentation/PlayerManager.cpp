@@ -7,7 +7,7 @@
 #include "MatrixTransform.h"
 #include "CompassUI.h"
 
-std::shared_ptr<PlayerManager> g_PlayerManager = nullptr;
+std::shared_ptr<PlayerManager> GPlayerManager = nullptr;
 
 PlayerManager::PlayerManager()
 {
@@ -34,7 +34,7 @@ bool PlayerManager::AddPlayer( int playerId )
 	m_PlayerList[playerId] = Player::Create( playerId );
 	m_PlayerList[playerId]->Init();
 
-	g_SceneManager->GetScene()->AddChild( m_PlayerList[playerId] );
+	GSceneManager->GetScene()->AddChild( m_PlayerList[playerId] );
 	++m_CurrentPlayers;	
 
 	return true;

@@ -5,6 +5,7 @@
 #include "Event.h"
 
 class Character;
+class Dispenser;
 
 class ActorManager
 {
@@ -16,11 +17,10 @@ public:
 
 	virtual void BroadcastSkillResult(int idx, ClassSkill skillType ) = 0;
 
-	/* 
-		클라이언트 처음 접속하면 클라이언트 세션이 해당 플레이어의 액터-게임 캐릭터-를 등록한다.
-		클라이언트 세션의 멤버 액터의 포인터를 인자로 넣어서 등록하고,
-		매니저는 등록된 인덱스값을 actorId로 사용하도록 반환한다.
-	*/ 
+	
+	// 	클라이언트 처음 접속하면 클라이언트 세션이 해당 플레이어의 액터-게임 캐릭터-를 등록한다.
+	// 	클라이언트 세션의 멤버 액터의 포인터를 인자로 넣어서 등록하고,
+	// 	매니저는 등록된 인덱스값을 actorId로 사용하도록 반환한다.
 	int		RegisterCharacter( Character* newCharacter );
 
 	/*
@@ -33,41 +33,30 @@ public:
 	
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
 	void Update();
-	/*
-		인자로 받은 id가 유효한지(list에 등록되어 있는지) 판정
-	*/
-	bool IsValidId( int characterId );
-	// Actor* GetActor( int actorId ) { return m_ActorList[actorId]; }
 
-	/*
-		입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환
-	*/
+	// 인자로 받은 id가 유효한지( list에 등록되어 있는지 ) 판정
+	bool IsValidId( int characterId );
+	
+	// 입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환	
 	std::tuple<int, D3DXVECTOR3> DetectTarget( int characterId, const D3DXVECTOR3& direction );
 
-	/*
-		점령 스킬을 사용한 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환
-	*/
+	// 점령 스킬을 사용한 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환	
 	bool OccupyISS( int characterId, D3DXVECTOR3 direction );
-
-	/*
-		파괴 스킬을 사용한 결과 - 모듈이름, 체력 - 를 반환
-	*/
+	
+	// 파괴 스킬을 사용한 결과 - 모듈이름, 체력 - 를 반환	
 	bool DestroyISS( int characterId, D3DXVECTOR3 direction );
 
-	/*
-		현재 ISS 위치 및 속도 정보 리턴
-	*/
+	bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
+	Dispenser* GetLastSturture() { return m_StructureList.back(); }
+
+	// 현재 ISS 위치 및 속도 정보 리턴
 	float GetIssPositionZ() { return m_ISS.GetPosition(); }
 	float GetIssVelocityZ() { return m_ISS.GetVelocity(); }
 
-	/*
-		현재 ISS 각 모듈의 소유자 및 체력 정보 반환
-	*/
+	// 현재 ISS 각 모듈의 소유자 및 체력 정보 반환
 	std::tuple<TeamColor, float> GetModuleState( int moduleIdx );
 
-	/*
-		입력받은 범위 안에 있는 캐릭터 id반환	
-	*/
+	// 입력받은 범위 안에 있는 캐릭터 id반환	
 	std::vector<int> DetectTargetsInRange( int characterId, float range );
 
 	// get other object data
@@ -95,6 +84,8 @@ protected:
 	Event		m_Event;
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
+
+	std::list<Dispenser*> m_StructureList;
 
 	// other objects
 	// 지금은 없음요

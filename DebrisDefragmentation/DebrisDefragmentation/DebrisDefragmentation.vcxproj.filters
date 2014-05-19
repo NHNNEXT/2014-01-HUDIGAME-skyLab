@@ -95,6 +95,9 @@
     <ClCompile Include="ModelPool.cpp">
       <Filter>Scene\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="DispenserModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="ModelPool.h">
       <Filter>Scene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DispenserModel.h">
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,10 +5,8 @@ class ISSModel :
 {
 public:
 	ISSModel( );
-	//ISSModel( std::wstring modelPath );
 	virtual ~ISSModel( );
 
-	//CREATE_OBJECT_WSTRING( ISSModel, modelPath );
 	CREATE_OBJECT( ISSModel );
 
 private:

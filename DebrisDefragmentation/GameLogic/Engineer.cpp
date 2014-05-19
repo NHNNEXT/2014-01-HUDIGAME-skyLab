@@ -29,8 +29,8 @@ bool Engineer::UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction 
 		return SkillGather( id, direction );
 	case ClassSkill::SET_SENTRY_GUN:
 		return SkillSentryGun( id, direction );
-	case ClassSkill::SET_DESPENSER:
-		return SkillDespenser( id, direction );
+	case ClassSkill::SET_DISPENSER:
+		return SkillDispenser( id, direction );
 	default:
 		break;
 	}
@@ -48,9 +48,19 @@ bool Engineer::SkillSentryGun( int id, const D3DXVECTOR3& direction )
 	return false;
 }
 
-bool Engineer::SkillDespenser( int id, const D3DXVECTOR3& direction )
+bool Engineer::SkillDispenser( int id, const D3DXVECTOR3& direction )
 {
-	return false;
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SET_DISPENSER )] > 0.0f )
+		return false;
+
+	bool returnVal = GObjectTable->GetActorManager()->BuildDispenser( id, direction );
+
+	// 스킬 썼으면 쿨 적용시키자
+	if ( returnVal )
+		SetCooldown( ClassSkill::SET_DISPENSER );
+
+	return returnVal;	
 }
 
 void Engineer::DoPeriodWork( float dTime )

@@ -55,7 +55,7 @@ void Player::Init()
 
 	//m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
 	m_CharacterModel = CharacterModel::Create();
-	m_CharacterModel->SetModelMesh( g_SceneManager->GetScene()->GetModelPool().GetModel(ModelType::PLAYER_MODEL) );
+	m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel(ModelType::PLAYER_MODEL) );
 	AddChild( m_CharacterModel );
 	
 	// 내 캐릭터의 visible 끔.	
@@ -131,7 +131,7 @@ void Player::UpdateItSelf( float dTime )
 
 void Player::LookAt( float x, float y, float z )
 {
-	g_PlayerManager->GetCamera()->GetTransform().IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_SENSITIVITY );
+	GPlayerManager->GetCamera()->GetTransform().IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_SENSITIVITY );
 }
 
 void Player::TurnBody( float x, float y, float z )

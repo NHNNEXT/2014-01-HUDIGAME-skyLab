@@ -27,14 +27,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
 	DDApplication* app = DDApplication::GetInstance();
-	g_PlayerManager = PlayerManager::Create();
-	g_SceneManager = SceneManager::Create();
+	GPlayerManager = PlayerManager::Create();
+	GSceneManager = SceneManager::Create();
 	g_UIManager = UIManager::Create();
 	g_GameData = GameData::Create();
 
 	app->Init( L"Debris Defragmentation", 1230, 750 );
 	
-	DDScene* scene = g_SceneManager->CreateScene(L"PlayScene1");	
+	DDScene* scene = GSceneManager->CreateScene(L"PlayScene1");	
 	
 	DDSceneDirector::GetInstance()->ChangeScene( scene );
 

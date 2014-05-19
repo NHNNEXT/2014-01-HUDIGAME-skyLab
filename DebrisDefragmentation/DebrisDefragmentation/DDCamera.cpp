@@ -33,7 +33,7 @@ void DDCamera::RenderItSelf()
 		D3DXVECTOR3 fPos = m_FollowingObject->GetTransform().GetPosition();
 		D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &scale, NULL, &qRotation, &fPos );
 
-		ClassComponent* cc = g_PlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent();
+		ClassComponent* cc = GPlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent();
 		if ( cc->IsSpinning() )
 		{
 			// 플레이어와 카메라의 회전 동기화

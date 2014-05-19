@@ -25,5 +25,5 @@ private :
 	PlayScene*		m_Scene = nullptr;
 };
 
-extern std::shared_ptr<SceneManager> g_SceneManager;
+extern std::shared_ptr<SceneManager> GSceneManager;
 

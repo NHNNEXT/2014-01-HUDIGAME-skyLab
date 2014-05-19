@@ -3,7 +3,7 @@
 #include "PlayScene.h"
 #include "DDScene.h"
 
-std::shared_ptr<SceneManager> g_SceneManager = nullptr;
+std::shared_ptr<SceneManager> GSceneManager = nullptr;
 
 SceneManager::SceneManager()
 {

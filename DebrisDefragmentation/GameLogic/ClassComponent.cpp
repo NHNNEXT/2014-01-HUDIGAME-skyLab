@@ -149,6 +149,8 @@ bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 	return returnVal;
 }
 
+
+
 void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
 	m_Rigidbody.m_SpinAngle = angularVelocity;

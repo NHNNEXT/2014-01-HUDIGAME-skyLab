@@ -29,6 +29,9 @@
     <Filter Include="Event">
       <UniqueIdentifier>{b609d32e-b19f-4817-aa79-28abd8bb127c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Structure">
+      <UniqueIdentifier>{cf755157-8eb3-4d2f-bcff-c0578ab77a9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -106,6 +109,9 @@
     <ClInclude Include="Event.h">
       <Filter>Event</Filter>
     </ClInclude>
+    <ClInclude Include="Dispenser.h">
+      <Filter>Object\Structure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -155,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispenser.cpp">
+      <Filter>Object\Structure</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

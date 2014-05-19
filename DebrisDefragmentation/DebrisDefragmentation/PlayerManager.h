@@ -38,4 +38,4 @@ private:
 	
 };
 
-extern std::shared_ptr<PlayerManager> g_PlayerManager;
+extern std::shared_ptr<PlayerManager> GPlayerManager;
