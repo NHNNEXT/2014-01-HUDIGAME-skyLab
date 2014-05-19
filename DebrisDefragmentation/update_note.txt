@@ -12,6 +12,7 @@
 	다른 캐릭터 당기기	: 2
 	ISS module 점령		: 3
 	ISS module 부수기	: 4
+	구조물 설치 		: 5
 
 
 
@@ -32,9 +33,12 @@
 	게임 내 재난 이벤트 기능 추가
 	3가지 캐릭터 클래스 및 특수 스킬 구현
 	ISS가 actor를 상속받던 부분 수정 (현재는 사실상 manager 성격의 클래스)
+	Engineer Class Dispenser 설치 스킬 추가.
 	
 >>> client
-	
+	Model loading 시 instacing 적용 ( 파일 로딩 관련)
+	Engineer Class Dispenser 설치 관련 모델 및 클래스 추가
+	push pull packet관련 버그 수정
 	
 >>> server
 	클라이언트가 접속을 끊으면 로직 관련 자원 반환하는 과정에서 assert에 걸리던 버그 수정
