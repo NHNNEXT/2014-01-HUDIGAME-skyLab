@@ -31,5 +31,8 @@ public:
 private:
 	GameEvent	m_Event = GameEvent::NO_EVENT;
 	float		m_Timer = 0.0f;
+
+	// 이벤트가 플레이어에게 접근하는 방향 - 단위 벡터로 저장한다.
+	D3DXVECTOR3 m_Direction;
 };
 

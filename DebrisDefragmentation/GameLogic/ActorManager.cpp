@@ -404,3 +404,8 @@ std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )
 {
 	return m_ISS.GetModuleState( moduleIdx );
 }
+
+const CollisionBox* ActorManager::GetModuleBoundingBox( int moduleIdx )
+{ 
+	return m_ISS.GetModuleCollisionBox( moduleIdx ); 
+}

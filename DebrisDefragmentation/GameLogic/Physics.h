@@ -381,6 +381,7 @@ namespace Physics
 		return intersectionFlag;
 	}
 
+	// 반사벡터를 구해서 반환
 	static D3DXVECTOR3 GetReflectionVector( const D3DXVECTOR3& srcVec, const D3DXVECTOR3& normalVec )
 	{
 		D3DXMATRIX reflectionTransform;
@@ -392,6 +393,32 @@ namespace Physics
 		D3DXVECTOR3 reflectionVector = -tempVector;
 
 		return reflectionVector;
+	}
+
+	// 인자로 주어진 box가 direction 벡터에 대해서 shelter라는 객체들에 의해서 가려지는지 확인
+	static bool IsCovered( const CollisionBox *box, const D3DXVECTOR3& direction, std::vector<const CollisionBox*> shelters )
+	{
+		// box의 각 점들에 대해서
+		for ( int i = 0; i < BOX_POINT_COUNT; ++i )
+		{
+			bool isCoveredPoint = false;
+			std::for_each( shelters.begin(), shelters.end(), [&]( const CollisionBox* each )
+			{
+				// 가려지는지 파악 - 가려지면 continue
+				if ( isCoveredPoint || IntersectionCheckRayBox( nullptr, nullptr, nullptr, direction, box->m_PointList[i], each ) )
+				{
+					// 가려진다. 다음 것들은 확인 안 해도 된다.
+					isCoveredPoint = true;
+				}
+			} 
+			);
+
+			// 가려지지 않는 점이 하나라도 있으면 false 반환
+			if ( !isCoveredPoint )
+				return false;
+		}
+
+		return true;
 	}
 };
 
