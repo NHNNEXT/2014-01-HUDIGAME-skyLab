@@ -17,6 +17,32 @@
 
 
 
+2014. 5. 20
+
+>>> Tool
+
+
+>>> framework
+	
+
+>>> logic & physics
+	cooldown time system 추가
+	ISS 충돌 시 반사 벡터 방향이 부자연스럽던 문제 수정
+	ISS 점령 포인트 생성
+	게임 내 재난 이벤트 기능 추가
+	3가지 캐릭터 클래스 및 특수 스킬 구현
+	ISS가 actor를 상속받던 부분 수정 (현재는 사실상 manager 성격의 클래스)
+	
+>>> client
+	
+	
+>>> server
+	클라이언트가 접속을 끊으면 로직 관련 자원 반환하는 과정에서 assert에 걸리던 버그 수정
+	clientManager와 Logic 부분 최대한 분리
+	packet process 하는 부분에서 로직도 처리하던 것을 로직 관련 객체(classComponent 등) 내부로 이동
+	
+
+
 
 2014. 5. 13
 
