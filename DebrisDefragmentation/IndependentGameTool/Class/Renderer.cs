@@ -23,7 +23,7 @@ namespace GameTool.Class
         private Mesh ISSMesh = null;
         D3D.Material[] ISSMaterials;
         D3D.Texture[] ISSTextures;
-        const string filename = ".\\Resources\\3DModel\\debris.x";
+        const string filename = ".\\Resources\\3DModel\\spaceman.x";
 
         // camera variables
         int Width = 760;
@@ -117,6 +117,7 @@ namespace GameTool.Class
                 m_device.RenderState.Lighting = true;
                 m_device.RenderState.CullMode = Cull.None;
 
+                // 조심해!! 이거 논리상 빼야됩니다 지금 임시로 한 방에 다 하도록 이 흐름에 박아놓음
                 Init();
             }
             catch (DirectXException)
