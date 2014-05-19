@@ -162,7 +162,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleCharacterStateResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
 }
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
