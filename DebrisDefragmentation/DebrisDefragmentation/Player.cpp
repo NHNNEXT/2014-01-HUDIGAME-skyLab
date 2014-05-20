@@ -16,26 +16,10 @@ Player::Player()
 {
 }
 
-Player::Player( int playerId, CharacterClass actorClass )
+Player::Player( int playerId, CharacterClass characterClass )
 {
-	// 조심해!!
-	// 나중에 인자 입력받아서 클래스 종류별로 m_avatar에 지정해줄 것
 	m_PlayerId = playerId;
-	switch ( actorClass )
-	{
-	case CharacterClass::STRIKER:
-		m_ClassComponent = Striker::Create( );
-		break;
-	case CharacterClass::ENGINEER:
-		m_ClassComponent = Engineer::Create( );
-		break;
-	case CharacterClass::PROTECTOR:
-		m_ClassComponent = Protector::Create( );
-		break;
-	default:
-		assert( false );
-		break;
-	}
+	m_ClassComponent = ClassComponent::Create( characterClass );
 }
 
 
@@ -66,24 +50,22 @@ void Player::Init()
 
 }
 
-
-
 void Player::RenderItSelf()
 {
 	// 자전 변환을 m_Matrix에 추가해서 자식 객체들 - 카메라, 캐릭터 등이 
 	// 자전 변환이 적용된 상태로 계산되게 한다
 
-	if ( m_ClassComponent->IsSpinning( ) )
+	if ( IsSpinning( ) )
 	{
 		// 조심해!!
 		// affine transform에 적용해서 한 번에 처리하는 게 좋을 듯
-		m_ClassComponent->AddSpinTime( 0.02f );
+		AddSpinTime( 0.02f );
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXVECTOR3 tmpSpinAxis = m_ClassComponent->GetSpinAxis();
-		float tmpSpinAngle = m_ClassComponent->GetSpinAngle();
-		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_ClassComponent->GetSpinTime( ) );
+		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
+		float tmpSpinAngle = GetSpinAngle();
+		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime( ) );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 
 // 		D3DXQUATERNION qt;
@@ -96,7 +78,6 @@ void Player::RenderItSelf()
 
 	DrawCollisionBox();
 }
-
 
 void Player::UpdateItSelf( float dTime )
 {
@@ -122,11 +103,31 @@ void Player::UpdateItSelf( float dTime )
 // 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
-	D3DXVECTOR3 tmpVel = GetClassComponent()->GetVelocity();
-	D3DXVECTOR3 tmpAcc = GetClassComponent()->GetAcceleration();
+	D3DXVECTOR3 tmpVel = GetVelocity();
+	D3DXVECTOR3 tmpAcc = GetAcceleration();
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
-	GetClassComponent()->SetVelocity( tmpVel );
+	SetVelocity( tmpVel );
+}
+
+void Player::Move()
+{
+	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
+	// 나중에는 타이머 만들어서 써볼까?
+	m_AccelerationStartTime = timeGetTime();
+	SetIsAccelerating( true );
+
+	D3DXVECTOR3 normalVec = GetViewDirection();
+	D3DXVec3Normalize( &normalVec, &normalVec );
+
+	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
+}
+
+void Player::Stop()
+{
+	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
+	m_Rigidbody.m_Acceleration = ZERO_VECTOR3;
+	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
 }
 
 void Player::LookAt( float x, float y, float z )
@@ -134,30 +135,26 @@ void Player::LookAt( float x, float y, float z )
 	GPlayerManager->GetCamera()->GetTransform().IncreaseRotation( D3DXVECTOR3( x, y, z ) * MOUSE_ROTATION_SENSITIVITY );
 }
 
-void Player::TurnBody( float x, float y, float z )
-{
-	m_ClassComponent->TurnBody( m_Transform, x, y, z );		
-}
-
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_ClassComponent->SetSpin( rotationAxis, angularVelocity);
-	m_ClassComponent->SetSpinTime( 0.0f );
-	m_ClassComponent->SetSpinnigFlag( true );
+	m_Rigidbody.m_SpinAngle = angularVelocity;
+	m_Rigidbody.m_SpinAxis = rotationAxis;
+	SetSpinTime( 0.0f );
+	SetSpinnigFlag( true );
 }
 
 void Player::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_ClassComponent->AddSpin( rotationAxis, angularVelocity);
-	// m_SpinTime = 0.0f;
-	m_ClassComponent->SetSpinnigFlag( true );
+	// 조심해!!
+	// 구현 중
 }
 
 void Player::StopSpin( )
 {
-	m_ClassComponent->SetSpinnigFlag( false );
-	m_ClassComponent->SetSpinTime( 0.0f );
-	m_ClassComponent->StopSpin();
+	SetSpinnigFlag( false );
+	SetSpinTime( 0.0f );
+	m_Rigidbody.m_SpinAngle = 0.0f;
+	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 
 void Player::InitCollisionBox()
@@ -280,17 +277,6 @@ void Player::DrawCollisionBox()
 // 캐릭터 클래스 변환시 실행, 내용은 server쪽과 동일하면 될 듯..
 void Player::ChangeClass( CharacterClass characterClass )
 {
-	switch ( characterClass )
-	{
-		case CharacterClass::NO_CLASS:
-			break;
-		case CharacterClass::STRIKER:
-			break;
-		case CharacterClass::ENGINEER:
-			break;
-		case CharacterClass::PROTECTOR:
-			break;
-		default:
-			break;
-	}
+	// 변신!
+	m_ClassComponent = ClassComponent::Create( characterClass );
 }

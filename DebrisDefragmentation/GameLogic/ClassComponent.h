@@ -19,7 +19,7 @@ public:
 	void	ResetStatus();
 
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 
-	void	SkillTurnBody( int id, Transform& tr, float x, float y, float z );
+	void	SkillTurnBody( int id, float x, float y, float z );
 
 	// 적절한 스킬 사용 함수를 호출한다.
 	virtual bool UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction ) = 0;
@@ -29,28 +29,6 @@ public:
 	bool		SkillOccupy( int id, const D3DXVECTOR3& direction );
 	bool		SkillDestroy( int id, const D3DXVECTOR3& direction );
 	/*bool		SkillBuildDispenser( int id, const D3DXVECTOR3& direction );*/
-
-	
-
-	// DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }
-	// void	SetAccelerationStartTime( DWORD val ) { m_AccelerationStartTime = val; }
-
-	// bool	IsAccelerating() const { return m_Rigidbody.m_IsAccelerating; }
-	// void	SetIsAccelerating( bool val ) { m_Rigidbody.m_IsAccelerating = val; }
-
-	// void	SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
-
-	// 현재 자전에 추가 자전 요소 추가 : 차차 구현
-	// void	AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
-
-	// 자전 금지
-	// void	StopSpin();
-
-	// void	SetSpinnigFlag( bool flag ) { m_Rigidbody.m_IsSpin = flag; }
-	// bool	IsSpinning() { return m_Rigidbody.m_IsSpin; }
-	// void	AddSpinTime( float dt ) { m_SpinTime += dt; }
-	// float	GetSpinTime() { return m_SpinTime; }
-	// void	SetSpinTime( float time ) { m_SpinTime = time; }
 	
 	float	GetFuel() const { return m_Fuel; }
 	void	SetFuel( float val ) { m_Fuel = val < 0.0f ? 0.0f : val; }
@@ -73,22 +51,6 @@ public:
 	// 주기적으로 처리해야 하는 일들
 	// 예를 들어 산소량 감소와 같은 일을 처리 
 	void	Update( float dt );
-
-// 	Rigidbody	GetRigidbody() { return m_Rigidbody; }
-// 	void		SetRigidbody( Rigidbody val ) { m_Rigidbody = val; }
-
-	/*
-	const float&		GetMass() const { return m_Rigidbody.m_Mass; }
-	const D3DXVECTOR3&	GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
-	const D3DXVECTOR3&	GetVelocity() const { return m_Rigidbody.m_Velocity * m_SpeedConstant; } // 순간 가속을 할 수 있으므로 상수를 곱해서 반환 - 내부에서 직접 참조하면 안 되는데
-	const D3DXVECTOR3&	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
-	const float&		GetSpinAngle() const { return m_Rigidbody.m_SpinAngle; }
-	void		SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
-	void		SetAcceleration( D3DXVECTOR3 accel ) { m_Rigidbody.m_Acceleration = accel; }
-	void		SetVelocity( D3DXVECTOR3 velocity ) { m_Rigidbody.m_Velocity = velocity; }
-	void		SetSpinAxis( D3DXVECTOR3 spinAxis ) { m_Rigidbody.m_SpinAxis = spinAxis; }
-	void		SetSpinAngle( float spinAngle ) { m_Rigidbody.m_SpinAngle = spinAngle; }
-	*/
 	
 	TeamColor	GetTeam() const { return m_Team; }
 	void		SetTeam( TeamColor val ) { m_Team = val; }
@@ -99,15 +61,11 @@ protected:
 	void		SetCooldown( ClassSkill skillType );
 
 	TeamColor	m_Team = TeamColor::NO_TEAM;
-	// Rigidbody	m_Rigidbody;
 	
 	// 산소 및 추진체 관련
 	float		m_Oxygen = DEFAULT_OXYGEN;
 	float		m_Fuel = DEFAULT_FUEL;
 	float		m_HP = DEFAULT_HP;
-	// DWORD		m_AccelerationStartTime = 0;
-	// float		m_SpinTime = 0.0f;
-	// float		m_SpeedConstant = 1.0f;
 
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
 

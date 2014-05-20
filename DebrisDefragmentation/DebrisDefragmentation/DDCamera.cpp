@@ -33,14 +33,14 @@ void DDCamera::RenderItSelf()
 		D3DXVECTOR3 fPos = m_FollowingObject->GetTransform().GetPosition();
 		D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &scale, NULL, &qRotation, &fPos );
 
-		ClassComponent* cc = GPlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() )->GetClassComponent();
-		if ( cc->IsSpinning() )
+		Player* player = GPlayerManager->GetPlayer( GNetworkManager->GetMyPlayerId() );
+		if ( player->IsSpinning() )
 		{
 			// 플레이어와 카메라의 회전 동기화
 			D3DXMATRIXA16 spinTransform;
-			D3DXVECTOR3 tmpSpinAxis = cc->GetSpinAxis();
-			float tmpSpinAngle = cc->GetSpinAngle();
-			D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * cc->GetSpinTime() );
+			D3DXVECTOR3 tmpSpinAxis = player->GetSpinAxis();
+			float tmpSpinAngle = player->GetSpinAngle();
+			D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * player->GetSpinTime() );
 			D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 		}
 	}

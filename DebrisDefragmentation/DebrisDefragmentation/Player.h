@@ -15,7 +15,7 @@ class Player :
 {
 public:
 	Player();
-	Player( int playerId, CharacterClass actorClass = CharacterClass::STRIKER );
+	Player( int playerId, CharacterClass characterClass = CharacterClass::STRIKER );
 	virtual ~Player();
 
 	//static Player* Create( int playerId );
@@ -26,32 +26,48 @@ public:
 	TeamColor	GetTeam() { m_ClassComponent->GetTeam(); }
 
 	// 현재 바라보는 방향으로 가속도 부여
-	void GoForward() { m_ClassComponent->GoForward( GetViewDirection() ); }
+	void Move();
 
 	// 가속도 및 속도 0으로 변경
-	void Stop() { m_ClassComponent->Stop(); }
-
-	void SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
-
-	// 현재 자전에 추가 자전 요소 추가 : 차차 구현
-	void AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
-
-	// 자전 금지
-	void StopSpin();
+	void Stop();
 
 	// 바라보는 방향 회전
 	void LookAt( float x, float y, float z );
-	void TurnBody( float x, float y, float z );
+
+	const float&		GetMass() const { return m_Rigidbody.m_Mass; }
+	const D3DXVECTOR3&	GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
+	const D3DXVECTOR3&	GetVelocity() const { return m_Rigidbody.m_Velocity * m_SpeedConstant; } // 순간 가속을 할 수 있으므로 상수를 곱해서 반환 - 내부에서 직접 참조하면 안 되는데
+	const D3DXVECTOR3&	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
+	const float&		GetSpinAngle() const { return m_Rigidbody.m_SpinAngle; }
+
+	void	SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
+	void	SetAcceleration( D3DXVECTOR3 accel ) { m_Rigidbody.m_Acceleration = accel; }
+	void	SetVelocity( D3DXVECTOR3 velocity ) { m_Rigidbody.m_Velocity = velocity; }
+	void	SetSpinAxis( D3DXVECTOR3 spinAxis ) { m_Rigidbody.m_SpinAxis = spinAxis; }
+	void	SetSpinAngle( float spinAngle ) { m_Rigidbody.m_SpinAngle = spinAngle; }
+
+	void	SetSpinnigFlag( bool flag ) { m_Rigidbody.m_IsSpin = flag; }
+	bool	IsSpinning() { return m_Rigidbody.m_IsSpin; }
+	void	AddSpinTime( float dt ) { m_SpinTime += dt; }
+	float	GetSpinTime() { return m_SpinTime; }
+	void	SetSpinTime( float time ) { m_SpinTime = time; }
+
+	void	SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+	void	AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity );
+	void	StopSpin();
+
+	void	SetSpeedConstant( float newConstant ) { m_SpeedConstant = newConstant; }
+	float	GetSpeedConstant() { return m_SpeedConstant; }
+
+	bool	IsAccelerating() const { return m_Rigidbody.m_IsAccelerating; }
+	void	SetIsAccelerating( bool val ) { m_Rigidbody.m_IsAccelerating = val; }
 
 	// Getter Setter
 	ClassComponent* GetClassComponent() { return m_ClassComponent.get(); }
+	Rigidbody*		GetRigidbody() { return &m_Rigidbody; }
+
 	void ChangeClass( CharacterClass characterClass );
 
-// 	DDVECTOR3 GetVelocity() const { return m_RigidBody.m_Velocity; }
-// 	DDVECTOR3 GetAcceleration() const { return m_RigidBody.m_Acceleration; }
-// 	void SetVelocity( DDVECTOR3 val ) { m_RigidBody.m_Velocity = val; }	
-// 	void SetAcceleration( DDVECTOR3 val ) { m_RigidBody.m_Acceleration = val; }
-	//DDVECTOR3 GetHeadDirection() { return m_HeadDirection; }
 	float GetGas() { return m_ClassComponent->GetFuel(); }
 	float GetOxygen() { return m_ClassComponent->GetOxygen(); }
 
@@ -64,11 +80,15 @@ private:
 
 	int								m_PlayerId;
 	std::shared_ptr<ClassComponent>	m_ClassComponent; // shared_ptr기본 생성자에서 초기화
-	DDModel*						m_CharacterModel = nullptr;
-	//DDCamera*						m_Camera = nullptr;		
+	Rigidbody						m_Rigidbody;
 
-	//DDVECTOR3	m_HeadDirection{ .0f, .0f, .0f };
-	//Rigidbody		m_RigidBody;			// rigidbody 자체 초기화
+	DWORD		m_AccelerationStartTime = 0;
+	float		m_SpinTime = 0.0f;
+	bool		m_MovingFlag = true;
+	float		m_SpeedConstant = 1.0f;
+
+	DDModel*	m_CharacterModel = nullptr;
+
 	CollisionBox	m_CollisionBox;
 };
 

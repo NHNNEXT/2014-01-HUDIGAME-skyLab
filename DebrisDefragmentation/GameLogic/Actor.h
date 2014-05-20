@@ -16,10 +16,10 @@ public:
 	Actor();
 	virtual ~Actor();
 
+	/*	물체 이동 회전	*/
 	// 인자로 넘긴 방향으로 가속
 	void	Move( const D3DXVECTOR3& direction );
 	void	Stop();
-	void	TurnBody( Transform& tr, float x, float y, float z );
 
 	DWORD	GetAccelerationStartTime() const { return m_AccelerationStartTime; }
 	void	SetAccelerationStartTime( DWORD val ) { m_AccelerationStartTime = val; }
@@ -29,7 +29,6 @@ public:
 	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
 	void	AddForce( const D3DXVECTOR3 &direction );
 
-	//float	GetMass() const { return m_RigidBody.m_Mass; }
 	bool	IsMoving() const { return m_MovingFlag; }
 	void	SetMovingFlag( bool flag ) { m_MovingFlag = flag; }
 
@@ -43,11 +42,12 @@ public:
 	const D3DXVECTOR3&	GetVelocity() const { return m_Rigidbody.m_Velocity * m_SpeedConstant; } // 순간 가속을 할 수 있으므로 상수를 곱해서 반환 - 내부에서 직접 참조하면 안 되는데
 	const D3DXVECTOR3&	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
 	const float&		GetSpinAngle() const { return m_Rigidbody.m_SpinAngle; }
-	void		SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
-	void		SetAcceleration( D3DXVECTOR3 accel ) { m_Rigidbody.m_Acceleration = accel; }
-	void		SetVelocity( D3DXVECTOR3 velocity ) { m_Rigidbody.m_Velocity = velocity; }
-	void		SetSpinAxis( D3DXVECTOR3 spinAxis ) { m_Rigidbody.m_SpinAxis = spinAxis; }
-	void		SetSpinAngle( float spinAngle ) { m_Rigidbody.m_SpinAngle = spinAngle; }
+
+	void	SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
+	void	SetAcceleration( D3DXVECTOR3 accel ) { m_Rigidbody.m_Acceleration = accel; }
+	void	SetVelocity( D3DXVECTOR3 velocity ) { m_Rigidbody.m_Velocity = velocity; }
+	void	SetSpinAxis( D3DXVECTOR3 spinAxis ) { m_Rigidbody.m_SpinAxis = spinAxis; }
+	void	SetSpinAngle( float spinAngle ) { m_Rigidbody.m_SpinAngle = spinAngle; }
 
 	void	SetSpinnigFlag( bool flag ) { m_Rigidbody.m_IsSpin = flag; }
 	bool	IsSpinning() { return m_Rigidbody.m_IsSpin; }
@@ -63,7 +63,6 @@ public:
 	float	GetSpeedConstant() { return m_SpeedConstant; }
 
 protected:
-	// std::shared_ptr<ClassComponent> m_CharacterClass;
 	Rigidbody	m_Rigidbody;
 
 	DWORD		m_AccelerationStartTime = 0;

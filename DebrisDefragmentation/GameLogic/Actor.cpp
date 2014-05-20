@@ -42,8 +42,6 @@ void Actor::Move( const D3DXVECTOR3& direction )
 	SetIsAccelerating( true );
 
 	D3DXVECTOR3 normalVec( 0, 0, 0 );
-	//D3DXVECTOR3 viewDirection( GetViewDirection() );
-	//Physics::GetNormalVector( &viewDirection, &normalVec );
 	D3DXVec3Normalize( &normalVec, &direction );
 
 	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
@@ -54,11 +52,6 @@ void Actor::Stop()
 	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
 	m_Rigidbody.m_Acceleration = ZERO_VECTOR3;
 	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
-}
-
-void Actor::TurnBody( Transform& tr, float x, float y, float z )
-{ 
-	tr.SetRotation( x, y, z );
 }
 
 void Actor::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )

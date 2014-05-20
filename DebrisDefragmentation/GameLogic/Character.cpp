@@ -95,16 +95,23 @@ void Character::InitTeamPosition()
 
 void Character::UpdateItSelf( float dTime )
 {
+	// 가속
+	if ( IsAccelerating() )
+	{
+		if ( timeGetTime() - GetAccelerationStartTime() > ACCELERATION_TIME )
+		{
+			// 가속 끝났다
+			SetIsAccelerating( false );
+			SetAcceleration( ZERO_VECTOR3 );
+		}
+	}
+
 	if ( !m_CharacterClass->IsAlive() )
 	{
 		printf_s( "player %d is dead \n", m_CharacterId );
 		return;
 	}
 
-	// 변환 행렬 업데이트 - 충돌 박스가 연산할 때 이 행렬값이 최신으로 갱신되어 있어야 하므로
-// 	D3DXQUATERNION	qRotation;
-// 	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( GetTransform()->GetRotationY() ), D3DXToRadian( GetTransform()->GetRotationX() ), D3DXToRadian( GetTransform()->GetRotationZ() ) );
-// 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform()->GetScale(), NULL, &qRotation, &GetTransform()->GetPosition() );
 	m_Matrix = GetTransform()->MatrixTransform();
 
 	if ( IsSpinning() )
@@ -118,16 +125,6 @@ void Character::UpdateItSelf( float dTime )
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 	}
-
-// 	if ( m_CharacterClass->IsAccelerating() )
-// 	{
-// 		if ( timeGetTime( ) - m_CharacterClass->GetAccelerationStartTime() > ACCELERATION_TIME )
-// 		{
-// 			// 가속 끝났다
-// 			m_CharacterClass->SetIsAccelerating( false );			
-// 			m_CharacterClass->SetAcceleration( ZERO_VECTOR3 );
-// 		}
-// 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();
 	D3DXVECTOR3 tmpVel = GetVelocity();

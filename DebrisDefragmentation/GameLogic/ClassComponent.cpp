@@ -61,11 +61,11 @@ void ClassComponent::SkillStop( int id )
 }
 
 
-void ClassComponent::SkillTurnBody( int id, Transform& tr, float x, float y, float z )
+void ClassComponent::SkillTurnBody( int id,float x, float y, float z )
 { 
 	// 여기서 상위에 이 움직임을 적용해야 한다.
 	// 자신의 Actor*를 찾아서 ->TurnBody(tr, x, y, z); 
-	GObjectTable->GetInstance<Character>( id )->TurnBody( tr, x, y, z );
+	GObjectTable->GetInstance<Character>( id )->GetTransform()->SetRotation( x, y, z );
 }
 
 bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
