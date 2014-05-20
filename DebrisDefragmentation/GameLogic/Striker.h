@@ -19,5 +19,6 @@ private:
 	virtual void DoPeriodWork( float dTime );
 
 	float	m_RemainFastMove = 0.0f;
+	int		m_FastMoveTarget = -1;
 };
 

@@ -11,10 +11,16 @@
 class Character : public Actor
 {
 public:
-	Character() {}
+	Character( CharacterClass characterClass = CharacterClass::ENGINEER ) 
+	{ 
+		m_CharacterClass = ClassComponent::Create( characterClass ); 
+	}
 	virtual ~Character();
 
 	void	Init();
+	void	InitTeamPosition();
+
+	ClassComponent* GetClassComponent() { return m_CharacterClass.get(); }
 	void	ChangeClass( CharacterClass newClass );
 
 	// player 상태 가져오기
@@ -23,6 +29,8 @@ public:
 
 private:
 	virtual void UpdateItSelf( float dTime );
+
+	std::shared_ptr<ClassComponent> m_CharacterClass;
 
 	int m_CharacterId = -1;
 };

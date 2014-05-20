@@ -63,8 +63,8 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 	if ( targetId == NOTHING )
 		return false;
 
-	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
-		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
+	if ( GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam()
+		!= GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
 		return false;
 
 	m_Oxygen -= DEFAULT_OXYGEN_SHARE_AMOUNT;

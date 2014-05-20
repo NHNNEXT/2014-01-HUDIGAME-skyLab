@@ -65,6 +65,32 @@ void Character::Init()
 	m_CollisionBox.m_Radius = sqrt( CHARACTER_CB_LENGTH_X * CHARACTER_CB_LENGTH_X 
 									+ CHARACTER_CB_LENGTH_Y * CHARACTER_CB_LENGTH_Y 
 									+ CHARACTER_CB_LENGTH_Z * CHARACTER_CB_LENGTH_Z );
+
+	InitTeamPosition();
+	SetVelocity( ZERO_VECTOR3 );
+
+	m_SpeedConstant = 1.0f;
+	m_SpinTime = 0;
+	m_AccelerationStartTime = 0;
+	m_Rigidbody.Init();
+	m_CharacterClass->ResetStatus();
+}
+
+void Character::InitTeamPosition()
+{
+	switch ( GetClassComponent()->GetTeam() )
+	{
+	case TeamColor::RED:
+		GetTransform()->SetPosition( RED_TEAM_POSITION );
+		GetTransform()->SetRotation( RED_TEAM_ROTATION );
+		break;
+	case TeamColor::BLUE:
+		GetTransform()->SetPosition( BLUE_TEAM_POSITION );
+		GetTransform()->SetRotation( BLUE_TEAM_ROTATION );
+		break;
+	default:
+		break;
+	}
 }
 
 void Character::UpdateItSelf( float dTime )
@@ -81,15 +107,15 @@ void Character::UpdateItSelf( float dTime )
 // 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &GetTransform()->GetScale(), NULL, &qRotation, &GetTransform()->GetPosition() );
 	m_Matrix = GetTransform()->MatrixTransform();
 
-	if ( m_CharacterClass->IsSpinning() )
+	if ( IsSpinning() )
 	{
-		m_CharacterClass->AddSpinTime( dTime );
+		AddSpinTime( dTime );
 
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
-		D3DXVECTOR3 tmpSpinAxis = GetClassComponent()->GetSpinAxis();
-		float tmpSpinAngle = GetClassComponent()->GetSpinAngle();
-		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * m_CharacterClass->GetSpinTime() );
+		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
+		float tmpSpinAngle = GetSpinAngle();
+		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 	}
 
@@ -104,10 +130,10 @@ void Character::UpdateItSelf( float dTime )
 // 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();
-	D3DXVECTOR3 tmpVel = GetClassComponent()->GetVelocity();
-	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetClassComponent()->GetAcceleration(), dTime );
+	D3DXVECTOR3 tmpVel = GetVelocity();
+	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetAcceleration(), dTime );
 	GetTransform()->SetPosition( tmpVec3 );
-	GetClassComponent()->SetVelocity( tmpVel );
+	SetVelocity( tmpVel );
 
 	// 산소량 감소등의 작업 처리
 	GetClassComponent()->Update( dTime );
@@ -115,20 +141,7 @@ void Character::UpdateItSelf( float dTime )
 
 void Character::ChangeClass( CharacterClass newClass )
 {
-	switch ( newClass )
-	{
-	case CharacterClass::NO_CLASS:
-		// break;
-	case CharacterClass::STRIKER:
-		// break;
-	case CharacterClass::ENGINEER:
-		// break;
-	case CharacterClass::PROTECTOR:
-		// break;
-	default:
-		// 여기 들어오지 마라
-		assert( false );
-		break;
-	}
+	// 변신!
+	m_CharacterClass = ClassComponent::Create( newClass );
 }
 

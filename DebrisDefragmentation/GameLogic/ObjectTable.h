@@ -28,6 +28,8 @@ public:
 			returnPtr = m_CharacterList[key]->GetTransform( );
 		else if ( typeid( T ) == typeid( ClassComponent ) )
 			returnPtr = m_CharacterList[key]->GetClassComponent();
+		else if ( typeid( T ) == typeid( Rigidbody ) )
+			returnPtr = m_CharacterList[key]->GetRigidbody();
 
 		return static_cast<T*>( returnPtr );
 	}

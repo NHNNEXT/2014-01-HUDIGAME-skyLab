@@ -53,12 +53,12 @@ int ActorManager::RegisterCharacter( Character* newCharacter )
 			// 팀 추가 - 더 적은 팀에 배치
 			if ( m_TeamBlue.size() < m_TeamRed.size() )
 			{
-				m_CharacterList[characterId]->SetTeam( TeamColor::BLUE );
+				m_CharacterList[characterId]->GetClassComponent()->SetTeam( TeamColor::BLUE );
 				m_TeamBlue.insert( characterId );
 			}
 			else
 			{
-				m_CharacterList[characterId]->SetTeam( TeamColor::RED );
+				m_CharacterList[characterId]->GetClassComponent()->SetTeam( TeamColor::RED );
 				m_TeamRed.insert( characterId );
 			}
 
@@ -211,7 +211,7 @@ void ActorManager::CheckCollision()
 				D3DXVECTOR3 reflectionVec = Physics::GetReflectionVector( collisionDirection, normalVec );
 
 				// 원래 운동 속도의 크기로 반사벡터 방향으로 속도를 바꾼다
-				m_CharacterList[i]->GetClassComponent()->SetVelocity( reflectionVec * D3DXVec3Length( &m_CharacterList[i]->GetVelocity() ) );
+				m_CharacterList[i]->SetVelocity( reflectionVec * D3DXVec3Length( &m_CharacterList[i]->GetVelocity() ) );
 
 				// ISS와 충돌한 플레이어의 아이디를 추가한다.
 				m_CollidedPlayers.insert( i );
@@ -250,8 +250,8 @@ void ActorManager::CheckCollision()
 				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) < 0 )
 					return;
 
-				float iMass = m_CharacterList[i]->GetClassComponent()->GetMass();
-				float jMass = m_CharacterList[j]->GetClassComponent()->GetMass();
+				float iMass = m_CharacterList[i]->GetMass();
+				float jMass = m_CharacterList[j]->GetMass();
 
 				float iVelocity = D3DXVec3Dot( &( m_CharacterList[i]->GetVelocity() ), &collisionDirection );
 				float jVelocity = D3DXVec3Dot( &( m_CharacterList[j]->GetVelocity() ), &collisionDirection );
@@ -339,7 +339,7 @@ bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 	float IssPosX = 0.0f;
 	float IssVelocityX = 0.0f;
 
-	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ISS.Occupy( viewDirection, startPoint, m_CharacterList[characterId]->GetTeam() );
+	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ISS.Occupy( viewDirection, startPoint, m_CharacterList[characterId]->GetClassComponent()->GetTeam() );
 
 	if ( moduleName == ISSModuleName::NO_MODULE )
 		return false;

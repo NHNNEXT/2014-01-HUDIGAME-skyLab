@@ -36,10 +36,12 @@ std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className
 		assert( false );
 		break;
 	}
+
+	return std::shared_ptr<ClassComponent>( nullptr );
 }
 
 
-bool ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
+bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 {
 	printf_s( "GAS : %0.2f	OXYGEN : %0.2f		HP : %0.2f\n", m_Fuel, m_Oxygen, m_HP );
 	if ( !UseFuel( FUEL_FOR_GOFORWARD ) )
@@ -47,26 +49,23 @@ bool ClassComponent::GoForward( D3DXVECTOR3 viewDirection )
 		return false;
 	}
 
-	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
-	// 나중에는 타이머 만들어서 써볼까?
-	m_AccelerationStartTime = timeGetTime();
-	SetIsAccelerating(true);
-
-	D3DXVECTOR3 normalVec( 0, 0, 0 );
-	//D3DXVECTOR3 viewDirection( GetViewDirection() );
-	//Physics::GetNormalVector( &viewDirection, &normalVec );
-	D3DXVec3Normalize( &normalVec, &viewDirection );
-
-	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
+	// 이상하지만 자신을 가지고 있는 actor를 찾아서 움직임을 반영한다.
+	GObjectTable->GetInstance<Character>( id )->Move( viewDirection );
 
 	return true;
 }
 
-void ClassComponent::Stop()
+void ClassComponent::SkillStop( int id )
 {
-	// 장비를 정지합니다. 어 안되잖아? 어? 저, 정지가 안 돼, 정지시킬 수가 없어. 안-돼!
-	m_Rigidbody.m_Acceleration = ZERO_VECTOR3;
-	m_Rigidbody.m_Velocity = ZERO_VECTOR3;
+	GObjectTable->GetInstance<Character>( id )->Stop();
+}
+
+
+void ClassComponent::SkillTurnBody( int id, Transform& tr, float x, float y, float z )
+{ 
+	// 여기서 상위에 이 움직임을 적용해야 한다.
+	// 자신의 Actor*를 찾아서 ->TurnBody(tr, x, y, z); 
+	GObjectTable->GetInstance<Character>( id )->TurnBody( tr, x, y, z );
 }
 
 bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
@@ -88,8 +87,8 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 	D3DXVECTOR3 force = GObjectTable->GetInstance<Transform>( targetId )->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
 	
 	// 변화 적용
-	GObjectTable->GetInstance<ClassComponent>( targetId )->AddForce( force );
-	GObjectTable->GetInstance<ClassComponent>( targetId )->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
+	GObjectTable->GetInstance<Character>( targetId )->AddForce( force );
+	GObjectTable->GetInstance<Character>( targetId )->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
 
@@ -118,8 +117,8 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	if ( targetId == NOTHING )
 		return false;
 
-	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
-		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
+	if ( GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam()
+		!= GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
 		return false;
 
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
@@ -172,28 +171,6 @@ bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 
 
 
-void ClassComponent::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
-{
-	m_Rigidbody.m_SpinAngle = angularVelocity;
-	m_Rigidbody.m_SpinAxis = rotationAxis;
-	SetSpinTime( 0.0f );
-	SetSpinnigFlag( true );
-}
-
-void ClassComponent::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
-{
-	// 조심해!!
-	// 구현 중
-}
-
-void ClassComponent::StopSpin()
-{
-	SetSpinnigFlag( false );
-	SetSpinTime( 0.0f );
-	m_Rigidbody.m_SpinAngle = 0.0f;
-	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
-}
-
 bool ClassComponent::UseOxygen( float oxygenUse )
 {
 	//printf_s( "oxygen use : %0.2f\n", oxygenUse );
@@ -227,32 +204,10 @@ bool ClassComponent::UseFuel( float fuelUse )
 
 }
 
-void ClassComponent::AddForce( const D3DXVECTOR3 &direction )
-{
-	SetAccelerationStartTime( timeGetTime() );
-	SetIsAccelerating( true );
-
-	D3DXVECTOR3 normalVec( ZERO_VECTOR3 );
-	D3DXVec3Normalize( &normalVec, &direction );
-
-	m_Rigidbody.m_Acceleration += ( normalVec * PUSHPULL_WEIGHT );
-}
-
 void ClassComponent::Update( float dt )
 {
 	// 기본 산소 소모
 	UseOxygen( dt * OXYGEN_CONSUMPTION );
-
-	// 가속
-	if ( IsAccelerating() )
-	{
-		if ( timeGetTime() - GetAccelerationStartTime() > ACCELERATION_TIME )
-		{
-			// 가속 끝났다
-			SetIsAccelerating( false );
-			SetAcceleration( ZERO_VECTOR3 );
-		}
-	}
 
 	// 쿨타임 업데이트
 	m_GlobalCooldown -= dt;
@@ -276,12 +231,6 @@ void ClassComponent::ResetStatus()
 	SetOxygen( DEFAULT_OXYGEN );
 	SetHP( DEFAULT_HP );
 	SetFuel( DEFAULT_FUEL );
-	SetVelocity( ZERO_VECTOR3 );
-
-	m_SpeedConstant = 1.0f;
-	m_SpinTime = 0;
-	m_AccelerationStartTime = 0;
-	m_Rigidbody.Init();
 }
 
 void ClassComponent::SetCooldown( ClassSkill skillType )

@@ -257,7 +257,7 @@ void ClientSession::LoginDone( int pid )
 	LoginResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId = pid;
-	outPacket.mTeamColor = static_cast<int>( m_Character.GetTeam() );
+	outPacket.mTeamColor = static_cast<int>( m_Character.GetClassComponent()->GetTeam() );
 
 	GClientManager->RegisterSession( mPlayerId, this );
 
@@ -374,9 +374,9 @@ void ClientSession::BroadcastKineticState()
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mPos = m_Character.GetTransform()->GetPosition();
 	outPacket.mVelocity = m_Character.GetVelocity();
-	outPacket.mSpinAxis = m_Character.GetClassComponent()->GetSpinAxis();
-	outPacket.mForce = m_Character.GetClassComponent()->GetAcceleration();
-	outPacket.mSpinAngularVelocity = m_Character.GetClassComponent()->GetSpinAngle();
+	outPacket.mSpinAxis = m_Character.GetSpinAxis();
+	outPacket.mForce = m_Character.GetAcceleration();
+	outPacket.mSpinAngularVelocity = m_Character.GetSpinAngle();
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );
@@ -532,7 +532,7 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 		return;
 
 	// 스킬 사용
-	if ( !m_Character.GetClassComponent()->GoForward( m_Character.GetViewDirection() ) )
+	if ( !m_Character.GetClassComponent()->SkillGoForward( mPlayerId, m_Character.GetViewDirection() ) )
 		return;
 
 	AccelerarionResult outPacket;
@@ -563,7 +563,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 		return;
 
 	// 이걸 멤버 유저에게 적용하고 - 멈추는 건 자유다
-	m_Character.GetClassComponent()->Stop( );
+	m_Character.GetClassComponent()->SkillStop( mPlayerId );
 
 	StopResult outPacket;
 	outPacket.mPlayerId = mPlayerId;

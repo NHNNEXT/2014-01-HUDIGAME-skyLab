@@ -59,8 +59,8 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
 
 	// 변화 적용
-	targetCharacter->GetClassComponent()->AddForce( -force );
-	targetCharacter->GetClassComponent()->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
+	targetCharacter->AddForce( -force );
+	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PULL );
 	
@@ -81,8 +81,8 @@ bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::MOVE_FAST )] > 0.0f )
 		return false;
 
-	m_SpeedConstant = SCOUT_MOVE_FAST_CONSTANT;
-
+	GObjectTable->GetInstance<Character>( id )->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
+	m_FastMoveTarget = id;
 	// 시간이 지나면 끝내야 될텐데
 	// 어떤 방식으로 컨트롤할까..
 	// 일단 쿨탐과 같은 방식으로 진행하자
@@ -107,7 +107,8 @@ void Striker::DoPeriodWork( float dTime )
 		if ( m_RemainFastMove <= 0.0f )
 		{
 			m_RemainFastMove = 0.0f;
-			m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
+			// m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
+			GObjectTable->GetInstance<Character>( m_FastMoveTarget )->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
 		}
 	}
 }
