@@ -91,20 +91,37 @@ void Player::UpdateItSelf( float dTime )
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	m_ClassComponent->Update( dTime );
 
-// 	if ( m_ClassComponent->IsAccelerating() )
-// 	{
-// 		/// config.h
-// 		if ( timeGetTime() - m_ClassComponent->GetAccelerationStartTime() > ACCELERATION_TIME )
-// 		{
-// 			// 가속 끝났다
-// 			m_ClassComponent->SetIsAccelerating( false );
-// 			m_ClassComponent->SetAcceleration(ZERO_VECTOR3);
-// 		}
-// 	}
+ 	if (IsAccelerating() )
+ 	{
+ 		/// config.h
+ 		if ( timeGetTime() - GetAccelerationStartTime() > ACCELERATION_TIME )
+ 		{
+ 			// 가속 끝났다
+ 			SetIsAccelerating( false );
+ 			SetAcceleration(ZERO_VECTOR3);
+ 		}
+		else
+		{
+			printf_s( "not yet\n" );
+		}
+ 	}
+
+	if ( IsSpinning() )
+	{
+		AddSpinTime( dTime );
+
+		// 회전축을 기준으로 물체를 회전시킵니다.
+		D3DXMATRIXA16 spinTransform;
+		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
+		float tmpSpinAngle = GetSpinAngle();
+		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
+		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
+	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
 	D3DXVECTOR3 tmpVel = GetVelocity();
 	D3DXVECTOR3 tmpAcc = GetAcceleration();
+	// printf_s( "%d : %f / %f / %f\n", m_PlayerId, tmpVel.x, tmpVel.y, tmpVel.z );
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
 	SetVelocity( tmpVel );

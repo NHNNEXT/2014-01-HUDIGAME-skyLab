@@ -326,8 +326,8 @@ void ClientSession::BroadcastCollisionResult()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
-	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mVelocity = m_Character.GetVelocity();
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );
@@ -356,8 +356,8 @@ void ClientSession::SyncCurrentStatus()
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
-	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mVelocity = m_Character.GetVelocity();
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	SendRequest( &outPacket );
@@ -425,8 +425,8 @@ void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
-	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mVelocity = m_Character.GetVelocity();
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
 	targetClient->SendRequest( &outPacket );
@@ -479,9 +479,9 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	NewResult newPlayerPacket;
 	newPlayerPacket.mPlayerId = mPlayerId;
 
-	newPlayerPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
-	newPlayerPacket.mVelocity = Float3D( m_Character.GetVelocity() );
-	newPlayerPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
+	newPlayerPacket.mPos = m_Character.GetTransform()->GetPosition();
+	newPlayerPacket.mVelocity = m_Character.GetVelocity();
+	newPlayerPacket.mRotation = m_Character.GetTransform()->GetRotation();
 
 	if ( !Broadcast( &newPlayerPacket ) )
 	{
@@ -538,9 +538,9 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 	AccelerarionResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
-	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
-	outPacket.mVelocity = Float3D( m_Character.GetVelocity() );
-	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mVelocity = m_Character.GetVelocity();
+	outPacket.mRotation = m_Character.GetTransform()->GetRotation();
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -570,7 +570,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 
 	// printf_s( "%f / %f / %f\n", position.x, position.y, position.z );
 
-	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -600,7 +600,7 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	RotationResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 
-	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
+	outPacket.mRotation = m_Character.GetTransform()->GetRotation();
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -668,8 +668,8 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	// 캐릭터의 모든 값을 초기화
 	m_Character.GetClassComponent()->ResetStatus();
 
-	outPacket.mPos = Float3D( m_Character.GetTransform()->GetPosition() );
-	outPacket.mRotation = Float3D( m_Character.GetTransform()->GetRotation() );
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mRotation = m_Character.GetTransform()->GetRotation();
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
