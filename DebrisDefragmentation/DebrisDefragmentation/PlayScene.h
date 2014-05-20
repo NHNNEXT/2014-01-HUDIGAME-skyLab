@@ -19,6 +19,7 @@ public:
 	CREATE_OBJECT_WSTRING( PlayScene , sceneName);
 
 	void Init();
+	void InitResourceDebris();
 	ModelPool& GetModelPool() { return m_ModelPool; }
 
 private:
@@ -27,6 +28,7 @@ private:
 	
 	// Model 관련 함수
 	void InitModelPool();
+	
 
 	// UI 관련 함수들
 	void AddUI();

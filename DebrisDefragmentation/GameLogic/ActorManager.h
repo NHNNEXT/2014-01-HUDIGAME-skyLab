@@ -3,6 +3,7 @@
 #include "GameOption.h"
 #include "ISS.h"
 #include "Event.h"
+#include "Debris.h"
 
 class Character;
 class Dispenser;
@@ -47,7 +48,7 @@ public:
 	bool DestroyISS( int characterId, D3DXVECTOR3 direction );
 
 	bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
-	Dispenser* GetLastSturture() { return m_DispenserList.back(); }
+	Dispenser* GetLastSturture() { return m_DispenserList.back(); }	
 
 	// 현재 ISS 위치 및 속도 정보 리턴
 	float GetIssPositionZ() { return m_ISS.GetPosition(); }
@@ -65,6 +66,9 @@ public:
 
 	// get other object data
 	// 지금은 없습니다.
+	
+	// random Seed 반환
+	int	 GetRandomSeed() { return m_RandomSeed; }
 
 protected:
 	// 지금은 싱글 스레드니까 락은 필요없다.
@@ -89,7 +93,10 @@ protected:
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
-	std::list<Dispenser*> m_DispenserList;
+	std::list<Dispenser*>	m_DispenserList;
+	std::list<Debris*>		m_DebrisList;	// 게임 진행중 추가삭제를 대비해서 포인트담은 리스트로.. 나중에 pool로 만드는 것도 
+
+	int		m_RandomSeed = 0;
 
 	// other objects
 	// 지금은 없음요

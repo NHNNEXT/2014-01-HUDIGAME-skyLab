@@ -125,6 +125,7 @@ struct LoginRequest : public PacketHeader
 		mSize = sizeof( LoginRequest );
 		mType = PKT_CS_LOGIN;
 	}
+
 };
 
 // 아이디 할당해서 전송
@@ -137,10 +138,12 @@ struct LoginResult : public PacketHeader
 		mPlayerId = -1;
 
 		mTeamColor = -1;
+		mRandomSeed = 0;
 	}
 
 	int		mPlayerId;
 	int		mTeamColor;
+	int		mRandomSeed;
 };
 
 // 가속 좀 하겠습니다.

@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "DDObject.h"
 #include "DDModel.h"
 #include "rigidbody.h"
 #include "CollisionBox.h"

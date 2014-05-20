@@ -16,10 +16,25 @@ ActorManager::ActorManager()
 ActorManager::~ActorManager()
 {
 	delete GObjectTable;
+	for ( auto iter : m_DispenserList )
+	{
+		delete iter;
+		iter = nullptr;
+	}
+
+	for ( auto iter : m_DebrisList )
+	{
+		delete iter;
+		iter = nullptr;
+	}
 }
 
 void ActorManager::Init( )
 {
+	// 시간 기반 random seed 생성
+	srand( timeGetTime() );
+	m_RandomSeed = rand();	
+
 	g_GameData = GameData::Create();
 	g_GameData->Init();
 
@@ -35,6 +50,15 @@ void ActorManager::Init( )
 
 	GObjectTable = new ObjectTable;
 	GObjectTable->Init( this );
+
+	// random seed설정, client에서도 동일한 random시드로 자원 위치를 생성하기 위함
+	srand( m_RandomSeed );
+	for ( int i = 0; i < RESOURCE_DEBRIS_NUMBER; ++i )
+	{
+		Debris* newDebris = new Debris();
+		newDebris->Init();
+		m_DebrisList.push_back( newDebris );
+	}
 
 	m_WinnerTeam = TeamColor::NO_TEAM;
 

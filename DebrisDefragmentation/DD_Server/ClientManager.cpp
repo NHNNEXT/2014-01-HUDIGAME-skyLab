@@ -147,7 +147,7 @@ void ClientManager::InitPlayerState( ClientSession* caller )
 }
 
 void ClientManager::Init()
-{
+{	
 	mGameManager.Init();
 	mClientIdList.fill( nullptr );
 }

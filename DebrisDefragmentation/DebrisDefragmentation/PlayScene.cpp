@@ -42,6 +42,23 @@ void PlayScene::InitModelPool()
 }
 
 
+void PlayScene::InitResourceDebris()
+{
+	srand( GObjectManager->GetRandomSeed() );
+	for ( int i = 0; i < RESOURCE_DEBRIS_NUMBER; ++i )
+	{
+		DebrisModel* newResouceDebris = DebrisModel::Create();
+		newResouceDebris->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
+		newResouceDebris->GetTransform().SetPosition(
+			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
+			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
+			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1))
+			);
+		newResouceDebris->GetTransform().SetScale( RESOURCE_DEBRIS_SIZE );
+		AddChild( newResouceDebris );
+	}
+}
+
 void PlayScene::Init()
 {	
 	if ( !g_GameData->Init() )
@@ -84,17 +101,18 @@ void PlayScene::Init()
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
-		DDModel* newDebri = DDModel::Create();
-		newDebri->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
-		newDebri->GetTransform().SetPosition(
-			( ( rand() % 2000 ) - 1000 ) / 20.0f,
-			( ( rand() % 2000 ) - 1000 ) / 20.0f,
-			( ( rand() % 2000 ) - 1000 ) / 20.0f
+		DDModel* newBackgroundDebris = DDModel::Create();
+		newBackgroundDebris->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
+		newBackgroundDebris->GetTransform().SetPosition(
+			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
+			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
+			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1))
 			);
-		newDebri->GetTransform().SetScale( 0.1f );
+		newBackgroundDebris->GetTransform().SetScale( BACKGROUND_DEBRIS_SIZE );
 
-		AddChild( newDebri );
+		AddChild( newBackgroundDebris );
 	}
+
 	
 	// 조심해!
 	// 내부 구현 아직 제대로 안 된 상태
@@ -278,3 +296,4 @@ void PlayScene::UpdateISS()
 {
 
 }
+

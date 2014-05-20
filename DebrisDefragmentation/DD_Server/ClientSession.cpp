@@ -7,6 +7,7 @@
 #include "ObjectTable.h"
 #include "Transform.h"
 #include "Dispenser.h"
+#include "..\DebrisDefragmentation\ObjectManager.h"
 
 typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
 
@@ -258,6 +259,7 @@ void ClientSession::LoginDone( int pid )
 
 	outPacket.mPlayerId = mPlayerId = pid;
 	outPacket.mTeamColor = static_cast<int>( m_Character.GetClassComponent()->GetTeam() );
+	outPacket.mRandomSeed = GObjectTable->GetActorManager()->GetRandomSeed();
 
 	GClientManager->RegisterSession( mPlayerId, this );
 

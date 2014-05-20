@@ -11,6 +11,4 @@ public:
 	void BroadcastSkillResult( int idx, ClassSkill skillType );
 	void DoPeriodWork();
 
-private:
-
 };

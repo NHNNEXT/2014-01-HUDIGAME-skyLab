@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <array>
 #include "GameOption.h"
 #include "Character.h"
 

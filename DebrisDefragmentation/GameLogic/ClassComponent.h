@@ -28,7 +28,6 @@ public:
 	bool		SkillShareFuel( int id, const D3DXVECTOR3& direction );
 	bool		SkillOccupy( int id, const D3DXVECTOR3& direction );
 	bool		SkillDestroy( int id, const D3DXVECTOR3& direction );
-	/*bool		SkillBuildDispenser( int id, const D3DXVECTOR3& direction );*/
 	
 	float	GetFuel() const { return m_Fuel; }
 	void	SetFuel( float val ) { m_Fuel = val < 0.0f ? 0.0f : val; }

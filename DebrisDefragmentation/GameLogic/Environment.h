@@ -65,6 +65,8 @@ const D3DXVECTOR3	Z_AXIS_VECTOR3{ 0.0f, 0.0f, 1.0f };
 const int			ORDER_COMPASS_UI = 1;
 
 
+
+
 // 주의! 아래쪽의 JSON_KEY_LIST와 순서를 동기화시켜야 합니다
 // 주의! Tool 에서 사용하는 JsonKeyValues와 동기화시켜야 합니다
 enum JsonKeyValues : int

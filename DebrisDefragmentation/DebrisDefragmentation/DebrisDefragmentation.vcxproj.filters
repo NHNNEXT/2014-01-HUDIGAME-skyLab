@@ -59,9 +59,6 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="CompassUI.cpp">
       <Filter>Scene\Player</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
     <ClCompile Include="DebrisModel.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -127,9 +127,6 @@
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="CompassUI.h">
       <Filter>Scene\Player</Filter>
@@ -166,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="DebrisModel.h">
       <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>GameManagers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -210,6 +210,8 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 
 		// 팀 설정
 		GPlayerManager->GetPlayer( m_MyPlayerId )->SetTeam( static_cast<TeamColor>(inPacket.mTeamColor) );
+		GObjectManager->SetRandomSeed( inPacket.mRandomSeed );
+		GSceneManager->GetScene()->InitResourceDebris();
 	}
 
 	GameStateRequest outPacket;

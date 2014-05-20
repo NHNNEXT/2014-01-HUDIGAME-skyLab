@@ -131,6 +131,15 @@ const float ISS_BASE_DAMAGE = 0.1f;
 
 const int			NOTHING = -1;
 
+// debris 관련
+const D3DXVECTOR3	DEBRIS_AXIS_LEN{ 1.0f, 1.0f, 1.0f };
+const int			DEBRIS_SPREAD_RANGE = 50;
+const float			RESOURCE_DEBRIS_SIZE = 1.0f;
+const int			RESOURCE_DEBRIS_NUMBER = 30;
+const float			BACKGROUND_DEBRIS_SIZE = .1f;
+
+
+
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
 const unsigned int	MAX_PLAYER_NUM = REAL_PLAYER_NUM * 2; // 더미 플레이어 수에 맞추도록 * 2함
