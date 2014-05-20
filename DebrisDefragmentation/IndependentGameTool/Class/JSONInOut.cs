@@ -192,5 +192,19 @@ namespace GameTool.Class
             ShowJsonData(VariableList);
         }
 
+        public string SplitJSONValueFromKeyValue(string rawText)
+        {
+            Regex rg = new Regex(JSON_SPLIT_TOKEN);
+            if (rg.Matches(rawText).Count > 0)
+            {
+                string[] result = rawText.Split(':');
+                return result[1].Trim();
+            }
+            else
+            {
+                return rawText;
+            }
+        }
+
     }
 }

@@ -78,6 +78,7 @@
             this.Status = new System.Windows.Forms.TabControl();
             this.JSONConfig = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.JsonVariables = new System.Windows.Forms.TreeView();
             this.JSONKeyLabel = new System.Windows.Forms.Label();
             this.MdoifyValue = new System.Windows.Forms.Button();
             this.JSONVarBar = new System.Windows.Forms.TextBox();
@@ -102,7 +103,6 @@
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
-            this.JsonVariables = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -604,6 +604,14 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Config - Control";
             // 
+            // JsonVariables
+            // 
+            this.JsonVariables.Location = new System.Drawing.Point(7, 20);
+            this.JsonVariables.Name = "JsonVariables";
+            this.JsonVariables.Size = new System.Drawing.Size(276, 275);
+            this.JsonVariables.TabIndex = 7;
+            this.JsonVariables.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeViewJsonDataSelected);
+            // 
             // JSONKeyLabel
             // 
             this.JSONKeyLabel.AutoSize = true;
@@ -849,13 +857,6 @@
             this.ObjectView.TabIndex = 5;
             this.ObjectView.TabStop = false;
             this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
-            // 
-            // JsonVariables
-            // 
-            this.JsonVariables.Location = new System.Drawing.Point(7, 20);
-            this.JsonVariables.Name = "JsonVariables";
-            this.JsonVariables.Size = new System.Drawing.Size(276, 275);
-            this.JsonVariables.TabIndex = 7;
             // 
             // IndependentGameTool
             // 

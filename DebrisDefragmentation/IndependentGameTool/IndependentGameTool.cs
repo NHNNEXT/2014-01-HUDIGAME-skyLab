@@ -71,5 +71,15 @@ namespace GameTool
         {
             m_JsonManager.LoadJsonFile(JsonFileList, JsonVariables, RenderStartBtn);
         }
+
+        private void TreeViewJsonDataSelected(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode tn = e.Node;
+            if (null != tn)
+            {
+                string rawValue = m_JsonManager.SplitJSONValueFromKeyValue(tn.Text);
+                JSONVarBar.Text = rawValue;
+            }
+        }
     }
 }
