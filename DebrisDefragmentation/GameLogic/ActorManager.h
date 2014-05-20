@@ -11,7 +11,7 @@ class ActorManager
 {
 public:
 	ActorManager();
-	~ActorManager();
+	~ActorManager(); ///# 왜 팍셔미 아닌가? 아래에 가상 함수 쓰고 있는데?
 
 	void Init( );
 
@@ -89,7 +89,7 @@ protected:
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
-	std::list<Dispenser*> m_StructureList;
+	std::list<Dispenser*> m_StructureList; ///# 네이밍이??
 
 	// other objects
 	// 지금은 없음요

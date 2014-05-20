@@ -330,7 +330,7 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 
 bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 {
-	// 이 로직도 ISS 내부로 밀어넣는 게 좋을 것 같은데
+	// 이 로직도 ISS 내부로 밀어넣는 게 좋을 것 같은데 ///# 그래... 그리고 아래 m_CharacterList[characterId]-> 부분이 반복해서 등장하면 그냥 Character*를 로컬로 하나 받아서 계속 사용해도 된다.
 	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
 	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
 

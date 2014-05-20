@@ -126,7 +126,7 @@ void ClientManager::SyncAll( )
 	{
 		ClientSession* client = it->second;
 
-		client->SyncCurrentStatus();
+		client->SyncCurrentStatus(); ///# 고스트 용도 아닌가? 그럼 이름도 바꾸는게 맞다.
 	}
 }
 

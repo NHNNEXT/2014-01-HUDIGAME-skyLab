@@ -18,11 +18,12 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 	// 어떻게든 세션을 알아내서 스킬 타입에 따라서 적합한 패킷을 방송하도록 시킨다
 	// 각각의 스킬들의 성격이 다른데  
 
+	
 	switch ( skillType )
 	{
 	case ClassSkill::PUSH:
 	case ClassSkill::PULL:
-		GClientManager->GetSession( idx )->BroadcastKineticState();
+		GClientManager->GetSession( idx )->BroadcastKineticState(); ///# 반드시 idx검증하고 사용해야 한다.  nullptr리턴하면 우짤라고?
 		// 위치, 속도, 스핀
 		break;
 	case ClassSkill::OCCUPY:
@@ -80,9 +81,12 @@ void GameManager::DoPeriodWork()
 	// 게임 종료 조건 확인
 	if ( m_WinnerTeam != TeamColor::NO_TEAM )
 	{
+		
 		// 방송 요청
 		GameResultResult outPacket;
 		outPacket.mWinnerTeam = static_cast<int>( m_WinnerTeam );
+
+		///# m_WinnerTeam 이거 여기서 변경 안해주면, 여러번 방송되겠네?
 
 		GClientManager->BroadcastPacket( nullptr, &outPacket );
 	}

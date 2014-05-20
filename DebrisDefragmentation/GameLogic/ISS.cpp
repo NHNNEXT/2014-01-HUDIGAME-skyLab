@@ -33,6 +33,8 @@ void ISS::Update( float dTime )
 
 	// 조심해!!
 	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
+
+	///# std::array 순회하면서 처리할 때... 어떤 곳에서는 람다를 주로 쓰고 어떤 곳에서는 for루프로 일일이 처리하고... 통일좀 하삼.
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 		[&]( ISSModule &eachModule )
 	{
@@ -100,6 +102,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		//m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 		m_Velocity = ( blueCount - redCount ) * ISS_MOVE_WEIGHT;
 
+		///# 버그 가능성이 높은 코드..  m_ModuleList[static_cast<int>( targetModule )]
 		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_CurrentPos, m_Velocity );
 	}
 

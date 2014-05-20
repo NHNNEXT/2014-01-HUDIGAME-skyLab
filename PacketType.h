@@ -35,6 +35,12 @@ struct Float3D
 		return D3DXVECTOR3( m_X, m_Y, m_Z );
 	}
 
+	///# 이런게 될텐데?
+	operator D3DXVECTOR3()
+	{
+		return D3DXVECTOR3(m_X, m_Y, m_Z);
+	}
+
 	float m_X = 0.0f;
 	float m_Y = 0.0f;
 	float m_Z = 0.0f;
@@ -244,6 +250,7 @@ struct SyncRequest : public PacketHeader
 	int		mPlayerId;
 };
 
+///# 네이밍 확실히.. DebugGhostSync 용도 아닌가? 이름 그대로 놔두면 다른 사람이 실제로 사용해버리는 사태가...
 struct SyncResult : public PacketHeader
 {
 	SyncResult()
@@ -260,7 +267,7 @@ struct SyncResult : public PacketHeader
 };
 
 
-// 캐릭터 hp가 0일 때 보냄.
+// 캐릭터 hp가 0일 때 보냄. ///# 당연하게도 이런 패킷은 존재하면 안된다. 
 struct DeadRequest : public PacketHeader
 {
 	DeadRequest()
