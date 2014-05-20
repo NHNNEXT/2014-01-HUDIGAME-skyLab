@@ -5,6 +5,9 @@
 #include "ActorManager.h"
 #include "Character.h"
 #include "ObjectTable.h"
+#include"Striker.h"
+#include "Engineer.h"
+#include "Protector.h"
 
 ClassComponent::ClassComponent()
 {
@@ -16,6 +19,24 @@ ClassComponent::~ClassComponent()
 {
 }
 
+std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className )
+{
+	switch ( className )
+	{
+	case CharacterClass::STRIKER:
+		return Striker::Create();
+		break;
+	case CharacterClass::ENGINEER:
+		return Engineer::Create();
+		break;
+	case CharacterClass::PROTECTOR:
+		return Protector::Create();
+		break;
+	default:
+		assert( false );
+		break;
+	}
+}
 
 
 bool ClassComponent::GoForward( D3DXVECTOR3 viewDirection )

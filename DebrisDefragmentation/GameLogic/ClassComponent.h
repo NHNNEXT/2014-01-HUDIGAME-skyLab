@@ -10,6 +10,8 @@ public:
 	ClassComponent();
 	virtual ~ClassComponent();
 
+	static std::shared_ptr<ClassComponent> Create( CharacterClass className );
+
 	// 사용자들이 사용하는 스킬들!
 	bool	GoForward( D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
 	void	Stop();	// 가속도 및 속도 0으로 변경	

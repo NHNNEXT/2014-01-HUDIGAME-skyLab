@@ -9,23 +9,7 @@
 
 Actor::Actor( CharacterClass actorClass )
 {
-	// 조심해!!
-	// 팩토리 하나 만들어야 될 듯 ///# 그래 보통 이런경우 팩토리를 만들지.
-	switch ( actorClass )
-	{
-	case CharacterClass::STRIKER:
-		m_CharacterClass = Striker::Create( );
-		break;
-	case CharacterClass::ENGINEER:
-		m_CharacterClass = Engineer::Create( );
-		break;
-	case CharacterClass::PROTECTOR:
-		m_CharacterClass = Protector::Create( );
-		break;
-	default:
-		assert( false );
-		break;
-	}
+	m_CharacterClass = ClassComponent::Create( actorClass );
 }
 
 Actor::~Actor()
