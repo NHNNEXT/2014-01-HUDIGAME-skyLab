@@ -20,7 +20,7 @@ void BaseObject::Update( float dTime )
 D3DXVECTOR3 BaseObject::GetViewDirection()
 {
 // 	D3DXQUATERNION	qRotation;
- 	D3DXMATRIXA16 tempMatrix;
+	D3DXMATRIXA16 tempMatrix;
 // 
 // 	D3DXMatrixIdentity( &tempMatrix );
 // 

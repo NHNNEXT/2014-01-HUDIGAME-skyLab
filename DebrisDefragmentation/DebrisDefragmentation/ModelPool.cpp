@@ -25,6 +25,7 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 	if ( FAILED( D3DXLoadMeshFromX( xfilePath.c_str(), D3DXMESH_SYSTEMMEM, pD3DDevice, NULL, &pD3DXMtrlBuffer, NULL, &mi->m_dwNumMaterials, &mi->m_pMesh ) ) )
 	{
 		// x file loading error
+		assert( 0 );
 		printf( "No Model\n" );
 		return false;
 	}

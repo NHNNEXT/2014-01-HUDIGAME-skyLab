@@ -386,7 +386,7 @@ bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
 	D3DXVECTOR3 dispenserPos = m_ISS.GetModule( moduleName )->GetTransform()->GetPosition();
 
 	// 플레이어의 위치쪽으로 x값을 편향해서 생성
-	dispenserPos.x = ( direction.x > 0 )? - 2.0f : 2.0f;
+ 	dispenserPos.x = ( direction.x < .0f )? - 2.0f : 2.0f;
 
 	Dispenser* newDispenser = new Dispenser();
 	newDispenser->GetTransform()->SetPosition( dispenserPos );

@@ -15,7 +15,8 @@ enum class ModelType : int
 	EARTH,
 	PLAYER_MODEL,
 	DEBRIS,
-	ISS
+	ISS,
+	DISPENSER
 };
 
 class DDModel :
