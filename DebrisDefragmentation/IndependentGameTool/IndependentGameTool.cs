@@ -77,9 +77,42 @@ namespace GameTool
             TreeNode tn = e.Node;
             if (null != tn)
             {
-                string rawValue = m_JsonManager.SplitJSONValueFromKeyValue(tn.Text);
-                JSONVarBar.Text = rawValue;
+                string val = m_JsonManager.SplitJSONValueFromKeyValue(tn.Text);
+                string key = m_JsonManager.SplitJSONKeyFromKeyValue(tn.Text);
+                JSONKeyLabel.Text = key;
+                JSONVarBar.Text = val;
             }
+        }
+
+        private void JsonModifyDataBtn(object sender, EventArgs e)
+        {
+            TreeNode tn = JsonVariables.SelectedNode;
+            if (null != tn)
+            {
+                // 바뀐 JSON 데이터를 반영해준다
+                ChangeJsonData(tn, JSONVarBar.Text);
+                // Tree에 바뀐 값을 집어넣는다.
+                if (tn.Text.Contains(":")) // Key : Value 형태
+                {
+                    tn.Text = JSONKeyLabel.Text + " : " + JSONVarBar.Text;
+                }
+                else // Value 형태
+                {
+                    tn.Text = JSONVarBar.Text;
+                }
+            }
+        }
+
+        private void ChangeJsonData(TreeNode node, string val)
+        {
+            m_JsonManager.ChangeJsonData(node, val);
+        }
+
+        private void SaveJSONFile(object sender, EventArgs e)
+        {
+            // 여기서 저장하기 전에 TreeView를 JsonData로 갱신할 것!
+
+            m_JsonManager.SaveJsonFile(JSONNameToSave);
         }
     }
 }

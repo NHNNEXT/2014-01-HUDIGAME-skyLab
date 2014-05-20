@@ -599,7 +599,7 @@
             this.groupBox7.Controls.Add(this.JSONVarBar);
             this.groupBox7.Location = new System.Drawing.Point(4, 247);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(455, 301);
+            this.groupBox7.Size = new System.Drawing.Size(455, 326);
             this.groupBox7.TabIndex = 1;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Config - Control";
@@ -608,7 +608,7 @@
             // 
             this.JsonVariables.Location = new System.Drawing.Point(7, 20);
             this.JsonVariables.Name = "JsonVariables";
-            this.JsonVariables.Size = new System.Drawing.Size(276, 275);
+            this.JsonVariables.Size = new System.Drawing.Size(276, 300);
             this.JsonVariables.TabIndex = 7;
             this.JsonVariables.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeViewJsonDataSelected);
             // 
@@ -630,6 +630,7 @@
             this.MdoifyValue.TabIndex = 5;
             this.MdoifyValue.Text = "Modify Value";
             this.MdoifyValue.UseVisualStyleBackColor = true;
+            this.MdoifyValue.Click += new System.EventHandler(this.JsonModifyDataBtn);
             // 
             // JSONVarBar
             // 
@@ -680,6 +681,7 @@
             this.JSONSaveFilebtn.TabIndex = 3;
             this.JSONSaveFilebtn.Text = "Save File";
             this.JSONSaveFilebtn.UseVisualStyleBackColor = true;
+            this.JSONSaveFilebtn.Click += new System.EventHandler(this.SaveJSONFile);
             // 
             // JSONNameToSave
             // 
