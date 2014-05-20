@@ -21,6 +21,8 @@
 2014. 5. 20
 
 >>> Tool
+	DirectX Renderer 버그 수정
+	JSON 파일을 읽어와서 TreeView로 보여주고 값을 수정할 수 있음
 
 
 >>> framework
