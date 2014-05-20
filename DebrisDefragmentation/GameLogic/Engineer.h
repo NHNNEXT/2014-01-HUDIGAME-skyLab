@@ -13,8 +13,10 @@ public:
 
 private:
 	bool SkillGather( int id, const D3DXVECTOR3& direction );
-	bool SkillSentryGun( int id, const D3DXVECTOR3& direction );
+	bool SkillShelter( int id, const D3DXVECTOR3& direction );
 	bool SkillDispenser( int id, const D3DXVECTOR3& direction );
+
+	bool DebrisInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
 
 	virtual void DoPeriodWork( float dTime );
 };

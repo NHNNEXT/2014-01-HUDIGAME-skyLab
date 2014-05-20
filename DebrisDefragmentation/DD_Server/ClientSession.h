@@ -75,6 +75,7 @@ public:
 	void	BroadcastCollisionResult();
 	void	BroadcastDeadResult();
 	void	BroadcastBuildResult();
+	void	BroadcastGatherResult();
 	void	SyncCurrentStatus();
 
 	void	BroadcastKineticState( );

@@ -53,6 +53,7 @@ const int			VK_2 = 0x32;
 const int			VK_3 = 0x33;
 const int			VK_4 = 0x34;
 const int			VK_5 = 0x35;
+const int			VK_6 = 0x36;
 
 // Axis Set
 const D3DXVECTOR3	ZERO_VECTOR3{ 0.0f, 0.0f, 0.0f };

@@ -33,7 +33,7 @@ enum class ClassSkill : int
 
 	// ENGINEER
 	GATHER,
-	SET_SENTRY_GUN,
+	SET_SHELTER,
 	SET_DISPENSER,
 };
 const unsigned int BASIC_SKILL_NUMBER = 4;
@@ -133,11 +133,11 @@ const int			NOTHING = -1;
 
 // debris 관련
 const D3DXVECTOR3	DEBRIS_AXIS_LEN{ 1.0f, 1.0f, 1.0f };
-const int			DEBRIS_SPREAD_RANGE = 50;
-const float			RESOURCE_DEBRIS_SIZE = 1.0f;
+const int			DEBRIS_SPREAD_RANGE = 100;
+const float			RESOURCE_DEBRIS_SCALE = 1.0f;
 const int			RESOURCE_DEBRIS_NUMBER = 30;
-const float			BACKGROUND_DEBRIS_SIZE = .1f;
-
+const float			BACKGROUND_DEBRIS_SCALE = .1f;
+const float			DEBRIS_TO_RESOURCE_AMOUNT = 100.0f;	//debris채취할 때마다 늘어나는 자원량
 
 
 // 게임 셋팅

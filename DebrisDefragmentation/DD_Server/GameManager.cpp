@@ -43,7 +43,7 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 		// 누가, 얼마나 채취
 		break;
 	case ClassSkill::SET_MINE:
-	case ClassSkill::SET_SENTRY_GUN:
+	case ClassSkill::SET_SHELTER:
 	case ClassSkill::SET_DISPENSER:
 		GClientManager->GetSession( idx )->BroadcastBuildResult();
 		// 새로운 오브젝트 추가 - 오브젝트 타입, 위치, 소유자

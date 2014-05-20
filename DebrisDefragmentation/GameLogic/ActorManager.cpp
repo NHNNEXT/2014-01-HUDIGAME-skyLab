@@ -11,6 +11,7 @@
 ActorManager::ActorManager()
 {
 	m_CharacterList.fill( nullptr );
+	m_ResourceDebrisList.fill( nullptr );
 }
 
 ActorManager::~ActorManager()
@@ -22,7 +23,7 @@ ActorManager::~ActorManager()
 		iter = nullptr;
 	}
 
-	for ( auto iter : m_DebrisList )
+	for ( auto iter : m_ResourceDebrisList )
 	{
 		delete iter;
 		iter = nullptr;
@@ -57,7 +58,7 @@ void ActorManager::Init( )
 	{
 		Debris* newDebris = new Debris();
 		newDebris->Init();
-		m_DebrisList.push_back( newDebris );
+		m_ResourceDebrisList[i] = newDebris ;
 	}
 
 	m_WinnerTeam = TeamColor::NO_TEAM;
@@ -432,4 +433,13 @@ std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )
 const CollisionBox* ActorManager::GetModuleBoundingBox( int moduleIdx )
 { 
 	return m_ISS.GetModuleCollisionBox( moduleIdx ); 
+}
+
+void ActorManager::RemoveResourceDebris( int index )
+{
+	if ( m_ResourceDebrisList[index] != nullptr )
+	{
+		delete m_ResourceDebrisList[index];
+		m_ResourceDebrisList[index] = nullptr;
+	}
 }

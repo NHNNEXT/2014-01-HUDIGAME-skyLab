@@ -99,6 +99,8 @@ enum PacketTypes
 	PKT_SC_USING_SKILL = 308,
 
 	PKT_SC_BUILD_DISPENSER = 309,
+	PKT_SC_GATHER = 310,
+	
 
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
@@ -600,6 +602,20 @@ struct BuildResult : public PacketHeader
 
 	int			mPlayerId;
 	Float3D		mTargetPos;
+};
+
+struct GatherResult : public PacketHeader
+{
+	GatherResult()
+	{
+		mSize = sizeof(BuildResult);
+		mType = PKT_SC_GATHER;
+		mPlayerId = -1;
+	}
+	
+	int			mPlayerId;
+	int			mDebrisIndex;
+	///int		mEarningResource; 서버에서 액수 보내주려면 있어야할지도..
 };
 
 

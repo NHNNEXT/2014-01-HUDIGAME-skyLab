@@ -56,6 +56,10 @@ public:
 
 	CharacterClass GetCharacterClassName() { return m_ClassName; }
 
+	float	GetResource() const { return m_Resource; }
+	void	SetResource( float val ) { m_Resource = val; }
+	void	IncreaseResource( float val ) { m_Resource += val; }
+
 protected:	
 	void		SetCooldown( ClassSkill skillType );
 
@@ -66,6 +70,8 @@ protected:
 	float		m_Fuel = DEFAULT_FUEL;
 	float		m_HP = DEFAULT_HP;
 
+	// 엔지니어에 있어야하나..
+	float		m_Resource = .0f;
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
 
 	float		m_GlobalCooldown = 0.0f;

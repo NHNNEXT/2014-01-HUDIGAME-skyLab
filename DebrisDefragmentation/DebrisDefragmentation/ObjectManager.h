@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ObjectISS.h"
+#include "DebrisModel.h"
 
 class DispenserModel;
 
@@ -13,6 +14,7 @@ public:
 	DDVECTOR3 GetObjectISSPosition() { return m_ObjectISS->GetTransform().GetPosition(); }
 	int GetRandomSeed() const { return RandomSeed; }
 	void SetRandomSeed( int val ) { RandomSeed = val; }
+	void AddResourceDebris( int index, DebrisModel* dm ) { m_ResourceDebrisList[index] = dm; }
 
 	void AddDispenserModel( DispenserModel* dispenserModel ) { m_DispenserModelList.push_back( dispenserModel ); }
 	void RegisterObjectISS( ObjectISS* iss ) { m_ObjectISS = iss; }
@@ -21,6 +23,7 @@ public:
 private:
 	ObjectISS* m_ObjectISS = nullptr;
 	std::list<DispenserModel*> m_DispenserModelList;
+	std::array<DebrisModel*, RESOURCE_DEBRIS_NUMBER> m_ResourceDebrisList;
 	int RandomSeed = 0;
 
 };

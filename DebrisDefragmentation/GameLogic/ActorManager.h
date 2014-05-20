@@ -59,9 +59,12 @@ public:
 
 	const CollisionBox* GetModuleBoundingBox( int moduleIdx );
 
-	/*
-		입력받은 범위 안에 있는 캐릭터 id반환	
-	*/
+	const std::array<Debris*, RESOURCE_DEBRIS_NUMBER>& GetResourceDebrisList() const { return m_ResourceDebrisList; }
+	void RemoveResourceDebris( int index );
+
+	const std::array<Character*, MAX_PLAYER_NUM>& GetCharacterList() const { return m_CharacterList; }
+
+	// 입력받은 범위 안에 있는 캐릭터 id반환		
 	std::vector<int> DetectTargetsInRange( int characterId, float range );
 
 	// get other object data
@@ -69,6 +72,9 @@ public:
 	
 	// random Seed 반환
 	int	 GetRandomSeed() { return m_RandomSeed; }
+
+	int GetGatheredDebris() const { return m_GatheredDebris; }
+	void SetGatheredDebris( int val ) { m_GatheredDebris = val; }
 
 protected:
 	// 지금은 싱글 스레드니까 락은 필요없다.
@@ -94,7 +100,9 @@ protected:
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
 	std::list<Dispenser*>	m_DispenserList;
-	std::list<Debris*>		m_DebrisList;	// 게임 진행중 추가삭제를 대비해서 포인트담은 리스트로.. 나중에 pool로 만드는 것도 
+	std::array<Debris*, RESOURCE_DEBRIS_NUMBER>		m_ResourceDebrisList;	// 게임 진행중 추가삭제를 대비해서 포인트담은 리스트로.. 나중에 pool로 만드는 것도 
+	int		m_GatheredDebris = -1;
+	
 
 	int		m_RandomSeed = 0;
 

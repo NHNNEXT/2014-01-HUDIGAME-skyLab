@@ -54,8 +54,9 @@ void PlayScene::InitResourceDebris()
 			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
 			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1))
 			);
-		newResouceDebris->GetTransform().SetScale( RESOURCE_DEBRIS_SIZE );
+		newResouceDebris->GetTransform().SetScale( RESOURCE_DEBRIS_SCALE );
 		AddChild( newResouceDebris );
+		GObjectManager->AddResourceDebris( i, newResouceDebris );
 	}
 }
 
@@ -108,7 +109,7 @@ void PlayScene::Init()
 			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
 			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1))
 			);
-		newBackgroundDebris->GetTransform().SetScale( BACKGROUND_DEBRIS_SIZE );
+		newBackgroundDebris->GetTransform().SetScale( BACKGROUND_DEBRIS_SCALE );
 
 		AddChild( newBackgroundDebris );
 	}
@@ -211,8 +212,14 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	if ( KEY_DOWN == GetKeyState( VK_5 ) )
 	{
-		// 4 : 파괴 스킬 시전!
+		// 5 : 디스펜서 설치!
 		GNetworkManager->SendUsingSkill( ClassSkill::SET_DISPENSER );
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_5 ) )
+	{
+		// 5 : 디스펜서 설치!
+		GNetworkManager->SendUsingSkill( ClassSkill::GATHER );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
