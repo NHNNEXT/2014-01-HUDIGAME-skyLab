@@ -47,7 +47,7 @@ public:
 	bool DestroyISS( int characterId, D3DXVECTOR3 direction );
 
 	bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
-	Dispenser* GetLastSturture() { return m_StructureList.back(); }
+	Dispenser* GetLastSturture() { return m_DispenserList.back(); }
 
 	// 현재 ISS 위치 및 속도 정보 리턴
 	float GetIssPositionZ() { return m_ISS.GetPosition(); }
@@ -89,7 +89,7 @@ protected:
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
-	std::list<Dispenser*> m_StructureList;
+	std::list<Dispenser*> m_DispenserList;
 
 	// other objects
 	// 지금은 없음요

@@ -84,6 +84,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debris.h" />
     <ClInclude Include="Dispenser.h" />
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="Environment.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debris.cpp" />
     <ClCompile Include="Dispenser.cpp" />
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="Event.cpp" />

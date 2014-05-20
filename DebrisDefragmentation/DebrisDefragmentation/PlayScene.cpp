@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "PlayScene.h"
-#include "Debris.h"
+#include "DebrisModel.h"
 #include "DDInputSystem.h"
 #include "DDApplication.h"
 #include "DDLight.h"
@@ -81,20 +81,17 @@ void PlayScene::Init()
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	
 	unsigned int debrisCount = g_GameData->GetDebrisNumber();
-	//Debris* tempDebris = nullptr;
-	//tempDebris = Debris::Create( L"debris.x" );	
 
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
-		//tempDebris = Debris::Create( L"debris.x" );
-		Debris* newDebri = Debris::Create();
+		DDModel* newDebri = DDModel::Create();
 		newDebri->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
 		newDebri->GetTransform().SetPosition(
-			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
-			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20,
-			static_cast<float>( ( rand() % 2000 ) - 1000 ) / 20
+			( ( rand() % 2000 ) - 1000 ) / 20.0f,
+			( ( rand() % 2000 ) - 1000 ) / 20.0f,
+			( ( rand() % 2000 ) - 1000 ) / 20.0f
 			);
-		newDebri->GetTransform().SetScale( 0.1f, 0.1f, 0.1f );
+		newDebri->GetTransform().SetScale( 0.1f );
 
 		AddChild( newDebri );
 	}

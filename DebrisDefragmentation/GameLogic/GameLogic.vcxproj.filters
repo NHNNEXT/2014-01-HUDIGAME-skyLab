@@ -32,6 +32,9 @@
     <Filter Include="Object\Structure">
       <UniqueIdentifier>{cf755157-8eb3-4d2f-bcff-c0578ab77a9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Debris">
+      <UniqueIdentifier>{6f2b1780-3feb-41a6-bfbe-c11799afca2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -112,6 +115,9 @@
     <ClInclude Include="Dispenser.h">
       <Filter>Object\Structure</Filter>
     </ClInclude>
+    <ClInclude Include="Debris.h">
+      <Filter>Object\Debris</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -164,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="Dispenser.cpp">
       <Filter>Object\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="Debris.cpp">
+      <Filter>Object\Debris</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

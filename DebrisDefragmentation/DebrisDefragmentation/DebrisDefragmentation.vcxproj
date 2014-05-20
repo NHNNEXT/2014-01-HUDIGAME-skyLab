@@ -88,7 +88,7 @@
     <ClCompile Include="DDLight.cpp" />
     <ClCompile Include="DDModel.cpp" />
     <ClCompile Include="DDUI.cpp" />
-    <ClCompile Include="Debris.cpp" />
+    <ClCompile Include="DebrisModel.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="DispenserModel.cpp" />
     <ClCompile Include="ISSModel.cpp" />
@@ -115,7 +115,7 @@
     <ClInclude Include="DDLight.h" />
     <ClInclude Include="DDModel.h" />
     <ClInclude Include="DDUI.h" />
-    <ClInclude Include="Debris.h" />
+    <ClInclude Include="DebrisModel.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="DispenserModel.h" />
     <ClInclude Include="ISSModel.h" />

@@ -391,7 +391,7 @@ bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
 	Dispenser* newDispenser = new Dispenser();
 	newDispenser->GetTransform()->SetPosition( dispenserPos );
 
-	m_StructureList.push_back( newDispenser );
+	m_DispenserList.push_back( newDispenser );
 
 	// 방송할 것
 	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( characterId ), ClassSkill::SET_DISPENSER );

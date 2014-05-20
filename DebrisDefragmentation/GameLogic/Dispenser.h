@@ -5,7 +5,7 @@ class Dispenser : public Actor
 {
 public:
 	Dispenser();
-	~Dispenser();
+	virtual ~Dispenser();
 
 private :
 	virtual void UpdateItSelf( float dTime );

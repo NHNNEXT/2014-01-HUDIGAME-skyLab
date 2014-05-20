@@ -177,7 +177,6 @@ void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
 	DispenserModel* newDispenserModel = DispenserModel::Create();
 	newDispenserModel->GetTransform().SetPosition( inPacket.mTargetPos.GetD3DVEC() );
 	newDispenserModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DISPENSER ) );
-	//newDispenserModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DEBRIS ) );
 	
 	// object관리 클래스에 등록
 	GObjectManager->AddDispenserModel( newDispenserModel );
