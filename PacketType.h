@@ -101,7 +101,7 @@ enum PacketTypes
 	PKT_SC_BUILD_DISPENSER = 309,
 	PKT_SC_GATHER = 310,
 	PKT_SC_DISASTER_WARNING = 311,
-	
+	PKT_SC_DISPENSER_EFFECT = 312,
 
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
@@ -596,13 +596,29 @@ struct BuildResult : public PacketHeader
 {
 	BuildResult()
 	{
-		mSize = sizeof( BuildResult );
+		mSize = sizeof(BuildResult);
 		mType = PKT_SC_BUILD_DISPENSER;
 		mPlayerId = -1;
 	}
 
 	int			mPlayerId;
 	Float3D		mTargetPos;
+};
+
+struct DispenserEffectResult : public PacketHeader
+{
+	DispenserEffectResult()
+	{
+		mSize = sizeof(DispenserEffectResult);
+		mType = PKT_SC_DISPENSER_EFFECT;
+		mPlayerId = -1;
+		mDispenserEffectFlag = false;
+	}
+
+	int			mPlayerId;
+	bool		mDispenserEffectFlag;
+	// 클라-서버 간 감소량 동기화 문제 해결하면 추가할 것.
+	//int			mOxygen, mFuel;
 };
 
 struct GatherResult : public PacketHeader

@@ -118,6 +118,9 @@ bool Engineer::SkillDispenser( int id, const D3DXVECTOR3& direction )
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SET_DISPENSER )] > 0.0f )
 		return false;
 
+	if ( m_Resource < DISPENSER_PRICE ) 
+		return false;
+
 	bool returnVal = GObjectTable->GetActorManager()->BuildDispenser( id, direction );
 
 	// 스킬 썼으면 쿨 적용시키자

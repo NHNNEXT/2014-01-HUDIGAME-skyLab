@@ -402,6 +402,20 @@ void ClientSession::BroadcastBuildResult()
 	}
 }
 
+void ClientSession::BroadcastDispenserEffect( bool flag )
+{
+	DispenserEffectResult outPacket;
+
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mDispenserEffectFlag = flag;
+	
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
 
 void ClientSession::BroadcastGatherResult()
 {

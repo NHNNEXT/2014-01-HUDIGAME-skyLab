@@ -10,6 +10,7 @@ public:
 
 	void BroadcastSkillResult( int idx, ClassSkill skillType );
 	void BroadcastCharacterChange( int idx, ChangeType type );
+	void BroadcastDispenserEffect( int idx, bool dispenserEffectFlag );
 
 	void DoPeriodWork();
 

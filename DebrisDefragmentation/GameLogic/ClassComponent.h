@@ -60,6 +60,10 @@ public:
 	void	SetResource( float val ) { m_Resource = val; }
 	void	IncreaseResource( float val ) { m_Resource += val; }
 
+	// dispenser 관련 flag
+	bool GetDispenserEffectFlag() const { return m_DispenserEffectFlag; }
+	void SetDispenserEffectFlag( bool val ) { m_DispenserEffectFlag = val; }
+
 protected:	
 	void		SetCooldown( ClassSkill skillType );
 
@@ -69,7 +73,7 @@ protected:
 	float		m_Oxygen = DEFAULT_OXYGEN;
 	float		m_Fuel = DEFAULT_FUEL;
 	float		m_HP = DEFAULT_HP;
-
+	bool		m_DispenserEffectFlag = false;
 	// 엔지니어에 있어야하나..
 	float		m_Resource = .0f;
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;

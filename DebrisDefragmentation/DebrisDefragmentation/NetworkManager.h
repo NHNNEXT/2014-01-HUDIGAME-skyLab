@@ -42,6 +42,7 @@ public:
 	static void HandleUsingSkillResult( DDPacketHeader& pktBase );
 	
 	static void HandleBuildDispenserResult( DDPacketHeader& pktBase );
+	static void HandleDispenserEffectResult( DDPacketHeader& pktBase );
 	static void HandleGatherResult( DDPacketHeader& pktBase );
 	static void HandleIssStateResult( DDPacketHeader& pktBase );
 	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );

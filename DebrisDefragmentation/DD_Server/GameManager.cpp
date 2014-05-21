@@ -105,3 +105,8 @@ void GameManager::DoPeriodWork()
 		GClientManager->BroadcastPacket( nullptr, &outPacket );
 	}
 }
+
+void GameManager::BroadcastDispenserEffect( int idx, bool dispenserEffectFlag )
+{
+	GClientManager->GetSession( idx )->BroadcastDispenserEffect( dispenserEffectFlag );
+}

@@ -211,6 +211,13 @@ void ClassComponent::Update( float dt )
 {
 	// 기본 산소 소모
 	UseOxygen( dt * OXYGEN_CONSUMPTION );
+	
+	if ( m_DispenserEffectFlag )
+	{
+		m_Oxygen += dt * DISPENSER_OXYGEN_EFFICIENCY;
+		m_Fuel += dt * DISPENSER_FUEL_EFFICIENCY;
+	}
+	
 
 	// 쿨타임 업데이트
 	m_GlobalCooldown -= dt;

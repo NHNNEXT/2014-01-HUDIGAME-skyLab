@@ -167,14 +167,26 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_BUILD_DISPENSER, HandleBuildDispenserResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GATHER, HandleGatherResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
 }
+
+
+void NetworkManager::HandleDispenserEffectResult( DDPacketHeader& pktBase )
+{
+	DispenserEffectResult inPacket = reinterpret_cast<DispenserEffectResult &>(pktBase);
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetDispenserEffectFlag( inPacket.mDispenserEffectFlag );
+	
+}
+
 
 void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
 {
 	BuildResult inPacket = reinterpret_cast<BuildResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
-	// 일단 데브리 타입으로 생성
+	// dispenser model 생성
 	DispenserModel* newDispenserModel = DispenserModel::Create();
 	newDispenserModel->GetTransform().SetPosition( inPacket.mTargetPos.GetD3DVEC() );
 	newDispenserModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DISPENSER ) );
@@ -183,7 +195,8 @@ void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
 	GObjectManager->AddDispenserModel( newDispenserModel );
 
 	// play scene에 차일드로 등록
-	GSceneManager->GetScene()->AddChild( newDispenserModel );
+	//GSceneManager->GetScene()->AddChild( newDispenserModel );
+	GObjectManager->GetISS()->AddChild( newDispenserModel );
 }
 
 

@@ -195,6 +195,12 @@ void ActorManager::Update( )
 		}
 	}
 
+	// Dispenser update
+	for ( auto& dispenser : m_DispenserList )
+	{
+		dispenser->Update( dt );
+	}
+
 	// 충돌 체크
 	CheckCollision();
 }
@@ -433,6 +439,7 @@ bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
 
 	Dispenser* newDispenser = new Dispenser();
 	newDispenser->GetTransform()->SetPosition( dispenserPos );
+	newDispenser->SetTeamColor( m_CharacterList[characterId]->GetClassComponent()->GetTeam() );
 
 	m_DispenserList.push_back( newDispenser );
 

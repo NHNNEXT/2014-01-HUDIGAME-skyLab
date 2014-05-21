@@ -148,6 +148,15 @@ const int			RESOURCE_DEBRIS_NUMBER = 30;
 const float			BACKGROUND_DEBRIS_SCALE = .1f;
 const float			DEBRIS_TO_RESOURCE_AMOUNT = 100.0f;	//debris채취할 때마다 늘어나는 자원량
 
+const float			DISPENSER_PRICE = 300.0f;
+const float			DISPENSER_DEFAULT_OXYGEN = 5000.0f;
+const float			DISPENSER_DEFAULT_FUEL = 5000.0f;
+const float			DISPENSER_OXYGEN_INCREASE = 100.0f;
+const float			DISPENSER_FUEL_INCREASE = 100.0f;
+const float			DISPENSER_OXYGEN_EFFICIENCY = 1000.0f;
+const float			DISPENSER_FUEL_EFFICIENCY = 1000.0f;
+
+const float			DISPENSER_RANGE = 10.0f;
 
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
