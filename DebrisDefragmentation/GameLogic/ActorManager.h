@@ -7,6 +7,7 @@
 
 class Character;
 class Dispenser;
+class SpaceMine;
 
 class ActorManager
 {
@@ -30,7 +31,6 @@ public:
 	*/
 	// void	ChangeActor( Actor* newActor, int actorId );
 	void	DeregisterCharacter( int characterId );
-
 	
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
 	void Update();
@@ -51,6 +51,9 @@ public:
 
 	bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
 	Dispenser* GetLastSturture() { return m_DispenserList.back(); }	
+
+	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	void UninstallMine( unsigned int targetId );
 
 	// 현재 ISS 위치 및 속도 정보 리턴
 	float GetIssPositionZ() { return m_ISS.GetPosition(); }
@@ -103,7 +106,11 @@ protected:
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
-	std::list<Dispenser*>	m_DispenserList;
+	std::list<Dispenser*>		m_DispenserList;
+
+	std::map<unsigned, SpaceMine*>	m_SpaceMineList;
+	unsigned int					m_SpaceMineId = 0;
+
 	
 	// 자원 데브리의 정보를 관리
 	std::array<Debris*, RESOURCE_DEBRIS_NUMBER>		m_ResourceDebrisList;	

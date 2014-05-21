@@ -60,7 +60,7 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
 
 	// 변화 적용
-	targetCharacter->AddForce( -force );
+	targetCharacter->Move( -force );
 	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PULL );
@@ -96,9 +96,11 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 	if ( distance > SKILL_RANGE )
 		return false;
 
-
 	// 그렇지 않으면 바운딩 박스와 ray의 교점 위치에
 	// ray 방향의 반대 방향을 정면으로 설정
+
+	// 등록함수를 만들자
+
 	// actorManager에 등록
 
 	// 설치 완료

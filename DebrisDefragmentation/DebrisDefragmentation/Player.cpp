@@ -100,10 +100,6 @@ void Player::UpdateItSelf( float dTime )
  			SetIsAccelerating( false );
  			SetAcceleration(ZERO_VECTOR3);
  		}
-// 		else
-// 		{
-// 			printf_s( "not yet\n" );
-// 		}
  	}
 
 	if ( IsSpinning() )

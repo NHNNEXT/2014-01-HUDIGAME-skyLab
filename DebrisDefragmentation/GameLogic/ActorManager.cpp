@@ -7,6 +7,7 @@
 #include "Physics.h"
 #include "GameData.h"
 #include "Dispenser.h"
+#include "SpaceMine.h"
 
 ActorManager::ActorManager()
 {
@@ -165,6 +166,7 @@ void ActorManager::Update( )
 	// 게임 내 재난 상황 이벤트 업데이트
 	m_Event.Update( dt );
 
+	// ISS 관련 업데이트
 	m_ISS.Update( dt );
 
 	float posIss = m_ISS.GetPosition();
@@ -176,6 +178,21 @@ void ActorManager::Update( )
 	else if ( posIss < -WINNING_DISTANCE )
 	{
 		m_WinnerTeam = TeamColor::RED;
+	}
+
+	// space mine 업데이트
+	for ( std::map<unsigned, SpaceMine*>::const_iterator it = m_SpaceMineList.begin( ); it != m_SpaceMineList.end( ); ++it )
+	{
+		SpaceMine* mine = it->second;
+
+		// mine 위치 업데이트 필요
+		// ISS에 설치 되므로 ISS의 이동에 영향을 받으므로 일단은 여기서 업데이트 한다
+		mine->UpdateIssPosition( m_ISS.GetPosition() );
+
+		if ( mine->React() )
+		{
+			UninstallMine( it->first );
+		}
 	}
 
 	// 충돌 체크
@@ -425,6 +442,22 @@ bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
 	return true;
 }
 
+int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
+{
+	SpaceMine* newMine = new SpaceMine( m_SpaceMineId, team, m_ISS.GetPosition() );
+
+	newMine->GetTransform()->SetPosition( position );
+	newMine->GetTransform()->SetRotation( direction );
+	
+	m_SpaceMineList.insert( std::map<unsigned int, SpaceMine*>::value_type( m_SpaceMineId, newMine ) );
+
+	return m_SpaceMineId++;
+}
+
+void ActorManager::UninstallMine( unsigned int targetId )
+{
+	assert( m_SpaceMineList.erase( targetId ) );
+}
 
 std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )
 {

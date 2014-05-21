@@ -27,7 +27,7 @@ public:
 	void	IncreaseVelocity( const D3DXVECTOR3 &deltaVelocity );
 
 	// 기존의 setAcceleration. 이름이 acceleration 값을 set하는 함수랑 같아서 변경함.
-	void	AddForce( const D3DXVECTOR3 &direction );
+	// void	AddForce( const D3DXVECTOR3 &direction );
 
 	bool	IsMoving() const { return m_MovingFlag; }
 	void	SetMovingFlag( bool flag ) { m_MovingFlag = flag; }

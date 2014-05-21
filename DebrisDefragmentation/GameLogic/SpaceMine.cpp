@@ -3,11 +3,6 @@
 #include "ObjectTable.h"
 #include "ActorManager.h"
 
-SpaceMine::SpaceMine()
-{
-}
-
-
 SpaceMine::~SpaceMine()
 {
 }
@@ -51,7 +46,7 @@ bool SpaceMine::React()
 			force *= SPACE_MINE_FORCE;
 
 			// 적용 및 방송
-			GObjectTable->GetInstance<Character>( it->first )->AddForce( force );
+			GObjectTable->GetInstance<Character>( it->first )->Move( force );
 			GObjectTable->GetActorManager()->BroadcastCharacterChange( it->first, ChangeType::KINETIC_STATE );
 		}
 	}

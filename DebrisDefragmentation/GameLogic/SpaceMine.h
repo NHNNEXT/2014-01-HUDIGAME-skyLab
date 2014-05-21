@@ -5,16 +5,26 @@
 class SpaceMine : public Actor
 {
 public:
-	SpaceMine();
+	SpaceMine( unsigned int id, TeamColor color, float issPos ) 
+		: m_MineId( id ), m_Team( color ), m_FirstIssPos( issPos )
+	{
+	}
+	
 	virtual ~SpaceMine();
 
 	// 설치
 	void Install();
 
-	// 가까운 위치에 
+	// 발동?!
 	bool React();
 
+	void UpdateIssPosition( float pos ) { m_Matrix._43 = pos - m_FirstIssPos; }
+
+	void SetId( unsigned int id ) { m_MineId = id; }
+
 private:
-	TeamColor m_Team = TeamColor::NO_TEAM;
+	TeamColor		m_Team = TeamColor::NO_TEAM;
+	unsigned int	m_MineId = 0;
+	float			m_FirstIssPos = 0.0f;
 };
 

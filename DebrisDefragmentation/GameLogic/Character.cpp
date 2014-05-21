@@ -123,7 +123,8 @@ void Character::UpdateItSelf( float dTime )
 		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
 		float tmpSpinAngle = GetSpinAngle();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
-		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
+		// D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
+		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();

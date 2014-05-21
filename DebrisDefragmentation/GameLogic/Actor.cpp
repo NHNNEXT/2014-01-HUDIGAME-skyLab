@@ -46,6 +46,18 @@ void Actor::Move( const D3DXVECTOR3& direction )
 
 	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
 }
+/*
+void Actor::AddForce( const D3DXVECTOR3 &direction )
+{
+SetAccelerationStartTime( timeGetTime( ) );
+SetIsAccelerating( true );
+
+D3DXVECTOR3 normalVec( ZERO_VECTOR3 );
+D3DXVec3Normalize( &normalVec, &direction );
+
+m_Rigidbody.m_Acceleration += ( normalVec * PUSHPULL_WEIGHT );
+}
+*/
 
 void Actor::Stop() 
 { 
@@ -76,13 +88,3 @@ void Actor::StopSpin()
 	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 
-void Actor::AddForce( const D3DXVECTOR3 &direction )
-{
-	SetAccelerationStartTime( timeGetTime() );
-	SetIsAccelerating( true );
-
-	D3DXVECTOR3 normalVec( ZERO_VECTOR3 );
-	D3DXVec3Normalize( &normalVec, &direction );
-
-	m_Rigidbody.m_Acceleration += ( normalVec * PUSHPULL_WEIGHT );
-}

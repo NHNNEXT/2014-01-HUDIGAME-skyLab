@@ -92,7 +92,7 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 	D3DXVECTOR3 force = GObjectTable->GetInstance<Transform>( targetId )->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
 	
 	// 변화 적용
-	GObjectTable->GetInstance<Character>( targetId )->AddForce( force );
+	GObjectTable->GetInstance<Character>( targetId )->Move( force );
 	GObjectTable->GetInstance<Character>( targetId )->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
