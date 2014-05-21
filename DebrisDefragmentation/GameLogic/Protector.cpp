@@ -41,7 +41,20 @@ bool Protector::UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction
 
 bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 {
-	return false;
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::WARNING )] > 0.0f )
+		return false;
+
+	TeamColor myColor = GObjectTable->GetInstance<ClassComponent>( id )->GetTeam();
+	for ( int targetId = 0; targetId < MAX_PLAYER_NUM; ++targetId )
+	{
+		// 여기서 같은 팀만 찾아서 방송 >>> 자기가 알아서 게임 상태 받아서 방송
+		// 자기 자신도 보낸다
+		if ( myColor == GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam() )
+			GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::WARNING );
+	}
+
+	return true;
 }
 
 bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
@@ -51,6 +64,7 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 		return false;
 
 	int targetId = NOTHING;
+
 	D3DXVECTOR3 spinAxis; // 사용은 안 함
 
 	// 나눠 줄 연료가 없다ㅠ

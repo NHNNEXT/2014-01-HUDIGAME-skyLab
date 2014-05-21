@@ -37,7 +37,7 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 		GClientManager->GetSession( idx )->BroadcastCharacterState();
 		break;
 	case ClassSkill::WARNING:
-		// 이벤트 타입, 남은 시간
+		GClientManager->GetSession( idx )->SendWarning();
 		break;
 	case ClassSkill::GATHER:
 		// 누가, 얼마나 채취

@@ -100,6 +100,7 @@ enum PacketTypes
 
 	PKT_SC_BUILD_DISPENSER = 309,
 	PKT_SC_GATHER = 310,
+	PKT_SC_DISASTER_WARNING = 311,
 	
 
 	// 기타 패킷
@@ -608,15 +609,29 @@ struct GatherResult : public PacketHeader
 {
 	GatherResult()
 	{
-		mSize = sizeof(BuildResult);
+		mSize = sizeof( BuildResult );
 		mType = PKT_SC_GATHER;
 		mPlayerId = -1;
 	}
-	
+
 	int			mPlayerId;
 	int			mDebrisIndex;
 	///int		mEarningResource; 서버에서 액수 보내주려면 있어야할지도..
 };
 
+struct WarningResult : public PacketHeader
+{
+	WarningResult()
+	{
+		mSize = sizeof( WarningResult );
+		mType = PKT_SC_DISASTER_WARNING;
+
+		mEventType = -1;
+		mRemainTime = 0.0f;
+	}
+
+	int			mEventType;
+	float		mRemainTime;
+};
 
 #pragma pack(pop)

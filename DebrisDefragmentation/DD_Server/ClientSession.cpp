@@ -437,7 +437,6 @@ void ClientSession::BroadcastCharacterState()
 	}
 }
 
-
 void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 {
 	SyncResult outPacket;
@@ -449,7 +448,16 @@ void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
 	targetClient->SendRequest( &outPacket );
-	// GClientManager->DirectSend( targetClientSock, &outPacket );
+}
+
+void ClientSession::SendWarning()
+{
+	WarningResult outPacket;
+
+	outPacket.mEventType = static_cast<int>( m_GameManager->GetEvent()->GetEventType() );
+	outPacket.mRemainTime = m_GameManager->GetEvent()->GetRemainTime();
+
+	SendRequest( &outPacket );
 }
 
 // 각 패킷을 처리하는 핸들러를 만들자

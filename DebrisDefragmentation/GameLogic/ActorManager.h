@@ -76,6 +76,8 @@ public:
 	int GetGatheredDebris() const { return m_GatheredDebris; }
 	void SetGatheredDebris( int val ) { m_GatheredDebris = val; }
 
+	Event* GetEvent() { return &m_Event; }
+
 protected:
 	// 지금은 싱글 스레드니까 락은 필요없다.
 	// SRWLOCK m_SRWLock;
