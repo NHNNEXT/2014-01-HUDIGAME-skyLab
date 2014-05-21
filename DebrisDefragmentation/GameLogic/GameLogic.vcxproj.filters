@@ -118,6 +118,9 @@
     <ClInclude Include="Debris.h">
       <Filter>Object\Debris</Filter>
     </ClInclude>
+    <ClInclude Include="SpaceMine.h">
+      <Filter>Object\Structure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -173,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="Debris.cpp">
       <Filter>Object\Debris</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceMine.cpp">
+      <Filter>Object\Structure</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

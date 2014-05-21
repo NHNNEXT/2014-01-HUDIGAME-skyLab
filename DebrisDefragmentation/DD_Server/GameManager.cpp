@@ -53,6 +53,23 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 	}
 }
 
+void GameManager::BroadcastCharacterChange( int idx, ChangeType type )
+{
+	switch ( type )
+	{
+	case ChangeType::KINETIC_STATE:
+		GClientManager->GetSession( idx )->BroadcastKineticState();
+		break;
+	case ChangeType::CHARACTER_STATE:
+		GClientManager->GetSession( idx )->BroadcastCharacterState();
+		break;
+	case ChangeType::GAME_EVENT_SATE:
+		break;
+	default:
+		break;
+	}
+}
+
 void GameManager::DoPeriodWork()
 {
 	// 게임 로직 진행

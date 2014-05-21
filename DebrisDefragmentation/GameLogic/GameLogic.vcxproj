@@ -104,6 +104,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="SpaceMine.h" />
     <ClInclude Include="Striker.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Rigidbody.h" />
@@ -128,6 +129,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="SpaceMine.cpp" />
     <ClCompile Include="Striker.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="stdafx.cpp">

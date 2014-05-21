@@ -17,7 +17,7 @@ public:
 	void Init( );
 
 	virtual void BroadcastSkillResult(int idx, ClassSkill skillType ) = 0;
-
+	virtual void BroadcastCharacterChange( int idx, ChangeType type ) = 0;
 	
 	// 	클라이언트 처음 접속하면 클라이언트 세션이 해당 플레이어의 액터-게임 캐릭터-를 등록한다.
 	// 	클라이언트 세션의 멤버 액터의 포인터를 인자로 넣어서 등록하고,

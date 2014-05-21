@@ -12,6 +12,15 @@ enum class CharacterClass : int
 	PROTECTOR
 };
 
+enum class ChangeType : int
+{
+	NO_CHANGE = -1,
+
+	KINETIC_STATE,
+	CHARACTER_STATE,
+	GAME_EVENT_SATE,
+};
+
 enum class ClassSkill : int
 {
 	NO_SKILL = -1,
@@ -188,9 +197,11 @@ const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 const float			DEFAULT_MOVE_CONSTANT = 1.0f;
 
 // SKILL
-const float			SKILL_RANGE = 50;
+const float			SKILL_RANGE = 50.0f;
 const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
 const float			EMP_TIME = 2.0f;
+const float			SPACE_MINE_RANGE = 50.0f;
+const float			SPACE_MINE_FORCE = 1.0f;
 
 // Cooldown time
 // 모든 스킬은 cooldown time을 가지고 있고, 이 값이 0이 되면 즉시 쓸 수 있다.

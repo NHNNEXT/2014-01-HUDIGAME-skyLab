@@ -9,6 +9,8 @@ public:
 	~GameManager();
 
 	void BroadcastSkillResult( int idx, ClassSkill skillType );
+	void BroadcastCharacterChange( int idx, ChangeType type );
+
 	void DoPeriodWork();
 
 };
