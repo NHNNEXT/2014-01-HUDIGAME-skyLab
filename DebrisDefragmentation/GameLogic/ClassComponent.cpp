@@ -60,7 +60,6 @@ void ClassComponent::SkillStop( int id )
 	GObjectTable->GetInstance<Character>( id )->Stop();
 }
 
-
 void ClassComponent::SkillTurnBody( int id,float x, float y, float z )
 { 
 	// 여기서 상위에 이 움직임을 적용해야 한다.
@@ -70,9 +69,13 @@ void ClassComponent::SkillTurnBody( int id,float x, float y, float z )
 
 bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 {
+	printf_s( "try to push\n" );
+
 	// 쿨탐 체크
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>(ClassSkill::PUSH)] > 0.0f )
 		return false;
+
+	printf_s( "no cooldown\n" );
 
 	int targetId = NOTHING;
 	D3DXVECTOR3 spinAxis;
@@ -82,6 +85,8 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 
 	if ( targetId == NOTHING )
 		return false;
+
+	printf_s( "target : %d\n", targetId );
 
 	// 타겟이 있으므로 스킬 결과를 반영한다.
 	D3DXVECTOR3 force = GObjectTable->GetInstance<Transform>( targetId )->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
@@ -168,8 +173,6 @@ bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 
 	return returnVal;
 }
-
-
 
 bool ClassComponent::UseOxygen( float oxygenUse )
 {

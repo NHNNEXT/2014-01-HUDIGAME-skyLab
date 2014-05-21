@@ -3,6 +3,7 @@
 #include "Character.h"
 #include "ActorManager.h"
 #include "ObjectTable.h"
+#include "Physics.h"
 
 Striker::Striker()
 {
@@ -72,7 +73,37 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 
 bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 {
-	return false;
+	// 쿨탐 체크
+	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SET_MINE )] > 0.0f )
+		return false;
+
+	ISS* iss = GObjectTable->GetActorManager()->GetIss();
+
+	D3DXVECTOR3 viewDirection = GObjectTable->GetInstance<Character>( id )->GetViewDirection( direction );
+	D3DXVECTOR3	startPoint = GObjectTable->GetInstance<Transform>( id )->GetPosition();
+
+	// 스킬 사용 방향에 있는 모듈 검색
+	ISSModuleName targetModuleName = iss->ModuleOnRay( viewDirection, startPoint );
+	
+	if ( targetModuleName == ISSModuleName::NO_MODULE )
+		return false;
+	
+	ISSModule* targetModule = GObjectTable->GetActorManager()->GetIss()->GetModule( targetModuleName );
+	float distance = std::numeric_limits<float>::infinity();
+	Physics::IntersectionCheckRayBox( nullptr, &distance, nullptr, viewDirection, startPoint, targetModule->GetCollisionBox() );
+
+	// 모듈까지의 거리 체크 - 멀면 return false;
+	if ( distance > SKILL_RANGE )
+		return false;
+
+
+	// 그렇지 않으면 바운딩 박스와 ray의 교점 위치에
+	// ray 방향의 반대 방향을 정면으로 설정
+	// actorManager에 등록
+
+	// 설치 완료
+
+	return true;
 }
 
 bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
@@ -82,14 +113,11 @@ bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 		return false;
 
 	GObjectTable->GetInstance<Character>( id )->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
+	m_RemainFastMove = SCOUT_MOVE_FAST_DURATION;
 	m_FastMoveTarget = id;
-	// 시간이 지나면 끝내야 될텐데
-	// 어떤 방식으로 컨트롤할까..
+
 	// 일단 쿨탐과 같은 방식으로 진행하자
 	// 스킬 쓰면 시간을 설정하고 dt만큼 감소 시키다가 0이 되면 가속 상수 원래대로 되돌리기
-
-
-
 	GObjectTable->GetActorManager()->BroadcastSkillResult( id, ClassSkill::MOVE_FAST );
 
 	// 스킬 썼으면 쿨 적용시키자
@@ -109,6 +137,9 @@ void Striker::DoPeriodWork( float dTime )
 			m_RemainFastMove = 0.0f;
 			// m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
 			GObjectTable->GetInstance<Character>( m_FastMoveTarget )->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
+			
+			// 조심해!!
+			// 이벤트 끝났으니까 이것도 방송해서 동기화
 		}
 	}
 }

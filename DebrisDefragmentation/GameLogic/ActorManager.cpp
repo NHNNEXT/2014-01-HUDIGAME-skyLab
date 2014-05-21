@@ -400,7 +400,7 @@ bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
 	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
 	ISSModuleName moduleName = ISSModuleName::NO_MODULE;	
 
-	moduleName = m_ISS.ModuleInRay( viewDirection, startPoint );
+	moduleName = m_ISS.ModuleOnRay( viewDirection, startPoint );
 
 	// 레이에 맞는 모듈이 없으면 리턴
 	if ( moduleName == ISSModuleName::NO_MODULE )

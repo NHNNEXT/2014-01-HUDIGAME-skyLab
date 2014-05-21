@@ -42,32 +42,17 @@ void ISS::Update( float dTime )
 	);
 }
 
+ISSModule* ISS::GetModule( ISSModuleName moduleName )
+{ 
+	if ( moduleName == ISSModuleName::NO_MODULE )
+		return nullptr;
+
+	return &m_ModuleList[static_cast<int>( moduleName )];
+}
+
 std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )
 {
-	float currentDistance = std::numeric_limits<float>::infinity();
-	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
-
-	printf_s( "try to occupy\n" );
-
-	// 자신에게 등록된 모듈들을 차례대로 돌면서 
-	// 유저의 position 에서 viewDirection 방향의 ray를 쏴서 걸리는 점령 포인트가 있는지 확인 - 거리도 포함해서 계산
-	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
-		[&]( ISSModule &eachModule )
-	{
-		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, eachModule.GetControlPointBox() ) )
-		{
-			// 조심해!
-			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
-			// 더 가까운 애로 교체
-			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
-			{
-				currentDistance = tempDistance;
-				targetModule = eachModule.GetModuleName();
-			}
-		}
-	}
-	);
+	ISSModuleName targetModule = ModuleOnRay( viewDirection, startPoint );
 
 	// 걸리는 애가 있으면 그 모듈의 상태를 바꾸고 변화가 적용된 모듈 id와 점령 상태 반환
 	if ( targetModule != ISSModuleName::NO_MODULE )
@@ -110,29 +95,7 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 
 std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
 {
-	float currentDistance = std::numeric_limits<float>::infinity();
-	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
-
-	// 자신에게 등록된 모듈들을 차례대로 돌면서 
-	// 유저의 position 에서 viewDirection 방향의 ray를 쏴서 걸리는 모듈이 있는지 확인 - 거리도 포함해서 계산
-	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
-		[&]( ISSModule &eachModule )
-	{
-		// intersection 확인
-		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, eachModule.GetCollisionBox() ) )
-		{
-			// 조심해!
-			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
-			// 더 가까운 애로 교체
-			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
-			{
-				currentDistance = tempDistance;
-				targetModule = eachModule.GetModuleName();
-			}
-		}
-	}
-	);
+	ISSModuleName targetModule = ModuleOnRay( viewDirection, startPoint );
 
 	// 걸리는 애가 있으면 체력을 낮추고 걸린 모듈의 id와 변경된 체력을 tuple에 담아서 리턴
 	if ( targetModule != ISSModuleName::NO_MODULE )
@@ -149,7 +112,7 @@ std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection,
 
 
 
-ISSModuleName ISS::ModuleInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
+ISSModuleName ISS::ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
 {
 	float currentDistance = std::numeric_limits<float>::infinity();
 	ISSModuleName targetModule = ISSModuleName::NO_MODULE;
@@ -175,13 +138,7 @@ ISSModuleName ISS::ModuleInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECT
 	}
 	);
 
-	// 걸리는 애가 있으면 체력을 낮추고 걸린 모듈의 id와 변경된 체력을 tuple에 담아서 리턴
-	if ( targetModule != ISSModuleName::NO_MODULE )
-	{
-		return targetModule;
-	}
-
-	return ISSModuleName::NO_MODULE;
+	return targetModule;
 }
 
 

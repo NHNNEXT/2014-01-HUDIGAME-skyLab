@@ -41,6 +41,8 @@ public:
 	// 입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환	
 	std::tuple<int, D3DXVECTOR3> DetectTarget( int characterId, const D3DXVECTOR3& direction );
 
+	ISS* GetIss() { return &m_ISS; }
+
 	// 점령 스킬을 사용한 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환	
 	bool OccupyISS( int characterId, D3DXVECTOR3 direction );
 	

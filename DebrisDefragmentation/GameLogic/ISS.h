@@ -18,7 +18,8 @@ public:
 	void Update( float dTime );
 	float GetPosition() { return m_CurrentPos; }
 	float GetVelocity() { return m_Velocity; }
-	ISSModule* GetModule( ISSModuleName mn ) { return &m_ModuleList[static_cast<int>(mn)]; }
+	
+	ISSModule* GetModule( ISSModuleName moduleName );
 
 	std::tuple<ISSModuleName, TeamColor, float, float>	
 		Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor );
@@ -27,7 +28,7 @@ public:
 		Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
 
 	// 레이를 발사해서 레이안에 모듈이 있으면 module name을 반환
-	ISSModuleName ModuleInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
+	ISSModuleName ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
 
 	const CollisionBox* GetModuleCollisionBox( int idx ) { return m_ModuleList[idx].GetCollisionBox(); }
 	
