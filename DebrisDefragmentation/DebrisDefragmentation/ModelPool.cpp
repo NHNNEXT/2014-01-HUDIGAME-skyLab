@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "ModelPool.h"
 
 
@@ -47,7 +47,7 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 		return false;
 	}
 
-	// texture ºÒ·¯¿À´Â ºÎºĞ, bmpÆÄÀÏ °æ·Î¸¦ ÅëÇØ ¸ÅÅÍ¸®¾ó °³¼ö¸¸Å­ ºÒ·¯¿È
+	// texture ë¶ˆëŸ¬ì˜¤ëŠ” ë¶€ë¶„, bmpíŒŒì¼ ê²½ë¡œë¥¼ í†µí•´ ë§¤í„°ë¦¬ì–¼ ê°œìˆ˜ë§Œí¼ ë¶ˆëŸ¬ì˜´
 	for ( DWORD i = 0; i < mi->m_dwNumMaterials; i++ )
 	{
 		mi->m_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
@@ -89,22 +89,22 @@ bool ModelPool::SetNormalVector( MeshInfo* mi )
 {
 	if ( !( mi->m_pMesh->GetFVF() & D3DFVF_NORMAL ) )
 	{
-		//°¡Áö°í ÀÖÁö ¾Ê´Ù¸é ¸Ş½¬¸¦ º¹Á¦ÇÏ°í D3DFVF_NORMALÀ» Ãß°¡ÇÑ´Ù.
+		//ê°€ì§€ê³  ìˆì§€ ì•Šë‹¤ë©´ ë©”ì‰¬ë¥¼ ë³µì œí•˜ê³  D3DFVF_NORMALì„ ì¶”ê°€í•œë‹¤.
 		ID3DXMesh* pTempMesh = 0;
 		mi->m_pMesh->CloneMeshFVF(
 			D3DXMESH_MANAGED,
-			mi->m_pMesh->GetFVF() | D3DFVF_NORMAL,  //ÀÌ°÷¿¡ Ãß°¡
+			mi->m_pMesh->GetFVF() | D3DFVF_NORMAL,  //ì´ê³³ì— ì¶”ê°€
 			DDRenderer::GetInstance()->GetDevice(),
 			&pTempMesh );
 
-		// ¹ı¼±À» °è»êÇÑ´Ù.
+		// ë²•ì„ ì„ ê³„ì‚°í•œë‹¤.
 		if ( FAILED( D3DXComputeNormals( pTempMesh, 0 ) ) )
 		{
 			return false;
 		}
 
-		mi->m_pMesh->Release(); // ±âÁ¸¸Ş½¬¸¦ Á¦°ÅÇÑ´Ù
-		mi->m_pMesh = pTempMesh; // ±âÁ¸¸Ş½¬¸¦ ¹ı¼±ÀÌ °è»êµÈ ¸Ş½¬·Î ÁöÁ¤ÇÑ´Ù.
+		mi->m_pMesh->Release(); // ê¸°ì¡´ë©”ì‰¬ë¥¼ ì œê±°í•œë‹¤
+		mi->m_pMesh = pTempMesh; // ê¸°ì¡´ë©”ì‰¬ë¥¼ ë²•ì„ ì´ ê³„ì‚°ëœ ë©”ì‰¬ë¡œ ì§€ì •í•œë‹¤.
 	}
 
 	return true;
@@ -128,7 +128,7 @@ MeshInfo* ModelPool::GetModel( ModelType modelName )
 
 void ModelPool::ClearModelPool()
 {
-	// modelº°·Î ¼øÈ¸¸é¼­ mesh, texture, materialµîÀÇ resource¸¦ ÇØÁ¦	
+	// modelë³„ë¡œ ìˆœíšŒë©´ì„œ mesh, texture, materialë“±ì˜ resourceë¥¼ í•´ì œ	
 	for ( auto eachModel : m_ObjectMap )
 	{
 		if ( !Cleanup( eachModel.second ) )
