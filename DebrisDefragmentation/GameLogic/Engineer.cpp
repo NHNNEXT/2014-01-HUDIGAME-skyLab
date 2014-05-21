@@ -47,25 +47,65 @@ bool Engineer::SkillGather( int id, const D3DXVECTOR3& direction )
 	Character* character = GObjectTable->GetActorManager()->GetCharacterList().at( id );
 	D3DXVECTOR3 viewDirection = character->GetViewDirection( direction );
 	D3DXVECTOR3	startPoint = character->GetTransform()->GetPosition();
-
-	//bool returnVal = GObjectTable->GetActorManager()->BuildDispenser( id, direction );
-	bool returnVal = DebrisInRay( viewDirection, startPoint );
+	
+	D3DXVECTOR3 tmppos = GObjectTable->GetActorManager()->GetResourceDebrisList().at(0)->GetTransform()->GetPosition();
+	printf_s( "debirs no 0 pos is : %f %f %f\n", tmppos.x, tmppos.y, tmppos.z );
+	// 안맞으면 false 리턴 
+	if ( !DebrisInRay( viewDirection, startPoint ) )
+	{
+		return false;
+	}	
 	
 	// 캐릭터 자원 증가
 	character->GetClassComponent()->IncreaseResource( DEBRIS_TO_RESOURCE_AMOUNT );
+				
+	// 조심해!! 지금은 일단 리스트에서 삭제함. 
+	// 혹시 추후에 데브리가 리젠되는 식으로 기획이 변경되면 이부분을 수정할 것
 
 	// 레이에 맞은 데브리 삭제
-	GObjectTable->GetActorManager()->RemoveResourceDebris( GObjectTable->GetActorManager()->GetGatheredDebris() );	
+	GObjectTable->GetActorManager()->RemoveResourceDebris( GObjectTable->GetActorManager()->GetGatheredDebris() );
 
-	// 스킬 썼으면 쿨 적용시키자
-	if ( returnVal )
-		SetCooldown( ClassSkill::GATHER );
-
+	SetCooldown( ClassSkill::GATHER );
+	
 	// broadcast
-	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>(id), ClassSkill::GATHER );
-
-	return returnVal;
+	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( id ), ClassSkill::GATHER );
+	
+	return true;
 }
+
+
+bool Engineer::DebrisInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
+{
+	float currentDistance = std::numeric_limits<float>::infinity();
+	int	debrisNumber = -1;
+
+	auto& debrisList = GObjectTable->GetActorManager()->GetResourceDebrisList();
+	for ( int i = 0; i < RESOURCE_DEBRIS_NUMBER; ++i )
+	{
+		// 조심해!! 지금은 일단 리스트에서 삭제함. 
+		// 혹시 추후에 데브리가 리젠되는 식으로 기획이 변경되면 이부분을 수정할 것
+		if ( debrisList[i] == nullptr ) continue;
+
+		// intersection 확인
+		float tempDistance = std::numeric_limits<float>::infinity();
+		const CollisionBox* box = debrisList[i]->GetCollisionBox();
+		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, box ) )
+		{
+			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
+			// 더 가까운 애로 교체
+			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
+			{
+				currentDistance = tempDistance;
+				debrisNumber = i;
+			}
+		}
+	}
+
+	GObjectTable->GetActorManager()->SetGatheredDebris( debrisNumber );
+	return ( debrisNumber == -1 ) ? false : true;
+
+}
+
 
 bool Engineer::SkillShelter( int id, const D3DXVECTOR3& direction )
 {
@@ -93,31 +133,3 @@ void Engineer::DoPeriodWork( float dTime )
 	UNREFERENCED_PARAMETER( dTime );
 }
 
-bool Engineer::DebrisInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
-{
-	float currentDistance = std::numeric_limits<float>::infinity();	
-	int	debrisNumber = -1;
-
-	auto& debrisList = GObjectTable->GetActorManager()->GetResourceDebrisList();
-	for ( int i = 0; i < RESOURCE_DEBRIS_NUMBER; ++i )	
-	{
-		if ( debrisList[i] == nullptr ) continue;
-
-		// intersection 확인
-		float tempDistance = std::numeric_limits<float>::infinity();
-		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, debrisList[i]->GetCollisionBox() ) )
-		{			
-			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
-			// 더 가까운 애로 교체
-			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
-			{
-				currentDistance = tempDistance;				
-				debrisNumber = i;
-			}
-		}
-	}
-
-	GObjectTable->GetActorManager()->SetGatheredDebris( debrisNumber );
-	return (debrisNumber == -1) ? false : true;
-
-}

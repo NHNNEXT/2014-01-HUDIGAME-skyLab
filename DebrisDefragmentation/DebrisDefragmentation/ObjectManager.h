@@ -15,6 +15,8 @@ public:
 	int GetRandomSeed() const { return RandomSeed; }
 	void SetRandomSeed( int val ) { RandomSeed = val; }
 	void AddResourceDebris( int index, DebrisModel* dm ) { m_ResourceDebrisList[index] = dm; }
+	DebrisModel* GetResourceDebris( int index ) { return m_ResourceDebrisList[index]; }
+	void SetResourceDebris( int index, DebrisModel* dm ) { m_ResourceDebrisList[index] = dm; }
 
 	void AddDispenserModel( DispenserModel* dispenserModel ) { m_DispenserModelList.push_back( dispenserModel ); }
 	void RegisterObjectISS( ObjectISS* iss ) { m_ObjectISS = iss; }

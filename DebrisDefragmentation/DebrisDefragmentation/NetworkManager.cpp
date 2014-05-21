@@ -166,6 +166,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_BUILD_DISPENSER, HandleBuildDispenserResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GATHER, HandleGatherResult );
 }
 
 void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
@@ -184,6 +185,19 @@ void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
 	// play scene에 차일드로 등록
 	GSceneManager->GetScene()->AddChild( newDispenserModel );
 }
+
+
+void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
+{
+	GatherResult inPacket = reinterpret_cast<GatherResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	// 데브리 모델의 visible을 끔(굳이 삭제를 할 필요는 없을듯.. 나중에 한번에 하니까 ㅋ)
+	GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->SetVisible( false );
+
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetResource( inPacket.mCurrentResource );
+}
+
 
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )

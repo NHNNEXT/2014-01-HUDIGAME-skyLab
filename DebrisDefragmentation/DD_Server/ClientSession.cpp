@@ -403,20 +403,19 @@ void ClientSession::BroadcastBuildResult()
 }
 
 
-// 조심해!! 계속 구현할 것.
 void ClientSession::BroadcastGatherResult()
 {
 	GatherResult outPacket;
+ 
+ 	outPacket.mPlayerId = mPlayerId;
+	outPacket.mDebrisIndex = GObjectTable->GetActorManager()->GetGatheredDebris();
+	outPacket.mCurrentResource = m_Character.GetClassComponent()->GetResource();
 
-// 
-// 	//outPacket.mPlayerId = mPlayerId;
-// 	outPacket.mTargetPos = GObjectTable->GetActorManager()->GetLastSturture()->GetTransform()->GetPosition();
-// 
-// 	SendRequest( &outPacket );
-// 	if ( !Broadcast( &outPacket ) )
-// 	{
-// 		Disconnect();
-// 	}
+	SendRequest( &outPacket );
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
 }
 
 

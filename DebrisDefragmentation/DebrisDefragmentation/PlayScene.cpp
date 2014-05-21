@@ -216,10 +216,12 @@ void PlayScene::UpdateItSelf( float dTime )
 		GNetworkManager->SendUsingSkill( ClassSkill::SET_DISPENSER );
 	}
 
-	if ( KEY_DOWN == GetKeyState( VK_5 ) )
+	if ( KEY_DOWN == GetKeyState( VK_6 ) )
 	{
-		// 5 : 디스펜서 설치!
+		// 6 : 자원채취!
 		GNetworkManager->SendUsingSkill( ClassSkill::GATHER );
+		D3DXVECTOR3 tmppos = GObjectManager->GetResourceDebris( 0 )->GetTransform().GetPosition();
+		printf_s( "debirs no 0 pos is : %f %f %f\n", tmppos.x, tmppos.y, tmppos.z );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

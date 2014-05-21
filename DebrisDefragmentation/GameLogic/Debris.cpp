@@ -16,9 +16,9 @@ void Debris::Init()
 	// 충돌 박스 초기화
 
 	m_Transform.SetPosition( 
-		((rand() % 2000) - 1000) / 20.0f,
-		((rand() % 2000) - 1000) / 20.0f,
-		((rand() % 2000) - 1000) / 20.0f 
+		( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+		( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+		( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) )
 		);
 
 	m_CollisionBox.SetCenterPosition( ZERO_VECTOR3 );
@@ -26,4 +26,5 @@ void Debris::Init()
 	m_CollisionBox.InitAxisDir();
 	m_CollisionBox.InitPointList();
 	m_CollisionBox.InitRadius();
+	m_Matrix = m_Transform.MatrixTransform();
 }

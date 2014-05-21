@@ -12,6 +12,7 @@ ActorManager::ActorManager()
 {
 	m_CharacterList.fill( nullptr );
 	m_ResourceDebrisList.fill( nullptr );
+	m_GatheredDebrisList.fill( false );
 }
 
 ActorManager::~ActorManager()

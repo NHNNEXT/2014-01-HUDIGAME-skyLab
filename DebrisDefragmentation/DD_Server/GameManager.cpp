@@ -41,6 +41,7 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 		break;
 	case ClassSkill::GATHER:
 		// 누가, 얼마나 채취
+		GClientManager->GetSession( idx )->BroadcastGatherResult();
 		break;
 	case ClassSkill::SET_MINE:
 	case ClassSkill::SET_SHELTER:

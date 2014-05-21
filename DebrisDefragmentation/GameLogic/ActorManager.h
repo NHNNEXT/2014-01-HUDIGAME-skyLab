@@ -104,10 +104,17 @@ protected:
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
 	std::list<Dispenser*>	m_DispenserList;
-	std::array<Debris*, RESOURCE_DEBRIS_NUMBER>		m_ResourceDebrisList;	// 게임 진행중 추가삭제를 대비해서 포인트담은 리스트로.. 나중에 pool로 만드는 것도 
+	
+	// 자원 데브리의 정보를 관리
+	std::array<Debris*, RESOURCE_DEBRIS_NUMBER>		m_ResourceDebrisList;	
+
+	// 새로운 플레이어가 들어왔을 때, 이미 채취된 데브리 정보를 넘겨주기 위한 리스트
+	std::array<int, RESOURCE_DEBRIS_NUMBER>			m_GatheredDebrisList;	
+
+	// 패킷 전송을 위해 게임 내에서 마지막에 채취된 데브리의 id를 기록하는 변수
 	int		m_GatheredDebris = -1;
 	
-
+	// 서버-클라이언트 랜덤 숫자 생성시 사용할 공통 시드를 저장
 	int		m_RandomSeed = 0;
 
 	// other objects

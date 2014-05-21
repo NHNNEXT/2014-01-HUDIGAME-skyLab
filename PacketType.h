@@ -15,7 +15,7 @@ struct Float3D
 {
 	Float3D()
 		: m_X( 0.0f ), m_Y( 0.0f ), m_Z( 0.0f )
-	{}
+	{} 
 
 	Float3D( const D3DXVECTOR3& src ) 
 		: m_X( src.x ), m_Y( src.y ), m_Z( src.z )
@@ -616,7 +616,7 @@ struct GatherResult : public PacketHeader
 
 	int			mPlayerId;
 	int			mDebrisIndex;
-	///int		mEarningResource; 서버에서 액수 보내주려면 있어야할지도..
+	int			mCurrentResource;
 };
 
 struct WarningResult : public PacketHeader
