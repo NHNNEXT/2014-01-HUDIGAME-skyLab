@@ -182,6 +182,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GATHER, HandleGatherResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
 }
 
 
@@ -452,6 +453,15 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
+}
+
+
+void NetworkManager::HandleWarningResult( DDPacketHeader& pktBase )
+{
+	WarningResult inPacket = reinterpret_cast<WarningResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	printf_s( "event code : %d / remain time : %f sec", inPacket.mEventType, inPacket.mRemainTime );
 }
 
 void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
