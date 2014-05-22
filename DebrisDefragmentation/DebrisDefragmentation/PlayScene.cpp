@@ -194,20 +194,20 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	if ( KEY_DOWN == GetKeyState( VK_2 ) )
 	{
-		// 2 : 당기기 스킬 시전!
-		GNetworkManager->SendUsingSkill( ClassSkill::PULL );
+		// 2 : 점령 스킬 시전!
+		GNetworkManager->SendUsingSkill( ClassSkill::OCCUPY );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_3 ) )
 	{
-		// 3 : 점령 스킬 시전!
-		GNetworkManager->SendUsingSkill( ClassSkill::OCCUPY );
+		// 3 : 파괴 스킬 시전!
+		GNetworkManager->SendUsingSkill( ClassSkill::DESTROY );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_4 ) )
 	{
-		// 4 : 파괴 스킬 시전!
-		GNetworkManager->SendUsingSkill( ClassSkill::DESTROY );
+		// 4 : 연료 나눔 시전!
+		GNetworkManager->SendUsingSkill( ClassSkill::SHARE_FUEL );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_5 ) )
@@ -216,12 +216,80 @@ void PlayScene::UpdateItSelf( float dTime )
 		GNetworkManager->SendUsingSkill( ClassSkill::SET_DISPENSER );
 	}
 
-	if ( KEY_DOWN == GetKeyState( VK_6 ) )
+	if ( KEY_DOWN == GetKeyState( VK_F1 ) )
 	{
-		// 6 : 자원채취!
-		GNetworkManager->SendUsingSkill( ClassSkill::GATHER );
+		ClassSkill skill = ClassSkill::NO_SKILL;
+
+		// for debugging
 		D3DXVECTOR3 tmppos = GObjectManager->GetResourceDebris( 0 )->GetTransform().GetPosition();
-		printf_s( "debirs no 0 pos is : %f %f %f\n", tmppos.x, tmppos.y, tmppos.z );
+
+		// F1 : 특수 스킬 1
+		switch ( GNetworkManager->GetMyClass() )
+		{
+		case CharacterClass::STRIKER:
+			skill = ClassSkill::PULL;
+			break;
+		case CharacterClass::PROTECTOR:
+			skill = ClassSkill::WARNING;
+			break;
+		case CharacterClass::ENGINEER:
+			skill = ClassSkill::GATHER;
+			printf_s( "debirs no 0 pos is : %f %f %f\n", tmppos.x, tmppos.y, tmppos.z );
+			break;
+		default:
+			assert( 0 );
+			break;
+		}
+
+		GNetworkManager->SendUsingSkill( skill );
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_F2 ) )
+	{
+		ClassSkill skill = ClassSkill::NO_SKILL;
+
+		// F2 : 특수 스킬 2
+		switch ( GNetworkManager->GetMyClass() )
+		{
+		case CharacterClass::STRIKER:
+			skill = ClassSkill::SET_MINE;
+			break;
+		case CharacterClass::PROTECTOR:
+			skill = ClassSkill::SHARE_OXYGEN;
+			break;
+		case CharacterClass::ENGINEER:
+			skill = ClassSkill::SET_DISPENSER;
+			break;
+		default:
+			assert( 0 );
+			break;
+		}
+
+		GNetworkManager->SendUsingSkill( skill );
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_F3 ) )
+	{
+		ClassSkill skill = ClassSkill::NO_SKILL;
+
+		// F3 : 특수 스킬 3
+		switch ( GNetworkManager->GetMyClass() )
+		{
+		case CharacterClass::STRIKER:
+			skill = ClassSkill::MOVE_FAST;
+			break;
+		case CharacterClass::PROTECTOR:
+			skill = ClassSkill::EMP;
+			break;
+		case CharacterClass::ENGINEER:
+			skill = ClassSkill::SET_SHELTER;
+			break;
+		default:
+			assert( 0 );
+			break;
+		}
+
+		GNetworkManager->SendUsingSkill( skill );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_F5 ) )

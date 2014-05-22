@@ -462,3 +462,8 @@ void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
 	printf_s( "class changed : %d\n", inPacket.mNewClass );
 }
+
+CharacterClass NetworkManager::GetMyClass()
+{ 
+	return GPlayerManager->GetPlayer( m_MyPlayerId )->GetClassComponent()->GetCharacterClassName(); 
+}

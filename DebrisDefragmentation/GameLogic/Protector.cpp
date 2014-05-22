@@ -50,6 +50,9 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 	{
 		// 여기서 같은 팀만 찾아서 방송 >>> 자기가 알아서 게임 상태 받아서 방송
 		// 자기 자신도 보낸다
+		if ( GObjectTable->GetInstance<Character>( targetId ) == nullptr )
+			continue;
+
 		if ( myColor == GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam() )
 			GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::WARNING );
 	}

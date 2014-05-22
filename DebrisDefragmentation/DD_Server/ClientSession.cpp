@@ -740,6 +740,8 @@ void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
+	printf_s( "%d is using skill %d\n", inPacket.mPlayerId, inPacket.mSkill );
+
 	// 스킬 시전!
 	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection.GetD3DVEC() ) )
 		return;

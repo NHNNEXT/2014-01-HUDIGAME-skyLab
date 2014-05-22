@@ -18,6 +18,9 @@ public:
 	template<typename T>
 	T* GetInstance( int key )
 	{
+		if ( m_CharacterList[key] == nullptr )
+			return nullptr;
+
 		void* returnPtr = nullptr;
 
 		// typeid로 비교하면 되려나

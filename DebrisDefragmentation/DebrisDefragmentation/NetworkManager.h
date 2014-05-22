@@ -20,8 +20,9 @@ public:
 	//void SendDeadRequest();
 	void SendRespawnRequest(CharacterClass characterClass);
 	void SendClassChangeRequest( CharacterClass characterClass );
-
+	CharacterClass GetMyClass();
 	int GetMyPlayerId() const { return m_MyPlayerId; }
+
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }
 	bool IsPlayerLogon() { return ( m_MyPlayerId == -1 ) ? false : true; }
 
