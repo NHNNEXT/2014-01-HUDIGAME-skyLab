@@ -34,7 +34,7 @@ namespace GameTool
             while(true)
             {
                 m_Renderer.Render();
-                await Task.Delay(5);
+                await Task.Delay(16);
             }
         }
 
@@ -113,6 +113,64 @@ namespace GameTool
             // 여기서 저장하기 전에 TreeView를 JsonData로 갱신할 것!
 
             m_JsonManager.SaveJsonFile(JSONNameToSave);
+        }
+
+        private void LoadDataFromTree(object sender, EventArgs e)
+        {
+            SelectedObjJson.Nodes.Clear();
+
+            if (ModelNameTxt.Text.Length == 0)
+            {
+                return;
+            }
+
+            m_JsonManager.ShowJsonData(SelectedObjJson);
+            TreeNode root = SelectedObjJson.Nodes[0];
+            TreeNode probe = root.FirstNode;
+            while (probe != null)
+            {
+                probe = probe.NextNode;
+                if (probe.Name == ModelNameTxt.Text)
+                {
+                    probe.ExpandAll();
+                    while (probe != null)
+                    {
+                        probe.Expand();
+                        probe = probe.Parent;
+                    }
+                }
+            }
+        }
+
+        private void SearchMeshBtn(object sender, EventArgs e)
+        {
+            // 우선 파일 리스트를 비우고
+            MeshFIleList.Items.Clear();
+
+            // Tool 이 실행된 폴더를 찾도록 한다
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@".\Resources\3DModel\");
+
+            foreach (System.IO.FileInfo f in di.GetFiles())
+            {
+                // 설정파일 규약을 좀 정해야겠네요
+                if (f.Extension.ToString() == ".x")
+                {
+                    MeshFIleList.Items.Add(f.Name);
+                }
+            }
+        }
+
+        private void LoadMeshBtn(object sender, EventArgs e)
+        {
+            string filename = MeshFIleList.SelectedItem.ToString();
+            if (filename.Length > 0)
+            {
+                m_Renderer.SetMeshFileName(filename);
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Select Mesh First");
+            }
         }
     }
 }

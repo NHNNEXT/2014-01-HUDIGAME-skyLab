@@ -98,11 +98,18 @@
             this.ObjectTool = new System.Windows.Forms.TabPage();
             this.ISSRenderBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.ObjectPartList = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.ModelNameTxt = new System.Windows.Forms.TextBox();
+            this.LoadObjDataBtn = new System.Windows.Forms.Button();
+            this.SelectedObjJson = new System.Windows.Forms.TreeView();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.MeshFIleList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -126,6 +133,8 @@
             this.tab_GameRender.SuspendLayout();
             this.tab_ISSPartRender.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
+            this.groupBox12.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.SuspendLayout();
             // 
             // View
@@ -802,22 +811,15 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.ObjectPartList);
+            this.groupBox10.Controls.Add(this.groupBox13);
+            this.groupBox10.Controls.Add(this.SelectedObjJson);
+            this.groupBox10.Controls.Add(this.groupBox12);
             this.groupBox10.Location = new System.Drawing.Point(4, 4);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(455, 359);
+            this.groupBox10.Size = new System.Drawing.Size(455, 494);
             this.groupBox10.TabIndex = 0;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ObjectPartList";
-            // 
-            // ObjectPartList
-            // 
-            this.ObjectPartList.FormattingEnabled = true;
-            this.ObjectPartList.ItemHeight = 12;
-            this.ObjectPartList.Location = new System.Drawing.Point(7, 20);
-            this.ObjectPartList.Name = "ObjectPartList";
-            this.ObjectPartList.Size = new System.Drawing.Size(248, 316);
-            this.ObjectPartList.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -860,6 +862,82 @@
             this.ObjectView.TabStop = false;
             this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
             // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.LoadObjDataBtn);
+            this.groupBox12.Controls.Add(this.ModelNameTxt);
+            this.groupBox12.Location = new System.Drawing.Point(261, 20);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(188, 78);
+            this.groupBox12.TabIndex = 5;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "LoadJsonModelData";
+            // 
+            // ModelNameTxt
+            // 
+            this.ModelNameTxt.Location = new System.Drawing.Point(6, 16);
+            this.ModelNameTxt.Name = "ModelNameTxt";
+            this.ModelNameTxt.Size = new System.Drawing.Size(176, 21);
+            this.ModelNameTxt.TabIndex = 2;
+            // 
+            // LoadObjDataBtn
+            // 
+            this.LoadObjDataBtn.Location = new System.Drawing.Point(6, 43);
+            this.LoadObjDataBtn.Name = "LoadObjDataBtn";
+            this.LoadObjDataBtn.Size = new System.Drawing.Size(176, 29);
+            this.LoadObjDataBtn.TabIndex = 3;
+            this.LoadObjDataBtn.Text = "Load Data";
+            this.LoadObjDataBtn.UseVisualStyleBackColor = true;
+            this.LoadObjDataBtn.Click += new System.EventHandler(this.LoadDataFromTree);
+            // 
+            // SelectedObjJson
+            // 
+            this.SelectedObjJson.Location = new System.Drawing.Point(7, 20);
+            this.SelectedObjJson.Name = "SelectedObjJson";
+            this.SelectedObjJson.Size = new System.Drawing.Size(248, 278);
+            this.SelectedObjJson.TabIndex = 6;
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.MeshFIleList);
+            this.groupBox13.Controls.Add(this.button2);
+            this.groupBox13.Controls.Add(this.button1);
+            this.groupBox13.Location = new System.Drawing.Point(261, 119);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(188, 179);
+            this.groupBox13.TabIndex = 6;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "LoadRealMesh";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 104);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(176, 29);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Search Mesh";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.SearchMeshBtn);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 139);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(176, 32);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Load Mesh";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.LoadMeshBtn);
+            // 
+            // MeshFIleList
+            // 
+            this.MeshFIleList.FormattingEnabled = true;
+            this.MeshFIleList.ItemHeight = 12;
+            this.MeshFIleList.Location = new System.Drawing.Point(6, 20);
+            this.MeshFIleList.Name = "MeshFIleList";
+            this.MeshFIleList.Size = new System.Drawing.Size(176, 76);
+            this.MeshFIleList.TabIndex = 5;
+            // 
             // IndependentGameTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -901,6 +979,9 @@
             this.tab_GameRender.ResumeLayout(false);
             this.tab_ISSPartRender.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -975,13 +1056,20 @@
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label FPSshow;
-        private System.Windows.Forms.ListBox ObjectPartList;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tab_GameRender;
         private System.Windows.Forms.TabPage tab_ISSPartRender;
         private System.Windows.Forms.PictureBox ObjectView;
         private System.Windows.Forms.Button ISSRenderBtn;
         private System.Windows.Forms.TreeView JsonVariables;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button LoadObjDataBtn;
+        private System.Windows.Forms.TextBox ModelNameTxt;
+        private System.Windows.Forms.TreeView SelectedObjJson;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListBox MeshFIleList;
     }
 }
 

@@ -57,12 +57,12 @@ namespace GameTool.Class
         }
 
         // TreeView에 JsonData를 구축하는 함수
-        private void ShowJsonData(TreeView treeView)
+        public void ShowJsonData(TreeView treeView)
         {
             treeView.Nodes.Clear();
-            treeView.Nodes.Add("JSONConfig");
+            treeView.Nodes.Add("Root","JSONConfig");
 
-            BuildJsonDataTree(treeView.Nodes[0], m_JsonCollection);
+            BuildJsonDataTree(treeView.Nodes["Root"], m_JsonCollection);
         }
 
         private void BuildJsonDataTree(TreeNode treeNode, JsonObjectCollection jObj)
@@ -72,14 +72,23 @@ namespace GameTool.Class
                 if ( token.GetType() == typeof( JsonObjectCollection ))
                 {
                     TreeNode node = new TreeNode(token.Name + JSON_SPLIT_TOKEN);
+                    node.Name = token.Name;
                     treeNode.Nodes.Add(node);
-
+                    
                     BuildJsonDataTree(node, (JsonObjectCollection)token);
+                    
+                    //treeNode.Nodes.Add(token.Name, token.Name + JSON_SPLIT_TOKEN);
+
+                    //BuildJsonDataTree(treeNode.Nodes[treeNode.Nodes.Count - 1], (JsonObjectCollection)token);
                 }
                 else if ( token.GetType() == typeof( JsonArrayCollection ))
                 {
                     TreeNode node = new TreeNode(token.Name + JSON_SPLIT_TOKEN);
+                    node.Name = token.Name;
                     treeNode.Nodes.Add(node);
+
+                    //treeNode.Nodes.Add(token.Name, token.Name + JSON_SPLIT_TOKEN);
+
                     // 배열 내의 각각의 숫자들을 다 자식으로 집어넣는다
                     foreach (var num in (JsonArrayCollection)token )
                     {
@@ -90,19 +99,9 @@ namespace GameTool.Class
                 {
                     TreeNode node = new TreeNode(token.Name + JSON_SPLIT_TOKEN + token.GetValue().ToString());
                     treeNode.Nodes.Add(node);
+                    node.Name = token.Name;
+                    //treeNode.Nodes.Add(token.Name, token.Name + JSON_SPLIT_TOKEN + token.GetValue().ToString());
                 }
-            }
-        }
-
-        // JSON 데이터 가져오는 곳 // 응? 이럴 필요 없는데????
-        public uint GetUintVariable(JSONEnvironment.JsonKeyValues variable)
-        {
-            switch(variable)
-            {
-                case JSONEnvironment.JsonKeyValues.JSON_DEBRIS_NUMBER:
-                    return Convert.ToUInt32(m_JsonCollection[JSONEnvironment.GetJsonKey(JSONEnvironment.JsonKeyValues.JSON_DEBRIS_NUMBER)].GetValue());
-                default:
-                    return 0;
             }
         }
 
@@ -164,34 +163,7 @@ namespace GameTool.Class
             }
             return true;
         }
-        // JSONKeyLabel의 Text를 Key값으로 가져오고 해당하는 Value를 Json 데이터에서 지우고 새로 삽입(변경)
-        // 이때 삽입되는 값은 JSONVarBar에 있는 값. 변경된 값을 최종적으로 Variable List에 출력해준다
-        public void JSONModifyBtn(Label JSONKeyLabel, TextBox JSONVarBar, TreeView VariableList)
-        {
-            string key = JSONKeyLabel.Text;
-
-            if (JSONVarBar.Text.Length > 0)
-            {
-                JsonObject job = m_JsonCollection[key];
-
-                switch (job.GetValue().GetType().Name)
-                {
-                    case "String":
-                        break;
-                    case "Double":
-                        m_JsonCollection.Remove(job);
-                        m_JsonCollection.Add(new JsonNumericValue(key, Convert.ToUInt32(JSONVarBar.Text)));
-                        break;
-                    case "Boolean":
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            ShowJsonData(VariableList);
-        }
-
+ 
         public string SplitJSONValueFromKeyValue(string rawText)
         {
             Regex rg = new Regex(JSON_SPLIT_TOKEN);
@@ -307,5 +279,6 @@ namespace GameTool.Class
                 }
             }
         }
+
     }
 }

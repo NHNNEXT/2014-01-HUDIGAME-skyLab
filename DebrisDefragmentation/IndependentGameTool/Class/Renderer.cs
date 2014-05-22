@@ -14,6 +14,8 @@ namespace GameTool.Class
 {
     public class Renderer
     {
+        public const string FOLDER_PATH = ".\\Resources\\3DModel\\";
+
         // 카메라 확대, 축소에 관여하는 변수
         int m_CameraZoomOutVar = 0;
 
@@ -23,7 +25,7 @@ namespace GameTool.Class
         private Mesh ISSMesh = null;
         D3D.Material[] ISSMaterials;
         D3D.Texture[] ISSTextures;
-        const string filename = ".\\Resources\\3DModel\\spaceman.x";
+        string m_filename;
 
         // camera variables
         int Width = 760;
@@ -59,10 +61,10 @@ namespace GameTool.Class
         }
         
         // 메쉬를 불러오는 함수
-        private void LoadMesh(string filename, ref Mesh mesh, ref Material[] meshmaterials, ref Texture[] meshtextures)
+        private void LoadMesh(string filenameWithPath, ref Mesh mesh, ref Material[] meshmaterials, ref Texture[] meshtextures)
         {
             ExtendedMaterial[] materialarray;
-            mesh = Mesh.FromFile(filename, MeshFlags.Managed, m_device, out materialarray);
+            mesh = Mesh.FromFile(filenameWithPath, MeshFlags.Managed, m_device, out materialarray);
 
             if ((materialarray != null) && (materialarray.Length > 0))
             {
@@ -192,10 +194,20 @@ namespace GameTool.Class
 
         private void Init()
         {
-            LoadMesh(filename, ref ISSMesh, ref ISSMaterials, ref ISSTextures);
+            if (m_filename.Length == 0)
+            {
+                System.Windows.Forms.MessageBox.Show("Empty Mesh File Name!");
+                return;
+            }
+            LoadMesh(FOLDER_PATH + m_filename, ref ISSMesh, ref ISSMaterials, ref ISSTextures);
             SetUpCamera();
             SetUpLight();
             ReallocateViewPort();
+        }
+
+        public void SetMeshFileName(string name)
+        {
+            m_filename = name;
         }
 
         public void Render()
