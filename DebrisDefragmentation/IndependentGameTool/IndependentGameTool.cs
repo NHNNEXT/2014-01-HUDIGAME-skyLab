@@ -130,7 +130,7 @@ namespace GameTool
             while (probe != null)
             {
                 probe = probe.NextNode;
-                if (probe.Name == ModelNameTxt.Text)
+                if (probe != null && probe.Name == ModelNameTxt.Text)
                 {
                     probe.ExpandAll();
                     while (probe != null)
@@ -170,6 +170,37 @@ namespace GameTool
             else
             {
                 System.Windows.Forms.MessageBox.Show("Select Mesh First");
+            }
+        }
+
+        private void ModifyObjValue(object sender, EventArgs e)
+        {
+            TreeNode tn = SelectedObjJson.SelectedNode;
+            if (null != tn)
+            {
+                // 바뀐 JSON 데이터를 반영해준다
+                ChangeJsonData(tn, ObjJsonValue.Text);
+                // Tree에 바뀐 값을 집어넣는다.
+                if (tn.Text.Contains(":")) // Key : Value 형태
+                {
+                    tn.Text = ObjJsonKey.Text + " : " + ObjJsonValue.Text;
+                }
+                else // Value 형태
+                {
+                    tn.Text = ObjJsonKey.Text;
+                }
+            }
+        }
+
+        private void ObjJsonSelected(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode tn = e.Node;
+            if (null != tn)
+            {
+                string val = m_JsonManager.SplitJSONValueFromKeyValue(tn.Text);
+                string key = m_JsonManager.SplitJSONKeyFromKeyValue(tn.Text);
+                ObjJsonKey.Text = key;
+                ObjJsonValue.Text = val;
             }
         }
     }

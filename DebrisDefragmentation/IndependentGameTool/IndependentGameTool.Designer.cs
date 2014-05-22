@@ -110,6 +110,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.MeshFIleList = new System.Windows.Forms.ListBox();
+            this.ObjJsonKey = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.ObjJsonValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -811,6 +814,9 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.ObjJsonKey);
+            this.groupBox10.Controls.Add(this.button3);
+            this.groupBox10.Controls.Add(this.ObjJsonValue);
             this.groupBox10.Controls.Add(this.groupBox13);
             this.groupBox10.Controls.Add(this.SelectedObjJson);
             this.groupBox10.Controls.Add(this.groupBox12);
@@ -896,6 +902,7 @@
             this.SelectedObjJson.Name = "SelectedObjJson";
             this.SelectedObjJson.Size = new System.Drawing.Size(248, 278);
             this.SelectedObjJson.TabIndex = 6;
+            this.SelectedObjJson.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ObjJsonSelected);
             // 
             // groupBox13
             // 
@@ -938,6 +945,33 @@
             this.MeshFIleList.Size = new System.Drawing.Size(176, 76);
             this.MeshFIleList.TabIndex = 5;
             // 
+            // ObjJsonKey
+            // 
+            this.ObjJsonKey.AutoSize = true;
+            this.ObjJsonKey.Location = new System.Drawing.Point(268, 327);
+            this.ObjJsonKey.Name = "ObjJsonKey";
+            this.ObjJsonKey.Size = new System.Drawing.Size(63, 12);
+            this.ObjJsonKey.TabIndex = 9;
+            this.ObjJsonKey.Text = "JSON Key";
+            // 
+            // button3
+            // 
+            this.button3.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.button3.Location = new System.Drawing.Point(267, 386);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(176, 39);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "Modify Value";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.ModifyObjValue);
+            // 
+            // ObjJsonValue
+            // 
+            this.ObjJsonValue.Location = new System.Drawing.Point(267, 359);
+            this.ObjJsonValue.Name = "ObjJsonValue";
+            this.ObjJsonValue.Size = new System.Drawing.Size(176, 21);
+            this.ObjJsonValue.TabIndex = 8;
+            // 
             // IndependentGameTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -975,6 +1009,7 @@
             this.groupBox11.PerformLayout();
             this.ObjectTool.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tab_GameRender.ResumeLayout(false);
             this.tab_ISSPartRender.ResumeLayout(false);
@@ -1070,6 +1105,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox MeshFIleList;
+        private System.Windows.Forms.Label ObjJsonKey;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox ObjJsonValue;
     }
 }
 
