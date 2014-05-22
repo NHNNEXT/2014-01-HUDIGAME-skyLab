@@ -122,8 +122,8 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	if ( targetId == NOTHING )
 		return false;
 
-	if ( GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam()
-		!= GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
+	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
+		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
 		return false;
 
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;

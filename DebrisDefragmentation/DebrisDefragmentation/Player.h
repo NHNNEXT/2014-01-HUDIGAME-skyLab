@@ -22,8 +22,8 @@ public:
 	CREATE_OBJECT_INTEGER( Player , plyerId );
 	void Init();	
 	
-	void		SetTeam( TeamColor color ) { m_ClassComponent->SetTeam( color ); }
-	TeamColor	GetTeam() { m_ClassComponent->GetTeam(); }
+	void		SetTeam( TeamColor color ) { m_Team = color; }
+	TeamColor	GetTeam() { return m_Team; }
 
 	// 현재 바라보는 방향으로 가속도 부여
 	void Move( const D3DXVECTOR3& direction );
@@ -83,6 +83,7 @@ private:
 
 	int								m_PlayerId;
 	std::shared_ptr<ClassComponent>	m_ClassComponent; // shared_ptr기본 생성자에서 초기화
+	TeamColor						m_Team = TeamColor::NO_TEAM;
 	Rigidbody						m_Rigidbody;
 
 	DWORD		m_AccelerationStartTime = 0;

@@ -99,13 +99,12 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 
 	// 그렇지 않으면 바운딩 박스와 ray의 교점 위치에
 	// ray 방향의 반대 방향을 정면으로 설정
-
-	// 등록함수를 만들자
-
 	// actorManager에 등록
 	D3DXVECTOR3 minePosition = startPoint + viewDirection * distance;
-	GObjectTable->GetActorManager()->InstallMine( minePosition, -viewDirection, GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() );
+	GObjectTable->GetActorManager()->InstallMine( minePosition, -viewDirection, GObjectTable->GetInstance<Character>( id )->GetTeam() );
+
 	// 설치 완료
+	printf_s( "space mine installed \n" );
 
 	return true;
 }

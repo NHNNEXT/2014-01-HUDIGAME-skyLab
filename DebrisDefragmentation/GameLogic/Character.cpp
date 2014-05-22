@@ -78,7 +78,7 @@ void Character::Init()
 
 void Character::InitTeamPosition()
 {
-	switch ( GetClassComponent()->GetTeam() )
+	switch ( m_Team )
 	{
 	case TeamColor::RED:
 		GetTransform()->SetPosition( RED_TEAM_POSITION );

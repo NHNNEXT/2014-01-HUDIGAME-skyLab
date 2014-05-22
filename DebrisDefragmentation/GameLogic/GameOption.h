@@ -172,7 +172,7 @@ const float			DEFAULT_SPIN_ANGULAR_VELOCITY = 1.0f;
 #define				BLUE_TEAM_ROTATION	D3DXVECTOR3(.0f, 270.0f, .0f)
 #define				RED_TEAM_ROTATION	D3DXVECTOR3(.0f, 90.0f, .0f)
 
-const float			WINNING_DISTANCE = 150.0f;
+const float			WINNING_DISTANCE = 50.0f;
 
 // collision box
 /*
@@ -212,7 +212,7 @@ const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
 const float			SCOUT_MOVE_FAST_DURATION = 5.0f;
 const float			EMP_TIME = 2.0f;
 const float			SPACE_MINE_RANGE = 50.0f;
-const float			SPACE_MINE_FORCE = 1.0f;
+const float			SPACE_MINE_FORCE = 5.0f;
 
 // Cooldown time
 // 모든 스킬은 cooldown time을 가지고 있고, 이 값이 0이 되면 즉시 쓸 수 있다.

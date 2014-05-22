@@ -258,7 +258,7 @@ void ClientSession::LoginDone( int pid )
 	LoginResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId = pid;
-	outPacket.mTeamColor = static_cast<int>( m_Character.GetClassComponent()->GetTeam() );
+	outPacket.mTeamColor = static_cast<int>( m_Character.GetTeam() );
 	outPacket.mRandomSeed = GObjectTable->GetActorManager()->GetRandomSeed();
 
 	GClientManager->RegisterSession( mPlayerId, this );

@@ -33,7 +33,7 @@ void Dispenser::UpdateItSelf( float dTime )
 		if ( eachCharacter == nullptr ) continue;
 
 		// 다른 팀이어도 통과
-		if ( m_TeamColor != eachCharacter->GetClassComponent()->GetTeam() ) continue;
+		if ( m_TeamColor != eachCharacter->GetTeam() ) continue;
 		
 		// 범위 및 현재 거리 계산
 		float range = eachCharacter->GetCollisionBox()->m_Radius + DISPENSER_RANGE;

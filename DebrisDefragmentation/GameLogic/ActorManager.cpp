@@ -80,12 +80,12 @@ int ActorManager::RegisterCharacter( Character* newCharacter )
 			// 팀 추가 - 더 적은 팀에 배치
 			if ( m_TeamBlue.size() < m_TeamRed.size() )
 			{
-				m_CharacterList[characterId]->GetClassComponent()->SetTeam( TeamColor::BLUE );
+				m_CharacterList[characterId]->SetTeam( TeamColor::BLUE );
 				m_TeamBlue.insert( characterId );
 			}
 			else
 			{
-				m_CharacterList[characterId]->GetClassComponent()->SetTeam( TeamColor::RED );
+				m_CharacterList[characterId]->SetTeam( TeamColor::RED );
 				m_TeamRed.insert( characterId );
 			}
 
@@ -399,7 +399,7 @@ bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
 	float IssPosX = 0.0f;
 	float IssVelocityX = 0.0f;
 
-	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ISS.Occupy( viewDirection, startPoint, m_CharacterList[characterId]->GetClassComponent()->GetTeam() );
+	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ISS.Occupy( viewDirection, startPoint, m_CharacterList[characterId]->GetTeam() );
 
 	if ( moduleName == ISSModuleName::NO_MODULE )
 		return false;
@@ -450,7 +450,7 @@ bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
 
 	Dispenser* newDispenser = new Dispenser();
 	newDispenser->GetTransform()->SetPosition( dispenserPos );
-	newDispenser->SetTeamColor( m_CharacterList[characterId]->GetClassComponent()->GetTeam() );
+	newDispenser->SetTeamColor( m_CharacterList[characterId]->GetTeam() );
 
 	m_DispenserList.push_back( newDispenser );
 

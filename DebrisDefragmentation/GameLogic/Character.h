@@ -23,6 +23,9 @@ public:
 	ClassComponent* GetClassComponent() { return m_CharacterClass.get(); }
 	void	ChangeClass( CharacterClass newClass );
 
+	TeamColor	GetTeam() const { return m_Team; }
+	void		SetTeam( TeamColor val ) { m_Team = val; }
+
 	// player 상태 가져오기
 	int		GetCharacterId() const { return m_CharacterId; }
 	void	SetCharacterId( int characterId ) { m_CharacterId = characterId; }
@@ -31,6 +34,7 @@ private:
 	virtual void UpdateItSelf( float dTime );
 
 	std::shared_ptr<ClassComponent> m_CharacterClass;
+	TeamColor	m_Team = TeamColor::NO_TEAM;
 
 	int m_CharacterId = -1;
 };

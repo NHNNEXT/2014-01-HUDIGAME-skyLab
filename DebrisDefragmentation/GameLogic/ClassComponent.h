@@ -50,9 +50,6 @@ public:
 	// 주기적으로 처리해야 하는 일들
 	// 예를 들어 산소량 감소와 같은 일을 처리 
 	void	Update( float dt );
-	
-	TeamColor	GetTeam() const { return m_Team; }
-	void		SetTeam( TeamColor val ) { m_Team = val; }
 
 	CharacterClass GetCharacterClassName() { return m_ClassName; }
 
@@ -66,8 +63,6 @@ public:
 
 protected:	
 	void		SetCooldown( ClassSkill skillType );
-
-	TeamColor	m_Team = TeamColor::NO_TEAM;
 	
 	// 산소 및 추진체 관련
 	float		m_Oxygen = DEFAULT_OXYGEN;

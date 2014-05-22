@@ -45,7 +45,7 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::WARNING )] > 0.0f )
 		return false;
 
-	TeamColor myColor = GObjectTable->GetInstance<ClassComponent>( id )->GetTeam();
+	TeamColor myColor = GObjectTable->GetInstance<Character>( id )->GetTeam();
 	for ( int targetId = 0; targetId < MAX_PLAYER_NUM; ++targetId )
 	{
 		// 여기서 같은 팀만 찾아서 방송 >>> 자기가 알아서 게임 상태 받아서 방송
@@ -53,7 +53,7 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 		if ( GObjectTable->GetInstance<Character>( targetId ) == nullptr )
 			continue;
 
-		if ( myColor == GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam() )
+		if ( myColor == GObjectTable->GetInstance<Character>( targetId )->GetTeam() )
 			GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::WARNING );
 	}
 
@@ -80,8 +80,8 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 	if ( targetId == NOTHING )
 		return false;
 
-	if ( GObjectTable->GetInstance<ClassComponent>( targetId )->GetTeam()
-		!= GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
+	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
+		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
 		return false;
 
 	m_Oxygen -= DEFAULT_OXYGEN_SHARE_AMOUNT;
@@ -107,7 +107,7 @@ bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )
 	std::for_each( targets.begin(), targets.end(), [&]( const int& each )
 	{
 		// 상대편에만 적용
-		if ( GObjectTable->GetInstance<ClassComponent>( each )->GetTeam() != GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() )
+		if ( GObjectTable->GetInstance<Character>( each )->GetTeam() != GObjectTable->GetInstance<Character>( id )->GetTeam() )
 		{
 			// EMP 쿨다운 적용하고 방송도 해버리자
 			GObjectTable->GetInstance<ClassComponent>( each )->SetGlobalCooldown( EMP_TIME );
