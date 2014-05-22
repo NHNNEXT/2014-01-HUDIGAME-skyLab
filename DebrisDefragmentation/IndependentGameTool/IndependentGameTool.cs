@@ -187,7 +187,7 @@ namespace GameTool
                 }
                 else // Value 형태
                 {
-                    tn.Text = ObjJsonKey.Text;
+                    tn.Text = ObjJsonValue.Text;
                 }
             }
         }
