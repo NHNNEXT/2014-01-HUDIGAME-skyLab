@@ -224,6 +224,24 @@ void PlayScene::UpdateItSelf( float dTime )
 		printf_s( "debirs no 0 pos is : %f %f %f\n", tmppos.x, tmppos.y, tmppos.z );
 	}
 
+	if ( KEY_DOWN == GetKeyState( VK_F5 ) )
+	{
+		// striker로 변신
+		GNetworkManager->SendClassChangeRequest( CharacterClass::STRIKER );
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_F6 ) )
+	{
+		// protector로 변신
+		GNetworkManager->SendClassChangeRequest( CharacterClass::PROTECTOR );
+	}
+
+	if ( KEY_DOWN == GetKeyState( VK_F7 ) )
+	{
+		// engineer로 변신
+		GNetworkManager->SendClassChangeRequest( CharacterClass::ENGINEER );
+	}
+
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )
 	{
 		GNetworkManager->SendTurnBody();

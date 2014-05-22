@@ -141,5 +141,8 @@ void Character::ChangeClass( CharacterClass newClass )
 {
 	// 변신!
 	m_CharacterClass = ClassComponent::Create( newClass );
+
+	// 조심해!!
+	// 위치 초기화 할까?
 }
 

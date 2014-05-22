@@ -85,6 +85,9 @@ enum PacketTypes
 	PKT_CS_CHARACTER_STATE = 209,
 	PKT_SC_CHARACTER_STATE = 210, // 연료, 산소 등 
 
+	PKT_CS_CHANGE_CLASS = 211,
+	PKT_SC_CHANGE_CLASS = 212, // 변신!
+
 	// 플레이어 스킬에 관련된 패킷
 	PKT_CS_ACCELERATION = 301,
 	PKT_SC_ACCELERATION = 302,
@@ -648,6 +651,36 @@ struct WarningResult : public PacketHeader
 
 	int			mEventType;
 	float		mRemainTime;
+};
+
+struct ChangeClassRequest : public PacketHeader
+{
+	ChangeClassRequest()
+	{
+		mSize = sizeof( ChangeClassRequest );
+		mType = PKT_CS_CHANGE_CLASS;
+		mPlayerId = -1;
+
+		mNewClass = -1;
+	}
+
+	int			mPlayerId;
+	int			mNewClass;
+};
+
+struct ChangeClassResult : public PacketHeader
+{
+	ChangeClassResult()
+	{
+		mSize = sizeof( ChangeClassResult );
+		mType = PKT_SC_CHANGE_CLASS;
+		mPlayerId = -1;
+
+		mNewClass = -1;
+	}
+
+	int			mPlayerId;
+	int			mNewClass;
 };
 
 #pragma pack(pop)

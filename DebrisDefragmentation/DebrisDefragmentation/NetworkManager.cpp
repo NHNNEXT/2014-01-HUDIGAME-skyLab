@@ -147,6 +147,19 @@ void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
+void NetworkManager::SendClassChangeRequest( CharacterClass characterClass )
+{
+	if ( m_MyPlayerId == -1 )
+		return;
+
+	ChangeClassRequest outPacket;
+
+	outPacket.mPlayerId = m_MyPlayerId;
+	outPacket.mNewClass = static_cast<int>( characterClass );
+
+	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
+}
+
 void NetworkManager::RegisterHandles()
 {
 	// 여기에서 핸들러를 등록하자
@@ -168,6 +181,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_BUILD_DISPENSER, HandleBuildDispenserResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GATHER, HandleGatherResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
 }
 
 
@@ -438,4 +452,13 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
+}
+
+void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
+{
+	ChangeClassResult inPacket = reinterpret_cast<ChangeClassResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
+	printf_s( "class changed : %d\n", inPacket.mNewClass );
 }

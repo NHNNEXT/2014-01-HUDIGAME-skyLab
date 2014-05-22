@@ -19,14 +19,13 @@ public:
 	void SendUsingSkill( ClassSkill skilType );
 	//void SendDeadRequest();
 	void SendRespawnRequest(CharacterClass characterClass);
+	void SendClassChangeRequest( CharacterClass characterClass );
 
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 	void SetMyPlayerId( int val ) { m_MyPlayerId = val; }
 	bool IsPlayerLogon() { return ( m_MyPlayerId == -1 ) ? false : true; }
 
 	void RegisterHandles();
-
-	
 
 	static void HandleLoginResult( DDPacketHeader& pktBase );
 	static void HandleSyncResult( DDPacketHeader& pktBase );
@@ -40,6 +39,7 @@ public:
 	static void HandleTurnBodyResult( DDPacketHeader& pktBase );
 
 	static void HandleUsingSkillResult( DDPacketHeader& pktBase );
+	static void HandleChangeClassResult( DDPacketHeader& pktBase );
 	
 	static void HandleBuildDispenserResult( DDPacketHeader& pktBase );
 	static void HandleDispenserEffectResult( DDPacketHeader& pktBase );

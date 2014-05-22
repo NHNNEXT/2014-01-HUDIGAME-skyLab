@@ -65,6 +65,7 @@ public:
 	void	HandleDeadRequest( DeadRequest& inPacket );
 	void	HandleRespawnRequest( RespawnRequest& inPacket );
 	void	HandleUsingSkillRequest( UsingSkillRequest& inPacket );
+	void	HandleChangeClassRequest( ChangeClassRequest& inPacket );
 
 	int				GetPlayerId() const { return mPlayerId; }
 	const SOCKET	GetSock() { return mSocket; }

@@ -757,3 +757,30 @@ void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
 		Disconnect();
 	}
 }
+
+REGISTER_HANDLER( PKT_CS_CHANGE_CLASS )
+{
+	ChangeClassRequest inPacket = static_cast<ChangeClassRequest&>( pktBase );
+	session->HandleChangeClassRequest( inPacket );
+}
+
+void ClientSession::HandleChangeClassRequest( ChangeClassRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
+	m_Character.ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
+
+	// 난 내가 쓴 스킬에 대해서 방송한다.
+	ChangeClassResult outPacket;
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mNewClass = inPacket.mNewClass;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
