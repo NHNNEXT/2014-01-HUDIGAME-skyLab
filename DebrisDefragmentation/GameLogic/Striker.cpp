@@ -80,6 +80,7 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 	ISS* iss = GObjectTable->GetActorManager()->GetIss();
 
 	D3DXVECTOR3 viewDirection = GObjectTable->GetInstance<Character>( id )->GetViewDirection( direction );
+	D3DXVec3Normalize( &viewDirection, &viewDirection );
 	D3DXVECTOR3	startPoint = GObjectTable->GetInstance<Transform>( id )->GetPosition();
 
 	// 스킬 사용 방향에 있는 모듈 검색
@@ -102,7 +103,8 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 	// 등록함수를 만들자
 
 	// actorManager에 등록
-
+	D3DXVECTOR3 minePosition = startPoint + viewDirection * distance;
+	GObjectTable->GetActorManager()->InstallMine( minePosition, -viewDirection, GObjectTable->GetInstance<ClassComponent>( id )->GetTeam() );
 	// 설치 완료
 
 	return true;

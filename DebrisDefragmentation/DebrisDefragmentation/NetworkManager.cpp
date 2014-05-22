@@ -261,7 +261,7 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
 	player->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
 
-	player->Move();
+	player->Move( player->GetViewDirection() );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -330,6 +330,10 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+
+	// 조심해!!
+	// 항상 가속 시작 상태를 전달하는 것인가??
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Move( inPacket.mForce.GetD3DVEC() );
 
 	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
 		return;

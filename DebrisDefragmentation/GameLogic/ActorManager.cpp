@@ -180,6 +180,10 @@ void ActorManager::Update( )
 		m_WinnerTeam = TeamColor::RED;
 	}
 
+	// 조심해!!
+	// 네이밍 이상함
+	std::vector<unsigned int> deleteMine;
+	
 	// space mine 업데이트
 	for ( std::map<unsigned, SpaceMine*>::const_iterator it = m_SpaceMineList.begin( ); it != m_SpaceMineList.end( ); ++it )
 	{
@@ -191,9 +195,16 @@ void ActorManager::Update( )
 
 		if ( mine->React() )
 		{
-			UninstallMine( it->first );
+			deleteMine.push_back( it->first );
 		}
 	}
+
+	// 레알 삭제
+	std::for_each( deleteMine.begin(), deleteMine.end(), [&]( unsigned int each )
+	{
+		UninstallMine( each );
+	}
+	);
 
 	// Dispenser update
 	for ( auto& dispenser : m_DispenserList )
@@ -463,7 +474,11 @@ int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& d
 
 void ActorManager::UninstallMine( unsigned int targetId )
 {
-	assert( m_SpaceMineList.erase( targetId ) );
+	std::map<unsigned, SpaceMine*>::iterator it = m_SpaceMineList.find( targetId );
+	assert( it != m_SpaceMineList.end() );
+
+	delete it->second;
+	m_SpaceMineList.erase( targetId );
 }
 
 std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )

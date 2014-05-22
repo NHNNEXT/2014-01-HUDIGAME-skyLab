@@ -123,15 +123,15 @@ void Player::UpdateItSelf( float dTime )
 	SetVelocity( tmpVel );
 }
 
-void Player::Move()
+void Player::Move( const D3DXVECTOR3& direction )
 {
 	// 가속 시작 시점 기록 - 타임 스탬프로 문제 해결
 	// 나중에는 타이머 만들어서 써볼까?
 	m_AccelerationStartTime = timeGetTime();
 	SetIsAccelerating( true );
 
-	D3DXVECTOR3 normalVec = GetViewDirection();
-	D3DXVec3Normalize( &normalVec, &normalVec );
+	D3DXVECTOR3 normalVec;
+	D3DXVec3Normalize( &normalVec, &direction );
 
 	m_Rigidbody.m_Acceleration += ( normalVec * ACCELERATION_WEIGHT );
 }

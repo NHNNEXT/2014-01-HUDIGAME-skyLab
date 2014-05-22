@@ -362,7 +362,6 @@ void ClientSession::SyncCurrentStatus()
 	outPacket.mVelocity = m_Character.GetVelocity();
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
-	SendRequest( &outPacket );
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
@@ -381,10 +380,41 @@ void ClientSession::BroadcastKineticState()
 	outPacket.mSpinAngularVelocity = m_Character.GetSpinAngle();
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
-	SendRequest( &outPacket );
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect( );
+	}
+}
+
+void ClientSession::BroadcastCharacterState()
+{
+	CharacterStateResult outPacket;
+
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mFuel = m_Character.GetClassComponent()->GetFuel();
+	outPacket.mOxygen = m_Character.GetClassComponent()->GetOxygen();
+	outPacket.mGlobalCooldownTime = m_Character.GetClassComponent()->GetGlobalCooldown();
+
+	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+
+void ClientSession::BroadcastAcceleration()
+{
+	AccelerarionResult outPacket;
+	outPacket.mPlayerId = mPlayerId;
+
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	outPacket.mVelocity = m_Character.GetVelocity();
+	outPacket.mRotation = m_Character.GetTransform()->GetRotation();
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
 	}
 }
 
@@ -395,7 +425,6 @@ void ClientSession::BroadcastBuildResult()
 	//outPacket.mPlayerId = mPlayerId;
 	outPacket.mTargetPos = GObjectTable->GetActorManager()->GetLastSturture()->GetTransform()->GetPosition();
 	
-	SendRequest( &outPacket );
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
@@ -409,7 +438,6 @@ void ClientSession::BroadcastDispenserEffect( bool flag )
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mDispenserEffectFlag = flag;
 	
-	SendRequest( &outPacket );
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
@@ -425,28 +453,9 @@ void ClientSession::BroadcastGatherResult()
 	outPacket.mDebrisIndex = GObjectTable->GetActorManager()->GetGatheredDebris();
 	outPacket.mCurrentResource = m_Character.GetClassComponent()->GetResource();
 
-	SendRequest( &outPacket );
 	if ( !Broadcast( &outPacket ) )
 	{
 		Disconnect();
-	}
-}
-
-
-void ClientSession::BroadcastCharacterState()
-{
-	CharacterStateResult outPacket;
-
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mFuel = m_Character.GetClassComponent()->GetFuel();
-	outPacket.mOxygen = m_Character.GetClassComponent()->GetOxygen();
-	outPacket.mGlobalCooldownTime = m_Character.GetClassComponent()->GetGlobalCooldown();
-
-	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
-	SendRequest( &outPacket );
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect( );
 	}
 }
 

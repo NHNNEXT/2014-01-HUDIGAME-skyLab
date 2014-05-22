@@ -26,7 +26,7 @@ public:
 	TeamColor	GetTeam() { m_ClassComponent->GetTeam(); }
 
 	// 현재 바라보는 방향으로 가속도 부여
-	void Move();
+	void Move( const D3DXVECTOR3& direction );
 
 	// 가속도 및 속도 0으로 변경
 	void Stop();

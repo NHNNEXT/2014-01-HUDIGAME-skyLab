@@ -206,6 +206,7 @@ const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 const float			DEFAULT_MOVE_CONSTANT = 1.0f;
 
 // SKILL
+const float			PUSH_WEIGHT = 3.0f;
 const float			SKILL_RANGE = 50.0f;
 const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
 const float			SCOUT_MOVE_FAST_DURATION = 5.0f;

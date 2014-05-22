@@ -76,9 +76,10 @@ public:
 	void	BroadcastDeadResult();
 	void	BroadcastBuildResult();
 	void	BroadcastGatherResult();
-	void BroadcastDispenserEffect(bool flag);
+	void	BroadcastDispenserEffect(bool flag);
 	void	SyncCurrentStatus();
 
+	void	BroadcastAcceleration();
 	void	BroadcastKineticState( );
 	void	BroadcastCharacterState( );
 

@@ -22,8 +22,9 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 	{
 	case ClassSkill::PUSH:
 	case ClassSkill::PULL:
-		GClientManager->GetSession( idx )->BroadcastKineticState();
 		// 위치, 속도, 스핀
+		GClientManager->GetSession( idx )->BroadcastKineticState();
+		// GClientManager->GetSession( idx )->BroadcastAcceleration();
 		break;
 	case ClassSkill::OCCUPY:
 	case ClassSkill::DESTROY:
