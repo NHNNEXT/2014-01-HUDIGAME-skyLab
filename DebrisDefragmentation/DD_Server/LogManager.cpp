@@ -20,7 +20,6 @@ void LogManager::Init()
 {
 	log4cplus::initialize();
 
-	
 	log4cplus::SharedAppenderPtr consoleAppender( new log4cplus::ConsoleAppender() );
 	consoleAppender->setName( L"ConsoleAppender" );
 	std::auto_ptr<log4cplus::Layout> consoleLayout = std::auto_ptr<log4cplus::Layout>( new log4cplus::TTCCLayout() );
@@ -36,27 +35,29 @@ void LogManager::Init()
 	m_Logger.addAppender( fileAppender );
 
 	m_Logger.setLogLevel( log4cplus::INFO_LOG_LEVEL );
-	
-	
-	/*
-	helpers::LogLog::getLogLog()->setInternalDebugging( true );
-	SharedAppenderPtr append_1( new RollingFileAppender( LOG4CPLUS_TEXT( "Test.log" ), 5 * 1024, 5 ) );
-	append_1->setName( LOG4CPLUS_TEXT( "First" ) );
-	append_1->setLayout( std::auto_ptr<Layout>( new TTCCLayout() ) );
-	Logger::getRoot().addAppender( append_1 );
-
-	Logger root = Logger::getRoot();
-	Logger test = Logger::getInstance( LOG4CPLUS_TEXT( "test" ) );
-	Logger subTest = Logger::getInstance( LOG4CPLUS_TEXT( "test.subtest" ) );
-
-	for ( int i = 0; i < 10; ++i ) {
-		NDCContextCreator _context( LOG4CPLUS_TEXT( "loop" ) );
-		LOG4CPLUS_DEBUG( subTest, "Entering loop #" << i );
-	}
-	*/
 }
 
-void LogManager::Log( std::wstring message )
+void LogManager::LogFatal( std::wstring message )
+{
+	LOG4CPLUS_FATAL( m_Logger, message.c_str() );
+}
+
+void LogManager::LogError( std::wstring message )
+{
+	LOG4CPLUS_ERROR( m_Logger, message.c_str() );
+}
+
+void LogManager::LogWarn( std::wstring message )
+{
+	LOG4CPLUS_WARN( m_Logger, message.c_str() );
+}
+
+void LogManager::LogInfo( std::wstring message )
 {
 	LOG4CPLUS_INFO( m_Logger, message.c_str() );
+}
+
+void LogManager::LogDebug( std::wstring message )
+{
+	LOG4CPLUS_DEBUG( m_Logger, message.c_str() );
 }

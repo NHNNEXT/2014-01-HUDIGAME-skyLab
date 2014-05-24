@@ -57,7 +57,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	if ( ret == SOCKET_ERROR )
 		return -1;
 
-	GLogManager->Log( L"run server" );
+	// GLogManager->LogInfo( L"run server" );
+	DDLOG_INFO( L"run server" );
 
 	/// listen
 	ret = listen( listenSocket, SOMAXCONN );
