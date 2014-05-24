@@ -33,8 +33,7 @@ void ISS::Update( float dTime )
 
 	// 조심해!!
 	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
-	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
-		[&]( ISSModule &eachModule )
+	std::for_each( m_ModuleList.begin(), m_ModuleList.end(), [&]( ISSModule &eachModule )
 	{
 		eachModule.SetISSPos( m_CurrentPos );
 		eachModule.Update( dTime );
@@ -119,8 +118,7 @@ ISSModuleName ISS::ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECT
 
 	// 자신에게 등록된 모듈들을 차례대로 돌면서 
 	// 유저의 position 에서 viewDirection 방향의 ray를 쏴서 걸리는 모듈이 있는지 확인 - 거리도 포함해서 계산
-	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
-				   [&]( ISSModule &eachModule )
+	std::for_each( m_ModuleList.begin(), m_ModuleList.end(), [&]( ISSModule &eachModule )
 	{
 		// intersection 확인
 		float tempDistance = std::numeric_limits<float>::infinity();

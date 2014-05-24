@@ -51,6 +51,12 @@
     <ClInclude Include="GameManager.h">
       <Filter>DDServer</Filter>
     </ClInclude>
+    <ClInclude Include="LogManager.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggerProperties.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -73,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>DDServer</Filter>
+    </ClCompile>
+    <ClCompile Include="LogManager.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,6 +13,8 @@
 #include "Exception.h"
 #include "ProducerConsumerQueue.h"
 
+#include "LogManager.h"
+
 #pragma comment(lib,"ws2_32.lib")
 
 __declspec( thread ) int LThreadType = -1;
@@ -29,6 +31,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	// Manager 생성 - 아직 DB는 사용 안 함
 	GClientManager = new ClientManager;
 	GClientManager->Init();
+
+	GLogManager = new LogManager;
+	GLogManager->Init();
 
 	/// 윈속 초기화
 	WSADATA wsa;
@@ -51,6 +56,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	int ret = bind( listenSocket, (SOCKADDR*)&serveraddr, sizeof( serveraddr ) );
 	if ( ret == SOCKET_ERROR )
 		return -1;
+
+	GLogManager->Log( L"run server" );
 
 	/// listen
 	ret = listen( listenSocket, SOMAXCONN );
@@ -84,7 +91,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	// 윈속 종료
 	WSACleanup( );
 
+	// 자원 정리
 	delete GClientManager;
+	delete GLogManager;
+
 	return 0;
 }
 

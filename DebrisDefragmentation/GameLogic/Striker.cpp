@@ -89,7 +89,7 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 	if ( targetModuleName == ISSModuleName::NO_MODULE )
 		return false;
 	
-	ISSModule* targetModule = GObjectTable->GetActorManager()->GetIss()->GetModule( targetModuleName );
+	ISSModule* targetModule = iss->GetModule( targetModuleName );
 	float distance = std::numeric_limits<float>::infinity();
 	Physics::IntersectionCheckRayBox( nullptr, &distance, nullptr, viewDirection, startPoint, targetModule->GetCollisionBox() );
 
