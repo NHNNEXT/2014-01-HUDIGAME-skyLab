@@ -13,6 +13,7 @@
 #include "SkyBox.h"
 #include "GameData.h"
 #include "ObjectISS.h"
+#include "InfoPrinter.h"
 
 PlayScene::PlayScene()
 {
@@ -28,6 +29,7 @@ PlayScene::~PlayScene()
 {
 	delete GObjectManager;
 	delete GNetworkManager;
+	DeleteAlignedClass(GInfoPrinter);
 }
 
 
@@ -50,9 +52,9 @@ void PlayScene::InitResourceDebris()
 		DebrisModel* newResouceDebris = DebrisModel::Create();
 		newResouceDebris->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
 		newResouceDebris->GetTransform().SetPosition(
-			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
-			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
-			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1))
+			( static_cast<float>( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+			( static_cast<float>( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+			( static_cast<float>( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) )
 			);
 		newResouceDebris->GetTransform().SetScale( RESOURCE_DEBRIS_SCALE );
 		AddChild( newResouceDebris );
@@ -68,6 +70,11 @@ void PlayScene::Init()
 		// 에러 발생시 프로그램 종료
 		return;
 	}
+
+	// debugger 초기화
+	GInfoPrinter = InfoPrinter::Create();
+	GInfoPrinter->init();
+	AddChild( GInfoPrinter );
 
 	// model pool 초기화
 	InitModelPool();
@@ -105,9 +112,9 @@ void PlayScene::Init()
 		DDModel* newBackgroundDebris = DDModel::Create();
 		newBackgroundDebris->SetModelMesh( m_ModelPool.GetModel( ModelType::DEBRIS ) );
 		newBackgroundDebris->GetTransform().SetPosition(
-			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
-			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1)),
-			((rand() % DEBRIS_SPREAD_RANGE) - (DEBRIS_SPREAD_RANGE >> 1))
+			( static_cast<float>( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+			( static_cast<float>( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+			( static_cast<float>( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) )
 			);
 		newBackgroundDebris->GetTransform().SetScale( BACKGROUND_DEBRIS_SCALE );
 
@@ -330,8 +337,7 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	MousePointer( MOUSE_POINTER_ON, currentMousePos );
-	UpdateUI();	
-	UpdateISS();
+	UpdateUI();
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정
@@ -387,8 +393,4 @@ void PlayScene::UpdateUI()
 	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / DEFAULT_FUEL , 1, 1 );
 }
 
-void PlayScene::UpdateISS()
-{
-
-}
 

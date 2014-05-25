@@ -98,6 +98,9 @@
     <ClCompile Include="ObjectManager.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
+    <ClCompile Include="InfoPrinter.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -165,6 +168,9 @@
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoPrinter.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
   </ItemGroup>

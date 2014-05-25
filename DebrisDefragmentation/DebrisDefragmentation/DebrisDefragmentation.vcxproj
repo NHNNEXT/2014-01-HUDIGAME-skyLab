@@ -91,6 +91,7 @@
     <ClCompile Include="DebrisModel.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="DispenserModel.cpp" />
+    <ClCompile Include="InfoPrinter.cpp" />
     <ClCompile Include="ISSModel.cpp" />
     <ClCompile Include="ModelPool.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="DebrisModel.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="DispenserModel.h" />
+    <ClInclude Include="InfoPrinter.h" />
     <ClInclude Include="ISSModel.h" />
     <ClInclude Include="ModelPool.h" />
     <ClInclude Include="ObjectISS.h" />

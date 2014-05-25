@@ -34,9 +34,6 @@ private:
 	void AddUI();
 	void UpdateUI();
 
-	// JSON 관련 함수들
-	void UpdateISS();
-
 	DDLight*	m_pDirectonalLight = nullptr;
 	ModelPool	m_ModelPool;
 	DDPoint		m_PrevMousePosition{.0f,.0f};
