@@ -101,6 +101,9 @@
     <ClCompile Include="InfoPrinter.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
+    <ClCompile Include="Exception.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="InfoPrinter.h">
       <Filter>GameManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

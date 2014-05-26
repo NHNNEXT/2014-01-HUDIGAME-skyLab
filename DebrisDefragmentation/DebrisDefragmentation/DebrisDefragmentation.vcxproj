@@ -41,9 +41,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)\include;$(IncludePath)</IncludePath>
     <SourcePath>$(SourcePath)</SourcePath>
-    <LibraryPath>$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(DXSDK_DIR)lib\x86;..\external\google-breakpad\src\client\windows\Debug\lib;..\external\google-breakpad\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)include;..\external\google-breakpad\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -60,7 +60,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DDFramework.lib;winmm.lib;d3d9.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;comctl32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DDFramework.lib;winmm.lib;d3d9.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;comctl32.lib;user32.lib;common.lib;crash_generation_client.lib;crash_generation_server.lib;crash_report_sender.lib;exception_handler.lib;gmock.lib;gtest.lib;processor_bits.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -91,6 +91,7 @@
     <ClCompile Include="DebrisModel.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="DispenserModel.cpp" />
+    <ClCompile Include="Exception.cpp" />
     <ClCompile Include="InfoPrinter.cpp" />
     <ClCompile Include="ISSModel.cpp" />
     <ClCompile Include="ModelPool.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="DebrisModel.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="DispenserModel.h" />
+    <ClInclude Include="Exception.h" />
     <ClInclude Include="InfoPrinter.h" />
     <ClInclude Include="ISSModel.h" />
     <ClInclude Include="ModelPool.h" />
