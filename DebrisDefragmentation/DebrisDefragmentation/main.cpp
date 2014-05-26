@@ -40,17 +40,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
 	// 예외 처리
-	STARTUPINFO si = { 0, };
-	PROCESS_INFORMATION pi;
-	si.cb = sizeof( si );
-	si.lpTitle = L"exception handler";	
-	wchar_t command[] = L"crash_generation_app.exe";
-	CreateProcess( NULL, command, NULL, NULL, TRUE,
-				   CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
 
 	SetUnhandledExceptionFilter( ExceptionFilter );
 	// 예외 처리 test 함수
-	//CrashFunction();
+	CrashFunction();
 
 	DDApplication* app = DDApplication::GetInstance();
 	GPlayerManager = PlayerManager::Create();

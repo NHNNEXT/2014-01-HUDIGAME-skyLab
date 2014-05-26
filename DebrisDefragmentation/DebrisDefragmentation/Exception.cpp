@@ -5,6 +5,16 @@
 
 LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 {
+	STARTUPINFO si = { 0, };
+	PROCESS_INFORMATION pi;
+	si.cb = sizeof( si );
+	si.lpTitle = L"exception handler";
+	wchar_t command[] = L"crash_generation_app.exe";
+	CreateProcess( NULL, command, NULL, NULL, TRUE,
+				   CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi );
+
+	Sleep( 500 );
+
 	static int kCustomInfoCount = 2;
 	static google_breakpad::CustomInfoEntry kCustomInfoEntries[] = {
 		google_breakpad::CustomInfoEntry( L"prod", L"CrashTestApp" ),
