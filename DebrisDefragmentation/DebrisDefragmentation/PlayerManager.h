@@ -2,10 +2,11 @@
 #include "DDConfig.h"
 #include "GameOption.h"
 #include "Player.h"
-#include "DDCamera.h"
+//#include "DDCamera.h"
 
 // 전방선언
 //class Player;
+class DDCamera;
 
 class PlayerManager
 {

@@ -4,12 +4,11 @@ class CharacterModel :
 	public DDModel
 {
 public:
-	CharacterModel();
-	//CharacterModel( std::wstring modelPath );
+	CharacterModel();	
 	virtual ~CharacterModel();
-
-	//CREATE_OBJECT_WSTRING( CharacterModel, modelPath );
+		
 	CREATE_OBJECT( CharacterModel );
+	virtual void SetupFX();
 	
 private:
 	virtual void UpdateItSelf( float dTime );

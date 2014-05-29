@@ -11,6 +11,7 @@
 #include "MatrixTransform.h"
 #include "SceneManager.h"
 #include "PlayScene.h"
+#include "DDCamera.h"
 
 Player::Player()
 {

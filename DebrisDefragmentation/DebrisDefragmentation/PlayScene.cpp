@@ -14,6 +14,7 @@
 #include "GameData.h"
 #include "ObjectISS.h"
 #include "InfoPrinter.h"
+#include "EnvironmentManager.h"
 
 PlayScene::PlayScene()
 {
@@ -29,7 +30,7 @@ PlayScene::~PlayScene()
 {
 	delete GObjectManager;
 	delete GNetworkManager;
-	DeleteAlignedClass(GInfoPrinter);
+	//DeleteAlignedClass(GInfoPrinter);
 }
 
 
@@ -88,6 +89,7 @@ void PlayScene::Init()
 // 		AddChild( GGameLogic->GetPlayer(i) );
 // 	}	
 	AddChild( m_pDirectonalLight );
+	GEnvironmentManager->AddLight( ClientLightTag::DIRECTIONAL_MAIN, m_pDirectonalLight );
 	
 	// test skybox
 	//SkyBox* sb = SkyBox::Create( L"skybox.x" );

@@ -58,15 +58,15 @@ void DDCamera::RenderItSelf()
 	D3DXVECTOR3 vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
 
 
-	D3DXMATRIXA16 matView;
-	D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
-	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &matView );
+	
+	D3DXMatrixLookAtLH( &m_MatView, &vEyePt, &vLookatPt, &vUpVec );
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &m_MatView );
 
-	D3DXMATRIXA16 matProj;
+	
 	// 주의 : 반드시 SetAspectRatio() 먼저 해둘 것
 	float aspectRatio = WindowsWidth / WindowsHeight;
-	D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 5, aspectRatio, 0.5f, 2000.0f );
-	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &matProj );
+	D3DXMatrixPerspectiveFovLH( &m_MatProj, D3DX_PI / 5, aspectRatio, 0.5f, 2000.0f );
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &m_MatProj );
 }
 
 // default

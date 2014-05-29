@@ -11,9 +11,6 @@
     <Filter Include="Scene\Environment">
       <UniqueIdentifier>{c0cb755e-35b8-4fdc-89b8-c597160ccf9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Character">
-      <UniqueIdentifier>{3170486a-84bb-4930-a465-eac2f81f6310}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Scene">
       <UniqueIdentifier>{eaa142cd-4097-4285-83c1-d67dfb295c87}</UniqueIdentifier>
     </Filter>
@@ -31,6 +28,9 @@
     </Filter>
     <Filter Include="Scene\GameObjects">
       <UniqueIdentifier>{30ca701b-63f9-4417-9a35-ae3e59c26223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{a9248da0-6191-4210-b44f-0f9a89b7e829}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +52,6 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterModel.cpp">
-      <Filter>Scene\Character</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>GameManagers</Filter>
@@ -104,6 +101,12 @@
     <ClCompile Include="Exception.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentManager.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -127,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>GameManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterModel.h">
-      <Filter>Scene\Character</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>GameManagers</Filter>
@@ -179,5 +179,16 @@
     <ClInclude Include="Exception.h">
       <Filter>Win32</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterModel.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentManager.h">
+      <Filter>GameManagers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Rimlight.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

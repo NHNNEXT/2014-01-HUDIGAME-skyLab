@@ -91,6 +91,7 @@
     <ClCompile Include="DebrisModel.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="DispenserModel.cpp" />
+    <ClCompile Include="EnvironmentManager.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="InfoPrinter.cpp" />
     <ClCompile Include="ISSModel.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="DebrisModel.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="DispenserModel.h" />
+    <ClInclude Include="EnvironmentManager.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="InfoPrinter.h" />
     <ClInclude Include="ISSModel.h" />
@@ -144,6 +146,14 @@
     <ProjectReference Include="..\GameLogic\GameLogic.vcxproj">
       <Project>{528c19c0-239e-4031-90cc-ca342cb49af0}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Rimlight.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

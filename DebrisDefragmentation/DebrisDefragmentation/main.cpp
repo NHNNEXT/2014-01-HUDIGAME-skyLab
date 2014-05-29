@@ -12,6 +12,7 @@
 #include "Exception.h"
 #include "client/windows/handler/exception_handler.h"
 #include "client/windows/sender/crash_report_sender.h"
+#include "EnvironmentManager.h"
 
 google_breakpad::ExceptionHandler* handler = nullptr;
 
@@ -43,11 +44,12 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	SetUnhandledExceptionFilter( ExceptionFilter );
 	// 예외 처리 test 함수
-	CrashFunction();
+	// CrashFunction();
 
 	DDApplication* app = DDApplication::GetInstance();
 	GPlayerManager = PlayerManager::Create();
 	GSceneManager = SceneManager::Create();
+	GEnvironmentManager = EnvironmentManager::Create();
 	g_UIManager = UIManager::Create();
 	g_GameData = GameData::Create();
 

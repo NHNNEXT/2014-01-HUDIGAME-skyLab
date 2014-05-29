@@ -12,6 +12,7 @@
 #include "ClassComponent.h"
 #include "DispenserModel.h"
 #include "DDModel.h"
+#include "DDCamera.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;

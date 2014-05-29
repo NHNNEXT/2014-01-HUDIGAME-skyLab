@@ -27,6 +27,12 @@ enum class ClientUITag : int
 	UI_TAG_COUNT // total UI 숫자
 };
 
+enum class ClientLightTag : int
+{
+	DIRECTIONAL_MAIN,	
+	LIGHT_TAG_COUNT // total LIGHT 숫자
+};
+
 const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
 
 // ClientUITag와 동기화시킬 것
