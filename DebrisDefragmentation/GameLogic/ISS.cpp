@@ -2,6 +2,8 @@
 #include "ISS.h"
 
 #include "Physics.h"
+#include "ObjectTable.h"
+#include "ActorManager.h"
 
 ISS::ISS()
 {
@@ -33,6 +35,7 @@ void ISS::Update( float dTime )
 
 	// 조심해!!
 	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
+	///# std::array 순회하면서 처리할 때... 어떤 곳에서는 람다를 주로 쓰고 어떤 곳에서는 for루프로 일일이 처리하고... 통일좀 하삼.
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(), [&]( ISSModule &eachModule )
 	{
 		eachModule.SetISSPos( m_CurrentPos );
@@ -49,15 +52,16 @@ ISSModule* ISS::GetModule( ISSModuleName moduleName )
 	return &m_ModuleList[static_cast<int>( moduleName )];
 }
 
-std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor )
+bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 {
-	ISSModuleName targetModule = ModuleOnRay( viewDirection, startPoint );
+	Character* skillUser = GObjectTable->GetInstance<Character>( characterId );
+	ISSModuleName targetModule = ModuleOnRay( skillUser->GetViewDirection( direction ), skillUser->GetTransform()->GetPosition() );
 
 	// 걸리는 애가 있으면 그 모듈의 상태를 바꾸고 변화가 적용된 모듈 id와 점령 상태 반환
 	if ( targetModule != ISSModuleName::NO_MODULE )
 	{
 		// 점령 상태 전환
-		m_ModuleList[static_cast<int>( targetModule )].Occupy( callerColor );
+		m_ModuleList[static_cast<int>( targetModule )].Occupy( skillUser->GetTeam() );
 
 		// 운동 상태 변경
 		int blueCount = 0;
@@ -84,29 +88,30 @@ std::tuple<ISSModuleName, TeamColor, float, float> ISS::Occupy( const D3DXVECTOR
 		//m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 		m_Velocity = ( blueCount - redCount ) * ISS_MOVE_WEIGHT;
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>( targetModule )].GetOwner(), m_CurrentPos, m_Velocity );
+		GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( targetModule ), ClassSkill::OCCUPY );
+
+		return true;
 	}
 
-	printf_s( "no target module\n" );
-
-	return std::make_tuple( ISSModuleName::NO_MODULE, TeamColor::NO_TEAM, 0.0f, 0.0f );
+	return false;
 }
 
-std::tuple<ISSModuleName, float> ISS::Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
+bool ISS::Destroy( int characterId, D3DXVECTOR3 direction )
 {
-	ISSModuleName targetModule = ModuleOnRay( viewDirection, startPoint );
+	Character* skillUser = GObjectTable->GetInstance<Character>( characterId );
+	ISSModuleName targetModule = ModuleOnRay( skillUser->GetViewDirection( direction ), skillUser->GetTransform()->GetPosition() );
 
-	// 걸리는 애가 있으면 체력을 낮추고 걸린 모듈의 id와 변경된 체력을 tuple에 담아서 리턴
 	if ( targetModule != ISSModuleName::NO_MODULE )
 	{
-		// 캐스팅을 쓰는 건 안 좋은 것 같은데, 자료구조를 맵으로 바꿔야하나...
-		// enum class는 operator overloading이 안 되네요
-		// 다른 방법을 찾아서 수정하겠습니다-
+		m_ModuleList[static_cast<int>( targetModule )].DecreaseHP();
 
-		return std::make_tuple( targetModule, m_ModuleList[static_cast<int>(targetModule)].DecreaseHP() );
+		// 방송할 것
+		GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( targetModule ), ClassSkill::DESTROY );
+
+		return true;
 	}
 
-	return std::make_tuple( ISSModuleName::NO_MODULE, 0.0f );
+	return false;
 }
 
 

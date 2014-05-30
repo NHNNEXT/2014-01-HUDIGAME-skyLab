@@ -17,12 +17,13 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 	// 매니저에게 접근해서
 	// 어떻게든 세션을 알아내서 스킬 타입에 따라서 적합한 패킷을 방송하도록 시킨다
 	// 각각의 스킬들의 성격이 다른데  
-
+	///# 각 스킬별로 함수 구분해서 사용할 것 - 지금은 혼돈의 카오스
 	switch ( skillType )
 	{
 	case ClassSkill::PUSH:
 	case ClassSkill::PULL:
 		// 위치, 속도, 스핀
+		assert( GClientManager->GetSession( idx ) );
 		GClientManager->GetSession( idx )->BroadcastKineticState();
 		// GClientManager->GetSession( idx )->BroadcastAcceleration();
 		break;
@@ -35,18 +36,22 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 	case ClassSkill::SHARE_OXYGEN:
 	case ClassSkill::MOVE_FAST:
 	case ClassSkill::EMP:
+		assert( GClientManager->GetSession( idx ) );
 		GClientManager->GetSession( idx )->BroadcastCharacterState();
 		break;
 	case ClassSkill::WARNING:
+		assert( GClientManager->GetSession( idx ) );
 		GClientManager->GetSession( idx )->SendWarning();
 		break;
 	case ClassSkill::GATHER:
 		// 누가, 얼마나 채취
+		assert( GClientManager->GetSession( idx ) );
 		GClientManager->GetSession( idx )->BroadcastGatherResult();
 		break;
 	case ClassSkill::SET_MINE:
 	case ClassSkill::SET_SHELTER:
 	case ClassSkill::SET_DISPENSER:
+		assert( GClientManager->GetSession( idx ) );
 		GClientManager->GetSession( idx )->BroadcastBuildResult();
 		// 새로운 오브젝트 추가 - 오브젝트 타입, 위치, 소유자
 		break;
@@ -97,8 +102,10 @@ void GameManager::DoPeriodWork()
 	m_DeadPlayers.clear();
 
 	// 게임 종료 조건 확인
-	if ( m_WinnerTeam != TeamColor::NO_TEAM )
+	if ( m_WinnerTeam != TeamColor::NO_TEAM && !m_GameEndFlag )
 	{
+		m_GameEndFlag = true;
+
 		// 방송 요청
 		GameResultResult outPacket;
 		outPacket.mWinnerTeam = static_cast<int>( m_WinnerTeam );

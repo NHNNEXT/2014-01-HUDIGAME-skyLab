@@ -65,6 +65,8 @@ void ActorManager::Init( )
 
 	m_WinnerTeam = TeamColor::NO_TEAM;
 
+	m_GameEndFlag = false;
+
 	// InitializeSRWLock( &m_SRWLock );
 }
 
@@ -97,26 +99,6 @@ int ActorManager::RegisterCharacter( Character* newCharacter )
 
 	return -1; // 빈 자리가 없습니다.
 }
-
-/*
-사용 안 함 - 클래스를 바꾸면 각 세션이 자신의 멤버 함수의 m_Character의 class component를 바꾸는 걸로 
-결국 actorManager에 등록된 actor의 포인터는 그대로 유지되고, 내부 클래스만 바뀜
-void ActorManager::ChangeActor( Actor* newActor, int actorId )
-{
-	// 다른 세션 캐릭터를 바꾸는 일은 없도록 만들어야 할 듯
-
-	// 확인을 위해서는 함수 호출한 세션의 캐릭터가 삭제하려는 캐릭터와 같은지 확인 필요
-	// 모든 인자를 호출하는 쪽에서 넣으므로 이 함수 안에서 확인은 힘들어 보임
-	// actorManager가 유저들의 actor를 직접 가지지 않고 유저 포인터만 들고 있으면서 
-	// 유저를 통해서 참조하면 각 유저가 자신의 캐릭터만 바꿀 수 있으니 괜찮겠지만...
-	
-	// 현재 구조에서는 이 함수를 호출하는 함수를 각 actor의 멤버 함수로 제한하고, 그 함수 안에서 자신의 actorId로 인자를 고정하도록 구현
-
-	// 기존 캐릭터 삭제 -> 새로운 캐릭터 등록
-	DeleteActor( actorId );
-	m_ActorList[actorId] = newActor;
-}
-*/
 
 void ActorManager::DeregisterCharacter( int characterId )
 {
@@ -386,47 +368,6 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 	}
 
 	return targets;
-}
-
-bool ActorManager::OccupyISS( int characterId, D3DXVECTOR3 direction )
-{
-	// 이 로직도 ISS 내부로 밀어넣는 게 좋을 것 같은데
-	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
-	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
-
-	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
-	TeamColor teamColor = TeamColor::NO_TEAM;
-	float IssPosX = 0.0f;
-	float IssVelocityX = 0.0f;
-
-	std::tie( moduleName, teamColor, IssPosX, IssVelocityX ) = m_ISS.Occupy( viewDirection, startPoint, m_CharacterList[characterId]->GetTeam() );
-
-	if ( moduleName == ISSModuleName::NO_MODULE )
-		return false;
-
-	// 방송할 것
-	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( moduleName ), ClassSkill::OCCUPY );
-
-	return true;
-}
-
-bool ActorManager::DestroyISS( int characterId, D3DXVECTOR3 direction )
-{
-	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
-	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
-	ISSModuleName moduleName = ISSModuleName::NO_MODULE;
-	float moduleHP = 1.0f;
-
-	std::tie( moduleName, moduleHP ) = m_ISS.Destroy( viewDirection, startPoint );
-
-	// 변경사항 없으면 리턴
-	if ( moduleName == ISSModuleName::NO_MODULE )
-		return false;
-
-	// 방송할 것
-	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( moduleName ), ClassSkill::DESTROY );
-
-	return true;
 }
 
 bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )

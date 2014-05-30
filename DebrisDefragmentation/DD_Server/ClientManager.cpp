@@ -65,7 +65,7 @@ void ClientManager::OnPeriodWork()
 	// 게임 로직에 관련 된 것도 진행
 	mGameManager.DoPeriodWork();
 	
-	SyncAll(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
+	SyncGhostInfo(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();
@@ -119,7 +119,7 @@ void ClientManager::FlushClientSend()
 	}
 }
 
-void ClientManager::SyncAll( )
+void ClientManager::SyncGhostInfo()
 {
 	// 동기화 디버깅 수단으로 사용
 	for ( ClientList::const_iterator it = mClientList.begin(); it != mClientList.end(); ++it )

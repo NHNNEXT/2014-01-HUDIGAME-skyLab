@@ -148,7 +148,7 @@ bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
 
 	// 판정은 GActorManager에 맞기자
 	// 방송도 GActorManager가 OccupyISS 진행하면서 하는 걸로
-	bool returnVal = GObjectTable->GetActorManager()->OccupyISS( id, direction );
+	bool returnVal = GObjectTable->GetActorManager()->GetIss()->Occupy( id, direction );
 
 	// 스킬 썼으면 쿨 적용시키자
 	if ( returnVal )
@@ -165,7 +165,7 @@ bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 
 	// 판정은 GActorManager에 맞기자
 	// 방송도 GActorManager가 DestroyISS 진행하면서 하는 걸로
-	bool returnVal = GObjectTable->GetActorManager()->DestroyISS( id, direction );
+	bool returnVal = GObjectTable->GetActorManager()->GetIss()->Destroy( id, direction );
 
 	// 스킬 썼으면 쿨 적용시키자
 	if ( returnVal )

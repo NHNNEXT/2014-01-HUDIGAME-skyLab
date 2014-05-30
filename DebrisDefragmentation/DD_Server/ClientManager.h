@@ -24,8 +24,8 @@ public:
 	void OnPeriodWork();
 	void FlushClientSend();
 
-	// 현재 게임 상태를 접속중인 모든 클라이언트에 동기화 시킴 - 무서운 녀석이다. 봉인
-	void SyncAll();
+	// 반드시 고스트 정보 동기화 용도로만 사용할 것
+	void SyncGhostInfo();
 
 	// 다른 플레이어들 정보를 가져옴 - 처음 접속한 세션에서 호출
 	void InitPlayerState( ClientSession* caller );

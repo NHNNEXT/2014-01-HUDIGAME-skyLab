@@ -21,11 +21,9 @@ public:
 	
 	ISSModule* GetModule( ISSModuleName moduleName );
 
-	std::tuple<ISSModuleName, TeamColor, float, float>	
-		Occupy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint, TeamColor callerColor );
-
-	std::tuple<ISSModuleName, float>					
-		Destroy( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );
+	// 유저가 ISS 사용하는 스킬 판정 및 적용
+	bool Occupy( int characterId, D3DXVECTOR3 direction );
+	bool Destroy( int characterId, D3DXVECTOR3 direction );
 
 	// 레이를 발사해서 레이안에 모듈이 있으면 module name을 반환
 	ISSModuleName ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint );

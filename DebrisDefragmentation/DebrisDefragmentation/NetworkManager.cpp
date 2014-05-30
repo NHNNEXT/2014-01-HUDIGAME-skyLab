@@ -204,7 +204,7 @@ void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
 	
 	// dispenser model 생성
 	DispenserModel* newDispenserModel = DispenserModel::Create();
-	newDispenserModel->GetTransform().SetPosition( inPacket.mTargetPos.GetD3DVEC() );
+	newDispenserModel->GetTransform().SetPosition( inPacket.mTargetPos );
 	newDispenserModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DISPENSER ) );
 	
 	// object관리 클래스에 등록
@@ -273,9 +273,9 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	// printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
 	// printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
 
-	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
-	player->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	player->GetTransform().SetPosition( inPacket.mPos );
+	player->GetTransform().SetRotation( inPacket.mRotation );
+	player->SetVelocity( inPacket.mVelocity );
 
 	player->Move( player->GetViewDirection() );
 }
@@ -287,7 +287,7 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 		
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );		
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 }
 
 void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
@@ -296,13 +296,13 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 {
-	SyncResult inPacket = reinterpret_cast<SyncResult&>( pktBase );
+	GhostSyncResult inPacket = reinterpret_cast<GhostSyncResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	// 서버의 충돌박스 그리기 용 임시..
@@ -313,8 +313,8 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 		dummyPlayerID = inPacket.mPlayerId + REAL_PLAYER_NUM;
 
 		GPlayerManager->AddPlayer( dummyPlayerID );
-		GPlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-		GPlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+		GPlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( inPacket.mPos );
+		GPlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( inPacket.mVelocity );
 	}
 #else
 #endif
@@ -344,18 +344,18 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 
 	// 조심해!!
 	// 항상 가속 시작 상태를 전달하는 것인가??
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Move( inPacket.mForce.GetD3DVEC() );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Move( inPacket.mForce );
 
 	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
 		return;
 
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce.GetD3DVEC(), inPacket.mSpinAngularVelocity );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis.GetD3DVEC(), inPacket.mSpinAngularVelocity );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
 }
 
 void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
@@ -373,9 +373,9 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 }
 
 
@@ -404,8 +404,8 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	printf_s( "respawn player" );
 	player->GetClassComponent()->ResetStatus();
 
-	player->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	player->GetTransform().SetRotation( inPacket.mRotation.GetD3DVEC() );
+	player->GetTransform().SetPosition( inPacket.mPos );
+	player->GetTransform().SetRotation( inPacket.mRotation );
 }
 
 void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
@@ -414,8 +414,8 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos.GetD3DVEC() );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity.GetD3DVEC() );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 }
 
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )

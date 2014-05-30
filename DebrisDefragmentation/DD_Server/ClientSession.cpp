@@ -354,7 +354,7 @@ void ClientSession::BroadcastDeadResult()
 
 void ClientSession::SyncCurrentStatus()
 {
-	SyncResult outPacket;
+	GhostSyncResult outPacket;
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
@@ -461,7 +461,7 @@ void ClientSession::BroadcastGatherResult()
 
 void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 {
-	SyncResult outPacket;
+	GhostSyncResult outPacket;
 
 	outPacket.mPlayerId = m_Character.GetCharacterId();
 
@@ -644,7 +644,7 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	// 이걸 멤버 유저에게 적용하고 - 회전도 자유다
 	//m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 	// turn body는 increase가 아니라 set을 사용함
-	m_Character.GetTransform()->SetRotation( inPacket.mRotation.GetD3DVEC() );
+	m_Character.GetTransform()->SetRotation( inPacket.mRotation );
 
 	RotationResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -656,35 +656,6 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	{
 		Disconnect();
 	}
-}
-
-
-REGISTER_HANDLER( PKT_CS_DEAD )
-{
-	DeadRequest inPacket = static_cast<DeadRequest&>( pktBase );
-	session->HandleDeadRequest( inPacket );
-}
-
-void ClientSession::HandleDeadRequest( DeadRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-	
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	// 판단은 서버가 한다! - 이런거 보내지 마라(지금은)
-	/*
-	// printf_s( "Player %d is Dead\n", inPacket.mPlayerId );
-	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
-	DeadResult outPacket;
-	outPacket.mPlayerId = mPlayerId;
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-	*/
 }
 
 REGISTER_HANDLER( PKT_CS_RESPAWN )
@@ -743,7 +714,7 @@ void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
 	printf_s( "%d is using skill %d\n", inPacket.mPlayerId, inPacket.mSkill );
 
 	// 스킬 시전!
-	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection.GetD3DVEC() ) )
+	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection ) )
 		return;
 
 	// 스킬이 적용된 대상은 스킬을 실행하는 과정에서 방송하도록 함

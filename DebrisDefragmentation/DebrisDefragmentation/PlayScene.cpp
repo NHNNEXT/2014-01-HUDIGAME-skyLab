@@ -41,6 +41,7 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::EARTH, L"earth.x" );
 	m_ModelPool.InitModel( ModelType::PLAYER_MODEL, L"spaceMan.x" );
 	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );
+	// m_ModelPool.InitModel( ModelType::ISS, L"/iss_2.X" );
 	m_ModelPool.InitModel( ModelType::DISPENSER, L"dispenser.x" );
 }
 

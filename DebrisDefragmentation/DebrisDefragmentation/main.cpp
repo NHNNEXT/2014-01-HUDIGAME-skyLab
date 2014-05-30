@@ -44,6 +44,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	SetUnhandledExceptionFilter( ExceptionFilter );
 	// 예외 처리 test 함수
+	//CrashFunction();
 	// CrashFunction();
 
 	DDApplication* app = DDApplication::GetInstance();

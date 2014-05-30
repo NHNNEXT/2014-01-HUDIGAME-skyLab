@@ -57,8 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	if ( ret == SOCKET_ERROR )
 		return -1;
 
-	// GLogManager->LogInfo( L"run server" );
-	DDLOG_INFO( L"run server" );
+	DDLOG_INFO( L"server started" );
 
 	/// listen
 	ret = listen( listenSocket, SOMAXCONN );
@@ -91,6 +90,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// 윈속 종료
 	WSACleanup( );
+
+	DDLOG_INFO( L"server closed" );
 
 	// 자원 정리
 	delete GClientManager;

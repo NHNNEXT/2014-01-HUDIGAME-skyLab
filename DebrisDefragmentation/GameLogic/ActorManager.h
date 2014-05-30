@@ -13,7 +13,7 @@ class ActorManager
 {
 public:
 	ActorManager();
-	~ActorManager();
+	virtual ~ActorManager();
 
 	void Init( );
 
@@ -43,12 +43,6 @@ public:
 	std::tuple<int, D3DXVECTOR3> DetectTarget( int characterId, const D3DXVECTOR3& direction );
 
 	ISS* GetIss() { return &m_ISS; }
-
-	// 점령 스킬을 사용한 결과 - 모듈이름, 바뀐 소유주, ISS위치, ISS 속도 - 를 반환	
-	bool OccupyISS( int characterId, D3DXVECTOR3 direction );
-	
-	// 파괴 스킬을 사용한 결과 - 모듈이름, 체력 - 를 반환	
-	bool DestroyISS( int characterId, D3DXVECTOR3 direction );
 
 	bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
 	Dispenser* GetLastSturture() { return m_DispenserList.back(); }	
@@ -112,7 +106,8 @@ protected:
 	std::map<unsigned, SpaceMine*>	m_SpaceMineList;
 	unsigned int					m_SpaceMineId = 0;
 
-	
+	bool m_GameEndFlag = false;
+
 	// 자원 데브리의 정보를 관리
 	std::array<Debris*, RESOURCE_DEBRIS_NUMBER>		m_ResourceDebrisList;	
 

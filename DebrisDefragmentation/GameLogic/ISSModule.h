@@ -20,7 +20,7 @@ public:
 	virtual ~ISSModule();
 
 	void Init( ISSModuleName moduleName );
-	float DecreaseHP();
+	void DecreaseHP();
 	void SetHP( float hp ) { m_HealthPoint = hp; }
 	float GetHP() const { return m_HealthPoint; }
 	const CollisionBox* GetControlPointBox();

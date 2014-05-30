@@ -49,7 +49,7 @@ TeamColor ISSModule::Occupy( TeamColor callerColor )
 	return m_CurrentOwner;
 }
 
-float ISSModule::DecreaseHP()
+void ISSModule::DecreaseHP()
 {
 	// 체력을 일정 수치 깎는다.
 	m_HealthPoint -= ISS_BASE_DAMAGE;
@@ -58,8 +58,6 @@ float ISSModule::DecreaseHP()
 		m_HealthPoint = 0.0f;
 
 	printf_s( "[DEBUG] ISS MODULE %d HP : %f\n", m_ModuleName, m_HealthPoint );
-
-	return m_HealthPoint;
 }
 
 const CollisionBox* ISSModule::GetControlPointBox()

@@ -30,7 +30,7 @@ struct Float3D
 		return *this;
 	}
 
-	D3DXVECTOR3 GetD3DVEC()
+	operator D3DXVECTOR3()
 	{
 		return D3DXVECTOR3( m_X, m_Y, m_Z );
 	}
@@ -241,11 +241,11 @@ struct RotationResult : public PacketHeader
 };
 
 // 주기적인 동기화를 위해서 - 오브젝트들은 어떻게 하지... 일단 플레이어만 하자
-struct SyncRequest : public PacketHeader
+struct GhostSyncRequest : public PacketHeader
 {
-	SyncRequest()
+	GhostSyncRequest()
 	{
-		mSize = sizeof( SyncRequest );
+		mSize = sizeof( GhostSyncRequest );
 		mType = PKT_CS_SYNC;
 		mPlayerId = -1;
 	}
@@ -253,11 +253,11 @@ struct SyncRequest : public PacketHeader
 	int		mPlayerId;
 };
 
-struct SyncResult : public PacketHeader
+struct GhostSyncResult : public PacketHeader
 {
-	SyncResult()
+	GhostSyncResult()
 	{
-		mSize = sizeof( SyncResult );
+		mSize = sizeof( GhostSyncResult );
 		mType = PKT_SC_SYNC;
 		mPlayerId = -1;
 	}
@@ -266,20 +266,6 @@ struct SyncResult : public PacketHeader
 
 	Float3D mPos; 
 	Float3D mVelocity;
-};
-
-
-// 캐릭터 hp가 0일 때 보냄.
-struct DeadRequest : public PacketHeader
-{
-	DeadRequest()
-	{
-		mSize = sizeof( DeadRequest );
-		mType = PKT_CS_DEAD;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
 };
 
 struct DeadResult : public PacketHeader
