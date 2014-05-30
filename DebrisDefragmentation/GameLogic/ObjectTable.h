@@ -8,13 +8,17 @@ class ActorManager;
 class ObjectTable
 {
 public:
-	ObjectTable( ) {}
+	ObjectTable( ) 
+	{
+		m_CharacterList.fill( nullptr );
+	}
 	~ObjectTable();
 
 	/*
 		인덱스와 타입을 인자로 받아서 해당하는 액터의 포인터를 반환
 		인자로 받을 수 있는 타입은 Actor, Transform, ClassComponent
 	*/
+	///# 정 템플릿을 쓰고 싶으면 "템플릿 특수화"를 쓰면 된다.
 	template<typename T>
 	T* GetInstance( int key )
 	{
@@ -40,7 +44,6 @@ public:
 
 	void Init( ActorManager* actorManager );
 
-	void SetActorManager( ActorManager* actorManager ) { m_ActorManager = actorManager; }
 	void SetCharacter( Character* character, int idx ) { m_CharacterList[idx] = character; }
 
 private:

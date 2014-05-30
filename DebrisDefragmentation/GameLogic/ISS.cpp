@@ -114,8 +114,6 @@ bool ISS::Destroy( int characterId, D3DXVECTOR3 direction )
 	return false;
 }
 
-
-
 ISSModuleName ISS::ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
 {
 	float currentDistance = std::numeric_limits<float>::infinity();
@@ -143,7 +141,6 @@ ISSModuleName ISS::ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECT
 
 	return targetModule;
 }
-
 
 std::tuple<TeamColor, float> ISS::GetModuleState( int moduleIdx )
 {

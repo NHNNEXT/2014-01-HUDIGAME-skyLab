@@ -35,7 +35,7 @@ protected:
 	D3DXMATRIXA16	m_Matrix;
 	Transform		m_Transform;
 	CollisionBox	m_CollisionBox;		// 충돌 박스의 기본 값 저장
-	CollisionBox	m_TransformedBox;	// 물체가 회전함에 따라 기본 박스가 변형된 값 저장 
+	CollisionBox	m_TransformedBoxCache;	// 물체가 회전함에 따라 기본 박스가 변형된 값 저장 
 	// 로컬 좌표계 상의 충돌 박스 정보는 m_CollisionBox에 저장되어 있고
 	// 충돌 체크할 때 현재의 m_Matrix에 저장된 변환을 적용한 박스가 필요
 	// 결국 m_CollisionBox에 m_Matrix를 곱한 결과를 리턴해줘야 하는데 
