@@ -26,7 +26,7 @@ protected:
 		
 private:
 	void		SetAspectRatio();
-	
+
 	D3DXMATRIXA16 m_MatView;
 	D3DXMATRIXA16 m_MatProj;
 	float WindowsWidth = 0;

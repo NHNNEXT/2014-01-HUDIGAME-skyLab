@@ -37,12 +37,28 @@ void DDModel::RenderItSelf()
 		return;
 
 	SetupFX();
+	UINT nPass;
 
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 
 	if ( m_UseShader )
 	{
+		pD3DDevice->SetVertexDeclaration( m_pDecl );
+		//LPDIRECT3DVERTEXBUFFER9* pVB = nullptr;
+		//m_MeshInfo->m_pMesh->GetVertexBuffer(pVB);
+		//pD3DDevice->SetStreamSource( 0, *pVB, 0, sizeof( **pVB ) );
 
+		m_pEffect->SetTechnique( "RenderRimLight" );
+		m_pEffect->Begin( &nPass, D3DXFX_DONOTSAVESTATE );
+		
+		for ( int i = 0; i < nPass; ++i )
+		{
+			m_pEffect->BeginPass( i );
+			m_MeshInfo->m_pMesh->DrawSubset( i );
+			m_pEffect->EndPass();
+		}
+
+		m_pEffect->End();
 	}
 	else
 	{

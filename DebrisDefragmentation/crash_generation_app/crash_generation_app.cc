@@ -124,7 +124,6 @@ namespace google_breakpad {
 								 NULL,
 								 instance,
 								 NULL );
-
 		if ( !wnd ) {
 			return FALSE;
 		}
@@ -297,7 +296,9 @@ namespace google_breakpad {
 		}
 
 		QueueUserWorkItem( AppendTextWorker, line, WT_EXECUTEDEFAULT );
-		::SendMessage( wnd, WM_CLOSE, NULL, NULL );
+		//::SendMessage( wnd, WM_DESTROY, NULL, NULL );		
+		DestroyWindow( wnd );
+		//PostQuitMessage( 0 );
 	}
 
 	void CrashServerStart() {
@@ -494,7 +495,7 @@ int APIENTRY _tWinMain( HINSTANCE instance,
 
 	// Main message loop.
 	MSG msg;
-	while ( GetMessage( &msg, NULL, 0, 0 ) ) {
+	while ( GetMessage( &msg, wnd, 0, 0 ) ) {
 		if ( !TranslateAccelerator( msg.hwnd, accel_table, &msg ) ) {
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );

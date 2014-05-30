@@ -32,7 +32,7 @@ bool PlayerManager::AddPlayer( int playerId )
 
 	// 없으면 새 캐릭터 만듦
 	m_PlayerList[playerId] = Player::Create( playerId );
-	m_PlayerList[playerId]->Init();
+	m_PlayerList[playerId]->Init();	
 
 	GSceneManager->GetScene()->AddChild( m_PlayerList[playerId] );
 	++m_CurrentPlayers;	

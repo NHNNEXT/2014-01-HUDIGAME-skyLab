@@ -39,7 +39,7 @@ struct PS_INPUT
 
 //
 float4 I_a = { 0.2f, 0.2f, 0.2f, 1.0f }; // ambient
-float4 I_d = { 1.f, 1.f, 0.0f, 1.0f }; // diffuse
+float4 I_d = { 1.f, 1.f, 1.0f, 1.0f }; // diffuse
 
 // 
 float4 k_a = { 0.3f, 0.3f, 0.3f, 1.0f }; // ambient

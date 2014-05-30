@@ -34,6 +34,8 @@ void DDLight::RenderItSelf()
 						  1.0f,
 						  sinf( timeGetTime() / 1000.f ) );
 
+	D3DXMatrixRotationYawPitchRoll( &m_Matrix, vecDir.y, vecDir.x, vecDir.z );
+
 	D3DXVec3Normalize( (DDVECTOR3*)&light.Direction, &vecDir );
 	light.Range = 10000.0f;
 	DDRenderer::GetInstance()->GetDevice()->SetLight( 0, &light );

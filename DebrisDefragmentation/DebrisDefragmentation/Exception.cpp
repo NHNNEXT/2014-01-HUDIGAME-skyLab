@@ -12,7 +12,8 @@ LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 	wchar_t command[] = L"crash_generation_app.exe";
 	CreateProcess( NULL, command, NULL, NULL, TRUE,
 				   CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi );
-
+	CloseHandle( pi.hProcess );
+	CloseHandle( pi.hThread );
 	Sleep( 500 );
 
 	static int kCustomInfoCount = 2;
@@ -29,7 +30,9 @@ LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 	client.RequestDump( exceptionInfo );
 	client.RequestUpload(10);
 	
-
+// 	Sleep( 500 );
+// 	TerminateProcess( pi.hProcess, 0 );
+	
 	// 예외처리 종료 신호 반환
 	return EXCEPTION_EXECUTE_HANDLER;
 
