@@ -78,7 +78,7 @@ public:
 	void	BroadcastBuildResult();
 	void	BroadcastGatherResult();
 	void	BroadcastDispenserEffect(bool flag);
-	void	SyncCurrentStatus();
+	void	SyncGhostInfo();
 
 	void	BroadcastAcceleration();
 	void	BroadcastKineticState( bool accelerationFlag, bool spinFlag );

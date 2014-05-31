@@ -3,6 +3,8 @@
 #include "ClientManager.h"
 #include "ClientSession.h"
 
+#include "LogManager.h"
+
 GameManager::GameManager()
 {
 }
@@ -85,7 +87,7 @@ void GameManager::DoPeriodWork()
 	{
 		// 방송 요청
 		GClientManager->GetSession( each )->BroadcastCollisionResult();
-		printf_s( "collision : %d \n", each );
+		// printf_s( "collision : %d \n", each );
 	}
 	);
 	m_CollidedPlayers.clear();
@@ -102,6 +104,7 @@ void GameManager::DoPeriodWork()
 	// 게임 종료 조건 확인
 	if ( m_WinnerTeam != TeamColor::NO_TEAM && !m_GameEndFlag )
 	{
+		DDLOG_INFO( L"game end" );
 		m_GameEndFlag = true;
 
 		// 방송 요청

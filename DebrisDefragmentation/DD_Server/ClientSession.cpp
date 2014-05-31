@@ -9,6 +9,8 @@
 #include "Dispenser.h"
 #include "..\DebrisDefragmentation\ObjectManager.h"
 
+#include "LogManager.h"
+
 typedef void( *HandlerFunc )( ClientSession* session, PacketHeader& pktBase );
 
 static HandlerFunc HandlerTable[PKT_MAX];
@@ -57,7 +59,8 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 	int opt = 1;
 	setsockopt( mSocket, IPPROTO_TCP, TCP_NODELAY, (const char*)&opt, sizeof( int ) );
 
-	printf( "[DEBUG] Client Connected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
+	DDLOG_DEBUG( L"Client Connected: IP=%s, PORT=%d", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
+	// printf( "[DEBUG] Client Connected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
 
 	mConnected = true;
 
@@ -110,7 +113,8 @@ void ClientSession::Disconnect( )
 	m_GameManager->DeregisterCharacter( m_Character.GetCharacterId() );
 	GClientManager->DeregisterSession( mPlayerId, this );
 
-	printf( "[DEBUG] Client Disconnected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
+	DDLOG_DEBUG( L"Client Disconnected: IP=%s, PORT=%d", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
+	// printf( "[DEBUG] Client Disconnected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
 
 	/// 즉각 해제
 	LINGER lingerOption;
@@ -120,7 +124,8 @@ void ClientSession::Disconnect( )
 	/// no TCP TIME_WAIT
 	if ( SOCKET_ERROR == setsockopt( mSocket, SOL_SOCKET, SO_LINGER, (char*)&lingerOption, sizeof( LINGER ) ) )
 	{
-		printf_s( "[DEBUG] setsockopt linger option error: %d\n", GetLastError( ) );
+		DDLOG_WARN( L"setsockopt linger option error: %d", GetLastError() );
+		// printf_s( "[DEBUG] setsockopt linger option error: %d\n", GetLastError( ) );
 		return;
 	}
 
@@ -244,14 +249,11 @@ void ClientSession::OnTick( )
 	*/
 }
 
-
 void ClientSession::UpdateDone( )
 {
 	/// 콘텐츠를 넣기 전까지는 딱히 해줄 것이 없다. 단지 테스트를 위해서..
-	printf( "DEBUG: Player[%d] Update Done\n", mPlayerId );
+	// printf( "DEBUG: Player[%d] Update Done\n", mPlayerId );
 }
-
-
 
 void ClientSession::LoginDone( int pid )
 {
@@ -266,9 +268,9 @@ void ClientSession::LoginDone( int pid )
 	SendRequest( &outPacket );
 
 	mLogon = true;
+
+	DDLOG_INFO( L"[client %d] login successed", mPlayerId );
 }
-
-
 
 ///////////////////////////////////////////////////////////
 
@@ -300,7 +302,6 @@ void CALLBACK RecvCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 		return;
 	}
 }
-
 
 void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags )
 {
@@ -337,6 +338,8 @@ void ClientSession::BroadcastCollisionResult()
 	{
 		Disconnect();
 	}
+
+	DDLOG_DEBUG( L"[client %d] Collision", mPlayerId );
 }
 
 void ClientSession::BroadcastDeadResult()
@@ -350,9 +353,11 @@ void ClientSession::BroadcastDeadResult()
 	{
 		Disconnect();
 	}
+
+	DDLOG_DEBUG( L"[client %d] Dead", mPlayerId );
 }
 
-void ClientSession::SyncCurrentStatus()
+void ClientSession::SyncGhostInfo()
 {
 	GhostSyncResult outPacket;
 
@@ -426,6 +431,8 @@ void ClientSession::BroadcastAcceleration()
 	{
 		Disconnect();
 	}
+
+	DDLOG_DEBUG( L"[client %d] Accelerate", mPlayerId );
 }
 
 void ClientSession::BroadcastBuildResult()
@@ -439,6 +446,8 @@ void ClientSession::BroadcastBuildResult()
 	{
 		Disconnect();
 	}
+
+	DDLOG_DEBUG( L"[client %d] Build", mPlayerId );
 }
 
 void ClientSession::BroadcastDispenserEffect( bool flag )
@@ -452,6 +461,8 @@ void ClientSession::BroadcastDispenserEffect( bool flag )
 	{
 		Disconnect();
 	}
+
+	DDLOG_DEBUG( L"[client %d] Dispenser effect", mPlayerId );
 }
 
 
@@ -467,6 +478,8 @@ void ClientSession::BroadcastGatherResult()
 	{
 		Disconnect();
 	}
+
+	DDLOG_DEBUG( L"[client %d] Gather", mPlayerId );
 }
 
 void ClientSession::SendCurrentStatus( ClientSession* targetClient )
@@ -490,6 +503,8 @@ void ClientSession::SendWarning()
 	outPacket.mRemainTime = m_GameManager->GetEvent()->GetRemainTime();
 
 	SendRequest( &outPacket );
+
+	DDLOG_DEBUG( L"[client %d] Warning", mPlayerId );
 }
 
 // 각 패킷을 처리하는 핸들러를 만들자
@@ -503,12 +518,15 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_LOGIN );
+
 	// 로그인 됐으면 플레이어 만들고
 	// pid를 할당 받아야 되는데
 	int characterId = m_GameManager->RegisterCharacter( &m_Character );
 	if ( characterId == -1 )
 	{
 		// 더 못 들어온다.
+		DDLOG_INFO( L"channel is full" );
 		Disconnect();
 	}
 
@@ -530,6 +548,8 @@ REGISTER_HANDLER( PKT_CS_GAME_STATE )
 void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_GAME_STATE );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -585,7 +605,8 @@ REGISTER_HANDLER( PKT_CS_ACCELERATION )
 void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-	// printf_s( "goforward %d\n", inPacket.mPlayerId ); 
+
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_ACCELERATION );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -618,6 +639,8 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_STOP );
+
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
@@ -648,6 +671,8 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_ROTATION );
+
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
 
@@ -677,6 +702,8 @@ REGISTER_HANDLER( PKT_CS_RESPAWN )
 void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_RESPAWN );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -718,10 +745,10 @@ void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
+	DDLOG_DEBUG( L"[client %d] using skill : %d", mPlayerId, inPacket.mSkill );
+
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
-
-	printf_s( "%d is using skill %d\n", inPacket.mPlayerId, inPacket.mSkill );
 
 	// 스킬 시전!
 	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection ) )
@@ -750,6 +777,8 @@ REGISTER_HANDLER( PKT_CS_CHANGE_CLASS )
 void ClientSession::HandleChangeClassRequest( ChangeClassRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_CHANGE_CLASS );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;

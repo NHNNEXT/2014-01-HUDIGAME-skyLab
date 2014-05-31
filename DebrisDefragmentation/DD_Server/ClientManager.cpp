@@ -126,7 +126,7 @@ void ClientManager::SyncGhostInfo()
 	{
 		ClientSession* client = it->second;
 
-		client->SyncCurrentStatus();
+		client->SyncGhostInfo();
 	}
 }
 

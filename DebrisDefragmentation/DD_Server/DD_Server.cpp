@@ -79,7 +79,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		SOCKET acceptedSocket = accept( listenSocket, NULL, NULL );
 		if ( acceptedSocket == INVALID_SOCKET )
 		{
-			printf( "accept: invalid socket\n" );
+			DDLOG_WARN( L"accept: invalid socket" );
 			continue;
 		}
 

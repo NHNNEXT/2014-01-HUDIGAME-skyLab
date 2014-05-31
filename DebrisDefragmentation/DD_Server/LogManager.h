@@ -17,6 +17,9 @@ public:
 	void Init();
 	log4cplus::Logger* GetLogger() { return &m_Logger; }
 
+	// 조심해!!
+	// 스트링 조합해서 넘겨야 해...
+	// 가변인자를 사용해야 하나
 	void LogFatal( std::wstring message );
 	void LogError( std::wstring message );
 	void LogWarn( std::wstring message );
@@ -24,7 +27,7 @@ public:
 	void LogDebug( std::wstring message );
 
 private:
-	log4cplus::Logger m_Logger;
+	log4cplus::Logger	m_Logger;
 };
 
 extern LogManager* GLogManager;

@@ -22,42 +22,42 @@ void LogManager::Init()
 
 	log4cplus::SharedAppenderPtr consoleAppender( new log4cplus::ConsoleAppender() );
 	consoleAppender->setName( L"ConsoleAppender" );
-	std::auto_ptr<log4cplus::Layout> consoleLayout = std::auto_ptr<log4cplus::Layout>( new log4cplus::TTCCLayout() );
+	std::auto_ptr<log4cplus::Layout> consoleLayout = std::auto_ptr<log4cplus::Layout>( new log4cplus::SimpleLayout() );
 	consoleAppender->setLayout( consoleLayout );
 
 	log4cplus::SharedAppenderPtr fileAppender( new log4cplus::FileAppender( L"DebriDefragmentationServer.log" ) );
 	fileAppender->setName( L"FileAppender" );
-	std::auto_ptr<log4cplus::Layout> fileLayout = std::auto_ptr<log4cplus::Layout>( new log4cplus::TTCCLayout() );
+	std::auto_ptr<log4cplus::Layout> fileLayout = std::auto_ptr<log4cplus::Layout>( new log4cplus::SimpleLayout() );
 	fileAppender->setLayout( fileLayout );
 	
 	m_Logger = log4cplus::Logger::getInstance( L"myLoggerName" );
 	m_Logger.addAppender( consoleAppender );
 	m_Logger.addAppender( fileAppender );
 
-	m_Logger.setLogLevel( log4cplus::INFO_LOG_LEVEL );
+	m_Logger.setLogLevel( log4cplus::DEBUG_LOG_LEVEL );
 }
 
 void LogManager::LogFatal( std::wstring message )
 {
-	LOG4CPLUS_FATAL( m_Logger, message.c_str() );
+	LOG4CPLUS_FATAL( m_Logger, message );
 }
 
 void LogManager::LogError( std::wstring message )
 {
-	LOG4CPLUS_ERROR( m_Logger, message.c_str() );
+	LOG4CPLUS_ERROR( m_Logger, message );
 }
 
 void LogManager::LogWarn( std::wstring message )
 {
-	LOG4CPLUS_WARN( m_Logger, message.c_str() );
+	LOG4CPLUS_WARN( m_Logger, message );
 }
 
 void LogManager::LogInfo( std::wstring message )
 {
-	LOG4CPLUS_INFO( m_Logger, message.c_str() );
+	LOG4CPLUS_INFO( m_Logger, message );
 }
 
 void LogManager::LogDebug( std::wstring message )
 {
-	LOG4CPLUS_DEBUG( m_Logger, message.c_str() );
+	LOG4CPLUS_DEBUG( m_Logger, message );
 }
