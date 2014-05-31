@@ -533,16 +533,22 @@ struct KineticStateResult : public PacketHeader
 		mType = PKT_SC_KINETIC_STATE;
 		mPlayerId = -1;
 
+		mIsSpin = false;
+		mIsAccelerate = false;
+
 		mSpinAngularVelocity = 0.0f;
 	}
 
 	int		mPlayerId;
 
 	Float3D mPos;
+
+	bool	mIsSpin;
+	bool	mIsAccelerate;
+
 	Float3D mForce;
 	Float3D mVelocity;
 	Float3D mSpinAxis;
-	// Float3D mForce; // 적용되는 시점이 차이가 날 수 밖에 없으므로 다른 방식으로 동기화 할 것
 
 	float mSpinAngularVelocity;
 };

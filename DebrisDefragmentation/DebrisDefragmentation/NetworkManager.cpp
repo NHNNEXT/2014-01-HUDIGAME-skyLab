@@ -347,15 +347,16 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 
-	// 조심해!!
-	// 항상 가속 시작 상태를 전달하는 것인가??
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Move( inPacket.mForce );
+	if ( inPacket.mIsSpin )
+	{
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
+	}
 
-	if ( inPacket.mSpinAxis.m_X == 0.0f && inPacket.mSpinAxis.m_Y == 0.0f && inPacket.mSpinAxis.m_Z == 0.0f )
-		return;
-
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
+	if ( inPacket.mIsAccelerate )
+	{
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->Move( inPacket.mForce );
+	}
 }
 
 void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )

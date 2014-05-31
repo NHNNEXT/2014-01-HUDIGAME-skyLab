@@ -368,16 +368,26 @@ void ClientSession::SyncCurrentStatus()
 	}
 }
 
-void ClientSession::BroadcastKineticState()
+void ClientSession::BroadcastKineticState( bool accelerationFlag, bool spinFlag )
 {
 	KineticStateResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mPos = m_Character.GetTransform()->GetPosition();
 	outPacket.mVelocity = m_Character.GetVelocity();
-	outPacket.mSpinAxis = m_Character.GetSpinAxis();
-	outPacket.mForce = m_Character.GetAcceleration();
-	outPacket.mSpinAngularVelocity = m_Character.GetSpinAngle();
+
+	outPacket.mIsAccelerate = accelerationFlag;
+	if ( accelerationFlag )
+	{
+		outPacket.mForce = m_Character.GetAcceleration();
+	}
+
+	outPacket.mIsAccelerate = accelerationFlag;
+	if ( spinFlag )
+	{
+		outPacket.mSpinAxis = m_Character.GetSpinAxis();
+		outPacket.mSpinAngularVelocity = m_Character.GetSpinAngle();
+	}
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
 	if ( !Broadcast( &outPacket ) )

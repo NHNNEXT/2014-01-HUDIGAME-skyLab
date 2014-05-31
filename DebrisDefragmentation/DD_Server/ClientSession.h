@@ -81,8 +81,8 @@ public:
 	void	SyncCurrentStatus();
 
 	void	BroadcastAcceleration();
-	void	BroadcastKineticState( );
-	void	BroadcastCharacterState( );
+	void	BroadcastKineticState( bool accelerationFlag, bool spinFlag );
+	void	BroadcastCharacterState();
 
 	// 현재 내 상태를 targetClient에게 전달
 	void	SendCurrentStatus( ClientSession* targetClient );

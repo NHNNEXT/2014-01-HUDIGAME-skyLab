@@ -17,15 +17,13 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 	// 매니저에게 접근해서
 	// 어떻게든 세션을 알아내서 스킬 타입에 따라서 적합한 패킷을 방송하도록 시킨다
 	// 각각의 스킬들의 성격이 다른데  
-	///# 각 스킬별로 함수 구분해서 사용할 것 - 지금은 혼돈의 카오스
 	switch ( skillType )
 	{
 	case ClassSkill::PUSH:
 	case ClassSkill::PULL:
 		// 위치, 속도, 스핀
 		assert( GClientManager->GetSession( idx ) );
-		GClientManager->GetSession( idx )->BroadcastKineticState();
-		// GClientManager->GetSession( idx )->BroadcastAcceleration();
+		GClientManager->GetSession( idx )->BroadcastKineticState( true, true );
 		break;
 	case ClassSkill::OCCUPY:
 	case ClassSkill::DESTROY:
@@ -65,7 +63,7 @@ void GameManager::BroadcastCharacterChange( int idx, ChangeType type )
 	switch ( type )
 	{
 	case ChangeType::KINETIC_STATE:
-		GClientManager->GetSession( idx )->BroadcastKineticState();
+		GClientManager->GetSession( idx )->BroadcastKineticState( true, true );
 		break;
 	case ChangeType::CHARACTER_STATE:
 		GClientManager->GetSession( idx )->BroadcastCharacterState();
