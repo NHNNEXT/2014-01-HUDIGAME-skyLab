@@ -54,7 +54,7 @@ public:
 
 private:
 	ActorManager*		m_ActorManager = nullptr;
-	std::array<Character*, MAX_PLAYER_NUM> m_CharacterList;
+	std::array<Character*, REAL_PLAYER_NUM> m_CharacterList;
 };
 
 extern ObjectTable* GObjectTable;

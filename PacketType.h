@@ -110,6 +110,9 @@ enum PacketTypes
 	PKT_CS_SYNC = 901,
 	PKT_SC_SYNC = 902,
 
+	PKT_SC_DEBUG_SERVER = 903,
+	PKT_SC_DEBUG_CLIENT = 904,
+
 	PKT_MAX = 1024
 };
 
@@ -673,6 +676,64 @@ struct ChangeClassResult : public PacketHeader
 
 	int			mPlayerId;
 	int			mNewClass;
+};
+
+struct DebugServerInfoResult : public PacketHeader
+{
+	DebugServerInfoResult()
+	{
+		mSize = sizeof( DebugServerInfoResult );
+		mType = PKT_SC_DEBUG_SERVER;
+
+		memset( mPlayerTeam, sizeof( mPlayerTeam ), 0 );
+		mIssPos = 0.0f;
+		mIssVelocity = 0.0f;
+		memset( mModuleOwner, sizeof( mModuleOwner ), 0 );
+		memset( mModuleHP, sizeof( mModuleHP ), 0 );
+	}
+
+	int			mPlayerTeam[REAL_PLAYER_NUM];
+
+	float		mIssPos;
+	float		mIssVelocity;
+
+	int			mModuleOwner[MODULE_NUMBER];
+	float		mModuleHP[MODULE_NUMBER];
+};
+
+struct DebugClientInfoResult : public PacketHeader
+{
+	DebugClientInfoResult()
+	{
+		mSize = sizeof( DebugClientInfoResult );
+		mType = PKT_SC_DEBUG_CLIENT;
+
+		mClass = -1;
+
+		mIsSpin = false;
+		mIsAccelerate = false;
+
+		mSpinAngularVelocity = 0.0f;
+
+		mFuel = 0.0f;
+		mOxygen = 0.0f;
+	}
+
+	int			mClass;
+
+	Float3D mPos;
+
+	bool	mIsSpin;
+	bool	mIsAccelerate;
+
+	Float3D mForce;
+	Float3D mVelocity;
+	Float3D mSpinAxis;
+
+	float	mSpinAngularVelocity;
+
+	float	mFuel;
+	float	mOxygen;
 };
 
 #pragma pack(pop)

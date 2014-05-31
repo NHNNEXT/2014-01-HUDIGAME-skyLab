@@ -32,6 +32,9 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{a9248da0-6191-4210-b44f-0f9a89b7e829}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{f8d1d081-623b-43b6-8311-813eb9e81910}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="EnvironmentManager.cpp">
       <Filter>GameManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugData.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="EnvironmentManager.h">
       <Filter>GameManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugData.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

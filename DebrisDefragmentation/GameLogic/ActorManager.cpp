@@ -73,7 +73,7 @@ void ActorManager::Init( )
 int ActorManager::RegisterCharacter( Character* newCharacter )
 {
 	// 일단 배열이 크지 않으므로 이렇게 가자
-	for ( unsigned int characterId = 0; characterId < MAX_PLAYER_NUM; ++characterId )
+	for ( unsigned int characterId = 0; characterId < REAL_PLAYER_NUM; ++characterId )
 	{
 		if ( m_CharacterList[characterId] == nullptr )
 		{
@@ -117,7 +117,7 @@ void ActorManager::DeregisterCharacter( int characterId )
 	// 만약 모든 플레이어가 나간 빈 방이 되면 게임 상태 초기화
 	int currentPlayerNumber = 0;
 
-	for ( unsigned int playerId = 0; playerId < MAX_PLAYER_NUM; ++playerId )
+	for ( unsigned int playerId = 0; playerId < REAL_PLAYER_NUM; ++playerId )
 	{
 		if ( m_CharacterList[playerId] != nullptr )
 			++currentPlayerNumber;
@@ -133,7 +133,7 @@ void ActorManager::Update( )
 	float dt = ( static_cast<float>( currentTime - m_PrevTime ) ) / 1000.f;
 	m_PrevTime = currentTime;	
 
-	for ( unsigned int actorId = 0; actorId < MAX_PLAYER_NUM; ++actorId )
+	for ( unsigned int actorId = 0; actorId < REAL_PLAYER_NUM; ++actorId )
 	{
 		if ( m_CharacterList[actorId] != nullptr )
 		{
@@ -211,7 +211,7 @@ void ActorManager::CheckCollision()
 	// 순회하면서 각 액터들이 충돌하는지 확인
 	// 충돌하는 애들 있으면 각각에게 충돌 판정을 전달한다.
 	// 전달 방식은 충돌 후 이동 방향(서로 반대 방향)을 전달한다.
-	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		// 조심해!!
 		// 일단 지금은 항상 움직이는 상태...
@@ -261,7 +261,7 @@ void ActorManager::CheckCollision()
 		}
 
 		// 플레이어간 충돌 체크
-		for ( int j = i + 1; j < MAX_PLAYER_NUM; ++j )
+		for ( int j = i + 1; j < REAL_PLAYER_NUM; ++j )
 		{
 			if ( m_CharacterList[j] == nullptr )
 				continue;
@@ -328,7 +328,7 @@ std::tuple<int, D3DXVECTOR3> ActorManager::DetectTarget( int characterId, const 
 	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
 	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
 	
-	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		if ( i == characterId || m_CharacterList[i] == nullptr )
 			continue;
@@ -356,7 +356,7 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 {
 	std::vector<int> targets;
 
-	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		if ( i == characterId || m_CharacterList[i] == nullptr )
 			continue;

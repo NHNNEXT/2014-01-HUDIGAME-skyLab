@@ -90,6 +90,7 @@
     <ClCompile Include="DDUI.cpp" />
     <ClCompile Include="DebrisModel.cpp" />
     <ClCompile Include="ClientObject.cpp" />
+    <ClCompile Include="DebugData.cpp" />
     <ClCompile Include="DispenserModel.cpp" />
     <ClCompile Include="EnvironmentManager.cpp" />
     <ClCompile Include="Exception.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="DDUI.h" />
     <ClInclude Include="DebrisModel.h" />
     <ClInclude Include="ClientObject.h" />
+    <ClInclude Include="DebugData.h" />
     <ClInclude Include="DispenserModel.h" />
     <ClInclude Include="EnvironmentManager.h" />
     <ClInclude Include="Exception.h" />

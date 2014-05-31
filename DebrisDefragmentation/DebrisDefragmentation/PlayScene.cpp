@@ -15,6 +15,7 @@
 #include "ObjectISS.h"
 #include "InfoPrinter.h"
 #include "EnvironmentManager.h"
+#include "DebugData.h"
 
 PlayScene::PlayScene()
 {
@@ -28,6 +29,7 @@ PlayScene::PlayScene( std::wstring sceneName )
 
 PlayScene::~PlayScene()
 {
+	delete GDebugData;
 	delete GObjectManager;
 	delete GNetworkManager;
 	//DeleteAlignedClass(GInfoPrinter);
@@ -72,6 +74,8 @@ void PlayScene::Init()
 		// 에러 발생시 프로그램 종료
 		return;
 	}
+
+	GDebugData = new DebugData;
 
 	// debugger 초기화
 	GInfoPrinter = InfoPrinter::Create();

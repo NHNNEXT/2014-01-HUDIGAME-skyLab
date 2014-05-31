@@ -17,7 +17,7 @@ bool SpaceMine::React()
 	bool reactFlag = false;
 	std::map<int, D3DXVECTOR3> targetList;
 
-	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		Character* targetCharacter = GObjectTable->GetCharacter( i );
 		assert( targetCharacter );

@@ -49,7 +49,7 @@ private:
 	// ClientList의 키를 id로 사용하는 것을 고려했으나
 	// 현재 id로 사용하는 값은 게임 로직내에서 id의 의미가 강하므로 지금처럼 ActorManager가 id를 발급하는 것이 맞다고 판단 - 접속이 이루어진 후에 
 	// 그래서 id를 기반으로 session에 바로 접근할 수 있는 자료구조 가운데, 현재 최대 인원이 8명으로 정해져있으므로 std::array 사용
-	std::array<ClientSession*, MAX_PLAYER_NUM>	mClientIdList;
+	std::array<ClientSession*, REAL_PLAYER_NUM>	mClientIdList;
 
 	DWORD			mLastGCTick;
 	DWORD			mLastClientWorkTick;

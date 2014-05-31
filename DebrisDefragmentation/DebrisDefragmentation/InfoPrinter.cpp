@@ -2,6 +2,8 @@
 #include "InfoPrinter.h"
 #include "DDRenderer.h"
 #include <d3dx9core.h>
+#include "GameOption.h"
+#include "DebugData.h"
 
 InfoPrinter* GInfoPrinter = nullptr;
 
@@ -16,16 +18,18 @@ void InfoPrinter::init()
 	// test param
 	D3DXFONT_DESC fontParam;
 	ZeroMemory( &fontParam, sizeof( fontParam ) );
-	fontParam.Height = 20;
-	fontParam.Width = 10;
+	fontParam.Height = 10;
+	fontParam.Width = 8;
 	fontParam.Weight = 100;
 	fontParam.Italic = false;
 	fontParam.CharSet = false;
-	wcscpy_s( fontParam.FaceName, L"New Roman" );
+	wcscpy_s( fontParam.FaceName, L"Segoe UI Light" );
 
-	//test Rect
-	m_pRect = new LPRECT();
-	SetRect( *m_pRect, 0, 0, 100, 100 );
+	m_pRect = new RECT();
+	m_pRect->top = 0;
+	m_pRect->bottom = 0;
+	m_pRect->left = 0;
+	m_pRect->right = 0;
 
 	HRESULT hr = D3DXCreateFontIndirect(
 		DDRenderer::GetInstance()->GetDevice(),
@@ -40,13 +44,83 @@ void InfoPrinter::init()
 	}
 }
 
-void InfoPrinter::RenderDebuggingInfo()
+void InfoPrinter::DrawServerInfo()
 {
-	// test drawing
-	m_pFont->DrawTextW( NULL, L"HelloWorld", -1, *m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	std::wstring info = L"SERVER INFO";
+	SetRect( m_pRect, 22, 90, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// players
+	info.append( L"PLAYERS : " );
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
+	{
+		info.append( std::to_wstring( GDebugData->mPlayerTeam[i] ) );
+		info.append( L" | " );
+	}
+	SetRect( m_pRect, 22, 110, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// iss position
+	info.append( L"ISS POSITION = " );
+	info.append( std::to_wstring( GDebugData->mIssPos ) );
+	SetRect( m_pRect, 22, 130, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// iss velocity
+	info.append( L"ISS VELOCITY = " );
+	info.append( std::to_wstring( GDebugData->mIssVelocity ) );
+	SetRect( m_pRect, 22, 140, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// iss module owner
+	info.append( L"ISS MODULE OWNER\n" );
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		info.append( std::to_wstring( GDebugData->mModuleOwner[i] ) );
+		info.append( L"\n" );
+	}
+	SetRect( m_pRect, 22, 160, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// iss module HP
+	info.append( L"ISS MODULE HP\n" );
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		info.append( std::to_wstring( GDebugData->mModuleHP[i] ) );
+		info.append( L"\n" );
+	}
+	SetRect( m_pRect, 22, 280, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+}
+
+void InfoPrinter::DrawClientInfo()
+{
+	// client debug info
+	int			mClass;
+
+	D3DXVECTOR3 mPos;
+
+	bool	mIsSpin;
+	bool	mIsAccelerate;
+
+	D3DXVECTOR3 mForce;
+	D3DXVECTOR3 mVelocity;
+	D3DXVECTOR3 mSpinAxis;
+
+	float	mSpinAngularVelocity;
+
+	float	mFuel;
+	float	mOxygen;
 }
 
 void InfoPrinter::RenderItSelf()
 {
-	RenderDebuggingInfo();
+	DrawServerInfo();
+	DrawClientInfo();
 }

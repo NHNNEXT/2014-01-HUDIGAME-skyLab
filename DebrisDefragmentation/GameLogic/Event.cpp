@@ -68,7 +68,7 @@ void Event::DebrisStorm()
 	}
 
 	// 가려지는지 확인
-	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		Character* tempCharacter = GObjectTable->GetCharacter( i );
 
@@ -98,7 +98,7 @@ void Event::SolarWind()
 	}
 
 	// 가려지는지 확인
-	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		Character* tempCharacter = GObjectTable->GetCharacter( i );
 

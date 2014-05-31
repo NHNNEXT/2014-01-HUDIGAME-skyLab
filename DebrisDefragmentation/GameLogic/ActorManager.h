@@ -62,7 +62,7 @@ public:
 	const std::array<Debris*, RESOURCE_DEBRIS_NUMBER>& GetResourceDebrisList() const { return m_ResourceDebrisList; }
 	void RemoveResourceDebris( int index );
 
-	const std::array<Character*, MAX_PLAYER_NUM>& GetCharacterList() const { return m_CharacterList; }
+	const std::array<Character*, REAL_PLAYER_NUM>& GetCharacterList() const { return m_CharacterList; }
 
 	// 입력받은 범위 안에 있는 캐릭터 id반환		
 	std::vector<int> DetectTargetsInRange( int characterId, float range );
@@ -91,7 +91,7 @@ protected:
 	std::set<int>						m_DeadPlayers;
 
 	// player list
-	std::array<Character*, MAX_PLAYER_NUM>	m_CharacterList;
+	std::array<Character*, REAL_PLAYER_NUM>	m_CharacterList;
 
 	// teamList - playerId를 저장
 	std::set<int> m_TeamBlue;
