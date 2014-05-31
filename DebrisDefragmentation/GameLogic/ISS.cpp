@@ -54,14 +54,16 @@ ISSModule* ISS::GetModule( ISSModuleName moduleName )
 
 bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 {
-	Character* skillUser = GObjectTable->GetInstance<Character>( characterId );
-	ISSModuleName targetModule = ModuleOnRay( skillUser->GetViewDirection( direction ), skillUser->GetTransform()->GetPosition() );
+	Character* skillUserCharacter = GObjectTable->GetCharacter( characterId );
+	assert( skillUserCharacter );
+
+	ISSModuleName targetModule = ModuleOnRay( skillUserCharacter->GetViewDirection( direction ), skillUserCharacter->GetTransform()->GetPosition() );
 
 	// 걸리는 애가 있으면 그 모듈의 상태를 바꾸고 변화가 적용된 모듈 id와 점령 상태 반환
 	if ( targetModule != ISSModuleName::NO_MODULE )
 	{
 		// 점령 상태 전환
-		m_ModuleList[static_cast<int>( targetModule )].Occupy( skillUser->GetTeam() );
+		m_ModuleList[static_cast<int>( targetModule )].Occupy( skillUserCharacter->GetTeam() );
 
 		// 운동 상태 변경
 		int blueCount = 0;
@@ -98,8 +100,10 @@ bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 
 bool ISS::Destroy( int characterId, D3DXVECTOR3 direction )
 {
-	Character* skillUser = GObjectTable->GetInstance<Character>( characterId );
-	ISSModuleName targetModule = ModuleOnRay( skillUser->GetViewDirection( direction ), skillUser->GetTransform()->GetPosition() );
+	Character* skillUserCharacter = GObjectTable->GetCharacter( characterId );
+	assert( skillUserCharacter );
+
+	ISSModuleName targetModule = ModuleOnRay( skillUserCharacter->GetViewDirection( direction ), skillUserCharacter->GetTransform()->GetPosition() );
 
 	if ( targetModule != ISSModuleName::NO_MODULE )
 	{

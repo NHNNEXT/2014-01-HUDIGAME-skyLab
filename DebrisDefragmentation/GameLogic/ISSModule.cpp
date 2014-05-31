@@ -68,11 +68,11 @@ const CollisionBox* ISSModule::GetControlPointBox()
 
 	// 현재 위치
 	D3DXVec3Transform( &tempMat, &m_ControlBox.m_CenterPos, &m_Matrix );
-	m_TransformedBox.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+	m_TransformedBoxCache.m_CenterPos = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
 	// 각 점 좌표
 	D3DXVec3TransformCoordArray(
-		m_TransformedBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
+		m_TransformedBoxCache.m_PointList.data(), sizeof( D3DXVECTOR3 ),
 		m_ControlBox.m_PointList.data(), sizeof( D3DXVECTOR3 ),
 		&m_Matrix, BOX_POINT_COUNT
 		);
@@ -84,14 +84,14 @@ const CollisionBox* ISSModule::GetControlPointBox()
 		D3DXVECTOR4 tempAxis = D3DXVECTOR4( m_ControlBox.m_AxisDir[i].x, m_ControlBox.m_AxisDir[i].y, m_ControlBox.m_AxisDir[i].z, 0 );
 
 		D3DXVec4Transform( &tempMat, &tempAxis, &m_Matrix );
-		m_TransformedBox.m_AxisDir[i] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+		m_TransformedBoxCache.m_AxisDir[i] = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
 
-		m_TransformedBox.m_AxisLen[i] = m_ControlBox.m_AxisLen[i];
+		m_TransformedBoxCache.m_AxisLen[i] = m_ControlBox.m_AxisLen[i];
 	}
 
-	m_TransformedBox.m_Radius = m_ControlBox.m_Radius;
+	m_TransformedBoxCache.m_Radius = m_ControlBox.m_Radius;
 
-	return &m_TransformedBox;
+	return &m_TransformedBoxCache;
 }
 
 void ISSModule::UpdateItSelf( float dTime )

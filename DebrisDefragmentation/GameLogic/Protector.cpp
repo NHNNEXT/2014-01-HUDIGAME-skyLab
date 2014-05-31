@@ -45,15 +45,20 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::WARNING )] > 0.0f )
 		return false;
 
-	TeamColor myColor = GObjectTable->GetInstance<Character>( id )->GetTeam();
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	TeamColor myColor = skillUserCharacter->GetTeam();
 	for ( int targetId = 0; targetId < MAX_PLAYER_NUM; ++targetId )
 	{
 		// 여기서 같은 팀만 찾아서 방송 >>> 자기가 알아서 게임 상태 받아서 방송
 		// 자기 자신도 보낸다
-		if ( GObjectTable->GetInstance<Character>( targetId ) == nullptr )
+		Character* targetCharacter = GObjectTable->GetCharacter( targetId );
+
+		if ( targetCharacter == nullptr )
 			continue;
 
-		if ( myColor == GObjectTable->GetInstance<Character>( targetId )->GetTeam() )
+		if ( myColor == targetCharacter->GetTeam() )
 			GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::WARNING );
 	}
 
@@ -80,12 +85,17 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 	if ( targetId == NOTHING )
 		return false;
 
-	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
-		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	Character* targetCharacter = GObjectTable->GetCharacter( targetId );
+	assert( targetCharacter );
+
+	if ( skillUserCharacter->GetTeam() != targetCharacter->GetTeam() )
 		return false;
 
 	m_Oxygen -= DEFAULT_OXYGEN_SHARE_AMOUNT;
-	GObjectTable->GetInstance<ClassComponent>( targetId )->IncreaseOxygen( DEFAULT_OXYGEN_SHARE_AMOUNT );
+	targetCharacter->GetClassComponent()->IncreaseOxygen( DEFAULT_OXYGEN_SHARE_AMOUNT );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_OXYGEN );
 
@@ -104,13 +114,19 @@ bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )
 	// 돌면서 거리 안에 오는 애들은 다 EMP 효과 적용
 	std::vector<int> targets = GObjectTable->GetActorManager()->DetectTargetsInRange( id, SKILL_RANGE );
 
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
 	std::for_each( targets.begin(), targets.end(), [&]( const int& each )
 	{
 		// 상대편에만 적용
-		if ( GObjectTable->GetInstance<Character>( each )->GetTeam() != GObjectTable->GetInstance<Character>( id )->GetTeam() )
+		Character* eachCharacter = GObjectTable->GetCharacter( each );
+		assert( eachCharacter );
+
+		if ( eachCharacter->GetTeam() != skillUserCharacter->GetTeam() )
 		{
 			// EMP 쿨다운 적용하고 방송도 해버리자
-			GObjectTable->GetInstance<ClassComponent>( each )->SetGlobalCooldown( EMP_TIME );
+			eachCharacter->GetClassComponent()->SetGlobalCooldown( EMP_TIME );
 			GObjectTable->GetActorManager()->BroadcastSkillResult( each, ClassSkill::EMP );
 		}
 	}

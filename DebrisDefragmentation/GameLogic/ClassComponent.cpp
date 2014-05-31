@@ -50,21 +50,30 @@ bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 	}
 
 	// 이상하지만 자신을 가지고 있는 actor를 찾아서 움직임을 반영한다.
-	GObjectTable->GetInstance<Character>( id )->Move( viewDirection );
+	Character* targetCharacter = GObjectTable->GetCharacter( id );
+	assert( targetCharacter );
+
+	targetCharacter->Move( viewDirection );
 
 	return true;
 }
 
 void ClassComponent::SkillStop( int id )
 {
-	GObjectTable->GetInstance<Character>( id )->Stop();
+	Character* targetCharacter = GObjectTable->GetCharacter( id );
+	assert( targetCharacter );
+
+	targetCharacter->Stop();
 }
 
 void ClassComponent::SkillTurnBody( int id,float x, float y, float z )
 { 
 	// 여기서 상위에 이 움직임을 적용해야 한다.
 	// 자신의 Actor*를 찾아서 ->TurnBody(tr, x, y, z); 
-	GObjectTable->GetInstance<Character>( id )->GetTransform()->SetRotation( x, y, z );
+	Character* targetCharacter = GObjectTable->GetCharacter( id );
+	assert( targetCharacter );
+
+	targetCharacter->GetTransform()->SetRotation( x, y, z );
 }
 
 bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
@@ -88,12 +97,18 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 
 	printf_s( "target : %d\n", targetId );
 
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	Character* targetCharacter = GObjectTable->GetCharacter( targetId );
+	assert( targetCharacter );
+
 	// 타겟이 있으므로 스킬 결과를 반영한다.
-	D3DXVECTOR3 force = GObjectTable->GetInstance<Transform>( targetId )->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
+	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - skillUserCharacter->GetTransform()->GetPosition();
 	
 	// 변화 적용
-	GObjectTable->GetInstance<Character>( targetId )->Move( force );
-	GObjectTable->GetInstance<Character>( targetId )->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
+	targetCharacter->Move( force );
+	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
 
@@ -122,12 +137,17 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	if ( targetId == NOTHING )
 		return false;
 
-	if ( GObjectTable->GetInstance<Character>( targetId )->GetTeam()
-		!= GObjectTable->GetInstance<Character>( id )->GetTeam() )
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	Character* targetCharacter = GObjectTable->GetCharacter( targetId );
+	assert( targetCharacter );
+
+	if ( skillUserCharacter->GetTeam() != targetCharacter->GetTeam() )
 		return false;
 
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
-	GObjectTable->GetInstance<ClassComponent>( targetId )->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
+	targetCharacter->GetClassComponent()->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
 
 	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_FUEL );
 

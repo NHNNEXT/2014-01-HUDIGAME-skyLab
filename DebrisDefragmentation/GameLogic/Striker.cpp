@@ -56,8 +56,13 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 		return false;
 
 	// 타겟이 있으므로 스킬 결과를 반영한다.
-	Character* targetCharacter = GObjectTable->GetInstance<Character>( targetId );
-	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - GObjectTable->GetInstance<Transform>( id )->GetPosition();
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	Character* targetCharacter = GObjectTable->GetCharacter( targetId );
+	assert( targetCharacter );
+
+	D3DXVECTOR3 force = targetCharacter->GetTransform()->GetPosition() - skillUserCharacter->GetTransform()->GetPosition();
 
 	// 변화 적용
 	targetCharacter->Move( -force );
@@ -79,9 +84,12 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 
 	ISS* iss = GObjectTable->GetActorManager()->GetIss();
 
-	D3DXVECTOR3 viewDirection = GObjectTable->GetInstance<Character>( id )->GetViewDirection( direction );
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	D3DXVECTOR3 viewDirection = skillUserCharacter->GetViewDirection( direction );
 	D3DXVec3Normalize( &viewDirection, &viewDirection );
-	D3DXVECTOR3	startPoint = GObjectTable->GetInstance<Transform>( id )->GetPosition();
+	D3DXVECTOR3	startPoint = skillUserCharacter->GetTransform()->GetPosition();
 
 	// 스킬 사용 방향에 있는 모듈 검색
 	ISSModuleName targetModuleName = iss->ModuleOnRay( viewDirection, startPoint );
@@ -101,7 +109,7 @@ bool Striker::SkillSetMine( int id, const D3DXVECTOR3& direction )
 	// ray 방향의 반대 방향을 정면으로 설정
 	// actorManager에 등록
 	D3DXVECTOR3 minePosition = startPoint + viewDirection * distance;
-	GObjectTable->GetActorManager()->InstallMine( minePosition, -viewDirection, GObjectTable->GetInstance<Character>( id )->GetTeam() );
+	GObjectTable->GetActorManager()->InstallMine( minePosition, -viewDirection, skillUserCharacter->GetTeam() );
 
 	// 설치 완료
 	printf_s( "space mine installed \n" );
@@ -115,7 +123,10 @@ bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::MOVE_FAST )] > 0.0f )
 		return false;
 
-	GObjectTable->GetInstance<Character>( id )->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
+
+	skillUserCharacter->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
 	m_RemainFastMove = SCOUT_MOVE_FAST_DURATION;
 	m_FastMoveTarget = id;
 
@@ -138,10 +149,13 @@ void Striker::DoPeriodWork( float dTime )
 		if ( m_RemainFastMove <= 0.0f )
 		{
 			m_RemainFastMove = 0.0f;
-			// m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
-			GObjectTable->GetInstance<Character>( m_FastMoveTarget )->SetSpeedConstant( SCOUT_MOVE_FAST_CONSTANT );
+
+			Character* targetCharacter = GObjectTable->GetCharacter( m_FastMoveTarget );
+			assert( targetCharacter );
+
+			targetCharacter->SetSpeedConstant( DEFAULT_MOVE_CONSTANT );
 			
-			// 조심해!!
+			///# 조심해!!
 			// 이벤트 끝났으니까 이것도 방송해서 동기화
 		}
 	}

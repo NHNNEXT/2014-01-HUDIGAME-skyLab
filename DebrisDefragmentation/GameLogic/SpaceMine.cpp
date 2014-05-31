@@ -19,11 +19,11 @@ bool SpaceMine::React()
 
 	for ( int i = 0; i < MAX_PLAYER_NUM; ++i )
 	{
-		// 일단 각 플레이어와의 거리 확인
-		if ( GObjectTable->GetInstance<Character>( i ) == nullptr )
-			continue;
+		Character* targetCharacter = GObjectTable->GetCharacter( i );
+		assert( targetCharacter );
 
-		D3DXVECTOR3 relativeDirection = m_Transform.GetPosition() - GObjectTable->GetInstance<Transform>( i )->GetPosition();
+		// 일단 각 플레이어와의 거리 확인
+		D3DXVECTOR3 relativeDirection = m_Transform.GetPosition() - targetCharacter->GetTransform()->GetPosition();
 		float distance = D3DXVec3Length( &relativeDirection );
 		
 		if ( distance <= SPACE_MINE_RANGE )
@@ -32,7 +32,7 @@ bool SpaceMine::React()
 			targetList.insert( std::map<int, D3DXVECTOR3>::value_type( i, relativeDirection ) );
 
 			// 만약 다른 팀원이면 발동!
-			if ( m_Team != GObjectTable->GetInstance<Character>( i )->GetTeam() )
+			if ( m_Team != targetCharacter->GetTeam() )
 				reactFlag = true;
 		}
 	}
@@ -50,7 +50,10 @@ bool SpaceMine::React()
 			force *= -SPACE_MINE_FORCE;
 
 			// 적용 및 방송
-			GObjectTable->GetInstance<Character>( it->first )->Move( force );
+			Character* targetCharacter = GObjectTable->GetCharacter( it->first );
+			assert( targetCharacter );
+
+			targetCharacter->Move( force );
 			GObjectTable->GetActorManager()->BroadcastCharacterChange( it->first, ChangeType::KINETIC_STATE );
 		}
 	}

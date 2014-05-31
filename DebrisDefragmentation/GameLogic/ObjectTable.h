@@ -17,7 +17,6 @@ public:
 	/*
 		인덱스와 타입을 인자로 받아서 해당하는 액터의 포인터를 반환
 		인자로 받을 수 있는 타입은 Actor, Transform, ClassComponent
-	*/
 	///# 정 템플릿을 쓰고 싶으면 "템플릿 특수화"를 쓰면 된다.
 	template<typename T>
 	T* GetInstance( int key )
@@ -38,6 +37,13 @@ public:
 			returnPtr = m_CharacterList[key]->GetRigidbody();
 
 		return static_cast<T*>( returnPtr );
+	}
+	*/
+
+	// character 포인터만 받아서 Transform, ClassComponent, Rigidbody에 직접 접근하자
+	Character* GetCharacter( int characterIdx )
+	{
+		return m_CharacterList[characterIdx];
 	}
 
 	ActorManager* GetActorManager() { return m_ActorManager; }
