@@ -15,17 +15,10 @@ namespace GameTool.Class
     public class Renderer
     {
         public const string FOLDER_PATH = ".\\Resources\\3DModel\\";
+        List<GameObject> m_GameObjectList = new List<GameObject>();
 
         // 카메라 확대, 축소에 관여하는 변수
         int m_CameraZoomOutVar = 0;
-
-        // 조심해!! 이걸 Renderer가 갖고 있는 구조는 좋지 않다 (확장 X)
-        // 어디까지나 임시방편임! 나중에 다른 메쉬도 로드하려면 입력을 받도록 바꾸자!
-        // ISS variables
-        private Mesh ISSMesh = null;
-        D3D.Material[] ISSMaterials;
-        D3D.Texture[] ISSTextures;
-        string m_filename;
 
         // camera variables
         int Width = 760;
@@ -54,52 +47,26 @@ namespace GameTool.Class
 
         }
 
+
+        public bool IsDeviceReady()
+        {
+            if (null == m_device)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
         // 4대의 카메라가 자신이 보고 있는 방향으로 앞/ 뒤로 움직인다
         public void ZoomInOutCameraPosition(int delta)
         {
             m_CameraZoomOutVar += delta;
         }
         
-        // 메쉬를 불러오는 함수
-        private void LoadMesh(string filenameWithPath, ref Mesh mesh, ref Material[] meshmaterials, ref Texture[] meshtextures)
-        {
-            ExtendedMaterial[] materialarray;
-            mesh = Mesh.FromFile(filenameWithPath, MeshFlags.Managed, m_device, out materialarray);
-
-            if ((materialarray != null) && (materialarray.Length > 0))
-            {
-                meshmaterials = new Material[materialarray.Length];
-                meshtextures = new Texture[materialarray.Length];
-
-                for (int i = 0; i < materialarray.Length; i++)
-                {
-                    meshmaterials[i] = materialarray[i].Material3D;
-                    meshmaterials[i].Ambient = meshmaterials[i].Diffuse;
-
-                    if ((materialarray[i].TextureFilename != null) && (materialarray[i].TextureFilename != string.Empty))
-                    {
-                        meshtextures[i] = TextureLoader.FromFile(m_device, materialarray[i].TextureFilename);
-                    }
-                }
-            }
-
-            mesh = mesh.Clone(mesh.Options.Value, CustomVertex.PositionNormalTextured.Format, m_device);
-            mesh.ComputeNormals();
-
-            VertexBuffer vertices = mesh.VertexBuffer;
-            GraphicsStream stream = vertices.Lock(0, 0, LockFlags.None);
-            vertices.Unlock();
-        }
-
-        private void DrawMesh(Mesh mesh, Material[] meshmaterials, Texture[] meshtextures)
-        {
-            for (int i = 0; i < meshmaterials.Length; i++)
-            {
-                m_device.Material = meshmaterials[i];
-                m_device.SetTexture(0, meshtextures[i]);
-                mesh.DrawSubset(i);
-            }
-        }
 
         // D3D Device를 할당한다
         public void CreateDevice(System.Windows.Forms.Control display)
@@ -119,7 +86,6 @@ namespace GameTool.Class
                 m_device.RenderState.Lighting = true;
                 m_device.RenderState.CullMode = Cull.None;
 
-                // 조심해!! 이거 논리상 빼야됩니다 지금 임시로 한 방에 다 하도록 이 흐름에 박아놓음
                 Init();
             }
             catch (DirectXException)
@@ -135,7 +101,7 @@ namespace GameTool.Class
         }
         
         // 4개의 뷰포트마다 저마다 다른 카메라를 가진다
-        private void ChangeCamera(VIEWPORT v)
+        private void ChangeCameraAndViewPort(VIEWPORT v)
         {
             Vector3 ISSPos = new Vector3(0, 0, 0);
 
@@ -194,20 +160,16 @@ namespace GameTool.Class
 
         private void Init()
         {
-            if (m_filename.Length == 0)
-            {
-                System.Windows.Forms.MessageBox.Show("Empty Mesh File Name!");
-                return;
-            }
-            LoadMesh(FOLDER_PATH + m_filename, ref ISSMesh, ref ISSMaterials, ref ISSTextures);
             SetUpCamera();
             SetUpLight();
             ReallocateViewPort();
         }
 
-        public void SetMeshFileName(string name)
+        public void CreateAndAddMesh(string name)
         {
-            m_filename = name;
+            GameObject gObj = new GameObject(name);
+            gObj.init(ref m_device);
+            m_GameObjectList.Add(gObj);
         }
 
         public void Render()
@@ -219,14 +181,27 @@ namespace GameTool.Class
 
             foreach(VIEWPORT v in Enum.GetValues(typeof(VIEWPORT)) )
             {
-                ChangeCamera(v);
+                ChangeCameraAndViewPort(v);
                 // clear를 여기서 호출해야 모든 뷰 포트가 깔끔해진다
                 m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.DarkSeaGreen, 1.0f, 0);
-                DrawMesh(ISSMesh, ISSMaterials, ISSTextures);
+                RenderGameObject();
             }
 
             m_device.EndScene();
             m_device.Present();
+        }
+
+        private void RenderGameObject()
+        {
+            foreach(GameObject gobj in m_GameObjectList)
+            {
+                gobj.DrawObject();
+            }
+        }
+
+        private void RenderCollisionBox()
+        {
+            
         }
     }
 }

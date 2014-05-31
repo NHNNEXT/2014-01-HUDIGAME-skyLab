@@ -162,10 +162,22 @@ namespace GameTool
 
         private void LoadMeshBtn(object sender, EventArgs e)
         {
+            if (!m_Renderer.IsDeviceReady())
+            {
+                System.Windows.Forms.MessageBox.Show("Render First");
+                return;
+            }
+
+            if (null == MeshFIleList.SelectedItem)
+            {
+                return;
+            }
+
             string filename = MeshFIleList.SelectedItem.ToString();
+
             if (filename.Length > 0)
             {
-                m_Renderer.SetMeshFileName(filename);
+                m_Renderer.CreateAndAddMesh(filename);
             }
             else
             {

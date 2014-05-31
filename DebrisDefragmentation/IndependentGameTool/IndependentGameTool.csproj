@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\GameObject.cs" />
     <Compile Include="Class\JsonEnum.cs" />
     <Compile Include="Class\JSONInOut.cs" />
     <Compile Include="Class\Renderer.cs" />

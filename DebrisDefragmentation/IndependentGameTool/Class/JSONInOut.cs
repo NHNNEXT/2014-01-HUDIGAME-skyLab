@@ -69,6 +69,7 @@ namespace GameTool.Class
         {
             foreach (var token in jObj)
             {
+                // 1. JsonObjectCollection일 경우, 자기 밑에 자식이 더 있다.
                 if ( token.GetType() == typeof( JsonObjectCollection ))
                 {
                     TreeNode node = new TreeNode(token.Name + JSON_SPLIT_TOKEN);
@@ -77,17 +78,13 @@ namespace GameTool.Class
                     
                     BuildJsonDataTree(node, (JsonObjectCollection)token);
                     
-                    //treeNode.Nodes.Add(token.Name, token.Name + JSON_SPLIT_TOKEN);
-
-                    //BuildJsonDataTree(treeNode.Nodes[treeNode.Nodes.Count - 1], (JsonObjectCollection)token);
                 }
+                // 2. JsonArrayCollection일 경우, JsonObjectCollection으로 캐스팅 ㄴㄴ해
                 else if ( token.GetType() == typeof( JsonArrayCollection ))
                 {
                     TreeNode node = new TreeNode(token.Name + JSON_SPLIT_TOKEN);
                     node.Name = token.Name;
                     treeNode.Nodes.Add(node);
-
-                    //treeNode.Nodes.Add(token.Name, token.Name + JSON_SPLIT_TOKEN);
 
                     // 배열 내의 각각의 숫자들을 다 자식으로 집어넣는다
                     foreach (var num in (JsonArrayCollection)token )
@@ -95,12 +92,12 @@ namespace GameTool.Class
                         node.Nodes.Add(num.ToString());
                     }
                 }
+                // 3. 여기까지 왔으면 진짜 노드다!
                 else
                 {
                     TreeNode node = new TreeNode(token.Name + JSON_SPLIT_TOKEN + token.GetValue().ToString());
                     treeNode.Nodes.Add(node);
                     node.Name = token.Name;
-                    //treeNode.Nodes.Add(token.Name, token.Name + JSON_SPLIT_TOKEN + token.GetValue().ToString());
                 }
             }
         }
@@ -153,6 +150,7 @@ namespace GameTool.Class
                 return;
             }
         }
+
         // 파일명이 적합한지 알아보는 함수
         private bool IsCorrectFileName(string fileName)
         {
@@ -164,6 +162,7 @@ namespace GameTool.Class
             return true;
         }
  
+        // Key : Value 쌍에서 Value만 뽑아냄
         public string SplitJSONValueFromKeyValue(string rawText)
         {
             Regex rg = new Regex(JSON_SPLIT_TOKEN);
@@ -178,6 +177,7 @@ namespace GameTool.Class
             }
         }
 
+        // Key : Value 쌍에서 Key만 뽑아냄
         public string SplitJSONKeyFromKeyValue(string rawText)
         {
             Regex rg = new Regex(JSON_SPLIT_TOKEN);
@@ -202,8 +202,8 @@ namespace GameTool.Class
                 keys[i] = SplitJSONKeyFromKeyValue(keys[i]);
             }
 
-            // 두 가지 가능성이 있다. Key : Value 형태일때와
-            // Key(부모), Value(자식) 형태일 때
+            // 두 가지 가능성이 있다. Key : Value 형태일때와 (Object)
+            // Key(부모), Value(자식) 형태일 때 (Array)
             // keys의 최상위 노드는 JSON에 없는 key이다. (i = 1 부터 시작)
 
             // 최하단 노드 직전까지 JSON 파일을 전개 (i = length - 2 까지)
@@ -262,6 +262,13 @@ namespace GameTool.Class
                     probe = probe.PrevNode;
                     ++nthChild;
                 }
+
+                // 혹시라도 이런 게 기다리고 있다면 Err
+                if (nthChild == -1)
+                {
+                    return;
+                }
+                    
 
                 JsonArrayCollection oldArray = jArray;
                 switch ( oldArray[nthChild].GetType().Name )
