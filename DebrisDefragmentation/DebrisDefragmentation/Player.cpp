@@ -41,7 +41,10 @@ void Player::Init()
 	//m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
 	m_CharacterModel = CharacterModel::Create();
 	m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel(ModelType::PLAYER_MODEL) );
-	m_CharacterModel->InitFX( L"Rimlight.fx" );
+
+	// 조심해!!
+	// 림라이트 관련 Shader 초기화 소스. 일단 주석
+	//m_CharacterModel->InitFX( L"Rimlight.fx" );
 	AddChild( m_CharacterModel );
 	
 	// 내 캐릭터의 visible 끔.	

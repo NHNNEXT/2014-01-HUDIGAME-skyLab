@@ -14,6 +14,7 @@ DDModel::~DDModel()
 
 bool DDModel::InitFX( std::wstring filename )
 {
+	LPD3DXBUFFER pError = nullptr;
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	D3DVERTEXELEMENT9 decl[MAX_FVF_DECL_SIZE];
 	D3DXDeclaratorFromFVF( m_MeshInfo->m_pMesh->GetFVF(), decl );
@@ -23,10 +24,22 @@ bool DDModel::InitFX( std::wstring filename )
 // 	fullpath.append( filename );
 
 //	if ( D3DXCreateEffectFromFileW( pD3DDevice, fullpath.c_str(), NULL, NULL, 0, NULL, &m_pEffect, NULL ) )
-	if ( D3DXCreateEffectFromFileW( pD3DDevice, filename.c_str(), NULL, NULL, 0, NULL, &m_pEffect, NULL ) )
+	D3DXCreateEffectFromFileW( pD3DDevice, filename.c_str(), NULL, NULL, 0, NULL, &m_pEffect, &pError );
+
+	if ( !m_pEffect && pError )
 	{
-		return false;
+		int size = pError->GetBufferSize();
+		void *ack = pError->GetBufferPointer();
+
+		if ( ack )
+		{
+			wchar_t* str = new wchar_t[size];
+			wsprintf( str, (const wchar_t*)ack, size );
+			OutputDebugString( str );
+			delete[] str;
+		}
 	}
+	
 	m_UseShader = true;
 	return true;
 }
@@ -36,7 +49,7 @@ void DDModel::RenderItSelf()
 	if ( !m_MeshInfo )
 		return;
 
-	SetupFX();
+	//SetupFX();
 	UINT nPass;
 
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
