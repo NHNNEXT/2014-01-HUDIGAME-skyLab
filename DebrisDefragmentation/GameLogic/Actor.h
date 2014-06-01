@@ -41,13 +41,13 @@ public:
 	const D3DXVECTOR3	GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
 	const D3DXVECTOR3	GetVelocity() const { return m_Rigidbody.m_Velocity * m_SpeedConstant; } // 순간 가속을 할 수 있으므로 상수를 곱해서 반환 - 내부에서 직접 참조하면 안 되는데
 	const D3DXVECTOR3	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
-	const float		GetSpinAngle() const { return m_Rigidbody.m_SpinAngle; }
+	const float		GetSpinAngularVelocity() const { return m_Rigidbody.m_SpinAngularVelocity; }
 
 	void	SetMass( float mass ) { m_Rigidbody.m_Mass = mass; }
 	void	SetAcceleration( D3DXVECTOR3 accel ) { m_Rigidbody.m_Acceleration = accel; }
 	void	SetVelocity( D3DXVECTOR3 velocity ) { m_Rigidbody.m_Velocity = velocity; }
 	void	SetSpinAxis( D3DXVECTOR3 spinAxis ) { m_Rigidbody.m_SpinAxis = spinAxis; }
-	void	SetSpinAngle( float spinAngle ) { m_Rigidbody.m_SpinAngle = spinAngle; }
+	void	SetSpinAngularVelocity( float spinAngle ) { m_Rigidbody.m_SpinAngularVelocity = spinAngle; }
 
 	void	SetSpinnigFlag( bool flag ) { m_Rigidbody.m_IsSpin = flag; }
 	bool	IsSpinning() { return m_Rigidbody.m_IsSpin; }

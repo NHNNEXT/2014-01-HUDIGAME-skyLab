@@ -54,6 +54,7 @@ public:
 	static void HandleCharacterStateResult( DDPacketHeader& pktBase );
 
 	static void HandleSyncServerDebugInfoResult( DDPacketHeader& pktBase );
+	static void HandleSyncCharacterDebugInfoResult( DDPacketHeader& pktBase );
 
 private:
 	static int m_MyPlayerId;

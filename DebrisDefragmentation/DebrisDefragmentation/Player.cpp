@@ -69,7 +69,7 @@ void Player::RenderItSelf()
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
 		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
-		float tmpSpinAngle = GetSpinAngle();
+		float tmpSpinAngle = GetSpinAngularVelocity();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime( ) );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 
@@ -114,7 +114,7 @@ void Player::UpdateItSelf( float dTime )
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
 		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
-		float tmpSpinAngle = GetSpinAngle();
+		float tmpSpinAngle = GetSpinAngularVelocity();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 	}
@@ -155,7 +155,7 @@ void Player::LookAt( float x, float y, float z )
 
 void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_Rigidbody.m_SpinAngle = angularVelocity;
+	m_Rigidbody.m_SpinAngularVelocity = angularVelocity;
 	m_Rigidbody.m_SpinAxis = rotationAxis;
 	SetSpinTime( 0.0f );
 	SetSpinnigFlag( true );
@@ -171,7 +171,7 @@ void Player::StopSpin( )
 {
 	SetSpinnigFlag( false );
 	SetSpinTime( 0.0f );
-	m_Rigidbody.m_SpinAngle = 0.0f;
+	m_Rigidbody.m_SpinAngularVelocity = 0.0f;
 	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 

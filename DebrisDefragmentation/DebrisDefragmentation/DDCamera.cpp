@@ -39,7 +39,7 @@ void DDCamera::RenderItSelf()
 			// 플레이어와 카메라의 회전 동기화
 			D3DXMATRIXA16 spinTransform;
 			D3DXVECTOR3 tmpSpinAxis = player->GetSpinAxis();
-			float tmpSpinAngle = player->GetSpinAngle();
+			float tmpSpinAngle = player->GetSpinAngularVelocity();
 			D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * player->GetSpinTime() );
 			D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
 		}

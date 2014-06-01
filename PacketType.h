@@ -111,7 +111,7 @@ enum PacketTypes
 	PKT_SC_SYNC = 902,
 
 	PKT_SC_DEBUG_SERVER = 903,
-	PKT_SC_DEBUG_CLIENT = 904,
+	PKT_SC_DEBUG_CHARACTER = 904,
 
 	PKT_MAX = 1024
 };
@@ -708,8 +708,9 @@ struct DebugClientInfoResult : public PacketHeader
 	DebugClientInfoResult()
 	{
 		mSize = sizeof( DebugClientInfoResult );
-		mType = PKT_SC_DEBUG_CLIENT;
+		mType = PKT_SC_DEBUG_CHARACTER;
 
+		mPlayerId = -1;
 		mClass = -1;
 
 		mIsSpin = false;
@@ -721,14 +722,15 @@ struct DebugClientInfoResult : public PacketHeader
 		mOxygen = 0.0f;
 	}
 
-	int			mClass;
+	int		mPlayerId;
+	int		mClass;
 
 	Float3D mPos;
 
 	bool	mIsSpin;
 	bool	mIsAccelerate;
 
-	Float3D mForce;
+	Float3D mAcceleration;
 	Float3D mVelocity;
 	Float3D mSpinAxis;
 

@@ -112,26 +112,95 @@ void InfoPrinter::DrawServerInfo()
 
 void InfoPrinter::DrawClientInfo()
 {
-	// client debug info
-	int			mClass;
+	std::wstring info = L"CHARACTER INFO";
+	SetRect( m_pRect, 280, 90, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
 
-	D3DXVECTOR3 mPos;
+	// player's id and class
+	info.append( L"PLAYER'S ID : " );
+	info.append( std::to_wstring( GDebugData->mPlayerId ) );
+	info.append( L"\nPLAYER'S CLASS : " );
+	info.append( std::to_wstring( GDebugData->mClass ) );
+	SetRect( m_pRect, 280, 110, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
 
-	bool	mIsSpin;
-	bool	mIsAccelerate;
+	// player's position
+	info.append( L"PLAYER'S POSITION : \n" );
+	info.append( std::to_wstring( GDebugData->mPos.x ) ); 
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mPos.y ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mPos.z ) );
+	SetRect( m_pRect, 280, 140, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
 
-	D3DXVECTOR3 mForce;
-	D3DXVECTOR3 mVelocity;
-	D3DXVECTOR3 mSpinAxis;
+	// player's kinetic state
+	info.append( L"SPIN : " );
+	info.append( std::to_wstring( GDebugData->mIsSpin ) );
+	info.append( L"\nACCELERATION : " );
+	info.append( std::to_wstring( GDebugData->mIsAccelerate ) );
+	SetRect( m_pRect, 280, 170, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
 
-	float	mSpinAngularVelocity;
+	// player's acceleration state
+	info.append( L"ACCELERATION : \n" );
+	info.append( std::to_wstring( GDebugData->mAcceleration.x ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mAcceleration.y ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mAcceleration.z ) );
+	SetRect( m_pRect, 280, 200, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
 
-	float	mFuel;
-	float	mOxygen;
+	// player's velocity state
+	info.append( L"VELOCITY : \n" );
+	info.append( std::to_wstring( GDebugData->mVelocity.x ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mVelocity.y ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mVelocity.z ) );
+	SetRect( m_pRect, 280, 230, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// player's spin axis
+	info.append( L"SPIN AXIS : \n" );
+	info.append( std::to_wstring( GDebugData->mSpinAxis.x ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mSpinAxis.y ) );
+	info.append( L" | " );
+	info.append( std::to_wstring( GDebugData->mSpinAxis.z ) );
+	SetRect( m_pRect, 280, 260, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// player's angular velocity
+	info.append( L"SPIN ANGULAR VELOCITY : " );
+	info.append( std::to_wstring( GDebugData->mSpinAngularVelocity ) );
+	SetRect( m_pRect, 280, 290, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
+	// player's character state
+	info.append( L"FUEL : " );
+	info.append( std::to_wstring( GDebugData->mFuel ) );
+	info.append( L"\nOXYGEN : " );
+	info.append( std::to_wstring( GDebugData->mOxygen ) );
+	SetRect( m_pRect, 280, 310, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
 }
 
 void InfoPrinter::RenderItSelf()
 {
+	if ( !GDebugData->mDisplayDebugInfoFlag )
+		return;
+
 	DrawServerInfo();
 	DrawClientInfo();
 }

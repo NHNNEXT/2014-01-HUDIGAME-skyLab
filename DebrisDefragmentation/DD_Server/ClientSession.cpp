@@ -233,6 +233,8 @@ bool ClientSession::Broadcast( PacketHeader* pkt )
 void ClientSession::OnTick( )
 {
 	/// 클라별로 주기적으로 해야될 일은 여기에
+	SyncCharacterDebugInfo();
+
 	/*
 	/// 특정 주기로 DB에 위치 저장
 	if ( ++mDbUpdateCount == PLAYER_DB_UPDATE_CYCLE )
@@ -391,7 +393,7 @@ void ClientSession::BroadcastKineticState( bool accelerationFlag, bool spinFlag 
 	if ( spinFlag )
 	{
 		outPacket.mSpinAxis = m_Character.GetSpinAxis();
-		outPacket.mSpinAngularVelocity = m_Character.GetSpinAngle();
+		outPacket.mSpinAngularVelocity = m_Character.GetSpinAngularVelocity();
 	}
 
 	// 자신과 연결된 클라이언트와 기타 모든 클라이언트에게 전송
@@ -505,6 +507,31 @@ void ClientSession::SendWarning()
 	SendRequest( &outPacket );
 
 	DDLOG_DEBUG( L"[client %d] Warning", mPlayerId );
+}
+
+void ClientSession::SyncCharacterDebugInfo()
+{
+	DebugClientInfoResult outPacket;
+
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mClass = static_cast<int>( m_Character.GetClassComponent()->GetCharacterClassName() );
+
+	outPacket.mPos = m_Character.GetTransform()->GetPosition();
+	
+	outPacket.mIsSpin = m_Character.IsSpinning();
+	outPacket.mIsAccelerate = m_Character.IsAccelerating();
+
+	outPacket.mAcceleration = m_Character.GetAcceleration();
+	outPacket.mVelocity = m_Character.GetVelocity();
+	outPacket.mSpinAxis = m_Character.GetSpinAxis();
+	outPacket.mSpinAngularVelocity = m_Character.GetSpinAngularVelocity();
+
+	outPacket.mFuel = m_Character.GetClassComponent()->GetFuel();
+	outPacket.mOxygen = m_Character.GetClassComponent()->GetOxygen();
+
+	SendRequest( &outPacket );
+
+	DDLOG_DEBUG( L"[client %d] sync debug info", mPlayerId );
 }
 
 // 각 패킷을 처리하는 핸들러를 만들자

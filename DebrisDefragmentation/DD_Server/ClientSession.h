@@ -88,6 +88,9 @@ public:
 	void	SendCurrentStatus( ClientSession* targetClient );
 	void	SendWarning();
 
+	// 플레이어 캐릭터 정보 전송
+	void	SyncCharacterDebugInfo();
+
 private:
 
 	bool	SendFlush(); ///< Send요청 중인것들 모아서 보냄

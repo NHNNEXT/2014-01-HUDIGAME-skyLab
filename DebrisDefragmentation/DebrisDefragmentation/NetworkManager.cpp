@@ -186,6 +186,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
 }
 
 
@@ -498,6 +499,27 @@ void NetworkManager::HandleSyncServerDebugInfoResult( DDPacketHeader& pktBase )
 	}
 }
 
+void NetworkManager::HandleSyncCharacterDebugInfoResult( DDPacketHeader& pktBase )
+{
+	DebugClientInfoResult inPacket = reinterpret_cast<DebugClientInfoResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	GDebugData->mPlayerId = inPacket.mPlayerId;
+	GDebugData->mClass = inPacket.mClass;
+
+	GDebugData->mPos = inPacket.mPos;
+
+	GDebugData->mIsSpin = inPacket.mIsSpin;
+	GDebugData->mIsAccelerate = inPacket.mIsAccelerate;
+
+	GDebugData->mAcceleration = inPacket.mAcceleration;
+	GDebugData->mVelocity = inPacket.mVelocity;
+	GDebugData->mSpinAxis = inPacket.mSpinAxis;
+	GDebugData->mSpinAngularVelocity = inPacket.mSpinAngularVelocity;
+
+	GDebugData->mFuel = inPacket.mFuel;
+	GDebugData->mOxygen = inPacket.mOxygen;
+}
 
 CharacterClass NetworkManager::GetMyClass()
 { 

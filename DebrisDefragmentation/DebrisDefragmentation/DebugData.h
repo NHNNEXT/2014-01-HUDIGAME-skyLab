@@ -25,14 +25,15 @@ public:
 	std::array<float, MODULE_NUMBER> mModuleHP;
 
 	// client debug info
-	int			mClass = -1;
+	int		mPlayerId = -1;
+	int		mClass = -1;
 
 	D3DXVECTOR3 mPos;
 
 	bool	mIsSpin = false;
 	bool	mIsAccelerate = false;
 
-	D3DXVECTOR3 mForce;
+	D3DXVECTOR3 mAcceleration;
 	D3DXVECTOR3 mVelocity;
 	D3DXVECTOR3 mSpinAxis;
 
@@ -40,6 +41,8 @@ public:
 
 	float	mFuel = 0.0f;
 	float	mOxygen = 0.0f;
+
+	bool	mDisplayDebugInfoFlag = false;
 };
 
 extern DebugData* GDebugData;

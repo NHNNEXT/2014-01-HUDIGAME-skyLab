@@ -328,6 +328,12 @@ void PlayScene::UpdateItSelf( float dTime )
 	{
 		GNetworkManager->SendTurnBody();
 	}
+
+	if ( KEY_DOWN == GetKeyState( VK_F12 ) )
+	{
+		GDebugData->mDisplayDebugInfoFlag = GDebugData->mDisplayDebugInfoFlag ? false : true;
+	}
+
 	// 문교수 커피가 든 컵을 들고 오다가 커피가 손에 닿자...
 	// 문교수 : 보강 간섭이 일어나지 않게 엇박자로 걸었어야 되는데...라고 말씀하셨다.
 	// ㅋㅋㅋㅋ 카멕님이 적으셨습니까

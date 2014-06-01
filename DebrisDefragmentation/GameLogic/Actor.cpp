@@ -68,7 +68,7 @@ void Actor::Stop()
 
 void Actor::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
-	m_Rigidbody.m_SpinAngle = angularVelocity;
+	m_Rigidbody.m_SpinAngularVelocity = angularVelocity;
 	m_Rigidbody.m_SpinAxis = rotationAxis;
 	SetSpinTime( 0.0f );
 	SetSpinnigFlag( true );
@@ -84,7 +84,7 @@ void Actor::StopSpin()
 {
 	SetSpinnigFlag( false );
 	SetSpinTime( 0.0f );
-	m_Rigidbody.m_SpinAngle = 0.0f;
+	m_Rigidbody.m_SpinAngularVelocity = 0.0f;
 	m_Rigidbody.m_SpinAxis = ZERO_VECTOR3;
 }
 

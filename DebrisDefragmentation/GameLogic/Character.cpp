@@ -121,7 +121,7 @@ void Character::UpdateItSelf( float dTime )
 		// 회전축을 기준으로 물체를 회전시킵니다.
 		D3DXMATRIXA16 spinTransform;
 		D3DXVECTOR3 tmpSpinAxis = GetSpinAxis();
-		float tmpSpinAngle = GetSpinAngle();
+		float tmpSpinAngle = GetSpinAngularVelocity();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
 		// D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
 		D3DXMatrixMultiply( &m_Matrix, &spinTransform, &m_Matrix );
