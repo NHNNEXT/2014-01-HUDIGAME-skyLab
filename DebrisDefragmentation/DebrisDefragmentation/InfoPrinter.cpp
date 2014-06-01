@@ -51,8 +51,8 @@ void InfoPrinter::DrawServerInfo()
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
-	// players
-	info.append( L"PLAYERS : " );
+	// player's team
+	info.append( L"PLAYERS TEAM : \n" );
 	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		info.append( std::to_wstring( GDebugData->mPlayerTeam[i] ) );
@@ -62,17 +62,28 @@ void InfoPrinter::DrawServerInfo()
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
+	// player's class
+	info.append( L"PLAYERS CLASS : \n" );
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
+	{
+		info.append( std::to_wstring( GDebugData->mPlayerClass[i] ) );
+		info.append( L" | " );
+	}
+	SetRect( m_pRect, 22, 140, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear();
+
 	// iss position
 	info.append( L"ISS POSITION = " );
 	info.append( std::to_wstring( GDebugData->mIssPos ) );
-	SetRect( m_pRect, 22, 130, 1000, 1000 );
+	SetRect( m_pRect, 22, 170, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
 	// iss velocity
 	info.append( L"ISS VELOCITY = " );
 	info.append( std::to_wstring( GDebugData->mIssVelocity ) );
-	SetRect( m_pRect, 22, 140, 1000, 1000 );
+	SetRect( m_pRect, 22, 180, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
@@ -83,7 +94,7 @@ void InfoPrinter::DrawServerInfo()
 		info.append( std::to_wstring( GDebugData->mModuleOwner[i] ) );
 		info.append( L"\n" );
 	}
-	SetRect( m_pRect, 22, 160, 1000, 1000 );
+	SetRect( m_pRect, 22, 200, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
@@ -94,7 +105,7 @@ void InfoPrinter::DrawServerInfo()
 		info.append( std::to_wstring( GDebugData->mModuleHP[i] ) );
 		info.append( L"\n" );
 	}
-	SetRect( m_pRect, 22, 280, 1000, 1000 );
+	SetRect( m_pRect, 22, 320, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 }

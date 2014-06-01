@@ -53,6 +53,8 @@ public:
 	static void HandleKineticStateResult( DDPacketHeader& pktBase );
 	static void HandleCharacterStateResult( DDPacketHeader& pktBase );
 
+	static void HandleSyncServerDebugInfoResult( DDPacketHeader& pktBase );
+
 private:
 	static int m_MyPlayerId;
 	

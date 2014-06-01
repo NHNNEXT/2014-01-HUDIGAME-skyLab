@@ -13,6 +13,7 @@
 #include "DispenserModel.h"
 #include "DDModel.h"
 #include "DDCamera.h"
+#include "DebugData.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -184,6 +185,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
 }
 
 
@@ -474,6 +476,28 @@ void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
 	printf_s( "class changed : %d\n", inPacket.mNewClass );
 }
+
+void NetworkManager::HandleSyncServerDebugInfoResult( DDPacketHeader& pktBase )
+{
+	DebugServerInfoResult inPacket = reinterpret_cast<DebugServerInfoResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
+	{
+		GDebugData->mPlayerTeam[i] = inPacket.mPlayerTeam[i];
+		GDebugData->mPlayerClass[i] = inPacket.mPlayerClass[i];
+	}
+
+	GDebugData->mIssPos = inPacket.mIssPos;
+	GDebugData->mIssVelocity = inPacket.mIssVelocity;
+
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		GDebugData->mModuleOwner[i] = inPacket.mModuleOwner[i];
+		GDebugData->mModuleHP[i] = inPacket.mModuleHP[i];
+	}
+}
+
 
 CharacterClass NetworkManager::GetMyClass()
 { 

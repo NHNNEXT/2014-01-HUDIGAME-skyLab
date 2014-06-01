@@ -8,6 +8,7 @@ public:
 	DebugData()
 	{
 		mPlayerTeam.fill( -1 );
+		mPlayerTeam.fill( -1 );
 		mModuleOwner.fill( -1 );
 		mModuleHP.fill( 0.0f );
 	}
@@ -15,6 +16,7 @@ public:
 
 	// server debug info
 	std::array<int, REAL_PLAYER_NUM> mPlayerTeam;
+	std::array<int, REAL_PLAYER_NUM> mPlayerClass;
 
 	float		mIssPos = 0.0f;
 	float		mIssVelocity = 0.0f;

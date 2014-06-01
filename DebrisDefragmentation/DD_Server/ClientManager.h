@@ -10,7 +10,7 @@ struct PacketHeader;
 class ClientManager
 {
 public:
-	ClientManager() : mLastGCTick( 0 ), mLastClientWorkTick( 0 )
+	ClientManager() : mLastGCTick( 0 ), mLastClientWorkTick( 0 ), mLastSyncDebugTick( 0 )
 	{}
 	~ClientManager() {}
 
@@ -26,6 +26,7 @@ public:
 
 	// 반드시 고스트 정보 동기화 용도로만 사용할 것
 	void SyncGhostInfo();
+	void SyncServerDebugInfo();
 
 	// 다른 플레이어들 정보를 가져옴 - 처음 접속한 세션에서 호출
 	void InitPlayerState( ClientSession* caller );
@@ -53,6 +54,7 @@ private:
 
 	DWORD			mLastGCTick;
 	DWORD			mLastClientWorkTick;
+	DWORD			mLastSyncDebugTick;
 };
 
 extern ClientManager* GClientManager;

@@ -65,10 +65,18 @@ void ClientManager::OnPeriodWork()
 	// 게임 로직에 관련 된 것도 진행
 	mGameManager.DoPeriodWork();
 	
-	SyncGhostInfo(); // 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
+	// 클라이언트에서 서버 정보 동기화 디버깅용으로 사용했습니다. - 싱크로 오는 정보는 클라 캐릭터가 아닌 고스트에 적용
+	SyncGhostInfo();
 
 	/// 처리 완료된 DB 작업들 각각의 Client로 dispatch
 	// DispatchDatabaseJobResults();
+
+	// 서버 디버깅 정보 전송
+	if ( currTick - mLastSyncDebugTick >= 1000 )
+	{
+		SyncServerDebugInfo();
+		mLastSyncDebugTick = currTick;
+	}
 
 	/// 최종적으로 클라이언트들에 쌓인 send 요청 처리
 	FlushClientSend();
@@ -128,6 +136,43 @@ void ClientManager::SyncGhostInfo()
 
 		client->SyncGhostInfo();
 	}
+}
+
+void ClientManager::SyncServerDebugInfo()
+{
+	DebugServerInfoResult outPacket;
+	
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
+	{
+		Character* tempCharacter = GObjectTable->GetCharacter( i );
+
+		if ( tempCharacter == nullptr )
+		{
+			outPacket.mPlayerTeam[i] = NOTHING;
+			outPacket.mPlayerClass[i] = NOTHING;
+		}
+		else
+		{
+			outPacket.mPlayerTeam[i] = static_cast<int>( tempCharacter->GetTeam() );
+			outPacket.mPlayerClass[i] = static_cast<int>( tempCharacter->GetClassComponent()->GetCharacterClassName() );
+		}
+	}
+
+	outPacket.mIssPos = mGameManager.GetIssPositionZ();
+	outPacket.mIssPos = mGameManager.GetIssVelocityZ();
+
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		TeamColor color = TeamColor::NO_TEAM;
+		float hp = 1.0f;
+
+		std::tie( color, hp ) = mGameManager.GetModuleState( i );
+
+		outPacket.mModuleOwner[i] = static_cast<int>( color );
+		outPacket.mModuleHP[i] = hp;
+	}
+
+	BroadcastPacket( nullptr, &outPacket );
 }
 
 void ClientManager::InitPlayerState( ClientSession* caller )

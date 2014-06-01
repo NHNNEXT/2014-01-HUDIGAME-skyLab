@@ -686,6 +686,7 @@ struct DebugServerInfoResult : public PacketHeader
 		mType = PKT_SC_DEBUG_SERVER;
 
 		memset( mPlayerTeam, sizeof( mPlayerTeam ), 0 );
+		memset( mPlayerClass, sizeof( mPlayerClass ), 0 );
 		mIssPos = 0.0f;
 		mIssVelocity = 0.0f;
 		memset( mModuleOwner, sizeof( mModuleOwner ), 0 );
@@ -693,6 +694,7 @@ struct DebugServerInfoResult : public PacketHeader
 	}
 
 	int			mPlayerTeam[REAL_PLAYER_NUM];
+	int			mPlayerClass[REAL_PLAYER_NUM];
 
 	float		mIssPos;
 	float		mIssVelocity;
