@@ -20,7 +20,8 @@ bool SpaceMine::React()
 	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
 		Character* targetCharacter = GObjectTable->GetCharacter( i );
-		assert( targetCharacter );
+		if ( !targetCharacter )
+			continue;
 
 		// 일단 각 플레이어와의 거리 확인
 		D3DXVECTOR3 relativeDirection = m_Transform.GetPosition() - targetCharacter->GetTransform()->GetPosition();

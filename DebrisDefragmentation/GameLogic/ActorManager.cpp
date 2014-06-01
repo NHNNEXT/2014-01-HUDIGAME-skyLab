@@ -410,6 +410,8 @@ int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& d
 	
 	m_SpaceMineList.insert( std::map<unsigned int, SpaceMine*>::value_type( m_SpaceMineId, newMine ) );
 
+	BroadcastStructureInstallation( m_SpaceMineId, ClassSkill::SET_MINE, position, direction, team );
+
 	return m_SpaceMineId++;
 }
 

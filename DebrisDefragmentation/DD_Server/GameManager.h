@@ -12,6 +12,7 @@ public:
 	void BroadcastSkillResult( int idx, ClassSkill skillType );
 	void BroadcastCharacterChange( int idx, ChangeType type );
 	void BroadcastDispenserEffect( int idx, bool dispenserEffectFlag );
+	void BroadcastStructureInstallation( int structureId, ClassSkill skillType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor );
 
 	void DoPeriodWork();
 };

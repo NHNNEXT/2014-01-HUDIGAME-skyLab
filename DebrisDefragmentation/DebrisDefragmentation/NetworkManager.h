@@ -49,6 +49,7 @@ public:
 	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
 	static void HandleGameResultResult( DDPacketHeader& pktBase );
 	static void HandleWarningResult( DDPacketHeader& pktBase );
+	static void HandleBuildStructureResult( DDPacketHeader& pktBase );
 
 	static void HandleKineticStateResult( DDPacketHeader& pktBase );
 	static void HandleCharacterStateResult( DDPacketHeader& pktBase );

@@ -17,7 +17,8 @@ public:
 
 	void Init( );
 
-	virtual void BroadcastSkillResult(int idx, ClassSkill skillType ) = 0;
+	virtual void BroadcastSkillResult( int idx, ClassSkill skillType ) = 0;
+	virtual void BroadcastStructureInstallation( int structureId, ClassSkill skillType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor ) = 0;
 	virtual void BroadcastCharacterChange( int idx, ChangeType type ) = 0;
 	virtual void BroadcastDispenserEffect( int idx, bool dispenserEffectFlag ) = 0;
 	

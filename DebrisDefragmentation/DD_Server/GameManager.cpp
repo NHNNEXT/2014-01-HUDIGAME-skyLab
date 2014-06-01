@@ -77,6 +77,20 @@ void GameManager::BroadcastCharacterChange( int idx, ChangeType type )
 	}
 }
 
+void GameManager::BroadcastStructureInstallation( int structureId, ClassSkill skillType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor )
+{
+	// 방송 한다?!
+	BuildStructureResult outPacket;
+
+	outPacket.mStructureId = structureId;
+	outPacket.mSkillType = static_cast<int>( skillType );
+	outPacket.mPosition = position;
+	outPacket.mDirection = direction;
+	outPacket.mTeamColor = static_cast<int>( teamColor );
+
+	GClientManager->BroadcastPacket( nullptr, &outPacket );
+}
+
 void GameManager::DoPeriodWork()
 {
 	// 게임 로직 진행

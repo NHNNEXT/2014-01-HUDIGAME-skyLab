@@ -14,6 +14,7 @@
 #include "DDModel.h"
 #include "DDCamera.h"
 #include "DebugData.h"
+#include "DebrisModel.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -187,6 +188,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_BUILD_STRUCTURE, HandleBuildStructureResult );
 }
 
 
@@ -519,6 +521,17 @@ void NetworkManager::HandleSyncCharacterDebugInfoResult( DDPacketHeader& pktBase
 
 	GDebugData->mFuel = inPacket.mFuel;
 	GDebugData->mOxygen = inPacket.mOxygen;
+}
+
+void NetworkManager::HandleBuildStructureResult( DDPacketHeader& pktBase )
+{
+	BuildStructureResult inPacket = reinterpret_cast<BuildStructureResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	if ( static_cast<ClassSkill>( inPacket.mSkillType ) == ClassSkill::SET_MINE )
+	{
+		GObjectManager->RegisgerSpaceMine( inPacket.mStructureId, inPacket.mPosition, inPacket.mDirection, static_cast<TeamColor>( inPacket.mTeamColor ) );
+	}
 }
 
 CharacterClass NetworkManager::GetMyClass()

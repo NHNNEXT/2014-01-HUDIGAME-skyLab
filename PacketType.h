@@ -105,6 +105,7 @@ enum PacketTypes
 	PKT_SC_GATHER = 310,
 	PKT_SC_DISASTER_WARNING = 311,
 	PKT_SC_DISPENSER_EFFECT = 312,
+	PKT_SC_BUILD_STRUCTURE = 313,
 
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
@@ -738,6 +739,25 @@ struct DebugClientInfoResult : public PacketHeader
 
 	float	mFuel;
 	float	mOxygen;
+};
+
+struct BuildStructureResult : public PacketHeader
+{
+	BuildStructureResult()
+	{
+		mSize = sizeof( BuildStructureResult );
+		mType = PKT_SC_BUILD_STRUCTURE;
+
+		mStructureId = 0;
+		mSkillType = -1;
+		mTeamColor = -1;
+	}
+
+	unsigned int	mStructureId;
+	int				mSkillType; // == structure type
+	Float3D			mPosition;
+	Float3D			mDirection;
+	int				mTeamColor;
 };
 
 #pragma pack(pop)

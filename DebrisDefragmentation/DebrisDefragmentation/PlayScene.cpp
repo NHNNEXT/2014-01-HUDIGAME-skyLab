@@ -45,6 +45,7 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );
 	// m_ModelPool.InitModel( ModelType::ISS, L"/iss_2.X" );
 	m_ModelPool.InitModel( ModelType::DISPENSER, L"dispenser.x" );
+	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"space_mine.x" );
 }
 
 
@@ -127,10 +128,7 @@ void PlayScene::Init()
 
 		AddChild( newBackgroundDebris );
 	}
-
 	
-	// 조심해!
-	// 내부 구현 아직 제대로 안 된 상태
 	GObjectManager = new ObjectManager;
 
 	m_pObjectISS = ObjectISS::Create();
@@ -405,5 +403,3 @@ void PlayScene::UpdateUI()
 	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen /  DEFAULT_OXYGEN , 1, 1 );
 	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / DEFAULT_FUEL , 1, 1 );
 }
-
-

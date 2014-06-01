@@ -158,6 +158,8 @@ const float			DISPENSER_FUEL_EFFICIENCY = 1000.0f;
 
 const float			DISPENSER_RANGE = 10.0f;
 
+const float			SPACE_MINE_SCALE = 0.3f;
+
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
 const unsigned int	MAX_PLAYER_NUM = REAL_PLAYER_NUM * 2; // 더미 플레이어 수에 맞추도록 * 2함

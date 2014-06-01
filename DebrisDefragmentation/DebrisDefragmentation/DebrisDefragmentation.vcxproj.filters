@@ -113,6 +113,9 @@
     <ClCompile Include="DebugData.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
+    <ClCompile Include="SpaceMineModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="DebugData.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceMineModel.h">
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

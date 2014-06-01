@@ -28,7 +28,6 @@ private:
 	
 	// Model 관련 함수
 	void InitModelPool();
-	
 
 	// UI 관련 함수들
 	void AddUI();

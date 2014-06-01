@@ -107,6 +107,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="SpaceMineModel.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -138,6 +139,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="SpaceMineModel.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
