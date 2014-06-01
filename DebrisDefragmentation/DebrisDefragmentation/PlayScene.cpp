@@ -16,6 +16,7 @@
 #include "InfoPrinter.h"
 #include "EnvironmentManager.h"
 #include "DebugData.h"
+#include "DDBillboardEffect.h"
 
 PlayScene::PlayScene()
 {
@@ -46,6 +47,7 @@ void PlayScene::InitModelPool()
 	// m_ModelPool.InitModel( ModelType::ISS, L"/iss_2.X" );
 	m_ModelPool.InitModel( ModelType::DISPENSER, L"dispenser.x" );
 	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"space_mine.x" );
+	m_ModelPool.InitModel( ModelType::PUSHPULL_EFFECT, L"effect1.x" );
 }
 
 
@@ -109,6 +111,11 @@ void PlayScene::Init()
 	earth->SetModelMesh( m_ModelPool.GetModel( ModelType::EARTH ) );
 	earth->GetTransform().SetPosition( 0, -800, 0 );
 	AddChild( earth );
+
+	DDBillboardEffect* bill = DDBillboardEffect::Create();
+	bill->Init();
+	bill->GetTransform().SetPosition( 90.0f, .0f, .0f );
+	AddChild( bill );
 
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것

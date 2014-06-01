@@ -12,6 +12,7 @@
 #include <map>
 #include <memory>
 #include <tuple>
+#include <array>
 
 #include <cstdio>
 #include <fstream>

@@ -8,7 +8,7 @@ public:
 	virtual ~CharacterModel();
 		
 	CREATE_OBJECT( CharacterModel );
-	virtual void SetupFX();
+	void SetupFX();
 	
 private:
 	virtual void UpdateItSelf( float dTime );

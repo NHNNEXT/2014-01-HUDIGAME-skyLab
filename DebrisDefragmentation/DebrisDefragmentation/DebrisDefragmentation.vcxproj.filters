@@ -116,6 +116,9 @@
     <ClCompile Include="SpaceMineModel.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="DDBillboardEffect.cpp">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="SpaceMineModel.h">
       <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DDBillboardEffect.h">
+      <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

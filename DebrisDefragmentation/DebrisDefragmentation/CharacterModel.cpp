@@ -29,8 +29,12 @@ void CharacterModel::SetupFX()
 	D3DXVECTOR4 viewPos( cam->GetTransform().GetPosition(), 0.0f );
 	D3DXMATRIXA16 wvp = cam->GetMatProj() * cam->GetMatView() * m_Matrix;
 	D3DXVECTOR3 lightDir = GEnvironmentManager->GetLight( ClientLightTag::DIRECTIONAL_MAIN )->GetViewDirection();
-	m_pEffect->SetMatrix( "g_matWVP", &wvp );
-	m_pEffect->SetMatrix( "g_matWorld", &m_Matrix );
-	m_pEffect->SetVector( "g_camPos", &viewPos );
-	m_pEffect->SetValue( "g_vLightDir", &lightDir, sizeof( lightDir ) );
+// 	m_pEffect->SetMatrix( "g_matWVP", &wvp );
+// 	m_pEffect->SetMatrix( "g_matWorld", &m_Matrix );
+// 	m_pEffect->SetVector( "g_camPos", &viewPos );
+// 	m_pEffect->SetValue( "g_vLightDir", &lightDir, sizeof( lightDir ) );
+
+	m_pEffect->SetMatrix( "gWorldMatrix", &m_Matrix );
+	m_pEffect->SetMatrix( "gViewMatrix", &cam->GetMatView() );
+	m_pEffect->SetMatrix( "gProjectionMatrix", &cam->GetMatProj() );
 }

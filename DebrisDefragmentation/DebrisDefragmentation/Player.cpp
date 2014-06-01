@@ -45,6 +45,7 @@ void Player::Init()
 	// 조심해!!
 	// 림라이트 관련 Shader 초기화 소스. 일단 주석
 	//m_CharacterModel->InitFX( L"Rimlight.fx" );
+	//m_CharacterModel->InitFX( L"red.fx" );
 	AddChild( m_CharacterModel );
 	
 	// 내 캐릭터의 visible 끔.	

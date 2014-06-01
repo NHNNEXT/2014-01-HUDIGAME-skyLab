@@ -49,25 +49,30 @@ void DDModel::RenderItSelf()
 	if ( !m_MeshInfo )
 		return;
 
-	//SetupFX();
-	UINT nPass;
 
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 
 	if ( m_UseShader )
 	{
-		pD3DDevice->SetVertexDeclaration( m_pDecl );
+		SetupFX();
+		UINT nPass;
+		//pD3DDevice->SetVertexDeclaration( m_pDecl );
 		//LPDIRECT3DVERTEXBUFFER9* pVB = nullptr;
 		//m_MeshInfo->m_pMesh->GetVertexBuffer(pVB);
 		//pD3DDevice->SetStreamSource( 0, *pVB, 0, sizeof( **pVB ) );
 
-		m_pEffect->SetTechnique( "RenderRimLight" );
-		m_pEffect->Begin( &nPass, D3DXFX_DONOTSAVESTATE );
+		//m_pEffect->SetTechnique( "RenderRimLight" );
+		m_pEffect->Begin( &nPass, NULL );
 		
 		for ( int i = 0; i < nPass; ++i )
 		{
 			m_pEffect->BeginPass( i );
-			m_MeshInfo->m_pMesh->DrawSubset( i );
+			for ( DWORD j = 0; j < m_MeshInfo->m_dwNumMaterials; ++j )
+			{
+				pD3DDevice->SetMaterial( &m_MeshInfo->m_pMeshMaterials[j] );
+				pD3DDevice->SetTexture( 0, m_MeshInfo->m_pMeshTexture[j] );
+				m_MeshInfo->m_pMesh->DrawSubset( j );
+			}
 			m_pEffect->EndPass();
 		}
 

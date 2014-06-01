@@ -89,3 +89,5 @@ const std::map<JsonKeyValues, std::string> JSON_KEY_MAP =
 	{ JsonKeyValues::JSON_DEBRIS_NUMBER, "debrisNumber" },
 	{ JsonKeyValues::JSON_ISS, "ISS" },
 };
+
+const int			BILLBOARD_RESOLUTION = 20;

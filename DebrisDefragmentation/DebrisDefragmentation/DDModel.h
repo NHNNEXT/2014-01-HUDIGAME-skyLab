@@ -17,7 +17,8 @@ enum class ModelType : int
 	DEBRIS,
 	ISS,
 	DISPENSER,
-	SPACE_MINE
+	SPACE_MINE,
+	PUSHPULL_EFFECT
 };
 
 class DDModel :

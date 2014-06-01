@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CharacterModel.cpp" />
+    <ClCompile Include="DDBillboardEffect.cpp" />
     <ClCompile Include="DDCamera.cpp" />
     <ClCompile Include="DDLight.cpp" />
     <ClCompile Include="DDModel.cpp" />
@@ -116,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
     <ClInclude Include="CharacterModel.h" />
+    <ClInclude Include="DDBillboardEffect.h" />
     <ClInclude Include="DDCamera.h" />
     <ClInclude Include="DDLight.h" />
     <ClInclude Include="DDModel.h" />
