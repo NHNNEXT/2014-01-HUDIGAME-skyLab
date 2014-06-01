@@ -49,11 +49,11 @@ namespace GameTool
             // 아래로 휠
             if ( e.Delta > 0 )
             {
-                m_Renderer.ZoomInOutCameraPosition(-1);
+                m_Renderer.ZoomInOutCameraPosition(-10);
             }
             else
             {
-                m_Renderer.ZoomInOutCameraPosition(1);
+                m_Renderer.ZoomInOutCameraPosition(10);
             }
         }
 

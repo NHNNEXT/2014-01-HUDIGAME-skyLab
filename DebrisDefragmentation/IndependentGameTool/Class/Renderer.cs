@@ -75,7 +75,7 @@ namespace GameTool.Class
             {
                 PresentParameters presentParams = new PresentParameters();
                 presentParams.Windowed = true;
-                presentParams.SwapEffect = SwapEffect.Discard;
+                presentParams.SwapEffect = SwapEffect.Copy;
                 presentParams.EnableAutoDepthStencil = true;
                 presentParams.AutoDepthStencilFormat = DepthFormat.D16;
                 m_device = new Device(0, DeviceType.Hardware, display,
@@ -97,7 +97,7 @@ namespace GameTool.Class
 
         private void SetUpCamera()
         {
-            m_device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, (float)this.Width / (float)this.Height, 0.3f, 500f);
+            m_device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, (float)this.Width / (float)this.Height, 0.3f, 1000f);
         }
         
         // 4개의 뷰포트마다 저마다 다른 카메라를 가진다
@@ -179,11 +179,26 @@ namespace GameTool.Class
             m_device.Transform.World = Matrix.Identity;
             m_device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
 
-            foreach(VIEWPORT v in Enum.GetValues(typeof(VIEWPORT)) )
+            foreach (VIEWPORT v in Enum.GetValues(typeof(VIEWPORT)))
             {
                 ChangeCameraAndViewPort(v);
                 // clear를 여기서 호출해야 모든 뷰 포트가 깔끔해진다
-                m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.DarkSeaGreen, 1.0f, 0);
+                switch(v)
+                {
+                    case VIEWPORT.AXIS_X:
+                        m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.DarkSeaGreen, 1.0f, 0);
+                        break;
+                    case VIEWPORT.AXIS_Y:
+                        m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.CornflowerBlue, 1.0f, 0);
+                        break;
+                    case VIEWPORT.AXIS_Z:
+                        m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.CadetBlue, 1.0f, 0);
+                        break;
+                    case VIEWPORT.PERSPECTIVE:
+                        m_device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.BurlyWood, 1.0f, 0);
+                        break;
+                }
+                
                 RenderGameObject();
             }
 
