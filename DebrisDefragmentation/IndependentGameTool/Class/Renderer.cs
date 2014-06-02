@@ -214,9 +214,14 @@ namespace GameTool.Class
             }
         }
 
-        private void RenderCollisionBox()
+        public void SetCollisionBox(int objectId, float axisLenX, float axisLenY, float axisLenZ)
         {
-            
+            if (m_GameObjectList.Count <= objectId )
+            {
+                return;
+            }
+
+            m_GameObjectList[objectId].setCollisionBox(axisLenX, axisLenY, axisLenZ);
         }
     }
 }

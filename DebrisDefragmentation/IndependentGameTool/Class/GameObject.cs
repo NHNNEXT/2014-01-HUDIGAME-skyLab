@@ -43,29 +43,41 @@ namespace GameTool.Class
             setCollisionBox();
         }
 
-        // 조심해!! 하드코딩
+        // Default 값
         public void setCollisionBox()
         {
+            if (null != m_CollisionBox)
+            {
+                m_CollisionBox.Dispose();
+            }
+
             m_CollisionBox = new VertexBuffer(typeof(CustomVertex.PositionColored), 8,
                 m_device, 0, CustomVertex.PositionColored.Format, Pool.Default);
 
             CustomVertex.PositionColored[] posColoredVerts = new CustomVertex.PositionColored[8];
-            posColoredVerts[0].Position = new Vector3(-100, 150, -150);
-            posColoredVerts[0].Color = System.Drawing.Color.Black.ToArgb();
-            posColoredVerts[1].Position = new Vector3(100, 150, -150);
-            posColoredVerts[1].Color = System.Drawing.Color.Black.ToArgb();
-            posColoredVerts[2].Position = new Vector3(100, 150, 150);
-            posColoredVerts[2].Color = System.Drawing.Color.Black.ToArgb();
-            posColoredVerts[3].Position = new Vector3(-100, 150, 150);
-            posColoredVerts[3].Color = System.Drawing.Color.Black.ToArgb();
-            posColoredVerts[4].Position = new Vector3(-100, -150, -150);
-            posColoredVerts[4].Color = System.Drawing.Color.Black.ToArgb();
-            posColoredVerts[5].Position = new Vector3(100, -150, -150);
-            posColoredVerts[5].Color = System.Drawing.Color.Crimson.ToArgb();
-            posColoredVerts[6].Position = new Vector3(100, -150, 150);
-            posColoredVerts[6].Color = System.Drawing.Color.Crimson.ToArgb();
-            posColoredVerts[7].Position = new Vector3(-100, -150, 150);
-            posColoredVerts[7].Color = System.Drawing.Color.Crimson.ToArgb();
+
+            for (int i = 0; i < posColoredVerts.Length; ++i )
+            {
+                posColoredVerts[i].Position = new Vector3(0, 0, 0);
+                posColoredVerts[i].Color = System.Drawing.Color.Black.ToArgb();
+            }
+// 
+//             posColoredVerts[0].Position = new Vector3(-100, 150, -150);
+//             posColoredVerts[0].Color = System.Drawing.Color.Black.ToArgb();
+//             posColoredVerts[1].Position = new Vector3(100, 150, -150);
+//             posColoredVerts[1].Color = System.Drawing.Color.Black.ToArgb();
+//             posColoredVerts[2].Position = new Vector3(100, 150, 150);
+//             posColoredVerts[2].Color = System.Drawing.Color.Black.ToArgb();
+//             posColoredVerts[3].Position = new Vector3(-100, 150, 150);
+//             posColoredVerts[3].Color = System.Drawing.Color.Black.ToArgb();
+//             posColoredVerts[4].Position = new Vector3(-100, -150, -150);
+//             posColoredVerts[4].Color = System.Drawing.Color.Black.ToArgb();
+//             posColoredVerts[5].Position = new Vector3(100, -150, -150);
+//             posColoredVerts[5].Color = System.Drawing.Color.Crimson.ToArgb();
+//             posColoredVerts[6].Position = new Vector3(100, -150, 150);
+//             posColoredVerts[6].Color = System.Drawing.Color.Crimson.ToArgb();
+//             posColoredVerts[7].Position = new Vector3(-100, -150, 150);
+//             posColoredVerts[7].Color = System.Drawing.Color.Crimson.ToArgb();
 
             GraphicsStream gstm = m_CollisionBox.Lock(0, 0, LockFlags.None);
             gstm.Write(posColoredVerts);
@@ -77,8 +89,43 @@ namespace GameTool.Class
             GraphicsStream idstm = m_IndexBuffer.Lock(0, 0, LockFlags.None);
             idstm.Write(m_IndexedBufferOrder);
             m_IndexBuffer.Unlock();
-
         }
+
+        // override
+        // 자 이 함수가 뭐냐면 오브젝트의 로컬 좌표계 기준으로 오브젝트 중심이 (0, 0, 0)일 때
+        // 축 길이를 조절할 수 있는 함수입니다
+        public void setCollisionBox(float axisLenX, float axisLenY, float axisLenZ)
+        {
+            if(null != m_CollisionBox)
+            {
+                m_CollisionBox.Dispose();
+            }
+            m_CollisionBox = new VertexBuffer(typeof(CustomVertex.PositionColored), 8,
+                m_device, 0, CustomVertex.PositionColored.Format, Pool.Default);
+
+            CustomVertex.PositionColored[] posColoredVerts = new CustomVertex.PositionColored[8];
+            posColoredVerts[0].Position = new Vector3(-axisLenX, axisLenY, -axisLenZ);
+            posColoredVerts[0].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[1].Position = new Vector3(axisLenX, axisLenY, -axisLenZ);
+            posColoredVerts[1].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[2].Position = new Vector3(axisLenX, axisLenY, axisLenZ);
+            posColoredVerts[2].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[3].Position = new Vector3(-axisLenX, axisLenY, axisLenZ);
+            posColoredVerts[3].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[4].Position = new Vector3(-axisLenX, -axisLenY, -axisLenZ);
+            posColoredVerts[4].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[5].Position = new Vector3(axisLenX, -axisLenY, -axisLenZ);
+            posColoredVerts[5].Color = System.Drawing.Color.Crimson.ToArgb();
+            posColoredVerts[6].Position = new Vector3(axisLenX, -axisLenY, axisLenZ);
+            posColoredVerts[6].Color = System.Drawing.Color.Crimson.ToArgb();
+            posColoredVerts[7].Position = new Vector3(-axisLenX, -axisLenY, axisLenZ);
+            posColoredVerts[7].Color = System.Drawing.Color.Crimson.ToArgb();
+
+            GraphicsStream gstm = m_CollisionBox.Lock(0, 0, LockFlags.None);
+            gstm.Write(posColoredVerts);
+            m_CollisionBox.Unlock();
+        }
+
 
         // 메쉬를 불러오는 함수
         private void LoadMesh(string filenameWithPath, ref Mesh mesh, ref Material[] meshmaterials, ref Texture[] meshtextures)
@@ -136,9 +183,6 @@ namespace GameTool.Class
 
         public void DrawBoundingBox()
         {
-            
-            //m_device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 1, m_testTriangle);
-
             m_device.SetStreamSource(0, m_CollisionBox, 0);
             //m_device.VertexFormat = CustomVertex.PositionColored.Format;
             m_device.Indices = m_IndexBuffer;

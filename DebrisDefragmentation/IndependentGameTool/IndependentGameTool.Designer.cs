@@ -97,6 +97,19 @@
             this.FPSshow = new System.Windows.Forms.Label();
             this.ObjectTool = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.ALZtxt = new System.Windows.Forms.TextBox();
+            this.ALYtxt = new System.Windows.Forms.TextBox();
+            this.ALXtxt = new System.Windows.Forms.TextBox();
+            this.centerPosZ = new System.Windows.Forms.TextBox();
+            this.centerPosY = new System.Windows.Forms.TextBox();
+            this.centerPosX = new System.Windows.Forms.TextBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.ObjJsonKey = new System.Windows.Forms.Label();
             this.ObjJsonValue = new System.Windows.Forms.TextBox();
@@ -114,20 +127,10 @@
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.LoadedObjectList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -147,6 +150,7 @@
             this.groupBox11.SuspendLayout();
             this.ObjectTool.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox12.SuspendLayout();
@@ -154,7 +158,8 @@
             this.tab_GameRender.SuspendLayout();
             this.tab_ISSPartRender.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
-            this.groupBox15.SuspendLayout();
+            this.groupBox16.SuspendLayout();
+            this.groupBox17.SuspendLayout();
             this.SuspendLayout();
             // 
             // View
@@ -820,7 +825,8 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.button4);
+            this.groupBox10.Controls.Add(this.groupBox17);
+            this.groupBox10.Controls.Add(this.groupBox16);
             this.groupBox10.Controls.Add(this.groupBox15);
             this.groupBox10.Controls.Add(this.groupBox14);
             this.groupBox10.Controls.Add(this.ISSRenderBtn);
@@ -834,14 +840,131 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ObjectPartList";
             // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.label23);
+            this.groupBox15.Controls.Add(this.label24);
+            this.groupBox15.Controls.Add(this.label25);
+            this.groupBox15.Controls.Add(this.label22);
+            this.groupBox15.Controls.Add(this.label21);
+            this.groupBox15.Controls.Add(this.label16);
+            this.groupBox15.Controls.Add(this.ALZtxt);
+            this.groupBox15.Controls.Add(this.ALYtxt);
+            this.groupBox15.Controls.Add(this.ALXtxt);
+            this.groupBox15.Controls.Add(this.centerPosZ);
+            this.groupBox15.Controls.Add(this.centerPosY);
+            this.groupBox15.Controls.Add(this.centerPosX);
+            this.groupBox15.Location = new System.Drawing.Point(7, 313);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(248, 188);
+            this.groupBox15.TabIndex = 7;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "BoundingBoxControl";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(11, 158);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(76, 12);
+            this.label23.TabIndex = 11;
+            this.label23.Text = "AxisLengthZ";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(11, 131);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(76, 12);
+            this.label24.TabIndex = 10;
+            this.label24.Text = "AxisLengthY";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(11, 104);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(76, 12);
+            this.label25.TabIndex = 9;
+            this.label25.Text = "AxisLengthX";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(11, 77);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(72, 12);
+            this.label22.TabIndex = 8;
+            this.label22.Text = "CenterPosZ";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(11, 50);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(72, 12);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "CenterPosY";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(11, 23);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(72, 12);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "CenterPosX";
+            // 
+            // ALZtxt
+            // 
+            this.ALZtxt.Location = new System.Drawing.Point(99, 155);
+            this.ALZtxt.Name = "ALZtxt";
+            this.ALZtxt.Size = new System.Drawing.Size(143, 21);
+            this.ALZtxt.TabIndex = 5;
+            // 
+            // ALYtxt
+            // 
+            this.ALYtxt.Location = new System.Drawing.Point(99, 128);
+            this.ALYtxt.Name = "ALYtxt";
+            this.ALYtxt.Size = new System.Drawing.Size(143, 21);
+            this.ALYtxt.TabIndex = 4;
+            // 
+            // ALXtxt
+            // 
+            this.ALXtxt.Location = new System.Drawing.Point(99, 101);
+            this.ALXtxt.Name = "ALXtxt";
+            this.ALXtxt.Size = new System.Drawing.Size(143, 21);
+            this.ALXtxt.TabIndex = 3;
+            // 
+            // centerPosZ
+            // 
+            this.centerPosZ.Location = new System.Drawing.Point(99, 74);
+            this.centerPosZ.Name = "centerPosZ";
+            this.centerPosZ.Size = new System.Drawing.Size(143, 21);
+            this.centerPosZ.TabIndex = 2;
+            // 
+            // centerPosY
+            // 
+            this.centerPosY.Location = new System.Drawing.Point(99, 47);
+            this.centerPosY.Name = "centerPosY";
+            this.centerPosY.Size = new System.Drawing.Size(143, 21);
+            this.centerPosY.TabIndex = 1;
+            // 
+            // centerPosX
+            // 
+            this.centerPosX.Location = new System.Drawing.Point(99, 20);
+            this.centerPosX.Name = "centerPosX";
+            this.centerPosX.Size = new System.Drawing.Size(143, 21);
+            this.centerPosX.TabIndex = 0;
+            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.ObjJsonKey);
             this.groupBox14.Controls.Add(this.ObjJsonValue);
             this.groupBox14.Controls.Add(this.button3);
-            this.groupBox14.Location = new System.Drawing.Point(261, 177);
+            this.groupBox14.Location = new System.Drawing.Point(261, 104);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(188, 121);
+            this.groupBox14.Size = new System.Drawing.Size(188, 108);
             this.groupBox14.TabIndex = 6;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "JSONModify";
@@ -857,7 +980,7 @@
             // 
             // ObjJsonValue
             // 
-            this.ObjJsonValue.Location = new System.Drawing.Point(6, 49);
+            this.ObjJsonValue.Location = new System.Drawing.Point(6, 38);
             this.ObjJsonValue.Name = "ObjJsonValue";
             this.ObjJsonValue.Size = new System.Drawing.Size(176, 21);
             this.ObjJsonValue.TabIndex = 8;
@@ -865,7 +988,7 @@
             // button3
             // 
             this.button3.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.button3.Location = new System.Drawing.Point(6, 76);
+            this.button3.Location = new System.Drawing.Point(6, 65);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(176, 39);
             this.button3.TabIndex = 7;
@@ -875,6 +998,8 @@
             // 
             // ISSRenderBtn
             // 
+            this.ISSRenderBtn.Font = new System.Drawing.Font("Bernard MT Condensed", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ISSRenderBtn.ForeColor = System.Drawing.Color.Maroon;
             this.ISSRenderBtn.Location = new System.Drawing.Point(267, 527);
             this.ISSRenderBtn.Name = "ISSRenderBtn";
             this.ISSRenderBtn.Size = new System.Drawing.Size(173, 69);
@@ -1001,131 +1126,45 @@
             this.ObjectView.TabStop = false;
             this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
             // 
-            // groupBox15
+            // groupBox16
             // 
-            this.groupBox15.Controls.Add(this.label23);
-            this.groupBox15.Controls.Add(this.label24);
-            this.groupBox15.Controls.Add(this.label25);
-            this.groupBox15.Controls.Add(this.label22);
-            this.groupBox15.Controls.Add(this.label21);
-            this.groupBox15.Controls.Add(this.label16);
-            this.groupBox15.Controls.Add(this.textBox5);
-            this.groupBox15.Controls.Add(this.textBox6);
-            this.groupBox15.Controls.Add(this.textBox3);
-            this.groupBox15.Controls.Add(this.textBox4);
-            this.groupBox15.Controls.Add(this.textBox2);
-            this.groupBox15.Controls.Add(this.textBox1);
-            this.groupBox15.Location = new System.Drawing.Point(7, 313);
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(248, 188);
-            this.groupBox15.TabIndex = 7;
-            this.groupBox15.TabStop = false;
-            this.groupBox15.Text = "BoundingBoxControl";
+            this.groupBox16.Controls.Add(this.button5);
+            this.groupBox16.Location = new System.Drawing.Point(261, 218);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(188, 80);
+            this.groupBox16.TabIndex = 10;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "BoundingBox";
             // 
-            // button4
+            // button5
             // 
-            this.button4.Location = new System.Drawing.Point(267, 463);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(173, 29);
-            this.button4.TabIndex = 8;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.button5.ForeColor = System.Drawing.Color.Crimson;
+            this.button5.Location = new System.Drawing.Point(6, 35);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(176, 39);
+            this.button5.TabIndex = 7;
+            this.button5.Text = "Get Box Data";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.GetBoxDataBtn);
             // 
-            // textBox1
+            // groupBox17
             // 
-            this.textBox1.Location = new System.Drawing.Point(99, 20);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(143, 21);
-            this.textBox1.TabIndex = 0;
+            this.groupBox17.Controls.Add(this.LoadedObjectList);
+            this.groupBox17.Location = new System.Drawing.Point(261, 313);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(188, 95);
+            this.groupBox17.TabIndex = 11;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "LoadedObjectList";
             // 
-            // textBox2
+            // LoadedObjectList
             // 
-            this.textBox2.Location = new System.Drawing.Point(99, 47);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(143, 21);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(99, 101);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(143, 21);
-            this.textBox3.TabIndex = 3;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(99, 74);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(143, 21);
-            this.textBox4.TabIndex = 2;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(99, 155);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(143, 21);
-            this.textBox5.TabIndex = 5;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(99, 128);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(143, 21);
-            this.textBox6.TabIndex = 4;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(11, 23);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(72, 12);
-            this.label16.TabIndex = 6;
-            this.label16.Text = "CenterPosX";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(11, 50);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(72, 12);
-            this.label21.TabIndex = 7;
-            this.label21.Text = "CenterPosY";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(11, 77);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(72, 12);
-            this.label22.TabIndex = 8;
-            this.label22.Text = "CenterPosZ";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(11, 158);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(76, 12);
-            this.label23.TabIndex = 11;
-            this.label23.Text = "AxisLengthZ";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(11, 131);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(76, 12);
-            this.label24.TabIndex = 10;
-            this.label24.Text = "AxisLengthY";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(11, 104);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(76, 12);
-            this.label25.TabIndex = 9;
-            this.label25.Text = "AxisLengthX";
+            this.LoadedObjectList.FormattingEnabled = true;
+            this.LoadedObjectList.ItemHeight = 12;
+            this.LoadedObjectList.Location = new System.Drawing.Point(9, 20);
+            this.LoadedObjectList.Name = "LoadedObjectList";
+            this.LoadedObjectList.Size = new System.Drawing.Size(170, 64);
+            this.LoadedObjectList.TabIndex = 0;
             // 
             // IndependentGameTool
             // 
@@ -1164,6 +1203,8 @@
             this.groupBox11.PerformLayout();
             this.ObjectTool.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox13.ResumeLayout(false);
@@ -1173,8 +1214,8 @@
             this.tab_GameRender.ResumeLayout(false);
             this.tab_ISSPartRender.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
-            this.groupBox15.ResumeLayout(false);
-            this.groupBox15.PerformLayout();
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1267,7 +1308,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox ObjJsonValue;
         private System.Windows.Forms.GroupBox groupBox14;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
@@ -1275,12 +1315,16 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox ALZtxt;
+        private System.Windows.Forms.TextBox ALYtxt;
+        private System.Windows.Forms.TextBox ALXtxt;
+        private System.Windows.Forms.TextBox centerPosZ;
+        private System.Windows.Forms.TextBox centerPosY;
+        private System.Windows.Forms.TextBox centerPosX;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.GroupBox groupBox17;
+        private System.Windows.Forms.ListBox LoadedObjectList;
     }
 }
 

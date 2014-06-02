@@ -49,11 +49,11 @@ namespace GameTool
             // 아래로 휠
             if ( e.Delta > 0 )
             {
-                m_Renderer.ZoomInOutCameraPosition(-10);
+                m_Renderer.ZoomInOutCameraPosition(-1);
             }
             else
             {
-                m_Renderer.ZoomInOutCameraPosition(10);
+                m_Renderer.ZoomInOutCameraPosition(1);
             }
         }
 
@@ -178,6 +178,7 @@ namespace GameTool
             if (filename.Length > 0)
             {
                 m_Renderer.CreateAndAddMesh(filename);
+                LoadedObjectList.Items.Add(filename);
             }
             else
             {
@@ -213,6 +214,40 @@ namespace GameTool
                 string key = m_JsonManager.SplitJSONKeyFromKeyValue(tn.Text);
                 ObjJsonKey.Text = key;
                 ObjJsonValue.Text = val;
+            }
+        }
+
+        private void GetBoxDataBtn(object sender, EventArgs e)
+        {
+            TreeNode tn = SelectedObjJson.SelectedNode;
+
+            if (null == tn || null == tn.Parent)
+            {
+                return;
+            }
+
+            if (LoadedObjectList.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            if (tn.Parent.Text == "AxisLength : ")
+            {
+                TreeNodeCollection tnc = tn.Nodes;
+                ALXtxt.Text = tnc[0].Text;
+                ALYtxt.Text = tnc[1].Text;
+                ALZtxt.Text = tnc[2].Text;
+
+                centerPosX.Text = "0 으로 고정됩니다";
+                centerPosY.Text = "0 으로 고정됩니다";
+                centerPosZ.Text = "0 으로 고정됩니다";
+
+                float lengthX = Convert.ToSingle(ALXtxt.Text);
+                float lengthY = Convert.ToSingle(ALYtxt.Text);
+                float lengthZ = Convert.ToSingle(ALZtxt.Text);
+
+                m_Renderer.SetCollisionBox(LoadedObjectList.SelectedIndex,
+                    lengthX, lengthY, lengthZ);
             }
         }
     }
