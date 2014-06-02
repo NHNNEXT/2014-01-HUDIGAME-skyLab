@@ -110,7 +110,7 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 	targetCharacter->Move( force );
 	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
-	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PUSH );
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::KINETIC_STATE );
 
 	// 스킬 썼으면 쿨 적용시키자
 	SetCooldown( ClassSkill::PUSH );
@@ -149,7 +149,7 @@ bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
 	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
 	targetCharacter->GetClassComponent()->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
 
-	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_FUEL );
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::CHARACTER_STATE );
 
 	// 스킬 썼으면 쿨 적용시키자
 	SetCooldown( ClassSkill::SHARE_FUEL );

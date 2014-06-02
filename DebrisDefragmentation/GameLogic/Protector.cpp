@@ -59,7 +59,7 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 			continue;
 
 		if ( myColor == targetCharacter->GetTeam() )
-			GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::WARNING );
+			GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::GAME_EVENT_SATE );
 	}
 
 	return true;
@@ -97,7 +97,7 @@ bool Protector::SkillShareOxygen( int id, const D3DXVECTOR3& direction )
 	m_Oxygen -= DEFAULT_OXYGEN_SHARE_AMOUNT;
 	targetCharacter->GetClassComponent()->IncreaseOxygen( DEFAULT_OXYGEN_SHARE_AMOUNT );
 
-	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::SHARE_OXYGEN );
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::CHARACTER_STATE );
 
 	// 스킬 썼으면 쿨 적용시키자
 	SetCooldown( ClassSkill::SHARE_OXYGEN );
@@ -127,7 +127,7 @@ bool Protector::SkillEMP( int id, const D3DXVECTOR3& direction )
 		{
 			// EMP 쿨다운 적용하고 방송도 해버리자
 			eachCharacter->GetClassComponent()->SetGlobalCooldown( EMP_TIME );
-			GObjectTable->GetActorManager()->BroadcastSkillResult( each, ClassSkill::EMP );
+			GObjectTable->GetActorManager()->BroadcastCharacterChange( each, ChangeType::CHARACTER_STATE );
 		}
 	}
 	);

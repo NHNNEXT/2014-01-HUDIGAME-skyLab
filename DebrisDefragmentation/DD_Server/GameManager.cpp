@@ -14,60 +14,35 @@ GameManager::~GameManager()
 {
 }
 
-void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
+void GameManager::BroadcastCharacterChange( int targetId, ChangeType type )
 {
-	// 매니저에게 접근해서
-	// 어떻게든 세션을 알아내서 스킬 타입에 따라서 적합한 패킷을 방송하도록 시킨다
-	// 각각의 스킬들의 성격이 다른데  
-	switch ( skillType )
+	ClientSession* targetSession = GClientManager->GetSession( targetId );
+	assert( targetSession );
+
+	switch ( type )
 	{
-	case ClassSkill::PUSH:
-	case ClassSkill::PULL:
-		// 위치, 속도, 스핀
-		assert( GClientManager->GetSession( idx ) );
-		GClientManager->GetSession( idx )->BroadcastKineticState( true, true );
+	case ChangeType::KINETIC_STATE:
+		targetSession->BroadcastKineticState( true, true );
 		break;
-	case ClassSkill::OCCUPY:
-	case ClassSkill::DESTROY:
-		// ISS 특정 모듈 정보
-		GClientManager->BroadcastModuleState( idx );
+	case ChangeType::CHARACTER_STATE:
+		targetSession->BroadcastCharacterState( );
 		break;
-	case ClassSkill::SHARE_FUEL:
-	case ClassSkill::SHARE_OXYGEN:
-	case ClassSkill::MOVE_FAST:
-	case ClassSkill::EMP:
-		assert( GClientManager->GetSession( idx ) );
-		GClientManager->GetSession( idx )->BroadcastCharacterState();
+	case ChangeType::GAME_EVENT_SATE:
+		// 조심해!
+		// 이건 따로 분리해야 하나...
+		targetSession->SendWarning( );
 		break;
-	case ClassSkill::WARNING:
-		assert( GClientManager->GetSession( idx ) );
-		GClientManager->GetSession( idx )->SendWarning();
-		break;
-	case ClassSkill::GATHER:
-		// 누가, 얼마나 채취
-		assert( GClientManager->GetSession( idx ) );
-		GClientManager->GetSession( idx )->BroadcastGatherResult();
+	case ChangeType::RESOURCE_GATHER:
+		targetSession->BroadcastGatherResult( );
 		break;
 	default:
 		break;
 	}
 }
 
-void GameManager::BroadcastCharacterChange( int idx, ChangeType type )
+void GameManager::BroadcastIssChange()
 {
-	switch ( type )
-	{
-	case ChangeType::KINETIC_STATE:
-		GClientManager->GetSession( idx )->BroadcastKineticState( true, true );
-		break;
-	case ChangeType::CHARACTER_STATE:
-		GClientManager->GetSession( idx )->BroadcastCharacterState();
-		break;
-	case ChangeType::GAME_EVENT_SATE:
-		break;
-	default:
-		break;
-	}
+	GClientManager->BroadcastModuleState();
 }
 
 void GameManager::BroadcastStructureInstallation( int structureId, StructureType structureType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor )

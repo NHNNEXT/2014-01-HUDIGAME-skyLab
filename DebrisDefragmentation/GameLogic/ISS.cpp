@@ -36,6 +36,7 @@ void ISS::Update( float dTime )
 	// 조심해!!
 	// 나중에 ISSModule이 ISS의 m_Matrix를 참조할 수 있도록 변경할 것
 	///# std::array 순회하면서 처리할 때... 어떤 곳에서는 람다를 주로 쓰고 어떤 곳에서는 for루프로 일일이 처리하고... 통일좀 하삼.
+	// 팀 컨벤션 표준 지정 회의 중입니다. ㅠ
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(), [&]( ISSModule &eachModule )
 	{
 		eachModule.SetISSPos( m_CurrentPos );
@@ -90,7 +91,7 @@ bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 		//m_RigidBody.m_Velocity.z = ( ( blueCount - redCount ) * ISS_MOVE_WEIGHT );
 		m_Velocity = ( blueCount - redCount ) * ISS_MOVE_WEIGHT;
 
-		GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( targetModule ), ClassSkill::OCCUPY );
+		GObjectTable->GetActorManager()->BroadcastIssChange();
 
 		return true;
 	}
@@ -110,7 +111,7 @@ bool ISS::Destroy( int characterId, D3DXVECTOR3 direction )
 		m_ModuleList[static_cast<int>( targetModule )].DecreaseHP();
 
 		// 방송할 것
-		GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( targetModule ), ClassSkill::DESTROY );
+		GObjectTable->GetActorManager()->BroadcastIssChange();
 
 		return true;
 	}

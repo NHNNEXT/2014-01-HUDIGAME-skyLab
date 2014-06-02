@@ -68,7 +68,7 @@ bool Engineer::SkillGather( int id, const D3DXVECTOR3& direction )
 	SetCooldown( ClassSkill::GATHER );
 	
 	// broadcast
-	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( id ), ClassSkill::GATHER );
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( static_cast<int>( id ), ChangeType::RESOURCE_GATHER );
 	
 	return true;
 }

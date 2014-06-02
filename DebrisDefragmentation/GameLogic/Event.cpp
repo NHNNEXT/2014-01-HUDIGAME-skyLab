@@ -82,7 +82,7 @@ void Event::DebrisStorm()
 
 			// 조심해!!
 			// 따로 함수 만들 것
-			GObjectTable->GetActorManager()->BroadcastSkillResult( i, ClassSkill::SHARE_OXYGEN );
+			GObjectTable->GetActorManager()->BroadcastCharacterChange( i, ChangeType::CHARACTER_STATE );
 		}
 	}
 
@@ -112,7 +112,7 @@ void Event::SolarWind()
 
 			// 조심해!!
 			// 따로 함수 만들 것
-			GObjectTable->GetActorManager()->BroadcastSkillResult( i, ClassSkill::EMP );
+			GObjectTable->GetActorManager()->BroadcastCharacterChange( i, ChangeType::CHARACTER_STATE );
 		}
 	}
 

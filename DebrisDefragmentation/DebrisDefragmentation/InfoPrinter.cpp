@@ -146,6 +146,13 @@ void InfoPrinter::DrawClientInfo()
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
+	// player's speed constant
+	info.append( L"PLAYER'S SPEED CONSTANT : " );
+	info.append( std::to_wstring( GDebugData->mSpeedConstant ) );
+	SetRect( m_pRect, 280, 190, 1000, 1000 );
+	m_pFont->DrawTextW( NULL, info.c_str( ), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
+	info.clear( );
+
 	// player's acceleration state
 	info.append( L"ACCELERATION : \n" );
 	info.append( std::to_wstring( GDebugData->mAcceleration.x ) );
@@ -153,7 +160,7 @@ void InfoPrinter::DrawClientInfo()
 	info.append( std::to_wstring( GDebugData->mAcceleration.y ) );
 	info.append( L" | " );
 	info.append( std::to_wstring( GDebugData->mAcceleration.z ) );
-	SetRect( m_pRect, 280, 200, 1000, 1000 );
+	SetRect( m_pRect, 280, 220, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
@@ -164,7 +171,7 @@ void InfoPrinter::DrawClientInfo()
 	info.append( std::to_wstring( GDebugData->mVelocity.y ) );
 	info.append( L" | " );
 	info.append( std::to_wstring( GDebugData->mVelocity.z ) );
-	SetRect( m_pRect, 280, 230, 1000, 1000 );
+	SetRect( m_pRect, 280, 250, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
@@ -175,14 +182,14 @@ void InfoPrinter::DrawClientInfo()
 	info.append( std::to_wstring( GDebugData->mSpinAxis.y ) );
 	info.append( L" | " );
 	info.append( std::to_wstring( GDebugData->mSpinAxis.z ) );
-	SetRect( m_pRect, 280, 260, 1000, 1000 );
+	SetRect( m_pRect, 280, 280, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
 	// player's angular velocity
 	info.append( L"SPIN ANGULAR VELOCITY : " );
 	info.append( std::to_wstring( GDebugData->mSpinAngularVelocity ) );
-	SetRect( m_pRect, 280, 290, 1000, 1000 );
+	SetRect( m_pRect, 280, 310, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 
@@ -191,7 +198,7 @@ void InfoPrinter::DrawClientInfo()
 	info.append( std::to_wstring( GDebugData->mFuel ) );
 	info.append( L"\nOXYGEN : " );
 	info.append( std::to_wstring( GDebugData->mOxygen ) );
-	SetRect( m_pRect, 280, 310, 1000, 1000 );
+	SetRect( m_pRect, 280, 330, 1000, 1000 );
 	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
 	info.clear();
 }

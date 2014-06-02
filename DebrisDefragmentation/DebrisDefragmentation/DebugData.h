@@ -33,6 +33,7 @@ public:
 	bool	mIsSpin = false;
 	bool	mIsAccelerate = false;
 
+	float		mSpeedConstant = 1.0f;
 	D3DXVECTOR3 mAcceleration;
 	D3DXVECTOR3 mVelocity;
 	D3DXVECTOR3 mSpinAxis;

@@ -19,7 +19,7 @@ public:
 	ClientSession* CreateClient( SOCKET sock );
 
 	void BroadcastPacket( ClientSession* from, PacketHeader* pkt );
-	void BroadcastModuleState( int idx );
+	void BroadcastModuleState();
 
 	void OnPeriodWork();
 	void FlushClientSend();

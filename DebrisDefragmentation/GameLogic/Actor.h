@@ -39,7 +39,7 @@ public:
 
 	const float		GetMass() const { return m_Rigidbody.m_Mass; }
 	const D3DXVECTOR3	GetAcceleration() const { return m_Rigidbody.m_Acceleration; }
-	const D3DXVECTOR3	GetVelocity() const { return m_Rigidbody.m_Velocity * m_SpeedConstant; } // 순간 가속을 할 수 있으므로 상수를 곱해서 반환 - 내부에서 직접 참조하면 안 되는데
+	const D3DXVECTOR3	GetVelocity() const { return m_Rigidbody.m_Velocity; }
 	const D3DXVECTOR3	GetSpinAxis() const { return m_Rigidbody.m_SpinAxis; }
 	const float		GetSpinAngularVelocity() const { return m_Rigidbody.m_SpinAngularVelocity; }
 

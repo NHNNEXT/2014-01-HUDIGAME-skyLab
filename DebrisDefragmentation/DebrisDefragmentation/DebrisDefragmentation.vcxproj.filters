@@ -98,9 +98,6 @@
     <ClCompile Include="ObjectManager.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
-    <ClCompile Include="InfoPrinter.cpp">
-      <Filter>GameManagers</Filter>
-    </ClCompile>
     <ClCompile Include="Exception.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
@@ -118,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="DDBillboardEffect.cpp">
       <Filter>Scene\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="InfoPrinter.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +185,6 @@
     <ClInclude Include="ObjectManager.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
-    <ClInclude Include="InfoPrinter.h">
-      <Filter>GameManagers</Filter>
-    </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Win32</Filter>
     </ClInclude>
@@ -205,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="DDBillboardEffect.h">
       <Filter>Scene\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoPrinter.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -197,7 +197,7 @@ void ClientManager::Init()
 	mClientIdList.fill( nullptr );
 }
 
-void ClientManager::BroadcastModuleState( int idx )
+void ClientManager::BroadcastModuleState()
 {
 	IssStateResult outPacket;
 

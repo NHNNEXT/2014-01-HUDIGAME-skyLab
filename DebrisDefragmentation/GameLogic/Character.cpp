@@ -129,7 +129,8 @@ void Character::UpdateItSelf( float dTime )
 
 	D3DXVECTOR3 tmpVec3 = GetTransform()->GetPosition();
 	D3DXVECTOR3 tmpVel = GetVelocity();
-	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetAcceleration(), dTime );
+
+	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetAcceleration(), dTime, GetSpeedConstant() );
 	GetTransform()->SetPosition( tmpVec3 );
 	SetVelocity( tmpVel );
 

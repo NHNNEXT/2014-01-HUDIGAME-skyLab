@@ -19,6 +19,7 @@ enum class ChangeType : int
 	KINETIC_STATE,
 	CHARACTER_STATE,
 	GAME_EVENT_SATE,
+	RESOURCE_GATHER,
 };
 
 enum class ClassSkill : int

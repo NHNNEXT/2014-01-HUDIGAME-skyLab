@@ -17,10 +17,10 @@ public:
 
 	void Init( );
 
-	virtual void BroadcastSkillResult( int idx, ClassSkill skillType ) = 0;
+	virtual void BroadcastIssChange() = 0;
+	virtual void BroadcastCharacterChange( int idx, ChangeType type ) = 0;
 	virtual void BroadcastStructureInstallation( int structureId, StructureType structureType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor ) = 0;
 	virtual void BroadcastStructureUninstallation( int structureId, StructureType structureType ) = 0;
-	virtual void BroadcastCharacterChange( int idx, ChangeType type ) = 0;
 	virtual void BroadcastDispenserEffect( int idx, bool dispenserEffectFlag ) = 0;
 	
 	// 	클라이언트 처음 접속하면 클라이언트 세션이 해당 플레이어의 액터-게임 캐릭터-를 등록한다.

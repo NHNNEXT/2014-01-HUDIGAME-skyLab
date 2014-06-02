@@ -491,6 +491,7 @@ void NetworkManager::HandleSyncCharacterDebugInfoResult( DDPacketHeader& pktBase
 	GDebugData->mIsSpin = inPacket.mIsSpin;
 	GDebugData->mIsAccelerate = inPacket.mIsAccelerate;
 
+	GDebugData->mSpeedConstant = inPacket.mSpeedConstant;
 	GDebugData->mAcceleration = inPacket.mAcceleration;
 	GDebugData->mVelocity = inPacket.mVelocity;
 	GDebugData->mSpinAxis = inPacket.mSpinAxis;

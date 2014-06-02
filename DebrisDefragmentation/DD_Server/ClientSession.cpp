@@ -408,6 +408,7 @@ void ClientSession::BroadcastCharacterState()
 	CharacterStateResult outPacket;
 
 	outPacket.mPlayerId = mPlayerId;
+	outPacket.mSpeedConstant = m_Character.GetSpeedConstant();
 	outPacket.mFuel = m_Character.GetClassComponent()->GetFuel();
 	outPacket.mOxygen = m_Character.GetClassComponent()->GetOxygen();
 	outPacket.mGlobalCooldownTime = m_Character.GetClassComponent()->GetGlobalCooldown();
@@ -506,6 +507,7 @@ void ClientSession::SyncCharacterDebugInfo()
 	outPacket.mIsSpin = m_Character.IsSpinning();
 	outPacket.mIsAccelerate = m_Character.IsAccelerating();
 
+	outPacket.mSpeedConstant = m_Character.GetSpeedConstant();
 	outPacket.mAcceleration = m_Character.GetAcceleration();
 	outPacket.mVelocity = m_Character.GetVelocity();
 	outPacket.mSpinAxis = m_Character.GetSpinAxis();

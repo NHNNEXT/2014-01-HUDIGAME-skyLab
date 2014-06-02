@@ -30,12 +30,11 @@ void Dispenser::UpdateItSelf( float dTime )
 		if ( m_Team != eachCharacter->GetTeam( ) ) continue;
 		
 		// 범위 및 현재 거리 계산
-		float range = eachCharacter->GetCollisionBox()->m_Radius + DISPENSER_RANGE;
 		D3DXVECTOR3 tmpRealDist = eachCharacter->GetTransform()->GetPosition() - GetTransform()->GetPosition();
-		float dist = sqrt( pow( tmpRealDist.x, 2 ) + pow( tmpRealDist.y, 2 ) + pow( tmpRealDist.z, 2 ) );
+		float distance = D3DXVec3Length( &tmpRealDist );
 
 		// 범위안에 있으면 켜고
-		if ( dist < range )
+		if ( distance < DISPENSER_RANGE )
 		{
 			if ( eachCharacter->GetClassComponent()->GetDispenserEffectFlag() ) continue;
 

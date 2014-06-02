@@ -580,6 +580,7 @@ struct CharacterStateResult : public PacketHeader
 		mType = PKT_SC_CHARACTER_STATE;
 		mPlayerId = -1;
 
+		mSpeedConstant = 1.0f;
 		mFuel = 0.0f;
 		mOxygen = 0.0f;
 		mGlobalCooldownTime = 0.0f;
@@ -587,6 +588,7 @@ struct CharacterStateResult : public PacketHeader
 
 	int		mPlayerId;
 
+	float	mSpeedConstant;
 	float	mFuel;
 	float	mOxygen;
 	float	mGlobalCooldownTime;
@@ -705,6 +707,8 @@ struct DebugClientInfoResult : public PacketHeader
 		mIsSpin = false;
 		mIsAccelerate = false;
 
+		mSpeedConstant = 1.0f;
+
 		mSpinAngularVelocity = 0.0f;
 
 		mFuel = 0.0f;
@@ -719,6 +723,7 @@ struct DebugClientInfoResult : public PacketHeader
 	bool	mIsSpin;
 	bool	mIsAccelerate;
 
+	float	mSpeedConstant;
 	Float3D mAcceleration;
 	Float3D mVelocity;
 	Float3D mSpinAxis;

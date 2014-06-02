@@ -58,6 +58,7 @@ public:
 
 	// 패킷 처리할 핸들을 만들자
 	///# 사실 이 부분도 궁극적으로는 콘텐츠 관련 객체를 만들고 던지는게 편하다.
+	// 방학과 함께 requestHandler제작 시작하겠습니다.
 	void	HandleLoginRequest( LoginRequest& inPacket );
 	void	HandleAccelerationRequest( AccelerarionRequest& inPacket );
 	void	HandleStopRequest( StopRequest& inPacket );

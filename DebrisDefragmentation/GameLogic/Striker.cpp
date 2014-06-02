@@ -68,7 +68,7 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	targetCharacter->Move( -force );
 	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
 
-	GObjectTable->GetActorManager()->BroadcastSkillResult( targetId, ClassSkill::PULL );
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::KINETIC_STATE );
 	
 	// 스킬 썼으면 쿨 적용시키자
 	SetCooldown( ClassSkill::PULL );
@@ -132,7 +132,7 @@ bool Striker::SkillMoveFast( int id, const D3DXVECTOR3& direction )
 
 	// 일단 쿨탐과 같은 방식으로 진행하자
 	// 스킬 쓰면 시간을 설정하고 dt만큼 감소 시키다가 0이 되면 가속 상수 원래대로 되돌리기
-	GObjectTable->GetActorManager()->BroadcastSkillResult( id, ClassSkill::MOVE_FAST );
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( id, ChangeType::CHARACTER_STATE );
 
 	// 스킬 썼으면 쿨 적용시키자
 	SetCooldown( ClassSkill::MOVE_FAST );
@@ -154,9 +154,7 @@ void Striker::DoPeriodWork( float dTime )
 			assert( targetCharacter );
 
 			targetCharacter->SetSpeedConstant( DEFAULT_MOVE_CONSTANT );
-			
-			///# 조심해!!
-			// 이벤트 끝났으니까 이것도 방송해서 동기화
+			GObjectTable->GetActorManager( )->BroadcastCharacterChange( m_FastMoveTarget, ChangeType::CHARACTER_STATE );
 		}
 	}
 }
