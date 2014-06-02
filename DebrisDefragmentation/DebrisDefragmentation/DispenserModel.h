@@ -5,11 +5,12 @@ class DispenserModel :
 	public DDModel
 {
 public:
-	DispenserModel( unsigned int id, TeamColor color, float issPos )
-		: m_Id( id ), m_TeamColor( color ), m_FirstIssPos( issPos )
-	{
-	}
+	DispenserModel();
 	virtual ~DispenserModel();
+
+	CREATE_OBJECT( DispenserModel );
+
+	void Init( unsigned int id, TeamColor color, float issPos );
 
 	void UpdateIssPosition( float pos ) { m_Matrix._43 = pos - m_FirstIssPos; }
 

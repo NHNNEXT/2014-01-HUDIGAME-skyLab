@@ -7,11 +7,12 @@ class SpaceMineModel :
 	public DDModel
 {
 public:
-	SpaceMineModel( unsigned int id, TeamColor color, float issPos )
-		: m_Id( id ), m_TeamColor( color ), m_FirstIssPos( issPos )
-	{
-	}
+	SpaceMineModel();
 	virtual ~SpaceMineModel();
+
+	CREATE_OBJECT( SpaceMineModel );
+
+	void Init( unsigned int id, TeamColor color, float issPos );
 
 	void UpdateIssPosition( float pos ) { m_Matrix._43 = pos - m_FirstIssPos; }
 

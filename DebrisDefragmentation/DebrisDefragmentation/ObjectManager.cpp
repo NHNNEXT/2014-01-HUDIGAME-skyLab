@@ -53,7 +53,8 @@ void ObjectManager::UninstallStructure( unsigned int structureId, StructureType 
 
 void ObjectManager::RegisgerDispenser( unsigned int dispenserId, const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
 {
-	DispenserModel* newDispenser = new DispenserModel( dispenserId, team, m_ObjectISS->GetTransform().GetPositionZ() );
+	DispenserModel* newDispenser = DispenserModel::Create();
+	newDispenser->Init( dispenserId, team, m_ObjectISS->GetTransform().GetPositionZ() );
 
 	newDispenser->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DISPENSER ) );
 	newDispenser->GetTransform().SetPosition( position - m_ObjectISS->GetTransform().GetPosition() );
@@ -82,7 +83,8 @@ void ObjectManager::DeregisterDispenser( unsigned int dispenserId )
 
 void ObjectManager::RegisgerSpaceMine( unsigned int spaceMineId, const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
 {
-	SpaceMineModel* newMine = new SpaceMineModel( spaceMineId, team, m_ObjectISS->GetTransform().GetPositionZ() );
+	SpaceMineModel* newMine = SpaceMineModel::Create();
+	newMine->Init( spaceMineId, team, m_ObjectISS->GetTransform().GetPositionZ() );
 
 	newMine->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::SPACE_MINE ) );
 	newMine->GetTransform().SetPosition( position - m_ObjectISS->GetTransform().GetPosition() );
