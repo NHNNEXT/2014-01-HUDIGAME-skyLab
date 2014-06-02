@@ -18,7 +18,8 @@ public:
 	void Init( );
 
 	virtual void BroadcastSkillResult( int idx, ClassSkill skillType ) = 0;
-	virtual void BroadcastStructureInstallation( int structureId, ClassSkill skillType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor ) = 0;
+	virtual void BroadcastStructureInstallation( int structureId, StructureType structureType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor ) = 0;
+	virtual void BroadcastStructureUninstallation( int structureId, StructureType structureType ) = 0;
 	virtual void BroadcastCharacterChange( int idx, ChangeType type ) = 0;
 	virtual void BroadcastDispenserEffect( int idx, bool dispenserEffectFlag ) = 0;
 	
@@ -45,8 +46,11 @@ public:
 
 	ISS* GetIss() { return &m_ISS; }
 
-	bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
-	Dispenser* GetLastSturture() { return m_DispenserList.back(); }	
+	// bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
+	// Dispenser* GetLastSturture() { return m_DispenserList.back(); }	
+
+	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	void UninstallDispenser( unsigned int targetId );
 
 	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
 	void UninstallMine( unsigned int targetId );
@@ -102,7 +106,10 @@ protected:
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
 
-	std::list<Dispenser*>		m_DispenserList;
+	// std::list<Dispenser*>		m_DispenserList;
+
+	std::map<unsigned, Dispenser*>	m_DispenserList;
+	unsigned int					m_DispensereId = 0;
 
 	std::map<unsigned, SpaceMine*>	m_SpaceMineList;
 	unsigned int					m_SpaceMineId = 0;

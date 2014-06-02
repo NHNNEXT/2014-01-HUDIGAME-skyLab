@@ -118,16 +118,42 @@ bool Engineer::SkillDispenser( int id, const D3DXVECTOR3& direction )
 	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SET_DISPENSER )] > 0.0f )
 		return false;
 
-	if ( m_Resource < DISPENSER_PRICE ) 
+	if ( m_Resource < DISPENSER_PRICE )
 		return false;
 
-	bool returnVal = GObjectTable->GetActorManager()->BuildDispenser( id, direction );
+	ISS* iss = GObjectTable->GetActorManager()->GetIss();
 
-	// 스킬 썼으면 쿨 적용시키자
-	if ( returnVal )
-		SetCooldown( ClassSkill::SET_DISPENSER );
+	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
+	assert( skillUserCharacter );
 
-	return returnVal;	
+	D3DXVECTOR3 viewDirection = skillUserCharacter->GetViewDirection( direction );
+	D3DXVec3Normalize( &viewDirection, &viewDirection );
+	D3DXVECTOR3	startPoint = skillUserCharacter->GetTransform()->GetPosition();
+
+	// 스킬 사용 방향에 있는 모듈 검색
+	ISSModuleName targetModuleName = iss->ModuleOnRay( viewDirection, startPoint );
+
+	if ( targetModuleName == ISSModuleName::NO_MODULE )
+		return false;
+
+	ISSModule* targetModule = iss->GetModule( targetModuleName );
+	float distance = std::numeric_limits<float>::infinity();
+	Physics::IntersectionCheckRayBox( nullptr, &distance, nullptr, viewDirection, startPoint, targetModule->GetCollisionBox() );
+
+	// 모듈까지의 거리 체크 - 멀면 return false;
+	if ( distance > SKILL_RANGE )
+		return false;
+
+	// 그렇지 않으면 바운딩 박스와 ray의 교점 위치에
+	// ray 방향의 반대 방향을 정면으로 설정
+	// actorManager에 등록
+	D3DXVECTOR3 minePosition = startPoint + viewDirection * distance;
+	GObjectTable->GetActorManager()->InstallDispenser( minePosition, -viewDirection, skillUserCharacter->GetTeam() );
+
+	// 설치 완료
+	printf_s( "dispenser installed \n" );
+
+	return true;
 }
 
 void Engineer::DoPeriodWork( float dTime )

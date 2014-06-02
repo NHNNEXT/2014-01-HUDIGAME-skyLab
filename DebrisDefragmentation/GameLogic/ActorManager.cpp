@@ -19,10 +19,15 @@ ActorManager::ActorManager()
 ActorManager::~ActorManager()
 {
 	delete GObjectTable;
-	for ( auto iter : m_DispenserList )
+
+	for ( std::map<unsigned, SpaceMine*>::const_iterator it = m_SpaceMineList.begin(); it != m_SpaceMineList.end(); ++it )
 	{
-		delete iter;
-		iter = nullptr;
+		delete it->second;
+	}
+
+	for ( std::map<unsigned, Dispenser*>::const_iterator it = m_DispenserList.begin(); it != m_DispenserList.end(); ++it )
+	{
+		delete it->second;
 	}
 
 	for ( auto iter : m_ResourceDebrisList )
@@ -189,8 +194,12 @@ void ActorManager::Update( )
 	);
 
 	// Dispenser update
-	for ( auto& dispenser : m_DispenserList )
+	for ( std::map<unsigned, Dispenser*>::const_iterator it = m_DispenserList.begin(); it != m_DispenserList.end(); ++it )
 	{
+		Dispenser* dispenser = it->second;
+
+		// 업데이트
+		dispenser->UpdateIssPosition( m_ISS.GetPosition() );
 		dispenser->Update( dt );
 	}
 
@@ -370,35 +379,31 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 	return targets;
 }
 
-bool ActorManager::BuildDispenser( int characterId, D3DXVECTOR3 direction )
+int	ActorManager::InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
 {
-	D3DXVECTOR3 viewDirection = m_CharacterList[characterId]->GetViewDirection( direction );
-	D3DXVECTOR3	startPoint = m_CharacterList[characterId]->GetTransform()->GetPosition();
-	ISSModuleName moduleName = ISSModuleName::NO_MODULE;	
+	Dispenser* newDispenser = new Dispenser( m_DispensereId, team, m_ISS.GetPosition() );
 
-	moduleName = m_ISS.ModuleOnRay( viewDirection, startPoint );
+	newDispenser->GetTransform()->SetPosition( position );
+	newDispenser->GetTransform()->SetRotation( direction );
 
-	// 레이에 맞는 모듈이 없으면 리턴
-	if ( moduleName == ISSModuleName::NO_MODULE )
-		return false;
+	m_DispenserList.insert( std::map<unsigned int, Dispenser*>::value_type( m_DispensereId, newDispenser ) );
 
-	// 있으면 모듈 위치에 디스펜서 생성
-	// 조심해!! 구체적인 위치는 나중에 손볼 것.(현재 플레이어의 x랑 iss x랑 기울기갖고 지지고 볶으면 나올 듯)
-	D3DXVECTOR3 dispenserPos = m_ISS.GetModule( moduleName )->GetTransform()->GetPosition();
+	// 설치 방송
+	BroadcastStructureInstallation( m_DispensereId, StructureType::DISPENSER, position, direction, team );
 
-	// 플레이어의 위치쪽으로 x값을 편향해서 생성
- 	dispenserPos.x = ( direction.x < .0f )? - 2.0f : 2.0f;
+	return m_SpaceMineId++;
+}
 
-	Dispenser* newDispenser = new Dispenser();
-	newDispenser->GetTransform()->SetPosition( dispenserPos );
-	newDispenser->SetTeamColor( m_CharacterList[characterId]->GetTeam() );
+void ActorManager::UninstallDispenser( unsigned int targetId )
+{
+	std::map<unsigned, Dispenser*>::iterator it = m_DispenserList.find( targetId );
+	assert( it != m_DispenserList.end() );
 
-	m_DispenserList.push_back( newDispenser );
+	// 설치 해제 방송
+	BroadcastStructureUninstallation( m_DispensereId, StructureType::DISPENSER );
 
-	// 방송할 것
-	GObjectTable->GetActorManager()->BroadcastSkillResult( static_cast<int>( characterId ), ClassSkill::SET_DISPENSER );
-
-	return true;
+	delete it->second;
+	m_DispenserList.erase( targetId );
 }
 
 int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
@@ -410,7 +415,8 @@ int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& d
 	
 	m_SpaceMineList.insert( std::map<unsigned int, SpaceMine*>::value_type( m_SpaceMineId, newMine ) );
 
-	BroadcastStructureInstallation( m_SpaceMineId, ClassSkill::SET_MINE, position, direction, team );
+	// 설치 방송
+	BroadcastStructureInstallation( m_SpaceMineId, StructureType::SPACE_MINE, position, direction, team );
 
 	return m_SpaceMineId++;
 }
@@ -419,6 +425,9 @@ void ActorManager::UninstallMine( unsigned int targetId )
 {
 	std::map<unsigned, SpaceMine*>::iterator it = m_SpaceMineList.find( targetId );
 	assert( it != m_SpaceMineList.end() );
+
+	// 설치 해제 방송
+	BroadcastStructureUninstallation( m_SpaceMineId, StructureType::SPACE_MINE );
 
 	delete it->second;
 	m_SpaceMineList.erase( targetId );

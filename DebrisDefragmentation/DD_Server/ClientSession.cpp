@@ -437,21 +437,6 @@ void ClientSession::BroadcastAcceleration()
 	DDLOG_DEBUG( L"[client %d] Accelerate", mPlayerId );
 }
 
-void ClientSession::BroadcastBuildResult()
-{
-	BuildResult outPacket;
-	
-	//outPacket.mPlayerId = mPlayerId;
-	outPacket.mTargetPos = GObjectTable->GetActorManager()->GetLastSturture()->GetTransform()->GetPosition();
-	
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-
-	DDLOG_DEBUG( L"[client %d] Build", mPlayerId );
-}
-
 void ClientSession::BroadcastDispenserEffect( bool flag )
 {
 	DispenserEffectResult outPacket;

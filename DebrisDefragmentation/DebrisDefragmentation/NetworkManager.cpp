@@ -181,14 +181,13 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_BUILD_DISPENSER, HandleBuildDispenserResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GATHER, HandleGatherResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_BUILD_STRUCTURE, HandleBuildStructureResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_INSTALL, HandleStructureInstallResult );
 }
 
 
@@ -201,26 +200,6 @@ void NetworkManager::HandleDispenserEffectResult( DDPacketHeader& pktBase )
 	
 }
 
-
-void NetworkManager::HandleBuildDispenserResult( DDPacketHeader& pktBase )
-{
-	BuildResult inPacket = reinterpret_cast<BuildResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-	
-	// dispenser model 생성
-	DispenserModel* newDispenserModel = DispenserModel::Create();
-	newDispenserModel->GetTransform().SetPosition( inPacket.mTargetPos );
-	newDispenserModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DISPENSER ) );
-	
-	// object관리 클래스에 등록
-	GObjectManager->AddDispenserModel( newDispenserModel );
-
-	// play scene에 차일드로 등록
-	//GSceneManager->GetScene()->AddChild( newDispenserModel );
-	GObjectManager->GetISS()->AddChild( newDispenserModel );
-}
-
-
 void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
 {
 	GatherResult inPacket = reinterpret_cast<GatherResult&>( pktBase );
@@ -231,8 +210,6 @@ void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetResource( inPacket.mCurrentResource );
 }
-
-
 
 void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 {
@@ -523,15 +500,26 @@ void NetworkManager::HandleSyncCharacterDebugInfoResult( DDPacketHeader& pktBase
 	GDebugData->mOxygen = inPacket.mOxygen;
 }
 
-void NetworkManager::HandleBuildStructureResult( DDPacketHeader& pktBase )
+void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
 {
-	BuildStructureResult inPacket = reinterpret_cast<BuildStructureResult&>( pktBase );
+	StructureInstallResult inPacket = reinterpret_cast<StructureInstallResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	if ( static_cast<ClassSkill>( inPacket.mSkillType ) == ClassSkill::SET_MINE )
-	{
-		GObjectManager->RegisgerSpaceMine( inPacket.mStructureId, inPacket.mPosition, inPacket.mDirection, static_cast<TeamColor>( inPacket.mTeamColor ) );
-	}
+	GObjectManager->InstallStructure( 
+		inPacket.mStructureId, 
+		static_cast<StructureType>( inPacket.mStructureType ), 
+		inPacket.mPosition, 
+		inPacket.mDirection, 
+		static_cast<TeamColor>( inPacket.mTeamColor ) 
+		);
+}
+
+static void HandleStructureUninstallResult( DDPacketHeader& pktBase )
+{
+	StructureUninstallResult inPacket = reinterpret_cast<StructureUninstallResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	GObjectManager->UninstallStructure( inPacket.mStructureId, static_cast<StructureType>( inPacket.mStructureType ) );
 }
 
 CharacterClass NetworkManager::GetMyClass()

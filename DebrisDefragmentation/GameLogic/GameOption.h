@@ -159,6 +159,7 @@ const float			DISPENSER_FUEL_EFFICIENCY = 1000.0f;
 const float			DISPENSER_RANGE = 10.0f;
 
 const float			SPACE_MINE_SCALE = 0.3f;
+const float			DISPENSER_SCALE = 0.3f;
 
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
@@ -269,4 +270,12 @@ enum class GameEvent : int
 	NO_EVENT = -1,
 	DEBRIS_STORM,
 	SOLAR_WIND,
+};
+
+enum class StructureType : int
+{
+	NO_STRUCTURE = -1,
+	DISPENSER,
+	SHELTER,
+	SPACE_MINE,
 };

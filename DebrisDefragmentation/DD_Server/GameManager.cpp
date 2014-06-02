@@ -48,13 +48,6 @@ void GameManager::BroadcastSkillResult( int idx, ClassSkill skillType )
 		assert( GClientManager->GetSession( idx ) );
 		GClientManager->GetSession( idx )->BroadcastGatherResult();
 		break;
-	case ClassSkill::SET_MINE:
-	case ClassSkill::SET_SHELTER:
-	case ClassSkill::SET_DISPENSER:
-		assert( GClientManager->GetSession( idx ) );
-		GClientManager->GetSession( idx )->BroadcastBuildResult();
-		// 새로운 오브젝트 추가 - 오브젝트 타입, 위치, 소유자
-		break;
 	default:
 		break;
 	}
@@ -77,16 +70,25 @@ void GameManager::BroadcastCharacterChange( int idx, ChangeType type )
 	}
 }
 
-void GameManager::BroadcastStructureInstallation( int structureId, ClassSkill skillType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor )
+void GameManager::BroadcastStructureInstallation( int structureId, StructureType structureType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor )
 {
-	// 방송 한다?!
-	BuildStructureResult outPacket;
+	StructureInstallResult outPacket;
 
 	outPacket.mStructureId = structureId;
-	outPacket.mSkillType = static_cast<int>( skillType );
+	outPacket.mStructureType = static_cast<int>( structureType );
 	outPacket.mPosition = position;
 	outPacket.mDirection = direction;
 	outPacket.mTeamColor = static_cast<int>( teamColor );
+
+	GClientManager->BroadcastPacket( nullptr, &outPacket );
+}
+
+void GameManager::BroadcastStructureUninstallation( int structureId, StructureType structureType )
+{
+	StructureUninstallResult outPacket;
+
+	outPacket.mStructureId = structureId;
+	outPacket.mStructureType = static_cast<int>( structureType );
 
 	GClientManager->BroadcastPacket( nullptr, &outPacket );
 }

@@ -3,12 +3,6 @@
 #include "ObjectTable.h"
 #include "ActorManager.h"
 
-
-Dispenser::Dispenser()
-{
-}
-
-
 Dispenser::~Dispenser()
 {
 }

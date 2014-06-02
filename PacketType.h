@@ -100,12 +100,13 @@ enum PacketTypes
 
 	PKT_CS_USING_SKILL = 307,
 	PKT_SC_USING_SKILL = 308,
-
-	PKT_SC_BUILD_DISPENSER = 309,
+	
+	// 309 쓰세요
 	PKT_SC_GATHER = 310,
 	PKT_SC_DISASTER_WARNING = 311,
 	PKT_SC_DISPENSER_EFFECT = 312,
-	PKT_SC_BUILD_STRUCTURE = 313,
+	PKT_SC_STRUCTURE_INSTALL = 313,
+	PKT_SC_STRUCTURE_UNINSTALL = 314,
 
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
@@ -591,19 +592,6 @@ struct CharacterStateResult : public PacketHeader
 	float	mGlobalCooldownTime;
 };
 
-struct BuildResult : public PacketHeader
-{
-	BuildResult()
-	{
-		mSize = sizeof(BuildResult);
-		mType = PKT_SC_BUILD_DISPENSER;
-		mPlayerId = -1;
-	}
-
-	int			mPlayerId;
-	Float3D		mTargetPos;
-};
-
 struct DispenserEffectResult : public PacketHeader
 {
 	DispenserEffectResult()
@@ -624,7 +612,7 @@ struct GatherResult : public PacketHeader
 {
 	GatherResult()
 	{
-		mSize = sizeof( BuildResult );
+		mSize = sizeof( GatherResult );
 		mType = PKT_SC_GATHER;
 		mPlayerId = -1;
 	}
@@ -741,23 +729,38 @@ struct DebugClientInfoResult : public PacketHeader
 	float	mOxygen;
 };
 
-struct BuildStructureResult : public PacketHeader
+struct StructureInstallResult : public PacketHeader
 {
-	BuildStructureResult()
+	StructureInstallResult()
 	{
-		mSize = sizeof( BuildStructureResult );
-		mType = PKT_SC_BUILD_STRUCTURE;
+		mSize = sizeof( StructureInstallResult );
+		mType = PKT_SC_STRUCTURE_INSTALL;
 
 		mStructureId = 0;
-		mSkillType = -1;
+		mStructureType = -1;
 		mTeamColor = -1;
 	}
 
 	unsigned int	mStructureId;
-	int				mSkillType; // == structure type
+	int				mStructureType;
 	Float3D			mPosition;
 	Float3D			mDirection;
 	int				mTeamColor;
+};
+
+struct StructureUninstallResult : public PacketHeader
+{
+	StructureUninstallResult()
+	{
+		mSize = sizeof( StructureUninstallResult );
+		mType = PKT_SC_STRUCTURE_UNINSTALL;
+
+		mStructureId = 0;
+		mStructureType = -1;
+	}
+
+	unsigned int	mStructureId;
+	int				mStructureType;
 };
 
 #pragma pack(pop)

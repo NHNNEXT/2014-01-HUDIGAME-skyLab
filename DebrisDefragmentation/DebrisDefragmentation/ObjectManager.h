@@ -26,6 +26,11 @@ public:
 	void RegisterObjectISS( ObjectISS* iss ) { m_ObjectISS = iss; }
 	ObjectISS* GetISS() { return m_ObjectISS; }
 
+	void InstallStructure( unsigned int structureId, StructureType structureType, const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	void UninstallStructure( unsigned int structureId, StructureType structureType );
+	
+	void RegisgerDispenser( unsigned int dispenserId, const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	void DeregisterDispenser( unsigned int dispenserId );
 	void RegisgerSpaceMine( unsigned int spaceMineId, const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
 	void DeregisterSpaceMine( unsigned int spaceMineId );
 
@@ -37,6 +42,7 @@ private:
 	std::array<DebrisModel*, RESOURCE_DEBRIS_NUMBER> m_ResourceDebrisList;
 	int RandomSeed = 0;
 	
+	std::map<unsigned int, DispenserModel*> m_DispenserList;
 	std::map<unsigned int, SpaceMineModel*> m_SpaceMineList;
 };
 
