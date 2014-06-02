@@ -19,8 +19,10 @@ namespace GameTool.Class
 
         string m_filename;
 
-        CustomVertex.TransformedColored[] m_CollisionBox;
-        VertexBuffer m_testTriangle;
+        VertexBuffer m_CollisionBox;
+        IndexBuffer m_IndexBuffer;
+
+        private Int16[] m_IndexedBufferOrder = {0, 1, 1, 2, 2, 3, 3, 0, 0, 4, 1, 5, 2, 6, 3, 7, 4, 5, 5, 6, 6, 7, 7, 4 };
 
         public GameObject(string fileName)
         {
@@ -44,46 +46,38 @@ namespace GameTool.Class
         // 조심해!! 하드코딩
         public void setCollisionBox()
         {
-            m_CollisionBox = new CustomVertex.TransformedColored[8];
-            m_CollisionBox[0].Position = new Vector4(1000, 150, -150, 1.0f);
-            m_CollisionBox[0].Color = System.Drawing.Color.Black.ToArgb();
-            m_CollisionBox[1].Position = new Vector4(-1000, 150, -150, 1.0f);
-            m_CollisionBox[1].Color = System.Drawing.Color.Black.ToArgb();
-            m_CollisionBox[2].Position = new Vector4(-1000, 150, 150, 1.0f);
-            m_CollisionBox[2].Color = System.Drawing.Color.Black.ToArgb();
-            m_CollisionBox[3].Position = new Vector4(1000, 150, 150, 1.0f);
-            m_CollisionBox[3].Color = System.Drawing.Color.Black.ToArgb();
-            m_CollisionBox[4].Position = new Vector4(1000, -150, -150, 1.0f);
-            m_CollisionBox[4].Color = System.Drawing.Color.Black.ToArgb();
-            m_CollisionBox[5].Position = new Vector4(-1000, -150, -150, 1.0f);
-            m_CollisionBox[5].Color = System.Drawing.Color.Crimson.ToArgb();
-            m_CollisionBox[6].Position = new Vector4(-1000, -150, 150, 1.0f);
-            m_CollisionBox[6].Color = System.Drawing.Color.Crimson.ToArgb();
-            m_CollisionBox[7].Position = new Vector4(1000, -150, 150, 1.0f);
-            m_CollisionBox[7].Color = System.Drawing.Color.Crimson.ToArgb();
-
-            m_testTriangle = new VertexBuffer(typeof(CustomVertex.PositionColored), 3,
+            m_CollisionBox = new VertexBuffer(typeof(CustomVertex.PositionColored), 8,
                 m_device, 0, CustomVertex.PositionColored.Format, Pool.Default);
 
+            CustomVertex.PositionColored[] posColoredVerts = new CustomVertex.PositionColored[8];
+            posColoredVerts[0].Position = new Vector3(-100, 150, -150);
+            posColoredVerts[0].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[1].Position = new Vector3(100, 150, -150);
+            posColoredVerts[1].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[2].Position = new Vector3(100, 150, 150);
+            posColoredVerts[2].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[3].Position = new Vector3(-100, 150, 150);
+            posColoredVerts[3].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[4].Position = new Vector3(-100, -150, -150);
+            posColoredVerts[4].Color = System.Drawing.Color.Black.ToArgb();
+            posColoredVerts[5].Position = new Vector3(100, -150, -150);
+            posColoredVerts[5].Color = System.Drawing.Color.Crimson.ToArgb();
+            posColoredVerts[6].Position = new Vector3(100, -150, 150);
+            posColoredVerts[6].Color = System.Drawing.Color.Crimson.ToArgb();
+            posColoredVerts[7].Position = new Vector3(-100, -150, 150);
+            posColoredVerts[7].Color = System.Drawing.Color.Crimson.ToArgb();
 
-            CustomVertex.PositionColored[] verts = new CustomVertex.PositionColored[3];
+            GraphicsStream gstm = m_CollisionBox.Lock(0, 0, LockFlags.None);
+            gstm.Write(posColoredVerts);
+            m_CollisionBox.Unlock();
 
-            verts[0].X = 250f;
-            verts[0].Y = 0f;
-            verts[0].Z = 0f;
-            verts[0].Color = System.Drawing.Color.Black.ToArgb();
-            verts[1].X = 0f;
-            verts[1].Y = 250f;
-            verts[1].Z = 0f;
-            verts[1].Color = System.Drawing.Color.Black.ToArgb();
-            verts[2].X = 0f;
-            verts[2].Y = 0f;
-            verts[2].Z = 0f;
-            verts[2].Color = System.Drawing.Color.Black.ToArgb();
+            // indexedBuffer
+            m_IndexBuffer = new IndexBuffer(m_device, 12 * 2 * 2, Usage.WriteOnly, Pool.Managed, true);
 
-            GraphicsStream stm = m_testTriangle.Lock(0, 0, LockFlags.None);
-            stm.Write(verts);
-            m_testTriangle.Unlock();
+            GraphicsStream idstm = m_IndexBuffer.Lock(0, 0, LockFlags.None);
+            idstm.Write(m_IndexedBufferOrder);
+            m_IndexBuffer.Unlock();
+
         }
 
         // 메쉬를 불러오는 함수
@@ -119,7 +113,7 @@ namespace GameTool.Class
 
         public void DrawObject()
         {
-            //DrawMesh(GameObjectMesh, GameObjectMaterials, GameObjectTextures);
+            DrawMesh(GameObjectMesh, GameObjectMaterials, GameObjectTextures);
             DrawBoundingBox();
         }
 
@@ -143,12 +137,12 @@ namespace GameTool.Class
         public void DrawBoundingBox()
         {
             
-            m_device.SetStreamSource(0, m_testTriangle, 0);
-            m_device.VertexFormat = CustomVertex.PositionColored.Format;
-            //m_device.DrawUserPrimitives(PrimitiveType.LineList, 12, m_CollisionBox);
-            //m_device.DrawUserPrimitives(PrimitiveType.LineStrip, 8, m_CollisionBox);
-            m_device.DrawPrimitives(PrimitiveType.TriangleList, 0, 1);
             //m_device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 1, m_testTriangle);
+
+            m_device.SetStreamSource(0, m_CollisionBox, 0);
+            //m_device.VertexFormat = CustomVertex.PositionColored.Format;
+            m_device.Indices = m_IndexBuffer;
+            m_device.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, 8, 0, 12 );
         }
     }
 }

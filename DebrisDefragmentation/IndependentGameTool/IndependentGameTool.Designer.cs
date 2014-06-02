@@ -96,11 +96,12 @@
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.FPSshow = new System.Windows.Forms.Label();
             this.ObjectTool = new System.Windows.Forms.TabPage();
-            this.ISSRenderBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.ObjJsonKey = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.ObjJsonValue = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.ISSRenderBtn = new System.Windows.Forms.Button();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.MeshFIleList = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -113,7 +114,20 @@
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -133,13 +147,14 @@
             this.groupBox11.SuspendLayout();
             this.ObjectTool.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox14.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tab_GameRender.SuspendLayout();
             this.tab_ISSPartRender.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
-            this.groupBox14.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
             // View
@@ -803,18 +818,10 @@
             this.ObjectTool.Text = "ObjectTool";
             this.ObjectTool.UseVisualStyleBackColor = true;
             // 
-            // ISSRenderBtn
-            // 
-            this.ISSRenderBtn.Location = new System.Drawing.Point(270, 432);
-            this.ISSRenderBtn.Name = "ISSRenderBtn";
-            this.ISSRenderBtn.Size = new System.Drawing.Size(173, 69);
-            this.ISSRenderBtn.TabIndex = 1;
-            this.ISSRenderBtn.Text = "ObjectRender";
-            this.ISSRenderBtn.UseVisualStyleBackColor = true;
-            this.ISSRenderBtn.Click += new System.EventHandler(this.ISSRenderStart);
-            // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.button4);
+            this.groupBox10.Controls.Add(this.groupBox15);
             this.groupBox10.Controls.Add(this.groupBox14);
             this.groupBox10.Controls.Add(this.ISSRenderBtn);
             this.groupBox10.Controls.Add(this.groupBox13);
@@ -827,6 +834,18 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ObjectPartList";
             // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.ObjJsonKey);
+            this.groupBox14.Controls.Add(this.ObjJsonValue);
+            this.groupBox14.Controls.Add(this.button3);
+            this.groupBox14.Location = new System.Drawing.Point(261, 177);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(188, 121);
+            this.groupBox14.TabIndex = 6;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "JSONModify";
+            // 
             // ObjJsonKey
             // 
             this.ObjJsonKey.AutoSize = true;
@@ -835,6 +854,13 @@
             this.ObjJsonKey.Size = new System.Drawing.Size(63, 12);
             this.ObjJsonKey.TabIndex = 9;
             this.ObjJsonKey.Text = "JSON Key";
+            // 
+            // ObjJsonValue
+            // 
+            this.ObjJsonValue.Location = new System.Drawing.Point(6, 49);
+            this.ObjJsonValue.Name = "ObjJsonValue";
+            this.ObjJsonValue.Size = new System.Drawing.Size(176, 21);
+            this.ObjJsonValue.TabIndex = 8;
             // 
             // button3
             // 
@@ -847,19 +873,22 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.ModifyObjValue);
             // 
-            // ObjJsonValue
+            // ISSRenderBtn
             // 
-            this.ObjJsonValue.Location = new System.Drawing.Point(6, 49);
-            this.ObjJsonValue.Name = "ObjJsonValue";
-            this.ObjJsonValue.Size = new System.Drawing.Size(176, 21);
-            this.ObjJsonValue.TabIndex = 8;
+            this.ISSRenderBtn.Location = new System.Drawing.Point(267, 527);
+            this.ISSRenderBtn.Name = "ISSRenderBtn";
+            this.ISSRenderBtn.Size = new System.Drawing.Size(173, 69);
+            this.ISSRenderBtn.TabIndex = 1;
+            this.ISSRenderBtn.Text = "ObjectRender";
+            this.ISSRenderBtn.UseVisualStyleBackColor = true;
+            this.ISSRenderBtn.Click += new System.EventHandler(this.ISSRenderStart);
             // 
             // groupBox13
             // 
             this.groupBox13.Controls.Add(this.MeshFIleList);
             this.groupBox13.Controls.Add(this.button2);
             this.groupBox13.Controls.Add(this.button1);
-            this.groupBox13.Location = new System.Drawing.Point(7, 322);
+            this.groupBox13.Location = new System.Drawing.Point(7, 507);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(248, 179);
             this.groupBox13.TabIndex = 6;
@@ -972,17 +1001,131 @@
             this.ObjectView.TabStop = false;
             this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
             // 
-            // groupBox14
+            // groupBox15
             // 
-            this.groupBox14.Controls.Add(this.ObjJsonKey);
-            this.groupBox14.Controls.Add(this.ObjJsonValue);
-            this.groupBox14.Controls.Add(this.button3);
-            this.groupBox14.Location = new System.Drawing.Point(261, 177);
-            this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(188, 121);
-            this.groupBox14.TabIndex = 6;
-            this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "JSONModify";
+            this.groupBox15.Controls.Add(this.label23);
+            this.groupBox15.Controls.Add(this.label24);
+            this.groupBox15.Controls.Add(this.label25);
+            this.groupBox15.Controls.Add(this.label22);
+            this.groupBox15.Controls.Add(this.label21);
+            this.groupBox15.Controls.Add(this.label16);
+            this.groupBox15.Controls.Add(this.textBox5);
+            this.groupBox15.Controls.Add(this.textBox6);
+            this.groupBox15.Controls.Add(this.textBox3);
+            this.groupBox15.Controls.Add(this.textBox4);
+            this.groupBox15.Controls.Add(this.textBox2);
+            this.groupBox15.Controls.Add(this.textBox1);
+            this.groupBox15.Location = new System.Drawing.Point(7, 313);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(248, 188);
+            this.groupBox15.TabIndex = 7;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "BoundingBoxControl";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(267, 463);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(173, 29);
+            this.button4.TabIndex = 8;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(99, 20);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(143, 21);
+            this.textBox1.TabIndex = 0;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(99, 47);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(143, 21);
+            this.textBox2.TabIndex = 1;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(99, 101);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(143, 21);
+            this.textBox3.TabIndex = 3;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(99, 74);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(143, 21);
+            this.textBox4.TabIndex = 2;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(99, 155);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(143, 21);
+            this.textBox5.TabIndex = 5;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(99, 128);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(143, 21);
+            this.textBox6.TabIndex = 4;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(11, 23);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(72, 12);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "CenterPosX";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(11, 50);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(72, 12);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "CenterPosY";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(11, 77);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(72, 12);
+            this.label22.TabIndex = 8;
+            this.label22.Text = "CenterPosZ";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(11, 158);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(76, 12);
+            this.label23.TabIndex = 11;
+            this.label23.Text = "AxisLengthZ";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(11, 131);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(76, 12);
+            this.label24.TabIndex = 10;
+            this.label24.Text = "AxisLengthY";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(11, 104);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(76, 12);
+            this.label25.TabIndex = 9;
+            this.label25.Text = "AxisLengthX";
             // 
             // IndependentGameTool
             // 
@@ -1021,6 +1164,8 @@
             this.groupBox11.PerformLayout();
             this.ObjectTool.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
             this.groupBox13.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
@@ -1028,8 +1173,8 @@
             this.tab_GameRender.ResumeLayout(false);
             this.tab_ISSPartRender.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
-            this.groupBox14.ResumeLayout(false);
-            this.groupBox14.PerformLayout();
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1122,6 +1267,20 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox ObjJsonValue;
         private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
