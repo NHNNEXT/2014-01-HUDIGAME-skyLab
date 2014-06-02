@@ -73,40 +73,6 @@ bool Engineer::SkillGather( int id, const D3DXVECTOR3& direction )
 	return true;
 }
 
-
-bool Engineer::DebrisInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
-{
-	float currentDistance = std::numeric_limits<float>::infinity();
-	int	debrisNumber = -1;
-
-	auto& debrisList = GObjectTable->GetActorManager()->GetResourceDebrisList();
-	for ( int i = 0; i < RESOURCE_DEBRIS_NUMBER; ++i )
-	{
-		// 조심해!! 지금은 일단 리스트에서 삭제함. 
-		// 혹시 추후에 데브리가 리젠되는 식으로 기획이 변경되면 이부분을 수정할 것
-		if ( debrisList[i] == nullptr ) continue;
-
-		// intersection 확인
-		float tempDistance = std::numeric_limits<float>::infinity();
-		const CollisionBox* box = debrisList[i]->GetCollisionBox();
-		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, box ) )
-		{
-			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
-			// 더 가까운 애로 교체
-			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
-			{
-				currentDistance = tempDistance;
-				debrisNumber = i;
-			}
-		}
-	}
-
-	GObjectTable->GetActorManager()->SetGatheredDebris( debrisNumber );
-	return ( debrisNumber == -1 ) ? false : true;
-
-}
-
-
 bool Engineer::SkillShelter( int id, const D3DXVECTOR3& direction )
 {
 	return false;
@@ -156,9 +122,40 @@ bool Engineer::SkillDispenser( int id, const D3DXVECTOR3& direction )
 	return true;
 }
 
+bool Engineer::DebrisInRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )
+{
+	float currentDistance = std::numeric_limits<float>::infinity( );
+	int	debrisNumber = -1;
+
+	auto& debrisList = GObjectTable->GetActorManager( )->GetResourceDebrisList( );
+	for ( int i = 0; i < RESOURCE_DEBRIS_NUMBER; ++i )
+	{
+		// 조심해!! 지금은 일단 리스트에서 삭제함. 
+		// 혹시 추후에 데브리가 리젠되는 식으로 기획이 변경되면 이부분을 수정할 것
+		if ( debrisList[i] == nullptr ) continue;
+
+		// intersection 확인
+		float tempDistance = std::numeric_limits<float>::infinity( );
+		const CollisionBox* box = debrisList[i]->GetCollisionBox( );
+		if ( Physics::IntersectionCheckRayBox( nullptr, &tempDistance, nullptr, viewDirection, startPoint, box ) )
+		{
+			// 스킬 사용 범위가 정해지면 그것과 비교해서 더 먼 애는 제외
+			// 더 가까운 애로 교체
+			if ( tempDistance < currentDistance && tempDistance < SKILL_RANGE )
+			{
+				currentDistance = tempDistance;
+				debrisNumber = i;
+			}
+		}
+	}
+
+	GObjectTable->GetActorManager( )->SetGatheredDebris( debrisNumber );
+	return ( debrisNumber == -1 ) ? false : true;
+
+}
+
 void Engineer::DoPeriodWork( float dTime )
 {
 	// 스킬이나 캐릭터 상태 변화 필요한 부분 ㄱㄱ
 	UNREFERENCED_PARAMETER( dTime );
 }
-

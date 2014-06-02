@@ -27,7 +27,7 @@ void Dispenser::UpdateItSelf( float dTime )
 		if ( eachCharacter == nullptr ) continue;
 
 		// 다른 팀이어도 통과
-		if ( m_TeamColor != eachCharacter->GetTeam() ) continue;
+		if ( m_Team != eachCharacter->GetTeam( ) ) continue;
 		
 		// 범위 및 현재 거리 계산
 		float range = eachCharacter->GetCollisionBox()->m_Radius + DISPENSER_RANGE;
@@ -45,6 +45,8 @@ void Dispenser::UpdateItSelf( float dTime )
 			GObjectTable->GetActorManager()->BroadcastDispenserEffect( eachCharacter->GetCharacterId() , true);
 		}
 		// 범위안에 있지 않은데 flag가 켜있으면 끈다.
+		// 만약 순회 순서 앞에 있는 디스펜서에서 플래그를 활성화 했는데
+		// 다음 순회에서 거리가 멀다는 이유로 플래그를 비활성화 시키면???
 		else
 		{
 			if ( eachCharacter->GetClassComponent()->GetDispenserEffectFlag() )

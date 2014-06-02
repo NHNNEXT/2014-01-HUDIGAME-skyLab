@@ -17,8 +17,8 @@ public:
 
 	void SetId( unsigned int id ) { m_DispenserId = id; }
 
-	TeamColor GetTeamColor() const { return m_TeamColor; }
-	void SetTeamColor( TeamColor val ) { m_TeamColor = val; }
+	TeamColor GetTeamColor( ) const { return m_Team; }
+	void SetTeamColor( TeamColor val ) { m_Team = val; }
 
 private :
 	virtual void UpdateItSelf( float dTime );	
@@ -29,6 +29,5 @@ private :
 	
 	float m_Oxygen = DISPENSER_DEFAULT_OXYGEN;
 	float m_Fuel = DISPENSER_DEFAULT_FUEL;
-	TeamColor m_TeamColor = TeamColor::NO_TEAM;
 };
 

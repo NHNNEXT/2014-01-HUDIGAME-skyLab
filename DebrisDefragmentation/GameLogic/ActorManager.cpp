@@ -381,7 +381,7 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 
 int	ActorManager::InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
 {
-	Dispenser* newDispenser = new Dispenser( m_DispensereId, team, m_ISS.GetPosition() );
+ 	Dispenser* newDispenser = new Dispenser( m_DispensereId, team, m_ISS.GetPosition() );
 
 	newDispenser->GetTransform()->SetPosition( position );
 	newDispenser->GetTransform()->SetRotation( direction );

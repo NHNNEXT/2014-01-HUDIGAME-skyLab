@@ -69,6 +69,7 @@ protected:
 	float		m_Fuel = DEFAULT_FUEL;
 	float		m_HP = DEFAULT_HP;
 	bool		m_DispenserEffectFlag = false;
+
 	// 엔지니어에 있어야하나..
 	float		m_Resource = .0f;
 	CharacterClass m_ClassName = CharacterClass::NO_CLASS;
