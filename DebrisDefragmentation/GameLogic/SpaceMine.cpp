@@ -23,8 +23,16 @@ bool SpaceMine::React()
 		if ( !targetCharacter )
 			continue;
 
+		// 범위 및 현재 거리 계산
+		D3DXVECTOR4 tempMat;
+		D3DXVECTOR3 minePosition = GetTransform()->GetPosition();	// ISS 좌표계 기준 좌표
+
+		// 현재 위치
+		D3DXVec3Transform( &tempMat, &minePosition, &m_Matrix );
+		minePosition = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+
 		// 일단 각 플레이어와의 거리 확인
-		D3DXVECTOR3 relativeDirection = m_Transform.GetPosition() - targetCharacter->GetTransform()->GetPosition();
+		D3DXVECTOR3 relativeDirection = minePosition - targetCharacter->GetTransform()->GetPosition();
 		float distance = D3DXVec3Length( &relativeDirection );
 		
 		if ( distance <= SPACE_MINE_RANGE )

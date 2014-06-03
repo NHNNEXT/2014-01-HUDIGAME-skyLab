@@ -30,7 +30,14 @@ void Dispenser::UpdateItSelf( float dTime )
 		if ( m_Team != eachCharacter->GetTeam( ) ) continue;
 		
 		// 범위 및 현재 거리 계산
-		D3DXVECTOR3 tmpRealDist = eachCharacter->GetTransform()->GetPosition() - GetTransform()->GetPosition();
+		D3DXVECTOR4 tempMat;
+		D3DXVECTOR3 dispenserPosition = GetTransform()->GetPosition();	// ISS 좌표계 기준 좌표
+
+		// 현재 위치
+		D3DXVec3Transform( &tempMat, &dispenserPosition, &m_Matrix );
+		dispenserPosition = D3DXVECTOR3( tempMat.x, tempMat.y, tempMat.z );
+
+		D3DXVECTOR3 tmpRealDist = eachCharacter->GetTransform()->GetPosition() - dispenserPosition;
 		float distance = D3DXVec3Length( &tmpRealDist );
 
 		// 범위안에 있으면 켜고
