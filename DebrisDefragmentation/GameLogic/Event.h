@@ -3,18 +3,18 @@
 #include "GameOption.h"
 #include "ObjectTable.h"
 
-class Event
+class Event ///# 정말 모호한 네이밍.. InGameEvent라는 인터페이스를 두고 그 자식 클래스로 DebrisStormEvent 나 SolarWindEvent 등으로 구체화 시켜 사용하는게 좋다.
 {
 public:
 	Event();
 	~Event();
 
 	// 다음 실행할 이벤트를 설정한다
-	void Init();
+	void Init(); ///# 네이밍이 적절하지 못하다. 이건 주기적으로 Reset해주는 개념인데??
 
 	// 이벤트 실행 - 현재 설정된 이벤트가 무엇인지에 따라 적합한 함수 호출
 	void Run();
-
+	
 	// 실제 이벤트들 - 캐릭터들에 영향을 준다.
 	void DebrisStorm();
 	void SolarWind();

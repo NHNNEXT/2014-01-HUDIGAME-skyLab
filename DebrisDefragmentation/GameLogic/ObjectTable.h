@@ -5,7 +5,7 @@
 
 class ActorManager;
 
-class ObjectTable
+class ObjectTable ///# 모호하다.. 현재는 그냥 캐릭터 테이블 같은데?
 {
 public:
 	ObjectTable( ) 

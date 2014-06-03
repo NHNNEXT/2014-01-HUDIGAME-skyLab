@@ -19,7 +19,7 @@ void Event::Init()
 	std::default_random_engine e;
 	std::normal_distribution<float> fDist(180.0f, 360.0f);
 	std::function<float()> rnd = std::bind( fDist, e );
-	m_Timer = rnd();
+	m_Timer = rnd(); ///# 이건 이벤트때마다 호출해주는건데.. 그 때마다 굳이 정규분포 엔진을 쓸 필요까지야... ㅎㅎㅎ
 
 	// 다음 이벤트의 종류를 설정한다.
 	m_Event = ( rand() % 2 == 0 ) ? GameEvent::DEBRIS_STORM : GameEvent::SOLAR_WIND;

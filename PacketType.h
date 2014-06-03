@@ -1,6 +1,7 @@
 ﻿#pragma once
 
-// packet에 이런 애들을 인클루드해도 상관이 없을까요...
+// packet에 이런 애들을 인클루드해도 상관이 없을까요... ///# 안됨. 패킷 코드는 library-dependent하면 안됨..
+
 #include <d3dx9.h>
 #include "GameOption.h"
 

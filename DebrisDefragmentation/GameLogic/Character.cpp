@@ -141,7 +141,8 @@ void Character::UpdateItSelf( float dTime )
 void Character::ChangeClass( CharacterClass newClass )
 {
 	// 변신!
-	m_CharacterClass = ClassComponent::Create( newClass );
+	m_CharacterClass = ClassComponent::Create( newClass ); ///# 위험.... 객체의 생성과 소멸 확실히... 
+	///# Create 진입하는 경우가 생성자에서도 있는데... 즉 2원화 되어 있는데, 하나로 통일 하도록~~ (생성자에서 이걸 쓰거나.. )
 
 	// 조심해!!
 	// 위치 초기화 할까?

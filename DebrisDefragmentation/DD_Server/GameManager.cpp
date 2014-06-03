@@ -27,7 +27,7 @@ void GameManager::BroadcastCharacterChange( int targetId, ChangeType type )
 	case ChangeType::CHARACTER_STATE:
 		targetSession->BroadcastCharacterState( );
 		break;
-	case ChangeType::GAME_EVENT_SATE:
+	case ChangeType::GAME_EVENT_SATE: ///# 스펠 오타 + 네이밍 모호... 이벤트라고 하면 정말 추상적인 단어.
 		// 조심해!
 		// 이건 따로 분리해야 하나...
 		targetSession->SendWarning( );
@@ -68,7 +68,7 @@ void GameManager::BroadcastStructureUninstallation( int structureId, StructureTy
 	GClientManager->BroadcastPacket( nullptr, &outPacket );
 }
 
-void GameManager::DoPeriodWork()
+void GameManager::DoPeriodWork() ///# 게임의 변화 상태를 주기적으로 계속 체크하면서(polling) 방송하는 것은 좋은 방법은 아니다. 패킷량이 엄청 많아질 수 있다.
 {
 	// 게임 로직 진행
 	Update();
@@ -77,7 +77,7 @@ void GameManager::DoPeriodWork()
 	std::for_each( m_CollidedPlayers.begin(), m_CollidedPlayers.end(), []( const int& each )
 	{
 		// 방송 요청
-		GClientManager->GetSession( each )->BroadcastCollisionResult();
+		GClientManager->GetSession( each )->BroadcastCollisionResult();  
 		// printf_s( "collision : %d \n", each );
 	}
 	);

@@ -117,7 +117,7 @@ bool Engineer::SkillDispenser( int id, const D3DXVECTOR3& direction )
 	GObjectTable->GetActorManager()->InstallDispenser( minePosition, -viewDirection, skillUserCharacter->GetTeam() );
 
 	// 설치 완료
-	printf_s( "dispenser installed \n" );
+	printf_s( "dispenser installed \n" ); ///# 이런건 on/off 자동화 할 수 있게
 
 	return true;
 }

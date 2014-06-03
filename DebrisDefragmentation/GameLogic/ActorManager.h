@@ -41,10 +41,10 @@ public:
 
 	ISS* GetIss() { return &m_ISS; }
 
-	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team ); ///# 이게 왜 여기에?? 캐릭터 특화 스킬 아닌가?
 	void UninstallDispenser( unsigned int targetId );
 
-	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team ); ///# 이게 왜 여기에?? 캐릭터 특화 스킬 아닌가?
 	void UninstallMine( unsigned int targetId );
 
 	// 현재 ISS 위치 및 속도 정보 리턴

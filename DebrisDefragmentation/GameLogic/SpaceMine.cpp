@@ -50,7 +50,7 @@ bool SpaceMine::React()
 	// 발동 조건은 상대방 팀에 한정이지만 발동 후 효과 적용은 전체
 	if ( reactFlag )
 	{
-		printf_s( "react!!\n" );
+		printf_s( "react!!\n" ); ///# on/off 자동화..
 		for ( std::map<int, D3DXVECTOR3>::const_iterator it = targetList.begin(); it != targetList.end(); ++it )
 		{
 			// 밀려나는 방향 및 세기 결정

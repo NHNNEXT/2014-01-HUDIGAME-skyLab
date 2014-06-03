@@ -19,7 +19,9 @@ ClassComponent::~ClassComponent()
 {
 }
 
-std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className )
+std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className ) 
+///# 좋은 디자인은 아니다. 왜냐하면 클래스 추가할 때마다, Create내부에 추가해야 한다.
+///# 어차피 Character 클래스에서만 생성 되므로 거기 생성자에서 직접 해도 되는데...
 {
 	switch ( className )
 	{

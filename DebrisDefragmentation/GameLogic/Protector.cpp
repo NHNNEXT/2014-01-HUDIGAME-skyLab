@@ -59,7 +59,8 @@ bool Protector::SkillWarning( int id, const D3DXVECTOR3& direction )
 			continue;
 
 		if ( myColor == targetCharacter->GetTeam() )
-			GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::GAME_EVENT_SATE );
+			GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::GAME_EVENT_SATE );  ///# 루프 안에서 방송 하는 것은 지양. 대부분의 경우 다른 방법이 존재함. O(n^2) 방송은 더이상 Naver.
+
 	}
 
 	return true;
