@@ -8,12 +8,59 @@
 	
 	캐릭터 방향 카메라 방향으로 회전 : space
 	
+	*** 공통 스킬 ***
 	다른 캐릭터 밀기	: 1
-	다른 캐릭터 당기기	: 2
-	ISS module 점령		: 3
+	ISS module 점령		: 2
 	ISS module 부수기	: 4
-	구조물 설치 		: 5
+	구조물 설치 		: 추진제 나눔
 
+	*** 클래스 전환 ***
+	striker			: F5
+	protector		: F6
+	engineer		: F7
+
+	*** 특수 스킬 ***
+	striker
+		다른 캐릭터 당기기 	: F1
+		space mine 설치		: F2
+		순간 가속		: F3
+
+	protector
+		재난 경보 		: F1
+		산소 나눔		: F2
+		EMP 사용		: F3
+	
+	engineer
+		데브리 채취		: F1
+		dispenser 설치		: F2
+		( 미구현 )		: F3
+
+
+2014. 6. 3
+
+>>> Tool
+
+
+>>> framework
+	
+
+>>> logic & physics
+	striker class 순간 가속 스킬 사용 시 2의 제곱으로 속도가 늘어나던 버그 수정
+	dispenser 효과 적용 시 산소량과 추진제량 무한대로 증가하는 버그 수정
+	ISS 관련 스킬 로직 ISS 내부로 이동	
+	캐릭터 클래스 전환 기능 추가
+
+
+>>> client
+	dispenser와 space mine 설치 시 시각적으로 확인할 수 있도록 수정
+	서버 디버깅 정보 표시 기능 추가 ( F12 )
+	게임 내 오브젝트 - dispenser & space mine - 을 관리하는 objectManager 기능 구현
+	
+	
+>>> server
+	Log4cplus 추가
+	스킬 사용 후 결과 패킷 방송하는 함수를 전송되는 패킷 종류에 따라서 분리
+	서버 내 디버깅 정보( 채널 정보 및 각 캐릭터 정보 ) 전송
 
 
 

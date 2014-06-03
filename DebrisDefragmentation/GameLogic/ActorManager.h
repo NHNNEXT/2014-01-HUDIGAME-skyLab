@@ -28,11 +28,6 @@ public:
 	// 	매니저는 등록된 인덱스값을 actorId로 사용하도록 반환한다.
 	int		RegisterCharacter( Character* newCharacter );
 
-	/*
-		클라이언트 세션이 선택하고 있는 캐릭터를 다른 것으로 변경(나중에 추가될 클래스 시스템에서 클래스 교체)
-		새롭게 등록할 캐릭터 포인터와 id를 넘겨서 등록한다.
-	*/
-	// void	ChangeActor( Actor* newActor, int actorId );
 	void	DeregisterCharacter( int characterId );
 	
 	// update - 일단 가지고 있는 플레이어들 상태를 업데이트 한다.
@@ -45,9 +40,6 @@ public:
 	std::tuple<int, D3DXVECTOR3> DetectTarget( int characterId, const D3DXVECTOR3& direction );
 
 	ISS* GetIss() { return &m_ISS; }
-
-	// bool BuildDispenser( int characterId, D3DXVECTOR3 direction );
-	// Dispenser* GetLastSturture() { return m_DispenserList.back(); }	
 
 	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
 	void UninstallDispenser( unsigned int targetId );
@@ -71,9 +63,6 @@ public:
 
 	// 입력받은 범위 안에 있는 캐릭터 id반환		
 	std::vector<int> DetectTargetsInRange( int characterId, float range );
-
-	// get other object data
-	// 지금은 없습니다.
 	
 	// random Seed 반환
 	int	 GetRandomSeed() { return m_RandomSeed; }
@@ -105,8 +94,6 @@ protected:
 	Event		m_Event;
 	ISS			m_ISS;
 	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
-
-	// std::list<Dispenser*>		m_DispenserList;
 
 	std::map<unsigned, Dispenser*>	m_DispenserList;
 	unsigned int					m_DispensereId = 0;
