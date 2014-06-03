@@ -235,7 +235,11 @@ void ClassComponent::Update( float dt )
 	if ( m_DispenserEffectFlag )
 	{
 		m_Oxygen += dt * DISPENSER_OXYGEN_EFFICIENCY;
+		m_Oxygen = ( m_Oxygen > DEFAULT_OXYGEN ) ? DEFAULT_OXYGEN : m_Oxygen;
+
 		m_Fuel += dt * DISPENSER_FUEL_EFFICIENCY;
+		m_Fuel = ( m_Fuel > DEFAULT_FUEL ) ? DEFAULT_FUEL : m_Fuel;
+
 	}
 	
 

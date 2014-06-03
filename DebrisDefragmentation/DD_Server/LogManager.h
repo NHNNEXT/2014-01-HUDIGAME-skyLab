@@ -20,13 +20,13 @@ public:
 	// 조심해!!
 	// 스트링 조합해서 넘겨야 해...
 	// 가변인자를 사용해야 하나
+	// 문자 스트림을 이용해야 할 듯
 	void LogFatal( std::wstring message );
 	void LogError( std::wstring message );
 	void LogWarn( std::wstring message );
 	void LogInfo( std::wstring message );
 	void LogDebug( std::wstring message );
 
-private:
 	log4cplus::Logger	m_Logger;
 };
 
