@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CharacterModel.cpp" />
+    <ClCompile Include="CharacterStateUI.cpp" />
     <ClCompile Include="DDBillboardEffect.cpp" />
     <ClCompile Include="DDCamera.cpp" />
     <ClCompile Include="DDLight.cpp" />
@@ -98,6 +99,7 @@
     <ClCompile Include="InfoPrinter.cpp" />
     <ClCompile Include="ISSModel.cpp" />
     <ClCompile Include="ModelPool.cpp" />
+    <ClCompile Include="NavigatorUI.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CompassUI.cpp" />
@@ -117,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
     <ClInclude Include="CharacterModel.h" />
+    <ClInclude Include="CharacterStateUI.h" />
     <ClInclude Include="DDBillboardEffect.h" />
     <ClInclude Include="DDCamera.h" />
     <ClInclude Include="DDLight.h" />
@@ -126,11 +129,13 @@
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="DebugData.h" />
     <ClInclude Include="DispenserModel.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentManager.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="InfoPrinter.h" />
     <ClInclude Include="ISSModel.h" />
     <ClInclude Include="ModelPool.h" />
+    <ClInclude Include="NavigatorUI.h" />
     <ClInclude Include="ObjectISS.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="CompassUI.h" />

@@ -1,13 +1,7 @@
 ﻿#pragma once
 
 #include <string>
-#include <array>
-#include <d3dx9.h>
 #include <map>
-
-const int			VECTOR_DIRECTION_3 = 3;
-const int			BOX_POINT_COUNT = 8;
-
 
 // UI
 const float			UI_OXYGEN_POSITION_X = 10.0f;
@@ -29,7 +23,7 @@ enum class ClientUITag : int
 
 enum class ClientLightTag : int
 {
-	DIRECTIONAL_MAIN,	
+	DIRECTIONAL_MAIN,
 	LIGHT_TAG_COUNT // total LIGHT 숫자
 };
 
@@ -61,33 +55,9 @@ const int			VK_4 = 0x34;
 const int			VK_5 = 0x35;
 const int			VK_6 = 0x36;
 
-// Axis Set
-const D3DXVECTOR3	ZERO_VECTOR3{ 0.0f, 0.0f, 0.0f };
-const D3DXVECTOR3	X_AXIS_VECTOR3{ 1.0f, 0.0f, 0.0f };
-const D3DXVECTOR3	Y_AXIS_VECTOR3{ 0.0f, 1.0f, 0.0f };
-const D3DXVECTOR3	Z_AXIS_VECTOR3{ 0.0f, 0.0f, 1.0f };
 
 
 // Alpha Object Management
 const int			ORDER_COMPASS_UI = 1;
-
-
-
-
-// 주의! 아래쪽의 JSON_KEY_LIST와 순서를 동기화시켜야 합니다
-// 주의! Tool 에서 사용하는 JsonKeyValues와 동기화시켜야 합니다
-enum JsonKeyValues : int
-{
-	JSON_DEBRIS_NUMBER = 0,
-	JSON_ISS,
-	JSON_TOTAL_KEY_COUNT
-};
-
-// 주의! JsonKeyVales를 바꾸면 이쪽도 같이 바꾸자
-const std::map<JsonKeyValues, std::string> JSON_KEY_MAP =
-{
-	{ JsonKeyValues::JSON_DEBRIS_NUMBER, "debrisNumber" },
-	{ JsonKeyValues::JSON_ISS, "ISS" },
-};
 
 const int			BILLBOARD_RESOLUTION = 20;

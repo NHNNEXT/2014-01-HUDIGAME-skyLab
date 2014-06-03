@@ -12,6 +12,7 @@
 #include "SceneManager.h"
 #include "PlayScene.h"
 #include "DDCamera.h"
+#include "Environment.h"
 
 Player::Player()
 {

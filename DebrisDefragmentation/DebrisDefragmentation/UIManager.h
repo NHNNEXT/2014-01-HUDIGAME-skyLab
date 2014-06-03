@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include "DDMacro.h"
-#include "DDUI.h"
 #include "Environment.h"
+
+class DDScene;
+class DDUI;
 
 class UIManager
 {
@@ -11,14 +13,18 @@ public:
 
 	CREATE_FUNC( UIManager );
 
+	void Init();
+	void SetCurrentScene( DDScene* scene ) { m_CurrentScene = scene; }
+
+	void UpdateUI( float dt );
+
 	// 바꿨슴다
-	DDUI*	CreateUI( ClientUITag tag, float x, float y );
+	void RegisterUI( ClientUITag tag );
+	void DeregisterUI( ClientUITag tag );
 
-	DDUI*	GetUI( ClientUITag tag ) { return m_UIObjectMap[tag]; }
 private:
-
 	std::map<ClientUITag, DDUI*> m_UIObjectMap;
-
+	DDScene* m_CurrentScene = nullptr;
 };
 
-extern std::shared_ptr<UIManager> g_UIManager;
+extern std::shared_ptr<UIManager> GUIManager;

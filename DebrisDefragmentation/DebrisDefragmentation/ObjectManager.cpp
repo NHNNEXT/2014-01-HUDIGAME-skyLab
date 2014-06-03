@@ -70,7 +70,7 @@ void ObjectManager::RegisgerDispenser( unsigned int dispenserId, const D3DXVECTO
 
 void ObjectManager::DeregisterDispenser( unsigned int dispenserId )
 {
-	std::map<unsigned, DispenserModel*>::iterator it = m_DispenserList.find( dispenserId );
+	std::map<unsigned int, DispenserModel*>::iterator it = m_DispenserList.find( dispenserId );
 	assert( it != m_DispenserList.end() );
 
 	// 등록한 ISS에서 지우자
@@ -100,7 +100,7 @@ void ObjectManager::RegisgerSpaceMine( unsigned int spaceMineId, const D3DXVECTO
 
 void ObjectManager::DeregisterSpaceMine( unsigned int spaceMineId )
 {
-	std::map<unsigned, SpaceMineModel*>::iterator it = m_SpaceMineList.find( spaceMineId );
+	std::map<unsigned int, SpaceMineModel*>::iterator it = m_SpaceMineList.find( spaceMineId );
 	assert( it != m_SpaceMineList.end() );
 
 	// 등록한 ISS에서 지우자
@@ -113,10 +113,5 @@ void ObjectManager::DeregisterSpaceMine( unsigned int spaceMineId )
 
 void ObjectManager::UpdateObjects()
 {
-	// 애들 위치 업데이트 하자
-	float IssPos = m_ObjectISS->GetTransform().GetPositionZ();
-	for ( std::map<unsigned, SpaceMineModel*>::const_iterator it = m_SpaceMineList.begin(); it != m_SpaceMineList.end(); ++it )
-	{
-		it->second->UpdateIssPosition( IssPos );
-	}
+	
 }

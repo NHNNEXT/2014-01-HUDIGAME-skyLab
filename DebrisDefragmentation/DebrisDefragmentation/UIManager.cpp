@@ -1,7 +1,9 @@
 ﻿#include "stdafx.h"
 #include "UIManager.h"
+#include "DDScene.h"
+#include "DDUI.h"
 
-extern std::shared_ptr<UIManager> g_UIManager = nullptr;
+extern std::shared_ptr<UIManager> GUIManager = nullptr;
 
 UIManager::UIManager()
 {
@@ -12,17 +14,26 @@ UIManager::~UIManager()
 {
 }
 
-DDUI* UIManager::CreateUI( ClientUITag tag, float x, float y )
+void UIManager::Init()
+{
+	m_CurrentScene = nullptr;
+	m_UIObjectMap.clear();
+}
+
+void UIManager::UpdateUI( float dt )
+{
+	// 등록된 UI들 update
+	for ( std::map<ClientUITag, DDUI*>::const_iterator it = m_UIObjectMap.begin(); it != m_UIObjectMap.end(); ++it )
+	{
+		it->second->Update( dt );
+	}
+}
+
+void UIManager::RegisterUI( ClientUITag tag )
 {
 	// 기존에 존재하는 UI를 또 생성요청하면 다시 생성되는 버그 방지
 	if ( m_UIObjectMap.find( tag ) != m_UIObjectMap.end() )
-	{
-		return m_UIObjectMap[tag];
-	}
-
-	// UI Tag == Index
-	// UI 객체의 고유 인덱스이기도 하고 UI 파일명 리스트의 인덱스이기도 함
-	// int index = static_cast<int>( tag );
+		return;
 
 	// 파일 경로를 만든다
 	std::wstring filePath = UI_FILE_PATH;
@@ -31,7 +42,20 @@ DDUI* UIManager::CreateUI( ClientUITag tag, float x, float y )
 	// 해당하는 List 인덱스에 UI를 만든다
 	m_UIObjectMap[tag] = DDUI::Create();
 	m_UIObjectMap[tag]->InitUI( filePath );
-	m_UIObjectMap[tag]->GetTransform().SetPosition( x, y, 0 );
+	// m_UIObjectMap[tag]->GetTransform().SetPosition( x, y, 0 );
 
-	return m_UIObjectMap[tag];
+	// 그릴 수 있게 현재 씬에 등록
+	m_CurrentScene->AddChild( m_UIObjectMap[tag] );
+}
+
+void UIManager::DeregisterUI( ClientUITag tag )
+{
+	if ( m_UIObjectMap.find( tag ) == m_UIObjectMap.end() )
+		return;
+
+	// 현재 씬에서 삭제
+	assert( m_CurrentScene );
+	m_CurrentScene->RemoveChild( m_UIObjectMap[tag] );
+
+	m_UIObjectMap.erase( tag );
 }

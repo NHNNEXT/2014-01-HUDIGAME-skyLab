@@ -1,7 +1,7 @@
 #pragma once
 #include "ClientObject.h"
-#include "Environment.h"
 #include "DDModel.h"
+#include "Environment.h"
 
 class DDBillboardEffect : public ClientObject
 {

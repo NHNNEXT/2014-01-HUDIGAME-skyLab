@@ -87,7 +87,6 @@
     <ClInclude Include="Debris.h" />
     <ClInclude Include="Dispenser.h" />
     <ClInclude Include="Engineer.h" />
-    <ClInclude Include="Environment.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameMacro.h" />

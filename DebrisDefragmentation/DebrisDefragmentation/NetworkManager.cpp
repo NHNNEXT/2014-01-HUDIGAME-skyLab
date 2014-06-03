@@ -15,6 +15,7 @@
 #include "DDCamera.h"
 #include "DebugData.h"
 #include "DebrisModel.h"
+#include "Environment.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;

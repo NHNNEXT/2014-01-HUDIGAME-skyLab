@@ -91,11 +91,6 @@ void PlayScene::Init()
 	// init objects
 	m_pDirectonalLight = DDLight::Create();
 	
-// 	unsigned int cp = GGameLogic->GetCurrentPlayers();
-// 	for ( unsigned int i = 0; i < cp; ++i )
-// 	{
-// 		AddChild( GGameLogic->GetPlayer(i) );
-// 	}	
 	AddChild( m_pDirectonalLight );
 	GEnvironmentManager->AddLight( ClientLightTag::DIRECTIONAL_MAIN, m_pDirectonalLight );
 	
@@ -136,24 +131,20 @@ void PlayScene::Init()
 		AddChild( newBackgroundDebris );
 	}
 	
-	GObjectManager = new ObjectManager;
-
 	m_pObjectISS = ObjectISS::Create();
 	m_pObjectISS->Init();
 	AddChild( m_pObjectISS );
 
+	GObjectManager = new ObjectManager;
 	GObjectManager->RegisterObjectISS( m_pObjectISS );
 	
+	// UI
+	GUIManager->Init();
+	GUIManager->SetCurrentScene( this );
+
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
-
-// 	RECT rect;
-// 	GetWindowRect( DDApplication::GetInstance()->GetHWND(), &rect );
-// 	ClipCursor( &rect );
-
-	// UI를 추가합니다.
-	AddUI();
 }
 
 // 조심해!!
@@ -355,7 +346,8 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	MousePointer( MOUSE_POINTER_ON, currentMousePos );
-	UpdateUI();
+
+	GUIManager->UpdateUI( dTime );
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정
@@ -380,33 +372,4 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 	{
 		m_PrevMousePosition = currentMousePos;
 	}
-}
-
-void PlayScene::AddUI()
-{
-	// UI 생성 및 추가 부분을 UI Manager가 처리하도록 뺐음
-	// 인자로 UI Tag 를 받도록 바꿈
-	AddChild( g_UIManager->CreateUI( ClientUITag::UI_OXYGEN_TAG, UI_OXYGEN_POSITION_X, UI_OXYGEN_POSITION_Y ) );
-	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FRAME_TAG, UI_FRAME_POSITION_X, UI_FRAME_POSITION_Y ) );
-	// frame 크기는 60%로
-	g_UIManager->GetUI( ClientUITag::UI_FRAME_TAG )->GetTransform().SetScale( 0.6f );
-	AddChild( g_UIManager->CreateUI( ClientUITag::UI_FUEL_TAG, UI_FUEL_POSITION_X, UI_FUEL_POSITION_Y ) );
-}
-
-void PlayScene::UpdateUI()
-{
-	unsigned int myId = GNetworkManager->GetMyPlayerId();
-	
-	// 초기화 덜 됨
-// 	if ( myId >= g_PlayerManager->GetNumberOfCurrentPlayers() )
-// 	{
-// 		return;
-// 	}
-
-	float currentOxygen = GPlayerManager->GetPlayer( myId )->GetOxygen();
-	float currentFuel = GPlayerManager->GetPlayer( myId )->GetGas();
-
-	// 현재는 front가 pFuelUI
-	g_UIManager->GetUI( ClientUITag::UI_OXYGEN_TAG )->GetTransform().SetScale( currentOxygen /  DEFAULT_OXYGEN , 1, 1 );
-	g_UIManager->GetUI( ClientUITag::UI_FUEL_TAG )->GetTransform().SetScale( currentFuel / DEFAULT_FUEL , 1, 1 );
 }

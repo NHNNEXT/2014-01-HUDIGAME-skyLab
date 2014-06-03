@@ -29,10 +29,6 @@ private:
 	// Model 관련 함수
 	void InitModelPool();
 
-	// UI 관련 함수들
-	void AddUI();
-	void UpdateUI();
-
 	DDLight*	m_pDirectonalLight = nullptr;
 	ModelPool	m_ModelPool;
 	DDPoint		m_PrevMousePosition{.0f,.0f};

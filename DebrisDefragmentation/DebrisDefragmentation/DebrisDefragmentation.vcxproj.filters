@@ -8,9 +8,6 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{dbac7cde-f252-40d2-b952-283490fa9a62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Environment">
-      <UniqueIdentifier>{c0cb755e-35b8-4fdc-89b8-c597160ccf9d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Scene">
       <UniqueIdentifier>{eaa142cd-4097-4285-83c1-d67dfb295c87}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,12 @@
     </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{f8d1d081-623b-43b6-8311-813eb9e81910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\UI">
+      <UniqueIdentifier>{c255ad38-4425-404e-b506-5e4cdf4b0351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{c0cb755e-35b8-4fdc-89b8-c597160ccf9d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="InfoPrinter.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigatorUI.cpp">
+      <Filter>Scene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterStateUI.cpp">
+      <Filter>Scene\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +214,15 @@
     </ClInclude>
     <ClInclude Include="InfoPrinter.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigatorUI.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterStateUI.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

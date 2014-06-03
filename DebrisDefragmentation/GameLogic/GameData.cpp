@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameData.h"
-#include "Environment.h"
+#include "GameMacro.h"
 
 using namespace rapidjson;
 

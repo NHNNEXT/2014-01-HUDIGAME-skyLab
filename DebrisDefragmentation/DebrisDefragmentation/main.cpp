@@ -51,7 +51,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	GPlayerManager = PlayerManager::Create();
 	GSceneManager = SceneManager::Create();
 	GEnvironmentManager = EnvironmentManager::Create();
-	g_UIManager = UIManager::Create();
+	GUIManager = UIManager::Create();
 	g_GameData = GameData::Create();
 
 	app->Init( L"Debris Defragmentation", 1230, 750 );
