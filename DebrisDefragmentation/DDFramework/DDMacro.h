@@ -23,6 +23,16 @@ inline void SafeArrayDelete( T* &p )
 	}
 }
 
+template<class T> 
+void SafeRelease( T t )
+{
+	if ( t )
+	{
+		t->Release();
+		t = 0;
+	}
+}
+
 #define CREATE_FUNC(CLASS_NAME) \
 	static std::shared_ptr<CLASS_NAME> Create() \
 { \
