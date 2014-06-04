@@ -13,9 +13,9 @@ namespace GameTool.Class
     {
         Device m_device;
 
-        private Mesh GameObjectMesh = null;
-        Material[] GameObjectMaterials;
-        Texture[] GameObjectTextures;
+        private Mesh m_GameObjectMesh = null;
+        Material[] m_GameObjectMaterials;
+        Texture[] m_GameObjectTextures;
 
         string m_filename;
 
@@ -39,7 +39,7 @@ namespace GameTool.Class
         {
             m_device = d3dDevice;
 
-            LoadMesh(Class.Renderer.FOLDER_PATH + m_filename, ref GameObjectMesh, ref GameObjectMaterials, ref GameObjectTextures);
+            LoadMesh(Class.Renderer.FOLDER_PATH + m_filename, ref m_GameObjectMesh, ref m_GameObjectMaterials, ref m_GameObjectTextures);
             setCollisionBox();
         }
 
@@ -61,23 +61,6 @@ namespace GameTool.Class
                 posColoredVerts[i].Position = new Vector3(0, 0, 0);
                 posColoredVerts[i].Color = System.Drawing.Color.Black.ToArgb();
             }
-// 
-//             posColoredVerts[0].Position = new Vector3(-100, 150, -150);
-//             posColoredVerts[0].Color = System.Drawing.Color.Black.ToArgb();
-//             posColoredVerts[1].Position = new Vector3(100, 150, -150);
-//             posColoredVerts[1].Color = System.Drawing.Color.Black.ToArgb();
-//             posColoredVerts[2].Position = new Vector3(100, 150, 150);
-//             posColoredVerts[2].Color = System.Drawing.Color.Black.ToArgb();
-//             posColoredVerts[3].Position = new Vector3(-100, 150, 150);
-//             posColoredVerts[3].Color = System.Drawing.Color.Black.ToArgb();
-//             posColoredVerts[4].Position = new Vector3(-100, -150, -150);
-//             posColoredVerts[4].Color = System.Drawing.Color.Black.ToArgb();
-//             posColoredVerts[5].Position = new Vector3(100, -150, -150);
-//             posColoredVerts[5].Color = System.Drawing.Color.Crimson.ToArgb();
-//             posColoredVerts[6].Position = new Vector3(100, -150, 150);
-//             posColoredVerts[6].Color = System.Drawing.Color.Crimson.ToArgb();
-//             posColoredVerts[7].Position = new Vector3(-100, -150, 150);
-//             posColoredVerts[7].Color = System.Drawing.Color.Crimson.ToArgb();
 
             GraphicsStream gstm = m_CollisionBox.Lock(0, 0, LockFlags.None);
             gstm.Write(posColoredVerts);
@@ -89,6 +72,11 @@ namespace GameTool.Class
             GraphicsStream idstm = m_IndexBuffer.Lock(0, 0, LockFlags.None);
             idstm.Write(m_IndexedBufferOrder);
             m_IndexBuffer.Unlock();
+        }
+
+        public void SetScale(float scale)
+        {
+            
         }
 
         // override
@@ -152,23 +140,23 @@ namespace GameTool.Class
 
             mesh = mesh.Clone(mesh.Options.Value, CustomVertex.PositionNormalTextured.Format, m_device);
             mesh.ComputeNormals();
-
-            VertexBuffer vertices = mesh.VertexBuffer;
-            GraphicsStream stream = vertices.Lock(0, 0, LockFlags.None);
-            vertices.Unlock();
+           
+           int[] adjacency = new int[mesh.NumberFaces * 3];
+            mesh.GenerateAdjacency(0.01F, adjacency);
+            mesh.OptimizeInPlace(MeshFlags.OptimizeVertexCache, adjacency);
         }
 
         public void DrawObject()
         {
-            DrawMesh(GameObjectMesh, GameObjectMaterials, GameObjectTextures);
+            DrawMesh(m_GameObjectMesh, m_GameObjectMaterials, m_GameObjectTextures);
             DrawBoundingBox();
         }
 
         private void ClearMesh()
         {
-            GameObjectMaterials = null;
-            GameObjectMesh = null;
-            GameObjectTextures = null;
+            m_GameObjectMaterials = null;
+            m_GameObjectMesh = null;
+            m_GameObjectTextures = null;
         }
 
         private void DrawMesh(Mesh mesh, Material[] meshmaterials, Texture[] meshtextures)

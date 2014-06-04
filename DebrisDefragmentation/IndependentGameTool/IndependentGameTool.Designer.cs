@@ -97,6 +97,10 @@
             this.FPSshow = new System.Windows.Forms.Label();
             this.ObjectTool = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.LoadedObjectList = new System.Windows.Forms.ListBox();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -127,10 +131,6 @@
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
-            this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.LoadedObjectList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -150,6 +150,8 @@
             this.groupBox11.SuspendLayout();
             this.ObjectTool.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox17.SuspendLayout();
+            this.groupBox16.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -158,8 +160,6 @@
             this.tab_GameRender.SuspendLayout();
             this.tab_ISSPartRender.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
-            this.groupBox16.SuspendLayout();
-            this.groupBox17.SuspendLayout();
             this.SuspendLayout();
             // 
             // View
@@ -840,6 +840,46 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ObjectPartList";
             // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.LoadedObjectList);
+            this.groupBox17.Location = new System.Drawing.Point(261, 313);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(188, 95);
+            this.groupBox17.TabIndex = 11;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "LoadedObjectList";
+            // 
+            // LoadedObjectList
+            // 
+            this.LoadedObjectList.FormattingEnabled = true;
+            this.LoadedObjectList.ItemHeight = 12;
+            this.LoadedObjectList.Location = new System.Drawing.Point(9, 20);
+            this.LoadedObjectList.Name = "LoadedObjectList";
+            this.LoadedObjectList.Size = new System.Drawing.Size(170, 64);
+            this.LoadedObjectList.TabIndex = 0;
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.button5);
+            this.groupBox16.Location = new System.Drawing.Point(261, 218);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(188, 80);
+            this.groupBox16.TabIndex = 10;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "BoundingBox";
+            // 
+            // button5
+            // 
+            this.button5.ForeColor = System.Drawing.Color.Crimson;
+            this.button5.Location = new System.Drawing.Point(6, 35);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(176, 39);
+            this.button5.TabIndex = 7;
+            this.button5.Text = "Get Box Data";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.GetBoxDataBtn);
+            // 
             // groupBox15
             // 
             this.groupBox15.Controls.Add(this.label23);
@@ -1087,8 +1127,8 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tab_GameRender);
             this.tabControl1.Controls.Add(this.tab_ISSPartRender);
+            this.tabControl1.Controls.Add(this.tab_GameRender);
             this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1125,46 +1165,6 @@
             this.ObjectView.TabIndex = 5;
             this.ObjectView.TabStop = false;
             this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
-            // 
-            // groupBox16
-            // 
-            this.groupBox16.Controls.Add(this.button5);
-            this.groupBox16.Location = new System.Drawing.Point(261, 218);
-            this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(188, 80);
-            this.groupBox16.TabIndex = 10;
-            this.groupBox16.TabStop = false;
-            this.groupBox16.Text = "BoundingBox";
-            // 
-            // button5
-            // 
-            this.button5.ForeColor = System.Drawing.Color.Crimson;
-            this.button5.Location = new System.Drawing.Point(6, 35);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(176, 39);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "Get Box Data";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.GetBoxDataBtn);
-            // 
-            // groupBox17
-            // 
-            this.groupBox17.Controls.Add(this.LoadedObjectList);
-            this.groupBox17.Location = new System.Drawing.Point(261, 313);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(188, 95);
-            this.groupBox17.TabIndex = 11;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "LoadedObjectList";
-            // 
-            // LoadedObjectList
-            // 
-            this.LoadedObjectList.FormattingEnabled = true;
-            this.LoadedObjectList.ItemHeight = 12;
-            this.LoadedObjectList.Location = new System.Drawing.Point(9, 20);
-            this.LoadedObjectList.Name = "LoadedObjectList";
-            this.LoadedObjectList.Size = new System.Drawing.Size(170, 64);
-            this.LoadedObjectList.TabIndex = 0;
             // 
             // IndependentGameTool
             // 
@@ -1203,6 +1203,8 @@
             this.groupBox11.PerformLayout();
             this.ObjectTool.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
+            this.groupBox16.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             this.groupBox14.ResumeLayout(false);
@@ -1214,8 +1216,6 @@
             this.tab_GameRender.ResumeLayout(false);
             this.tab_ISSPartRender.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
-            this.groupBox16.ResumeLayout(false);
-            this.groupBox17.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

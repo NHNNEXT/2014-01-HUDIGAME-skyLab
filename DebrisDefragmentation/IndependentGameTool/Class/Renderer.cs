@@ -85,6 +85,7 @@ namespace GameTool.Class
                 m_device.RenderState.ZBufferEnable = true;
                 m_device.RenderState.Lighting = true;
                 m_device.RenderState.CullMode = Cull.None;
+                m_device.RenderState.FillMode = FillMode.WireFrame;
 
                 Init();
             }
