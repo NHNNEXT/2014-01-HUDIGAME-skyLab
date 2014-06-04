@@ -131,6 +131,9 @@
     <ClCompile Include="CharacterInfoUI.cpp">
       <Filter>Scene\UI</Filter>
     </ClCompile>
+    <ClCompile Include="BackgroundFrameUI.cpp">
+      <Filter>Scene\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -228,6 +231,9 @@
       <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
     <ClInclude Include="CharacterInfoUI.h">
+      <Filter>Scene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundFrameUI.h">
       <Filter>Scene\UI</Filter>
     </ClInclude>
   </ItemGroup>

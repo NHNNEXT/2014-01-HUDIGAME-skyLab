@@ -5,6 +5,7 @@
 
 #include "CharacterInfoUI.h"
 #include "NavigatorUI.h"
+#include "BackgroundFrameUI.h"
 
 extern std::shared_ptr<UIManager> GUIManager = nullptr;
 
@@ -38,14 +39,18 @@ void UIManager::UpdateUI( float dt )
 
 void UIManager::GeneratePlaySceneUI()
 {
+	// background frame
+	DDUIModule* navigatorUI = new NavigatorUI();
+	navigatorUI->Init( m_CurrentScene );
+	m_UIModuleList.insert( std::map<UIModuleTag, DDUIModule*>::value_type( UIModuleTag::NAVIGATOR, navigatorUI ) );
+
 	// character info ui
 	DDUIModule* characterUI = new CharacterInfoUI();
 	characterUI->Init( m_CurrentScene );
 	m_UIModuleList.insert( std::map<UIModuleTag, DDUIModule*>::value_type( UIModuleTag::CHARACTER_INFO, characterUI ) );
 
 	// navigator ui
-	DDUIModule* navigatorUI = new NavigatorUI();
-	navigatorUI->Init( m_CurrentScene );
-	m_UIModuleList.insert( std::map<UIModuleTag, DDUIModule*>::value_type( UIModuleTag::NAVIGATOR, navigatorUI ) );
-
+	DDUIModule* backgroundFrame = new BackgroundFrameUI();
+	backgroundFrame->Init( m_CurrentScene );
+	m_UIModuleList.insert( std::map<UIModuleTag, DDUIModule*>::value_type( UIModuleTag::BACKGROUND_FRAME, backgroundFrame ) );
 }

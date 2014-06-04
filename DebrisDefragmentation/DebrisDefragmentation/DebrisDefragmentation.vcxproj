@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackgroundFrameUI.cpp" />
     <ClCompile Include="CharacterModel.cpp" />
     <ClCompile Include="CharacterInfoUI.cpp" />
     <ClCompile Include="DDBillboardEffect.cpp" />
@@ -119,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
+    <ClInclude Include="BackgroundFrameUI.h" />
     <ClInclude Include="CharacterModel.h" />
     <ClInclude Include="CharacterInfoUI.h" />
     <ClInclude Include="DDBillboardEffect.h" />

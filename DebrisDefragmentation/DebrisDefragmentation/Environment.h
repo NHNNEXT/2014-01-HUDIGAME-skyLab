@@ -15,9 +15,9 @@ const float			UI_FRAME_POSITION_Y = 50.0f;
 // UI_FILENAME_LIST와 동기화시킬 것
 enum class ClientUITag : int
 {
+	UI_FRAME_TAG,
 	UI_OXYGEN_TAG,
 	UI_FUEL_TAG,
-	UI_FRAME_TAG,
 	UI_TAG_COUNT // total UI 숫자
 };
 
@@ -33,9 +33,9 @@ const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
 // agebreak : 위의 내용을 아래와 같이 바꾸면 대재앙을 막을수 있다! // 그렇군요!
 const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
 {
+	{ ClientUITag::UI_FRAME_TAG, L"Frame.png" },
 	{ ClientUITag::UI_OXYGEN_TAG, L"OxygenUI.png" },
 	{ ClientUITag::UI_FUEL_TAG, L"FuelUI.png" },
-	{ ClientUITag::UI_FRAME_TAG, L"Frame.png" }
 };
 
 // Config
@@ -66,6 +66,7 @@ enum class UIModuleTag : int
 {
 	NO_MODULE = -1,
 
+	BACKGROUND_FRAME,
 	CHARACTER_INFO,
 	SKILL_INFO,
 	NAVIGATOR,
