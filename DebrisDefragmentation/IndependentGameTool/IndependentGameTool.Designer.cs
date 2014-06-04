@@ -97,10 +97,15 @@
             this.FPSshow = new System.Windows.Forms.Label();
             this.ObjectTool = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.GetScaleBtn = new System.Windows.Forms.Button();
+            this.ScaleSlider = new System.Windows.Forms.TrackBar();
+            this.scaleBox = new System.Windows.Forms.TextBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.LoadedObjectList = new System.Windows.Forms.ListBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
+            this.GetBoxBtn = new System.Windows.Forms.Button();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -128,9 +133,10 @@
             this.LoadObjDataBtn = new System.Windows.Forms.Button();
             this.ModelNameTxt = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tab_GameRender = new System.Windows.Forms.TabPage();
-            this.tab_ISSPartRender = new System.Windows.Forms.TabPage();
+            this.tab_ObjectRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
+            this.tab_GameRender = new System.Windows.Forms.TabPage();
+            this.SetScaleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -150,6 +156,8 @@
             this.groupBox11.SuspendLayout();
             this.ObjectTool.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ScaleSlider)).BeginInit();
             this.groupBox17.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox15.SuspendLayout();
@@ -157,9 +165,9 @@
             this.groupBox13.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tab_GameRender.SuspendLayout();
-            this.tab_ISSPartRender.SuspendLayout();
+            this.tab_ObjectRender.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
+            this.tab_GameRender.SuspendLayout();
             this.SuspendLayout();
             // 
             // View
@@ -826,7 +834,6 @@
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.groupBox17);
-            this.groupBox10.Controls.Add(this.groupBox16);
             this.groupBox10.Controls.Add(this.groupBox15);
             this.groupBox10.Controls.Add(this.groupBox14);
             this.groupBox10.Controls.Add(this.ISSRenderBtn);
@@ -840,12 +847,56 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ObjectPartList";
             // 
+            // groupBox18
+            // 
+            this.groupBox18.Controls.Add(this.SetScaleBtn);
+            this.groupBox18.Controls.Add(this.GetScaleBtn);
+            this.groupBox18.Controls.Add(this.ScaleSlider);
+            this.groupBox18.Controls.Add(this.scaleBox);
+            this.groupBox18.Location = new System.Drawing.Point(11, 190);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(171, 105);
+            this.groupBox18.TabIndex = 12;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Scale";
+            // 
+            // GetScaleBtn
+            // 
+            this.GetScaleBtn.ForeColor = System.Drawing.Color.ForestGreen;
+            this.GetScaleBtn.Location = new System.Drawing.Point(6, 44);
+            this.GetScaleBtn.Name = "GetScaleBtn";
+            this.GetScaleBtn.Size = new System.Drawing.Size(156, 25);
+            this.GetScaleBtn.TabIndex = 10;
+            this.GetScaleBtn.Text = "Get Scale";
+            this.GetScaleBtn.UseVisualStyleBackColor = true;
+            this.GetScaleBtn.Click += new System.EventHandler(this.GetScaleBtnClicked);
+            // 
+            // ScaleSlider
+            // 
+            this.ScaleSlider.Location = new System.Drawing.Point(53, 17);
+            this.ScaleSlider.Maximum = 20;
+            this.ScaleSlider.Name = "ScaleSlider";
+            this.ScaleSlider.Size = new System.Drawing.Size(109, 45);
+            this.ScaleSlider.TabIndex = 12;
+            this.ScaleSlider.Scroll += new System.EventHandler(this.ScaleSliderScroll);
+            // 
+            // scaleBox
+            // 
+            this.scaleBox.Location = new System.Drawing.Point(7, 17);
+            this.scaleBox.Name = "scaleBox";
+            this.scaleBox.Size = new System.Drawing.Size(41, 21);
+            this.scaleBox.TabIndex = 11;
+            this.scaleBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputScaleByUser);
+            this.scaleBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SyncScaleValue);
+            // 
             // groupBox17
             // 
+            this.groupBox17.Controls.Add(this.groupBox18);
             this.groupBox17.Controls.Add(this.LoadedObjectList);
-            this.groupBox17.Location = new System.Drawing.Point(261, 313);
+            this.groupBox17.Controls.Add(this.groupBox16);
+            this.groupBox17.Location = new System.Drawing.Point(261, 218);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(188, 95);
+            this.groupBox17.Size = new System.Drawing.Size(188, 327);
             this.groupBox17.TabIndex = 11;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "LoadedObjectList";
@@ -861,24 +912,34 @@
             // 
             // groupBox16
             // 
-            this.groupBox16.Controls.Add(this.button5);
-            this.groupBox16.Location = new System.Drawing.Point(261, 218);
+            this.groupBox16.Controls.Add(this.label26);
+            this.groupBox16.Controls.Add(this.GetBoxBtn);
+            this.groupBox16.Location = new System.Drawing.Point(9, 90);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(188, 80);
+            this.groupBox16.Size = new System.Drawing.Size(171, 94);
             this.groupBox16.TabIndex = 10;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "BoundingBox";
             // 
-            // button5
+            // label26
             // 
-            this.button5.ForeColor = System.Drawing.Color.Crimson;
-            this.button5.Location = new System.Drawing.Point(6, 35);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(176, 39);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "Get Box Data";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.GetBoxDataBtn);
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(8, 21);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(154, 12);
+            this.label26.TabIndex = 8;
+            this.label26.Text = "Select Child of AxisLength";
+            // 
+            // GetBoxBtn
+            // 
+            this.GetBoxBtn.ForeColor = System.Drawing.Color.ForestGreen;
+            this.GetBoxBtn.Location = new System.Drawing.Point(7, 63);
+            this.GetBoxBtn.Name = "GetBoxBtn";
+            this.GetBoxBtn.Size = new System.Drawing.Size(156, 21);
+            this.GetBoxBtn.TabIndex = 7;
+            this.GetBoxBtn.Text = "Get / Apply Box Data";
+            this.GetBoxBtn.UseVisualStyleBackColor = true;
+            this.GetBoxBtn.Click += new System.EventHandler(this.GetBoxDataBtn);
             // 
             // groupBox15
             // 
@@ -1040,9 +1101,9 @@
             // 
             this.ISSRenderBtn.Font = new System.Drawing.Font("Bernard MT Condensed", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ISSRenderBtn.ForeColor = System.Drawing.Color.Maroon;
-            this.ISSRenderBtn.Location = new System.Drawing.Point(267, 527);
+            this.ISSRenderBtn.Location = new System.Drawing.Point(261, 609);
             this.ISSRenderBtn.Name = "ISSRenderBtn";
-            this.ISSRenderBtn.Size = new System.Drawing.Size(173, 69);
+            this.ISSRenderBtn.Size = new System.Drawing.Size(188, 69);
             this.ISSRenderBtn.TabIndex = 1;
             this.ISSRenderBtn.Text = "ObjectRender";
             this.ISSRenderBtn.UseVisualStyleBackColor = true;
@@ -1127,13 +1188,33 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tab_ISSPartRender);
+            this.tabControl1.Controls.Add(this.tab_ObjectRender);
             this.tabControl1.Controls.Add(this.tab_GameRender);
             this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(773, 722);
             this.tabControl1.TabIndex = 7;
+            // 
+            // tab_ObjectRender
+            // 
+            this.tab_ObjectRender.Controls.Add(this.ObjectView);
+            this.tab_ObjectRender.Location = new System.Drawing.Point(4, 22);
+            this.tab_ObjectRender.Name = "tab_ObjectRender";
+            this.tab_ObjectRender.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_ObjectRender.Size = new System.Drawing.Size(765, 696);
+            this.tab_ObjectRender.TabIndex = 1;
+            this.tab_ObjectRender.Text = "ObjectRender";
+            this.tab_ObjectRender.UseVisualStyleBackColor = true;
+            // 
+            // ObjectView
+            // 
+            this.ObjectView.Location = new System.Drawing.Point(3, 3);
+            this.ObjectView.Name = "ObjectView";
+            this.ObjectView.Size = new System.Drawing.Size(760, 680);
+            this.ObjectView.TabIndex = 5;
+            this.ObjectView.TabStop = false;
+            this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
             // 
             // tab_GameRender
             // 
@@ -1146,25 +1227,16 @@
             this.tab_GameRender.Text = "GameRender";
             this.tab_GameRender.UseVisualStyleBackColor = true;
             // 
-            // tab_ISSPartRender
+            // SetScaleBtn
             // 
-            this.tab_ISSPartRender.Controls.Add(this.ObjectView);
-            this.tab_ISSPartRender.Location = new System.Drawing.Point(4, 22);
-            this.tab_ISSPartRender.Name = "tab_ISSPartRender";
-            this.tab_ISSPartRender.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_ISSPartRender.Size = new System.Drawing.Size(765, 696);
-            this.tab_ISSPartRender.TabIndex = 1;
-            this.tab_ISSPartRender.Text = "ISSPartRender";
-            this.tab_ISSPartRender.UseVisualStyleBackColor = true;
-            // 
-            // ObjectView
-            // 
-            this.ObjectView.Location = new System.Drawing.Point(3, 3);
-            this.ObjectView.Name = "ObjectView";
-            this.ObjectView.Size = new System.Drawing.Size(760, 680);
-            this.ObjectView.TabIndex = 5;
-            this.ObjectView.TabStop = false;
-            this.ObjectView.Click += new System.EventHandler(this.ISSPartRenderClick);
+            this.SetScaleBtn.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.SetScaleBtn.Location = new System.Drawing.Point(6, 74);
+            this.SetScaleBtn.Name = "SetScaleBtn";
+            this.SetScaleBtn.Size = new System.Drawing.Size(156, 25);
+            this.SetScaleBtn.TabIndex = 13;
+            this.SetScaleBtn.Text = "Apply Scale";
+            this.SetScaleBtn.UseVisualStyleBackColor = true;
+            this.SetScaleBtn.Click += new System.EventHandler(this.ApplyScaleBtnClicked);
             // 
             // IndependentGameTool
             // 
@@ -1203,8 +1275,12 @@
             this.groupBox11.PerformLayout();
             this.ObjectTool.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
+            this.groupBox18.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ScaleSlider)).EndInit();
             this.groupBox17.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             this.groupBox14.ResumeLayout(false);
@@ -1213,9 +1289,9 @@
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tab_GameRender.ResumeLayout(false);
-            this.tab_ISSPartRender.ResumeLayout(false);
+            this.tab_ObjectRender.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
+            this.tab_GameRender.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1292,7 +1368,7 @@
         private System.Windows.Forms.Label FPSshow;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tab_GameRender;
-        private System.Windows.Forms.TabPage tab_ISSPartRender;
+        private System.Windows.Forms.TabPage tab_ObjectRender;
         private System.Windows.Forms.PictureBox ObjectView;
         private System.Windows.Forms.Button ISSRenderBtn;
         private System.Windows.Forms.TreeView JsonVariables;
@@ -1322,9 +1398,15 @@
         private System.Windows.Forms.TextBox centerPosY;
         private System.Windows.Forms.TextBox centerPosX;
         private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button GetBoxBtn;
         private System.Windows.Forms.GroupBox groupBox17;
         private System.Windows.Forms.ListBox LoadedObjectList;
+        private System.Windows.Forms.GroupBox groupBox18;
+        private System.Windows.Forms.Button GetScaleBtn;
+        private System.Windows.Forms.TrackBar ScaleSlider;
+        private System.Windows.Forms.TextBox scaleBox;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button SetScaleBtn;
     }
 }
 

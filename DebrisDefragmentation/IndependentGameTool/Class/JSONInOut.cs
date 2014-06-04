@@ -194,6 +194,11 @@ namespace GameTool.Class
 
         public void ChangeJsonData(TreeNode changedNode, string val)
         {
+            if (val.Equals("JSONConfig"))
+            {
+                return;
+            }
+
             string treePath = changedNode.FullPath;
             string[] keys = treePath.Split('\\');
 

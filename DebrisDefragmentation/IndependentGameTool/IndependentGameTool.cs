@@ -19,6 +19,8 @@ namespace GameTool
             InitializeComponent();
 
             this.ObjectView.MouseWheel += new System.Windows.Forms.MouseEventHandler(ObjectCameraZoomInOut);
+            m_JsonManager.SearchJsonFiles(this.JsonFileList);
+            SearchMesh();
         }
 
         private void ISSRenderStart(object sender, EventArgs e)
@@ -62,6 +64,10 @@ namespace GameTool
             this.Focus();
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        // TAB : JSON CONFIG
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
         private void SearchJsonFile(object sender, EventArgs e)
         {
             m_JsonManager.SearchJsonFiles(this.JsonFileList);
@@ -84,23 +90,10 @@ namespace GameTool
             }
         }
 
+        // tab_JSONConfig 에서 수정할 때
         private void JsonModifyDataBtn(object sender, EventArgs e)
         {
-            TreeNode tn = JsonVariables.SelectedNode;
-            if (null != tn)
-            {
-                // 바뀐 JSON 데이터를 반영해준다
-                ChangeJsonData(tn, JSONVarBar.Text);
-                // Tree에 바뀐 값을 집어넣는다.
-                if (tn.Text.Contains(":")) // Key : Value 형태
-                {
-                    tn.Text = JSONKeyLabel.Text + " : " + JSONVarBar.Text;
-                }
-                else // Value 형태
-                {
-                    tn.Text = JSONVarBar.Text;
-                }
-            }
+            UpdateJSONTreesAll();
         }
 
         private void ChangeJsonData(TreeNode node, string val)
@@ -115,12 +108,19 @@ namespace GameTool
             m_JsonManager.SaveJsonFile(JSONNameToSave);
         }
 
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        // TAB : Object Tool
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         private void LoadDataFromTree(object sender, EventArgs e)
         {
             SelectedObjJson.Nodes.Clear();
 
             if (ModelNameTxt.Text.Length == 0)
             {
+                m_JsonManager.ShowJsonData(SelectedObjJson);
                 return;
             }
 
@@ -143,6 +143,11 @@ namespace GameTool
         }
 
         private void SearchMeshBtn(object sender, EventArgs e)
+        {
+            SearchMesh();
+        }
+
+        private void SearchMesh()
         {
             // 우선 파일 리스트를 비우고
             MeshFIleList.Items.Clear();
@@ -188,20 +193,44 @@ namespace GameTool
 
         private void ModifyObjValue(object sender, EventArgs e)
         {
+            UpdateJSONTreesAll();
+        }
+
+        private void UpdateJSONTreesAll()
+        {
             TreeNode tn = SelectedObjJson.SelectedNode;
             if (null != tn)
             {
                 // 바뀐 JSON 데이터를 반영해준다
                 ChangeJsonData(tn, ObjJsonValue.Text);
+
                 // Tree에 바뀐 값을 집어넣는다.
                 if (tn.Text.Contains(":")) // Key : Value 형태
                 {
-                    tn.Text = ObjJsonKey.Text + " : " + ObjJsonValue.Text;
+                    tn.Text = JSONKeyLabel.Text + " : " + JSONVarBar.Text;
                 }
                 else // Value 형태
                 {
-                    tn.Text = ObjJsonValue.Text;
+                    tn.Text = JSONVarBar.Text;
                 }
+                m_JsonManager.ShowJsonData(JsonVariables);
+            }
+
+            tn = JsonVariables.SelectedNode;
+            if (null != tn)
+            {
+                // 바뀐 JSON 데이터를 반영해준다
+                ChangeJsonData(tn, JSONVarBar.Text);
+                // Tree에 바뀐 값을 집어넣는다.
+                if (tn.Text.Contains(":")) // Key : Value 형태
+                {
+                    tn.Text = JSONKeyLabel.Text + " : " + JSONVarBar.Text;
+                }
+                else // Value 형태
+                {
+                    tn.Text = JSONVarBar.Text;
+                }
+                m_JsonManager.ShowJsonData(SelectedObjJson);
             }
         }
 
@@ -228,6 +257,7 @@ namespace GameTool
 
             if (LoadedObjectList.SelectedIndex == -1)
             {
+                MessageBox.Show("Select Object First");
                 return;
             }
 
@@ -250,5 +280,95 @@ namespace GameTool
                     lengthX, lengthY, lengthZ);
             }
         }
+
+        private void GetScaleBtnClicked(object sender, EventArgs e)
+        {
+            int objIndex = LoadedObjectList.SelectedIndex;
+            TreeNode tn = SelectedObjJson.SelectedNode;
+
+            if (objIndex == -1 || tn == null)
+            {
+                return;
+            }
+
+            if (m_JsonManager.SplitJSONKeyFromKeyValue(tn.Text) != "Scale")
+            {
+                return;
+            }
+
+            scaleBox.Text = m_JsonManager.SplitJSONValueFromKeyValue(tn.Text);
+            ScaleSlider.Value = Convert.ToInt16(scaleBox.Text);
+        }
+
+        private void InputScaleByUser(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsDigit(e.KeyChar)
+                || e.KeyChar == Convert.ToChar(Keys.Back)
+                || e.KeyChar == Convert.ToChar("."))
+            {
+
+            }
+            else // 여기 들어오면 입력 ㄴㄴ
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void SyncScaleValue(object sender, KeyEventArgs e)
+        {
+            string name = sender.GetType().ToString();
+            SyncEachOther(name);
+        }
+
+        private void ScaleSliderScroll(object sender, EventArgs e)
+        {
+            string name = sender.GetType().ToString();
+            SyncEachOther(name);
+        }
+
+        private void SyncEachOther(string senderName)
+        {
+            if (senderName.Equals("System.Windows.Forms.TextBox"))
+            {
+                float value = 0;
+                if (scaleBox.Text.Length != 0)
+                {
+                    try
+                    {
+                        value = Convert.ToSingle(scaleBox.Text);
+                    }
+                    catch
+                    {
+                        value = 0;
+                    }
+                    value = (value > 20 ? 20 : value);
+                    ScaleSlider.Value = Convert.ToInt16(value);
+                    scaleBox.Text = value.ToString();
+                }
+            }
+            else if (senderName.Equals("System.Windows.Forms.TrackBar"))
+            {
+                scaleBox.Text = ScaleSlider.Value.ToString();
+            }
+        }
+
+        private void ApplyScaleBtnClicked(object sender, EventArgs e)
+        {
+            if (scaleBox.Text.Length == 0)
+            {
+                return;
+            }
+
+            float scale = Convert.ToSingle(scaleBox.Text);
+            int objIdx = LoadedObjectList.SelectedIndex;
+
+            if (objIdx == -1)
+            {
+                return;
+            }
+
+            m_Renderer.SetScale(objIdx, scale);
+        }
+
     }
 }

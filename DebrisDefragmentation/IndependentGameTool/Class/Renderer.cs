@@ -47,7 +47,6 @@ namespace GameTool.Class
 
         }
 
-
         public bool IsDeviceReady()
         {
             if (null == m_device)
@@ -223,6 +222,16 @@ namespace GameTool.Class
             }
 
             m_GameObjectList[objectId].setCollisionBox(axisLenX, axisLenY, axisLenZ);
+        }
+
+        public void SetScale(int objectId, float scale)
+        {
+            if (m_GameObjectList.Count <= objectId)
+            {
+                return;
+            }
+
+            m_GameObjectList[objectId].SetScale(scale);
         }
     }
 }
