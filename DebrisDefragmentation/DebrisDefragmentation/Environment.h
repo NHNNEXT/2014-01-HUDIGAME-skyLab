@@ -61,3 +61,14 @@ const int			VK_6 = 0x36;
 const int			ORDER_COMPASS_UI = 1;
 
 const int			BILLBOARD_RESOLUTION = 20;
+
+enum class UIModuleTag : int
+{
+	NO_MODULE = -1,
+
+	CHARACTER_INFO,
+	SKILL_INFO,
+	NAVIGATOR,
+	ISS_INFO,
+	TEAM_INFO,
+};

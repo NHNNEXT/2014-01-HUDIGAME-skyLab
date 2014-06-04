@@ -1,7 +1,10 @@
 ﻿#include "stdafx.h"
 #include "UIManager.h"
 #include "DDScene.h"
-#include "DDUI.h"
+#include "DDUIModule.h"
+
+#include "CharacterInfoUI.h"
+#include "NavigatorUI.h"
 
 extern std::shared_ptr<UIManager> GUIManager = nullptr;
 
@@ -12,50 +15,37 @@ UIManager::UIManager()
 
 UIManager::~UIManager()
 {
+	for ( std::map<UIModuleTag, DDUIModule*>::const_iterator it = m_UIModuleList.begin(); it != m_UIModuleList.end(); ++it )
+	{
+		delete it->second;
+	}
 }
 
 void UIManager::Init()
 {
 	m_CurrentScene = nullptr;
-	m_UIObjectMap.clear();
+	m_UIModuleList.clear();
 }
 
 void UIManager::UpdateUI( float dt )
 {
 	// 등록된 UI들 update
-	for ( std::map<ClientUITag, DDUI*>::const_iterator it = m_UIObjectMap.begin(); it != m_UIObjectMap.end(); ++it )
+	for ( std::map<UIModuleTag, DDUIModule*>::const_iterator it = m_UIModuleList.begin(); it != m_UIModuleList.end(); ++it )
 	{
 		it->second->Update( dt );
 	}
 }
 
-void UIManager::RegisterUI( ClientUITag tag )
+void UIManager::GeneratePlaySceneUI()
 {
-	// 기존에 존재하는 UI를 또 생성요청하면 다시 생성되는 버그 방지
-	if ( m_UIObjectMap.find( tag ) != m_UIObjectMap.end() )
-		return;
+	// character info ui
+	DDUIModule* characterUI = new CharacterInfoUI();
+	characterUI->Init( m_CurrentScene );
+	m_UIModuleList.insert( std::map<UIModuleTag, DDUIModule*>::value_type( UIModuleTag::CHARACTER_INFO, characterUI ) );
 
-	// 파일 경로를 만든다
-	std::wstring filePath = UI_FILE_PATH;
-	filePath.append( MAP_UI_FILENAME.at( tag ) );
+	// navigator ui
+	DDUIModule* navigatorUI = new NavigatorUI();
+	navigatorUI->Init( m_CurrentScene );
+	m_UIModuleList.insert( std::map<UIModuleTag, DDUIModule*>::value_type( UIModuleTag::NAVIGATOR, navigatorUI ) );
 
-	// 해당하는 List 인덱스에 UI를 만든다
-	m_UIObjectMap[tag] = DDUI::Create();
-	m_UIObjectMap[tag]->InitUI( filePath );
-	// m_UIObjectMap[tag]->GetTransform().SetPosition( x, y, 0 );
-
-	// 그릴 수 있게 현재 씬에 등록
-	m_CurrentScene->AddChild( m_UIObjectMap[tag] );
-}
-
-void UIManager::DeregisterUI( ClientUITag tag )
-{
-	if ( m_UIObjectMap.find( tag ) == m_UIObjectMap.end() )
-		return;
-
-	// 현재 씬에서 삭제
-	assert( m_CurrentScene );
-	m_CurrentScene->RemoveChild( m_UIObjectMap[tag] );
-
-	m_UIObjectMap.erase( tag );
 }

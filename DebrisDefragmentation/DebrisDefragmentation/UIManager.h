@@ -3,7 +3,7 @@
 #include "Environment.h"
 
 class DDScene;
-class DDUI;
+class DDUIModule;
 
 class UIManager
 {
@@ -18,12 +18,11 @@ public:
 
 	void UpdateUI( float dt );
 
-	// 바꿨슴다
-	void RegisterUI( ClientUITag tag );
-	void DeregisterUI( ClientUITag tag );
+	// generate play scene ui
+	void GeneratePlaySceneUI();
 
 private:
-	std::map<ClientUITag, DDUI*> m_UIObjectMap;
+	std::map<UIModuleTag, DDUIModule*> m_UIModuleList;
 	DDScene* m_CurrentScene = nullptr;
 };
 

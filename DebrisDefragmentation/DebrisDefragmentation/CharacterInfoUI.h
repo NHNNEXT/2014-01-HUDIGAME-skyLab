@@ -2,15 +2,15 @@
 
 #include "DDUIModule.h"
 
-class NavigatorUI :
+class CharacterInfoUI :
 	public DDUIModule
 {
 public:
-	NavigatorUI();
-	virtual ~NavigatorUI();
-
-	void Update( float dt );
+	CharacterInfoUI();
+	virtual ~CharacterInfoUI();
 
 	bool GenerateUI();
+
+	void Update( float dt );
 };
 

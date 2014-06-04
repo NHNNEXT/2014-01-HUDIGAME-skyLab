@@ -84,12 +84,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CharacterModel.cpp" />
-    <ClCompile Include="CharacterStateUI.cpp" />
+    <ClCompile Include="CharacterInfoUI.cpp" />
     <ClCompile Include="DDBillboardEffect.cpp" />
     <ClCompile Include="DDCamera.cpp" />
     <ClCompile Include="DDLight.cpp" />
     <ClCompile Include="DDModel.cpp" />
     <ClCompile Include="DDUI.cpp" />
+    <ClCompile Include="DDUIModule.cpp" />
     <ClCompile Include="DebrisModel.cpp" />
     <ClCompile Include="ClientObject.cpp" />
     <ClCompile Include="DebugData.cpp" />
@@ -119,12 +120,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
     <ClInclude Include="CharacterModel.h" />
-    <ClInclude Include="CharacterStateUI.h" />
+    <ClInclude Include="CharacterInfoUI.h" />
     <ClInclude Include="DDBillboardEffect.h" />
     <ClInclude Include="DDCamera.h" />
     <ClInclude Include="DDLight.h" />
     <ClInclude Include="DDModel.h" />
     <ClInclude Include="DDUI.h" />
+    <ClInclude Include="DDUIModule.h" />
     <ClInclude Include="DebrisModel.h" />
     <ClInclude Include="ClientObject.h" />
     <ClInclude Include="DebugData.h" />

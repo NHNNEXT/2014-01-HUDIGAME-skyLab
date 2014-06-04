@@ -125,7 +125,10 @@
     <ClCompile Include="NavigatorUI.cpp">
       <Filter>Scene\UI</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterStateUI.cpp">
+    <ClCompile Include="DDUIModule.cpp">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterInfoUI.cpp">
       <Filter>Scene\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -218,11 +221,14 @@
     <ClInclude Include="NavigatorUI.h">
       <Filter>Scene\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterStateUI.h">
-      <Filter>Scene\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Environment.h">
       <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="DDUIModule.h">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterInfoUI.h">
+      <Filter>Scene\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

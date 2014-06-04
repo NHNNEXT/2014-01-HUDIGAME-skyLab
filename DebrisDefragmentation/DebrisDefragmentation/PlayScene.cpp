@@ -33,7 +33,6 @@ PlayScene::~PlayScene()
 	delete GDebugData;
 	delete GObjectManager;
 	delete GNetworkManager;
-	//DeleteAlignedClass(GInfoPrinter);
 }
 
 
@@ -141,6 +140,7 @@ void PlayScene::Init()
 	// UI
 	GUIManager->Init();
 	GUIManager->SetCurrentScene( this );
+	GUIManager->GeneratePlaySceneUI();
 
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();

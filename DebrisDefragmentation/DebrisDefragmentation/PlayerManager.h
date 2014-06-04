@@ -19,6 +19,9 @@ public:
 	bool		AddPlayer( int playerId );
 	void		DeletePlayer( int playerId );
 	Player*		GetPlayer( int playerId ) { return m_PlayerList[playerId]; }
+	Player*		GetMyPlayer();
+
+	void		SetMyPlayerId( int id ) { m_MyPlayerId = id; }
 			
 	unsigned int GetNumberOfCurrentPlayers() const { return m_CurrentPlayers; }
 
@@ -31,12 +34,12 @@ public:
 
 
 private:
-
 	// player list
 	unsigned int	m_CurrentPlayers = 0;
 	std::array<Player*, MAX_PLAYER_NUM> 	m_PlayerList;
 	DDCamera*		m_Camera = nullptr;
 	
+	int				m_MyPlayerId = -1;
 };
 
 extern std::shared_ptr<PlayerManager> GPlayerManager;

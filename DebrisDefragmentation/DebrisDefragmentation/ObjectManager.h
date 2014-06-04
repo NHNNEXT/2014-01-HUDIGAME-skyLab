@@ -22,7 +22,6 @@ public:
 	DebrisModel* GetResourceDebris( int index ) { return m_ResourceDebrisList[index]; }
 	void SetResourceDebris( int index, DebrisModel* dm ) { m_ResourceDebrisList[index] = dm; }
 
-	void AddDispenserModel( DispenserModel* dispenserModel ) { m_DispenserModelList.push_back( dispenserModel ); }
 	void RegisterObjectISS( ObjectISS* iss ) { m_ObjectISS = iss; }
 	ObjectISS* GetISS() { return m_ObjectISS; }
 
@@ -38,10 +37,10 @@ public:
 
 private:
 	ObjectISS* m_ObjectISS = nullptr;
-	std::list<DispenserModel*> m_DispenserModelList;
-	std::array<DebrisModel*, RESOURCE_DEBRIS_NUMBER> m_ResourceDebrisList;
+
 	int RandomSeed = 0;
-	
+
+	std::array<DebrisModel*, RESOURCE_DEBRIS_NUMBER> m_ResourceDebrisList;
 	std::map<unsigned int, DispenserModel*> m_DispenserList;
 	std::map<unsigned int, SpaceMineModel*> m_SpaceMineList;
 };

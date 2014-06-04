@@ -220,6 +220,7 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 
 	// 사용자의 player가 최초 로그인한 경우
 	m_MyPlayerId = inPacket.mPlayerId;
+	GPlayerManager->SetMyPlayerId( m_MyPlayerId );
 
 	if ( GPlayerManager->AddPlayer( m_MyPlayerId ) )
 	{
