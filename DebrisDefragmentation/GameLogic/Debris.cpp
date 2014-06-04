@@ -16,9 +16,9 @@ void Debris::Init()
 	// 충돌 박스 초기화
 
 	m_Transform.SetPosition( 
-		( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
-		( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
-		( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) )
+		static_cast<float>( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+		static_cast<float>( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) ),
+		static_cast<float>( ( rand() % DEBRIS_SPREAD_RANGE ) - ( DEBRIS_SPREAD_RANGE >> 1 ) )
 		);
 
 	m_CollisionBox.SetCenterPosition( ZERO_VECTOR3 );

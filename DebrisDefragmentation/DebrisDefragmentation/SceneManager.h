@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "GameMacro.h"
-#include <string>
 
 class PlayScene;
 
@@ -13,7 +12,7 @@ public:
 	CREATE_FUNC( SceneManager );
 
 	PlayScene*	CreateScene( std::wstring sceneName );
-	PlayScene*	GetScene() const { return m_Scene; }
+	PlayScene*	GetScene() { return m_Scene; }
 
 
 private :

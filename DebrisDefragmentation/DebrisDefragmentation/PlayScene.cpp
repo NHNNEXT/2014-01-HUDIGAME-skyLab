@@ -104,19 +104,17 @@ void PlayScene::Init()
 	//DDModel* earth = DDModel::Create( L"earth.x" );
 	DDModel* earth = DDModel::Create();
 	earth->SetModelMesh( m_ModelPool.GetModel( ModelType::EARTH ) );
-	earth->GetTransform().SetPosition( 0, -800, 0 );
+	earth->GetTransform().SetPosition( EARTH_POSITION );
 	AddChild( earth );
 
 // 	DDBillboardEffect* bill = DDBillboardEffect::Create();
 // 	bill->Init();
 // 	bill->GetTransform().SetPosition( 90.0f, .0f, .0f );
 // 	AddChild( bill );
-
-	D3DXVECTOR3 origin( 0.0f, 10.0f, 50.0f );
-	Firework* Exp = Firework::Create();
-	Exp->SetParticles( &origin, 6000 );
-	Exp->init( DDRenderer::GetInstance()->GetDevice(), L"flare.bmp" );
-	AddChild( Exp, 10 );
+		
+	GEnvironmentManager->InitParticleEffects();
+	//GEnvironmentManager->SetParticleEffect( Exp );
+	//AddChild( Exp, 10 );
 
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것

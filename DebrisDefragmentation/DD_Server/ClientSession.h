@@ -47,7 +47,7 @@ public:
 
 	void	Disconnect();
 
- 	bool	IsConnected() const { return mConnected; }
+	bool	IsConnected() const { return mConnected; }
 
 	void	DatabaseJobDone( DatabaseJobContext* result );
 

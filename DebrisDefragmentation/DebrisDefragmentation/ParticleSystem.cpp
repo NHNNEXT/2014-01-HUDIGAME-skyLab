@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "ParticleSystem.h"
 #include "DDMacro.h"
+#include "GameOption.h"
 
 const DWORD Particle::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
@@ -301,7 +302,7 @@ DWORD ParticleSystem::FtoDw( float f )
 
 Firework::Firework(  )
 {	
-	_size = 1.0f;
+	_size = 0.25f;
 	_vbSize = 2048;
 	_vbOffset = 0;
 	_vbBatchSize = 512;
@@ -333,7 +334,7 @@ void Firework::resetParticle( Attribute* attribute )
 		&attribute->_velocity,
 		&attribute->_velocity );
 
-	attribute->_velocity *= 100.0f;
+	attribute->_velocity *= FIREWORK_PARTICLE_VELOCITY;
 
 	attribute->_color = D3DXCOLOR(
 		GetRandomFloat( 0.0f, 1.0f ),
@@ -342,7 +343,7 @@ void Firework::resetParticle( Attribute* attribute )
 		1.0f );
 
 	attribute->_age = 0.0f;
-	attribute->_lifeTime = 40.0f; // lives for 2 seconds
+	attribute->_lifeTime = PARTICLE_LIFETIME; // lives for 2 seconds
 }
 
 void Firework::UpdateItSelf( float timeDelta )
@@ -380,5 +381,11 @@ void Firework::postRender()
 	ParticleSystem::postRender();
 
 	_device->SetRenderState( D3DRS_ZWRITEENABLE, true );
+}
+
+void Firework::PlayEffect( D3DXVECTOR3 origin )
+{
+	_origin = origin;
+	reset();
 }
 

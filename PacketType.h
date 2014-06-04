@@ -621,7 +621,7 @@ struct GatherResult : public PacketHeader
 
 	int			mPlayerId;
 	int			mDebrisIndex;
-	int			mCurrentResource;
+	float		mCurrentResource;
 };
 
 struct WarningResult : public PacketHeader

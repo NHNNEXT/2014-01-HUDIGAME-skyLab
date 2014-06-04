@@ -64,7 +64,7 @@ void DDModel::RenderItSelf()
 		//m_pEffect->SetTechnique( "RenderRimLight" );
 		m_pEffect->Begin( &nPass, NULL );
 		
-		for ( int i = 0; i < nPass; ++i )
+		for ( unsigned int i = 0; i < nPass; ++i )
 		{
 			m_pEffect->BeginPass( i );
 			for ( DWORD j = 0; j < m_MeshInfo->m_dwNumMaterials; ++j )

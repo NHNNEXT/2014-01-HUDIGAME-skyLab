@@ -388,10 +388,11 @@ void ClientSession::BroadcastKineticState( bool accelerationFlag, bool spinFlag 
 	{
 		outPacket.mForce = m_Character.GetAcceleration();
 	}
-
-	outPacket.mIsAccelerate = accelerationFlag;
+	
+	outPacket.mIsSpin = spinFlag;	
 	if ( spinFlag )
 	{
+		
 		outPacket.mSpinAxis = m_Character.GetSpinAxis();
 		outPacket.mSpinAngularVelocity = m_Character.GetSpinAngularVelocity();
 	}

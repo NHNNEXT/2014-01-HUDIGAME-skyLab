@@ -16,6 +16,7 @@
 #include "DebugData.h"
 #include "DebrisModel.h"
 #include "Environment.h"
+#include "EnvironmentManager.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -208,6 +209,7 @@ void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
 
 	// 데브리 모델의 visible을 끔(굳이 삭제를 할 필요는 없을듯.. 나중에 한번에 하니까 ㅋ)
 	GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->SetVisible( false );
+	GEnvironmentManager->GetParticleEffect()->PlayEffect( GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->GetTransform().GetPosition() );
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetResource( inPacket.mCurrentResource );
 }
@@ -335,6 +337,8 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	{
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
+		GEnvironmentManager->GetParticleEffect()->PlayEffect( inPacket.mPos );
+		
 	}
 
 	if ( inPacket.mIsAccelerate )
@@ -401,6 +405,7 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
+	GEnvironmentManager->GetParticleEffect()->PlayEffect( inPacket.mPos );
 }
 
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
@@ -515,6 +520,7 @@ void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
 		inPacket.mDirection, 
 		static_cast<TeamColor>( inPacket.mTeamColor ) 
 		);
+	GEnvironmentManager->GetParticleEffect()->PlayEffect( inPacket.mPosition );
 }
 
 static void HandleStructureUninstallResult( DDPacketHeader& pktBase )

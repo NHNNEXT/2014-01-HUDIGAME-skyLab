@@ -52,6 +52,9 @@ protected:
 	virtual void RenderItSelf() {}
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 
+	// world coordinate
+	D3DXMATRIXA16	m_Matrix;
+
 	// node구조
 	std::list<std::shared_ptr<DDObject>>	m_NormalChildList;
 	std::list<std::shared_ptr<DDObject>>	m_AhphaChildList;
@@ -61,13 +64,7 @@ protected:
 	// visible updatable 
 	bool			m_VisibleFlag = true;
 	bool			m_UpdatableFlag = true;			
-
-
-	// update주기 체크용 임시
-	long long		m_UpdateCycles = 0;
-
-	// world coordinate
-	D3DXMATRIXA16	m_Matrix;
+	
 
 
 private : 

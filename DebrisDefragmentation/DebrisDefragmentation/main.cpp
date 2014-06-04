@@ -14,6 +14,8 @@
 #include "client/windows/sender/crash_report_sender.h"
 #include "EnvironmentManager.h"
 
+// breakpad test를 위한 강제 crash함수인데 test할 때 말고는 사용하지 않아서 경고발생 -> 경고끔
+#pragma warning(disable: 4505)
 google_breakpad::ExceptionHandler* handler = nullptr;
 
 namespace {
@@ -44,7 +46,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	SetUnhandledExceptionFilter( ExceptionFilter );
 	// 예외 처리 test 함수
-	//CrashFunction();
 	// CrashFunction();
 
 	DDApplication* app = DDApplication::GetInstance();

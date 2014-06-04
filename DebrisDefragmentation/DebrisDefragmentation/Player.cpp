@@ -165,6 +165,8 @@ void Player::SetSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 
 void Player::AddSpin( D3DXVECTOR3 rotationAxis, float angularVelocity )
 {
+	UNREFERENCED_PARAMETER( rotationAxis );
+	UNREFERENCED_PARAMETER( angularVelocity );
 	// 조심해!!
 	// 구현 중
 }

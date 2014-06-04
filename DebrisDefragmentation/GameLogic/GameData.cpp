@@ -70,9 +70,10 @@ D3DXVECTOR3 GameData::GetISSPosition( ISSModuleName name )
 
 	Value& position = m_Document[iss]["Position"][module];
 	// 조심해! double 에서 float으로 바꾸고 있음!
-	return D3DXVECTOR3( position[SizeType( 0 )].GetDouble(),
-		position[SizeType( 1 )].GetDouble(),
-		position[SizeType( 2 )].GetDouble() );
+	return D3DXVECTOR3(
+		static_cast<float>( position[SizeType( 0 )].GetDouble() ),
+		static_cast<float>( position[SizeType( 1 )].GetDouble() ),
+		static_cast<float>( position[SizeType( 2 )].GetDouble() ) );
 }
 
 int GameData::GetDebrisNumber()

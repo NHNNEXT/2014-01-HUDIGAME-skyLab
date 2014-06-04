@@ -42,7 +42,7 @@ public:
 	virtual void resetParticle( Attribute* attribute ) = 0;
 	virtual void addParticle();
 
-	virtual void UpdateItSelf( float dTime ) {};
+	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 
 	virtual void preRender();
 	//virtual void render();
@@ -86,6 +86,7 @@ public:
 	CREATE_OBJECT( Firework );
 
 	void SetParticles( D3DXVECTOR3* origin, int numParticles );
+	void PlayEffect( D3DXVECTOR3 origin );
 	void resetParticle( Attribute* attribute );
 	void UpdateItSelf( float timeDelta );
 	void preRender();
