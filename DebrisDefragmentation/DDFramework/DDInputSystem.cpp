@@ -13,9 +13,7 @@ DDInputSystem::~DDInputSystem()
 }
 
 void DDInputSystem::UpdateKeyState()
-{
-	if ( ::GetFocus() != DDApplication::GetInstance()->GetHWND() ) return;
-	
+{	
 	for ( int i = 0; i<256; i++ )
 	{
 		m_PrevKeyState[i] = m_NowKeyState[i];

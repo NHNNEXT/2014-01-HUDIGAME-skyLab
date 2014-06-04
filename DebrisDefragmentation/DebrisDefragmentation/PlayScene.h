@@ -31,7 +31,6 @@ private:
 
 	DDLight*	m_pDirectonalLight = nullptr;
 	ModelPool	m_ModelPool;
-	DDPoint		m_PrevMousePosition{.0f,.0f};
 	ObjectISS*	m_pObjectISS = nullptr;
 };
 

@@ -459,7 +459,7 @@ void ClientSession::BroadcastGatherResult()
 {
 	GatherResult outPacket;
  
- 	outPacket.mPlayerId = mPlayerId;
+	outPacket.mPlayerId = mPlayerId;
 	outPacket.mDebrisIndex = GObjectTable->GetActorManager()->GetGatheredDebris();
 	outPacket.mCurrentResource = m_Character.GetClassComponent()->GetResource();
 

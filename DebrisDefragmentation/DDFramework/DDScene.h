@@ -38,6 +38,9 @@ protected:
 	// scene을 구별하기 위한 이름
 	std::wstring m_SceneName;
 
+	// 이전 마우스 위치
+	DDPoint		m_PrevMousePosition{ .0f, .0f };
+
 	// UI를 갖고 있는 멤버
 	//std::vector<DDUIControl*> m_UICollection;
 };
