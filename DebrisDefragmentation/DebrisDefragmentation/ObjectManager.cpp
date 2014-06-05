@@ -5,6 +5,7 @@
 #include "SpaceMineModel.h"
 #include "SceneManager.h"
 #include "PlayScene.h"
+#include "EnvironmentManager.h"
 
 ObjectManager* GObjectManager = nullptr;
 
@@ -72,7 +73,9 @@ void ObjectManager::DeregisterDispenser( unsigned int dispenserId )
 {
 	std::map<unsigned int, DispenserModel*>::iterator it = m_DispenserList.find( dispenserId );
 	assert( it != m_DispenserList.end() );
-
+	
+	//effect 재생
+	GEnvironmentManager->GetParticleEffect()->PlayEffect( (it->second)->GetTransform().GetPosition() );
 	// 등록한 ISS에서 지우자
 	// delete it->second;
 	assert( m_ObjectISS );
@@ -102,6 +105,9 @@ void ObjectManager::DeregisterSpaceMine( unsigned int spaceMineId )
 {
 	std::map<unsigned int, SpaceMineModel*>::iterator it = m_SpaceMineList.find( spaceMineId );
 	assert( it != m_SpaceMineList.end() );
+
+	//effect 재생
+	GEnvironmentManager->GetParticleEffect()->PlayEffect( ( it->second )->GetTransform().GetPosition() );
 
 	// 등록한 ISS에서 지우자
 	// delete it->second;

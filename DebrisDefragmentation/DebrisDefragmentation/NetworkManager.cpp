@@ -263,6 +263,7 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	player->GetTransform().SetPosition( inPacket.mPos );
 	player->GetTransform().SetRotation( inPacket.mRotation );
 	player->SetVelocity( inPacket.mVelocity );
+	
 
 	player->Move( player->GetViewDirection() );
 }

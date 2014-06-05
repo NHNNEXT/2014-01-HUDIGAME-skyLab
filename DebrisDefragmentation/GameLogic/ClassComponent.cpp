@@ -54,7 +54,9 @@ bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 	assert( targetCharacter );
 
 	targetCharacter->Move( viewDirection );
-
+	
+	// 여기서 한번 상태 방송해줘야 fuel이 줄어들 것 같음..
+	GObjectTable->GetActorManager()->BroadcastCharacterChange( id, ChangeType::CHARACTER_STATE );
 	return true;
 }
 
