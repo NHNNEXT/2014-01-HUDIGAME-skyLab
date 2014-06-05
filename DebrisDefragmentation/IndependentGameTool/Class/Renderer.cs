@@ -95,6 +95,18 @@ namespace GameTool.Class
             }
         }
 
+        public void ChangeRenderState()
+        {
+            if (m_device.RenderState.FillMode == FillMode.WireFrame)
+            {
+                m_device.RenderState.FillMode = FillMode.Solid;
+            }
+            else
+            {
+                m_device.RenderState.FillMode = FillMode.WireFrame;
+            }
+        }
+
         private void SetUpCamera()
         {
             m_device.Transform.Projection = Matrix.PerspectiveFovLH((float)Math.PI / 4, (float)this.Width / (float)this.Height, 0.3f, 1000f);

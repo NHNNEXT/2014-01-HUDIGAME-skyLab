@@ -137,6 +137,7 @@
             this.ObjectView = new System.Windows.Forms.PictureBox();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
             this.SetScaleBtn = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -833,6 +834,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.button4);
             this.groupBox10.Controls.Add(this.groupBox17);
             this.groupBox10.Controls.Add(this.groupBox15);
             this.groupBox10.Controls.Add(this.groupBox14);
@@ -1238,6 +1240,16 @@
             this.SetScaleBtn.UseVisualStyleBackColor = true;
             this.SetScaleBtn.Click += new System.EventHandler(this.ApplyScaleBtnClicked);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(261, 551);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(188, 23);
+            this.button4.TabIndex = 12;
+            this.button4.Text = "WireFrame On/Off";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.WirdFrameOnOffBtnClicked);
+            // 
             // IndependentGameTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1407,6 +1419,7 @@
         private System.Windows.Forms.TextBox scaleBox;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button SetScaleBtn;
+        private System.Windows.Forms.Button button4;
     }
 }
 

@@ -207,11 +207,11 @@ namespace GameTool
                 // Tree에 바뀐 값을 집어넣는다.
                 if (tn.Text.Contains(":")) // Key : Value 형태
                 {
-                    tn.Text = JSONKeyLabel.Text + " : " + JSONVarBar.Text;
+                    tn.Text = ObjJsonKey.Text + " : " + ObjJsonValue.Text;
                 }
                 else // Value 형태
                 {
-                    tn.Text = JSONVarBar.Text;
+                    tn.Text = ObjJsonValue.Text;
                 }
                 m_JsonManager.ShowJsonData(JsonVariables);
             }
@@ -368,6 +368,11 @@ namespace GameTool
             }
 
             m_Renderer.SetScale(objIdx, scale);
+        }
+
+        private void WirdFrameOnOffBtnClicked(object sender, EventArgs e)
+        {
+            m_Renderer.ChangeRenderState();
         }
 
     }
