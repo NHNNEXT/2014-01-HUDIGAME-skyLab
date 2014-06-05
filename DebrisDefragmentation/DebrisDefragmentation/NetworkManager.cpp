@@ -190,6 +190,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_INSTALL, HandleStructureInstallResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_UNINSTALL, HandleStructureUninstallResult );
 }
 
 
@@ -523,7 +524,7 @@ void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
 	GEnvironmentManager->GetParticleEffect()->PlayEffect( inPacket.mPosition );
 }
 
-static void HandleStructureUninstallResult( DDPacketHeader& pktBase )
+void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )
 {
 	StructureUninstallResult inPacket = reinterpret_cast<StructureUninstallResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );

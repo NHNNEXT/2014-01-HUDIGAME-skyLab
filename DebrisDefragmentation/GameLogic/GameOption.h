@@ -215,7 +215,7 @@ const float			SKILL_RANGE = 50.0f;
 const float			SCOUT_MOVE_FAST_CONSTANT = 2.0f;
 const float			SCOUT_MOVE_FAST_DURATION = 5.0f;
 const float			EMP_TIME = 2.0f;
-const float			SPACE_MINE_RANGE = 50.0f;
+const float			SPACE_MINE_RANGE = 10.0f;
 const float			SPACE_MINE_FORCE = 5.0f;
 
 // Cooldown time

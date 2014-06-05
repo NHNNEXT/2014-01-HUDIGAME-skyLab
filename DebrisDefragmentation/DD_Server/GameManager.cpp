@@ -65,7 +65,7 @@ void GameManager::BroadcastStructureUninstallation( int structureId, StructureTy
 	outPacket.mStructureId = structureId;
 	outPacket.mStructureType = static_cast<int>( structureType );
 
-	GClientManager->BroadcastPacket( nullptr, &outPacket );
+	// GClientManager->BroadcastPacket( nullptr, &outPacket );
 }
 
 void GameManager::DoPeriodWork()
