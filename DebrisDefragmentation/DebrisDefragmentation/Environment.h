@@ -11,6 +11,9 @@ const float			UI_FUEL_POSITION_Y = 30.0f;
 const float			UI_FRAME_POSITION_X = 0.0f;
 const float			UI_FRAME_POSITION_Y = 50.0f;
 
+const float			UI_SKELETON_POSITION_X = 15.0f;
+const float			UI_SKELETON_POSITION_Y = 58.0;
+
 
 // UI_FILENAME_LIST와 동기화시킬 것
 enum class ClientUITag : int
@@ -18,6 +21,14 @@ enum class ClientUITag : int
 	UI_FRAME_TAG,
 	UI_OXYGEN_TAG,
 	UI_FUEL_TAG,
+
+	UI_SKELETON_FRAME,
+	UI_SKELETON_CHARACTER_INFO,
+	UI_SKELETON_ISS,
+	UI_SKELETON_NAVIGATOR,
+	UI_SKELETON_DISASTER,
+	UI_SKELETON_TEAM,
+
 	UI_TAG_COUNT // total UI 숫자
 };
 
@@ -36,6 +47,12 @@ const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
 	{ ClientUITag::UI_FRAME_TAG, L"Frame.png" },
 	{ ClientUITag::UI_OXYGEN_TAG, L"OxygenUI.png" },
 	{ ClientUITag::UI_FUEL_TAG, L"FuelUI.png" },
+	{ ClientUITag::UI_SKELETON_FRAME, L"frame_.png" },
+	{ ClientUITag::UI_SKELETON_CHARACTER_INFO, L"character_.png" },
+	{ ClientUITag::UI_SKELETON_ISS, L"ISS_.png" },
+	{ ClientUITag::UI_SKELETON_NAVIGATOR, L"navigator_.png" },
+	{ ClientUITag::UI_SKELETON_DISASTER, L"disaster_.png" },
+	{ ClientUITag::UI_SKELETON_TEAM, L"team_.png" },
 };
 
 // Config
