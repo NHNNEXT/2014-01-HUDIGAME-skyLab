@@ -76,16 +76,20 @@ namespace GameTool.Class
 
         public void SetScale(float scale)
         {
-//             Mesh scaledMesh = m_GameObjectMesh.Clone(m_GameObjectMesh.Options.Value, CustomVertex.PositionNormalTextured.Format, m_device);
-//             Array arr = scaledMesh.LockVertexBuffer(typeof(CustomVertex.PositionNormalTextured), LockFlags.Discard, scaledMesh.NumberVertices);
-// 
-//             for (int i = 0; i < arr.Length; ++i )
-//             {
-//                 
-//             }
-// 
-//             m_GameObjectMesh = scaledMesh;
+            Mesh scaledMesh = m_GameObjectMesh.Clone(m_GameObjectMesh.Options.Value, CustomVertex.PositionNormalTextured.Format, m_device);
+            Array arr = scaledMesh.LockVertexBuffer(typeof(CustomVertex.PositionNormalTextured), LockFlags.Discard, scaledMesh.NumberVertices);
+
+            CustomVertex.PositionNormalTextured[] tempArr = (CustomVertex.PositionNormalTextured[])arr;
+
+            for (int i = 0; i < arr.Length; ++i )
+            {
+                tempArr[i].X *= scale;
+                tempArr[i].Y *= scale;
+                tempArr[i].Z *= scale;
+            }
             
+            m_GameObjectMesh = scaledMesh;
+            scaledMesh.UnlockVertexBuffer();
         }
 
         // override
