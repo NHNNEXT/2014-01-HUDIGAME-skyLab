@@ -265,8 +265,11 @@ namespace GameTool
             {
                 TreeNodeCollection tnc = tn.Nodes;
                 ALXtxt.Text = tnc[0].Text;
+                BBX.Text = tnc[0].Text;
                 ALYtxt.Text = tnc[1].Text;
+                BBY.Text = tnc[1].Text;
                 ALZtxt.Text = tnc[2].Text;
+                BBZ.Text = tnc[2].Text;
 
                 centerPosX.Text = "0 으로 고정됩니다";
                 centerPosY.Text = "0 으로 고정됩니다";
