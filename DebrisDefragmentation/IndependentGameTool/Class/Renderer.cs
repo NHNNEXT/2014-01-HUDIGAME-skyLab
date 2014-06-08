@@ -16,6 +16,7 @@ namespace GameTool.Class
     {
         public const string FOLDER_PATH = ".\\Resources\\3DModel\\";
         List<GameObject> m_GameObjectList = new List<GameObject>();
+        CoordinateAxis m_CoordinateAxis = new CoordinateAxis();
 
         // 카메라 확대, 축소에 관여하는 변수
         int m_CameraZoomOutVar = 0;
@@ -175,6 +176,7 @@ namespace GameTool.Class
             SetUpCamera();
             SetUpLight();
             ReallocateViewPort();
+            m_CoordinateAxis.SetAxisLine(m_device);
         }
 
         public void CreateAndAddMesh(string name)
@@ -212,6 +214,7 @@ namespace GameTool.Class
                 }
                 
                 RenderGameObject();
+                m_CoordinateAxis.RenderAxis(m_device);
             }
 
             m_device.EndScene();

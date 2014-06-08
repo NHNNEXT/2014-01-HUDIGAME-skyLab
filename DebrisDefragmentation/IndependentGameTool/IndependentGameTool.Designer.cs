@@ -97,11 +97,13 @@
             this.FPSshow = new System.Windows.Forms.Label();
             this.ObjectTool = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.SetScaleBtn = new System.Windows.Forms.Button();
             this.GetScaleBtn = new System.Windows.Forms.Button();
             this.ScaleSlider = new System.Windows.Forms.TrackBar();
             this.scaleBox = new System.Windows.Forms.TextBox();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.LoadedObjectList = new System.Windows.Forms.ListBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
@@ -136,8 +138,9 @@
             this.tab_ObjectRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
-            this.SetScaleBtn = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.BBX = new System.Windows.Forms.TextBox();
+            this.BBY = new System.Windows.Forms.TextBox();
+            this.BBZ = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -157,9 +160,9 @@
             this.groupBox11.SuspendLayout();
             this.ObjectTool.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox17.SuspendLayout();
             this.groupBox18.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ScaleSlider)).BeginInit();
-            this.groupBox17.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox14.SuspendLayout();
@@ -849,6 +852,28 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "ObjectPartList";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(261, 551);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(188, 23);
+            this.button4.TabIndex = 12;
+            this.button4.Text = "WireFrame On/Off";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.WirdFrameOnOffBtnClicked);
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.groupBox18);
+            this.groupBox17.Controls.Add(this.LoadedObjectList);
+            this.groupBox17.Controls.Add(this.groupBox16);
+            this.groupBox17.Location = new System.Drawing.Point(261, 218);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(188, 327);
+            this.groupBox17.TabIndex = 11;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "LoadedObjectList";
+            // 
             // groupBox18
             // 
             this.groupBox18.Controls.Add(this.SetScaleBtn);
@@ -861,6 +886,17 @@
             this.groupBox18.TabIndex = 12;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Scale";
+            // 
+            // SetScaleBtn
+            // 
+            this.SetScaleBtn.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.SetScaleBtn.Location = new System.Drawing.Point(6, 74);
+            this.SetScaleBtn.Name = "SetScaleBtn";
+            this.SetScaleBtn.Size = new System.Drawing.Size(156, 25);
+            this.SetScaleBtn.TabIndex = 13;
+            this.SetScaleBtn.Text = "Apply Scale";
+            this.SetScaleBtn.UseVisualStyleBackColor = true;
+            this.SetScaleBtn.Click += new System.EventHandler(this.ApplyScaleBtnClicked);
             // 
             // GetScaleBtn
             // 
@@ -891,18 +927,6 @@
             this.scaleBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputScaleByUser);
             this.scaleBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SyncScaleValue);
             // 
-            // groupBox17
-            // 
-            this.groupBox17.Controls.Add(this.groupBox18);
-            this.groupBox17.Controls.Add(this.LoadedObjectList);
-            this.groupBox17.Controls.Add(this.groupBox16);
-            this.groupBox17.Location = new System.Drawing.Point(261, 218);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(188, 327);
-            this.groupBox17.TabIndex = 11;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "LoadedObjectList";
-            // 
             // LoadedObjectList
             // 
             this.LoadedObjectList.FormattingEnabled = true;
@@ -914,6 +938,9 @@
             // 
             // groupBox16
             // 
+            this.groupBox16.Controls.Add(this.BBZ);
+            this.groupBox16.Controls.Add(this.BBY);
+            this.groupBox16.Controls.Add(this.BBX);
             this.groupBox16.Controls.Add(this.label26);
             this.groupBox16.Controls.Add(this.GetBoxBtn);
             this.groupBox16.Location = new System.Drawing.Point(9, 90);
@@ -1229,26 +1256,26 @@
             this.tab_GameRender.Text = "GameRender";
             this.tab_GameRender.UseVisualStyleBackColor = true;
             // 
-            // SetScaleBtn
+            // BBX
             // 
-            this.SetScaleBtn.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.SetScaleBtn.Location = new System.Drawing.Point(6, 74);
-            this.SetScaleBtn.Name = "SetScaleBtn";
-            this.SetScaleBtn.Size = new System.Drawing.Size(156, 25);
-            this.SetScaleBtn.TabIndex = 13;
-            this.SetScaleBtn.Text = "Apply Scale";
-            this.SetScaleBtn.UseVisualStyleBackColor = true;
-            this.SetScaleBtn.Click += new System.EventHandler(this.ApplyScaleBtnClicked);
+            this.BBX.Location = new System.Drawing.Point(9, 36);
+            this.BBX.Name = "BBX";
+            this.BBX.Size = new System.Drawing.Size(41, 21);
+            this.BBX.TabIndex = 12;
             // 
-            // button4
+            // BBY
             // 
-            this.button4.Location = new System.Drawing.Point(261, 551);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(188, 23);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "WireFrame On/Off";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.WirdFrameOnOffBtnClicked);
+            this.BBY.Location = new System.Drawing.Point(66, 36);
+            this.BBY.Name = "BBY";
+            this.BBY.Size = new System.Drawing.Size(41, 21);
+            this.BBY.TabIndex = 13;
+            // 
+            // BBZ
+            // 
+            this.BBZ.Location = new System.Drawing.Point(121, 36);
+            this.BBZ.Name = "BBZ";
+            this.BBZ.Size = new System.Drawing.Size(41, 21);
+            this.BBZ.TabIndex = 14;
             // 
             // IndependentGameTool
             // 
@@ -1287,10 +1314,10 @@
             this.groupBox11.PerformLayout();
             this.ObjectTool.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ScaleSlider)).EndInit();
-            this.groupBox17.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             this.groupBox15.ResumeLayout(false);
@@ -1420,6 +1447,9 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button SetScaleBtn;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox BBZ;
+        private System.Windows.Forms.TextBox BBY;
+        private System.Windows.Forms.TextBox BBX;
     }
 }
 
