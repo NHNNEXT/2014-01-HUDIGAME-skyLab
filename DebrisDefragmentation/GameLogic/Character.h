@@ -13,7 +13,7 @@ class Character : public Actor
 public:
 	Character( CharacterClass characterClass = CharacterClass::ENGINEER ) 
 	{ 
-		m_CharacterClass = ClassComponent::Create( characterClass ); 
+		ChangeClass( characterClass );
 	}
 	virtual ~Character();
 

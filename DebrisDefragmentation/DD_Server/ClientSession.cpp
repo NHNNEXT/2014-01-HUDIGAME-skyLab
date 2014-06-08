@@ -8,6 +8,7 @@
 #include "Transform.h"
 #include "Dispenser.h"
 #include "..\DebrisDefragmentation\ObjectManager.h"
+#include "InGameEvent.h"
 
 #include "LogManager.h"
 

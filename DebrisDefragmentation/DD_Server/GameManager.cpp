@@ -27,7 +27,7 @@ void GameManager::BroadcastCharacterChange( int targetId, ChangeType type )
 	case ChangeType::CHARACTER_STATE:
 		targetSession->BroadcastCharacterState( );
 		break;
-	case ChangeType::GAME_EVENT_SATE:
+	case ChangeType::DISASTER_EVENT_STATE:
 		// 조심해!
 		// 이건 따로 분리해야 하나...
 		targetSession->SendWarning( );
@@ -68,8 +68,16 @@ void GameManager::BroadcastStructureUninstallation( int structureId, StructureTy
 	// GClientManager->BroadcastPacket( nullptr, &outPacket );
 }
 
-void GameManager::DoPeriodWork()
+void GameManager::DoPeriodWork() 
 {
+	// 게임 로직이 주기적으로 실행되는 곳이므로 게임 내 상태 변화는 여기서 일어나고
+	// 상태가 바뀐 부분(충돌이나 죽음, 게임 종료)에 한정해서 방송합니다
+	// 주기적 polling이 많은 패킷을 유발하는 것은 방송할 필요가 없는 상태까지 똑같이 방송할 때 생기는 것 아닌가요??
+
+	// 충돌 이벤트를 여기서 방송하는 이유는 충돌 판정이 되었을 때 바로 방송할 경우 
+	// 특정 캐릭터가 여러 오브젝트와 동시에 충돌할 경우, 각각의 충돌 판정 수만큼 패킷을 보내므로 중복이라고 생각해서
+	// 충돌 판정 된 캐릭터들 리스트를 생성하고 일괄적으로 한번씩만 보내기 위함이거든요.
+
 	// 게임 로직 진행
 	Update();
 

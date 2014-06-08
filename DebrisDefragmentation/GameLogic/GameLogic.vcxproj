@@ -85,12 +85,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debris.h" />
+    <ClInclude Include="DebrisStormEvent.h" />
     <ClInclude Include="Dispenser.h" />
     <ClInclude Include="Engineer.h" />
-    <ClInclude Include="Event.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
+    <ClInclude Include="InGameEvent.h" />
     <ClInclude Include="ISS.h" />
     <ClInclude Include="ISSControlPoint.h" />
     <ClInclude Include="ISSModule.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="SolarWindEvent.h" />
     <ClInclude Include="SpaceMine.h" />
     <ClInclude Include="Striker.h" />
     <ClInclude Include="Character.h" />
@@ -113,10 +115,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debris.cpp" />
+    <ClCompile Include="DebrisStormEvent.cpp" />
     <ClCompile Include="Dispenser.cpp" />
     <ClCompile Include="Engineer.cpp" />
-    <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="InGameEvent.cpp" />
     <ClCompile Include="ISS.cpp" />
     <ClCompile Include="ISSControlPoint.cpp" />
     <ClCompile Include="ISSModule.cpp" />
@@ -128,6 +131,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="SolarWindEvent.cpp" />
     <ClCompile Include="SpaceMine.cpp" />
     <ClCompile Include="Striker.cpp" />
     <ClCompile Include="Character.cpp" />

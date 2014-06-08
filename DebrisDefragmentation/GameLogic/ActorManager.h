@@ -2,9 +2,9 @@
 
 #include "GameOption.h"
 #include "ISS.h"
-#include "Event.h"
 #include "Debris.h"
 
+class InGameEvent;
 class Character;
 class Dispenser;
 class SpaceMine;
@@ -70,7 +70,8 @@ public:
 	int GetGatheredDebris() const { return m_GatheredDebris; }
 	void SetGatheredDebris( int val ) { m_GatheredDebris = val; }
 
-	Event* GetEvent() { return &m_Event; }
+	InGameEvent* GetEvent() { return m_GameEvent; }
+	void SetRandomEvent();
 
 protected:
 	// 지금은 싱글 스레드니까 락은 필요없다.
@@ -91,9 +92,9 @@ protected:
 	std::set<int> m_TeamBlue;
 	std::set<int> m_TeamRed;
 
-	Event		m_Event;
-	ISS			m_ISS;
-	TeamColor	m_WinnerTeam = TeamColor::NO_TEAM;
+	InGameEvent*	m_GameEvent = nullptr;
+	ISS				m_ISS;
+	TeamColor		m_WinnerTeam = TeamColor::NO_TEAM;
 
 	std::map<unsigned, Dispenser*>	m_DispenserList;
 	unsigned int					m_DispensereId = 0;

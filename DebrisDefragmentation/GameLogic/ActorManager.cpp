@@ -9,6 +9,9 @@
 #include "Dispenser.h"
 #include "SpaceMine.h"
 
+#include "SolarWindEvent.h"
+#include "DebrisStormEvent.h"
+
 ActorManager::ActorManager()
 {
 	m_CharacterList.fill( nullptr );
@@ -48,7 +51,7 @@ void ActorManager::Init( )
 
 	m_PrevTime = timeGetTime( );
 
-	m_Event.Init();
+	SetRandomEvent();
 
 	m_ISS.Init();
 	m_TeamBlue.clear();
@@ -73,6 +76,20 @@ void ActorManager::Init( )
 	m_GameEndFlag = false;
 
 	// InitializeSRWLock( &m_SRWLock );
+}
+
+void ActorManager::SetRandomEvent()
+{
+	if ( m_GameEvent )
+		delete m_GameEvent;
+
+	// 이벤트의 종류를 설정한다.
+	if ( rand() % 2 == 0 )
+		m_GameEvent = new DebrisStormEvent();
+	else
+		m_GameEvent = new SolarWindEvent();
+
+	m_GameEvent->Init();
 }
 
 int ActorManager::RegisterCharacter( Character* newCharacter )
@@ -151,7 +168,8 @@ void ActorManager::Update( )
 	}
 
 	// 게임 내 재난 상황 이벤트 업데이트
-	m_Event.Update( dt );
+	if ( m_GameEvent->Update( dt ) )
+		SetRandomEvent();
 
 	// ISS 관련 업데이트
 	m_ISS.Update( dt );

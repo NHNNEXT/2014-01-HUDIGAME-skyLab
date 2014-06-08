@@ -6,6 +6,7 @@
 #include "GameManager.h"
 #include <set>
 #include <algorithm>
+#include "ObjectTable.h"
 
 ClientManager* GClientManager = nullptr;
 

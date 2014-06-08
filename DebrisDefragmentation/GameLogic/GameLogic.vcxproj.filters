@@ -106,9 +106,6 @@
     <ClInclude Include="GameData.h">
       <Filter>Config</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Event</Filter>
-    </ClInclude>
     <ClInclude Include="Dispenser.h">
       <Filter>Object\Structure</Filter>
     </ClInclude>
@@ -117,6 +114,15 @@
     </ClInclude>
     <ClInclude Include="SpaceMine.h">
       <Filter>Object\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="DebrisStormEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SolarWindEvent.h">
+      <Filter>PCH</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -165,9 +171,6 @@
     <ClCompile Include="GameData.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
     <ClCompile Include="Dispenser.cpp">
       <Filter>Object\Structure</Filter>
     </ClCompile>
@@ -177,5 +180,12 @@
     <ClCompile Include="SpaceMine.cpp">
       <Filter>Object\Structure</Filter>
     </ClCompile>
+    <ClCompile Include="InGameEvent.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="DebrisStormEvent.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="SolarWindEvent.cpp" />
   </ItemGroup>
 </Project>
