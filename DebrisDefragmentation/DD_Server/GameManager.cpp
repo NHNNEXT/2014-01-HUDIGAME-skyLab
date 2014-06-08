@@ -77,7 +77,11 @@ void GameManager::DoPeriodWork()
 	std::for_each( m_CollidedPlayers.begin(), m_CollidedPlayers.end(), []( const int& each )
 	{
 		// 방송 요청
-		GClientManager->GetSession( each )->BroadcastCollisionResult();
+		ClientSession* targetSession = GClientManager->GetSession( each );
+		if ( targetSession )
+			targetSession->BroadcastCollisionResult();
+		else
+			DDLOG_WARN( L"invalid index" );
 		// printf_s( "collision : %d \n", each );
 	}
 	);
@@ -87,7 +91,11 @@ void GameManager::DoPeriodWork()
 	std::for_each( m_DeadPlayers.begin(), m_DeadPlayers.end(), []( const int& each )
 	{
 		// 방송 요청
-		GClientManager->GetSession( each )->BroadcastDeadResult();
+		ClientSession* targetSession = GClientManager->GetSession( each );
+		if ( targetSession )
+			targetSession->BroadcastDeadResult();
+		else
+			DDLOG_WARN( L"invalid index" );
 	}
 	);
 	m_DeadPlayers.clear();
@@ -108,5 +116,9 @@ void GameManager::DoPeriodWork()
 
 void GameManager::BroadcastDispenserEffect( int idx, bool dispenserEffectFlag )
 {
-	GClientManager->GetSession( idx )->BroadcastDispenserEffect( dispenserEffectFlag );
+	ClientSession* targetSession = GClientManager->GetSession( idx );
+	if ( targetSession )
+		targetSession->BroadcastDispenserEffect( dispenserEffectFlag );
+	else
+		DDLOG_WARN( L"invalid index" );
 }
