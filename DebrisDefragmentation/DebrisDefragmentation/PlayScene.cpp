@@ -120,7 +120,7 @@ void PlayScene::Init()
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	
 	unsigned int debrisCount = g_GameData->GetDebrisNumber();
-	/*
+	
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
 		DDModel* newBackgroundDebris = DDModel::Create();
@@ -134,11 +134,11 @@ void PlayScene::Init()
 
 		AddChild( newBackgroundDebris );
 	}
-	*/
+	
 	m_pObjectISS = ObjectISS::Create();
 	m_pObjectISS->Init();
 	AddChild( m_pObjectISS );
-
+	
 	GObjectManager = new ObjectManager;
 	GObjectManager->RegisterObjectISS( m_pObjectISS );
 	

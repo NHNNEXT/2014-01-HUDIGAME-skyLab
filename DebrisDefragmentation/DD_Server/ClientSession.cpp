@@ -60,7 +60,7 @@ bool ClientSession::OnConnect( SOCKADDR_IN* addr )
 	int opt = 1;
 	setsockopt( mSocket, IPPROTO_TCP, TCP_NODELAY, (const char*)&opt, sizeof( int ) );
 
-	DDLOG_DEBUG( L"Client Connected: IP=%s, PORT=%d", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
+	DDLOG_DEBUG( L"Client Connected: IP=" << inet_ntoa( mClientAddr.sin_addr ) << L", PORT=" << ntohs( mClientAddr.sin_port ) );
 	// printf( "[DEBUG] Client Connected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
 
 	mConnected = true;
@@ -114,7 +114,7 @@ void ClientSession::Disconnect( )
 	m_GameManager->DeregisterCharacter( m_Character.GetCharacterId() );
 	GClientManager->DeregisterSession( mPlayerId, this );
 
-	DDLOG_DEBUG( L"Client Disconnected: IP=%s, PORT=%d", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
+	DDLOG_DEBUG( L"Client Disconnected: IP=" << inet_ntoa( mClientAddr.sin_addr ) << L", PORT=" << ntohs( mClientAddr.sin_port ) );
 	// printf( "[DEBUG] Client Disconnected: IP=%s, PORT=%d\n", inet_ntoa( mClientAddr.sin_addr ), ntohs( mClientAddr.sin_port ) );
 
 	/// 즉각 해제
@@ -125,7 +125,7 @@ void ClientSession::Disconnect( )
 	/// no TCP TIME_WAIT
 	if ( SOCKET_ERROR == setsockopt( mSocket, SOL_SOCKET, SO_LINGER, (char*)&lingerOption, sizeof( LINGER ) ) )
 	{
-		DDLOG_WARN( L"setsockopt linger option error: %d", GetLastError() );
+		DDLOG_WARN( L"setsockopt linger option error: " << GetLastError() );
 		// printf_s( "[DEBUG] setsockopt linger option error: %d\n", GetLastError( ) );
 		return;
 	}
@@ -272,7 +272,7 @@ void ClientSession::LoginDone( int pid )
 
 	mLogon = true;
 
-	DDLOG_INFO( L"[client %d] login successed", mPlayerId );
+	DDLOG_INFO( L"[client " << mPlayerId << L"] login successed" );
 }
 
 ///////////////////////////////////////////////////////////
@@ -342,7 +342,7 @@ void ClientSession::BroadcastCollisionResult()
 		Disconnect();
 	}
 
-	DDLOG_DEBUG( L"[client %d] Collision", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Collision" );
 }
 
 void ClientSession::BroadcastDeadResult()
@@ -357,7 +357,7 @@ void ClientSession::BroadcastDeadResult()
 		Disconnect();
 	}
 
-	DDLOG_DEBUG( L"[client %d] Dead", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Dead" );
 }
 
 void ClientSession::SyncGhostInfo()
@@ -437,7 +437,7 @@ void ClientSession::BroadcastAcceleration()
 		Disconnect();
 	}
 
-	DDLOG_DEBUG( L"[client %d] Accelerate", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Accelerate" );
 }
 
 void ClientSession::BroadcastDispenserEffect( bool flag )
@@ -452,7 +452,7 @@ void ClientSession::BroadcastDispenserEffect( bool flag )
 		Disconnect();
 	}
 
-	DDLOG_DEBUG( L"[client %d] Dispenser effect", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Dispenser effect" );
 }
 
 
@@ -469,7 +469,7 @@ void ClientSession::BroadcastGatherResult()
 		Disconnect();
 	}
 
-	DDLOG_DEBUG( L"[client %d] Gather", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Gather" );
 }
 
 void ClientSession::SendCurrentStatus( ClientSession* targetClient )
@@ -494,7 +494,7 @@ void ClientSession::SendWarning()
 
 	SendRequest( &outPacket );
 
-	DDLOG_DEBUG( L"[client %d] Warning", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Warning" );
 }
 
 void ClientSession::SyncCharacterDebugInfo()
@@ -520,7 +520,7 @@ void ClientSession::SyncCharacterDebugInfo()
 
 	SendRequest( &outPacket );
 
-	DDLOG_DEBUG( L"[client %d] sync debug info", mPlayerId );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] sync debug info" );
 }
 
 // 각 패킷을 처리하는 핸들러를 만들자
@@ -534,7 +534,7 @@ void ClientSession::HandleLoginRequest( LoginRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_LOGIN );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_LOGIN );
 
 	// 로그인 됐으면 플레이어 만들고
 	// pid를 할당 받아야 되는데
@@ -565,7 +565,7 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_GAME_STATE );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_GAME_STATE );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -622,7 +622,7 @@ void ClientSession::HandleAccelerationRequest( AccelerarionRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_ACCELERATION );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_ACCELERATION );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -655,7 +655,7 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_STOP );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_STOP );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -687,7 +687,7 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_ROTATION );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_ROTATION );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -719,7 +719,7 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_RESPAWN );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_RESPAWN );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -761,7 +761,7 @@ void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] using skill : %d", mPlayerId, inPacket.mSkill );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] using skill : " << static_cast<int>( inPacket.mSkill ) );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
@@ -794,7 +794,7 @@ void ClientSession::HandleChangeClassRequest( ChangeClassRequest& inPacket )
 {
 	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
 
-	DDLOG_DEBUG( L"[client %d] request : %d", mPlayerId, PKT_CS_CHANGE_CLASS );
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_CHANGE_CLASS );
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;

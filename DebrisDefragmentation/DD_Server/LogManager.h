@@ -2,11 +2,11 @@
 
 #include "LoggerProperties.h"
 
-#define DDLOG_FATAL(MESSAGE) GLogManager->LogFatal(MESSAGE)
-#define DDLOG_ERROR(MESSAGE) GLogManager->LogError(MESSAGE)
-#define DDLOG_WARN(MESSAGE) GLogManager->LogWarn(MESSAGE)
-#define DDLOG_INFO(MESSAGE) GLogManager->LogInfo(MESSAGE)
-#define DDLOG_DEBUG(MESSAGE) GLogManager->LogDebug(MESSAGE)
+#define DDLOG_FATAL(MESSAGE) LOG4CPLUS_FATAL( GLogManager->m_Logger, MESSAGE )
+#define DDLOG_ERROR(MESSAGE) LOG4CPLUS_ERROR( GLogManager->m_Logger, MESSAGE )
+#define DDLOG_WARN(MESSAGE) LOG4CPLUS_WARN( GLogManager->m_Logger, MESSAGE )
+#define DDLOG_INFO(MESSAGE) LOG4CPLUS_INFO( GLogManager->m_Logger, MESSAGE )
+#define DDLOG_DEBUG(MESSAGE) LOG4CPLUS_DEBUG( GLogManager->m_Logger, MESSAGE )
 
 class LogManager
 {
@@ -16,16 +16,6 @@ public:
 
 	void Init();
 	log4cplus::Logger* GetLogger() { return &m_Logger; }
-
-	// 조심해!!
-	// 스트링 조합해서 넘겨야 해...
-	// 가변인자를 사용해야 하나
-	// 문자 스트림을 이용해야 할 듯
-	void LogFatal( std::wstring message );
-	void LogError( std::wstring message );
-	void LogWarn( std::wstring message );
-	void LogInfo( std::wstring message );
-	void LogDebug( std::wstring message );
 
 	log4cplus::Logger	m_Logger;
 };

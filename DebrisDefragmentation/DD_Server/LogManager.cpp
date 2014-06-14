@@ -36,28 +36,3 @@ void LogManager::Init()
 
 	m_Logger.setLogLevel( log4cplus::DEBUG_LOG_LEVEL );
 }
-
-void LogManager::LogFatal( std::wstring message )
-{
-	LOG4CPLUS_FATAL( m_Logger, message );
-}
-
-void LogManager::LogError( std::wstring message )
-{
-	LOG4CPLUS_ERROR( m_Logger, message );
-}
-
-void LogManager::LogWarn( std::wstring message )
-{
-	LOG4CPLUS_WARN( m_Logger, message );
-}
-
-void LogManager::LogInfo( std::wstring message )
-{
-	LOG4CPLUS_INFO( m_Logger, message );
-}
-
-void LogManager::LogDebug( std::wstring message )
-{
-	LOG4CPLUS_DEBUG( m_Logger, message );
-}
