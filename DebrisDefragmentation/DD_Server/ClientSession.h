@@ -77,7 +77,7 @@ public:
 	void	BroadcastCollisionResult();
 	void	BroadcastDeadResult();
 	void	BroadcastGatherResult();
-	void	BroadcastDispenserEffect(bool flag);
+	void	BroadcastDispenserEffect( bool flag );
 	void	SyncGhostInfo();
 
 	void	BroadcastAcceleration();

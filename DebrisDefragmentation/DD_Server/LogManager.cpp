@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "LogManager.h"
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/configurator.h>
 
 #pragma comment(lib,"log4cplusUD.lib")
 
@@ -19,6 +20,11 @@ LogManager::~LogManager()
 void LogManager::Init()
 {
 	log4cplus::initialize();
+
+	// config
+	PropertyConfigurator config();
+	//config.doConfigure();
+	//config.Configure();
 
 	log4cplus::SharedAppenderPtr consoleAppender( new log4cplus::ConsoleAppender() );
 	consoleAppender->setName( L"ConsoleAppender" );

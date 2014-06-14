@@ -43,7 +43,7 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::SKYBOX, L"skybox.x" );
 	m_ModelPool.InitModel( ModelType::EARTH, L"earth.x" );
 	m_ModelPool.InitModel( ModelType::PLAYER_MODEL, L"spaceMan.x" );
-	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );
+	//m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );
 	// m_ModelPool.InitModel( ModelType::ISS, L"/iss_2.X" );
 	m_ModelPool.InitModel( ModelType::DISPENSER, L"dispenser.x" );
 	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"space_mine.x" );
@@ -151,6 +151,7 @@ void PlayScene::Init()
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
 }
+
 
 // 조심해!!
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
@@ -351,9 +352,10 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	MousePointer( MOUSE_POINTER_ON, currentMousePos );
-
+	
 	GUIManager->UpdateUI( dTime );
 }
+
 
 // Mouse Pointer 가릴지 살려둘지 결정
 // true 시키면 커서가 계속 가운데로 이동함
