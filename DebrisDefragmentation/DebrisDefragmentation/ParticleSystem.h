@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ClientObject.h"
 #include "CollisionBox.h"
+#include "GameOption.h"
 
 struct Particle
 {
@@ -59,23 +60,27 @@ protected:
 	DWORD	FtoDw( float f );
 
 protected:
-	IDirect3DDevice9*       _device;
-	D3DXVECTOR3             _origin;
-	CollisionBox	        _boundingBox;
-	float                   _emitRate;   // rate new particles are added to system
-	float                   _size;       // size of particles
-	IDirect3DTexture9*      _tex;
-	IDirect3DVertexBuffer9* _vb;
-	std::list<Attribute>    _particles;
-	int                     _maxParticles; // max allowed particles system can have
-
+	IDirect3DDevice9*       m_Device;
+	D3DXVECTOR3             m_Origin;
+	CollisionBox	        m_BoundingBox;
+	float                   m_EmitRate;   // rate new particles are added to system
+	float                   m_Size;       // size of particles
+	IDirect3DTexture9*      m_Tex;
+	IDirect3DVertexBuffer9* m_VB;
+	std::list<Attribute>    m_Particles;
+	int                     m_MaxParticles; // max allowed particles system can have
+	
+	D3DXVECTOR3				m_DirectionMin;
+	D3DXVECTOR3				m_DirectionMax;
+	float					m_LifeTime;
+	ColorRange				m_Color;
 	//
 	// Following three data elements used for rendering the p-system efficiently
 	//
 
-	DWORD _vbSize;      // size of vb
-	DWORD _vbOffset;    // offset in vb to lock   
-	DWORD _vbBatchSize; // number of vertices to lock starting at _vbOffset
+	DWORD m_VBSize;      // size of vb
+	DWORD m_VBOffset;    // offset in vb to lock   
+	DWORD m_VBBatchSize; // number of vertices to lock starting at _vbOffset
 
 };
 
@@ -85,7 +90,7 @@ public:
 	Firework();
 	CREATE_OBJECT( Firework );
 
-	void SetParticles( D3DXVECTOR3* origin, int numParticles );
+	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles );
 	void PlayEffect( D3DXVECTOR3 origin );
 	void resetParticle( Attribute* attribute );
 	void UpdateItSelf( float timeDelta );

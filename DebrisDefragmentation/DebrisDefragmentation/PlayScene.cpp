@@ -43,8 +43,7 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::SKYBOX, L"skybox.x" );
 	m_ModelPool.InitModel( ModelType::EARTH, L"earth.x" );
 	m_ModelPool.InitModel( ModelType::PLAYER_MODEL, L"spaceMan.x" );
-	//m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );
-	// m_ModelPool.InitModel( ModelType::ISS, L"/iss_2.X" );
+	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );	
 	m_ModelPool.InitModel( ModelType::DISPENSER, L"dispenser.x" );
 	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"space_mine.x" );
 	m_ModelPool.InitModel( ModelType::PUSHPULL_EFFECT, L"effect1.x" );
@@ -120,7 +119,7 @@ void PlayScene::Init()
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	
 	unsigned int debrisCount = g_GameData->GetDebrisNumber();
-	
+	/*
 	for ( unsigned int i = 0; i < debrisCount; ++i )
 	{
 		DDModel* newBackgroundDebris = DDModel::Create();
@@ -134,11 +133,11 @@ void PlayScene::Init()
 
 		AddChild( newBackgroundDebris );
 	}
-	
+	*/
 	m_pObjectISS = ObjectISS::Create();
 	m_pObjectISS->Init();
 	AddChild( m_pObjectISS );
-	
+
 	GObjectManager = new ObjectManager;
 	GObjectManager->RegisterObjectISS( m_pObjectISS );
 	
@@ -151,7 +150,6 @@ void PlayScene::Init()
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
 }
-
 
 // 조심해!!
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
@@ -352,10 +350,9 @@ void PlayScene::UpdateItSelf( float dTime )
 		);
 
 	MousePointer( MOUSE_POINTER_ON, currentMousePos );
-	
+
 	GUIManager->UpdateUI( dTime );
 }
-
 
 // Mouse Pointer 가릴지 살려둘지 결정
 // true 시키면 커서가 계속 가운데로 이동함

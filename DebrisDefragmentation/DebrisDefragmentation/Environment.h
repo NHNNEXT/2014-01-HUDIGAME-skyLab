@@ -3,6 +3,12 @@
 #include <string>
 #include <map>
 
+// Config
+#define				USE_LOCAL_SERVER
+#define				USE_CHARACTER_COLLISION_BOX
+const bool			MOUSE_POINTER_ON = true;
+const float			MOUSE_ROTATION_SENSITIVITY = 0.1f;
+
 // UI
 const float			UI_OXYGEN_POSITION_X = 10.0f;
 const float			UI_OXYGEN_POSITION_Y = 10.0f;
@@ -55,11 +61,6 @@ const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
 	{ ClientUITag::UI_SKELETON_TEAM, L"team_.png" },
 };
 
-// Config
-#define				USE_LOCAL_SERVER
-#define				USE_CHARACTER_COLLISION_BOX
-const bool			MOUSE_POINTER_ON = true;
-const float			MOUSE_ROTATION_SENSITIVITY = 0.1f;
 
 
 // KEY MAPPING

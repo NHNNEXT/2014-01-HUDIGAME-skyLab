@@ -281,9 +281,30 @@ enum class StructureType : int
 	SPACE_MINE,
 };
 
-const int NUMBER_OF_PARTICLES = 100;
-const float FIREWORK_PARTICLE_VELOCITY = 20.0f;
-const float PARTICLE_LIFETIME = 1.0f;
-const int PARTICLE_EFFECT_BUFFER = 10;
-const D3DXVECTOR3 EARTH_POSITION{ 0, -800, 0 };
-const D3DXVECTOR3 TEMP_ORIGIN = EARTH_POSITION;
+
+struct ColorRange
+{
+	//ColorRange() : m_RMin( 0.0f ), m_RMax( 1.0f ), m_GMin( 0.0f ), m_GMax( 1.0f ), m_BMin( 0.0f ), m_BMax( 1.0f ), m_Alpha( 1.0f ) {}
+	float m_RMin;
+	float m_RMax;
+	float m_GMin;
+	float m_GMax;
+	float m_BMin;
+	float m_BMax;
+	float m_Alpha;
+};
+
+const D3DXVECTOR3	EARTH_POSITION{ 0, -800, 0 };
+
+const int			NUMBER_OF_PARTICLES = 100;
+const int			PARTICLE_EFFECT_BUFFER = 10;
+
+// 파티클의 방향, 속도, 색상, 생존시간 등을 결정, 
+// 색상의 경우 RGB 각각이 0.0f~1.0f 사이에서 랜덤하게 결정됨. 맨 마지막은 alpha값
+
+const D3DXVECTOR3	TEMP_ORIGIN = EARTH_POSITION;
+const float			FIREWORK_LIFETIME = 1.0f;
+const float			FIREWORK_PARTICLE_VELOCITY = 20.0f;
+const D3DXVECTOR3	FIREWORK_DIR_MIN{ -1.0f, -1.0f, -1.0f };
+const D3DXVECTOR3	FIREWORK_DIR_MAX{ 1.0f, 1.0f, 1.0f };
+const ColorRange	FIREWORK_COLOR_RANGE = { 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f };

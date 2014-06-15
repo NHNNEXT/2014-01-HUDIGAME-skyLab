@@ -7,16 +7,16 @@ const DWORD Particle::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
 ParticleSystem::ParticleSystem()
 {
-	_device = 0;
-	_vb = 0;
-	_tex = 0;
+	m_Device = 0;
+	m_VB = 0;
+	m_Tex = 0;
 }
 
 
 ParticleSystem::~ParticleSystem()
 {
-	SafeRelease<LPDIRECT3DVERTEXBUFFER9>( _vb );
-	SafeRelease<IDirect3DTexture9*>( _tex );
+	SafeRelease<LPDIRECT3DVERTEXBUFFER9>( m_VB );
+	SafeRelease<IDirect3DTexture9*>( m_Tex );
 }
 
 
@@ -26,16 +26,16 @@ bool ParticleSystem::init( IDirect3DDevice9* device, LPCWSTR texFileName )
 	// use the vertex buffer to draw a portion of our particles at a time.  The arbitrary
 	// size we choose for the vertex buffer is specified by the _vbSize variable.
 
-	_device = device; // save a ptr to the device
+	m_Device = device; // save a ptr to the device
 
 	HRESULT hr = 0;
 
 	hr = device->CreateVertexBuffer(
-		_vbSize * sizeof( Particle ),
+		m_VBSize * sizeof( Particle ),
 		D3DUSAGE_DYNAMIC | D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY,
 		Particle::FVF,
 		D3DPOOL_DEFAULT, // D3DPOOL_MANAGED can't be used with D3DUSAGE_DYNAMIC 
-		&_vb,
+		&m_VB,
 		0 );
 
 	if ( FAILED( hr ) )
@@ -49,7 +49,7 @@ bool ParticleSystem::init( IDirect3DDevice9* device, LPCWSTR texFileName )
 	hr = D3DXCreateTextureFromFileW(
 		device,
 		imgPath.c_str(),
-		&_tex );
+		&m_Tex );
 
 	if ( FAILED( hr ) )
 	{
@@ -63,7 +63,7 @@ bool ParticleSystem::init( IDirect3DDevice9* device, LPCWSTR texFileName )
 void ParticleSystem::reset()
 {
 	std::list<Attribute>::iterator i;
-	for ( i = _particles.begin(); i != _particles.end(); i++ )
+	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
 		resetParticle( &( *i ) );
 	}
@@ -75,37 +75,37 @@ void ParticleSystem::addParticle()
 
 	resetParticle( &attribute );
 
-	_particles.push_back( attribute );
+	m_Particles.push_back( attribute );
 }
 
 void ParticleSystem::preRender()
 {
-	_device->SetRenderState( D3DRS_LIGHTING, false );
-	_device->SetRenderState( D3DRS_POINTSPRITEENABLE, true );
-	_device->SetRenderState( D3DRS_POINTSCALEENABLE, true );
-	_device->SetRenderState( D3DRS_POINTSIZE, FtoDw( _size ) );
-	_device->SetRenderState( D3DRS_POINTSIZE_MIN, FtoDw( 0.0f ) );
+	m_Device->SetRenderState( D3DRS_LIGHTING, false );
+	m_Device->SetRenderState( D3DRS_POINTSPRITEENABLE, true );
+	m_Device->SetRenderState( D3DRS_POINTSCALEENABLE, true );
+	m_Device->SetRenderState( D3DRS_POINTSIZE, FtoDw( m_Size ) );
+	m_Device->SetRenderState( D3DRS_POINTSIZE_MIN, FtoDw( 0.0f ) );
 
 	// control the size of the particle relative to distance
-	_device->SetRenderState( D3DRS_POINTSCALE_A, FtoDw( 0.0f ) );
-	_device->SetRenderState( D3DRS_POINTSCALE_B, FtoDw( 0.0f ) );
-	_device->SetRenderState( D3DRS_POINTSCALE_C, FtoDw( 1.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSCALE_A, FtoDw( 0.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSCALE_B, FtoDw( 0.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSCALE_C, FtoDw( 1.0f ) );
 
 	// use alpha from texture
-	_device->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
-	_device->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1 );
+	m_Device->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
+	m_Device->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1 );
 
-	_device->SetRenderState( D3DRS_ALPHABLENDENABLE, true );
-	_device->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
-	_device->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+	m_Device->SetRenderState( D3DRS_ALPHABLENDENABLE, true );
+	m_Device->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+	m_Device->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
 }
 
 void ParticleSystem::postRender()
 {
-	_device->SetRenderState( D3DRS_LIGHTING, true );
-	_device->SetRenderState( D3DRS_POINTSPRITEENABLE, false );
-	_device->SetRenderState( D3DRS_POINTSCALEENABLE, false );
-	_device->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
+	m_Device->SetRenderState( D3DRS_LIGHTING, true );
+	m_Device->SetRenderState( D3DRS_POINTSPRITEENABLE, false );
+	m_Device->SetRenderState( D3DRS_POINTSCALEENABLE, false );
+	m_Device->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
 }
 
 void ParticleSystem::RenderItSelf()
@@ -117,7 +117,7 @@ void ParticleSystem::RenderItSelf()
 	//           This process continues until all the particles have been drawn.  The benifit
 	//           of this method is that we keep the video card and the CPU busy.  
 
-	if ( !_particles.empty() )
+	if ( !m_Particles.empty() )
 	{
 		//
 		// set render states
@@ -125,25 +125,25 @@ void ParticleSystem::RenderItSelf()
 
 		preRender();
 
-		_device->SetTexture( 0, _tex );
-		_device->SetFVF( Particle::FVF );
-		_device->SetStreamSource( 0, _vb, 0, sizeof( Particle ) );
+		m_Device->SetTexture( 0, m_Tex );
+		m_Device->SetFVF( Particle::FVF );
+		m_Device->SetStreamSource( 0, m_VB, 0, sizeof( Particle ) );
 
 		//
 		// render batches one by one
 		//
 
 		// start at beginning if we're at the end of the vb
-		if ( _vbOffset >= _vbSize )
-			_vbOffset = 0;
+		if ( m_VBOffset >= m_VBSize )
+			m_VBOffset = 0;
 
 		Particle* v = 0;
 
-		_vb->Lock(
-			_vbOffset    * sizeof( Particle ),
-			_vbBatchSize * sizeof( Particle ),
+		m_VB->Lock(
+			m_VBOffset    * sizeof( Particle ),
+			m_VBBatchSize * sizeof( Particle ),
 			(void**)&v,
-			_vbOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD );
+			m_VBOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD );
 
 		DWORD numParticlesInBatch = 0;
 
@@ -151,7 +151,7 @@ void ParticleSystem::RenderItSelf()
 		// Until all particles have been rendered.
 		//
 		std::list<Attribute>::iterator i;
-		for ( i = _particles.begin(); i != _particles.end(); i++ )
+		for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 		{
 			if ( i->_isAlive )
 			{
@@ -166,18 +166,18 @@ void ParticleSystem::RenderItSelf()
 				numParticlesInBatch++; //increase batch counter
 
 				// if this batch full?
-				if ( numParticlesInBatch == _vbBatchSize )
+				if ( numParticlesInBatch == m_VBBatchSize )
 				{
 					//
 					// Draw the last batch of particles that was
 					// copied to the vertex buffer. 
 					//
-					_vb->Unlock();
+					m_VB->Unlock();
 
-					_device->DrawPrimitive(
+					m_Device->DrawPrimitive(
 						D3DPT_POINTLIST,
-						_vbOffset,
-						_vbBatchSize );
+						m_VBOffset,
+						m_VBBatchSize );
 
 					//
 					// While that batch is drawing, start filling the
@@ -185,25 +185,25 @@ void ParticleSystem::RenderItSelf()
 					//
 
 					// move the offset to the start of the next batch
-					_vbOffset += _vbBatchSize;
+					m_VBOffset += m_VBBatchSize;
 
 					// don't offset into memory thats outside the vb's range.
 					// If we're at the end, start at the beginning.
-					if ( _vbOffset >= _vbSize )
-						_vbOffset = 0;
+					if ( m_VBOffset >= m_VBSize )
+						m_VBOffset = 0;
 
-					_vb->Lock(
-						_vbOffset    * sizeof( Particle ),
-						_vbBatchSize * sizeof( Particle ),
+					m_VB->Lock(
+						m_VBOffset    * sizeof( Particle ),
+						m_VBBatchSize * sizeof( Particle ),
 						(void**)&v,
-						_vbOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD );
+						m_VBOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD );
 
 					numParticlesInBatch = 0; // reset for new batch
 				}
 			}
 		}
 
-		_vb->Unlock();
+		m_VB->Unlock();
 
 		// its possible that the LAST batch being filled never 
 		// got rendered because the condition 
@@ -212,14 +212,14 @@ void ParticleSystem::RenderItSelf()
 
 		if ( numParticlesInBatch )
 		{
-			_device->DrawPrimitive(
+			m_Device->DrawPrimitive(
 				D3DPT_POINTLIST,
-				_vbOffset,
+				m_VBOffset,
 				numParticlesInBatch );
 		}
 
 		// next block
-		_vbOffset += _vbBatchSize;
+		m_VBOffset += m_VBBatchSize;
 
 		//
 		// reset render states
@@ -231,13 +231,13 @@ void ParticleSystem::RenderItSelf()
 
 bool ParticleSystem::isEmpty()
 {
-	return _particles.empty();
+	return m_Particles.empty();
 }
 
 bool ParticleSystem::isDead()
 {
 	std::list<Attribute>::iterator i;
-	for ( i = _particles.begin(); i != _particles.end(); i++ )
+	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
 		// is there at least one living particle?  If yes,
 		// the system is not dead.
@@ -252,15 +252,15 @@ void ParticleSystem::removeDeadParticles()
 {
 	std::list<Attribute>::iterator i;
 
-	i = _particles.begin();
+	i = m_Particles.begin();
 
-	while ( i != _particles.end() )
+	while ( i != m_Particles.end() )
 	{
 		if ( i->_isAlive == false )
 		{
 			// erase returns the next iterator, so no need to
 			// incrememnt to the next one ourselves.
-			i = _particles.erase( i );
+			i = m_Particles.erase( i );
 		}
 		else
 		{
@@ -302,15 +302,20 @@ DWORD ParticleSystem::FtoDw( float f )
 
 Firework::Firework(  )
 {	
-	_size = 0.25f;
-	_vbSize = 2048;
-	_vbOffset = 0;
-	_vbBatchSize = 512;
+	m_Size = 0.25f;
+	m_VBSize = 2048;
+	m_VBOffset = 0;
+	m_VBBatchSize = 512;
 }
 
-void Firework::SetParticles( D3DXVECTOR3* origin, int numParticles )
+void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime,  int numParticles )
 {
-	_origin = *origin;
+	m_Origin = origin;
+	m_Color = color;
+	m_DirectionMax = directionMax;
+	m_DirectionMin = directionMin;
+	m_LifeTime = lifetime;
+
 	for ( int i = 0; i < numParticles; i++ )
 		addParticle();
 }
@@ -319,15 +324,17 @@ void Firework::SetParticles( D3DXVECTOR3* origin, int numParticles )
 void Firework::resetParticle( Attribute* attribute )
 {
 	attribute->_isAlive = true;
-	attribute->_position = _origin;
+	attribute->_position = m_Origin;
 
-	D3DXVECTOR3 min = D3DXVECTOR3( -1.0f, -1.0f, -1.0f );
-	D3DXVECTOR3 max = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
+//	D3DXVECTOR3 min = D3DXVECTOR3( -1.0f, -1.0f, -1.0f );
+//	D3DXVECTOR3 max = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
 
-	GetRandomVector(
-		&attribute->_velocity,
-		&min,
-		&max );
+// 	GetRandomVector(
+// 		&attribute->_velocity,
+// 		&min,
+// 		&max );
+	
+	GetRandomVector( &attribute->_velocity, &m_DirectionMin, &m_DirectionMax );
 
 	// normalize to make spherical
 	D3DXVec3Normalize(
@@ -337,20 +344,21 @@ void Firework::resetParticle( Attribute* attribute )
 	attribute->_velocity *= FIREWORK_PARTICLE_VELOCITY;
 
 	attribute->_color = D3DXCOLOR(
-		GetRandomFloat( 0.0f, 1.0f ),
-		GetRandomFloat( 0.0f, 1.0f ),
-		GetRandomFloat( 0.0f, 1.0f ),
-		1.0f );
+		GetRandomFloat( m_Color.m_RMin, m_Color.m_RMax ),
+		GetRandomFloat( m_Color.m_GMin, m_Color.m_GMax ),
+		GetRandomFloat( m_Color.m_BMin, m_Color.m_BMax ),
+		m_Color.m_Alpha );
 
 	attribute->_age = 0.0f;
-	attribute->_lifeTime = PARTICLE_LIFETIME; // lives for 2 seconds
+	//attribute->_lifeTime = PARTICLE_LIFETIME; 
+	attribute->_lifeTime = m_LifeTime; // lives for 2 seconds
 }
 
 void Firework::UpdateItSelf( float timeDelta )
 {
 	std::list<Attribute>::iterator i;
 
-	for ( i = _particles.begin(); i != _particles.end(); i++ )
+	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
 		// only update living particles
 		if ( i->_isAlive )
@@ -369,23 +377,23 @@ void Firework::preRender()
 {
 	ParticleSystem::preRender();
 
-	_device->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_ONE );
-	_device->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_ONE );
+	m_Device->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_ONE );
+	m_Device->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_ONE );
 
 	// read, but don't write particles to z-buffer
-	_device->SetRenderState( D3DRS_ZWRITEENABLE, false );
+	m_Device->SetRenderState( D3DRS_ZWRITEENABLE, false );
 }
 
 void Firework::postRender()
 {
 	ParticleSystem::postRender();
 
-	_device->SetRenderState( D3DRS_ZWRITEENABLE, true );
+	m_Device->SetRenderState( D3DRS_ZWRITEENABLE, true );
 }
 
 void Firework::PlayEffect( D3DXVECTOR3 origin )
 {
-	_origin = origin;
+	m_Origin = origin;
 	reset();
 }
 

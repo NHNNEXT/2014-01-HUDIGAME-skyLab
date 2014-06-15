@@ -124,6 +124,9 @@
     <ClInclude Include="SolarWindEvent.h">
       <Filter>PCH</Filter>
     </ClInclude>
+    <ClInclude Include="DDMath.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -187,5 +190,8 @@
       <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="SolarWindEvent.cpp" />
+    <ClCompile Include="DDMath.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

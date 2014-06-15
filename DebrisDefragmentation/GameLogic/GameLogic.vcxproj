@@ -84,6 +84,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DDMath.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="DebrisStormEvent.h" />
     <ClInclude Include="Dispenser.h" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DDMath.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="DebrisStormEvent.cpp" />
     <ClCompile Include="Dispenser.cpp" />

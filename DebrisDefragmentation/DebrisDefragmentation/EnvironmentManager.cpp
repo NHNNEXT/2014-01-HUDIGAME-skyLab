@@ -4,6 +4,7 @@
 #include "GameOption.h"
 #include "SceneManager.h"
 #include "PlayScene.h"
+#include "DDMath.h"
 
 extern std::shared_ptr<EnvironmentManager> GEnvironmentManager = nullptr;
 
@@ -24,13 +25,12 @@ DDLight* EnvironmentManager::GetLight( ClientLightTag lightName )
 }
 
 void EnvironmentManager::InitParticleEffects()
-{
-	D3DXVECTOR3 origin( TEMP_ORIGIN );
-	
+{	
+	// init firework effect
 	for ( int i = 0; i < PARTICLE_EFFECT_BUFFER; ++i )
 	{
-		Firework* Exp = Firework::Create();
-		Exp->SetParticles( &origin, NUMBER_OF_PARTICLES );
+		Firework* Exp = Firework::Create();		
+		Exp->SetParticles( TEMP_ORIGIN, FIREWORK_COLOR_RANGE, FIREWORK_DIR_MIN, FIREWORK_DIR_MAX, FIREWORK_LIFETIME, NUMBER_OF_PARTICLES );
 		Exp->init( DDRenderer::GetInstance()->GetDevice(), L"flare.bmp" );
 		m_FireworkEffectList[i] = Exp;
 		GSceneManager->GetScene()->AddChild( Exp );		
