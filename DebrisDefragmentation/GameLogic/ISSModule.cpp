@@ -20,13 +20,17 @@ void ISSModule::Init( ISSModuleName moduleName )
 	//GetTransform()->SetPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
 	GetTransform()->SetPosition( g_GameData->GetISSPosition( moduleName ) );
 	// 충돌 박스 초기화
-	m_CollisionBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
-	m_CollisionBox.SetLength( ISS_MODULE_AXIS_LENGTH[static_cast<int>( moduleName )] );
+	//m_CollisionBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
+	m_CollisionBox.SetCenterPosition( g_GameData->GetISSPosition( moduleName ) );
+	//m_CollisionBox.SetLength( ISS_MODULE_AXIS_LENGTH[static_cast<int>( moduleName )] );
+	m_CollisionBox.SetLength( g_GameData->GetISSModuleAxisLength( moduleName ) );
 	m_CollisionBox.InitAxisDir();
 	m_CollisionBox.InitPointList();
 	m_CollisionBox.InitRadius();
 
-	m_ControlBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
+	//m_ControlBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
+	m_ControlBox.SetCenterPosition( g_GameData->GetISSModuleAxisLength( moduleName ) );
+	//m_ControlBox.SetLength( CONTROL_POINT_AXIS_LENGTH );
 	m_ControlBox.SetLength( CONTROL_POINT_AXIS_LENGTH );
 	m_ControlBox.InitAxisDir();
 	m_ControlBox.InitPointList();

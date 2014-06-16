@@ -153,7 +153,6 @@ void PlayScene::Init()
 
 // 조심해!!
 // 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
-// 4. 23. UI 업데이트 하는 부분을 추가했습니다. 
 void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );

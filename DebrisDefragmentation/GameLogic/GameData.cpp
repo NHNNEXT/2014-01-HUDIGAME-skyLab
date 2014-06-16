@@ -63,6 +63,13 @@ bool GameData::Init()
 	return true;
 }
 
+
+int GameData::GetDebrisNumber()
+{
+	return m_Document[JSON_KEY_MAP.at( JSON_DEBRIS_NUMBER ).c_str()].GetInt();
+}
+
+
 D3DXVECTOR3 GameData::GetISSPosition( ISSModuleName name )
 {
 	const char* iss = JSON_KEY_MAP.at( JSON_ISS ).c_str();
@@ -76,7 +83,16 @@ D3DXVECTOR3 GameData::GetISSPosition( ISSModuleName name )
 		static_cast<float>( position[SizeType( 2 )].GetDouble() ) );
 }
 
-int GameData::GetDebrisNumber()
+
+D3DXVECTOR3 GameData::GetISSModuleAxisLength( ISSModuleName name )
 {
-	return m_Document[JSON_KEY_MAP.at( JSON_DEBRIS_NUMBER ).c_str()].GetInt();
+	const char* iss = JSON_KEY_MAP.at( JSON_ISS ).c_str();
+	const char* module = JSON_ISS_PART_NAME.at( name ).c_str();
+
+	Value& position = m_Document[iss]["AxisLength"][module];
+
+	return D3DXVECTOR3(
+		static_cast<float>( position[SizeType( 0 )].GetDouble() ),
+		static_cast<float>( position[SizeType( 1 )].GetDouble() ),
+		static_cast<float>( position[SizeType( 2 )].GetDouble() ) );
 }

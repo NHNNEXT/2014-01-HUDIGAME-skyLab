@@ -74,49 +74,36 @@ enum class ISSModuleName : int
 	PART9,
 };
 const unsigned int	MODULE_NUMBER = 10;
-
-// JSON 파일에서 불러오기 위한 ISSModule 변수
-const std::map<ISSModuleName, std::string> JSON_ISS_PART_NAME =
-{
-	{ ISSModuleName::PART0, "0" },
-	{ ISSModuleName::PART1, "1" },
-	{ ISSModuleName::PART2, "2" },
-	{ ISSModuleName::PART3, "3" },
-	{ ISSModuleName::PART4, "4" },
-	{ ISSModuleName::PART5, "5" },
-	{ ISSModuleName::PART6, "6" },
-	{ ISSModuleName::PART7, "7" },
-	{ ISSModuleName::PART8, "8" },
-	{ ISSModuleName::PART9, "9" },
-};
-
-const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_POSITION
-= {
-	D3DXVECTOR3( -0.75f, 7.5f, -12.5f ),
-	D3DXVECTOR3( -0.75f, 7.5f, 12.5f ),
-	D3DXVECTOR3( -0.75f, 4.5f, -5.5f ),
-	D3DXVECTOR3( -0.75f, 4.5f, 5.5f ),
-	D3DXVECTOR3( -0.2f, 10.2f, 0.5f ),
-	D3DXVECTOR3( -0.2f, 7.3f, 0.0f ),
-	D3DXVECTOR3( -0.2f, 4.6f, 0.0f ),
-	D3DXVECTOR3( -0.2f, 3.1f, 0.0f ),
-	D3DXVECTOR3( -0.2f, 1.7f, 0.0f ),
-	D3DXVECTOR3( -0.2f, -0.3f, 0.0f ),
-};
-
-const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_AXIS_LENGTH
-= {
-	D3DXVECTOR3( 0.5f, 10.5f, 3.5f ),
-	D3DXVECTOR3( 0.5f, 10.5f, 3.5f ),
-	D3DXVECTOR3( 0.5f, 3.0f, 1.5f ),
-	D3DXVECTOR3( 0.5f, 3.0f, 1.5f ),
-	D3DXVECTOR3( 0.8f, 0.7f, 2.5f ),
-	D3DXVECTOR3( 0.8f, 2.0f, 0.5f ),
-	D3DXVECTOR3( 0.8f, 0.5f, 2.1f ),
-	D3DXVECTOR3( 0.8f, 0.7f, 0.5f ),
-	D3DXVECTOR3( 0.8f, 0.5f, 3.5f ),
-	D3DXVECTOR3( 0.8f, 1.4f, 0.5f ),
-};
+// -------------------------------- 삭제예정 --------------------------------
+// 
+// const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_POSITION
+// = {
+// 	D3DXVECTOR3( -0.75f, 7.5f, -12.5f ),
+// 	D3DXVECTOR3( -0.75f, 7.5f, 12.5f ),
+// 	D3DXVECTOR3( -0.75f, 4.5f, -5.5f ),
+// 	D3DXVECTOR3( -0.75f, 4.5f, 5.5f ),
+// 	D3DXVECTOR3( -0.2f, 10.2f, 0.5f ),
+// 	D3DXVECTOR3( -0.2f, 7.3f, 0.0f ),
+// 	D3DXVECTOR3( -0.2f, 4.6f, 0.0f ),
+// 	D3DXVECTOR3( -0.2f, 3.1f, 0.0f ),
+// 	D3DXVECTOR3( -0.2f, 1.7f, 0.0f ),
+// 	D3DXVECTOR3( -0.2f, -0.3f, 0.0f ),
+// };
+// 
+// const std::array<D3DXVECTOR3, MODULE_NUMBER> ISS_MODULE_AXIS_LENGTH
+// = {
+// 	D3DXVECTOR3( 0.5f, 10.5f, 3.5f ),
+// 	D3DXVECTOR3( 0.5f, 10.5f, 3.5f ),
+// 	D3DXVECTOR3( 0.5f, 3.0f, 1.5f ),
+// 	D3DXVECTOR3( 0.5f, 3.0f, 1.5f ),
+// 	D3DXVECTOR3( 0.8f, 0.7f, 2.5f ),
+// 	D3DXVECTOR3( 0.8f, 2.0f, 0.5f ),
+// 	D3DXVECTOR3( 0.8f, 0.5f, 2.1f ),
+// 	D3DXVECTOR3( 0.8f, 0.7f, 0.5f ),
+// 	D3DXVECTOR3( 0.8f, 0.5f, 3.5f ),
+// 	D3DXVECTOR3( 0.8f, 1.4f, 0.5f ),
+// };
+// -------------------------------- 절 취 선 --------------------------------
 
 const std::array<D3DXVECTOR3, MODULE_NUMBER> CONTROL_POINT_POSITION
 = {
