@@ -2,6 +2,7 @@
 #include "ParticleSystem.h"
 #include "DDMacro.h"
 #include "GameOption.h"
+#include "DDMath.h"
 
 const DWORD Particle::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
@@ -83,13 +84,13 @@ void ParticleSystem::preRender()
 	m_Device->SetRenderState( D3DRS_LIGHTING, false );
 	m_Device->SetRenderState( D3DRS_POINTSPRITEENABLE, true );
 	m_Device->SetRenderState( D3DRS_POINTSCALEENABLE, true );
-	m_Device->SetRenderState( D3DRS_POINTSIZE, FtoDw( m_Size ) );
-	m_Device->SetRenderState( D3DRS_POINTSIZE_MIN, FtoDw( 0.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSIZE, DDMath::FtoDw( m_Size ) );
+	m_Device->SetRenderState( D3DRS_POINTSIZE_MIN, DDMath::FtoDw( 0.0f ) );
 
 	// control the size of the particle relative to distance
-	m_Device->SetRenderState( D3DRS_POINTSCALE_A, FtoDw( 0.0f ) );
-	m_Device->SetRenderState( D3DRS_POINTSCALE_B, FtoDw( 0.0f ) );
-	m_Device->SetRenderState( D3DRS_POINTSCALE_C, FtoDw( 1.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSCALE_A, DDMath::FtoDw( 0.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSCALE_B, DDMath::FtoDw( 0.0f ) );
+	m_Device->SetRenderState( D3DRS_POINTSCALE_C, DDMath::FtoDw( 1.0f ) );
 
 	// use alpha from texture
 	m_Device->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
@@ -269,32 +270,6 @@ void ParticleSystem::removeDeadParticles()
 	}
 }
 
-float ParticleSystem::GetRandomFloat( float lowBound, float highBound )
-{
-	if ( lowBound >= highBound ) // bad input
-		return lowBound;
-
-	// get random float in [0, 1] interval
-	float f = ( rand() % 10000 ) * 0.0001f;
-
-	// return float in [lowBound, highBound] interval. 
-	return ( f * ( highBound - lowBound ) ) + lowBound;
-}
-
-void ParticleSystem::GetRandomVector(
-	D3DXVECTOR3* out,
-	D3DXVECTOR3* min,
-	D3DXVECTOR3* max )
-{
-	out->x = GetRandomFloat( min->x, max->x );
-	out->y = GetRandomFloat( min->y, max->y );
-	out->z = GetRandomFloat( min->z, max->z );
-}
-
-DWORD ParticleSystem::FtoDw( float f )
-{
-	return *( (DWORD*)&f );
-}
 
 //*****************************************************************************
 // Explosion System
@@ -302,19 +277,20 @@ DWORD ParticleSystem::FtoDw( float f )
 
 Firework::Firework(  )
 {	
-	m_Size = 0.25f;
+	m_Size = FIREWORK_SIZE;
 	m_VBSize = 2048;
 	m_VBOffset = 0;
 	m_VBBatchSize = 512;
 }
 
-void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime,  int numParticles )
+void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime,  int numParticles, int velocity )
 {
 	m_Origin = origin;
 	m_Color = color;
 	m_DirectionMax = directionMax;
 	m_DirectionMin = directionMin;
 	m_LifeTime = lifetime;
+	m_Velocity = velocity;
 
 	for ( int i = 0; i < numParticles; i++ )
 		addParticle();
@@ -324,7 +300,12 @@ void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 d
 void Firework::resetParticle( Attribute* attribute )
 {
 	attribute->_isAlive = true;
-	attribute->_position = m_Origin;
+	D3DXVECTOR3 originRange;
+	D3DXVECTOR3 originMin{ -1.0f, -1.0f, -1.0f };
+	D3DXVECTOR3 originMax{ 1.0f, 1.0f, 1.0f };
+	DDMath::GetRandomVector( &originRange, &originMin, &originMax );
+	
+	attribute->_position = m_Origin + originRange;
 
 //	D3DXVECTOR3 min = D3DXVECTOR3( -1.0f, -1.0f, -1.0f );
 //	D3DXVECTOR3 max = D3DXVECTOR3( 1.0f, 1.0f, 1.0f );
@@ -334,19 +315,19 @@ void Firework::resetParticle( Attribute* attribute )
 // 		&min,
 // 		&max );
 	
-	GetRandomVector( &attribute->_velocity, &m_DirectionMin, &m_DirectionMax );
+	DDMath::GetRandomVector( &attribute->_velocity, &m_DirectionMin, &m_DirectionMax );
 
 	// normalize to make spherical
 	D3DXVec3Normalize(
 		&attribute->_velocity,
 		&attribute->_velocity );
 
-	attribute->_velocity *= FIREWORK_PARTICLE_VELOCITY;
+	attribute->_velocity *= m_Velocity;
 
 	attribute->_color = D3DXCOLOR(
-		GetRandomFloat( m_Color.m_RMin, m_Color.m_RMax ),
-		GetRandomFloat( m_Color.m_GMin, m_Color.m_GMax ),
-		GetRandomFloat( m_Color.m_BMin, m_Color.m_BMax ),
+		DDMath::GetRandomFloat( m_Color.m_RMin, m_Color.m_RMax ),
+		DDMath::GetRandomFloat( m_Color.m_GMin, m_Color.m_GMax ),
+		DDMath::GetRandomFloat( m_Color.m_BMin, m_Color.m_BMax ),
 		m_Color.m_Alpha );
 
 	attribute->_age = 0.0f;

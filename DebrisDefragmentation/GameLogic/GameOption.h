@@ -285,13 +285,27 @@ const D3DXVECTOR3	EARTH_POSITION{ 0, -800, 0 };
 
 const int			NUMBER_OF_PARTICLES = 100;
 const int			PARTICLE_EFFECT_BUFFER = 10;
+const D3DXVECTOR3	TEMP_ORIGIN = EARTH_POSITION;
+const float			FIREWORK_SIZE = 0.25f;
+
+enum class EffectType : int
+{
+	EXPLOSION = 0,
+	HEALING,
+};
 
 // 파티클의 방향, 속도, 색상, 생존시간 등을 결정, 
 // 색상의 경우 RGB 각각이 0.0f~1.0f 사이에서 랜덤하게 결정됨. 맨 마지막은 alpha값
+const float			EXPLOSION_LIFETIME = 1.0f;
+const float			EXPLOSION_PARTICLE_VELOCITY = 20.0f;
+const D3DXVECTOR3	EXPLOSION_DIR_MIN{ -1.0f, -1.0f, -1.0f };
+const D3DXVECTOR3	EXPLOSION_DIR_MAX{ 1.0f, 1.0f, 1.0f };
+const ColorRange	EXPLOSION_COLOR_RANGE = { 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f };
 
-const D3DXVECTOR3	TEMP_ORIGIN = EARTH_POSITION;
-const float			FIREWORK_LIFETIME = 1.0f;
-const float			FIREWORK_PARTICLE_VELOCITY = 20.0f;
-const D3DXVECTOR3	FIREWORK_DIR_MIN{ -1.0f, -1.0f, -1.0f };
-const D3DXVECTOR3	FIREWORK_DIR_MAX{ 1.0f, 1.0f, 1.0f };
-const ColorRange	FIREWORK_COLOR_RANGE = { 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f };
+const float			HEALING_LIFETIME = 1.0f;
+const float			HEALING_PARTICLE_VELOCITY = 1.0f;
+//const D3DXVECTOR3	HEALING_PARTICLE_RANGE{ 1.0f, 0.0f, 1.0f };
+const D3DXVECTOR3	HEALING_DIR_MIN{ -1.0f, 1.0f, -1.0f };
+const D3DXVECTOR3	HEALING_DIR_MAX{ 1.0f, 1.0f, 1.0f };
+const ColorRange	HEALING_COLOR_RANGE = { 0.1f, 0.2f, 0.8f, 1.0f, 0.2f, 0.3f, 1.0f };
+

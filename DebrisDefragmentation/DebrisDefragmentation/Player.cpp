@@ -13,6 +13,7 @@
 #include "PlayScene.h"
 #include "DDCamera.h"
 #include "Environment.h"
+#include "EnvironmentManager.h"
 
 Player::Player()
 {
@@ -98,16 +99,16 @@ void Player::UpdateItSelf( float dTime )
 	//printf_s( "OXYGEN REMAIN : %d\n", m_Avatar->GetOxygen() );
 	m_ClassComponent->Update( dTime );
 
- 	if (IsAccelerating() )
- 	{
- 		/// config.h
- 		if ( timeGetTime() - GetAccelerationStartTime() > ACCELERATION_TIME )
- 		{
- 			// 가속 끝났다
- 			SetIsAccelerating( false );
- 			SetAcceleration(ZERO_VECTOR3);
- 		}
- 	}
+	if (IsAccelerating() )
+	{
+		/// config.h
+		if ( timeGetTime() - GetAccelerationStartTime() > ACCELERATION_TIME )
+		{
+			// 가속 끝났다
+			SetIsAccelerating( false );
+			SetAcceleration(ZERO_VECTOR3);
+		}
+	}
 
 	if ( IsSpinning() )
 	{
@@ -119,6 +120,13 @@ void Player::UpdateItSelf( float dTime )
 		float tmpSpinAngle = GetSpinAngularVelocity();
 		D3DXMatrixRotationAxis( &spinTransform, &tmpSpinAxis, tmpSpinAngle * GetSpinTime() );
 		D3DXMatrixMultiply( &m_Matrix, &m_Matrix, &spinTransform );
+	}
+
+	m_LastHealingEffectTime += dTime;	
+	if ( m_ClassComponent->GetDispenserEffectFlag() && ( m_LastHealingEffectTime > HEALING_LIFETIME ) )
+	{
+		GEnvironmentManager->PlayFireworkEffect( m_Transform.GetPosition(), EffectType::HEALING );		
+		m_LastHealingEffectTime = 0.0f;
 	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();

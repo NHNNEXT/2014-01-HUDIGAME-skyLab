@@ -75,7 +75,7 @@ void ObjectManager::DeregisterDispenser( unsigned int dispenserId )
 	assert( it != m_DispenserList.end() );
 	
 	//effect 재생
-	GEnvironmentManager->PlayFireworkEffect( (it->second)->GetTransform().GetPosition() );
+	GEnvironmentManager->PlayFireworkEffect( (it->second)->GetTransform().GetPosition() , EffectType::EXPLOSION );
 	// 등록한 ISS에서 지우자
 	// delete it->second;
 	assert( m_ObjectISS );
@@ -107,7 +107,7 @@ void ObjectManager::DeregisterSpaceMine( unsigned int spaceMineId )
 	assert( it != m_SpaceMineList.end() );
 
 	//effect 재생
-	GEnvironmentManager->PlayFireworkEffect( ( it->second )->GetTransform().GetPosition() );
+	GEnvironmentManager->PlayFireworkEffect( ( it->second )->GetTransform().GetPosition() , EffectType::EXPLOSION);
 
 	// 등록한 ISS에서 지우자
 	// delete it->second;

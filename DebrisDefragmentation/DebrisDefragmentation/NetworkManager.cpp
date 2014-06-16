@@ -200,7 +200,7 @@ void NetworkManager::HandleDispenserEffectResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetDispenserEffectFlag( inPacket.mDispenserEffectFlag );
-	
+
 }
 
 void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
@@ -210,7 +210,7 @@ void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
 
 	// 데브리 모델의 visible을 끔(굳이 삭제를 할 필요는 없을듯.. 나중에 한번에 하니까 ㅋ)
 	GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->SetVisible( false );
-	GEnvironmentManager->PlayFireworkEffect( GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->GetTransform().GetPosition() );
+	GEnvironmentManager->PlayFireworkEffect( GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->GetTransform().GetPosition() , EffectType::EXPLOSION );
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetResource( inPacket.mCurrentResource );
 }
@@ -339,7 +339,7 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	{
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
-		GEnvironmentManager->PlayFireworkEffect( inPacket.mPos );
+		GEnvironmentManager->PlayFireworkEffect( inPacket.mPos , EffectType::EXPLOSION );
 		
 	}
 
@@ -407,7 +407,7 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
-	GEnvironmentManager->PlayFireworkEffect( inPacket.mPos );
+	GEnvironmentManager->PlayFireworkEffect( inPacket.mPos , EffectType::EXPLOSION );
 }
 
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
@@ -522,7 +522,7 @@ void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
 		inPacket.mDirection, 
 		static_cast<TeamColor>( inPacket.mTeamColor ) 
 		);
-	GEnvironmentManager->PlayFireworkEffect( inPacket.mPosition );
+	GEnvironmentManager->PlayFireworkEffect( inPacket.mPosition, EffectType::EXPLOSION );
 }
 
 void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )

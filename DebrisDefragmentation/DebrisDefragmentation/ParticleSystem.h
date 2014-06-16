@@ -55,11 +55,7 @@ public:
 
 protected:
 	virtual void removeDeadParticles();
-	float	GetRandomFloat( float lowBound, float highBound );
-	void	GetRandomVector( D3DXVECTOR3* out,	D3DXVECTOR3* min, D3DXVECTOR3* max );
-	DWORD	FtoDw( float f );
 
-protected:
 	IDirect3DDevice9*       m_Device;
 	D3DXVECTOR3             m_Origin;
 	CollisionBox	        m_BoundingBox;
@@ -74,6 +70,7 @@ protected:
 	D3DXVECTOR3				m_DirectionMax;
 	float					m_LifeTime;
 	ColorRange				m_Color;
+	float					m_Velocity;
 	//
 	// Following three data elements used for rendering the p-system efficiently
 	//
@@ -90,7 +87,7 @@ public:
 	Firework();
 	CREATE_OBJECT( Firework );
 
-	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles );
+	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity );
 	void PlayEffect( D3DXVECTOR3 origin );
 	void resetParticle( Attribute* attribute );
 	void UpdateItSelf( float timeDelta );

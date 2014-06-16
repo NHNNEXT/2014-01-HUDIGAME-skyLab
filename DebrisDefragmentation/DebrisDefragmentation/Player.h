@@ -90,6 +90,7 @@ private:
 	float		m_SpinTime = 0.0f;
 	bool		m_MovingFlag = true;
 	float		m_SpeedConstant = 1.0f;
+	float		m_LastHealingEffectTime = HEALING_LIFETIME;
 
 	DDModel*	m_CharacterModel = nullptr;
 
