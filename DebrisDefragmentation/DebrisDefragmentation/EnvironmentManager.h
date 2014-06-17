@@ -18,12 +18,13 @@ public:
 	void		AddLight( ClientLightTag lightName, DDLight* light ) { m_LightMap[lightName] = light; }
 	DDLight*	GetLight( ClientLightTag lightName );
 	void		InitParticleEffects();	
-	int			PlayFireworkEffect( D3DXVECTOR3 origin, EffectType effectType );	
-	bool		IsPlaying( int effectId, EffectType effectType );
+	int			PlayParticleEffect( EffectType effectType, D3DXVECTOR3 origin = ZERO_VECTOR3 );
+//	bool		IsPlaying( int effectId, EffectType effectType );
 
 private:
 	std::array<Firework*, PARTICLE_EFFECT_BUFFER> m_ExplosionEffectList;
 	std::array<Firework*, PARTICLE_EFFECT_BUFFER> m_HealingEffectList;
+	Snow* m_DebrisStrike = nullptr;
 	int m_CurrentFireworkEffectNumber = 0;
 	std::map<ClientLightTag, DDLight*> m_LightMap;
 };

@@ -40,7 +40,7 @@ public:
 
 	// sometimes we don't want to free the memory of a dead particle,
 	// but rather respawn it instead.
-	virtual void resetParticle( Attribute* attribute ) = 0;
+	virtual void resetParticle( Attribute* attribute, float age ) = 0;
 	virtual void addParticle();
 
 	virtual void UpdateItSelf( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
@@ -89,8 +89,20 @@ public:
 
 	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity );
 	void PlayEffect( D3DXVECTOR3 origin );
-	void resetParticle( Attribute* attribute );
+	void resetParticle( Attribute* attribute, float age );
 	void UpdateItSelf( float timeDelta );
 	void preRender();
 	void postRender();
+};
+
+class Snow : public ParticleSystem
+{
+public:
+	Snow();
+	CREATE_OBJECT( Snow );
+
+	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity );
+	void PlayEffect();
+	void resetParticle( Attribute* attribute, float age );
+	void UpdateItSelf( float timeDelta );
 };

@@ -41,10 +41,15 @@ void EnvironmentManager::InitParticleEffects()
 		m_HealingEffectList[i] = Heal;
 		GSceneManager->GetScene()->AddChild( Heal );
 	}
+
+	m_DebrisStrike = Snow::Create();
+	m_DebrisStrike->SetParticles( TEMP_ORIGIN, DS_COLOR_RANGE, DS_DIR_MIN, DS_DIR_MAX, DS_LIFETIME, NUMBER_OF_PARTICLES, DS_PARTICLE_VELOCITY );
+	m_DebrisStrike->init( DDRenderer::GetInstance()->GetDevice(), L"snowflake.dds" );
+	GSceneManager->GetScene()->AddChild( m_DebrisStrike );
 	
 }
 
-int EnvironmentManager::PlayFireworkEffect( D3DXVECTOR3 origin, EffectType effectType )
+int EnvironmentManager::PlayParticleEffect( EffectType effectType, D3DXVECTOR3 origin)
 {
 	switch ( effectType )
 	{
@@ -54,23 +59,26 @@ int EnvironmentManager::PlayFireworkEffect( D3DXVECTOR3 origin, EffectType effec
 		case EffectType::HEALING:
 			m_HealingEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin );
 			return m_CurrentFireworkEffectNumber++;			
+		case EffectType::DEBRIS_STRIKE:
+			m_DebrisStrike->PlayEffect();
+			return 0;
 		default:
 			break;
 	}
 	
 	return -1;
 }
-
-bool EnvironmentManager::IsPlaying( int effectId, EffectType effectType )
-{
-	switch ( effectType )
-	{
-		case EffectType::EXPLOSION:
-			return m_ExplosionEffectList[effectId]->isDead();			
-		case EffectType::HEALING:
-			return m_HealingEffectList[effectId]->isDead();
-			break;
-		default:
-			break;
-	}
-}
+// 
+// bool EnvironmentManager::IsPlaying( int effectId, EffectType effectType )
+// {
+// 	switch ( effectType )
+// 	{
+// 		case EffectType::EXPLOSION:
+// 			return m_ExplosionEffectList[effectId]->isDead();			
+// 		case EffectType::HEALING:
+// 			return m_HealingEffectList[effectId]->isDead();
+// 			break;
+// 		default:
+// 			break;
+// 	}
+// }

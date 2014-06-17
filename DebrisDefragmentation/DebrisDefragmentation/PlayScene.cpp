@@ -151,8 +151,6 @@ void PlayScene::Init()
 	GNetworkManager->Connect();
 }
 
-// 조심해!!
-// 로직 부분은 나중에 게임 매니저에 구현하는 걸로~!
 void PlayScene::UpdateItSelf( float dTime )
 {
 	UNREFERENCED_PARAMETER( dTime );
@@ -222,11 +220,10 @@ void PlayScene::UpdateItSelf( float dTime )
 		// 4 : 연료 나눔 시전!
 		GNetworkManager->SendUsingSkill( ClassSkill::SHARE_FUEL );
 	}
-
+	
 	if ( KEY_DOWN == GetKeyState( VK_5 ) )
 	{
-		// 5 : 디스펜서 설치!
-		GNetworkManager->SendUsingSkill( ClassSkill::SET_DISPENSER );
+		GEnvironmentManager->PlayParticleEffect( EffectType::DEBRIS_STRIKE );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_F1 ) )

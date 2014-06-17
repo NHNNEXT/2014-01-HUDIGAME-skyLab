@@ -292,6 +292,7 @@ enum class EffectType : int
 {
 	EXPLOSION = 0,
 	HEALING,
+	DEBRIS_STRIKE,
 };
 
 // 파티클의 방향, 속도, 색상, 생존시간 등을 결정, 
@@ -304,8 +305,15 @@ const ColorRange	EXPLOSION_COLOR_RANGE = { 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1
 
 const float			HEALING_LIFETIME = 1.0f;
 const float			HEALING_PARTICLE_VELOCITY = 1.0f;
-//const D3DXVECTOR3	HEALING_PARTICLE_RANGE{ 1.0f, 0.0f, 1.0f };
 const D3DXVECTOR3	HEALING_DIR_MIN{ -1.0f, 1.0f, -1.0f };
 const D3DXVECTOR3	HEALING_DIR_MAX{ 1.0f, 1.0f, 1.0f };
 const ColorRange	HEALING_COLOR_RANGE = { 0.1f, 0.2f, 0.8f, 1.0f, 0.2f, 0.3f, 1.0f };
 
+const float			DS_LIFETIME = 10.0f;
+const float			DS_PARTICLE_VELOCITY = 1.0f;
+const D3DXVECTOR3	DS_DIR_MIN{ -1.0f, 0.0f, -1.0f };
+const D3DXVECTOR3	DS_DIR_MAX{ 1.0f, 0.0f, 1.0f };
+const ColorRange	DS_COLOR_RANGE = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+
+// D3DXVECTOR3 mapMin{ -1000.0f, -1000.0f, -1000.0f };
+// D3DXVECTOR3 mapMax{ 1000.0f, 1000.0f, 1000.0f };

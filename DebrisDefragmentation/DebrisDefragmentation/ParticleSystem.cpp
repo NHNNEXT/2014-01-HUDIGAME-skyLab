@@ -66,7 +66,7 @@ void ParticleSystem::reset()
 	std::list<Attribute>::iterator i;
 	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
-		resetParticle( &( *i ) );
+		resetParticle( &( *i ) , 0.0f);
 	}
 }
 
@@ -74,7 +74,7 @@ void ParticleSystem::addParticle()
 {
 	Attribute attribute;
 
-	resetParticle( &attribute );
+	resetParticle( &attribute, m_LifeTime );
 
 	m_Particles.push_back( attribute );
 }
@@ -297,7 +297,7 @@ void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 d
 }
 
 
-void Firework::resetParticle( Attribute* attribute )
+void Firework::resetParticle( Attribute* attribute, float age )
 {
 	attribute->_isAlive = true;
 	D3DXVECTOR3 originRange;
@@ -330,9 +330,8 @@ void Firework::resetParticle( Attribute* attribute )
 		DDMath::GetRandomFloat( m_Color.m_BMin, m_Color.m_BMax ),
 		m_Color.m_Alpha );
 
-	attribute->_age = 0.0f;
-	//attribute->_lifeTime = PARTICLE_LIFETIME; 
-	attribute->_lifeTime = m_LifeTime; // lives for 2 seconds
+	attribute->_age = age;
+	attribute->_lifeTime = m_LifeTime; 
 }
 
 void Firework::UpdateItSelf( float timeDelta )
@@ -378,3 +377,99 @@ void Firework::PlayEffect( D3DXVECTOR3 origin )
 	reset();
 }
 
+
+//*****************************************************************************
+// Snow System
+//***************
+
+Snow::Snow()
+{	
+	m_Size = 10.25f;
+	m_VBSize = 2048;
+	m_VBOffset = 0;
+	m_VBBatchSize = 512;
+}
+
+void Snow::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity )
+{
+	m_Origin = origin;
+	m_Color = color;
+	m_DirectionMax = directionMax;
+	m_DirectionMin = directionMin;
+	m_LifeTime = lifetime;
+	m_Velocity = velocity;
+
+	for ( int i = 0; i < numParticles; i++ )
+		addParticle();
+}
+
+
+void Snow::PlayEffect()
+{
+	reset();
+}
+
+
+void Snow::resetParticle( Attribute* attribute, float age )
+{
+	attribute->_isAlive = true;
+	
+	// get random x, z coordinate for the position of the snow flake.
+
+	D3DXVECTOR3 originRange;
+	D3DXVECTOR3 originMin{ -1000.0f, -1000.0f, -1000.0f };
+	D3DXVECTOR3 originMax{ 1000.0f, 1000.0f, 1000.0f };
+// 	D3DXVECTOR3 originMin{ -10.0f, -10.0f, -10.0f };
+// 	D3DXVECTOR3 originMax{ 10.0f, 10.0f, 10.0f };
+
+	DDMath::GetRandomVector( &originRange, &originMin, &originMax );
+	attribute->_position = originRange;
+// 
+// 	DDMath::GetRandomVector(
+// 		&attribute->_position, 
+// 		&m_DirectionMin,
+// 		&m_DirectionMax);
+
+	//DDMath::GetRandomVector( &attribute->_velocity, &m_DirectionMin, &m_DirectionMax );
+	attribute->_velocity = m_DirectionMax;
+	
+	// normalize to make spherical
+	D3DXVec3Normalize(
+		&attribute->_velocity,
+		&attribute->_velocity );
+
+	attribute->_velocity *= m_Velocity;
+		
+	attribute->_color = D3DXCOLOR(
+		DDMath::GetRandomFloat( m_Color.m_RMin, m_Color.m_RMax ),
+		DDMath::GetRandomFloat( m_Color.m_GMin, m_Color.m_GMax ),
+		DDMath::GetRandomFloat( m_Color.m_BMin, m_Color.m_BMax ),
+		m_Color.m_Alpha );
+
+	attribute->_age = age;	
+	attribute->_lifeTime = m_LifeTime; 
+}
+
+void Snow::UpdateItSelf( float timeDelta )
+{	
+	std::list<Attribute>::iterator i;
+	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
+	{
+		if ( i->_isAlive )
+		{
+			i->_position += i->_velocity * timeDelta;
+
+			i->_age += timeDelta;
+			if ( i->_age > i->_lifeTime ) // kill 
+				i->_isAlive = false;
+
+			// is the point outside bounds?
+			if ( m_DirectionMin.x > i->_position.x || m_DirectionMax.x < i->_position.x || m_DirectionMin.z > i->_position.z || m_DirectionMax.z < i->_position.z )
+			{
+				// nope so kill it, but we want to recycle dead 
+				// particles, so respawn it instead.
+				resetParticle( &( *i ), 0.0f );
+			}
+		}		
+	}
+}
