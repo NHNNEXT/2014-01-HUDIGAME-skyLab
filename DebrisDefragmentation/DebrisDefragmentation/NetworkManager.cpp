@@ -516,13 +516,13 @@ void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GObjectManager->InstallStructure( 
-		inPacket.mStructureId, 
-		static_cast<StructureType>( inPacket.mStructureType ), 
-		inPacket.mPosition, 
-		inPacket.mDirection, 
-		static_cast<TeamColor>( inPacket.mTeamColor ) 
+		inPacket.mStructInfo.mStructureId, 
+		static_cast<StructureType>( inPacket.mStructInfo.mStructureType ),
+		inPacket.mStructInfo.mPosition,
+		inPacket.mStructInfo.mDirection,
+		static_cast<TeamColor>( inPacket.mStructInfo.mTeamColor )
 		);
-	GEnvironmentManager->PlayParticleEffect( EffectType::EXPLOSION, inPacket.mPosition );
+	GEnvironmentManager->PlayParticleEffect( EffectType::EXPLOSION, inPacket.mStructInfo.mPosition );
 }
 
 void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )

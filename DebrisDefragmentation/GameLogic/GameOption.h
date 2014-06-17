@@ -204,6 +204,8 @@ const float			SCOUT_MOVE_FAST_DURATION = 5.0f;
 const float			EMP_TIME = 2.0f;
 const float			SPACE_MINE_RANGE = 10.0f;
 const float			SPACE_MINE_FORCE = 5.0f;
+const int			MAX_DISPENSER_NUMBER = 1;
+const int			MAX_SPACE_MINE_NUMBER = 2;
 
 // Cooldown time
 // 모든 스킬은 cooldown time을 가지고 있고, 이 값이 0이 되면 즉시 쓸 수 있다.

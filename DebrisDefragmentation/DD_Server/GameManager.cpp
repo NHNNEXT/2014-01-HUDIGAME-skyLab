@@ -49,11 +49,11 @@ void GameManager::BroadcastStructureInstallation( int structureId, StructureType
 {
 	StructureInstallResult outPacket;
 
-	outPacket.mStructureId = structureId;
-	outPacket.mStructureType = static_cast<int>( structureType );
-	outPacket.mPosition = position;
-	outPacket.mDirection = direction;
-	outPacket.mTeamColor = static_cast<int>( teamColor );
+	outPacket.mStructInfo.mStructureId = structureId;
+	outPacket.mStructInfo.mStructureType = static_cast<int>( structureType );
+	outPacket.mStructInfo.mPosition = position;
+	outPacket.mStructInfo.mDirection = direction;
+	outPacket.mStructInfo.mTeamColor = static_cast<int>( teamColor );
 
 	GClientManager->BroadcastPacket( nullptr, &outPacket );
 }

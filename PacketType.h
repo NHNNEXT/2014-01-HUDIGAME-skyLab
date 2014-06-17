@@ -40,6 +40,18 @@ struct Float3D
 	float m_Z = 0.0f;
 };
 
+struct InstalledStructureInfo
+{
+	InstalledStructureInfo()
+		: mStructureId( 0 ), mStructureType( -1 ), mTeamColor( -1 )
+	{}
+
+	unsigned int	mStructureId;
+	int				mStructureType;
+	Float3D			mPosition;
+	Float3D			mDirection;
+	int				mTeamColor;
+};
 
 // 조심해!!
 // 패킷 종류 - 스킬인지, 게임 진행 상태인지에 따라서 숫자 구간 나눠서 사용하자
@@ -64,6 +76,9 @@ enum PacketTypes
 
 	PKT_CS_ISS_MODULE_STATE = 105,
 	PKT_SC_ISS_MODULE_STATE = 106,
+
+	PKT_CS_INSTALLED_STRUCTURE_STATE = 107,
+	PKT_SC_INSTALLED_STRUCTURE_STATE = 108,
 
 	PKT_CS_GAME_RESULT = 151,
 	PKT_SC_GAME_RESULT = 152,
@@ -516,6 +531,41 @@ struct GameResultResult : public PacketHeader
 	// 나중에 부가 정보 추가할 것
 };
 
+// 설치되어 있는 디스펜서와 스페이스 마인 상태 전송
+struct InstalledStruectureRequest : public PacketHeader
+{
+	InstalledStruectureRequest()
+	{
+		mSize = sizeof( InstalledStruectureRequest );
+		mType = PKT_CS_INSTALLED_STRUCTURE_STATE;
+		mPlayerId = -1;
+	}
+
+	int		mPlayerId;
+};
+
+struct InstalledStruectureResult : public PacketHeader
+{
+	InstalledStruectureResult()
+	{
+		mSize = sizeof( InstalledStruectureResult );
+		mType = PKT_SC_INSTALLED_STRUCTURE_STATE;
+
+		mDispenserCount = -1;
+		mSpaceMineCount = -1;
+
+		memset( mDispenserList, 0, sizeof( mDispenserList ) );
+		memset( mSpaceMineList, 0, sizeof( mSpaceMineList ) );
+	}
+
+	int	mDispenserCount;
+	int mSpaceMineCount;
+	InstalledStructureInfo mDispenserList[REAL_PLAYER_NUM * MAX_DISPENSER_NUMBER];
+	InstalledStructureInfo mSpaceMineList[REAL_PLAYER_NUM * MAX_SPACE_MINE_NUMBER];
+};
+
+
+
 // 운동 상태 좀 알려주세요
 struct KineticStateRequest : public PacketHeader
 {
@@ -740,17 +790,9 @@ struct StructureInstallResult : public PacketHeader
 	{
 		mSize = sizeof( StructureInstallResult );
 		mType = PKT_SC_STRUCTURE_INSTALL;
-
-		mStructureId = 0;
-		mStructureType = -1;
-		mTeamColor = -1;
 	}
 
-	unsigned int	mStructureId;
-	int				mStructureType;
-	Float3D			mPosition;
-	Float3D			mDirection;
-	int				mTeamColor;
+	InstalledStructureInfo mStructInfo;
 };
 
 struct StructureUninstallResult : public PacketHeader

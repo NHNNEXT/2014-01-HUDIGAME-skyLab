@@ -323,7 +323,6 @@ void CALLBACK SendCompletion( DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPE
 	}
 
 	fromClient->OnWriteComplete( cbTransferred );
-
 }
 
 void ClientSession::BroadcastCollisionResult()
