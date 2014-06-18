@@ -21,6 +21,10 @@ public:
 	void UpdateIssPosition( float pos ) { m_Matrix._43 = pos - m_FirstIssPos; }
 
 	void SetId( unsigned int id ) { m_MineId = id; }
+	unsigned int GetId() const { return m_MineId; }
+
+	TeamColor GetTeamColor() const { return m_Team; }
+	void SetTeamColor( TeamColor val ) { m_Team = val; }
 
 private:
 	TeamColor		m_Team = TeamColor::NO_TEAM;

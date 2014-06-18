@@ -7,6 +7,7 @@
 #include "ObjectTable.h"
 #include "Transform.h"
 #include "Dispenser.h"
+#include "SpaceMine.h"
 #include "..\DebrisDefragmentation\ObjectManager.h"
 #include "InGameEvent.h"
 
@@ -588,9 +589,6 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	// 요청한 아이에게 각자의 상태를 직접 보내도록(방송말고) 하자
 	GClientManager->InitPlayerState( this );
 
-	// 기타 게임 정보 전송
-	//GameStateResult outPacket;
-
 	// ISS state
 	IssStateResult currentIssState;
 
@@ -609,6 +607,50 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	}
 
 	SendRequest( &currentIssState );
+
+	// 설치된 구조물 정보 전송
+	InstalledStruectureResult currentInstalledStructureState;
+
+	// const로 map 참조자를 반환하자!
+	const std::map<unsigned, Dispenser*> currentDispenserList = m_GameManager->GetDispenserList();
+	const std::map<unsigned, SpaceMine*> currentSpaceMineList = m_GameManager->GetSpaceMineList();
+
+	int dispenserIdx = 0;
+	// const로 받고 싶으나 GetTransform에 걸린다...포인터...으으....
+	for ( std::map<unsigned, Dispenser*>::const_iterator it = currentDispenserList.begin(); it != currentDispenserList.end(); ++it )
+	{
+		Dispenser* dispenser = it->second;
+
+		currentInstalledStructureState.mDispenserList[dispenserIdx].mStructureId = dispenser->GetId();
+		currentInstalledStructureState.mDispenserList[dispenserIdx].mStructureType = static_cast<int>( StructureType::DISPENSER );
+		currentInstalledStructureState.mDispenserList[dispenserIdx].mTeamColor = static_cast<int>( dispenser->GetTeamColor() );
+		currentInstalledStructureState.mDispenserList[dispenserIdx].mPosition = dispenser->GetTransform()->GetPosition();
+		currentInstalledStructureState.mDispenserList[dispenserIdx].mDirection = dispenser->GetTransform()->GetRotation();
+
+		++dispenserIdx;
+	}
+
+	// 몇 개 있는지도 저장
+	currentInstalledStructureState.mDispenserCount = dispenserIdx;
+
+	int spaceMineIdx = 0;
+	for ( std::map<unsigned, SpaceMine*>::const_iterator it = currentSpaceMineList.begin(); it != currentSpaceMineList.end(); ++it )
+	{
+		SpaceMine* spaceMine = it->second;
+
+		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mStructureId = spaceMine->GetId();
+		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mStructureType = static_cast<int>( StructureType::SPACE_MINE );
+		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mTeamColor = static_cast<int>( spaceMine->GetTeamColor() );
+		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mPosition = spaceMine->GetTransform()->GetPosition();
+		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mDirection = spaceMine->GetTransform()->GetRotation();
+
+		++spaceMineIdx;
+	}
+
+	// 몇 개 있는지도 저장
+	currentInstalledStructureState.mSpaceMineCount = spaceMineIdx;
+
+	SendRequest( &currentInstalledStructureState );
 }
 
 REGISTER_HANDLER( PKT_CS_ACCELERATION )

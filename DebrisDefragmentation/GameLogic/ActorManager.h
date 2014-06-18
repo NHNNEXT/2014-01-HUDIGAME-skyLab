@@ -61,6 +61,9 @@ public:
 
 	const std::array<Character*, REAL_PLAYER_NUM>& GetCharacterList() const { return m_CharacterList; }
 
+	const std::map<unsigned, Dispenser*>& GetDispenserList() { return m_DispenserList; }
+	const std::map<unsigned, SpaceMine*>& GetSpaceMineList() { return m_SpaceMineList; }
+
 	// 입력받은 범위 안에 있는 캐릭터 id반환		
 	std::vector<int> DetectTargetsInRange( int characterId, float range );
 	
