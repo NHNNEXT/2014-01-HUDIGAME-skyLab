@@ -5,8 +5,8 @@
 class SpaceMine : public Actor
 {
 public:
-	SpaceMine( unsigned int id, TeamColor color, float issPos ) 
-		: m_MineId( id ), m_Team( color ), m_FirstIssPos( issPos )
+	SpaceMine( unsigned int id, TeamColor color, float issPos, int playerId ) 
+		: m_MineId( id ), m_Team( color ), m_FirstIssPos( issPos ), m_SetterId( playerId )
 	{
 	}
 	
@@ -26,9 +26,12 @@ public:
 	TeamColor GetTeamColor() const { return m_Team; }
 	void SetTeamColor( TeamColor val ) { m_Team = val; }
 
+	int GetSetterId() { return m_SetterId; }
+
 private:
 	TeamColor		m_Team = TeamColor::NO_TEAM;
 	unsigned int	m_MineId = 0;
 	float			m_FirstIssPos = 0.0f;
+	int				m_SetterId = -1;
 };
 

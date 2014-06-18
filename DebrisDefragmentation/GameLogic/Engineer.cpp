@@ -114,7 +114,7 @@ bool Engineer::SkillDispenser( int id, const D3DXVECTOR3& direction )
 	// ray 방향의 반대 방향을 정면으로 설정
 	// actorManager에 등록
 	D3DXVECTOR3 minePosition = startPoint + viewDirection * distance;
-	GObjectTable->GetActorManager()->InstallDispenser( minePosition, -viewDirection, skillUserCharacter->GetTeam() );
+	GObjectTable->GetActorManager()->InstallDispenser( minePosition, -viewDirection, skillUserCharacter->GetTeam(), id );
 
 	// 설치 완료
 	printf_s( "dispenser installed \n" );

@@ -17,6 +17,8 @@ ActorManager::ActorManager()
 	m_CharacterList.fill( nullptr );
 	m_ResourceDebrisList.fill( nullptr );
 	m_GatheredDebrisList.fill( false );
+	m_DispenserSlot.fill( 0 );
+	m_SpaceMineSlot.fill( 0 );
 }
 
 ActorManager::~ActorManager()
@@ -397,19 +399,41 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 	return targets;
 }
 
-int	ActorManager::InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
+int	ActorManager::InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId )
 {
- 	Dispenser* newDispenser = new Dispenser( m_DispensereId, team, m_ISS.GetPosition() );
+	int slotIdx = -1;
+
+	for ( int i = playerId * MAX_DISPENSER_NUMBER; i < ( playerId + 1 ) * MAX_DISPENSER_NUMBER; ++i )
+	{
+		if ( m_DispenserSlot[i] == 0 )
+		{
+			slotIdx = i;
+			break;
+		}
+	}
+
+	if ( slotIdx == -1 )
+	{
+		// 슬롯이 가득 찬 상태
+		// 먼저 생성 된 것을 지운다.
+		slotIdx = playerId * MAX_DISPENSER_NUMBER;
+		UninstallDispenser( m_DispenserSlot[slotIdx] );
+	}
+
+	Dispenser* newDispenser = new Dispenser( m_DispensereId, team, m_ISS.GetPosition(), playerId );
 
 	newDispenser->GetTransform()->SetPosition( position );
 	newDispenser->GetTransform()->SetRotation( direction );
 
 	m_DispenserList.insert( std::map<unsigned int, Dispenser*>::value_type( m_DispensereId, newDispenser ) );
 
+	// 슬롯에 등록
+	m_DispenserSlot[slotIdx] = m_DispensereId;
+
 	// 설치 방송
 	BroadcastStructureInstallation( m_DispensereId, StructureType::DISPENSER, position, direction, team );
 
-	return m_SpaceMineId++;
+	return m_DispensereId++;
 }
 
 void ActorManager::UninstallDispenser( unsigned int targetId )
@@ -418,20 +442,55 @@ void ActorManager::UninstallDispenser( unsigned int targetId )
 	assert( it != m_DispenserList.end() );
 
 	// 설치 해제 방송
-	BroadcastStructureUninstallation( m_DispensereId, StructureType::DISPENSER );
+	BroadcastStructureUninstallation( targetId, StructureType::DISPENSER );
 
+	// 슬롯에서 지워줘야 한다
+	int slotIdx = it->second->GetSetterId();
+	m_DispenserSlot[slotIdx] = 0;
+
+	// 객체 해제하고 map에서도 삭제
 	delete it->second;
 	m_DispenserList.erase( targetId );
 }
 
-int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team )
+int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId )
 {
-	SpaceMine* newMine = new SpaceMine( m_SpaceMineId, team, m_ISS.GetPosition() );
+	int slotIdx = -1;
+
+	for ( int i = playerId * MAX_SPACE_MINE_NUMBER; i < ( playerId + 1 ) * MAX_SPACE_MINE_NUMBER; ++i )
+	{
+		if ( m_SpaceMineSlot[i] == 0 )
+		{
+			slotIdx = i;
+			break;
+		}
+	}
+
+	if ( slotIdx == -1 )
+	{
+		// 슬롯이 가득 찬 상태
+		// 먼저 생성 된 것을 지운다.
+		if ( m_SpaceMineSlot[playerId * MAX_SPACE_MINE_NUMBER] < m_SpaceMineSlot[( playerId * MAX_SPACE_MINE_NUMBER ) + 1] )
+		{
+			slotIdx = playerId * MAX_SPACE_MINE_NUMBER;
+		}
+		else
+		{
+			slotIdx = ( playerId * MAX_SPACE_MINE_NUMBER ) + 1;
+		}
+
+		UninstallMine( m_SpaceMineSlot[slotIdx] );
+	}
+
+	SpaceMine* newMine = new SpaceMine( m_SpaceMineId, team, m_ISS.GetPosition(), playerId );
 
 	newMine->GetTransform()->SetPosition( position );
 	newMine->GetTransform()->SetRotation( direction );
 	
 	m_SpaceMineList.insert( std::map<unsigned int, SpaceMine*>::value_type( m_SpaceMineId, newMine ) );
+
+	// 슬롯에 등록
+	m_SpaceMineSlot[slotIdx] = m_SpaceMineId;
 
 	// 설치 방송
 	BroadcastStructureInstallation( m_SpaceMineId, StructureType::SPACE_MINE, position, direction, team );
@@ -445,7 +504,19 @@ void ActorManager::UninstallMine( unsigned int targetId )
 	assert( it != m_SpaceMineList.end() );
 
 	// 설치 해제 방송
-	BroadcastStructureUninstallation( m_SpaceMineId, StructureType::SPACE_MINE );
+	BroadcastStructureUninstallation( targetId, StructureType::SPACE_MINE );
+
+	// 슬롯에서 지워줘야 한다
+	int slotIdx = it->second->GetSetterId();
+	for ( int i = slotIdx * MAX_SPACE_MINE_NUMBER; i < ( slotIdx + 1 ) * MAX_SPACE_MINE_NUMBER; ++i )
+	{
+		if ( targetId == m_SpaceMineSlot[i] )
+		{
+			slotIdx = i;
+			break;
+		}
+	}
+	m_SpaceMineSlot[slotIdx] = 0;
 
 	delete it->second;
 	m_SpaceMineList.erase( targetId );
@@ -467,5 +538,27 @@ void ActorManager::RemoveResourceDebris( int index )
 	{
 		delete m_ResourceDebrisList[index];
 		m_ResourceDebrisList[index] = nullptr;
+	}
+}
+
+void ActorManager::ClearPlayerStructureList( int playerId )
+{
+	if ( playerId < 0 || playerId >= REAL_PLAYER_NUM )
+		return;
+
+	for ( int i = playerId * MAX_DISPENSER_NUMBER; i < ( playerId + 1 ) * MAX_DISPENSER_NUMBER; ++i )
+	{
+		if ( m_DispenserSlot[i] != 0 )
+		{
+			UninstallDispenser( m_DispenserSlot[i] );
+		}
+	}
+
+	for ( int i = playerId * MAX_SPACE_MINE_NUMBER; i < ( playerId + 1 ) * MAX_SPACE_MINE_NUMBER; ++i )
+	{
+		if ( m_SpaceMineSlot[i] != 0 )
+		{
+			UninstallMine( m_SpaceMineSlot[i] );
+		}
 	}
 }

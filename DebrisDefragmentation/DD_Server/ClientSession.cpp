@@ -112,6 +112,7 @@ void ClientSession::Disconnect( )
 		return;
 
 	// 내 캐릭터는 내가 지우고 나가자
+	m_GameManager->ClearPlayerStructureList( mPlayerId );
 	m_GameManager->DeregisterCharacter( m_Character.GetCharacterId() );
 	GClientManager->DeregisterSession( mPlayerId, this );
 

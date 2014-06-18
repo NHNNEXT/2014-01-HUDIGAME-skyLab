@@ -41,10 +41,10 @@ public:
 
 	ISS* GetIss() { return &m_ISS; }
 
-	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId );
 	void UninstallDispenser( unsigned int targetId );
 
-	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team );
+	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId );
 	void UninstallMine( unsigned int targetId );
 
 	// 현재 ISS 위치 및 속도 정보 리턴
@@ -63,6 +63,8 @@ public:
 
 	const std::map<unsigned, Dispenser*>& GetDispenserList() { return m_DispenserList; }
 	const std::map<unsigned, SpaceMine*>& GetSpaceMineList() { return m_SpaceMineList; }
+
+	void ClearPlayerStructureList( int playerId );
 
 	// 입력받은 범위 안에 있는 캐릭터 id반환		
 	std::vector<int> DetectTargetsInRange( int characterId, float range );
@@ -100,10 +102,12 @@ protected:
 	TeamColor		m_WinnerTeam = TeamColor::NO_TEAM;
 
 	std::map<unsigned, Dispenser*>	m_DispenserList;
-	unsigned int					m_DispensereId = 0;
+	unsigned int					m_DispensereId = 1; // 0은 없는 상태
+	std::array<unsigned int, MAX_DISPENSER_NUMBER * REAL_PLAYER_NUM> m_DispenserSlot;
 
 	std::map<unsigned, SpaceMine*>	m_SpaceMineList;
-	unsigned int					m_SpaceMineId = 0;
+	unsigned int					m_SpaceMineId = 1; // 0은 없는 상태
+	std::array<unsigned int, MAX_SPACE_MINE_NUMBER * REAL_PLAYER_NUM> m_SpaceMineSlot;
 
 	bool m_GameEndFlag = false;
 
