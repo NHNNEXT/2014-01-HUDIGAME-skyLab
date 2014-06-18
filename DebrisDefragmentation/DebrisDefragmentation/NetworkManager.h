@@ -45,6 +45,7 @@ public:
 	static void HandleDispenserEffectResult( DDPacketHeader& pktBase );
 	static void HandleGatherResult( DDPacketHeader& pktBase );
 	static void HandleIssStateResult( DDPacketHeader& pktBase );
+	static void HandleInstalledStruectureResult( DDPacketHeader& pktBase );
 	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
 	static void HandleGameResultResult( DDPacketHeader& pktBase );
 	static void HandleWarningResult( DDPacketHeader& pktBase );

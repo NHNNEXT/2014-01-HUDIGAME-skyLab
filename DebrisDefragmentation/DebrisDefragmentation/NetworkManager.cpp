@@ -180,6 +180,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_INSTALLED_STRUCTURE_STATE, HandleInstalledStruectureResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
@@ -533,7 +534,36 @@ void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )
 	GObjectManager->UninstallStructure( inPacket.mStructureId, static_cast<StructureType>( inPacket.mStructureType ) );
 }
 
+void NetworkManager::HandleInstalledStruectureResult( DDPacketHeader& pktBase )
+{
+	InstalledStruectureResult inPacket = reinterpret_cast<InstalledStruectureResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	for ( int i = 0; i < inPacket.mDispenserCount; ++i )
+	{
+		GObjectManager->InstallStructure(
+			inPacket.mDispenserList[i].mStructureId,
+			static_cast<StructureType>( inPacket.mDispenserList[i].mStructureType ),
+			inPacket.mDispenserList[i].mPosition,
+			inPacket.mDispenserList[i].mDirection,
+			static_cast<TeamColor>( inPacket.mDispenserList[i].mTeamColor )
+			);
+	}
+
+	for ( int i = 0; i < inPacket.mSpaceMineCount; ++i )
+	{
+		GObjectManager->InstallStructure(
+			inPacket.mSpaceMineList[i].mStructureId,
+			static_cast<StructureType>( inPacket.mSpaceMineList[i].mStructureType ),
+			inPacket.mSpaceMineList[i].mPosition,
+			inPacket.mSpaceMineList[i].mDirection,
+			static_cast<TeamColor>( inPacket.mSpaceMineList[i].mTeamColor )
+			);
+	}
+}
+
 CharacterClass NetworkManager::GetMyClass()
 { 
 	return GPlayerManager->GetPlayer( m_MyPlayerId )->GetClassComponent()->GetCharacterClassName(); 
 }
+
