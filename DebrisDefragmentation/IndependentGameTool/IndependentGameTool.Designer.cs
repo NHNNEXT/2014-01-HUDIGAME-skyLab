@@ -106,6 +106,9 @@
             this.scaleBox = new System.Windows.Forms.TextBox();
             this.LoadedObjectList = new System.Windows.Forms.ListBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.BBZ = new System.Windows.Forms.TextBox();
+            this.BBY = new System.Windows.Forms.TextBox();
+            this.BBX = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.GetBoxBtn = new System.Windows.Forms.Button();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -138,9 +141,8 @@
             this.tab_ObjectRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
-            this.BBX = new System.Windows.Forms.TextBox();
-            this.BBY = new System.Windows.Forms.TextBox();
-            this.BBZ = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.AccumScale = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -876,13 +878,15 @@
             // 
             // groupBox18
             // 
+            this.groupBox18.Controls.Add(this.AccumScale);
+            this.groupBox18.Controls.Add(this.label27);
             this.groupBox18.Controls.Add(this.SetScaleBtn);
             this.groupBox18.Controls.Add(this.GetScaleBtn);
             this.groupBox18.Controls.Add(this.ScaleSlider);
             this.groupBox18.Controls.Add(this.scaleBox);
             this.groupBox18.Location = new System.Drawing.Point(11, 190);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(171, 105);
+            this.groupBox18.Size = new System.Drawing.Size(171, 131);
             this.groupBox18.TabIndex = 12;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Scale";
@@ -949,6 +953,27 @@
             this.groupBox16.TabIndex = 10;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "BoundingBox";
+            // 
+            // BBZ
+            // 
+            this.BBZ.Location = new System.Drawing.Point(121, 36);
+            this.BBZ.Name = "BBZ";
+            this.BBZ.Size = new System.Drawing.Size(41, 21);
+            this.BBZ.TabIndex = 14;
+            // 
+            // BBY
+            // 
+            this.BBY.Location = new System.Drawing.Point(66, 36);
+            this.BBY.Name = "BBY";
+            this.BBY.Size = new System.Drawing.Size(41, 21);
+            this.BBY.TabIndex = 13;
+            // 
+            // BBX
+            // 
+            this.BBX.Location = new System.Drawing.Point(9, 36);
+            this.BBX.Name = "BBX";
+            this.BBX.Size = new System.Drawing.Size(41, 21);
+            this.BBX.TabIndex = 12;
             // 
             // label26
             // 
@@ -1256,26 +1281,23 @@
             this.tab_GameRender.Text = "GameRender";
             this.tab_GameRender.UseVisualStyleBackColor = true;
             // 
-            // BBX
+            // label27
             // 
-            this.BBX.Location = new System.Drawing.Point(9, 36);
-            this.BBX.Name = "BBX";
-            this.BBX.Size = new System.Drawing.Size(41, 21);
-            this.BBX.TabIndex = 12;
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(9, 109);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(65, 12);
+            this.label27.TabIndex = 14;
+            this.label27.Text = "누적 Scale";
             // 
-            // BBY
+            // AccumScale
             // 
-            this.BBY.Location = new System.Drawing.Point(66, 36);
-            this.BBY.Name = "BBY";
-            this.BBY.Size = new System.Drawing.Size(41, 21);
-            this.BBY.TabIndex = 13;
-            // 
-            // BBZ
-            // 
-            this.BBZ.Location = new System.Drawing.Point(121, 36);
-            this.BBZ.Name = "BBZ";
-            this.BBZ.Size = new System.Drawing.Size(41, 21);
-            this.BBZ.TabIndex = 14;
+            this.AccumScale.AutoSize = true;
+            this.AccumScale.Location = new System.Drawing.Point(116, 109);
+            this.AccumScale.Name = "AccumScale";
+            this.AccumScale.Size = new System.Drawing.Size(21, 12);
+            this.AccumScale.TabIndex = 15;
+            this.AccumScale.Text = "1.0";
             // 
             // IndependentGameTool
             // 
@@ -1450,6 +1472,8 @@
         private System.Windows.Forms.TextBox BBZ;
         private System.Windows.Forms.TextBox BBY;
         private System.Windows.Forms.TextBox BBX;
+        private System.Windows.Forms.Label AccumScale;
+        private System.Windows.Forms.Label label27;
     }
 }
 

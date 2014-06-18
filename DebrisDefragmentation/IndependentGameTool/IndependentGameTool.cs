@@ -371,6 +371,7 @@ namespace GameTool
             }
 
             m_Renderer.SetScale(objIdx, scale);
+            AccumScale.Text = (Convert.ToSingle(AccumScale.Text) * scale).ToString();
         }
 
         private void WirdFrameOnOffBtnClicked(object sender, EventArgs e)
