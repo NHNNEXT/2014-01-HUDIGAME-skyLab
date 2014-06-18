@@ -22,9 +22,8 @@ void LogManager::Init()
 	log4cplus::initialize();
 
 	// config
-	PropertyConfigurator config();
-	//config.doConfigure();
-	//config.Configure();
+	//PropertyConfigurator config(L"Config.properties");
+	//PropertyConfigurator::doConfigure( L"./Resources/Log4Cplus/Config.properties" );
 
 	log4cplus::SharedAppenderPtr consoleAppender( new log4cplus::ConsoleAppender() );
 	consoleAppender->setName( L"ConsoleAppender" );
