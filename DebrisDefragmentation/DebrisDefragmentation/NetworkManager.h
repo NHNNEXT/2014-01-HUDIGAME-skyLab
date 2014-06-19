@@ -45,12 +45,14 @@ public:
 	static void HandleDispenserEffectResult( DDPacketHeader& pktBase );
 	static void HandleGatherResult( DDPacketHeader& pktBase );
 	static void HandleIssStateResult( DDPacketHeader& pktBase );
-	static void HandleInstalledStruectureResult( DDPacketHeader& pktBase );
+	static void HandleInstalledStructureResult( DDPacketHeader& pktBase );
 	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
 	static void HandleGameResultResult( DDPacketHeader& pktBase );
 	static void HandleWarningResult( DDPacketHeader& pktBase );
+	static void HandleDisasterOccurrence( DDPacketHeader& pktBase );
 	static void HandleStructureInstallResult( DDPacketHeader& pktBase );
 	static void HandleStructureUninstallResult( DDPacketHeader& pktBase );
+	
 
 	static void HandleKineticStateResult( DDPacketHeader& pktBase );
 	static void HandleCharacterStateResult( DDPacketHeader& pktBase );

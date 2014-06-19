@@ -186,6 +186,7 @@ const float			CHARACTER_CB_CENTER_POS_Z = 0.0f;
 
 // 추진체 관련
 const float			OXYGEN_CONSUMPTION = 100.0f;
+const float			OXYGEN_CONSUMPTION_UNDER_DISASTER = OXYGEN_CONSUMPTION * 20.0f;
 const float			HEALTH_REDUCED_BY_OXYGEN_INSUFFICIENT = 10.0f;
 const float			FUEL_FOR_GOFORWARD = 30.0f;
 
@@ -260,6 +261,7 @@ enum class GameEvent : int
 	NO_EVENT = -1,
 	DEBRIS_STORM,
 	SOLAR_WIND,
+	NUMBER_OF_DISASTORS,
 };
 
 enum class StructureType : int
@@ -285,7 +287,6 @@ struct ColorRange
 
 const D3DXVECTOR3	EARTH_POSITION{ 0, -800, 0 };
 
-const int			NUMBER_OF_PARTICLES = 100;
 const int			PARTICLE_EFFECT_BUFFER = 10;
 const D3DXVECTOR3	TEMP_ORIGIN = EARTH_POSITION;
 const float			FIREWORK_SIZE = 0.25f;
@@ -299,6 +300,8 @@ enum class EffectType : int
 
 // 파티클의 방향, 속도, 색상, 생존시간 등을 결정, 
 // 색상의 경우 RGB 각각이 0.0f~1.0f 사이에서 랜덤하게 결정됨. 맨 마지막은 alpha값
+const int			NUMBER_OF_PARTICLES = 100;
+
 const float			EXPLOSION_LIFETIME = 1.0f;
 const float			EXPLOSION_PARTICLE_VELOCITY = 20.0f;
 const D3DXVECTOR3	EXPLOSION_DIR_MIN{ -1.0f, -1.0f, -1.0f };
@@ -311,10 +314,13 @@ const D3DXVECTOR3	HEALING_DIR_MIN{ -1.0f, 1.0f, -1.0f };
 const D3DXVECTOR3	HEALING_DIR_MAX{ 1.0f, 1.0f, 1.0f };
 const ColorRange	HEALING_COLOR_RANGE = { 0.1f, 0.2f, 0.8f, 1.0f, 0.2f, 0.3f, 1.0f };
 
+const int			NUMBER_OF_DS_PARTICLES = 1000;
 const float			DS_LIFETIME = 10.0f;
-const float			DS_PARTICLE_VELOCITY = 1.0f;
+const float			DS_PARTICLE_VELOCITY = 500.0f;
 const D3DXVECTOR3	DS_DIR_MIN{ -1.0f, 0.0f, -1.0f };
 const D3DXVECTOR3	DS_DIR_MAX{ 1.0f, 0.0f, 1.0f };
+const D3DXVECTOR3	DS_ORIGIN_MIN{ -1000.0f, -1000.0f, -1000.0f };
+const D3DXVECTOR3	DS_ORIGIN_MAX{ 1000.0f, 1000.0f, 1000.0f };
 const ColorRange	DS_COLOR_RANGE = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 
 // D3DXVECTOR3 mapMin{ -1000.0f, -1000.0f, -1000.0f };

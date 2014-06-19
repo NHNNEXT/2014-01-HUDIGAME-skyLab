@@ -25,7 +25,9 @@ LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 	google_breakpad::CustomClientInfo custom_info = { kCustomInfoEntries, kCustomInfoCount };
 	const wchar_t kPipeName[] = L"\\\\.\\pipe\\BreakpadCrashServices\\TestServer";
 
-	google_breakpad::CrashGenerationClient client( kPipeName, MiniDumpNormal, &custom_info );
+	google_breakpad::CrashGenerationClient client( kPipeName, (MINIDUMP_TYPE)( MiniDumpWithPrivateReadWriteMemory |
+		MiniDumpWithDataSegs | MiniDumpWithHandleData | MiniDumpWithFullMemoryInfo |
+		MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules ), &custom_info );
 	client.Register();
 	client.RequestDump( exceptionInfo );
 	client.RequestUpload(10);

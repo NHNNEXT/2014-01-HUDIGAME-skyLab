@@ -610,7 +610,7 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	SendRequest( &currentIssState );
 
 	// 설치된 구조물 정보 전송
-	InstalledStruectureResult currentInstalledStructureState;
+	InstalledStructureResult currentInstalledStructureState;
 
 	// const로 map 참조자를 반환하자!
 	const std::map<unsigned, Dispenser*> currentDispenserList = m_GameManager->GetDispenserList();

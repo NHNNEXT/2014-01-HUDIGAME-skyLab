@@ -8,7 +8,7 @@ class DebrisStormEvent :
 public:
 	DebrisStormEvent();
 	virtual ~DebrisStormEvent();
-
+	virtual void Init();
 	virtual void Run();
 };
 

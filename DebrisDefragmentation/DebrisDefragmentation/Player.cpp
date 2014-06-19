@@ -125,7 +125,7 @@ void Player::UpdateItSelf( float dTime )
 	m_LastHealingEffectTime += dTime;	
 	if ( m_ClassComponent->GetDispenserEffectFlag() && ( m_LastHealingEffectTime > HEALING_LIFETIME ) )
 	{
-		GEnvironmentManager->PlayParticleEffect( EffectType::HEALING, m_Transform.GetPosition() );
+		GEnvironmentManager->PlayFireworkEffect( EffectType::HEALING, m_Transform.GetPosition() );
 		m_LastHealingEffectTime = 0.0f;
 	}
 

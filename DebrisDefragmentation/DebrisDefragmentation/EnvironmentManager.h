@@ -18,7 +18,8 @@ public:
 	void		AddLight( ClientLightTag lightName, DDLight* light ) { m_LightMap[lightName] = light; }
 	DDLight*	GetLight( ClientLightTag lightName );
 	void		InitParticleEffects();	
-	int			PlayParticleEffect( EffectType effectType, D3DXVECTOR3 origin = ZERO_VECTOR3 );
+	int			PlayFireworkEffect( EffectType effectType, D3DXVECTOR3 origin );
+	void		PlaySnowEffect( D3DXVECTOR3 direction, float remainTime );
 //	bool		IsPlaying( int effectId, EffectType effectType );
 
 private:

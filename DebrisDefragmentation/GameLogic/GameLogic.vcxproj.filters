@@ -121,11 +121,11 @@
     <ClInclude Include="DebrisStormEvent.h">
       <Filter>Event</Filter>
     </ClInclude>
-    <ClInclude Include="SolarWindEvent.h">
-      <Filter>PCH</Filter>
-    </ClInclude>
     <ClInclude Include="DDMath.h">
       <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="SolarWindEvent.h">
+      <Filter>Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +189,11 @@
     <ClCompile Include="DebrisStormEvent.cpp">
       <Filter>Event</Filter>
     </ClCompile>
-    <ClCompile Include="SolarWindEvent.cpp" />
     <ClCompile Include="DDMath.cpp">
       <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="SolarWindEvent.cpp">
+      <Filter>Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

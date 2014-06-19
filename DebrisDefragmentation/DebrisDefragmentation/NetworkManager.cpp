@@ -180,7 +180,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_INSTALLED_STRUCTURE_STATE, HandleInstalledStruectureResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_INSTALLED_STRUCTURE_STATE, HandleInstalledStructureResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
@@ -188,6 +188,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER, HandleDisasterOccurrence );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_INSTALL, HandleStructureInstallResult );
@@ -211,7 +212,7 @@ void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
 
 	// 데브리 모델의 visible을 끔(굳이 삭제를 할 필요는 없을듯.. 나중에 한번에 하니까 ㅋ)
 	GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->SetVisible( false );
-	GEnvironmentManager->PlayParticleEffect( EffectType::EXPLOSION, GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->GetTransform().GetPosition());
+	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->GetTransform().GetPosition());
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetResource( inPacket.mCurrentResource );
 }
@@ -340,7 +341,7 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	{
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
-		GEnvironmentManager->PlayParticleEffect( EffectType::EXPLOSION, inPacket.mPos );
+		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
 		
 	}
 
@@ -354,7 +355,7 @@ void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
 {
 	CharacterStateResult inPacket = reinterpret_cast<CharacterStateResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
+	PlayerManager* a = GPlayerManager.get();
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetFuel( inPacket.mFuel );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetOxygen( inPacket.mOxygen );
 }
@@ -408,7 +409,7 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
-	GEnvironmentManager->PlayParticleEffect( EffectType::EXPLOSION, inPacket.mPos );
+	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
 }
 
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
@@ -457,6 +458,17 @@ void NetworkManager::HandleWarningResult( DDPacketHeader& pktBase )
 
 	printf_s( "event code : %d / remain time : %f sec", inPacket.mEventType, inPacket.mRemainTime );
 }
+
+void NetworkManager::HandleDisasterOccurrence( DDPacketHeader& pktBase )
+{
+	DisaterOccurrenceResult inPacket = reinterpret_cast<DisaterOccurrenceResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	GEnvironmentManager->PlaySnowEffect( inPacket.direction, inPacket.remainTime );
+
+}
+
+
 
 void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
 {
@@ -523,7 +535,7 @@ void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
 		inPacket.mStructInfo.mDirection,
 		static_cast<TeamColor>( inPacket.mStructInfo.mTeamColor )
 		);
-	GEnvironmentManager->PlayParticleEffect( EffectType::EXPLOSION, inPacket.mStructInfo.mPosition );
+	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mStructInfo.mPosition );
 }
 
 void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )
@@ -534,9 +546,9 @@ void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )
 	GObjectManager->UninstallStructure( inPacket.mStructureId, static_cast<StructureType>( inPacket.mStructureType ) );
 }
 
-void NetworkManager::HandleInstalledStruectureResult( DDPacketHeader& pktBase )
+void NetworkManager::HandleInstalledStructureResult( DDPacketHeader& pktBase )
 {
-	InstalledStruectureResult inPacket = reinterpret_cast<InstalledStruectureResult&>( pktBase );
+	InstalledStructureResult inPacket = reinterpret_cast<InstalledStructureResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	for ( int i = 0; i < inPacket.mDispenserCount; ++i )

@@ -390,22 +390,26 @@ Snow::Snow()
 	m_VBBatchSize = 512;
 }
 
-void Snow::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity )
+void Snow::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 direction, D3DXVECTOR3 originMin, D3DXVECTOR3 originMax, float lifetime, int numParticles, int velocity )
 {
 	m_Origin = origin;
 	m_Color = color;
-	m_DirectionMax = directionMax;
-	m_DirectionMin = directionMin;
+	m_DirectionMax = direction;
+	m_DirectionMin = ZERO_VECTOR3;
 	m_LifeTime = lifetime;
 	m_Velocity = velocity;
+	m_OriginMin = originMin;
+	m_OriginMax = originMax;
 
 	for ( int i = 0; i < numParticles; i++ )
 		addParticle();
 }
 
 
-void Snow::PlayEffect()
+void Snow::PlayEffect( D3DXVECTOR3 direction, float remainTime )
 {
+	m_DirectionMax = direction;
+	m_LifeTime = remainTime;
 	reset();
 }
 
@@ -417,12 +421,10 @@ void Snow::resetParticle( Attribute* attribute, float age )
 	// get random x, z coordinate for the position of the snow flake.
 
 	D3DXVECTOR3 originRange;
-	D3DXVECTOR3 originMin{ -1000.0f, -1000.0f, -1000.0f };
-	D3DXVECTOR3 originMax{ 1000.0f, 1000.0f, 1000.0f };
 // 	D3DXVECTOR3 originMin{ -10.0f, -10.0f, -10.0f };
 // 	D3DXVECTOR3 originMax{ 10.0f, 10.0f, 10.0f };
 
-	DDMath::GetRandomVector( &originRange, &originMin, &originMax );
+	DDMath::GetRandomVector( &originRange, &m_OriginMin, &m_OriginMax );
 	attribute->_position = originRange;
 // 
 // 	DDMath::GetRandomVector(
@@ -455,20 +457,25 @@ void Snow::UpdateItSelf( float timeDelta )
 	std::list<Attribute>::iterator i;
 	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
+		if ( i == m_Particles.begin() )
+			printf_s( "%f\n", i->_age );
+
 		if ( i->_isAlive )
 		{
 			i->_position += i->_velocity * timeDelta;
 
 			i->_age += timeDelta;
 			if ( i->_age > i->_lifeTime ) // kill 
+			{
 				i->_isAlive = false;
-
+				continue;
+			}
 			// is the point outside bounds?
-			if ( m_DirectionMin.x > i->_position.x || m_DirectionMax.x < i->_position.x || m_DirectionMin.z > i->_position.z || m_DirectionMax.z < i->_position.z )
+			if ( m_OriginMin.x > i->_position.x || m_OriginMax.x < i->_position.x || m_OriginMin.z > i->_position.z || m_OriginMax.z < i->_position.z )
 			{
 				// nope so kill it, but we want to recycle dead 
 				// particles, so respawn it instead.
-				resetParticle( &( *i ), 0.0f );
+				resetParticle( &( *i ), i->_age );
 			}
 		}		
 	}

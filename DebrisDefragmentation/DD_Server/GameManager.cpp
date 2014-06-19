@@ -130,3 +130,13 @@ void GameManager::BroadcastDispenserEffect( int idx, bool dispenserEffectFlag )
 	else
 		DDLOG_WARN( L"invalid index" );
 }
+
+void GameManager::BroadcastDisasterOccurrence( D3DXVECTOR3 direction, float remainTime )
+{
+	DisaterOccurrenceResult outPacket;
+
+	outPacket.direction = direction;
+	outPacket.remainTime = remainTime;
+
+	GClientManager->BroadcastPacket( nullptr, &outPacket );
+}

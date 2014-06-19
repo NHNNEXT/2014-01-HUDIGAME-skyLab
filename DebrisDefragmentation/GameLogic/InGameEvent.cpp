@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "InGameEvent.h"
+#include "ObjectTable.h"
+#include "ActorManager.h"
 
 
 InGameEvent::InGameEvent()
@@ -17,7 +19,7 @@ void InGameEvent::Init()
 	std::default_random_engine e;
 	std::normal_distribution<float> fDist( 180.0f, 360.0f );
 	std::function<float()> rnd = std::bind( fDist, e );
-	m_Timer = rnd();
+	m_Timer = rnd();	
 
 	// 이벤트 방향을 결정한다.
 	m_Direction.x = static_cast <float> ( rand() ) / static_cast <float> ( RAND_MAX );
@@ -28,12 +30,20 @@ void InGameEvent::Init()
 
 bool InGameEvent::Update( float dt )
 {
+	if ( m_LifeTime > 0.0f )
+	{
+		m_LifeTime -= dt;
+		Run();
+	}
+
 	m_Timer -= dt;
 	if ( m_Timer <= 0.0f )
-	{
+	{	
+		m_LifeTime = DS_LIFETIME;
 		m_Timer = 0.0f;
-		Run();
-
+		
+		GObjectTable->GetActorManager()->BroadcastDisasterOccurrence( m_Direction, m_LifeTime );
+		
 		return true;
 	}
 

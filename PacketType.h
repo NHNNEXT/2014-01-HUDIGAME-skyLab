@@ -83,6 +83,8 @@ enum PacketTypes
 	PKT_CS_GAME_RESULT = 151,
 	PKT_SC_GAME_RESULT = 152,
 
+	PKT_SC_DISASTER = 153,
+
 
 	// 플레이어 상태에 관련된 패킷
 	PKT_CS_DEAD = 201,
@@ -532,11 +534,11 @@ struct GameResultResult : public PacketHeader
 };
 
 // 설치되어 있는 디스펜서와 스페이스 마인 상태 전송
-struct InstalledStruectureRequest : public PacketHeader
+struct InstalledStructureRequest : public PacketHeader
 {
-	InstalledStruectureRequest()
+	InstalledStructureRequest()
 	{
-		mSize = sizeof( InstalledStruectureRequest );
+		mSize = sizeof( InstalledStructureRequest );
 		mType = PKT_CS_INSTALLED_STRUCTURE_STATE;
 		mPlayerId = -1;
 	}
@@ -544,11 +546,11 @@ struct InstalledStruectureRequest : public PacketHeader
 	int		mPlayerId;
 };
 
-struct InstalledStruectureResult : public PacketHeader
+struct InstalledStructureResult : public PacketHeader
 {
-	InstalledStruectureResult()
+	InstalledStructureResult()
 	{
-		mSize = sizeof( InstalledStruectureResult );
+		mSize = sizeof( InstalledStructureResult );
 		mType = PKT_SC_INSTALLED_STRUCTURE_STATE;
 
 		mDispenserCount = -1;
@@ -564,6 +566,22 @@ struct InstalledStruectureResult : public PacketHeader
 	InstalledStructureInfo mSpaceMineList[REAL_PLAYER_NUM * MAX_SPACE_MINE_NUMBER];
 };
 
+
+struct DisaterOccurrenceResult : public PacketHeader
+{
+	DisaterOccurrenceResult()
+	{
+		mSize = sizeof( DisaterOccurrenceResult );
+		mType = PKT_SC_DISASTER;
+
+		direction = D3DXVECTOR3{ 0.0f, 0.0f, 0.0f };
+		remainTime = 0.0f;
+	}
+
+	float remainTime;
+	D3DXVECTOR3 direction;
+
+};
 
 
 // 운동 상태 좀 알려주세요

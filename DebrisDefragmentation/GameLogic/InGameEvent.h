@@ -9,7 +9,7 @@ public:
 	virtual ~InGameEvent();
 
 	// 다음 실행할 이벤트를 설정한다
-	void Init();
+	virtual void Init();
 
 	// 이벤트 실행 - 현재 설정된 이벤트가 무엇인지에 따라 적합한 함수 호출
 	virtual void Run() = 0;
@@ -26,7 +26,8 @@ public:
 protected:
 	GameEvent	m_Event = GameEvent::NO_EVENT;
 	float		m_Timer = 0.0f;
-
+	bool		m_DisastorFlag = false;
+	float		m_LifeTime = 0.0f;
 	// 이벤트가 플레이어에게 접근하는 방향 - 단위 벡터로 저장한다.
 	D3DXVECTOR3 m_Direction;
 };

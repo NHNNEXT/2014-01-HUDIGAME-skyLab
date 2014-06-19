@@ -223,7 +223,7 @@ void PlayScene::UpdateItSelf( float dTime )
 	
 	if ( KEY_DOWN == GetKeyState( VK_5 ) )
 	{
-		GEnvironmentManager->PlayParticleEffect( EffectType::DEBRIS_STRIKE );
+		GEnvironmentManager->PlaySnowEffect(X_AXIS_VECTOR3, 10.0f);
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_F1 ) )
