@@ -458,7 +458,7 @@ void Snow::UpdateItSelf( float timeDelta )
 	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
 		if ( i == m_Particles.begin() )
-			printf_s( "%f\n", i->_age );
+			// printf_s( "%f\n", i->_age );
 
 		if ( i->_isAlive )
 		{

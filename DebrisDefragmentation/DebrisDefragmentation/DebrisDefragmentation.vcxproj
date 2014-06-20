@@ -83,6 +83,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AllocateHierarchy.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="BackgroundFrameUI.cpp" />
     <ClCompile Include="CharacterModel.cpp" />
     <ClCompile Include="CharacterInfoUI.cpp" />
@@ -112,6 +115,9 @@
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkinnedMesh.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SpaceMineModel.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -121,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\PacketType.h" />
+    <ClInclude Include="AllocateHierarchy.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="BackgroundFrameUI.h" />
     <ClInclude Include="CharacterModel.h" />
     <ClInclude Include="CharacterInfoUI.h" />
@@ -151,6 +160,9 @@
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SkinnedMesh.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="SpaceMineModel.h" />
     <ClInclude Include="stdafx.h" />

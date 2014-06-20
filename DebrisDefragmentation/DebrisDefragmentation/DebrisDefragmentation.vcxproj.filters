@@ -137,6 +137,12 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SkinnedMesh.cpp">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="AllocateHierarchy.cpp">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -240,6 +246,12 @@
       <Filter>Scene\UI</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMesh.h">
+      <Filter>Scene\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="AllocateHierarchy.h">
       <Filter>Scene\BaseObjects</Filter>
     </ClInclude>
   </ItemGroup>

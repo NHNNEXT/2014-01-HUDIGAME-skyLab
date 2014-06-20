@@ -38,8 +38,8 @@ public:
 	void GetPacketData( char* data, size_t bytes ) { m_RecvBuffer.Read( data, bytes ); }
 
 	void ProcessPacket();
-private:
 
+private:
 	SOCKET m_Socket;
 
 	SOCKADDR_IN m_ServerAddr;
