@@ -46,6 +46,18 @@ bool DDModel::InitFX( std::wstring filename )
 
 void DDModel::RenderItSelf()
 {
+	if ( m_IncludeAnimation )
+	{
+		DrawAnimationMesh();
+	}
+	else
+	{
+		DrawMesh();
+	}
+}
+
+void DDModel::DrawMesh()
+{
 	if ( !m_MeshInfo )
 		return;
 
@@ -63,7 +75,7 @@ void DDModel::RenderItSelf()
 
 		//m_pEffect->SetTechnique( "RenderRimLight" );
 		m_pEffect->Begin( &nPass, NULL );
-		
+
 		for ( unsigned int i = 0; i < nPass; ++i )
 		{
 			m_pEffect->BeginPass( i );
@@ -87,5 +99,31 @@ void DDModel::RenderItSelf()
 			m_MeshInfo->m_pMesh->DrawSubset( i );
 		}
 	}
-	
+}
+
+void DDModel::DrawAnimationMesh()
+{
+	if ( !m_SkinnedMeshInfo )
+		return;
+
+	// 그리기 직전에 업데이트 시켜주면 그리는 동안에는 내 정보 기반으로 그리지 않을까?!
+	m_SkinnedMeshInfo->Update( m_Dt, &m_Matrix );
+	m_Dt = 0.0f;
+	m_SkinnedMeshInfo->DrawFrame();
+}
+
+void DDModel::SetModelMesh( MeshInfo* mi ) 
+{ 
+	m_SkinnedMeshInfo = nullptr;
+
+	m_MeshInfo = mi; 
+	m_IncludeAnimation = false;
+}
+
+void DDModel::SetModelSkinnedMesh( SkinnedMesh* mi ) 
+{ 
+	m_MeshInfo = nullptr;
+
+	m_SkinnedMeshInfo = mi; 
+	m_IncludeAnimation = true;
 }

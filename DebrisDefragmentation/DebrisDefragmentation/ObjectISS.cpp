@@ -22,8 +22,6 @@ void ObjectISS::Init( )
 	m_CharacterModel = ISSModel::Create();
 	m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::ISS ) );
 	AddChild( m_CharacterModel );
-
-	m_TestMesh.Init( L"WTF_anim.X" );
 }
 
 void ObjectISS::UpdateItSelf( float dTime )
@@ -31,8 +29,6 @@ void ObjectISS::UpdateItSelf( float dTime )
 	D3DXVECTOR3 tmpVec3 = m_Transform.GetPosition();
 	Physics::CalcCurrentPosition( &tmpVec3, m_RigidBody.m_Velocity, dTime );
 	m_Transform.SetPosition( tmpVec3 );
-
-	m_TestMesh.Update( dTime );
 }
 
 void ObjectISS::RenderItSelf( )
@@ -44,8 +40,6 @@ void ObjectISS::RenderItSelf( )
 		DrawCollisionBox( eachModule.GetControlPointBox() );
 	}
 	);
-
-	m_TestMesh.DrawFrame();
 }
 
 

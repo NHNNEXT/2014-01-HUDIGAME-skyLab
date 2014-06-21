@@ -5,8 +5,6 @@
 #include "CollisionBox.h"
 #include "ISSModule.h"
 
-#include "SkinnedMesh.h"
-
 class ObjectISS :
 	public ClientObject
 {
@@ -33,6 +31,4 @@ private:
 
 	Rigidbody m_RigidBody;			// rigidbody 자체 초기화
 	std::array<ISSModule, MODULE_NUMBER> m_ModuleList;
-
-	SkinnedMesh m_TestMesh;
 };

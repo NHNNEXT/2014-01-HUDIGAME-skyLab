@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ClientObject.h"
+#include "SkinnedMesh.h"
 
 struct MeshInfo
 {
@@ -14,6 +15,7 @@ enum class ModelType : int
 	SKYBOX,
 	EARTH,
 	PLAYER_MODEL,
+	PLAYER_MODEL_ANIMATION,
 	DEBRIS,
 	ISS,
 	DISPENSER,
@@ -30,7 +32,14 @@ public:
 	
 	CREATE_OBJECT( DDModel );
 	bool			InitFX( std::wstring filepath );
-	void			SetModelMesh( MeshInfo* mi ) { m_MeshInfo = mi;	}
+	void			SetModelMesh( MeshInfo* mi );
+	void			SetModelSkinnedMesh( SkinnedMesh* mi );
+
+	void			DrawMesh();
+	void			DrawAnimationMesh();
+
+	void			SetMatrix( D3DXMATRIXA16* matrix ) { m_Matrix = *matrix; }
+	void			AddDt( float dt ) { m_Dt += dt; }
 	
 	// 셰이더에서 사용할 변수값 셋팅
 	virtual void	SetupFX() {}
@@ -38,9 +47,14 @@ public:
 protected:
 	virtual void	RenderItSelf();
 
+	bool			m_IncludeAnimation = false;
 	MeshInfo*		m_MeshInfo = nullptr;
+	SkinnedMesh*	m_SkinnedMeshInfo = nullptr;
 	bool			m_UseShader = false;
 	LPD3DXEFFECT	m_pEffect = nullptr;
 	LPDIRECT3DVERTEXDECLARATION9 m_pDecl = nullptr;
+
+	D3DXMATRIXA16 m_Matrix; // temp
+	float m_Dt = 0.0f;
 };
 

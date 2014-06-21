@@ -22,7 +22,7 @@ SkinnedMesh::~SkinnedMesh()
 	SAFE_RELEASE( m_pAnimController );
 }
 
-void SkinnedMesh::Init( std::wstring path )
+bool SkinnedMesh::Init( std::wstring path )
 {
 	AllocateHierarchy Alloc;
 
@@ -47,7 +47,7 @@ void SkinnedMesh::Init( std::wstring path )
 	if ( FAILED( D3DXCreateEffectFromFile( pD3DDevice, str, NULL, NULL, dwShaderFlags, NULL, &m_pEffect, NULL ) ) )
 	{
 		assert( false );
-		return;
+		return false;
 	}
 
 	// shader 파일 이름 생성
@@ -59,7 +59,7 @@ void SkinnedMesh::Init( std::wstring path )
 	if ( FAILED( D3DXLoadMeshHierarchyFromX( xfilePath.c_str(), D3DXMESH_MANAGED, pD3DDevice, &Alloc, NULL, &m_pFrameRoot, &m_pAnimController ) ) )
 	{
 		assert( false );
-		return;
+		return false;
 	}
 
 	// 조심해!
@@ -71,26 +71,28 @@ void SkinnedMesh::Init( std::wstring path )
 	if ( m_pBoneMatrices == nullptr )
 	{
 		assert( false );
-		return;
+		return false;
 	}
 
 	// 본 매트릭스 생성
 	if ( FAILED( SetupBoneMatrixPointers( m_pFrameRoot ) ) )
 	{
 		assert( false );
-		return;
+		return false;
 	}
 
 	if ( FAILED( D3DXFrameCalculateBoundingSphere( m_pFrameRoot, &m_vObjectCenter, &m_fObjectRadius ) ) )
 	{
 		assert( false );
-		return;
+		return false;
 	}
 
 	// Obtain the behavior flags
 	D3DDEVICE_CREATION_PARAMETERS cp;
 	pD3DDevice->GetCreationParameters( &cp );
 	m_dwBehaviorFlags = cp.BehaviorFlags;
+
+	return true;
 }
 
 HRESULT SkinnedMesh::SetupBoneMatrixPointersOnMesh( LPD3DXMESHCONTAINER pMeshContainerBase )
@@ -159,8 +161,9 @@ HRESULT SkinnedMesh::SetupBoneMatrixPointers( LPD3DXFRAME pFrame )
 	return S_OK;
 }
 
-void SkinnedMesh::Update( float dt )
+void SkinnedMesh::Update( float dt, D3DXMATRIXA16* matrix )
 {
+	/*
 	// 조심해!!!
 	D3DXQUATERNION	qRotation;
 
@@ -175,6 +178,8 @@ void SkinnedMesh::Update( float dt )
 
 	// matrix를 affine변환이 적용된 형태로 변환	
 	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &scale, NULL, &qRotation, &position );
+	*/
+	m_Matrix = *matrix;
 
 	if ( m_pAnimController != NULL )
 		m_pAnimController->AdvanceTime( dt, NULL );

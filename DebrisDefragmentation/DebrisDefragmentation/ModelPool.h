@@ -7,9 +7,10 @@ public:
 	ModelPool();
 	~ModelPool();
 
-	bool		InitModel( ModelType modelType, std::wstring path );
-	MeshInfo*	GetModel( ModelType );
-	void		ClearModelPool();
+	bool			InitModel( ModelType modelType, std::wstring path, bool isAnimation = false );
+	MeshInfo*		GetModel( ModelType );
+	SkinnedMesh*	GetAnimationModel( ModelType );
+	void			ClearModelPool();
 
 private:
 	bool		SetNormalVector( MeshInfo* mi );
@@ -17,5 +18,6 @@ private:
 	bool		Cleanup( MeshInfo* mi );
 	
 	std::unordered_map<ModelType, MeshInfo*> m_ObjectMap;
+	std::unordered_map<ModelType, SkinnedMesh*> m_AnimationObjectMap;
 };
 

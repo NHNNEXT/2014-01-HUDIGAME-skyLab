@@ -1,5 +1,7 @@
 ﻿#pragma once
+
 #include "DDModel.h"
+
 class CharacterModel :
 	public DDModel
 {

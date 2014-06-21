@@ -13,8 +13,23 @@ ModelPool::~ModelPool()
 }
 
 
-bool ModelPool::InitModel( ModelType modelType, std::wstring path )
+bool ModelPool::InitModel( ModelType modelType, std::wstring path, bool isAnimation )
 {
+	if ( isAnimation )
+	{
+		// 애니메이션 모델을 만든다.
+		SkinnedMesh* newSkinnedMesh = new SkinnedMesh();
+		if ( newSkinnedMesh == nullptr )
+			return false;
+
+		if ( !newSkinnedMesh->Init( path.c_str() ) )
+			return false;
+
+		m_AnimationObjectMap.insert( std::pair<ModelType, SkinnedMesh*>( modelType, newSkinnedMesh ) );
+		
+		return true;
+	}
+
 	MeshInfo* mi = new MeshInfo();
 	LPD3DXBUFFER		pD3DXMtrlBuffer;
 	LPDIRECT3DDEVICE9	pD3DDevice = DDRenderer::GetInstance()->GetDevice();
@@ -71,7 +86,6 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path )
 
 	pD3DXMtrlBuffer->Release();
 
-
 	if ( !SetNormalVector( mi ) )
 	{
 		// failed compute normal vector 
@@ -126,6 +140,16 @@ MeshInfo* ModelPool::GetModel( ModelType modelName )
 	return nullptr;
 }
 
+SkinnedMesh* ModelPool::GetAnimationModel( ModelType modelName )
+{
+	auto findIter = m_AnimationObjectMap.find( modelName );
+	if ( findIter != m_AnimationObjectMap.end() )
+	{
+		return findIter->second;
+	}
+	return nullptr;
+}
+
 void ModelPool::ClearModelPool()
 {
 	// model별로 순회면서 mesh, texture, material등의 resource를 해제	
@@ -140,6 +164,13 @@ void ModelPool::ClearModelPool()
 		delete eachModel.second;
 	}
 	m_ObjectMap.clear();
+
+	// animation 객체들 관리
+	for ( auto eachModel : m_AnimationObjectMap )
+	{
+		delete eachModel.second;
+	}
+	m_AnimationObjectMap.clear();
 }
 
 bool ModelPool::Cleanup( MeshInfo* mi )

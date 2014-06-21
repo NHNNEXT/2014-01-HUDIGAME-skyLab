@@ -42,7 +42,8 @@ void Player::Init()
 
 	//m_CharacterModel = CharacterModel::Create( L"spaceMan.x" );	
 	m_CharacterModel = CharacterModel::Create();
-	m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel(ModelType::PLAYER_MODEL) );
+	// m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel(ModelType::PLAYER_MODEL) );
+	m_CharacterModel->SetModelSkinnedMesh( GSceneManager->GetScene()->GetModelPool().GetAnimationModel( ModelType::PLAYER_MODEL_ANIMATION ) );
 
 	// 조심해!!
 	// 림라이트 관련 Shader 초기화 소스. 일단 주석
@@ -136,6 +137,12 @@ void Player::UpdateItSelf( float dTime )
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
 	SetVelocity( tmpVel );
+
+	if ( m_CharacterModel )
+	{
+		m_CharacterModel->AddDt( dTime );
+		m_CharacterModel->SetMatrix( &m_Matrix );
+	}
 }
 
 void Player::Move( const D3DXVECTOR3& direction )

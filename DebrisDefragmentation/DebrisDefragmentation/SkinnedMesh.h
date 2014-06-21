@@ -11,8 +11,8 @@ public:
 	SkinnedMesh();
 	~SkinnedMesh();
 
-	void Init( std::wstring path );
-	void Update( float dt );
+	bool Init( std::wstring path );
+	void Update( float dt, D3DXMATRIXA16* matrix );
 	
 	void DrawFrame();
 	void DrawFrame( LPD3DXFRAME pFrame );
