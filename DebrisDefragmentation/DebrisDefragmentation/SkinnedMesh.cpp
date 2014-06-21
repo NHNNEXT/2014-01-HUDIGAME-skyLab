@@ -162,26 +162,27 @@ HRESULT SkinnedMesh::SetupBoneMatrixPointers( LPD3DXFRAME pFrame )
 void SkinnedMesh::Update( float dt )
 {
 	// 조심해!!!
-	// matWorld는 부모 변환행렬 넘겨주면 되려나
-	D3DXMATRIXA16 matWorld; // temp
-	D3DXMatrixTranslation( &matWorld, -m_vObjectCenter.x,
-		-m_vObjectCenter.y,
-		-m_vObjectCenter.z );
+	D3DXQUATERNION	qRotation;
 
-	D3DXMatrixIdentity( &matWorld );
-	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &matWorld );
+	float scaleConstant = 0.2;
+	D3DXVECTOR3 scale = D3DXVECTOR3( scaleConstant, scaleConstant, scaleConstant );
+	// D3DXVECTOR3 position = D3DXVECTOR3( -m_vObjectCenter.x * scaleConstant, -m_vObjectCenter.y * scaleConstant, -m_vObjectCenter.z * scaleConstant );
+	D3DXVECTOR3 position = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+	D3DXMatrixIdentity( &m_Matrix );
 
-	D3DXVECTOR3 vEye( 0, 0, -2 * m_fObjectRadius );
-	D3DXVECTOR3 vAt( 0, 0, 0 );
-	D3DXVECTOR3 vUp( 0, 1, 0 );
-	D3DXMatrixLookAtLH( &m_MatView, &vEye, &vAt, &vUp );
+	// rotation에서 쿼터니언 생성, yaw ptich roll 은 y, x, z 순서임
+	D3DXQuaternionRotationYawPitchRoll( &qRotation, D3DXToRadian( 0.0f ), D3DXToRadian( 0.0f ), D3DXToRadian( 0.0f ) );
 
-	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &m_MatView );
+	// matrix를 affine변환이 적용된 형태로 변환	
+	D3DXMatrixTransformation( &m_Matrix, NULL, NULL, &scale, NULL, &qRotation, &position );
 
 	if ( m_pAnimController != NULL )
 		m_pAnimController->AdvanceTime( dt, NULL );
 
-	UpdateFrameMatrices( m_pFrameRoot, &matWorld );
+	// 위에서 부모의 m_Matrix와 자신의 m_Matrix를 누적한 값을 자신의 m_Matrix에 저장해둘 것
+	// 프레임 내부에 있는 변환 행렬에 월드 좌표계 변환을 추가
+	// 원래 프레임 안에서는 로컬 좌표계 기준에서의 변환만 존재하는 듯
+	UpdateFrameMatrices( m_pFrameRoot, &m_Matrix );
 }
 
 void SkinnedMesh::UpdateFrameMatrices( LPD3DXFRAME pFrameBase, LPD3DXMATRIX pParentMatrix )
@@ -207,13 +208,8 @@ void SkinnedMesh::UpdateFrameMatrices( LPD3DXFRAME pFrameBase, LPD3DXMATRIX pPar
 // 얘는 DDModel 안으로 이동해야 할 듯
 void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD3DXFRAME pFrameBase )
 {
-	// HRESULT hr;
 	D3DXMESHCONTAINER_DERIVED* pMeshContainer = (D3DXMESHCONTAINER_DERIVED*)pMeshContainerBase;
-	// D3DXFRAME_DERIVED* pFrame = (D3DXFRAME_DERIVED*)pFrameBase;
-	// UINT iMaterial;
-	// UINT NumBlend;
 	UINT iAttrib;
-	// DWORD AttribIdPrev;
 	LPD3DXBONECOMBINATION pBoneComb;
 
 	UINT iMatrixIndex;
@@ -223,7 +219,7 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 
 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
 	pD3DDevice->GetDeviceCaps( &d3dCaps );
-
+	
 	// 스킨 정보있나 살펴본다
 	// 스킨 형식이 아니면 안 그린다
 	if ( pMeshContainer->pSkinInfo != NULL )
@@ -252,8 +248,7 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 		if ( !camera )
 			return;
 
-		D3DXMATRIX matView = camera->GetViewDirection();
-		D3DXMatrixIdentity( &matView );
+		m_MatView = camera->GetMatView();
 
 		// 순회하면서 변환을 적용
 		for ( iAttrib = 0; iAttrib < pMeshContainer->NumAttributeGroups; iAttrib++ )
@@ -266,6 +261,7 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 				{
 					// 저장되어 있는 본의 변환행렬(오프셋 + 변형)을 구해서 월드좌표계에 곱해서 그려질 좌표계를 구한 뒤
 					// m_pBoneMatrices에 일단 저장한다.
+					// 이미 월드 좌표계를 기준으로 모델이 어느 위치에 있는지는 정해져 있는데, 이를 어떤 방향에서 바라볼지 셰이더에게 알려주기 위해서 카메라 정보를 곱한다
 					D3DXMatrixMultiply( &matTemp, &pMeshContainer->pBoneOffsetMatrices[iMatrixIndex], pMeshContainer->ppBoneMatrixPtrs[iMatrixIndex] );
 					D3DXMatrixMultiply( &m_pBoneMatrices[iPaletteEntry], &matTemp, &m_MatView );
 				}
@@ -376,6 +372,10 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 void SkinnedMesh::DrawFrame()
 {
 	LPD3DXMESHCONTAINER pMeshContainer;
+
+	// 조심해!
+	// 적당한 위치 찾을 것
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &m_Matrix );
 
 	pMeshContainer = m_pFrameRoot->pMeshContainer;
 	while ( pMeshContainer != NULL )

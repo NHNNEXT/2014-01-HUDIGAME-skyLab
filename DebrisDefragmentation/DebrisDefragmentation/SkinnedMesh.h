@@ -38,5 +38,6 @@ private:
 
 	// 이건 DDModel안에 밀어 넣으면서 부모 좌표계랑 본인 좌표계 곱해서 구해서 사용 - 사실상 m_Matrix
 	D3DXMATRIXA16 m_MatView; // temp
+	D3DXMATRIXA16 m_Matrix; // temp
 };
 

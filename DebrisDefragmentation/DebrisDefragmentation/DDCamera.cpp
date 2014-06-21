@@ -45,7 +45,6 @@ void DDCamera::RenderItSelf()
 		}
 	}
 	
-
 	D3DXVECTOR4 tempEye;
 	D3DXVECTOR3 pos = GetTransform().GetPosition();
 	D3DXVec3Transform( &tempEye, &pos, &m_Matrix );
@@ -57,12 +56,9 @@ void DDCamera::RenderItSelf()
 
 	D3DXVECTOR3 vUpVec = DDVECTOR3( m_Matrix._21, m_Matrix._22, m_Matrix._23 );
 
-
-	
 	D3DXMatrixLookAtLH( &m_MatView, &vEyePt, &vLookatPt, &vUpVec );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &m_MatView );
 
-	
 	// 주의 : 반드시 SetAspectRatio() 먼저 해둘 것
 	float aspectRatio = WindowsWidth / WindowsHeight;
 	D3DXMatrixPerspectiveFovLH( &m_MatProj, D3DX_PI / 5, aspectRatio, 0.5f, 2000.0f );
