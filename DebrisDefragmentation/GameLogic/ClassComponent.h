@@ -14,12 +14,12 @@ public:
 
 	// 사용자들이 사용하는 스킬들!
 	bool	SkillGoForward( int id, D3DXVECTOR3 viewDirection ); // 현재 바라보는 방향으로 가속도 부여
-	void	SkillStop( int id );	// 가속도 및 속도 0으로 변경	
+	bool	SkillStop( int id );	// 가속도 및 속도 0으로 변경	
 
 	void	ResetStatus();
 
 	// 바라보는 방향으로 몸을 회전 turn body to viewing direction 
-	void	SkillTurnBody( int id, float x, float y, float z );
+	bool	SkillTurnBody( int id, D3DXVECTOR3 direction );
 
 	// 적절한 스킬 사용 함수를 호출한다.
 	virtual bool UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction ) = 0;
@@ -46,6 +46,8 @@ public:
 
 	void	SetGlobalCooldown( float time ) { m_GlobalCooldown = ( m_GlobalCooldown < time ) ? time : m_GlobalCooldown; }
 	float	GetGlobalCooldown() { return m_GlobalCooldown; }
+
+	void	SetMovementControlCooldown( float time ) { m_MovementControlCooldown = time; }
 
 	// 주기적으로 처리해야 하는 일들
 	// 예를 들어 산소량 감소와 같은 일을 처리 
@@ -76,6 +78,7 @@ protected:
 
 	float		m_GlobalCooldown = 0.0f;
 	std::array<float, TOTAL_SKILL_NUMBER> m_CooldownTable;
+	float		m_MovementControlCooldown = 0.0f;
 
 	virtual void DoPeriodWork( float dTime ) { UNREFERENCED_PARAMETER( dTime ); }
 };

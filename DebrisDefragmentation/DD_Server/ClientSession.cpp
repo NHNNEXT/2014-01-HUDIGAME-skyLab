@@ -703,7 +703,8 @@ void ClientSession::HandleStopRequest( StopRequest& inPacket )
 		return;
 
 	// 이걸 멤버 유저에게 적용하고 - 멈추는 건 자유다
-	m_Character.GetClassComponent()->SkillStop( mPlayerId );
+	if ( !m_Character.GetClassComponent()->SkillStop( mPlayerId ) )
+		return;
 
 	StopResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
@@ -737,7 +738,8 @@ void ClientSession::HandleRotationRequest( RotationRequest& inPacket )
 	// 이걸 멤버 유저에게 적용하고 - 회전도 자유다
 	//m_Character.IncreaseRotation( inPacket.mRotationX * MOUSE_ROTATION_WEIGHT, inPacket.mRotationY * MOUSE_ROTATION_WEIGHT, inPacket.mRotationZ );
 	// turn body는 increase가 아니라 set을 사용함
-	m_Character.GetTransform()->SetRotation( inPacket.mRotation );
+	if ( !m_Character.GetClassComponent()->SkillTurnBody( mPlayerId, inPacket.mRotation ) )
+		return;
 
 	RotationResult outPacket;
 	outPacket.mPlayerId = mPlayerId;

@@ -67,6 +67,7 @@ bool Striker::SkillPull( int id, const D3DXVECTOR3& direction )
 	// 변화 적용
 	targetCharacter->Move( -force );
 	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
+	targetCharacter->GetClassComponent()->SetMovementControlCooldown( COOLDOWN_STUN );
 
 	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::KINETIC_STATE );
 	

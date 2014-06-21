@@ -215,6 +215,7 @@ const int			MAX_SPACE_MINE_NUMBER = 2;
 // EMP같은 스킬(와우 도적의 발차기)을 맞으면 global cooldowm time이 증가
 // cooldown time은 매 프레임 dt를 기준으로 감소 시키므로 초단위로 생성할 것
 const float			COOLDOWN_GLOBAL = 1.0f;
+const float			COOLDOWN_STUN = 3.0f;
 const std::array<float, TOTAL_SKILL_NUMBER> SKILL_COOLDOWN_TABLE
 = {
 	1.0f,	// COOLDOWN_PUSH

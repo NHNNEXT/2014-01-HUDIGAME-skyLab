@@ -43,6 +43,10 @@ std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className
 
 bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 {
+	// 쿨탐 체크
+	if ( m_MovementControlCooldown > 0.0f )
+		return false;
+
 	printf_s( "GAS : %0.2f	OXYGEN : %0.2f		HP : %0.2f\n", m_Fuel, m_Oxygen, m_HP );
 	if ( !UseFuel( FUEL_FOR_GOFORWARD ) )
 	{
@@ -60,22 +64,34 @@ bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 	return true;
 }
 
-void ClassComponent::SkillStop( int id )
+bool ClassComponent::SkillStop( int id )
 {
+	// 쿨탐 체크
+	if ( m_MovementControlCooldown > 0.0f )
+		return false;
+
 	Character* targetCharacter = GObjectTable->GetCharacter( id );
 	assert( targetCharacter );
 
 	targetCharacter->Stop();
+
+	return true;
 }
 
-void ClassComponent::SkillTurnBody( int id,float x, float y, float z )
+bool ClassComponent::SkillTurnBody( int id, D3DXVECTOR3 direction )
 { 
+	// 쿨탐 체크
+	if ( m_MovementControlCooldown > 0.0f )
+		return false;
+
 	// 여기서 상위에 이 움직임을 적용해야 한다.
 	// 자신의 Actor*를 찾아서 ->TurnBody(tr, x, y, z); 
 	Character* targetCharacter = GObjectTable->GetCharacter( id );
 	assert( targetCharacter );
 
-	targetCharacter->GetTransform()->SetRotation( x, y, z );
+	targetCharacter->GetTransform()->SetRotation( direction );
+
+	return true;
 }
 
 bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
@@ -111,6 +127,7 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 	// 변화 적용
 	targetCharacter->Move( force );
 	targetCharacter->SetSpin( spinAxis, DEFAULT_SPIN_ANGULAR_VELOCITY );
+	targetCharacter->GetClassComponent()->SetMovementControlCooldown( COOLDOWN_STUN );
 
 	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::KINETIC_STATE );
 
@@ -243,9 +260,12 @@ void ClassComponent::Update( float dt )
 		m_Fuel = ( m_Fuel > DEFAULT_FUEL ) ? DEFAULT_FUEL : m_Fuel;
 
 	}
-	
 
 	// 쿨타임 업데이트
+	m_MovementControlCooldown -= dt;
+	if ( m_MovementControlCooldown < 0.0f )
+		m_MovementControlCooldown = 0.0f;
+	
 	m_GlobalCooldown -= dt;
 	if ( m_GlobalCooldown < 0.0f )
 		m_GlobalCooldown = 0.0f;

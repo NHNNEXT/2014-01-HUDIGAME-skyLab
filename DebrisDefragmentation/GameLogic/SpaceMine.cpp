@@ -63,6 +63,7 @@ bool SpaceMine::React()
 			assert( targetCharacter );
 
 			targetCharacter->Move( force );
+			targetCharacter->GetClassComponent()->SetMovementControlCooldown( COOLDOWN_STUN );
 			GObjectTable->GetActorManager()->BroadcastCharacterChange( it->first, ChangeType::KINETIC_STATE );
 		}
 	}
