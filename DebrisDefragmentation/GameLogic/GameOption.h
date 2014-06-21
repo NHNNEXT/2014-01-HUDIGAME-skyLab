@@ -163,6 +163,18 @@ const float			DEFAULT_SPIN_ANGULAR_VELOCITY = 1.0f;
 #define				BLUE_TEAM_ROTATION	D3DXVECTOR3(.0f, 270.0f, .0f)
 #define				RED_TEAM_ROTATION	D3DXVECTOR3(.0f, 90.0f, .0f)
 
+const D3DXVECTOR3	PLAYER_POSITIONS[REAL_PLAYER_NUM] = { 
+	D3DXVECTOR3{ 0.0f, 10.0f, 10.0f }, 
+	D3DXVECTOR3{ 0.0f, 0.0f, 10.0f },
+	D3DXVECTOR3{ 0.0f, -10.0f, 10.0f },
+	D3DXVECTOR3{ 0.0f, -10.0f, 0.0f },
+	D3DXVECTOR3{ 0.0f, -10.0f, -10.0f },
+	D3DXVECTOR3{ 0.0f, 0.0f, -10.0f },
+	D3DXVECTOR3{ 0.0f, 10.0f, -10.0f },
+	D3DXVECTOR3{ 0.0f, 10.0f, 0.0f }
+};
+
+
 const float			WINNING_DISTANCE = 50.0f;
 
 // collision box

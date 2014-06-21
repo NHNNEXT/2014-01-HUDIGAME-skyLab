@@ -82,11 +82,11 @@ void Character::InitTeamPosition()
 	switch ( m_Team )
 	{
 	case TeamColor::RED:
-		GetTransform()->SetPosition( RED_TEAM_POSITION );
+		GetTransform()->SetPosition( RED_TEAM_POSITION + PLAYER_POSITIONS[m_CharacterId] );
 		GetTransform()->SetRotation( RED_TEAM_ROTATION );
 		break;
 	case TeamColor::BLUE:
-		GetTransform()->SetPosition( BLUE_TEAM_POSITION );
+		GetTransform()->SetPosition( BLUE_TEAM_POSITION + PLAYER_POSITIONS[m_CharacterId] );
 		GetTransform()->SetRotation( BLUE_TEAM_ROTATION );
 		break;
 	default:
