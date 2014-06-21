@@ -18,6 +18,8 @@
 #include "DebugData.h"
 #include "DDBillboardEffect.h"
 #include "ParticleSystem.h"
+#include "SoundManager.h"
+
 
 PlayScene::PlayScene()
 {
@@ -150,6 +152,11 @@ void PlayScene::Init()
 	GNetworkManager = new NetworkManager;
 	GNetworkManager->Init();
 	GNetworkManager->Connect();
+
+	// Sound
+	GSoundManager = SoundManager::Create();
+	GSoundManager->Init();
+	GSoundManager->PlaySound( 0 );
 }
 
 void PlayScene::UpdateItSelf( float dTime )
@@ -349,6 +356,9 @@ void PlayScene::UpdateItSelf( float dTime )
 	MousePointer( MOUSE_POINTER_ON, currentMousePos );
 
 	GUIManager->UpdateUI( dTime );
+
+	// Sound System Update
+	GSoundManager->Update();
 }
 
 // Mouse Pointer 가릴지 살려둘지 결정

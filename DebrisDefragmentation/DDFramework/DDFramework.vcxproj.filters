@@ -42,6 +42,9 @@
     <Filter Include="Framework\Network">
       <UniqueIdentifier>{bb78fb88-6695-4668-ba70-bd9f236a448f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Sound">
+      <UniqueIdentifier>{72bfc2c6-f58a-4855-b975-c6c04f92a749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -95,6 +98,9 @@
     <ClInclude Include="DDPacketHeader.h">
       <Filter>Framework\Network</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Framework\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -126,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="DDCircularBuffer.cpp">
       <Filter>Framework\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>Framework\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

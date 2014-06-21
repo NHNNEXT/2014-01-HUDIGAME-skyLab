@@ -143,6 +143,9 @@
     <ClCompile Include="AllocateHierarchy.cpp">
       <Filter>Scene\BaseObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="AllocateHierarchy.h">
       <Filter>Scene\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>GameManagers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
