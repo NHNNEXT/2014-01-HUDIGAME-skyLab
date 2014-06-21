@@ -41,6 +41,6 @@ void DDLight::RenderItSelf()
 	DDRenderer::GetInstance()->GetDevice()->SetLight( 0, &light );
 	DDRenderer::GetInstance()->GetDevice()->LightEnable( 0, TRUE );
 
-	DDRenderer::GetInstance()->GetDevice()->SetRenderState( D3DRS_AMBIENT, 0x00888888 );
+	
 
 }

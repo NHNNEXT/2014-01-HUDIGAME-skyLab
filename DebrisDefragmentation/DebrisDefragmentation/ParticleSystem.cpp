@@ -96,9 +96,9 @@ void ParticleSystem::preRender()
 	m_Device->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
 	m_Device->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1 );
 
-	m_Device->SetRenderState( D3DRS_ALPHABLENDENABLE, true );
-	m_Device->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
-	m_Device->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+// 	m_Device->SetRenderState( D3DRS_ALPHABLENDENABLE, true );
+// 	m_Device->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+// 	m_Device->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
 }
 
 void ParticleSystem::postRender()
@@ -106,7 +106,7 @@ void ParticleSystem::postRender()
 	m_Device->SetRenderState( D3DRS_LIGHTING, true );
 	m_Device->SetRenderState( D3DRS_POINTSPRITEENABLE, false );
 	m_Device->SetRenderState( D3DRS_POINTSCALEENABLE, false );
-	m_Device->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
+//	m_Device->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
 }
 
 void ParticleSystem::RenderItSelf()
