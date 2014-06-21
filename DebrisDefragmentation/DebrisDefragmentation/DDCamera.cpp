@@ -67,6 +67,8 @@ void DDCamera::RenderItSelf()
 	float aspectRatio = WindowsWidth / WindowsHeight;
 	D3DXMatrixPerspectiveFovLH( &m_MatProj, D3DX_PI / 5, aspectRatio, 0.5f, 2000.0f );
 	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_PROJECTION, &m_MatProj );
+
+	D3DXMatrixTranspose( &m_MatProjT, &m_MatProj );
 }
 
 // default

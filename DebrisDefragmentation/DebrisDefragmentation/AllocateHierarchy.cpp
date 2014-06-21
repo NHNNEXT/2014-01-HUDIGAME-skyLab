@@ -249,7 +249,6 @@ HRESULT AllocateHierarchy::DestroyMeshContainer( LPD3DXMESHCONTAINER pMeshContai
 	return S_OK;
 }
 
-// 그 메모리는 프레임이나 메시의 이름을 저장하는 메모리를 할당한다.
 HRESULT AllocateHierarchy::AllocateName( LPCSTR Name, LPSTR* pNewName )
 {
 	UINT cbLength;

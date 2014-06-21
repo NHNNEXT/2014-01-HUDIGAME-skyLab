@@ -81,6 +81,12 @@ void SkinnedMesh::Init( std::wstring path )
 		return;
 	}
 
+	if ( FAILED( D3DXFrameCalculateBoundingSphere( m_pFrameRoot, &m_vObjectCenter, &m_fObjectRadius ) ) )
+	{
+		assert( false );
+		return;
+	}
+
 	// Obtain the behavior flags
 	D3DDEVICE_CREATION_PARAMETERS cp;
 	pD3DDevice->GetCreationParameters( &cp );
@@ -155,13 +161,26 @@ HRESULT SkinnedMesh::SetupBoneMatrixPointers( LPD3DXFRAME pFrame )
 
 void SkinnedMesh::Update( float dt )
 {
-	if ( m_pAnimController != NULL )
-		m_pAnimController->AdvanceTime( dt, NULL );
-
 	// 조심해!!!
 	// matWorld는 부모 변환행렬 넘겨주면 되려나
 	D3DXMATRIXA16 matWorld; // temp
+	D3DXMatrixTranslation( &matWorld, -m_vObjectCenter.x,
+		-m_vObjectCenter.y,
+		-m_vObjectCenter.z );
+
 	D3DXMatrixIdentity( &matWorld );
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_WORLD, &matWorld );
+
+	D3DXVECTOR3 vEye( 0, 0, -2 * m_fObjectRadius );
+	D3DXVECTOR3 vAt( 0, 0, 0 );
+	D3DXVECTOR3 vUp( 0, 1, 0 );
+	D3DXMatrixLookAtLH( &m_MatView, &vEye, &vAt, &vUp );
+
+	DDRenderer::GetInstance()->GetDevice()->SetTransform( D3DTS_VIEW, &m_MatView );
+
+	if ( m_pAnimController != NULL )
+		m_pAnimController->AdvanceTime( dt, NULL );
+
 	UpdateFrameMatrices( m_pFrameRoot, &matWorld );
 }
 
@@ -246,9 +265,9 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 				if ( iMatrixIndex != UINT_MAX )
 				{
 					// 저장되어 있는 본의 변환행렬(오프셋 + 변형)을 구해서 월드좌표계에 곱해서 그려질 좌표계를 구한 뒤
-					// g_pBoneMatrices에 일단 저장한다.
+					// m_pBoneMatrices에 일단 저장한다.
 					D3DXMatrixMultiply( &matTemp, &pMeshContainer->pBoneOffsetMatrices[iMatrixIndex], pMeshContainer->ppBoneMatrixPtrs[iMatrixIndex] );
-					D3DXMatrixMultiply( &m_pBoneMatrices[iPaletteEntry], &matTemp, &matView );
+					D3DXMatrixMultiply( &m_pBoneMatrices[iPaletteEntry], &matTemp, &m_MatView );
 				}
 			}
 
@@ -379,6 +398,36 @@ void SkinnedMesh::DrawFrame()
 
 void SkinnedMesh::DrawFrame( LPD3DXFRAME pFrame )
 {
+	DDCamera* camera = GPlayerManager->GetCamera();
+	if ( !camera )
+		return;
+
+	D3DXMATRIXA16 matProj = camera->GetMatProj();
+
+	// Set the projection matrix for the vertex shader based skinning method
+	if ( FAILED( m_pEffect->SetMatrix( "mViewProj", &matProj ) ) )
+	{
+		assert( false );
+		return;
+	}
+
+	// Set Light for vertex shader
+	// 조심해!! 
+	// 전역 라이트 속성 가져올 것
+	D3DXVECTOR4 vLightDir( 0.0f, 1.0f, -1.0f, 0.0f );
+	D3DXVec4Normalize( &vLightDir, &vLightDir );
+	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetVertexShaderConstantF( 1, (float*)&vLightDir, 1 ) ) )
+	{
+		assert( false );
+		return;
+	}
+
+	if ( FAILED( m_pEffect->SetVector( "lhtDir", &vLightDir ) ) )
+	{
+		assert( false );
+		return;
+	}
+
 	LPD3DXMESHCONTAINER pMeshContainer;
 
 	pMeshContainer = pFrame->pMeshContainer;

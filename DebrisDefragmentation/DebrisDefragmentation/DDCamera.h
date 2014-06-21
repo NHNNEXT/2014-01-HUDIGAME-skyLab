@@ -14,6 +14,7 @@ public:
 	void			SetAspectRatio( float width, float height );
 	const D3DXMATRIXA16& GetMatView() { return m_MatView; }
 	const D3DXMATRIXA16& GetMatProj() { return m_MatProj; }
+	const D3DXMATRIXA16& GetMatProjT() { return m_MatProjT; }
 
 // 	void SetLookatPoint( DDVECTOR3 lookatpoint ) { m_LookatPoint = lookatpoint; }
 // 	void SetLookatPoint( float x, float y, float z ) { m_LookatPoint = DDVECTOR3( x, y, z ); }
@@ -24,6 +25,7 @@ protected:
 
 	D3DXMATRIXA16	m_MatView;
 	D3DXMATRIXA16	m_MatProj;
+	D3DXMATRIXA16	m_MatProjT;
 	DDVECTOR3		m_LookatPoint;
 	ClientObject*	m_FollowingObject = nullptr;
 		
