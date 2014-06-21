@@ -184,10 +184,16 @@ void CompassUI::RenderItSelf()
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
 	pD3DDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
 
-
+	// pre render
+	pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+	pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+	pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
 
 	// Render the vertex buffer contents
 	pD3DDevice->SetStreamSource( 0, m_pVB, 0, sizeof( CUSTOMVERTEX ) );
 	pD3DDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
 	pD3DDevice->DrawPrimitive( D3DPT_TRIANGLESTRIP, 0, 2 * 50 - 2 );
+
+	// post render
+	pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE );
 }
