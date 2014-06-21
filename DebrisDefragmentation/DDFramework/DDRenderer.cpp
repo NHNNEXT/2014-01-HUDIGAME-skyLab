@@ -78,6 +78,10 @@ bool DDRenderer::Init( HWND hWnd, int ScreenWidth, int ScreenHeight )
 	m_pD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
 	m_pD3DDevice->SetRenderState( D3DRS_LIGHTING, TRUE );
 	m_pD3DDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+	m_pD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+	m_pD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+	m_pD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+	m_pD3DDevice->SetRenderState( D3DRS_AMBIENT, 0x00888888 );
 
 	// 애니메이션 작업하면서 추가
 	m_pD3DDevice->SetRenderState( D3DRS_DITHERENABLE, TRUE );
