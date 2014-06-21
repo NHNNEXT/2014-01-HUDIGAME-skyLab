@@ -237,25 +237,6 @@ const std::array<float, TOTAL_SKILL_NUMBER> SKILL_COOLDOWN_TABLE
 };
 
 
-/*
-	const float			COOLDOWN_PUSH = 1.0f;
-	const float			COOLDOWN_OCCUPY = 1.0f;
-	const float			COOLDOWN_DESTROY = 1.0f;
-	const float			COOLDOWN_SHARE_FUEL = 1.0f;
-
-	const float			COOLDOWN_PULL = 1.0f;
-	const float			COOLDOWN_SET_MINE = 1.0f;
-	const float			COOLDOWN_MOVE_FAST = 1.0f;
-
-	const float			COOLDOWN_WARNING = 1.0f;
-	const float			COOLDOWN_SHARE_OXYGEN = 1.0f;
-	const float			COOLDOWN_EMP = 1.0f;
-
-	const float			COOLDOWN_GATHER = 1.0f;
-	const float			COOLDOWN_SET_SENTRY_GUN = 1.0f;
-	const float			COOLDOWN_SET_DESPENSER = 1.0f;
-*/
-
 enum class GameEvent : int
 {
 	// 
@@ -326,3 +307,7 @@ const ColorRange	DS_COLOR_RANGE = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 
 // D3DXVECTOR3 mapMin{ -1000.0f, -1000.0f, -1000.0f };
 // D3DXVECTOR3 mapMax{ 1000.0f, 1000.0f, 1000.0f };
+
+
+// 오브젝트 Scale 저장
+const float ISS_SCALE = 8.0f;
