@@ -29,7 +29,7 @@ void ISSModule::Init( ISSModuleName moduleName )
 	m_CollisionBox.InitRadius();
 
 	//m_ControlBox.SetCenterPosition( ISS_MODULE_POSITION[static_cast<int>( moduleName )] );
-	m_ControlBox.SetCenterPosition( g_GameData->GetISSModuleAxisLength( moduleName ) );
+	m_ControlBox.SetCenterPosition( g_GameData->GetISSPosition( moduleName ) );
 	//m_ControlBox.SetLength( CONTROL_POINT_AXIS_LENGTH );
 	m_ControlBox.SetLength( CONTROL_POINT_AXIS_LENGTH );
 	m_ControlBox.InitAxisDir();
