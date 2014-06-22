@@ -149,10 +149,5 @@ void BackgroundFrameUI::Update( float dt )
 	m_UIComponentList[ClientUITag::UI_TAG_ISS_POSITION]->GetTransform().SetPosition( UI_ISS_NAV_DEFAULT_POSITION_X + ( positionRatio * UI_ISS_NAV_DEFAULT_RANGE ), UI_ISS_NAV_DEFAULT_POSITION_Y, 0.0f );
 
 	// text
-	std::wstring info = L"";
-	info.append( std::to_wstring( static_cast<int>( GPlayerManager->GetMyPlayer()->GetClassComponent()->GetFuel() * 100 / DISPENSER_DEFAULT_FUEL ) ) );
-	info.append( L"\%" );
-	SetRect( m_pRect, 0, 0, 1000, 1000 );
-	m_pFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_LEFT, D3DCOLOR_ARGB( 0xff, 0xff, 0xff, 0xff ) );
-	info.clear();
+	// infoPrinter에서 표시
 }

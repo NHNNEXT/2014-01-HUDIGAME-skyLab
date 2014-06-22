@@ -220,6 +220,10 @@ const float			SPACE_MINE_FORCE = 5.0f;
 const int			MAX_DISPENSER_NUMBER = 1;
 const int			MAX_SPACE_MINE_NUMBER = 2;
 
+// 속도 및 이동 범위 제한
+const float			MAX_PLAYER_SPEED = 20.0f;
+const float			MAX_DISTANCE_FROM_ORIGIN = 350.0f;
+
 // Cooldown time
 // 모든 스킬은 cooldown time을 가지고 있고, 이 값이 0이 되면 즉시 쓸 수 있다.
 // 각 각의 스킬을 쓰면 이 수치가 증가하게 되고 시간에 비례해서 감소하게 된다

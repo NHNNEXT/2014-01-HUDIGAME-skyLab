@@ -136,6 +136,20 @@ void Player::UpdateItSelf( float dTime )
 	// printf_s( "%d : %f / %f / %f\n", m_PlayerId, tmpVel.x, tmpVel.y, tmpVel.z );
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, tmpAcc, dTime );
 	GetTransform().SetPosition( tmpVec3 );
+
+	// 최대 이동거리 제한
+	float currentDistanceFromOrigin = D3DXVec3Length( &tmpVec3 );
+	if ( currentDistanceFromOrigin > MAX_DISTANCE_FROM_ORIGIN )
+		m_ClassComponent->SetOxygen( 0.0f );
+
+	// 최대 속도 제한
+	float currentSpeed = D3DXVec3Length( &tmpVel );
+	if ( currentSpeed > MAX_PLAYER_SPEED )
+	{
+		D3DXVec3Normalize( &tmpVel, &tmpVel );
+		tmpVel *= MAX_PLAYER_SPEED;
+	}
+
 	SetVelocity( tmpVel );
 
 	if ( m_CharacterModel )

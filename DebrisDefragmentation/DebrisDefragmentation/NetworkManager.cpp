@@ -237,9 +237,9 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		camera->SetFollowingObject( GPlayerManager->GetPlayer( m_MyPlayerId ) );
 
 		// 콤파스 설정
-		CompassUI* compassUI = CompassUI::Create();
-		compassUI->Init();
-		camera->AddChild( compassUI, ORDER_COMPASS_UI );
+		// CompassUI* compassUI = CompassUI::Create();
+		// compassUI->Init();
+		// camera->AddChild( compassUI, ORDER_COMPASS_UI );
 
 		// 팀 설정
 		GPlayerManager->GetPlayer( m_MyPlayerId )->SetTeam( static_cast<TeamColor>(inPacket.mTeamColor) );
