@@ -325,3 +325,11 @@ const D3DXVECTOR3	DIRECTION_OFFSET{ 0.2f, 0.2f, 0.2f };
 
 // 오브젝트 Scale 저장
 const float ISS_SCALE = 8.0f;
+
+// SCENE 종류 지정
+enum class SceneType : int
+{
+	PLAY_SCENE = 0,
+	LOADING_SCENE,
+	RESULT_SCENE,
+};

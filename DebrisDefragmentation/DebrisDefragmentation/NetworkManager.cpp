@@ -233,7 +233,7 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		// camera 설정
 		DDCamera* camera = DDCamera::Create();
 		GPlayerManager->SetCamera( camera );
-		GSceneManager->GetScene()->AddChild(camera, ORDER_COMPASS_UI);
+		GSceneManager->GetPlayScene()->AddChild(camera, ORDER_COMPASS_UI);
 		camera->SetFollowingObject( GPlayerManager->GetPlayer( m_MyPlayerId ) );
 
 		// 콤파스 설정
@@ -244,7 +244,7 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		// 팀 설정
 		GPlayerManager->GetPlayer( m_MyPlayerId )->SetTeam( static_cast<TeamColor>(inPacket.mTeamColor) );
 		GObjectManager->SetRandomSeed( inPacket.mRandomSeed );
-		GSceneManager->GetScene()->InitResourceDebris();
+		GSceneManager->GetPlayScene()->InitResourceDebris();
 	}
 
 	GameStateRequest outPacket;

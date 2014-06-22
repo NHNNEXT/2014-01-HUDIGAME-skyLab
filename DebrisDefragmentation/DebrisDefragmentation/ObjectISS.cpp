@@ -20,7 +20,7 @@ void ObjectISS::Init( )
 	InitCollisionBox( );
 
 	m_CharacterModel = ISSModel::Create();
-	m_CharacterModel->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::ISS ) );
+	m_CharacterModel->SetModelMesh( GSceneManager->GetPlayScene()->GetModelPool().GetModel( ModelType::ISS ) );
 	m_CharacterModel->GetTransform().SetScale( ISS_SCALE );
 	AddChild( m_CharacterModel );
 }
