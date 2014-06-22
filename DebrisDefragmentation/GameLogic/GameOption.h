@@ -179,7 +179,7 @@ const D3DXVECTOR3	PLAYER_POSITIONS[REAL_PLAYER_NUM] = {
 };
 
 
-const float			WINNING_DISTANCE = 50.0f;
+const float			WINNING_DISTANCE = 150.0f;
 
 // collision box
 /*
