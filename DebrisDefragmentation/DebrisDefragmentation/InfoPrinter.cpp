@@ -88,7 +88,7 @@ void InfoPrinter::init()
 
 	ZeroMemory( &fontParam, sizeof( fontParam ) );
 	fontParam.Height = 40;
-	fontParam.Width = 40;
+	fontParam.Width = 35;
 	fontParam.Weight = 100;
 	fontParam.Italic = false;
 	fontParam.CharSet = false;
@@ -272,14 +272,14 @@ void InfoPrinter::RenderItSelf()
 		// fuel
 		std::wstring info = L"";
 		info.append( std::to_wstring( static_cast<int>( static_cast<int>( GPlayerManager->GetMyPlayer()->GetClassComponent()->GetFuel() * 100 / DEFAULT_FUEL ) ) ) );
-		info.append( L"\%" );
+		info.append( L"%" );
 		SetRect( m_pRect, 0, 320, 227, 1000 );
 		m_pCharacterStatusFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_RIGHT, D3DCOLOR_ARGB( 0xbb, 0xff, 0xff, 0xff ) );
 		info.clear();
-
+		
 		// oxygen
 		info.append( std::to_wstring( static_cast<int>( static_cast<int>( GPlayerManager->GetMyPlayer()->GetClassComponent()->GetOxygen() * 100 / DEFAULT_OXYGEN ) ) ) );
-		info.append( L"\%" );
+		info.append( L"%" );
 		SetRect( m_pRect, 0, 388, 227, 1000 );
 		m_pCharacterStatusFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_RIGHT, D3DCOLOR_ARGB( 0xbb, 0xff, 0xff, 0xff ) );
 		info.clear();
@@ -289,7 +289,7 @@ void InfoPrinter::RenderItSelf()
 		if ( !GPlayerManager->GetMyPlayer()->GetClassComponent()->IsAlive() )
 		{
 			std::wstring info = L"";
-			info.append( L"\n\n\n\nF5 : STRIKER  \nF6 : PROTECTOR\nF7 : ENGINEER " );
+			info.append( L"\n\n\n\nYou Are Dead. \nNot Big Surprise.\nPress \"Space\" Key To Respawn\n\nOr Select Class\nF5 : STRIKER  \nF6 : PROTECTOR\nF7 : ENGINEER " );
 			SetRect( m_pRect, 0, 0, DDApplication::GetInstance()->GetScreenWidth(), DDApplication::GetInstance()->GetScreenHeight() );
 			m_pSelectViewFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_CENTER, D3DCOLOR_ARGB( 0xbb, 0xff, 0xff, 0xff ) );
 			info.clear();
