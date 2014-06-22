@@ -5,6 +5,7 @@
 
 BackgroundFrameUI::BackgroundFrameUI()
 {
+	m_IssModuleOwnerList.fill( TeamColor::NO_TEAM );
 }
 
 
@@ -55,6 +56,156 @@ bool BackgroundFrameUI::GenerateUI()
 	m_UIComponentList[ClientUITag::UI_TAG_ISS_POSITION]->GetTransform().SetScale( 0.6f );
 	m_UIComponentList[ClientUITag::UI_TAG_ISS_POSITION]->GetTransform().SetPosition( UI_ISS_NAV_DEFAULT_POSITION_X, UI_ISS_NAV_DEFAULT_POSITION_Y, 0.0f );
 	m_UIComponentList[ClientUITag::UI_TAG_ISS_POSITION]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_0_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_0_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_0_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_1_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_1_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_1_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_2_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_2_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_2_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_3_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_3_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_3_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_4_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_4_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_4_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_5_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_5_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_5_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_6_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_6_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_6_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_7_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_7_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_7_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_8_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_8_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_8_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_RED]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_9_NO );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_NO]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_NO]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_NO]->SetVisible( true );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_9_BLUE );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_BLUE]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_BLUE]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_BLUE]->SetVisible( false );
+
+	MakeUIComponent( ClientUITag::UI_TAG_MODULE_9_RED );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_RED]->GetTransform().SetScale( 0.6f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_RED]->GetTransform().SetPosition( UI_SKELETON_POSITION_X, UI_ISS_MODULE_STATE_Y, 0.0f );
+	m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_RED]->SetVisible( false );
 
 	// test param
 	D3DXFONT_DESC fontParam;
@@ -148,6 +299,109 @@ void BackgroundFrameUI::Update( float dt )
 
 	m_UIComponentList[ClientUITag::UI_TAG_ISS_POSITION]->GetTransform().SetPosition( UI_ISS_NAV_DEFAULT_POSITION_X + ( positionRatio * UI_ISS_NAV_DEFAULT_RANGE ), UI_ISS_NAV_DEFAULT_POSITION_Y, 0.0f );
 
+	// iss 소유자 표시
+	for ( int i = 0; i < MODULE_NUMBER; ++i )
+	{
+		TeamColor currentModuleOwner = GObjectManager->GetISS()->GetModuleOwner( i );
+		if ( m_IssModuleOwnerList[i] != currentModuleOwner )
+		{
+			m_IssModuleOwnerList[i] = currentModuleOwner;
+			ChangeModuleOwner( i, currentModuleOwner );
+		}
+	}
+
 	// text
 	// infoPrinter에서 표시
+}
+
+void BackgroundFrameUI::ChangeModuleOwner( int moduleIdx, TeamColor owner )
+{
+	DDUI* no = nullptr;
+	DDUI* blue = nullptr;
+	DDUI* red = nullptr;
+
+	switch ( moduleIdx )
+	{
+	case 0:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_0_RED];
+		break;
+	case 1:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_1_RED];
+		break;
+	case 2:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_2_RED];
+		break;
+	case 3:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_3_RED];
+		break;
+	case 4:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_4_RED];
+		break;
+	case 5:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_5_RED];
+		break;
+	case 6:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_6_RED];
+		break;
+	case 7:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_7_RED];
+		break;
+	case 8:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_8_RED];
+		break;
+	case 9:
+		no = m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_NO];
+		blue = m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_BLUE];
+		red = m_UIComponentList[ClientUITag::UI_TAG_MODULE_9_RED];
+		break;
+	default:
+		break;
+	}
+
+	ChangeModuleDisplayState( no, blue, red, owner );
+}
+
+void BackgroundFrameUI::ChangeModuleDisplayState( DDUI* no, DDUI* blue, DDUI* red, TeamColor owner )
+{
+	if ( !no || !red || !blue )
+		return;
+
+	switch ( owner )
+	{
+	case TeamColor::NO_TEAM:
+		no->SetVisible( true );
+		blue->SetVisible( false );
+		red->SetVisible( false );
+		break;
+	case TeamColor::BLUE:
+		no->SetVisible( false );
+		blue->SetVisible( true );
+		red->SetVisible( false );
+		break;
+	case TeamColor::RED:
+		no->SetVisible( false );
+		blue->SetVisible( false );
+		red->SetVisible( true );
+		break;
+	default:
+		break;
+	}
 }

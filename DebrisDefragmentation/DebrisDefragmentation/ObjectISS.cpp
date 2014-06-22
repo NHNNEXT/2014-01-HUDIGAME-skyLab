@@ -157,6 +157,11 @@ void ObjectISS::SetOwner( int moduleIdx, int color )
 	m_ModuleList[moduleIdx].SetOwner( static_cast<TeamColor>( color ) );
 }
 
+TeamColor ObjectISS::GetModuleOwner( int moduleIdx )
+{
+	return m_ModuleList[moduleIdx].GetOwner();
+}
+
 void ObjectISS::SetHP( int moduleIdx, float hp )
 {
 	m_ModuleList[moduleIdx].SetHP( hp );

@@ -44,7 +44,7 @@ std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className
 bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 {
 	// 쿨탐 체크
-	if ( m_MovementControlCooldown > 0.0f )
+	if ( m_MovementControlCooldown > 0.0f || m_GlobalCooldown > 0.0f )
 		return false;
 
 	printf_s( "GAS : %0.2f	OXYGEN : %0.2f		HP : %0.2f\n", m_Fuel, m_Oxygen, m_HP );
@@ -61,6 +61,9 @@ bool ClassComponent::SkillGoForward( int id, D3DXVECTOR3 viewDirection )
 	
 	// 여기서 한번 상태 방송해줘야 fuel이 줄어들 것 같음..
 	GObjectTable->GetActorManager()->BroadcastCharacterChange( id, ChangeType::CHARACTER_STATE );
+
+	m_GlobalCooldown = COOLDOWN_GLOBAL;
+
 	return true;
 }
 

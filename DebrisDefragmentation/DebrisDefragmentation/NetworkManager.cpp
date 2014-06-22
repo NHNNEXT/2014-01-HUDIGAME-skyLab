@@ -103,6 +103,8 @@ void NetworkManager::SendTurnBody()
 
 	outPacket.mRotation.m_X = GPlayerManager->GetCamera()->GetTransform().GetRotationX();
 	outPacket.mRotation.m_Y = GPlayerManager->GetCamera()->GetTransform().GetRotationY();
+	if ( !GPlayerManager->GetPlayer( m_MyPlayerId ) )
+		return;
 	outPacket.mRotation.m_Z = GPlayerManager->GetPlayer( m_MyPlayerId )->GetTransform().GetRotationZ();
 
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
@@ -202,6 +204,9 @@ void NetworkManager::HandleDispenserEffectResult( DDPacketHeader& pktBase )
 	DispenserEffectResult inPacket = reinterpret_cast<DispenserEffectResult &>(pktBase);
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetDispenserEffectFlag( inPacket.mDispenserEffectFlag );
 
 }
@@ -214,6 +219,9 @@ void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
 	// 데브리 모델의 visible을 끔(굳이 삭제를 할 필요는 없을듯.. 나중에 한번에 하니까 ㅋ)
 	GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->SetVisible( false );
 	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, GObjectManager->GetResourceDebris( inPacket.mDebrisIndex )->GetTransform().GetPosition());
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetResource( inPacket.mCurrentResource );
 }
@@ -234,6 +242,10 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		DDCamera* camera = DDCamera::Create();
 		GPlayerManager->SetCamera( camera );
 		GSceneManager->GetPlayScene()->AddChild(camera, ORDER_COMPASS_UI);
+
+		if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+			return;
+
 		camera->SetFollowingObject( GPlayerManager->GetPlayer( m_MyPlayerId ) );
 		camera->GetTransform().SetRotation( (static_cast<TeamColor>(inPacket.mTeamColor) == TeamColor::BLUE)? BLUE_TEAM_ROTATION : RED_TEAM_ROTATION );
 
@@ -260,7 +272,9 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 		
 //	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	Player* player = GPlayerManager->GetPlayer( inPacket.mPlayerId );
-	
+	if ( !player )
+		return;
+
 	// printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
 	// printf_s( "currentAcc : %f %f %f\n", player->GetAcceleration().x, player->GetAcceleration().y, player->GetAcceleration().z );
 
@@ -277,7 +291,10 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 	StopResult inPacket = reinterpret_cast<StopResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 		
-//	GPlayerManager->AddPlayer( inPacket.mPlayerId );		
+//	GPlayerManager->AddPlayer( inPacket.mPlayerId );	
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 }
@@ -288,6 +305,10 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::IDLE );
@@ -305,6 +326,9 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	{
 		dummyPlayerID = inPacket.mPlayerId + REAL_PLAYER_NUM;
 
+		if ( !GPlayerManager->GetPlayer( dummyPlayerID ) )
+			return;
+
 		GPlayerManager->AddPlayer( dummyPlayerID );
 		GPlayerManager->GetPlayer( dummyPlayerID )->GetTransform().SetPosition( inPacket.mPos );
 		GPlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( inPacket.mVelocity );
@@ -313,6 +337,10 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 	if ( inPacket.mPlayerId != -1 )
 	{
 		GPlayerManager->AddPlayer( inPacket.mPlayerId );
+
+		if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+			return;
+
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 	}
@@ -329,6 +357,9 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 	// 스킬 사용에 따른 행동 포인트 등의 지표가 변화가 생긴다면 그걸 처리하는 함수를 따로 만들어야 할 듯
 
 	// 애니메이션 적용
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	switch ( inPacket.mSkill )
 	{
 	case ClassSkill::PUSH:
@@ -393,6 +424,9 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 //	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 
@@ -402,7 +436,6 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::REACT );
 		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
-		
 	}
 
 	if ( inPacket.mIsAccelerate )
@@ -416,6 +449,10 @@ void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
 	CharacterStateResult inPacket = reinterpret_cast<CharacterStateResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 //	PlayerManager* a = GPlayerManager.get();
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetFuel( inPacket.mFuel );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetOxygen( inPacket.mOxygen );
 }
@@ -426,6 +463,10 @@ void NetworkManager::HandleNewResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
@@ -441,6 +482,10 @@ void NetworkManager::HandleDeadResult( DDPacketHeader& pktBase )
 	// fps 게임에서 죽으면 다른 캐릭터 보는 view로 바꿔준다거나, scene을 바꿔준다거나...	
 
 	// 죽어라
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetHP( 0.0f );
 }
 
@@ -450,6 +495,9 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	Player* player = GPlayerManager->GetPlayer( m_MyPlayerId );
+	if ( !player )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
 	
 	printf_s( "class changed : %d\n", inPacket.mCharacterClass );
@@ -467,6 +515,10 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
 //	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
+
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
@@ -534,6 +586,9 @@ void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
 {
 	ChangeClassResult inPacket = reinterpret_cast<ChangeClassResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+
+	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
+		return;
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
 	printf_s( "class changed : %d\n", inPacket.mNewClass );
@@ -636,6 +691,9 @@ void NetworkManager::HandleInstalledStructureResult( DDPacketHeader& pktBase )
 
 CharacterClass NetworkManager::GetMyClass()
 { 
+	if ( !GPlayerManager->GetPlayer( m_MyPlayerId ) )
+		return CharacterClass::NO_CLASS;
+
 	return GPlayerManager->GetPlayer( m_MyPlayerId )->GetClassComponent()->GetCharacterClassName(); 
 }
 

@@ -26,6 +26,8 @@ const float			UI_SPECIAL_KEY_POSITION_Y = 340.0f;
 const float			UI_ISS_NAV_DEFAULT_POSITION_X = 373.0f;
 const float			UI_ISS_NAV_DEFAULT_POSITION_Y = 35.0f;
 
+const float			UI_ISS_MODULE_STATE_Y = 28.0;
+
 const float			UI_ISS_NAV_DEFAULT_RANGE = 330.0f;
 
 
@@ -105,6 +107,46 @@ const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
 	{ ClientUITag::UI_TAG_SK_ENGINEER, L"screen_component\\sk_engineer.png" },
 	{ ClientUITag::UI_TAG_SK_PROTECTOR, L"screen_component\\sk_protector.png" },
 	{ ClientUITag::UI_TAG_SK_STRIKER, L"screen_component\\sk_striker.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_0_NO, L"screen_component\\M0_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_0_BLUE, L"screen_component\\M0_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_0_RED, L"screen_component\\M0_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_1_NO, L"screen_component\\M1_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_1_BLUE, L"screen_component\\M1_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_1_RED, L"screen_component\\M1_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_2_NO, L"screen_component\\M2_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_2_BLUE, L"screen_component\\M2_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_2_RED, L"screen_component\\M2_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_3_NO, L"screen_component\\M3_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_3_BLUE, L"screen_component\\M3_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_3_RED, L"screen_component\\M3_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_4_NO, L"screen_component\\M4_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_4_BLUE, L"screen_component\\M4_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_4_RED, L"screen_component\\M4_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_5_NO, L"screen_component\\M5_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_5_BLUE, L"screen_component\\M5_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_5_RED, L"screen_component\\M5_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_6_NO, L"screen_component\\M6_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_6_BLUE, L"screen_component\\M6_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_6_RED, L"screen_component\\M6_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_7_NO, L"screen_component\\M7_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_7_BLUE, L"screen_component\\M7_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_7_RED, L"screen_component\\M7_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_8_NO, L"screen_component\\M8_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_8_BLUE, L"screen_component\\M8_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_8_RED, L"screen_component\\M8_red.png" },
+
+	{ ClientUITag::UI_TAG_MODULE_9_NO, L"screen_component\\M9_no.png" },
+	{ ClientUITag::UI_TAG_MODULE_9_BLUE, L"screen_component\\M9_blue.png" },
+	{ ClientUITag::UI_TAG_MODULE_9_RED, L"screen_component\\M9_red.png" },
 };
 
 

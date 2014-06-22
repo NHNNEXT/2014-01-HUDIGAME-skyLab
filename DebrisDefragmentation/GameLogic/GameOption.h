@@ -148,8 +148,8 @@ const float			DISPENSER_RANGE = 10.0f;
 
 // 오브젝트 Scale 저장
 const float			ISS_SCALE = 8.0f;
-const float			SPACE_MINE_SCALE = 0.3f;
-const float			DISPENSER_SCALE = 0.1f;
+const float			SPACE_MINE_SCALE = 0.1f;
+const float			DISPENSER_SCALE = 0.05f;
 const float			CHARACTER_SCALE = 0.01f;
 const float			ACCESS_POINT_SCALE = 0.01f;
 

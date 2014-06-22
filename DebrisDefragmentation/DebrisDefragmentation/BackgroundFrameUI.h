@@ -16,6 +16,9 @@ public:
 	void Update( float dt );
 
 private:
+	void ChangeModuleOwner( int moduleIdx, TeamColor owner );
+	void ChangeModuleDisplayState( DDUI* no, DDUI* blue, DDUI* red, TeamColor owner );
+
 	TeamColor		m_DisplayTeam = TeamColor::NO_TEAM;
 	CharacterClass	m_DisplayClass = CharacterClass::NO_CLASS;
 	float			m_IssPosition = 0.0f;
@@ -23,5 +26,7 @@ private:
 	// text
 	ID3DXFont*		m_pFont = nullptr;
 	LPRECT			m_pRect;
+	
+	std::array<TeamColor, MODULE_NUMBER> m_IssModuleOwnerList;
 };
 

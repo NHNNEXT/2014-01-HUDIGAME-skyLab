@@ -283,7 +283,7 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 
 			// Sum of all ambient and emissive contribution
 			D3DXCOLOR color1( pMeshContainer->pMaterials[pBoneComb[iAttrib].AttribId].MatD3D.Ambient );
-			D3DXCOLOR color2( .25, .25, .25, 1.0 );
+			D3DXCOLOR color2( .5, .5, .5, 1.0 );
 			D3DXCOLOR ambEmm;
 			D3DXColorModulate( &ambEmm, &color1, &color2 );
 			ambEmm += D3DXCOLOR( pMeshContainer->pMaterials[pBoneComb[iAttrib].AttribId].MatD3D.Emissive );
