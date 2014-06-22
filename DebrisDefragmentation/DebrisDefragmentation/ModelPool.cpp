@@ -105,11 +105,14 @@ bool ModelPool::SetNormalVector( MeshInfo* mi )
 	{
 		//가지고 있지 않다면 메쉬를 복제하고 D3DFVF_NORMAL을 추가한다.
 		ID3DXMesh* pTempMesh = 0;
-		mi->m_pMesh->CloneMeshFVF(
+		if ( FAILED( mi->m_pMesh->CloneMeshFVF(
 			D3DXMESH_MANAGED,
 			mi->m_pMesh->GetFVF() | D3DFVF_NORMAL,  //이곳에 추가
 			DDRenderer::GetInstance()->GetDevice(),
-			&pTempMesh );
+			&pTempMesh ) ) )
+		{
+			return false;
+		}
 
 		// 법선을 계산한다.
 		if ( FAILED( D3DXComputeNormals( pTempMesh, 0 ) ) )
@@ -134,7 +137,9 @@ MeshInfo* ModelPool::GetModel( ModelType modelName )
 {	
 	auto findIter = m_ObjectMap.find( modelName );
 	if ( findIter != m_ObjectMap.end() )
-	{
+	{		
+// 		MeshInfo* tmpMesh = new MeshInfo( *findIter->second );		
+// 		return tmpMesh;
 		return findIter->second;
 	}
 	return nullptr;
