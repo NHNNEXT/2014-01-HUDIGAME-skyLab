@@ -30,12 +30,16 @@ public:
 	int		GetCharacterId() const { return m_CharacterId; }
 	void	SetCharacterId( int characterId ) { m_CharacterId = characterId; }
 
+	void	SetDeadFlag( bool flag ) { m_IsDead = flag; }
+	bool	GetDeadFlag() { return m_IsDead; }
+
 private:
 	virtual void UpdateItSelf( float dTime );
 
 	std::shared_ptr<ClassComponent> m_CharacterClass;
 	TeamColor	m_Team = TeamColor::NO_TEAM;
 
-	int m_CharacterId = -1;
+	int			m_CharacterId = -1;
+	float		m_IsDead = false;
 };
 

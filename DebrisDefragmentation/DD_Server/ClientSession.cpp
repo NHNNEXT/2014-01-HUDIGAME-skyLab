@@ -769,6 +769,7 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 		return;
 
 	m_Character.InitTeamPosition();
+	m_Character.SetDeadFlag( false );
 	
 	// printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
 

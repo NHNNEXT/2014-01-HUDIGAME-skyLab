@@ -164,7 +164,12 @@ void ActorManager::Update( )
 			m_CharacterList[actorId]->Update( dt );
 			if ( !m_CharacterList[actorId]->GetClassComponent()->IsAlive() )
 			{
-				m_DeadPlayers.insert( actorId );
+				// 살아 있다가 죽은 거면 리스트에 추가
+				if ( !m_CharacterList[actorId]->GetDeadFlag() )
+				{
+					m_CharacterList[actorId]->SetDeadFlag( true );
+					m_DeadPlayers.insert( actorId );
+				}
 			}
 		}
 	}
