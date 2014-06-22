@@ -45,10 +45,10 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::SKYBOX, L"skybox.x" );
 	m_ModelPool.InitModel( ModelType::EARTH, L"earth.x" );
 	m_ModelPool.InitModel( ModelType::PLAYER_MODEL, L"spaceMan.x" );
-	m_ModelPool.InitModel( ModelType::PLAYER_MODEL_ANIMATION, L"WTF_anim.X", true );
+	m_ModelPool.InitModel( ModelType::PLAYER_MODEL_ANIMATION, L"x_file\\character.x", true );
 	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );	
-	m_ModelPool.InitModel( ModelType::DISPENSER, L"dispenser.x" );
-	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"space_mine.x" );
+	m_ModelPool.InitModel( ModelType::DISPENSER, L"x_file\\dispenser.x" );
+	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"x_file\\space_mine.x" );
 	m_ModelPool.InitModel( ModelType::PUSHPULL_EFFECT, L"effect1.x" );
 }
 
