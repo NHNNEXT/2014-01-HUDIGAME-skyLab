@@ -5,6 +5,7 @@
 #include "GameOption.h"
 #include "DebugData.h"
 #include "PlayerManager.h"
+#include "DDApplication.h"
 
 InfoPrinter* GInfoPrinter = nullptr;
 
@@ -78,6 +79,25 @@ void InfoPrinter::init()
 		DDRenderer::GetInstance()->GetDevice(),
 		&fontParam,
 		&m_pNavigationFont
+		);
+
+	if ( !SUCCEEDED( hr ) )
+	{
+		assert( false );
+	}
+
+	ZeroMemory( &fontParam, sizeof( fontParam ) );
+	fontParam.Height = 40;
+	fontParam.Width = 40;
+	fontParam.Weight = 100;
+	fontParam.Italic = false;
+	fontParam.CharSet = false;
+	wcscpy_s( fontParam.FaceName, L"Segoe UI Light" );
+
+	hr = D3DXCreateFontIndirect(
+		DDRenderer::GetInstance()->GetDevice(),
+		&fontParam,
+		&m_pSelectViewFont
 		);
 
 	if ( !SUCCEEDED( hr ) )
@@ -265,7 +285,18 @@ void InfoPrinter::RenderItSelf()
 		info.clear();
 
 		// navigation
+
+		if ( !GPlayerManager->GetMyPlayer()->GetClassComponent()->IsAlive() )
+		{
+			std::wstring info = L"";
+			info.append( L"\n\n\n\nF5 : STRIKER  \nF6 : PROTECTOR\nF7 : ENGINEER " );
+			SetRect( m_pRect, 0, 0, DDApplication::GetInstance()->GetScreenWidth(), DDApplication::GetInstance()->GetScreenHeight() );
+			m_pSelectViewFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_CENTER, D3DCOLOR_ARGB( 0xbb, 0xff, 0xff, 0xff ) );
+			info.clear();
+		}
 	}
+
+
 
 	if ( !GDebugData->mDisplayDebugInfoFlag )
 		return;
