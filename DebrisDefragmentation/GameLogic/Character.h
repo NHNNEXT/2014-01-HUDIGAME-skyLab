@@ -41,6 +41,6 @@ private:
 	TeamColor	m_Team = TeamColor::NO_TEAM;
 
 	int			m_CharacterId = -1;
-	float		m_IsDead = false;
+	bool		m_IsDead = false;
 };
 

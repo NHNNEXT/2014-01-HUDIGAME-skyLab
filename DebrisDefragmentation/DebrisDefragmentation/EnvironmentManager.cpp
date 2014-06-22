@@ -33,13 +33,19 @@ void EnvironmentManager::InitParticleEffects()
 		Exp->SetParticles( TEMP_ORIGIN, EXPLOSION_COLOR_RANGE, EXPLOSION_DIR_MIN, EXPLOSION_DIR_MAX, EXPLOSION_LIFETIME, NUMBER_OF_PARTICLES, EXPLOSION_PARTICLE_VELOCITY );
 		Exp->init( DDRenderer::GetInstance()->GetDevice(), L"flare.bmp" );
 		m_ExplosionEffectList[i] = Exp;
-		GSceneManager->GetPlayScene()->AddChild( Exp );		
+		GSceneManager->GetPlayScene()->AddChild( Exp,1 );		
 
 		Firework* Heal = Firework::Create();
 		Heal->SetParticles( TEMP_ORIGIN, HEALING_COLOR_RANGE, HEALING_DIR_MIN, HEALING_DIR_MAX, HEALING_LIFETIME, NUMBER_OF_PARTICLES, HEALING_PARTICLE_VELOCITY);
 		Heal->init( DDRenderer::GetInstance()->GetDevice(), L"green_cross.png" );
 		m_HealingEffectList[i] = Heal;
-		GSceneManager->GetPlayScene()->AddChild( Heal );
+		GSceneManager->GetPlayScene()->AddChild( Heal,1 );
+
+		Firework* Fire = Firework::Create();
+		Fire->SetParticles( TEMP_ORIGIN, FIRE_COLOR_RANGE, FIRE_DIR_MIN, FIRE_DIR_MAX, FIRE_LIFETIME, NUMBER_OF_PARTICLES, FIRE_PARTICLE_VELOCITY );
+		Fire->init( DDRenderer::GetInstance()->GetDevice(), L"fire.png" );
+		m_FireEffectList[i] = Fire;
+		GSceneManager->GetPlayScene()->AddChild( Fire,1 );
 	}
 
 	m_DebrisStrike = Snow::Create();
@@ -59,6 +65,9 @@ int EnvironmentManager::PlayFireworkEffect( EffectType effectType, D3DXVECTOR3 o
 		case EffectType::HEALING:
 			m_HealingEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin, directionMin, directionMax );
 			return m_CurrentFireworkEffectNumber++;			
+		case EffectType::FIRE:
+			m_FireEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin, directionMin, directionMax );
+			return m_CurrentFireworkEffectNumber++;
 		default:
 			break;
 	}

@@ -160,6 +160,9 @@ void PlayScene::Init()
 	GSoundManager->PlaySound( 0 );
 
 	PostMessage( DDApplication::GetInstance()->GetHWND(), SL_PLAYSCENE_LOADING_COMPLETE, NULL, NULL);
+	
+	// 마우스 커서 초기화
+	MousePointer( false, { 0, 0 } );
 }
 
 void PlayScene::UpdateItSelf( float dTime )
@@ -370,13 +373,13 @@ void PlayScene::MousePointer( bool mousePointer, DDPoint currentMousePos )
 {
 	if ( !mousePointer )
 	{
-		// 마우스 커서 500, 500에 놓기
+		// 마우스 커서를 게임화면 중앙에 놓기
 		/// config.h
 		POINT pt = { DDApplication::GetInstance()->GetScreenWidth() / 2, DDApplication::GetInstance()->GetScreenHeight() / 2 };
 		::ClientToScreen( DDApplication::GetInstance()->GetHWND(), &pt );
 		::SetCursorPos( pt.x, pt.y );
 
-		// 이전 포지션 위치를 500, 500에 놓기
+		// 이전 커서 위치를 게임 화면 중앙으로 설정
 		m_PrevMousePosition = DDPoint( static_cast<float>( DDApplication::GetInstance()->GetScreenWidth() / 2 ), static_cast<float>( DDApplication::GetInstance()->GetScreenHeight() / 2) );
 
 		// 커서 숨기기

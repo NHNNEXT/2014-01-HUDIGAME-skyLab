@@ -235,6 +235,7 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 		GPlayerManager->SetCamera( camera );
 		GSceneManager->GetPlayScene()->AddChild(camera, ORDER_COMPASS_UI);
 		camera->SetFollowingObject( GPlayerManager->GetPlayer( m_MyPlayerId ) );
+		camera->GetTransform().SetRotation( (static_cast<TeamColor>(inPacket.mTeamColor) == TeamColor::BLUE)? BLUE_TEAM_ROTATION : RED_TEAM_ROTATION );
 
 		// 콤파스 설정
 		// CompassUI* compassUI = CompassUI::Create();
@@ -382,7 +383,7 @@ void NetworkManager::HandleDestroyISSResult( DDPacketHeader& pktBase )
 	D3DXVECTOR3 skillDirection = inPacket.mDirection;
 //	D3DXVec3Normalize( &skillDirection, &skillDirection );
 
-	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET );
+	GEnvironmentManager->PlayFireworkEffect( EffectType::FIRE, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET );
 }
 
 
@@ -414,7 +415,7 @@ void NetworkManager::HandleCharacterStateResult( DDPacketHeader& pktBase )
 {
 	CharacterStateResult inPacket = reinterpret_cast<CharacterStateResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-	PlayerManager* a = GPlayerManager.get();
+//	PlayerManager* a = GPlayerManager.get();
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetFuel( inPacket.mFuel );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetOxygen( inPacket.mOxygen );
 }
