@@ -27,6 +27,7 @@ private:
 
 	ID3DXFont*		m_pCharacterStatusFont = nullptr;
 	ID3DXFont*		m_pNavigationFont = nullptr;
+	ID3DXFont*		m_pSelectViewFont = nullptr;
 
 	// 봉인. Create로 만들 것
 	InfoPrinter() {};
