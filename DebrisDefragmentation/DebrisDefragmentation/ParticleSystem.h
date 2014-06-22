@@ -91,7 +91,7 @@ public:
 	CREATE_OBJECT( Firework );
 
 	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity );
-	void PlayEffect( D3DXVECTOR3 origin );
+	void PlayEffect( D3DXVECTOR3 origin, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax );
 	void resetParticle( Attribute* attribute, float age );
 	void UpdateItSelf( float timeDelta );
 	void preRender();

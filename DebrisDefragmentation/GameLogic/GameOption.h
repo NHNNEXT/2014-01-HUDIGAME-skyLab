@@ -317,6 +317,8 @@ const D3DXVECTOR3	DS_ORIGIN_MIN{ -1000.0f, -1000.0f, -1000.0f };
 const D3DXVECTOR3	DS_ORIGIN_MAX{ 1000.0f, 1000.0f, 1000.0f };
 const ColorRange	DS_COLOR_RANGE = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 
+const D3DXVECTOR3	DIRECTION_OFFSET{ 0.2f, 0.2f, 0.2f };
+
 // D3DXVECTOR3 mapMin{ -1000.0f, -1000.0f, -1000.0f };
 // D3DXVECTOR3 mapMax{ 1000.0f, 1000.0f, 1000.0f };
 

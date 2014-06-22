@@ -125,6 +125,8 @@ enum PacketTypes
 	PKT_SC_STRUCTURE_INSTALL = 313,
 	PKT_SC_STRUCTURE_UNINSTALL = 314,
 
+	PKT_SC_DESTROY_ISS = 315,
+
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
 	PKT_SC_SYNC = 902,
@@ -407,6 +409,18 @@ struct UsingSkillResult : public PacketHeader
 	ClassSkill	mSkill;
 };
 
+struct DestroyISSResult : public PacketHeader
+{
+	DestroyISSResult()
+	{
+		mSize = sizeof( DestroyISSResult );
+		mType = PKT_SC_DESTROY_ISS;
+	}
+
+	Float3D mHitPosition;
+	Float3D mDirection;
+};
+
 // 로그인을 성공하면 지금 게임 상태를 모두 전송 받는다.
 struct GameStateRequest : public PacketHeader
 {
@@ -573,13 +587,12 @@ struct DisaterOccurrenceResult : public PacketHeader
 	{
 		mSize = sizeof( DisaterOccurrenceResult );
 		mType = PKT_SC_DISASTER;
-
-		direction = D3DXVECTOR3{ 0.0f, 0.0f, 0.0f };
+		
 		remainTime = 0.0f;
 	}
 
 	float remainTime;
-	D3DXVECTOR3 direction;
+	Float3D direction;
 
 };
 

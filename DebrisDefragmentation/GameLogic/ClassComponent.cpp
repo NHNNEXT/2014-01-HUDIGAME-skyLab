@@ -190,8 +190,7 @@ bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
 	bool returnVal = GObjectTable->GetActorManager()->GetIss()->Occupy( id, direction );
 
 	// 스킬 썼으면 쿨 적용시키자
-	if ( returnVal )
-		SetCooldown( ClassSkill::OCCUPY );
+	SetCooldown( ClassSkill::OCCUPY );
 
 	return returnVal;
 }
@@ -207,8 +206,8 @@ bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
 	bool returnVal = GObjectTable->GetActorManager()->GetIss()->Destroy( id, direction );
 
 	// 스킬 썼으면 쿨 적용시키자
-	if ( returnVal )
-		SetCooldown( ClassSkill::DESTROY );
+	// 안맞았더라도 스킬을 사용하는 순간 쿨다운을 적용해야할 듯.
+	SetCooldown( ClassSkill::DESTROY );
 
 	return returnVal;
 }
