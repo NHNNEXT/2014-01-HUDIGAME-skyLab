@@ -767,16 +767,9 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 
 	if ( mPlayerId != inPacket.mPlayerId )
 		return;
-
-	m_Character.InitTeamPosition();
 	m_Character.SetDeadFlag( false );
 	
-	// printf_s( "Player %d Respawn\n", inPacket.mPlayerId );
-
-	// 조심해!!! 
-	// 클래스 추가하고 구현할 때,
-	// 받은 패킷에 있는 클래스대로 리스폰시 classComponent변경해줄 것.
-	// m_Character.ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
+	m_Character.ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
 
 	// 적용에 문제가 없으면 다른 클라이언트에게 방송! - 정지 위치는 서버 좌표 기준
 	RespawnResult outPacket;
@@ -784,43 +777,15 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	outPacket.mCharacterClass = inPacket.mCharacterClass;
 
 	// 캐릭터의 모든 값을 초기화
-	m_Character.GetClassComponent()->ResetStatus();
+	m_Character.InitTeamPosition();
+	m_Character.InitRigidBody();
+//	m_Character.GetClassComponent()->ResetStatus();
+// 	m_Character.SetAcceleration( ZERO_VECTOR3 );
+// 	m_Character.SetVelocity( ZERO_VECTOR3 );
+// 	m_Character.SetSpinnigFlag( false );	
 
 	outPacket.mPos = m_Character.GetTransform()->GetPosition();
 	outPacket.mRotation = m_Character.GetTransform()->GetRotation();
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-}
-
-REGISTER_HANDLER( PKT_CS_USING_SKILL )
-{
-	UsingSkillRequest inPacket = static_cast<UsingSkillRequest&>( pktBase );
-	session->HandleUsingSkillRequest( inPacket );
-}
-
-void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	DDLOG_DEBUG( L"[client " << mPlayerId << L"] using skill : " << static_cast<int>( inPacket.mSkill ) );
-
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	// 스킬 시전!
-	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection ) )
-		return;
-
-	// 스킬이 적용된 대상은 스킬을 실행하는 과정에서 방송하도록 함
-
-	// 난 내가 쓴 스킬에 대해서 방송한다.
-	UsingSkillResult outPacket;
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mSkill = inPacket.mSkill;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )
@@ -850,6 +815,38 @@ void ClientSession::HandleChangeClassRequest( ChangeClassRequest& inPacket )
 	ChangeClassResult outPacket;
 	outPacket.mPlayerId = mPlayerId;
 	outPacket.mNewClass = inPacket.mNewClass;
+
+	/// 다른 애들도 업데이트 해라
+	if ( !Broadcast( &outPacket ) )
+	{
+		Disconnect();
+	}
+}
+REGISTER_HANDLER( PKT_CS_USING_SKILL )
+{
+	UsingSkillRequest inPacket = static_cast<UsingSkillRequest&>( pktBase );
+	session->HandleUsingSkillRequest( inPacket );
+}
+
+void ClientSession::HandleUsingSkillRequest( UsingSkillRequest& inPacket )
+{
+	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
+
+	DDLOG_DEBUG( L"[client " << mPlayerId << L"] using skill : " << static_cast<int>( inPacket.mSkill ) );
+
+	if ( mPlayerId != inPacket.mPlayerId )
+		return;
+
+	// 스킬 시전!
+	if ( !m_Character.GetClassComponent()->UseSkill( inPacket.mSkill, mPlayerId, inPacket.mDirection ) )
+		return;
+
+	// 스킬이 적용된 대상은 스킬을 실행하는 과정에서 방송하도록 함
+
+	// 난 내가 쓴 스킬에 대해서 방송한다.
+	UsingSkillResult outPacket;
+	outPacket.mPlayerId = mPlayerId;
+	outPacket.mSkill = inPacket.mSkill;
 
 	/// 다른 애들도 업데이트 해라
 	if ( !Broadcast( &outPacket ) )

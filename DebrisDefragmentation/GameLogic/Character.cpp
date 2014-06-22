@@ -68,13 +68,8 @@ void Character::Init()
 									+ CHARACTER_CB_LENGTH_Z * CHARACTER_CB_LENGTH_Z );
 
 	InitTeamPosition();
-	SetVelocity( ZERO_VECTOR3 );
-
-	m_SpeedConstant = 1.0f;
-	m_SpinTime = 0;
-	m_AccelerationStartTime = 0;
-	m_Rigidbody.Init();
-	m_CharacterClass->ResetStatus();
+	InitRigidBody();
+	GetClassComponent()->ResetStatus();
 }
 
 void Character::InitTeamPosition()
@@ -92,6 +87,14 @@ void Character::InitTeamPosition()
 	default:
 		break;
 	}
+}
+
+void Character::InitRigidBody()
+{
+	m_SpeedConstant = DEFAULT_PLAYER_SPEED;
+	m_SpinTime = 0;
+	m_AccelerationStartTime = 0;
+	m_Rigidbody.Init();
 }
 
 void Character::UpdateItSelf( float dTime )

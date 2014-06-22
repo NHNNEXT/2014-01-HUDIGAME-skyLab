@@ -179,7 +179,25 @@ void PlayScene::UpdateItSelf( float dTime )
 			// 조심해!!
 			// 일단은 striker만 보내보자..
 			// 뭘 보낼지 선택하는 부분은 나중에 추가할 것!
-			GNetworkManager->SendRespawnRequest(CharacterClass::STRIKER);
+			GNetworkManager->SendRespawnRequest( GNetworkManager->GetMyClass() );
+		}
+		
+		if ( KEY_DOWN == GetKeyState( VK_F5 ) )
+		{
+			// striker로 변신
+			GNetworkManager->SendRespawnRequest( CharacterClass::STRIKER );
+		}
+
+		if ( KEY_DOWN == GetKeyState( VK_F6 ) )
+		{
+			// protector로 변신
+			GNetworkManager->SendRespawnRequest( CharacterClass::PROTECTOR );
+		}
+
+		if ( KEY_DOWN == GetKeyState( VK_F7 ) )
+		{
+			// engineer로 변신
+			GNetworkManager->SendRespawnRequest( CharacterClass::ENGINEER );
 		}
 
 		// player 조정이 playscene에 있으므로 여기서 return 함.
@@ -308,24 +326,6 @@ void PlayScene::UpdateItSelf( float dTime )
 		}
 
 		GNetworkManager->SendUsingSkill( skill );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_F5 ) )
-	{
-		// striker로 변신
-		GNetworkManager->SendClassChangeRequest( CharacterClass::STRIKER );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_F6 ) )
-	{
-		// protector로 변신
-		GNetworkManager->SendClassChangeRequest( CharacterClass::PROTECTOR );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_F7 ) )
-	{
-		// engineer로 변신
-		GNetworkManager->SendClassChangeRequest( CharacterClass::ENGINEER );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

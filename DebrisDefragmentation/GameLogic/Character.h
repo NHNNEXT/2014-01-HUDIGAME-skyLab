@@ -19,6 +19,7 @@ public:
 
 	void	Init();
 	void	InitTeamPosition();
+	void	InitRigidBody();
 
 	ClassComponent* GetClassComponent() { return m_CharacterClass.get(); }
 	void	ChangeClass( CharacterClass newClass );

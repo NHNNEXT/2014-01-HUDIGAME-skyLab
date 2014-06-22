@@ -126,7 +126,7 @@ void Player::UpdateItSelf( float dTime )
 	m_LastHealingEffectTime += dTime;	
 	if ( m_ClassComponent->GetDispenserEffectFlag() && ( m_LastHealingEffectTime > HEALING_LIFETIME ) )
 	{
-		GEnvironmentManager->PlayFireworkEffect( EffectType::HEALING, m_Transform.GetPosition() );
+		GEnvironmentManager->PlayFireworkEffect( EffectType::HEALING, m_Transform.GetPosition(), HEALING_DIR_MIN, HEALING_DIR_MAX );
 		m_LastHealingEffectTime = 0.0f;
 	}
 
@@ -330,4 +330,12 @@ void Player::ChangeClass( CharacterClass characterClass )
 {
 	// 변신!
 	m_ClassComponent = ClassComponent::Create( characterClass );
+}
+
+void Player::InitRigidBody()
+{
+	m_SpeedConstant = DEFAULT_PLAYER_SPEED;
+	m_SpinTime = 0;
+	m_AccelerationStartTime = 0;
+	m_Rigidbody.Init();	
 }

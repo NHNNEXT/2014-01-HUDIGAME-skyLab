@@ -409,15 +409,15 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
 	Player* player = GPlayerManager->GetPlayer( m_MyPlayerId );
-	// player::changeClass 내용 구현 후 적용할 것. 지금은 껍데기만 있음..
-	//g_PlayerManager->GetPlayer( m_MyPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
-
-
-	printf_s( "respawn player" );
-	player->GetClassComponent()->ResetStatus();
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
+	
+	printf_s( "class changed : %d\n", inPacket.mCharacterClass );
+	printf_s( "respawn player" );	
 
 	player->GetTransform().SetPosition( inPacket.mPos );
-	player->GetTransform().SetRotation( inPacket.mRotation );
+	player->GetTransform().SetRotation( inPacket.mRotation );	
+	player->InitRigidBody();
+	//GPlayerManager->GetCamera()->
 }
 
 void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )

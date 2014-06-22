@@ -310,8 +310,9 @@ struct RespawnRequest : public PacketHeader
 	{
 		mSize = sizeof ( RespawnRequest );
 		mType = PKT_CS_RESPAWN;
+
 		mPlayerId = -1;
-		mCharacterClass = 0; // no_class
+		mCharacterClass = -1; // no_class
 	}
 	int		mPlayerId;
 	int		mCharacterClass;

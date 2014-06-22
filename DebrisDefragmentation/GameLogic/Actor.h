@@ -68,7 +68,7 @@ protected:
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
 	bool		m_MovingFlag = true;
-	float		m_SpeedConstant = 1.0f;
+	float		m_SpeedConstant = DEFAULT_PLAYER_SPEED;
 
 private:
 	virtual void UpdateItSelf( float dTime );

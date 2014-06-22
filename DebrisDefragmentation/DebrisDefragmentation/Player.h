@@ -21,6 +21,7 @@ public:
 	//static Player* Create( int playerId );
 	CREATE_OBJECT_INTEGER( Player , plyerId );
 	void Init();	
+	void InitRigidBody();
 	
 	void		SetTeam( TeamColor color ) { m_Team = color; }
 	TeamColor	GetTeam() { return m_Team; }
@@ -89,7 +90,7 @@ private:
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
 	bool		m_MovingFlag = true;
-	float		m_SpeedConstant = 1.0f;
+	float		m_SpeedConstant = DEFAULT_PLAYER_SPEED;
 	float		m_LastHealingEffectTime = HEALING_LIFETIME;
 
 	DDModel*	m_CharacterModel = nullptr;
