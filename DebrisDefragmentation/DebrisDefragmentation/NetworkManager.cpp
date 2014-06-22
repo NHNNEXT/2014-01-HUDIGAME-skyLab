@@ -257,7 +257,7 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	AccelerarionResult inPacket = reinterpret_cast<AccelerarionResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 		
-	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+//	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	Player* player = GPlayerManager->GetPlayer( inPacket.mPlayerId );
 	
 	// printf_s( "player %d gofoward\ninputVel   : %f %f %f\ncurrentVel : %f %f %f\n", inPacket.mPlayerId, inPacket.mVelocity.x, inPacket.mVelocity.y, inPacket.mVelocity.z, player->GetVelocity().x, player->GetVelocity().y, player->GetVelocity().z);
@@ -276,7 +276,7 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 	StopResult inPacket = reinterpret_cast<StopResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 		
-	GPlayerManager->AddPlayer( inPacket.mPlayerId );		
+//	GPlayerManager->AddPlayer( inPacket.mPlayerId );		
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 }
@@ -308,6 +308,12 @@ void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
 		GPlayerManager->GetPlayer( dummyPlayerID )->SetVelocity( inPacket.mVelocity );
 	}
 #else
+	if ( inPacket.mPlayerId != -1 )
+	{
+		GPlayerManager->AddPlayer( inPacket.mPlayerId );
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
+	}
 #endif
 }
 
@@ -346,7 +352,7 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	KineticStateResult inPacket = reinterpret_cast<KineticStateResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+//	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 
@@ -419,7 +425,7 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	CollisionResult inPacket = reinterpret_cast<CollisionResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 	
-	GPlayerManager->AddPlayer( inPacket.mPlayerId );
+//	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
