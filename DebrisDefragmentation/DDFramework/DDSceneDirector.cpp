@@ -10,7 +10,7 @@ DDSceneDirector::DDSceneDirector()
 
 DDSceneDirector::~DDSceneDirector()
 {
-	m_pCurrentScene->DeleteAlignedClass( m_pCurrentScene );
+	//m_pCurrentScene->DeleteAlignedClass( m_pCurrentScene );
 }
 
 bool DDSceneDirector::Init()
@@ -77,5 +77,6 @@ void DDSceneDirector::ChangeScene( std::wstring sceneName )
 
 void DDSceneDirector::AddScene( DDScene* scene )
 {
-	m_SceneList.insert( std::make_pair( scene->GetSceneName(), std::shared_ptr<DDScene>(scene) ) );
+	auto deleter = DDObject::DeleteAlignedClass;
+	m_SceneList.insert( std::make_pair( scene->GetSceneName(), std::shared_ptr<DDScene>( scene, deleter ) ) );
 }
