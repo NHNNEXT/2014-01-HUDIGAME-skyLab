@@ -17,15 +17,22 @@ bool ModelPool::InitModel( ModelType modelType, std::wstring path, bool isAnimat
 {
 	if ( isAnimation )
 	{
-		// 애니메이션 모델을 만든다.
-		SkinnedMesh* newSkinnedMesh = new SkinnedMesh();
-		if ( newSkinnedMesh == nullptr )
-			return false;
+		for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
+		{
+			// 애니메이션 모델을 만든다.
+			SkinnedMesh* newSkinnedMesh = new SkinnedMesh();
+			if ( newSkinnedMesh == nullptr )
+				return false;
 
-		if ( !newSkinnedMesh->Init( path.c_str() ) )
-			return false;
+			if ( !newSkinnedMesh->Init( path.c_str() ) )
+				return false;
 
-		m_AnimationObjectMap.insert( std::pair<ModelType, SkinnedMesh*>( modelType, newSkinnedMesh ) );
+
+			// 조심해!!
+			// 임시로 어레이에 저장, 헤더파일 참고
+			//m_AnimationObjectMap.insert( std::pair<ModelType, SkinnedMesh*>( modelType, newSkinnedMesh ) );
+			m_AnimationObjectMap[i] = newSkinnedMesh;
+		}
 		
 		return true;
 	}
@@ -145,15 +152,40 @@ MeshInfo* ModelPool::GetModel( ModelType modelName )
 	return nullptr;
 }
 
-SkinnedMesh* ModelPool::GetAnimationModel( ModelType modelName )
+
+// 
+// MeshInfo* ModelPool::CopyModel( ModelType modelName)
+// {
+// 	auto findIter = m_ObjectMap.find( modelName );
+// 	if ( findIter != m_ObjectMap.end() )
+// 	{
+// 		MeshInfo* tmpMesh = new MeshInfo( *findIter->second );		
+// 		return tmpMesh;
+// 	}
+// 	return nullptr;
+// }
+
+
+
+SkinnedMesh* ModelPool::GetAnimationModel( int playerID )
 {
-	auto findIter = m_AnimationObjectMap.find( modelName );
-	if ( findIter != m_AnimationObjectMap.end() )
-	{
-		return findIter->second;
-	}
-	return nullptr;
+	return m_AnimationObjectMap[playerID];
 }
+
+
+
+// SkinnedMesh* ModelPool::GetAnimationModel( ModelType modelName )
+// {
+// 	auto findIter = m_AnimationObjectMap.find( modelName );
+// 	if ( findIter != m_AnimationObjectMap.end() )
+// 	{
+// 		SkinnedMesh* tmpMesh = new SkinnedMesh( *findIter->second );		
+// 		return tmpMesh;
+// 
+// 		//return findIter->second;
+// 	}
+// 	return nullptr;
+// }
 
 void ModelPool::ClearModelPool()
 {
@@ -170,12 +202,20 @@ void ModelPool::ClearModelPool()
 	}
 	m_ObjectMap.clear();
 
+	// 조심해!!
+	// 어레이로 바꿈, 헤더 참고
 	// animation 객체들 관리
-	for ( auto eachModel : m_AnimationObjectMap )
+// 	for ( auto eachModel : m_AnimationObjectMap )
+// 	{
+// 		delete eachModel.second;		
+// 	}
+// 	m_AnimationObjectMap.clear();
+	
+	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
 	{
-		delete eachModel.second;
+		delete m_AnimationObjectMap[i];
 	}
-	m_AnimationObjectMap.clear();
+	
 }
 
 bool ModelPool::Cleanup( MeshInfo* mi )

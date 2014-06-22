@@ -9,6 +9,7 @@ class SkinnedMesh
 {
 public:
 	SkinnedMesh();
+	//SkinnedMesh( const SkinnedMesh& sm );
 	~SkinnedMesh();
 
 	bool Init( std::wstring path );
@@ -28,7 +29,7 @@ private:
 	void UpdateFrameMatrices( LPD3DXFRAME pFrameBase, LPD3DXMATRIX pParentMatrix );
 
 	ID3DXEffect*				m_pEffect = NULL;       // D3DX effect interface
-	LPD3DXFRAME					m_pFrameRoot = NULL;	// 뼈대 - fps의 프레임이 아님 스켈레톤!
+	D3DXFRAME*					m_pFrameRoot = NULL;	// 뼈대 - fps의 프레임이 아님 스켈레톤!
 	ID3DXAnimationController*	m_pAnimController = NULL;
 	D3DXVECTOR3                 m_vObjectCenter;        // Center of bounding sphere of object
 	FLOAT                       m_fObjectRadius;        // Radius of bounding sphere of object

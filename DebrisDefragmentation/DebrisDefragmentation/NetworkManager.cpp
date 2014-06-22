@@ -449,16 +449,14 @@ void NetworkManager::HandleRespawnResult( DDPacketHeader& pktBase )
 	RespawnResult inPacket = reinterpret_cast<RespawnResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
 
-	Player* player = GPlayerManager->GetPlayer( m_MyPlayerId );
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
-	
+	Player* targetPlayer = GPlayerManager->GetPlayer( inPacket.mPlayerId );
+	targetPlayer->ChangeClass( static_cast<CharacterClass>( inPacket.mCharacterClass ) );
+	targetPlayer->GetTransform().SetPosition( inPacket.mPos );
+	targetPlayer->GetTransform().SetRotation( inPacket.mRotation );	
+	targetPlayer->InitRigidBody();
+
 	printf_s( "class changed : %d\n", inPacket.mCharacterClass );
 	printf_s( "respawn player" );	
-
-	player->GetTransform().SetPosition( inPacket.mPos );
-	player->GetTransform().SetRotation( inPacket.mRotation );	
-	player->InitRigidBody();
-	//GPlayerManager->GetCamera()->
 }
 
 void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
