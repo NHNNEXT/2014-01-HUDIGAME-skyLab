@@ -371,9 +371,12 @@ void Firework::postRender()
 	m_Device->SetRenderState( D3DRS_ZWRITEENABLE, true );
 }
 
-void Firework::PlayEffect( D3DXVECTOR3 origin )
+void Firework::PlayEffect( D3DXVECTOR3 origin, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax )
 {
 	m_Origin = origin;
+	m_DirectionMin = directionMin;
+	m_DirectionMax = directionMax;
+
 	reset();
 }
 

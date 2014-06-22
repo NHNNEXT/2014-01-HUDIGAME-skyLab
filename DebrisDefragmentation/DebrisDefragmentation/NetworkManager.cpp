@@ -193,6 +193,7 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_INSTALL, HandleStructureInstallResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_UNINSTALL, HandleStructureUninstallResult );
+	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY_ISS, HandleDestroyISSResult );
 }
 
 
@@ -327,6 +328,18 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->IncreaseOxygen( -DEFAULT_OXYGEN_SHARE_AMOUNT );
 	}
 }
+
+void NetworkManager::HandleDestroyISSResult( DDPacketHeader& pktBase )
+{
+	DestroyISSResult inPacket = reinterpret_cast<DestroyISSResult&>( pktBase );
+	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
+	
+	D3DXVECTOR3 skillDirection = inPacket.mDirection;
+//	D3DXVec3Normalize( &skillDirection, &skillDirection );
+
+	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET );
+}
+
 
 void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 {

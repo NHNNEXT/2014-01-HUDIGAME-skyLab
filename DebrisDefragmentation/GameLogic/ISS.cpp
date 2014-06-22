@@ -104,19 +104,29 @@ bool ISS::Destroy( int characterId, D3DXVECTOR3 direction )
 	Character* skillUserCharacter = GObjectTable->GetCharacter( characterId );
 	assert( skillUserCharacter );
 
-	ISSModuleName targetModule = ModuleOnRay( skillUserCharacter->GetViewDirection( direction ), skillUserCharacter->GetTransform()->GetPosition() );
+	D3DXVECTOR3 characterPosition = skillUserCharacter->GetTransform()->GetPosition();
+	D3DXVECTOR3	skillDirection = skillUserCharacter->GetViewDirection( direction );
+	D3DXVec3Normalize( &skillDirection, &skillDirection );
 
-	if ( targetModule != ISSModuleName::NO_MODULE )
-	{
-		m_ModuleList[static_cast<int>( targetModule )].DecreaseHP();
+	ISSModuleName targetModuleName = ModuleOnRay( skillDirection, characterPosition );
 
-		// 방송할 것
-		GObjectTable->GetActorManager()->BroadcastIssChange();
+	if ( targetModuleName == ISSModuleName::NO_MODULE )
+		return false;
+	
+	m_ModuleList[static_cast<int>( targetModuleName )].DecreaseHP();
 
-		return true;
-	}
+	// 방송할 것
+	GObjectTable->GetActorManager()->BroadcastIssChange();
 
-	return false;
+	// 공격한 모듈에 대한 방향과 그 위치를 방송
+	ISSModule* targetModule = GObjectTable->GetActorManager()->GetIss()->GetModule( targetModuleName );
+	float distance = std::numeric_limits<float>::infinity();
+	
+	if ( !Physics::IntersectionCheckRayBox( nullptr, &distance, nullptr, skillDirection, characterPosition, targetModule->GetCollisionBox() ) )
+ 		return false;
+		
+	GObjectTable->GetActorManager()->BroadcastDestroyISSResult( skillDirection, characterPosition + skillDirection * distance );
+	return true;
 }
 
 ISSModuleName ISS::ModuleOnRay( const D3DXVECTOR3 &viewDirection, const D3DXVECTOR3 &startPoint )

@@ -52,6 +52,7 @@ public:
 	static void HandleDisasterOccurrence( DDPacketHeader& pktBase );
 	static void HandleStructureInstallResult( DDPacketHeader& pktBase );
 	static void HandleStructureUninstallResult( DDPacketHeader& pktBase );
+	static void HandleDestroyISSResult( DDPacketHeader& pktBase );
 	
 
 	static void HandleKineticStateResult( DDPacketHeader& pktBase );
