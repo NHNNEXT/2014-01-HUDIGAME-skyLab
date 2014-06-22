@@ -15,11 +15,12 @@ public:
 	void InitSoundSystem();
 	void AddSound( int key, std::string fileName );
 	void PlaySound( int key );
+	void StopAllSound();
 	void Update();
 
 private:
 	System* m_pSystem;
 	std::unordered_map<int, Sound*> m_pSoundList;
-	Channel* m_pChannel;
+	Channel* m_pBGMChannel;
 };
 

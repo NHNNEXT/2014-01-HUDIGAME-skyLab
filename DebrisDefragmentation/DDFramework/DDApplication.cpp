@@ -241,6 +241,23 @@ LRESULT CALLBACK DDApplication::WndProc( HWND hWnd, UINT message, WPARAM wParam,
 			}
 			break; // WM_SOCKET end;
 		}
+		case SL_LOADINGSCENE_LOADING_START:
+		{
+			DDSceneDirector::GetInstance()->ChangeScene( L"PlayScene" );
+			break;
+		}
+		case SL_PLAYSCENE_LOADING_COMPLETE:
+		{
+
+			break;
+		}
+		
+		case SL_PLASCENE_GAME_END:
+		{
+
+			break;
+		}
+
 		break; // switch end
 	}
 

@@ -11,12 +11,13 @@ public:
 
 	CREATE_FUNC( SoundManager );
 
-	void Update() { m_SoundSystem->Update(); };
+	void Update() { if(!m_SoundSystem) m_SoundSystem->Update(); };
 	void Init();
 	void PlaySound( int key );
+	void StopAllSound();
 
 private:
-	SoundSystem* m_SoundSystem;
+	SoundSystem* m_SoundSystem = nullptr;
 };
 
 extern std::shared_ptr<SoundManager> GSoundManager;

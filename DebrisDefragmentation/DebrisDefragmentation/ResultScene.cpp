@@ -21,3 +21,8 @@ void ResultScene::Init()
 {
 
 }
+
+void ResultScene::UpdateItSelf( float dTime )
+{
+
+}

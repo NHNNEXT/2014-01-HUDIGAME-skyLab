@@ -10,7 +10,8 @@ public:
 
 	CREATE_OBJECT_WSTRING( LoadingScene, sceneName );
 
-	void Init();
+	virtual void Init();
+	virtual void UpdateItSelf( float dTime );
 
 };
 

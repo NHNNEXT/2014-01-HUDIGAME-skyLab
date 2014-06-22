@@ -17,15 +17,17 @@ public:
 	bool Release();
 	bool Init();
 
-	void ChangeScene( DDScene* scene );	
+	void ChangeScene( DDScene* scene );
+	void ChangeScene( std::wstring sceneName );
 	
 	DDScene* GetCurrentScene() { return m_pCurrentScene; }
 	
 	void UpdateScene( float dt );
 	void RenderScene();
+	void AddScene( DDScene* scene );
 
 private:
-	std::map<std::wstring, std::shared_ptr<DDScene>> m_SceneList;	
+	std::unordered_map<std::wstring, std::shared_ptr<DDScene>> m_SceneList;	
 	DDScene*				m_pCurrentScene = nullptr;
 };
 
