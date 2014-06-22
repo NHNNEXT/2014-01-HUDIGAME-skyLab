@@ -20,22 +20,69 @@ const float			UI_FRAME_POSITION_Y = 50.0f;
 const float			UI_SKELETON_POSITION_X = 15.0f;
 const float			UI_SKELETON_POSITION_Y = 58.0;
 
+const float			UI_SPECIAL_KEY_POSITION_X = 36.0f;
+const float			UI_SPECIAL_KEY_POSITION_Y = 340.0f;
+
+const float			UI_ISS_NAV_DEFAULT_POSITION_X = 373.0f;
+const float			UI_ISS_NAV_DEFAULT_POSITION_Y = 35.0f;
+
+const float			UI_ISS_NAV_DEFAULT_RANGE = 330.0f;
+
 
 // UI_FILENAME_LIST와 동기화시킬 것
 enum class ClientUITag : int
 {
-	UI_FRAME_TAG,
-	UI_OXYGEN_TAG,
-	UI_FUEL_TAG,
+	UI_TAG_FRAME,
 
-	UI_SKELETON_FRAME,
-	UI_SKELETON_CHARACTER_INFO,
-	UI_SKELETON_ISS,
-	UI_SKELETON_NAVIGATOR,
-	UI_SKELETON_DISASTER,
-	UI_SKELETON_TEAM,
+	UI_TAG_TEAM_RED,
+	UI_TAG_TEAM_BLUE,
 
-	UI_TAG_COUNT // total UI 숫자
+	UI_TAG_ISS_POSITION,
+	UI_TAG_DISASTER,
+
+	UI_TAG_SK_ENGINEER,
+	UI_TAG_SK_PROTECTOR,
+	UI_TAG_SK_STRIKER,
+
+	UI_TAG_MODULE_0_NO,
+	UI_TAG_MODULE_0_BLUE,
+	UI_TAG_MODULE_0_RED,
+
+	UI_TAG_MODULE_1_NO,
+	UI_TAG_MODULE_1_BLUE,
+	UI_TAG_MODULE_1_RED,
+
+	UI_TAG_MODULE_2_NO,
+	UI_TAG_MODULE_2_BLUE,
+	UI_TAG_MODULE_2_RED,
+
+	UI_TAG_MODULE_3_NO,
+	UI_TAG_MODULE_3_BLUE,
+	UI_TAG_MODULE_3_RED,
+
+	UI_TAG_MODULE_4_NO,
+	UI_TAG_MODULE_4_BLUE,
+	UI_TAG_MODULE_4_RED,
+
+	UI_TAG_MODULE_5_NO,
+	UI_TAG_MODULE_5_BLUE,
+	UI_TAG_MODULE_5_RED,
+
+	UI_TAG_MODULE_6_NO,
+	UI_TAG_MODULE_6_BLUE,
+	UI_TAG_MODULE_6_RED,
+
+	UI_TAG_MODULE_7_NO,
+	UI_TAG_MODULE_7_BLUE,
+	UI_TAG_MODULE_7_RED,
+
+	UI_TAG_MODULE_8_NO,
+	UI_TAG_MODULE_8_BLUE,
+	UI_TAG_MODULE_8_RED,
+
+	UI_TAG_MODULE_9_NO,
+	UI_TAG_MODULE_9_BLUE,
+	UI_TAG_MODULE_9_RED,
 };
 
 enum class ClientLightTag : int
@@ -50,15 +97,14 @@ const std::wstring	UI_FILE_PATH = L".\\Resources\\Image\\";
 // agebreak : 위의 내용을 아래와 같이 바꾸면 대재앙을 막을수 있다! // 그렇군요!
 const std::map<ClientUITag, std::wstring> MAP_UI_FILENAME =
 {
-	{ ClientUITag::UI_FRAME_TAG, L"Frame.png" },
-	{ ClientUITag::UI_OXYGEN_TAG, L"OxygenUI.png" },
-	{ ClientUITag::UI_FUEL_TAG, L"FuelUI.png" },
-	{ ClientUITag::UI_SKELETON_FRAME, L"frame_.png" },
-	{ ClientUITag::UI_SKELETON_CHARACTER_INFO, L"character_.png" },
-	{ ClientUITag::UI_SKELETON_ISS, L"ISS_.png" },
-	{ ClientUITag::UI_SKELETON_NAVIGATOR, L"navigator_.png" },
-	{ ClientUITag::UI_SKELETON_DISASTER, L"disaster_.png" },
-	{ ClientUITag::UI_SKELETON_TEAM, L"team_.png" },
+	{ ClientUITag::UI_TAG_FRAME, L"screen_component\\frame.png" },
+	{ ClientUITag::UI_TAG_TEAM_RED, L"screen_component\\team_red.png" },
+	{ ClientUITag::UI_TAG_TEAM_BLUE, L"screen_component\\team_blue.png" },
+	{ ClientUITag::UI_TAG_ISS_POSITION, L"screen_component\\iss_position.png" },
+	{ ClientUITag::UI_TAG_DISASTER, L"screen_component\\disaster.png" },
+	{ ClientUITag::UI_TAG_SK_ENGINEER, L"screen_component\\sk_engineer.png" },
+	{ ClientUITag::UI_TAG_SK_PROTECTOR, L"screen_component\\sk_protector.png" },
+	{ ClientUITag::UI_TAG_SK_STRIKER, L"screen_component\\sk_striker.png" },
 };
 
 
