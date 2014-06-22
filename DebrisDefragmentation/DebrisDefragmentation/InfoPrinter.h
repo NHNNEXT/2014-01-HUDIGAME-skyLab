@@ -25,6 +25,9 @@ private:
 	ID3DXFont*		m_pFont = nullptr;
 	LPRECT			m_pRect;
 
+	ID3DXFont*		m_pCharacterStatusFont = nullptr;
+	ID3DXFont*		m_pNavigationFont = nullptr;
+
 	// 봉인. Create로 만들 것
 	InfoPrinter() {};
 };

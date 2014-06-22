@@ -4,11 +4,15 @@
 #include <d3dx9core.h>
 #include "GameOption.h"
 #include "DebugData.h"
+#include "PlayerManager.h"
 
 InfoPrinter* GInfoPrinter = nullptr;
 
 InfoPrinter::~InfoPrinter()
 {
+	m_pCharacterStatusFont->Release();
+	m_pNavigationFont->Release();
+
 	m_pFont->Release();
 	delete m_pRect;
 }
@@ -16,6 +20,12 @@ InfoPrinter::~InfoPrinter()
 void InfoPrinter::init()
 {
 	// test param
+	m_pRect = new RECT();
+	m_pRect->top = 0;
+	m_pRect->bottom = 0;
+	m_pRect->left = 0;
+	m_pRect->right = 0;
+
 	D3DXFONT_DESC fontParam;
 	ZeroMemory( &fontParam, sizeof( fontParam ) );
 	fontParam.Height = 10;
@@ -24,12 +34,6 @@ void InfoPrinter::init()
 	fontParam.Italic = false;
 	fontParam.CharSet = false;
 	wcscpy_s( fontParam.FaceName, L"Segoe UI Light" );
-
-	m_pRect = new RECT();
-	m_pRect->top = 0;
-	m_pRect->bottom = 0;
-	m_pRect->left = 0;
-	m_pRect->right = 0;
 
 	HRESULT hr = D3DXCreateFontIndirect(
 		DDRenderer::GetInstance()->GetDevice(),
@@ -40,6 +44,44 @@ void InfoPrinter::init()
 	if ( !SUCCEEDED( hr ) )
 	{
 		// 디버거 안켜진다고 죽일거 까지 있나... 살려는 드릴게
+		assert( false );
+	}
+
+	ZeroMemory( &fontParam, sizeof( fontParam ) );
+	fontParam.Height = 22;
+	fontParam.Width = 20;
+	fontParam.Weight = 150;
+	fontParam.Italic = false;
+	fontParam.CharSet = false;
+	wcscpy_s( fontParam.FaceName, L"Segoe UI Light" );
+
+	hr = D3DXCreateFontIndirect(
+		DDRenderer::GetInstance()->GetDevice(),
+		&fontParam,
+		&m_pCharacterStatusFont
+		);
+
+	if ( !SUCCEEDED( hr ) )
+	{
+		assert( false );
+	}
+
+	ZeroMemory( &fontParam, sizeof( fontParam ) );
+	fontParam.Height = 12;
+	fontParam.Width = 12;
+	fontParam.Weight = 100;
+	fontParam.Italic = false;
+	fontParam.CharSet = false;
+	wcscpy_s( fontParam.FaceName, L"Segoe UI Light" );
+
+	hr = D3DXCreateFontIndirect(
+		DDRenderer::GetInstance()->GetDevice(),
+		&fontParam,
+		&m_pNavigationFont
+		);
+
+	if ( !SUCCEEDED( hr ) )
+	{
 		assert( false );
 	}
 }
@@ -205,6 +247,26 @@ void InfoPrinter::DrawClientInfo()
 
 void InfoPrinter::RenderItSelf()
 {
+	if ( GPlayerManager->GetMyPlayer() )
+	{
+		// fuel
+		std::wstring info = L"";
+		info.append( std::to_wstring( static_cast<int>( static_cast<int>( GPlayerManager->GetMyPlayer()->GetClassComponent()->GetFuel() * 100 / DEFAULT_FUEL ) ) ) );
+		info.append( L"\%" );
+		SetRect( m_pRect, 0, 320, 227, 1000 );
+		m_pCharacterStatusFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_RIGHT, D3DCOLOR_ARGB( 0xbb, 0xff, 0xff, 0xff ) );
+		info.clear();
+
+		// oxygen
+		info.append( std::to_wstring( static_cast<int>( static_cast<int>( GPlayerManager->GetMyPlayer()->GetClassComponent()->GetOxygen() * 100 / DEFAULT_OXYGEN ) ) ) );
+		info.append( L"\%" );
+		SetRect( m_pRect, 0, 388, 227, 1000 );
+		m_pCharacterStatusFont->DrawTextW( NULL, info.c_str(), -1, m_pRect, DT_RIGHT, D3DCOLOR_ARGB( 0xbb, 0xff, 0xff, 0xff ) );
+		info.clear();
+
+		// navigation
+	}
+
 	if ( !GDebugData->mDisplayDebugInfoFlag )
 		return;
 
