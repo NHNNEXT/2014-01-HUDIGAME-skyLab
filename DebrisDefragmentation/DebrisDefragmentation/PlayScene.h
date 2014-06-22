@@ -18,7 +18,8 @@ public:
 	//static PlayScene* Create( std::wstring sceneName );
 	CREATE_OBJECT_WSTRING( PlayScene , sceneName);
 
-	void Init();
+	bool LoadingProgress() { return m_IsLoaded; }
+	virtual void Init();
 	void InitResourceDebris();
 	ModelPool& GetModelPool() { return m_ModelPool; }
 
@@ -32,5 +33,7 @@ private:
 	DDLight*	m_pDirectonalLight = nullptr;
 	ModelPool	m_ModelPool;
 	ObjectISS*	m_pObjectISS = nullptr;
+
+	bool m_IsLoaded = false;
 };
 

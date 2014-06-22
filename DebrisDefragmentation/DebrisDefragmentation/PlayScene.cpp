@@ -158,6 +158,8 @@ void PlayScene::Init()
 	GSoundManager = SoundManager::Create();
 	GSoundManager->Init();
 	GSoundManager->PlaySound( 0 );
+
+	PostMessage( DDApplication::GetInstance()->GetHWND(), SL_PLAYSCENE_LOADING_COMPLETE, NULL, NULL);
 }
 
 void PlayScene::UpdateItSelf( float dTime )

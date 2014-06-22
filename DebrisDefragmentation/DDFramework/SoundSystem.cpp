@@ -34,8 +34,13 @@ void SoundSystem::PlaySound( int key )
 
 	if ( finder != m_pSoundList.end() )
 	{
-		m_pSystem->playSound( FMOD_CHANNEL_FREE, finder->second, 0, &m_pChannel );
+		m_pSystem->playSound( FMOD_CHANNEL_FREE, finder->second, 0, &m_pBGMChannel );
 	}
+}
+
+void SoundSystem::StopAllSound()
+{
+	m_pBGMChannel->stop();
 }
 
 void SoundSystem::Update()

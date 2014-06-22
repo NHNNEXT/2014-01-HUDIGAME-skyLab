@@ -23,3 +23,8 @@ void SoundManager::PlaySound( int key )
 {
 	m_SoundSystem->PlaySoundW( key );
 }
+
+void SoundManager::StopAllSound()
+{
+	m_SoundSystem->StopAllSound();
+}

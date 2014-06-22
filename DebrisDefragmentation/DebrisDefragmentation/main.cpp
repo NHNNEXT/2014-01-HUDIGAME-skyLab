@@ -57,10 +57,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	app->Init( L"Debris Defragmentation", 1280, 720 );
 	
-	DDScene* scene = GSceneManager->CreateScene(L"PlayScene1", SceneType::PLAY_SCENE);	
+	DDSceneDirector::GetInstance()->ChangeScene(
+		GSceneManager->CreateScene( L"LoadingScene", SceneType::LOADING_SCENE ) );
 	
-	DDSceneDirector::GetInstance()->ChangeScene( scene );
-
 	app->Run();
 	app->Release();
 

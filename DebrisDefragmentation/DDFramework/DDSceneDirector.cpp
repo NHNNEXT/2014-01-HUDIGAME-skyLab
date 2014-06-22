@@ -51,6 +51,8 @@ void DDSceneDirector::RenderScene()
 
 void DDSceneDirector::ChangeScene( DDScene* scene )
 {
+	scene->Init();
+
 	if ( m_pCurrentScene == nullptr )
 	{
 		// error : new scene has a nullptr
@@ -62,4 +64,18 @@ void DDSceneDirector::ChangeScene( DDScene* scene )
 		// SafeDelete( m_pCurrentScene );
 		m_pCurrentScene = scene;
 	}
+}
+
+void DDSceneDirector::ChangeScene( std::wstring sceneName )
+{
+	auto finder = m_SceneList.find( sceneName );
+	if ( finder != m_SceneList.end() )
+	{
+		ChangeScene( finder->second.get() );
+	}
+}
+
+void DDSceneDirector::AddScene( DDScene* scene )
+{
+	m_SceneList.insert( std::make_pair( scene->GetSceneName(), std::shared_ptr<DDScene>(scene) ) );
 }

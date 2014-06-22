@@ -133,6 +133,10 @@ void DDObject::RemoveChild( DDObject* object )
 
 void DDObject::DeleteAlignedClass( DDObject* object )
 {
-	object->~DDObject();
-	_aligned_free( object );
+	if ( object )
+	{
+		object->~DDObject();
+		_aligned_free( object );
+		object = nullptr;
+	}
 }

@@ -16,11 +16,11 @@ public:
 	
 	CREATE_OBJECT_WSTRING( DDScene, sceneName );	
 	
+	virtual void Init() {};
+
 	std::wstring GetSceneName() const { return m_SceneName; }
 	void SetSceneName( std::wstring val ) { m_SceneName = val; }
 
-	// override
-	//void Render();
 
 protected:	
 	// input : int값의 키
