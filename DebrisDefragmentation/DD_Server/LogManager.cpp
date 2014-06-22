@@ -3,7 +3,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/configurator.h>
 
-#pragma comment(lib,"log4cplusUD.lib")
+#pragma comment(lib,"log4cplusU.lib")
 
 using namespace log4cplus;
 

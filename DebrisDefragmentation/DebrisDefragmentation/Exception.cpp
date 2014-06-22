@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Exception.h"
-#include "client/windows/handler/exception_handler.h"
-#include "client/windows/sender/crash_report_sender.h"
+//#include "client/windows/handler/exception_handler.h"
+//#include "client/windows/sender/crash_report_sender.h"
 
 LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 {
+	/*
 	STARTUPINFO si = { 0, };
 	PROCESS_INFORMATION pi;
 	si.cb = sizeof( si );
@@ -36,6 +37,7 @@ LONG WINAPI ExceptionFilter( EXCEPTION_POINTERS* exceptionInfo )
 // 	TerminateProcess( pi.hProcess, 0 );
 	
 	// 예외처리 종료 신호 반환
+	*/
 	return EXCEPTION_EXECUTE_HANDLER;
 
 }
