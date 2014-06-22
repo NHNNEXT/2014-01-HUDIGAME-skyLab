@@ -100,6 +100,8 @@
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.AccumScale = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.SetScaleBtn = new System.Windows.Forms.Button();
             this.GetScaleBtn = new System.Windows.Forms.Button();
             this.ScaleSlider = new System.Windows.Forms.TrackBar();
@@ -141,8 +143,7 @@
             this.tab_ObjectRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
-            this.label27 = new System.Windows.Forms.Label();
-            this.AccumScale = new System.Windows.Forms.Label();
+            this.ResetAccumulatedScaleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -878,6 +879,7 @@
             // 
             // groupBox18
             // 
+            this.groupBox18.Controls.Add(this.ResetAccumulatedScaleBtn);
             this.groupBox18.Controls.Add(this.AccumScale);
             this.groupBox18.Controls.Add(this.label27);
             this.groupBox18.Controls.Add(this.SetScaleBtn);
@@ -890,6 +892,24 @@
             this.groupBox18.TabIndex = 12;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Scale";
+            // 
+            // AccumScale
+            // 
+            this.AccumScale.AutoSize = true;
+            this.AccumScale.Location = new System.Drawing.Point(97, 109);
+            this.AccumScale.Name = "AccumScale";
+            this.AccumScale.Size = new System.Drawing.Size(21, 12);
+            this.AccumScale.TabIndex = 15;
+            this.AccumScale.Text = "1.0";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(9, 109);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(65, 12);
+            this.label27.TabIndex = 14;
+            this.label27.Text = "누적 Scale";
             // 
             // SetScaleBtn
             // 
@@ -1281,23 +1301,16 @@
             this.tab_GameRender.Text = "GameRender";
             this.tab_GameRender.UseVisualStyleBackColor = true;
             // 
-            // label27
+            // ResetAccumulatedScaleBtn
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(9, 109);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(65, 12);
-            this.label27.TabIndex = 14;
-            this.label27.Text = "누적 Scale";
-            // 
-            // AccumScale
-            // 
-            this.AccumScale.AutoSize = true;
-            this.AccumScale.Location = new System.Drawing.Point(116, 109);
-            this.AccumScale.Name = "AccumScale";
-            this.AccumScale.Size = new System.Drawing.Size(21, 12);
-            this.AccumScale.TabIndex = 15;
-            this.AccumScale.Text = "1.0";
+            this.ResetAccumulatedScaleBtn.ForeColor = System.Drawing.Color.Crimson;
+            this.ResetAccumulatedScaleBtn.Location = new System.Drawing.Point(140, 103);
+            this.ResetAccumulatedScaleBtn.Name = "ResetAccumulatedScaleBtn";
+            this.ResetAccumulatedScaleBtn.Size = new System.Drawing.Size(22, 25);
+            this.ResetAccumulatedScaleBtn.TabIndex = 16;
+            this.ResetAccumulatedScaleBtn.Text = "R";
+            this.ResetAccumulatedScaleBtn.UseVisualStyleBackColor = true;
+            this.ResetAccumulatedScaleBtn.Click += new System.EventHandler(this.ResetAccumulatedScale);
             // 
             // IndependentGameTool
             // 
@@ -1474,6 +1487,7 @@
         private System.Windows.Forms.TextBox BBX;
         private System.Windows.Forms.Label AccumScale;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Button ResetAccumulatedScaleBtn;
     }
 }
 

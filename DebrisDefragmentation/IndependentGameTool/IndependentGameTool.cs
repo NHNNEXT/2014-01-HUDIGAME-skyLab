@@ -378,6 +378,11 @@ namespace GameTool
         {
             m_Renderer.ChangeRenderState();
         }
+        // 조심해!! 본래 각각의 객체 별로 Scale을 별도 저장하고 있어야 해!
+        private void ResetAccumulatedScale(object sender, EventArgs e)
+        {
+            AccumScale.Text = "1.0";
+        }
 
     }
 }

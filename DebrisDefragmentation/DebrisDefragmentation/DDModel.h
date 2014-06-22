@@ -83,7 +83,7 @@ protected:
 	LPD3DXEFFECT	m_pEffect = nullptr;
 	LPDIRECT3DVERTEXDECLARATION9 m_pDecl = nullptr;
 
-	D3DXMATRIXA16 m_Matrix; // temp
+	//D3DXMATRIXA16 m_Matrix; // temp
 	float m_Dt = 0.0f;
 };
 

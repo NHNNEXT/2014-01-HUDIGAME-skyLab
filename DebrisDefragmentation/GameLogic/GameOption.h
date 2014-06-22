@@ -146,8 +146,11 @@ const float			DISPENSER_FUEL_EFFICIENCY = 1000.0f;
 
 const float			DISPENSER_RANGE = 10.0f;
 
+// 오브젝트 Scale 저장
+const float			ISS_SCALE = 8.0f;
 const float			SPACE_MINE_SCALE = 0.3f;
-const float			DISPENSER_SCALE = 0.3f;
+const float			DISPENSER_SCALE = 0.1f;
+const float			CHARACTER_SCALE = 0.01f;
 
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
@@ -325,10 +328,6 @@ const D3DXVECTOR3	DIRECTION_OFFSET{ 0.2f, 0.2f, 0.2f };
 
 // D3DXVECTOR3 mapMin{ -1000.0f, -1000.0f, -1000.0f };
 // D3DXVECTOR3 mapMax{ 1000.0f, 1000.0f, 1000.0f };
-
-
-// 오브젝트 Scale 저장
-const float ISS_SCALE = 8.0f;
 
 // SCENE 종류 지정
 enum class SceneType : int
