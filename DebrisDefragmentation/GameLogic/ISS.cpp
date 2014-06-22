@@ -58,13 +58,13 @@ bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 	Character* skillUserCharacter = GObjectTable->GetCharacter( characterId );
 	assert( skillUserCharacter );
 
-	ISSModuleName targetModule = ModuleOnRay( skillUserCharacter->GetViewDirection( direction ), skillUserCharacter->GetTransform()->GetPosition() );
+	ISSModuleName targetModuleName = ModuleOnRay( skillUserCharacter->GetViewDirection( direction ), skillUserCharacter->GetTransform()->GetPosition() );
 
 	// 걸리는 애가 있으면 그 모듈의 상태를 바꾸고 변화가 적용된 모듈 id와 점령 상태 반환
-	if ( targetModule != ISSModuleName::NO_MODULE )
+	if ( targetModuleName != ISSModuleName::NO_MODULE )
 	{
 		// 점령 상태 전환
-		m_ModuleList[static_cast<int>( targetModule )].Occupy( skillUserCharacter->GetTeam() );
+		m_ModuleList[static_cast<int>( targetModuleName )].Occupy( skillUserCharacter->GetTeam() );
 
 		// 운동 상태 변경
 		int blueCount = 0;
@@ -93,6 +93,8 @@ bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 
 		GObjectTable->GetActorManager()->BroadcastIssChange();
 
+		// 공격한 모듈에 대한 방향과 그 위치를 방송		
+		GObjectTable->GetActorManager()->BroadcastISSSkillResult( ZERO_VECTOR3, m_ModuleList[static_cast<int>( targetModuleName )].GetTransform()->GetPosition() );
 		return true;
 	}
 
@@ -125,7 +127,7 @@ bool ISS::Destroy( int characterId, D3DXVECTOR3 direction )
 	if ( !Physics::IntersectionCheckRayBox( nullptr, &distance, nullptr, skillDirection, characterPosition, targetModule->GetCollisionBox() ) )
  		return false;
 		
-	GObjectTable->GetActorManager()->BroadcastDestroyISSResult( skillDirection, characterPosition + skillDirection * distance );
+	GObjectTable->GetActorManager()->BroadcastISSSkillResult( skillDirection, characterPosition + skillDirection * distance );
 	return true;
 }
 

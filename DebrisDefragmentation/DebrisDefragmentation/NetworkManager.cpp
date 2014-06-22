@@ -410,11 +410,18 @@ void NetworkManager::HandleDestroyISSResult( DDPacketHeader& pktBase )
 {
 	DestroyISSResult inPacket = reinterpret_cast<DestroyISSResult&>( pktBase );
 	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-	
+		
 	D3DXVECTOR3 skillDirection = inPacket.mDirection;
-//	D3DXVec3Normalize( &skillDirection, &skillDirection );
-
-	GEnvironmentManager->PlayFireworkEffect( EffectType::FIRE, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET );
+	if ( skillDirection != ZERO_VECTOR3 )
+	{
+		skillDirection.y = 0.0f;
+		skillDirection.z = 0.0f;
+		GEnvironmentManager->PlayFireworkEffect( EffectType::FIRE, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET );
+	}
+	else
+	{
+		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mHitPosition, EXPLOSION_DIR_MIN, EXPLOSION_DIR_MAX );
+	}
 }
 
 

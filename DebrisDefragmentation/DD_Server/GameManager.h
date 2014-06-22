@@ -17,7 +17,7 @@ public:
 	void BroadcastStructureUninstallation( int structureId, StructureType structureType );
 
 	void BroadcastDisasterOccurrence(D3DXVECTOR3 direction, float remainTime);	
-	void BroadcastDestroyISSResult( D3DXVECTOR3 direction, D3DXVECTOR3 position );
+	void BroadcastISSSkillResult( D3DXVECTOR3 direction, D3DXVECTOR3 position );
 
 	void DoPeriodWork();
 };

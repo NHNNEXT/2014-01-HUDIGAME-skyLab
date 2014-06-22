@@ -142,7 +142,7 @@ void GameManager::BroadcastDisasterOccurrence( D3DXVECTOR3 direction, float rema
 	GClientManager->BroadcastPacket( nullptr, &outPacket );
 }
 
-void GameManager::BroadcastDestroyISSResult( D3DXVECTOR3 direction, D3DXVECTOR3 position )
+void GameManager::BroadcastISSSkillResult( D3DXVECTOR3 direction, D3DXVECTOR3 position )
 {
 	DestroyISSResult outPacket;
 

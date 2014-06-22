@@ -156,7 +156,7 @@ const float			ACCESS_POINT_SCALE = 0.01f;
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
 const unsigned int	MAX_PLAYER_NUM = REAL_PLAYER_NUM * 2; // 더미 플레이어 수에 맞추도록 * 2함
-const float			ACCELERATION_WEIGHT = 1.0f;
+const float			ACCELERATION_WEIGHT = 5.0f;
 const float			PUSHPULL_WEIGHT = 5.0f;
 const float			COLLISION_ACCELERATION_WEIGHT = 0.5f;
 const unsigned int	ACCELERATION_TIME = 500;
@@ -212,6 +212,7 @@ const float			DEFAULT_HP = 100.0f;
 const float			DEFAULT_FUEL_SHARE_AMOUNT = 1000;
 const float			DEFAULT_OXYGEN_SHARE_AMOUNT = 1000;
 const float			DEFAULT_MOVE_CONSTANT = 1.0f;
+const float			DEFAULT_MASS = 1.0f;
 
 // SKILL
 const float			PUSH_WEIGHT = 3.0f;
@@ -225,7 +226,6 @@ const int			MAX_DISPENSER_NUMBER = 1;
 const int			MAX_SPACE_MINE_NUMBER = 2;
 
 // 속도 및 이동 범위 제한
-const float			DEFAULT_PLAYER_SPEED = 1.0f;
 const float			MAX_PLAYER_SPEED = 20.0f;
 const float			MAX_DISTANCE_FROM_ORIGIN = 350.0f;
 

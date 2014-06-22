@@ -24,7 +24,7 @@ namespace Physics
 	output : 업데이트된 현재 위치
 	주의 : 등속운동인 경우 사용, 가속도에 의한 계산이 필요하면 오버로딩된 함수 사용할 것
 	*/
-	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _In_ const D3DXVECTOR3 &velocity, _In_ float dt, _In_ float speedConstant = 1.0f )
+	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _In_ const D3DXVECTOR3 &velocity, _In_ float dt, _In_ float speedConstant = DEFAULT_MOVE_CONSTANT )
 	{
 		// s' = s + v * t	
 		pos->x = pos->x + ( velocity.x * dt * speedConstant );
@@ -37,7 +37,7 @@ namespace Physics
 	output : 업데이트된 현재 위치, 업데이트된 현재 속도
 	주의 : 가속도에 의한 운동인 경우 사용, 등속운동의 경우 오버로딩된 함수 사용할 것
 	*/
-	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _Inout_ D3DXVECTOR3* velocity, _In_ const D3DXVECTOR3 &acceleration, _In_ float dt, _In_ float speedConstant = 1.0f )
+	inline void CalcCurrentPosition( _Inout_ D3DXVECTOR3* pos, _Inout_ D3DXVECTOR3* velocity, _In_ const D3DXVECTOR3 &acceleration, _In_ float dt, _In_ float speedConstant = DEFAULT_MOVE_CONSTANT )
 	{
 		// s' = s + v * t + 1/2 * a * t^2
 

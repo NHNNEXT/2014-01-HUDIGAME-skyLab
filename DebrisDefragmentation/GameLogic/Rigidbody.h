@@ -9,7 +9,7 @@ struct Rigidbody
 	void Init()
 	{
 		ZeroMemory( this, sizeof( Rigidbody ) );
-		m_Mass = 1.0f;
+		m_Mass = DEFAULT_MASS;
 		m_Acceleration = ZERO_VECTOR3;
 		m_Velocity = ZERO_VECTOR3;
 		m_SpinAxis = ZERO_VECTOR3;
@@ -19,7 +19,7 @@ struct Rigidbody
 		m_IsSpin = false;
 	}
 
-	float		m_Mass = 1.0f;
+	float		m_Mass = DEFAULT_MASS;
 	D3DXVECTOR3	m_Acceleration = ZERO_VECTOR3;
 	D3DXVECTOR3	m_Velocity = ZERO_VECTOR3;
 	D3DXVECTOR3	m_SpinAxis = ZERO_VECTOR3;

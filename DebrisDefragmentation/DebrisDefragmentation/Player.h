@@ -92,7 +92,7 @@ private:
 	DWORD		m_AccelerationStartTime = 0;
 	float		m_SpinTime = 0.0f;
 	bool		m_MovingFlag = true;
-	float		m_SpeedConstant = DEFAULT_PLAYER_SPEED;
+	float		m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
 	float		m_LastHealingEffectTime = HEALING_LIFETIME;
 
 	DDModel*	m_CharacterModel = nullptr;

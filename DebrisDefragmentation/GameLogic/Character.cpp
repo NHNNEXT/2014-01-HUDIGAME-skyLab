@@ -91,7 +91,7 @@ void Character::InitTeamPosition()
 
 void Character::InitRigidBody()
 {
-	m_SpeedConstant = DEFAULT_PLAYER_SPEED;
+	m_SpeedConstant = DEFAULT_MOVE_CONSTANT;
 	m_SpinTime = 0;
 	m_AccelerationStartTime = 0;
 	m_Rigidbody.Init();

@@ -779,10 +779,6 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	// 캐릭터의 모든 값을 초기화
 	m_Character.InitTeamPosition();
 	m_Character.InitRigidBody();
-//	m_Character.GetClassComponent()->ResetStatus();
-// 	m_Character.SetAcceleration( ZERO_VECTOR3 );
-// 	m_Character.SetVelocity( ZERO_VECTOR3 );
-// 	m_Character.SetSpinnigFlag( false );	
 
 	outPacket.mPos = m_Character.GetTransform()->GetPosition();
 	outPacket.mRotation = m_Character.GetTransform()->GetRotation();
