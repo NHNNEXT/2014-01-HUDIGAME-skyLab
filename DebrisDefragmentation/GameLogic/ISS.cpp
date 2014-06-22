@@ -93,8 +93,19 @@ bool ISS::Occupy( int characterId, D3DXVECTOR3 direction )
 
 		GObjectTable->GetActorManager()->BroadcastIssChange();
 
-		// 공격한 모듈에 대한 방향과 그 위치를 방송		
-		GObjectTable->GetActorManager()->BroadcastISSSkillResult( ZERO_VECTOR3, m_ModuleList[static_cast<int>( targetModuleName )].GetTransform()->GetPosition() );
+		// 조심해!!
+		// 여기부턴 destroy껏과 중복코드 ㅠㅠ, 일단 하드코딩 ㄱㄱ
+		D3DXVECTOR3 characterPosition = skillUserCharacter->GetTransform()->GetPosition();
+		D3DXVECTOR3	skillDirection = skillUserCharacter->GetViewDirection( direction );
+		D3DXVec3Normalize( &skillDirection, &skillDirection );
+
+		ISSModule* targetModule = GObjectTable->GetActorManager()->GetIss()->GetModule( targetModuleName );
+		float distance = std::numeric_limits<float>::infinity();
+
+		if ( !Physics::IntersectionCheckRayBox( nullptr, &distance, nullptr, skillDirection, characterPosition, targetModule->GetCollisionBox() ) )
+			return false;
+
+		GObjectTable->GetActorManager()->BroadcastISSSkillResult( ZERO_VECTOR3, characterPosition + skillDirection * distance );
 		return true;
 	}
 

@@ -55,18 +55,18 @@ void EnvironmentManager::InitParticleEffects()
 	
 }
 
-int EnvironmentManager::PlayFireworkEffect( EffectType effectType, D3DXVECTOR3 origin, D3DXVECTOR3 directionMin /*= EXPLOSION_DIR_MIN*/, D3DXVECTOR3 directionMax /*= EXPLOSION_DIR_MIN */)
+int EnvironmentManager::PlayFireworkEffect( EffectType effectType, D3DXVECTOR3 origin, D3DXVECTOR3 directionMin /*= EXPLOSION_DIR_MIN*/, D3DXVECTOR3 directionMax /*= EXPLOSION_DIR_MAX*/, ColorRange effectColor /*= EXPLOSION_COLOR_RANGE */)
 {
 	switch ( effectType )
 	{
 		case EffectType::EXPLOSION:
-			m_ExplosionEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin , directionMin, directionMax); 
+			m_ExplosionEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin , directionMin, directionMax, effectColor); 
 			return m_CurrentFireworkEffectNumber++;			
 		case EffectType::HEALING:
-			m_HealingEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin, directionMin, directionMax );
+			m_HealingEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin, directionMin, directionMax, effectColor );
 			return m_CurrentFireworkEffectNumber++;			
 		case EffectType::FIRE:
-			m_FireEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin, directionMin, directionMax );
+			m_FireEffectList[m_CurrentFireworkEffectNumber % PARTICLE_EFFECT_BUFFER]->PlayEffect( origin, directionMin, directionMax, effectColor );
 			return m_CurrentFireworkEffectNumber++;
 		default:
 			break;

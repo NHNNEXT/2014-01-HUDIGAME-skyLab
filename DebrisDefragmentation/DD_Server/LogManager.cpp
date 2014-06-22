@@ -3,8 +3,11 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/configurator.h>
 
+#ifdef _DEBUG
+#pragma comment(lib,"log4cplusUD.lib")
+#else
 #pragma comment(lib,"log4cplusU.lib")
-
+#endif
 using namespace log4cplus;
 
 LogManager* GLogManager = nullptr;

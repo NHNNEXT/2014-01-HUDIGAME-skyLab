@@ -416,11 +416,12 @@ void NetworkManager::HandleDestroyISSResult( DDPacketHeader& pktBase )
 	{
 		skillDirection.y = 0.0f;
 		skillDirection.z = 0.0f;
-		GEnvironmentManager->PlayFireworkEffect( EffectType::FIRE, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET );
+		GEnvironmentManager->PlayFireworkEffect( EffectType::FIRE, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET, FIRE_COLOR_RANGE );
 	}
 	else
 	{
-		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mHitPosition, EXPLOSION_DIR_MIN, EXPLOSION_DIR_MAX );
+		ColorRange ec = ( GPlayerManager->GetMyPlayer()->GetTeam() == TeamColor::BLUE ) ? BLUE_TEAM_COLOR : RED_TEAM_COLOR ;
+		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mHitPosition, EXPLOSION_DIR_MIN, EXPLOSION_DIR_MAX, ec );
 	}
 }
 

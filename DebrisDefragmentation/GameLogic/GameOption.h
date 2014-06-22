@@ -119,6 +119,22 @@ const std::array<D3DXVECTOR3, MODULE_NUMBER> CONTROL_POINT_POSITION
 	D3DXVECTOR3( 0.0f, 0.0f, 0.0f ),
 };
 
+struct ColorRange
+{
+	//ColorRange( const D3DXCOLOR& color ) : m_RMin( color.r ), m_RMax( color.r ), m_GMin( color.g ), m_GMax( color.g ), m_BMin( color.b ), m_BMax( color.b ), m_Alpha( color.a ) {}
+	// 	const ColorRange operator=( const D3DXCOLOR& color ) const 
+	// 	{
+	// 		m_RMin = color.r ; m_RMax= color.r ; m_GMin= color.g ; m_GMax= color.g ; m_BMin= color.b ; m_BMax= color.b ; m_Alpha= color.a );
+	// 	}
+	float m_RMin;
+	float m_RMax;
+	float m_GMin;
+	float m_GMax;
+	float m_BMin;
+	float m_BMax;
+	float m_Alpha;
+};
+
 const D3DXVECTOR3 CONTROL_POINT_AXIS_LENGTH = D3DXVECTOR3( 2.0f, 2.0f, 2.0f );
 
 const float ISS_MOVE_WEIGHT = 0.1f;
@@ -166,6 +182,9 @@ const float			DEFAULT_SPIN_ANGULAR_VELOCITY = 1.0f;
 #define				RED_TEAM_POSITION	D3DXVECTOR3(100.0f, .0f, .0f)
 #define				BLUE_TEAM_ROTATION	D3DXVECTOR3(.0f, 90.0f, .0f)
 #define				RED_TEAM_ROTATION	D3DXVECTOR3(.0f, 270.0f, .0f)
+
+const ColorRange	BLUE_TEAM_COLOR = { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f };
+const ColorRange	RED_TEAM_COLOR = { 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
 
 const D3DXVECTOR3	PLAYER_POSITIONS[REAL_PLAYER_NUM] = { 
 	D3DXVECTOR3{ 0.0f, 10.0f, 10.0f }, 
@@ -276,17 +295,6 @@ enum class StructureType : int
 };
 
 
-struct ColorRange
-{
-	//ColorRange() : m_RMin( 0.0f ), m_RMax( 1.0f ), m_GMin( 0.0f ), m_GMax( 1.0f ), m_BMin( 0.0f ), m_BMax( 1.0f ), m_Alpha( 1.0f ) {}
-	float m_RMin;
-	float m_RMax;
-	float m_GMin;
-	float m_GMax;
-	float m_BMin;
-	float m_BMax;
-	float m_Alpha;
-};
 
 const D3DXVECTOR3	EARTH_POSITION{ 0, -900, 0 };
 
@@ -318,7 +326,7 @@ const D3DXVECTOR3	HEALING_DIR_MIN{ -1.0f, 1.0f, -1.0f };
 const D3DXVECTOR3	HEALING_DIR_MAX{ 1.0f, 1.0f, 1.0f };
 const ColorRange	HEALING_COLOR_RANGE = { 0.1f, 0.2f, 0.8f, 1.0f, 0.2f, 0.3f, 1.0f };
 
-const float			FIRE_LIFETIME = 4.0f;
+const float			FIRE_LIFETIME = 15.0f;
 const float			FIRE_PARTICLE_VELOCITY = 5.0f;
 const D3DXVECTOR3	FIRE_DIR_MIN{ -1.0f, 1.0f, -1.0f };
 const D3DXVECTOR3	FIRE_DIR_MAX{ 1.0f, 1.0f, 1.0f };
