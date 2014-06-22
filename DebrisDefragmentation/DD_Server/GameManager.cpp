@@ -100,6 +100,9 @@ void GameManager::DoPeriodWork()
 	{
 		// 방송 요청
 		ClientSession* targetSession = GClientManager->GetSession( each );
+		if ( !targetSession->GetCharacter().GetClassComponent()->IsAlive() )
+			return;
+
 		if ( targetSession )
 			targetSession->BroadcastDeadResult();
 		else

@@ -103,6 +103,7 @@
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="InfoPrinter.cpp" />
     <ClCompile Include="ISSModel.cpp" />
+    <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="ModelPool.cpp" />
     <ClCompile Include="NavigatorUI.cpp" />
     <ClCompile Include="ObjectISS.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SkinnedMesh.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -149,6 +151,7 @@
     <ClInclude Include="Exception.h" />
     <ClInclude Include="InfoPrinter.h" />
     <ClInclude Include="ISSModel.h" />
+    <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="ModelPool.h" />
     <ClInclude Include="NavigatorUI.h" />
     <ClInclude Include="ObjectISS.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SkinnedMesh.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

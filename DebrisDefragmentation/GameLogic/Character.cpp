@@ -109,7 +109,7 @@ void Character::UpdateItSelf( float dTime )
 
 	if ( !m_CharacterClass->IsAlive() )
 	{
-		printf_s( "player %d is dead \n", m_CharacterId );
+		//printf_s( "player %d is dead \n", m_CharacterId );
 		return;
 	}
 

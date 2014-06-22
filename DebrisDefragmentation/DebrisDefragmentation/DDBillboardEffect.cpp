@@ -14,7 +14,7 @@ DDBillboardEffect::~DDBillboardEffect()
 
 void DDBillboardEffect::Init()
 {
-	MeshInfo* mi = GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::PUSHPULL_EFFECT );
+	MeshInfo* mi = GSceneManager->GetPlayScene()->GetModelPool().GetModel( ModelType::PUSHPULL_EFFECT );
 	for ( auto eachPlane : m_Billboard )
 	{
 		eachPlane = DDModel::Create();

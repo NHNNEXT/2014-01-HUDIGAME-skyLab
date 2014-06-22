@@ -56,8 +56,7 @@ void ObjectManager::RegisgerDispenser( unsigned int dispenserId, const D3DXVECTO
 {
 	DispenserModel* newDispenser = DispenserModel::Create();
 	newDispenser->Init( dispenserId, team, m_ObjectISS->GetTransform().GetPositionZ() );
-
-	newDispenser->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::DISPENSER ) );
+	newDispenser->SetModelMesh( (GSceneManager->GetPlayScene())->GetModelPool().GetModel( ModelType::DISPENSER ) );
 	newDispenser->GetTransform().SetPosition( position - m_ObjectISS->GetTransform().GetPosition() );
 	newDispenser->GetTransform().SetRotation( direction );
 	newDispenser->GetTransform().SetScale( DISPENSER_SCALE );
@@ -89,7 +88,7 @@ void ObjectManager::RegisgerSpaceMine( unsigned int spaceMineId, const D3DXVECTO
 	SpaceMineModel* newMine = SpaceMineModel::Create();
 	newMine->Init( spaceMineId, team, m_ObjectISS->GetTransform().GetPositionZ() );
 
-	newMine->SetModelMesh( GSceneManager->GetScene()->GetModelPool().GetModel( ModelType::SPACE_MINE ) );
+	newMine->SetModelMesh( ( GSceneManager->GetPlayScene())->GetModelPool().GetModel( ModelType::SPACE_MINE ) );
 	newMine->GetTransform().SetPosition( position - m_ObjectISS->GetTransform().GetPosition() );
 	newMine->GetTransform().SetRotation( direction );
 	newMine->GetTransform().SetScale( SPACE_MINE_SCALE );

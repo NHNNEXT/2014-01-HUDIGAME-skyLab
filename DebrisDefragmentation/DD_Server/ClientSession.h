@@ -68,8 +68,9 @@ public:
 	void	HandleUsingSkillRequest( UsingSkillRequest& inPacket );
 	void	HandleChangeClassRequest( ChangeClassRequest& inPacket );
 
-	int				GetPlayerId() const { return mPlayerId; }
-	const SOCKET	GetSock() { return mSocket; }
+	int					GetPlayerId() const { return mPlayerId; }
+	Character&			GetCharacter() { return m_Character; }
+	const SOCKET		GetSock() { return mSocket; }
 	
 	void	SetGameManager( GameManager* manager ) { m_GameManager = manager; }
 
