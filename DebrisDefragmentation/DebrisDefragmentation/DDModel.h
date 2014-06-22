@@ -1,9 +1,38 @@
 ﻿#pragma once
 #include "ClientObject.h"
 #include "SkinnedMesh.h"
+#include <dxerr.h>
 
 struct MeshInfo
 {
+	// 조심해!!
+	// 복사 생성자 ISS복사할 때 제대로 동작 안함 ㅠㅠ
+	MeshInfo(){}
+	MeshInfo( const MeshInfo& mi )
+	{
+		m_dwNumMaterials = mi.m_dwNumMaterials;
+		HRESULT hr = FAILED( mi.m_pMesh->CloneMeshFVF(
+			D3DXMESH_MANAGED,
+			mi.m_pMesh->GetFVF(),  //이곳에 추가
+			DDRenderer::GetInstance()->GetDevice(),
+			&m_pMesh ) );
+
+		if ( FAILED( hr ) )
+		{
+			// 		wchar_t szMsg[MAX_PATH] = L""; 
+			// 		wprintf_s( szMsg, _countof( szMsg ), L"hr = %s Desc : %s", DXGetErrorString( hr ), DXGetErrorDescription( hr ) );
+			printf( "Error: %s error description: %s\n", DXGetErrorString( hr ), DXGetErrorDescription( hr ) );
+		}
+
+		m_pMeshMaterials = new D3DMATERIAL9[m_dwNumMaterials];
+		m_pMeshTexture = new LPDIRECT3DTEXTURE9[m_dwNumMaterials];
+		for ( DWORD i = 0; i < m_dwNumMaterials; ++i )
+		{
+			m_pMeshMaterials[i] = mi.m_pMeshMaterials[i];
+			m_pMeshTexture[i] = mi.m_pMeshTexture[i];
+		}
+	}
+
 	LPD3DXMESH			m_pMesh = nullptr;
 	LPDIRECT3DTEXTURE9* m_pMeshTexture = nullptr;
 	D3DMATERIAL9*		m_pMeshMaterials = nullptr;

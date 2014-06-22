@@ -283,7 +283,7 @@ Firework::Firework(  )
 	m_VBBatchSize = 512;
 }
 
-void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime,  int numParticles, int velocity )
+void Firework::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime,  int numParticles, float velocity )
 {
 	m_Origin = origin;
 	m_Color = color;
@@ -393,7 +393,7 @@ Snow::Snow()
 	m_VBBatchSize = 512;
 }
 
-void Snow::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 direction, D3DXVECTOR3 originMin, D3DXVECTOR3 originMax, float lifetime, int numParticles, int velocity )
+void Snow::SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 direction, D3DXVECTOR3 originMin, D3DXVECTOR3 originMax, float lifetime, int numParticles, float velocity )
 {
 	m_Origin = origin;
 	m_Color = color;

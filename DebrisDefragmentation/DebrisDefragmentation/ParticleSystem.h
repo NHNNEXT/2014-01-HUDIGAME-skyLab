@@ -90,7 +90,7 @@ public:
 	Firework();
 	CREATE_OBJECT( Firework );
 
-	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, int velocity );
+	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax, float lifetime, int numParticles, float velocity );
 	void PlayEffect( D3DXVECTOR3 origin, D3DXVECTOR3 directionMin, D3DXVECTOR3 directionMax );
 	void resetParticle( Attribute* attribute, float age );
 	void UpdateItSelf( float timeDelta );
@@ -104,7 +104,7 @@ public:
 	Snow();
 	CREATE_OBJECT( Snow );
 
-	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 direction, D3DXVECTOR3 originMin, D3DXVECTOR3 originMax, float lifetime, int numParticles, int velocity );
+	void SetParticles( D3DXVECTOR3 origin, ColorRange color, D3DXVECTOR3 direction, D3DXVECTOR3 originMin, D3DXVECTOR3 originMax, float lifetime, int numParticles, float velocity );
 	void PlayEffect(D3DXVECTOR3 direction, float remainTime);
 	void resetParticle( Attribute* attribute, float age );
 	void UpdateItSelf( float timeDelta );
