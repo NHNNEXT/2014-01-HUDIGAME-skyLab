@@ -137,3 +137,21 @@ enum class UIModuleTag : int
 	ISS_INFO,
 	TEAM_INFO,
 };
+
+// character animation
+const float ANIM_TIME_ATTACK = 1.83f;
+const float ANIM_TIME_DEAD = 1.63f;
+const float ANIM_TIME_FIRE = 0.96f;
+const float ANIM_TIME_IDLE = 4.0f;
+const float ANIM_TIME_REACT = 5.43f;
+
+enum class CharacterAnimState : int
+{
+	NO_STATE = -1,
+
+	ATTACK,
+	DEAD,
+	FIRE,
+	IDLE,
+	REACT,
+};

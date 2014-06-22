@@ -75,6 +75,8 @@ public:
 	float GetGas() { return m_ClassComponent->GetFuel(); }
 	float GetOxygen() { return m_ClassComponent->GetOxygen(); }
 
+	void SetCharacterAnimState( CharacterAnimState state ){ m_CharacterModel->SetCharacterAnimationState( state ); }
+
 private:
 	virtual void RenderItSelf();
 	virtual void UpdateItSelf( float dTime );

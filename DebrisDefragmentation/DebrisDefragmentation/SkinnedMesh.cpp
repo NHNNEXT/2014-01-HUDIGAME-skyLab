@@ -419,7 +419,7 @@ void SkinnedMesh::DrawFrame( LPD3DXFRAME pFrame )
 	// Set Light for vertex shader
 	// 조심해!! 
 	// 전역 라이트 속성 가져올 것
-	D3DXVECTOR4 vLightDir( 0.0f, 1.0f, -1.0f, 0.0f );
+	D3DXVECTOR4 vLightDir( -1.0f, -1.0f, 0.0f, 0.0f );
 	D3DXVec4Normalize( &vLightDir, &vLightDir );
 	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetVertexShaderConstantF( 1, (float*)&vLightDir, 1 ) ) )
 	{
@@ -477,4 +477,16 @@ void SkinnedMesh::ReleaseAttributeTable( LPD3DXFRAME pFrameBase )
 	{
 		ReleaseAttributeTable( pFrame->pFrameFirstChild );
 	}
+}
+
+// Thanks to 똥자루
+// 똥자루에 영광이 있으라-
+void SkinnedMesh::SetAnimationTrack( DWORD num ) 
+{
+	ID3DXAnimationSet*  animSet = NULL;
+
+	m_pAnimController->GetAnimationSet( num, &animSet );
+	m_pAnimController->SetTrackAnimationSet( 0, animSet );
+	m_pAnimController->SetTrackEnable( 0, TRUE );
+	m_pAnimController->ResetTime();
 }

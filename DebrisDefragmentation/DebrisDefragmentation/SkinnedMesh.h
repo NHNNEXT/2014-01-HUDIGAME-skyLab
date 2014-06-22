@@ -17,6 +17,8 @@ public:
 	void DrawFrame();
 	void DrawFrame( LPD3DXFRAME pFrame );
 
+	void SetAnimationTrack( DWORD num );
+
 private:
 	HRESULT SkinnedMesh::SetupBoneMatrixPointersOnMesh( LPD3DXMESHCONTAINER pMeshContainerBase );
 	HRESULT SkinnedMesh::SetupBoneMatrixPointers( LPD3DXFRAME pFrame ); // 호출할 때 인자는 기본적으로 m_pFrameRoot를 넣으면 된다

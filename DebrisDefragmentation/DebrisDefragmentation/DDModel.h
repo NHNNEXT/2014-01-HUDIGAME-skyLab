@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ClientObject.h"
 #include "SkinnedMesh.h"
+#include "Environment.h"
 #include <dxerr.h>
 
 struct MeshInfo
@@ -51,6 +52,7 @@ enum class ModelType : int
 	SPACE_MINE,
 	PUSHPULL_EFFECT,
 	ACCESS_POINT,
+	SHUTTLE,
 };
 
 class DDModel :
@@ -71,6 +73,8 @@ public:
 	void			SetMatrix( D3DXMATRIXA16* matrix ) { m_Matrix = *matrix; }
 	void			AddDt( float dt ) { m_Dt += dt; }
 	
+	void			SetCharacterAnimationState( CharacterAnimState state );
+
 	// 셰이더에서 사용할 변수값 셋팅
 	virtual void	SetupFX() {}
 
@@ -86,5 +90,9 @@ protected:
 
 	//D3DXMATRIXA16 m_Matrix; // temp
 	float m_Dt = 0.0f;
+
+	// 애니메이션 제어 용도
+	float				m_AnimationPlayTime = 0.0f;
+	CharacterAnimState	m_CurrentCharacterState = CharacterAnimState::NO_STATE;
 };
 

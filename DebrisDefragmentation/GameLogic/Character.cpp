@@ -135,6 +135,20 @@ void Character::UpdateItSelf( float dTime )
 	D3DXVECTOR3 tmpVel = GetVelocity();
 
 	Physics::CalcCurrentPosition( &tmpVec3, &tmpVel, GetAcceleration(), dTime, GetSpeedConstant() );
+
+	// 최대 이동거리 제한
+	float currentDistanceFromOrigin = D3DXVec3Length( &tmpVec3 );
+	if ( currentDistanceFromOrigin > MAX_DISTANCE_FROM_ORIGIN )
+		m_CharacterClass->SetOxygen( 0.0f );
+
+	// 최대 속도 제한
+	float currentSpeed = D3DXVec3Length( &tmpVel );
+	if ( currentSpeed > MAX_PLAYER_SPEED )
+	{
+		D3DXVec3Normalize( &tmpVel, &tmpVel );
+		tmpVel *= MAX_PLAYER_SPEED;
+	}
+
 	GetTransform()->SetPosition( tmpVec3 );
 	SetVelocity( tmpVel );
 

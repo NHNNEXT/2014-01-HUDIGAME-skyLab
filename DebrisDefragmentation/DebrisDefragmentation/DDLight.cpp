@@ -30,9 +30,7 @@ void DDLight::RenderItSelf()
 
 	// 조심해!
 	// 방향 바꾸는 하드 코딩 나중에 삭제할 것
-	vecDir = DDVECTOR3( cosf( timeGetTime() / 1000.0f ),
-						  1.0f,
-						  sinf( timeGetTime() / 1000.f ) );
+	vecDir = DDVECTOR3( -1.0f, -1.0f, 0.0f );
 
 	D3DXMatrixRotationYawPitchRoll( &m_Matrix, vecDir.y, vecDir.x, vecDir.z );
 

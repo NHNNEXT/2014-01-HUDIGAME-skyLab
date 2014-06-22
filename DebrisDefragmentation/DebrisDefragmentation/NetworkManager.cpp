@@ -289,6 +289,7 @@ void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
 	GPlayerManager->AddPlayer( inPacket.mPlayerId );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetRotation( inPacket.mRotation );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->StopSpin();
+	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::IDLE );
 }
 
 void NetworkManager::HandleSyncResult( DDPacketHeader& pktBase )
@@ -325,6 +326,44 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 	// 지금은 특별히 하는 일 없음
 	// 스킬 쓴 캐릭터에 변경이 필요한 작업 일단 여기서 처리
 	// 스킬 사용에 따른 행동 포인트 등의 지표가 변화가 생긴다면 그걸 처리하는 함수를 따로 만들어야 할 듯
+
+	// 애니메이션 적용
+	switch ( inPacket.mSkill )
+	{
+	case ClassSkill::PUSH:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::OCCUPY:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::DESTROY:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::ATTACK );
+		break;
+	case ClassSkill::SHARE_FUEL:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::PULL:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::SET_MINE:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::SHARE_OXYGEN:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::EMP:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::GATHER:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	case ClassSkill::SET_DISPENSER:
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		break;
+	default:
+		break;
+	}
+
 	if ( inPacket.mSkill == ClassSkill::SHARE_FUEL )
 	{
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->IncreaseFuel( -DEFAULT_FUEL_SHARE_AMOUNT );
@@ -360,6 +399,7 @@ void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 	{
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mForce, inPacket.mSpinAngularVelocity );
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetSpin( inPacket.mSpinAxis, inPacket.mSpinAngularVelocity );
+		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::REACT );
 		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
 		
 	}

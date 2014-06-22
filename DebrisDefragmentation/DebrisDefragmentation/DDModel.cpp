@@ -106,9 +106,27 @@ void DDModel::DrawAnimationMesh()
 	if ( !m_SkinnedMeshInfo )
 		return;
 	
+	m_AnimationPlayTime -= m_Dt;
+
+	if ( m_Dt < 0 )
+	{
+		switch ( m_CurrentCharacterState )
+		{
+		case CharacterAnimState::REACT:
+			m_AnimationPlayTime = ANIM_TIME_REACT;
+			break;
+		default:
+			m_CurrentCharacterState = CharacterAnimState::IDLE;
+			m_AnimationPlayTime = ANIM_TIME_IDLE;
+			break;
+		}
+	}
+	m_SkinnedMeshInfo->SetAnimationTrack( static_cast<int>( m_CurrentCharacterState ) );
+
 	// 그리기 직전에 업데이트 시켜주면 그리는 동안에는 내 정보 기반으로 그리지 않을까?!
 	m_SkinnedMeshInfo->Update( m_Dt, &m_Matrix );
 	m_Dt = 0.0f;
+
 	m_SkinnedMeshInfo->DrawFrame();
 }
 
@@ -126,4 +144,33 @@ void DDModel::SetModelSkinnedMesh( SkinnedMesh* mi )
 
 	m_SkinnedMeshInfo = mi; 
 	m_IncludeAnimation = true;
+
+	m_CurrentCharacterState = CharacterAnimState::IDLE;
+	m_AnimationPlayTime = ANIM_TIME_IDLE;
+}
+
+void DDModel::SetCharacterAnimationState( CharacterAnimState state )
+{
+	m_CurrentCharacterState = state;
+
+	switch ( m_CurrentCharacterState )
+	{
+	case CharacterAnimState::ATTACK:
+		m_AnimationPlayTime = ANIM_TIME_ATTACK;
+		break;
+	case CharacterAnimState::DEAD:
+		m_AnimationPlayTime = ANIM_TIME_DEAD;
+		break;
+	case CharacterAnimState::FIRE:
+		m_AnimationPlayTime = ANIM_TIME_FIRE;
+		break;
+	case CharacterAnimState::IDLE:
+		m_AnimationPlayTime = ANIM_TIME_IDLE;
+		break;
+	case CharacterAnimState::REACT:
+		m_AnimationPlayTime = ANIM_TIME_REACT;
+		break;
+	default:
+		break;
+	}
 }
