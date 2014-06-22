@@ -151,6 +151,7 @@ const float			ISS_SCALE = 8.0f;
 const float			SPACE_MINE_SCALE = 0.3f;
 const float			DISPENSER_SCALE = 0.1f;
 const float			CHARACTER_SCALE = 0.01f;
+const float			ACCESS_POINT_SCALE = 0.01f;
 
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수

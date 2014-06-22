@@ -50,6 +50,7 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::DISPENSER, L"x_file\\dispenser.x" );
 	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"x_file\\space_mine.x" );
 	m_ModelPool.InitModel( ModelType::PUSHPULL_EFFECT, L"effect1.x" );
+	m_ModelPool.InitModel( ModelType::ACCESS_POINT, L"x_file\\access_point.x" );
 }
 
 

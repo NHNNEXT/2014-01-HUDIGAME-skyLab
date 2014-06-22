@@ -49,7 +49,8 @@ enum class ModelType : int
 	ISS,
 	DISPENSER,
 	SPACE_MINE,
-	PUSHPULL_EFFECT
+	PUSHPULL_EFFECT,
+	ACCESS_POINT,
 };
 
 class DDModel :

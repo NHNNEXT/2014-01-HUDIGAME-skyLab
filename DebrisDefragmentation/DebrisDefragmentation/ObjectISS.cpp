@@ -23,6 +23,19 @@ void ObjectISS::Init( )
 	m_CharacterModel->SetModelMesh( GSceneManager->GetPlayScene()->GetModelPool().GetModel( ModelType::ISS ) );
 	m_CharacterModel->GetTransform().SetScale( ISS_SCALE );
 	AddChild( m_CharacterModel );
+
+	// access point
+	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
+		[&]( ISSModule &eachModule )
+	{
+		DDModel* tempAccessPoint = DDModel::Create();
+		tempAccessPoint->SetModelMesh( GSceneManager->GetPlayScene()->GetModelPool().GetModel( ModelType::ACCESS_POINT ) );
+		tempAccessPoint->GetTransform().SetScale( ACCESS_POINT_SCALE );
+		tempAccessPoint->GetTransform().SetPosition( eachModule.GetCollisionBox()->m_CenterPos + D3DXVECTOR3( 0.5f, 0.0f, 0.0f ) );
+		tempAccessPoint->GetTransform().SetRotation( 1.0f, 0.0f, 0.0f );
+		m_CharacterModel->AddChild( tempAccessPoint );
+	}
+	);
 }
 
 void ObjectISS::UpdateItSelf( float dTime )
