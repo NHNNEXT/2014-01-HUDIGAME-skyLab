@@ -69,6 +69,8 @@ public:
 
 	void			DrawMesh();
 	void			DrawAnimationMesh();
+	bool			GetIncludeAnimation() const { return m_IncludeAnimation; }
+	void			SetIncludeAnimation( bool val ) { m_IncludeAnimation = val; }
 
 	void			SetMatrix( D3DXMATRIXA16* matrix ) { m_Matrix = *matrix; }
 	void			AddDt( float dt ) { m_Dt += dt; }

@@ -8,6 +8,53 @@
 SkinnedMesh::SkinnedMesh()
 {
 }
+// 
+// SkinnedMesh::SkinnedMesh( const SkinnedMesh& sm )
+// {
+// // 	HRESULT hr = const_cast<SkinnedMesh&>( sm ).m_pEffect->CloneEffect( DDRenderer::GetInstance()->GetDevice(), &m_pEffect );
+// // 	if ( FAILED( hr ) )
+// // 	{
+// // 		printf( "effect cloning failed" );
+// // 	}
+// 
+// 	DWORD dwShaderFlags = D3DXFX_NOT_CLONEABLE;
+// 
+// #if defined( DEBUG ) || defined( _DEBUG )
+// 	dwShaderFlags |= D3DXSHADER_DEBUG;
+// #endif
+// 
+// #ifdef DEBUG_VS
+// 	dwShaderFlags |= D3DXSHADER_FORCE_VS_SOFTWARE_NOOPT;
+// #endif
+// #ifdef DEBUG_PS
+// 	dwShaderFlags |= D3DXSHADER_FORCE_PS_SOFTWARE_NOOPT;
+// #endif
+// 
+// 	LPDIRECT3DDEVICE9 pD3DDevice = DDRenderer::GetInstance()->GetDevice();
+// 
+// 	WCHAR str[MAX_PATH] = L".\\Resources\\3DModel\\SkinnedMesh.fx";
+// 
+// 	// shader 파일 읽어서 등록
+// 	if ( FAILED( D3DXCreateEffectFromFile( pD3DDevice, str, NULL, NULL, dwShaderFlags, NULL, &m_pEffect, NULL ) ) )
+// 	{
+// 		assert( false );	
+// 	}
+// 
+// 
+// 	//m_pFrameRoot = new D3DXFRAME(*sm.m_pFrameRoot);
+// 	memcpy( m_pFrameRoot, sm.m_pFrameRoot, sizeof( *sm.m_pFrameRoot ) );
+// 	
+// 	sm.m_pAnimController->CloneAnimationController( sm.m_pAnimController->GetMaxNumAnimationOutputs(),
+// 													sm.m_pAnimController->GetMaxNumAnimationSets(),
+// 													sm.m_pAnimController->GetMaxNumTracks(),
+// 													sm.m_pAnimController->GetMaxNumEvents(),
+// 													&m_pAnimController );
+// 	m_vObjectCenter = sm.m_vObjectCenter;
+// 	m_fObjectRadius = sm.m_fObjectRadius;
+// 	m_dwBehaviorFlags = sm.m_dwBehaviorFlags;
+// 	m_pBoneMatrices = new D3DXMATRIXA16( *sm.m_pBoneMatrices );
+// }
+
 
 
 SkinnedMesh::~SkinnedMesh()
@@ -283,7 +330,7 @@ void SkinnedMesh::DrawMeshContainer( LPD3DXMESHCONTAINER pMeshContainerBase, LPD
 
 			// Sum of all ambient and emissive contribution
 			D3DXCOLOR color1( pMeshContainer->pMaterials[pBoneComb[iAttrib].AttribId].MatD3D.Ambient );
-			D3DXCOLOR color2( .5, .5, .5, 1.0 );
+			D3DXCOLOR color2( .25, .25, .25, 1.0 );
 			D3DXCOLOR ambEmm;
 			D3DXColorModulate( &ambEmm, &color1, &color2 );
 			ambEmm += D3DXCOLOR( pMeshContainer->pMaterials[pBoneComb[iAttrib].AttribId].MatD3D.Emissive );
