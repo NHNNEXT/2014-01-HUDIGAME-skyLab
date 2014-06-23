@@ -283,7 +283,9 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	player->GetTransform().SetPosition( inPacket.mPos );
 	player->GetTransform().SetRotation( inPacket.mRotation );
 	player->SetVelocity( inPacket.mVelocity );
-	
+	D3DXVECTOR3 viewDirection = player->GetViewDirection();
+	D3DXVec3Normalize( &viewDirection, &viewDirection );
+	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, player->GetTransform().GetPosition() + viewDirection * 3, -viewDirection - DIRECTION_OFFSET, -viewDirection + DIRECTION_OFFSET );
 
 	player->Move( player->GetViewDirection() );
 	
