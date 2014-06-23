@@ -85,7 +85,7 @@ void Player::RenderItSelf()
 // 		g_PlayerManager->GetCamera()->GetTransform().IncreaseRotation( D3DXVECTOR3( std::get<1>( ypr ), std::get<0>( ypr ), std::get<2>( ypr ) ) );
 	}
 
-	DrawCollisionBox();
+	// DrawCollisionBox();
 }
 
 void Player::UpdateItSelf( float dTime )

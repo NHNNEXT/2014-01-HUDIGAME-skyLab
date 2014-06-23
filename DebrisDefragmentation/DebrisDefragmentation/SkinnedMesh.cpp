@@ -466,7 +466,7 @@ void SkinnedMesh::DrawFrame( LPD3DXFRAME pFrame )
 	// Set Light for vertex shader
 	// 조심해!! 
 	// 전역 라이트 속성 가져올 것
-	D3DXVECTOR4 vLightDir( -1.0f, -1.0f, 0.0f, 0.0f );
+	D3DXVECTOR4 vLightDir( 0.0f, 1.0f, -1.0f, 0.0f );
 	D3DXVec4Normalize( &vLightDir, &vLightDir );
 	if ( FAILED( DDRenderer::GetInstance()->GetDevice()->SetVertexShaderConstantF( 1, (float*)&vLightDir, 1 ) ) )
 	{

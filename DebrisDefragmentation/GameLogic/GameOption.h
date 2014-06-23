@@ -167,7 +167,7 @@ const float			ISS_SCALE = 8.0f;
 const float			SPACE_MINE_SCALE = 0.1f;
 const float			DISPENSER_SCALE = 0.05f;
 const float			CHARACTER_SCALE = 0.01f;
-const float			ACCESS_POINT_SCALE = 0.01f;
+const float			ACCESS_POINT_SCALE = 0.05f;
 
 // 게임 셋팅
 const unsigned int	REAL_PLAYER_NUM = 8;	// 더미를 제외한 실제 플레이어 수
@@ -210,12 +210,12 @@ const float			CHARACTER_CB_CENTER_POS_X = 0.0f;
 const float			CHARACTER_CB_CENTER_POS_Y = -0.5f;
 const float			CHARACTER_CB_CENTER_POS_Z = -0.2f;
 */
-const float			CHARACTER_CB_LENGTH_X = 1.0f;
+const float			CHARACTER_CB_LENGTH_X = 0.7f;
 const float			CHARACTER_CB_LENGTH_Y = 1.0f;
-const float			CHARACTER_CB_LENGTH_Z = 1.0f;
+const float			CHARACTER_CB_LENGTH_Z = 0.7f;
 
 const float			CHARACTER_CB_CENTER_POS_X = 0.0f;
-const float			CHARACTER_CB_CENTER_POS_Y = -0.5f;
+const float			CHARACTER_CB_CENTER_POS_Y = 0.8f;
 const float			CHARACTER_CB_CENTER_POS_Z = 0.0f;
 
 

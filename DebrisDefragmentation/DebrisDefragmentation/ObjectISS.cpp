@@ -38,15 +38,15 @@ void ObjectISS::Init( )
 		{
 		case 0:
 		case 9:
-			startPositionWeight = D3DXVECTOR3( 5.0f, -1.5f, 0.0f );
+			startPositionWeight = D3DXVECTOR3( 3.0f, -1.5f, 0.0f );
 			break;
 		case 1:
 		case 8:
-			startPositionWeight = D3DXVECTOR3( 1.7f, -1.5f, 0.0f );
+			startPositionWeight = D3DXVECTOR3( 1.3f, -1.5f, 0.0f );
 			break;
 		default:
 			tempAccessPoint->GetTransform().SetRotation( 0.0f, 180.0f, 0.0f );
-			startPositionWeight = D3DXVECTOR3( -5.5f, -1.5f, 0.0f );
+			startPositionWeight = D3DXVECTOR3( -1.0f, -1.5f, 0.0f );
 			break;
 		}
 		tempAccessPoint->GetTransform().SetPosition( eachModule.GetTransform()->GetPosition() + startPositionWeight );
@@ -66,6 +66,7 @@ void ObjectISS::UpdateItSelf( float dTime )
 
 void ObjectISS::RenderItSelf( )
 {
+	/*
 	std::for_each( m_ModuleList.begin( ), m_ModuleList.end( ),
 		[&]( ISSModule &eachModule )
 	{
@@ -73,6 +74,7 @@ void ObjectISS::RenderItSelf( )
 		DrawCollisionBox( eachModule.GetControlPointBox() );
 	}
 	);
+	*/
 }
 
 
