@@ -4,9 +4,9 @@
 #include <map>
 
 // Config
-#define				USE_LOCAL_SERVER
+//#define				USE_LOCAL_SERVER
 //#define				USE_CHARACTER_COLLISION_BOX
-const bool			MOUSE_POINTER_ON = true;
+const bool			MOUSE_POINTER_ON = false;
 const float			MOUSE_ROTATION_SENSITIVITY = 0.1f;
 
 // UI

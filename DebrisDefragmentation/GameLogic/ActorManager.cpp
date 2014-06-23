@@ -86,10 +86,11 @@ void ActorManager::SetRandomEvent()
 		delete m_GameEvent;
 
 	// 이벤트의 종류를 설정한다.
-	if ( rand() % 2 == 0 )
-		m_GameEvent = new DebrisStormEvent();
-	else
-		m_GameEvent = new SolarWindEvent();
+// 	if ( rand() % 2 == 0 )
+// 		m_GameEvent = new DebrisStormEvent();
+// 	else
+// 		m_GameEvent = new SolarWindEvent();
+	m_GameEvent = new DebrisStormEvent();
 
 	m_GameEvent->Init();
 }

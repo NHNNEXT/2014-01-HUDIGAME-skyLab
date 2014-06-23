@@ -461,7 +461,7 @@ void Snow::UpdateItSelf( float timeDelta )
 	std::list<Attribute>::iterator i;
 	for ( i = m_Particles.begin(); i != m_Particles.end(); i++ )
 	{
-		if ( i == m_Particles.begin() )
+		//if ( i == m_Particles.begin() )
 			// printf_s( "%f\n", i->_age );
 
 		if ( i->_isAlive )

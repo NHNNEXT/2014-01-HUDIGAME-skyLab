@@ -17,7 +17,7 @@ void InGameEvent::Init()
 {
 	// 시간을 초기화 한다.
 	std::default_random_engine e;
-	std::normal_distribution<float> fDist( 180.0f, 360.0f );
+	std::normal_distribution<float> fDist( 30.0f, 60.0f );
 	std::function<float()> rnd = std::bind( fDist, e );
 	m_Timer = rnd();	
 
@@ -30,21 +30,27 @@ void InGameEvent::Init()
 
 bool InGameEvent::Update( float dt )
 {
-	if ( m_LifeTime > 0.0f )
-	{
-		m_LifeTime -= dt;
-		Run();
-	}
-
 	m_Timer -= dt;
+
 	if ( m_Timer <= 0.0f )
 	{	
-		m_LifeTime = DS_LIFETIME;
 		m_Timer = 0.0f;
-		
-		GObjectTable->GetActorManager()->BroadcastDisasterOccurrence( m_Direction, m_LifeTime );
-		
-		return true;
+		if ( m_LifeTime == DS_LIFETIME )
+		{
+			GObjectTable->GetActorManager()->BroadcastDisasterOccurrence( m_Direction, m_LifeTime );
+		}
+
+		m_LifeTime -= dt;
+		if ( m_LifeTime < 0.0f )
+		{
+			// 이벤트 종료
+			// 새 이벤트 생성하고 m_LifeTime 시간을 초기화
+			m_LifeTime = DS_LIFETIME;
+
+			// 그리고 리턴
+			return true;
+		}
+		Run();
 	}
 
 	return false;
