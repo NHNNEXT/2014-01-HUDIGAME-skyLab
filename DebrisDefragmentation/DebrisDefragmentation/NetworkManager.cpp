@@ -17,6 +17,7 @@
 #include "DebrisModel.h"
 #include "Environment.h"
 #include "EnvironmentManager.h"
+#include "SoundManager.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -284,6 +285,8 @@ void NetworkManager::HandleGoForwardResult( DDPacketHeader& pktBase )
 	
 
 	player->Move( player->GetViewDirection() );
+	
+	GSoundManager->PlaySound( SE_ACCEL );
 }
 
 void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
@@ -297,6 +300,8 @@ void NetworkManager::HandleStopResult( DDPacketHeader& pktBase )
 
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->Stop();
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
+	
+	GSoundManager->PlaySound( SE_STOP );
 }
 
 void NetworkManager::HandleTurnBodyResult( DDPacketHeader& pktBase )
@@ -364,6 +369,7 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 	{
 	case ClassSkill::PUSH:
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		GSoundManager->PlaySound( SE_PUSH );
 		break;
 	case ClassSkill::OCCUPY:
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
@@ -388,9 +394,11 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 		break;
 	case ClassSkill::GATHER:
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		GSoundManager->PlaySound( SE_DEBRIS_GET );
 		break;
 	case ClassSkill::SET_DISPENSER:
 		GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetCharacterAnimState( CharacterAnimState::FIRE );
+		GSoundManager->PlaySound( SE_DESPENDER_INSTALL );
 		break;
 	default:
 		break;
@@ -528,6 +536,8 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetTransform().SetPosition( inPacket.mPos );
 	GPlayerManager->GetPlayer( inPacket.mPlayerId )->SetVelocity( inPacket.mVelocity );
 	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mPos );
+
+	GSoundManager->PlaySoundW( SE_COLLISION );
 }
 
 void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
