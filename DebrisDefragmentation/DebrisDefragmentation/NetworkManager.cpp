@@ -18,6 +18,7 @@
 #include "Environment.h"
 #include "EnvironmentManager.h"
 #include "SoundManager.h"
+#include "DDSceneDirector.h"
 
 NetworkManager* GNetworkManager = nullptr;
 int NetworkManager::m_MyPlayerId = -1;
@@ -575,6 +576,7 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 	printf_s( "winner id %d\n", inPacket.mWinnerTeam );
 
 	// 여기서 씬 전환을 한다
+	DDSceneDirector::GetInstance()->ChangeScene( SceneType::RESULT_SCENE );
 
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
