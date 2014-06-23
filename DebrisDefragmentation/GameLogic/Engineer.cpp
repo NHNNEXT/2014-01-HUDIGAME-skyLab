@@ -63,7 +63,7 @@ bool Engineer::SkillGather( int id, const D3DXVECTOR3& direction )
 	// 혹시 추후에 데브리가 리젠되는 식으로 기획이 변경되면 이부분을 수정할 것
 
 	// 레이에 맞은 데브리 삭제
-	GObjectTable->GetActorManager()->RemoveResourceDebris( GObjectTable->GetActorManager()->GetGatheredDebris() );
+	//GObjectTable->GetActorManager()->RemoveResourceDebris( GObjectTable->GetActorManager()->GetGatheredDebris() );
 
 	SetCooldown( ClassSkill::GATHER );
 	
