@@ -157,7 +157,7 @@ void PlayScene::Init()
 	// Sound
 	GSoundManager = SoundManager::Create();
 	GSoundManager->Init();
-	GSoundManager->PlaySound( 0 );
+	GSoundManager->PlaySound( BGM_PLAY );
 
 	PostMessage( DDApplication::GetInstance()->GetHWND(), SL_PLAYSCENE_LOADING_COMPLETE, NULL, NULL);
 	

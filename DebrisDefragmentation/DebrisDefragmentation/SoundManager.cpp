@@ -16,10 +16,13 @@ void SoundManager::Init()
 {
 	m_SoundSystem = new SoundSystem();
 	m_SoundSystem->InitSoundSystem();
-	m_SoundSystem->AddSound( 0, std::string(".\\Resources\\Sound\\BGM01.mp3") );
+	for ( auto iter : SoundTable )
+	{
+		m_SoundSystem->AddSound( iter.first, iter.second );
+	}
 }
 
-void SoundManager::PlaySound( int key )
+void SoundManager::PlaySound( SOUND_LIST key )
 {
 	m_SoundSystem->PlaySoundW( key );
 }
