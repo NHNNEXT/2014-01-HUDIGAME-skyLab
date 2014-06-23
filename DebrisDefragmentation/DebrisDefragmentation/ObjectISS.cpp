@@ -25,15 +25,34 @@ void ObjectISS::Init( )
 	AddChild( m_CharacterModel );
 
 	// access point
+	int idx = 0;
 	std::for_each( m_ModuleList.begin(), m_ModuleList.end(),
 		[&]( ISSModule &eachModule )
 	{
 		DDModel* tempAccessPoint = DDModel::Create();
 		tempAccessPoint->SetModelMesh( GSceneManager->GetPlayScene()->GetModelPool().GetModel( ModelType::ACCESS_POINT ) );
 		tempAccessPoint->GetTransform().SetScale( ACCESS_POINT_SCALE );
-		tempAccessPoint->GetTransform().SetPosition( eachModule.GetCollisionBox()->m_CenterPos + D3DXVECTOR3( 0.5f, 0.0f, 0.0f ) );
-		tempAccessPoint->GetTransform().SetRotation( 1.0f, 0.0f, 0.0f );
-		m_CharacterModel->AddChild( tempAccessPoint );
+
+		D3DXVECTOR3 startPositionWeight;
+		switch ( idx )
+		{
+		case 0:
+		case 9:
+			startPositionWeight = D3DXVECTOR3( 5.0f, -1.5f, 0.0f );
+			break;
+		case 1:
+		case 8:
+			startPositionWeight = D3DXVECTOR3( 1.7f, -1.5f, 0.0f );
+			break;
+		default:
+			tempAccessPoint->GetTransform().SetRotation( 0.0f, 180.0f, 0.0f );
+			startPositionWeight = D3DXVECTOR3( -5.5f, -1.5f, 0.0f );
+			break;
+		}
+		tempAccessPoint->GetTransform().SetPosition( eachModule.GetTransform()->GetPosition() + startPositionWeight );
+		++idx;
+
+		AddChild( tempAccessPoint );
 	}
 	);
 }

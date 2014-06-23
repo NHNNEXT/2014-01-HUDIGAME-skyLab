@@ -564,6 +564,8 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 	// ISS의 체력을 바꾼다.
 	printf_s( "winner id %d\n", inPacket.mWinnerTeam );
 
+	// 여기서 씬 전환을 한다
+
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
 }

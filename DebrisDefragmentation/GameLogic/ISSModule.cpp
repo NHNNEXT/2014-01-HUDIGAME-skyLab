@@ -38,6 +38,7 @@ void ISSModule::Init( ISSModuleName moduleName )
 
 	m_ISSPos = 0.0f;
 	m_HealthPoint = 1.0f;
+	m_CurrentOwner = TeamColor::NO_TEAM;
 }
 
 TeamColor ISSModule::Occupy( TeamColor callerColor )

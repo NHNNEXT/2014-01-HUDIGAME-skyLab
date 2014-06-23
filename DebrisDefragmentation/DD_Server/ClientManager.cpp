@@ -63,6 +63,9 @@ void ClientManager::OnPeriodWork()
 		mLastClientWorkTick = currTick;
 	}
 
+	if ( mClientList.size() == 0 )
+		Init();
+
 	// 게임 로직에 관련 된 것도 진행
 	mGameManager.DoPeriodWork();
 	
