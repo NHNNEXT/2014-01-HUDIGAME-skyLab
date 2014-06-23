@@ -3,6 +3,7 @@
 #include "GameOption.h"
 #include "GameMacro.h"
 
+
 class SoundManager
 {
 public:
@@ -13,7 +14,7 @@ public:
 
 	void Update() { if(!m_SoundSystem) m_SoundSystem->Update(); };
 	void Init();
-	void PlaySound( int key );
+	void PlaySound( SOUND_LIST key );
 	void StopAllSound();
 
 private:

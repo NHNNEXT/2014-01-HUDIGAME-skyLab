@@ -349,9 +349,39 @@ const D3DXVECTOR3	DIRECTION_OFFSET{ 0.2f, 0.3f, 0.3f };
 // D3DXVECTOR3 mapMax{ 1000.0f, 1000.0f, 1000.0f };
 
 // SCENE 종류 지정
-enum class SceneType : int
+const enum class SceneType : int
 {
 	PLAY_SCENE = 0,
 	LOADING_SCENE,
 	RESULT_SCENE,
+};
+
+
+// Sound 테이블
+
+const enum SOUND_LIST
+{
+	BGM_LOADING,
+	BGM_PLAY,
+	BGM_RESULT,
+	SE_ACCEL,
+	SE_STOP,
+	SE_COLLISION,
+	SE_DEBRIS_GET,
+	SE_DESPENDER_INSTALL,
+	SE_PUSH,
+	SOUND_TOTAL_NUM
+};
+
+const std::map<SOUND_LIST, std::string> SoundTable =
+{
+	{ BGM_LOADING, ".\\Resources\\Sound\\BGM_LOADING.mp3" },
+	{ BGM_PLAY, ".\\Resources\\Sound\\BGM_PLAY.mp3" },
+	{ BGM_RESULT, ".\\Resources\\Sound\\BGM_RESULT.mp3" },
+	{ SE_ACCEL, ".\\Resources\\Sound\\SE_Accel.mp3" },
+	{ SE_STOP, ".\\Resources\\Sound\\SE_Stop.mp3" },
+	{ SE_COLLISION, ".\\Resources\\Sound\\SE_Collision.mp3" },
+	{ SE_DEBRIS_GET, ".\\Resources\\Sound\\SE_Debris_Get.mp3" },
+	{ SE_DESPENDER_INSTALL, ".\\Resources\\Sound\\SE_Despenser_Install.mp3" },
+	{ SE_PUSH, ".\\Resources\\Sound\\SE_Push.mp3" },
 };

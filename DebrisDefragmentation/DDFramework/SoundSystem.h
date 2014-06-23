@@ -21,6 +21,6 @@ public:
 private:
 	System* m_pSystem;
 	std::unordered_map<int, Sound*> m_pSoundList;
-	Channel* m_pBGMChannel;
+	std::unordered_map<int, Channel*> m_pChannelList;
 };
 
