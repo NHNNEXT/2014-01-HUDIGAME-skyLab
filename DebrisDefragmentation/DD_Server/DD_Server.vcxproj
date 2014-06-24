@@ -101,6 +101,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="LoggerProperties.h" />
     <ClInclude Include="LogManager.h" />
+    <ClInclude Include="NSLog.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ProducerConsumerQueue.h" />
     <ClInclude Include="stdafx.h" />

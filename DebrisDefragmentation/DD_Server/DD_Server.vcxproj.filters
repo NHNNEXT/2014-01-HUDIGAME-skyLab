@@ -10,6 +10,9 @@
     <Filter Include="Packet">
       <UniqueIdentifier>{db55624e-d08a-4435-8b17-e98a6d16e0fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\Log Test">
+      <UniqueIdentifier>{2ef137f0-a80f-404e-9633-6eeed309d2fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -56,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="LoggerProperties.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="NSLog.h">
+      <Filter>Util\Log Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
