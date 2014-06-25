@@ -14,7 +14,7 @@
 #include "ProducerConsumerQueue.h"
 
 #include "LogManager.h"
-#include "NSLog.h"
+#include "LogHandler.h"
 
 #pragma comment(lib,"ws2_32.lib")
 
@@ -60,10 +60,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	DDLOG_INFO( L"server started" );
 
-	NSLog::Init();
-	NSLog::AddConsoleAppender( L"logger" );
+	LogHandler::Init();
+	LogHandler::AddConsoleAppender( L"logger" );
 	
-	LOG_DEBUG( L"Hi %d", 5 );
+	LOG_DEBUG( "Hi %d", 5 );
 
 	/// listen
 	ret = listen( listenSocket, SOMAXCONN );

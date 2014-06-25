@@ -60,7 +60,7 @@
     <ClInclude Include="LoggerProperties.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="NSLog.h">
+    <ClInclude Include="LogHandler.h">
       <Filter>Util\Log Test</Filter>
     </ClInclude>
   </ItemGroup>
