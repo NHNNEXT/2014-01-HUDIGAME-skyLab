@@ -4,11 +4,6 @@
 #include <d3dx9.h>
 #include "GameOption.h"
 
-#define MAX_CHAT_LEN	1024
-
-#define MAX_NAME_LEN	30
-#define MAX_COMMENT_LEN	40
-
 // POD type
 // http://en.wikipedia.org/wiki/Plain_Old_Data_Structures
 struct Float3D
@@ -40,19 +35,6 @@ struct Float3D
 	float m_Z = 0.0f;
 };
 
-struct InstalledStructureInfo
-{
-	InstalledStructureInfo()
-		: mStructureId( 0 ), mStructureType( -1 ), mTeamColor( -1 )
-	{}
-
-	unsigned int	mStructureId;
-	int				mStructureType;
-	Float3D			mPosition;
-	Float3D			mDirection;
-	int				mTeamColor;
-};
-
 // 조심해!!
 // 패킷 종류 - 스킬인지, 게임 진행 상태인지에 따라서 숫자 구간 나눠서 사용하자
 enum PacketTypes
@@ -71,19 +53,8 @@ enum PacketTypes
 	PKT_CS_GAME_STATE = 101,
 	PKT_SC_GAME_STATE = 102,
 
-	PKT_CS_ISS_STATE = 103,
-	PKT_SC_ISS_STATE = 104,
-
-	PKT_CS_ISS_MODULE_STATE = 105,
-	PKT_SC_ISS_MODULE_STATE = 106,
-
-	PKT_CS_INSTALLED_STRUCTURE_STATE = 107,
-	PKT_SC_INSTALLED_STRUCTURE_STATE = 108,
-
 	PKT_CS_GAME_RESULT = 151,
 	PKT_SC_GAME_RESULT = 152,
-
-	PKT_SC_DISASTER = 153,
 
 
 	// 플레이어 상태에 관련된 패킷
@@ -102,9 +73,6 @@ enum PacketTypes
 	PKT_CS_CHARACTER_STATE = 209,
 	PKT_SC_CHARACTER_STATE = 210, // 연료, 산소 등 
 
-	PKT_CS_CHANGE_CLASS = 211,
-	PKT_SC_CHANGE_CLASS = 212, // 변신!
-
 	// 플레이어 스킬에 관련된 패킷
 	PKT_CS_ACCELERATION = 301,
 	PKT_SC_ACCELERATION = 302,
@@ -120,12 +88,6 @@ enum PacketTypes
 	
 	// 309 쓰세요
 	PKT_SC_GATHER = 310,
-	PKT_SC_DISASTER_WARNING = 311,
-	PKT_SC_DISPENSER_EFFECT = 312,
-	PKT_SC_STRUCTURE_INSTALL = 313,
-	PKT_SC_STRUCTURE_UNINSTALL = 314,
-
-	PKT_SC_DESTROY_ISS = 315,
 
 	// 기타 패킷
 	PKT_CS_SYNC = 901,
@@ -410,18 +372,6 @@ struct UsingSkillResult : public PacketHeader
 	ClassSkill	mSkill;
 };
 
-struct DestroyISSResult : public PacketHeader
-{
-	DestroyISSResult()
-	{
-		mSize = sizeof( DestroyISSResult );
-		mType = PKT_SC_DESTROY_ISS;
-	}
-
-	Float3D mHitPosition;
-	Float3D mDirection;
-};
-
 // 로그인을 성공하면 지금 게임 상태를 모두 전송 받는다.
 struct GameStateRequest : public PacketHeader
 {
@@ -451,75 +401,6 @@ struct GameStateResult : public PacketHeader
 	// 추가할 것
 };
 
-// 지금 ISS 위치, 속도 알려주세요
-struct IssStateRequest : public PacketHeader
-{
-	IssStateRequest()
-	{
-		mSize = sizeof( IssStateRequest );
-		mType = PKT_CS_ISS_STATE;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
-};
-
-// 지금 ISS 위치, 속도, 모듈 상태 알려드립니다.
-// 하나 하나 다 복사 하다가 뭔가 아닌 것 같아서 배열로 갑니다.
-// 배열 복사도 된다고 하셔서...
-struct IssStateResult : public PacketHeader
-{
-	IssStateResult()
-	{
-		mSize = sizeof( IssStateResult );
-		mType = PKT_SC_ISS_STATE;
-
-		mIssPositionZ = 0.0f;
-		mIssVelocityZ = 0.0f;
-
-		memset( mModuleOwner, 0, sizeof( mModuleOwner ) );
-		memset( mModuleHP, 0, sizeof( mModuleHP ) );
-	}
-	
-	float	mIssPositionZ;
-	float	mIssVelocityZ;
-
-	int		mModuleOwner[MODULE_NUMBER];
-	float	mModuleHP[MODULE_NUMBER];
-};
-
-// 지금 ISS 모듈 소유자 및 체력 알려주세요
-struct IssModuleStateRequest : public PacketHeader
-{
-	IssModuleStateRequest()
-	{
-		mSize = sizeof( IssModuleStateRequest );
-		mType = PKT_CS_ISS_MODULE_STATE;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
-};
-
-// 지금 ISS 모듈 소유자 및 체력 알려드립니다.
-struct IssModuleStateResult : public PacketHeader
-{
-	IssModuleStateResult()
-	{
-		mSize = sizeof( IssModuleStateResult );
-		mType = PKT_SC_ISS_MODULE_STATE;
-		mModuleIdx = -1;
-
-		mOwner = -1;
-		mHP = 1.0f;
-	}
-
-	int		mModuleIdx;
-
-	int		mOwner;
-	float	mHP;
-};
-
 // 게임 결과를 알려주세요
 struct GameResultRequest : public PacketHeader
 {
@@ -547,56 +428,6 @@ struct GameResultResult : public PacketHeader
 
 	// 나중에 부가 정보 추가할 것
 };
-
-// 설치되어 있는 디스펜서와 스페이스 마인 상태 전송
-struct InstalledStructureRequest : public PacketHeader
-{
-	InstalledStructureRequest()
-	{
-		mSize = sizeof( InstalledStructureRequest );
-		mType = PKT_CS_INSTALLED_STRUCTURE_STATE;
-		mPlayerId = -1;
-	}
-
-	int		mPlayerId;
-};
-
-struct InstalledStructureResult : public PacketHeader
-{
-	InstalledStructureResult()
-	{
-		mSize = sizeof( InstalledStructureResult );
-		mType = PKT_SC_INSTALLED_STRUCTURE_STATE;
-
-		mDispenserCount = -1;
-		mSpaceMineCount = -1;
-
-		memset( mDispenserList, 0, sizeof( mDispenserList ) );
-		memset( mSpaceMineList, 0, sizeof( mSpaceMineList ) );
-	}
-
-	int	mDispenserCount;
-	int mSpaceMineCount;
-	InstalledStructureInfo mDispenserList[REAL_PLAYER_NUM * MAX_DISPENSER_NUMBER];
-	InstalledStructureInfo mSpaceMineList[REAL_PLAYER_NUM * MAX_SPACE_MINE_NUMBER];
-};
-
-
-struct DisaterOccurrenceResult : public PacketHeader
-{
-	DisaterOccurrenceResult()
-	{
-		mSize = sizeof( DisaterOccurrenceResult );
-		mType = PKT_SC_DISASTER;
-		
-		remainTime = 0.0f;
-	}
-
-	float remainTime;
-	Float3D direction;
-
-};
-
 
 // 운동 상태 좀 알려주세요
 struct KineticStateRequest : public PacketHeader
@@ -676,22 +507,6 @@ struct CharacterStateResult : public PacketHeader
 	float	mGlobalCooldownTime;
 };
 
-struct DispenserEffectResult : public PacketHeader
-{
-	DispenserEffectResult()
-	{
-		mSize = sizeof(DispenserEffectResult);
-		mType = PKT_SC_DISPENSER_EFFECT;
-		mPlayerId = -1;
-		mDispenserEffectFlag = false;
-	}
-
-	int			mPlayerId;
-	bool		mDispenserEffectFlag;
-	// 클라-서버 간 감소량 동기화 문제 해결하면 추가할 것.
-	//int			mOxygen, mFuel;
-};
-
 struct GatherResult : public PacketHeader
 {
 	GatherResult()
@@ -704,51 +519,6 @@ struct GatherResult : public PacketHeader
 	int			mPlayerId;
 	int			mDebrisIndex;
 	float		mCurrentResource;
-};
-
-struct WarningResult : public PacketHeader
-{
-	WarningResult()
-	{
-		mSize = sizeof( WarningResult );
-		mType = PKT_SC_DISASTER_WARNING;
-
-		mEventType = -1;
-		mRemainTime = 0.0f;
-	}
-
-	int			mEventType;
-	float		mRemainTime;
-};
-
-struct ChangeClassRequest : public PacketHeader
-{
-	ChangeClassRequest()
-	{
-		mSize = sizeof( ChangeClassRequest );
-		mType = PKT_CS_CHANGE_CLASS;
-		mPlayerId = -1;
-
-		mNewClass = -1;
-	}
-
-	int			mPlayerId;
-	int			mNewClass;
-};
-
-struct ChangeClassResult : public PacketHeader
-{
-	ChangeClassResult()
-	{
-		mSize = sizeof( ChangeClassResult );
-		mType = PKT_SC_CHANGE_CLASS;
-		mPlayerId = -1;
-
-		mNewClass = -1;
-	}
-
-	int			mPlayerId;
-	int			mNewClass;
 };
 
 struct DebugServerInfoResult : public PacketHeader
@@ -814,32 +584,6 @@ struct DebugClientInfoResult : public PacketHeader
 
 	float	mFuel;
 	float	mOxygen;
-};
-
-struct StructureInstallResult : public PacketHeader
-{
-	StructureInstallResult()
-	{
-		mSize = sizeof( StructureInstallResult );
-		mType = PKT_SC_STRUCTURE_INSTALL;
-	}
-
-	InstalledStructureInfo mStructInfo;
-};
-
-struct StructureUninstallResult : public PacketHeader
-{
-	StructureUninstallResult()
-	{
-		mSize = sizeof( StructureUninstallResult );
-		mType = PKT_SC_STRUCTURE_UNINSTALL;
-
-		mStructureId = 0;
-		mStructureType = -1;
-	}
-
-	unsigned int	mStructureId;
-	int				mStructureType;
 };
 
 #pragma pack(pop)

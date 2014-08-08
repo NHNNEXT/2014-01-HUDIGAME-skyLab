@@ -6,11 +6,9 @@
 #include "ObjectManager.h"
 #include "MatrixTransform.h"
 #include "SceneManager.h"
-#include "CompassUI.h"
 #include "PlayScene.h"
 #include "GameOption.h"
 #include "ClassComponent.h"
-#include "DispenserModel.h"
 #include "DDModel.h"
 #include "DDCamera.h"
 #include "DebugData.h"
@@ -156,19 +154,6 @@ void NetworkManager::SendRespawnRequest( CharacterClass characterClass )
 	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
 }
 
-void NetworkManager::SendClassChangeRequest( CharacterClass characterClass )
-{
-	if ( m_MyPlayerId == -1 )
-		return;
-
-	ChangeClassRequest outPacket;
-
-	outPacket.mPlayerId = m_MyPlayerId;
-	outPacket.mNewClass = static_cast<int>( characterClass );
-
-	DDNetwork::GetInstance()->Write( (const char*)&outPacket, outPacket.mSize );
-}
-
 void NetworkManager::RegisterHandles()
 {
 	// 여기에서 핸들러를 등록하자
@@ -182,35 +167,12 @@ void NetworkManager::RegisterHandles()
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEAD, HandleDeadResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_RESPAWN, HandleRespawnResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_COLLISION, HandleCollisionResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_STATE, HandleIssStateResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_ISS_MODULE_STATE, HandleIssModuleStateResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_INSTALLED_STRUCTURE_STATE, HandleInstalledStructureResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GAME_RESULT, HandleGameResultResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_KINETIC_STATE, HandleKineticStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHARACTER_STATE, HandleCharacterStateResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_GATHER, HandleGatherResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISPENSER_EFFECT, HandleDispenserEffectResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_CHANGE_CLASS, HandleChangeClassResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER_WARNING, HandleWarningResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DISASTER, HandleDisasterOccurrence );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_SERVER, HandleSyncServerDebugInfoResult );
 	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DEBUG_CHARACTER, HandleSyncCharacterDebugInfoResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_INSTALL, HandleStructureInstallResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_STRUCTURE_UNINSTALL, HandleStructureUninstallResult );
-	DDNetwork::GetInstance()->RegisterHandler( PKT_SC_DESTROY_ISS, HandleDestroyISSResult );
-}
-
-
-void NetworkManager::HandleDispenserEffectResult( DDPacketHeader& pktBase )
-{
-	DispenserEffectResult inPacket = reinterpret_cast<DispenserEffectResult &>(pktBase);
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
-		return;
-
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->GetClassComponent()->SetDispenserEffectFlag( inPacket.mDispenserEffectFlag );
-
 }
 
 void NetworkManager::HandleGatherResult( DDPacketHeader& pktBase )
@@ -250,11 +212,6 @@ void NetworkManager::HandleLoginResult( DDPacketHeader& pktBase )
 
 		camera->SetFollowingObject( GPlayerManager->GetPlayer( m_MyPlayerId ) );
 		camera->GetTransform().SetRotation( (static_cast<TeamColor>(inPacket.mTeamColor) == TeamColor::BLUE)? BLUE_TEAM_ROTATION : RED_TEAM_ROTATION );
-
-		// 콤파스 설정
-		// CompassUI* compassUI = CompassUI::Create();
-		// compassUI->Init();
-		// camera->AddChild( compassUI, ORDER_COMPASS_UI );
 
 		// 팀 설정
 		GPlayerManager->GetPlayer( m_MyPlayerId )->SetTeam( static_cast<TeamColor>(inPacket.mTeamColor) );
@@ -417,26 +374,6 @@ void NetworkManager::HandleUsingSkillResult( DDPacketHeader& pktBase )
 	}
 }
 
-void NetworkManager::HandleDestroyISSResult( DDPacketHeader& pktBase )
-{
-	DestroyISSResult inPacket = reinterpret_cast<DestroyISSResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-		
-	D3DXVECTOR3 skillDirection = inPacket.mDirection;
-	if ( skillDirection != ZERO_VECTOR3 )
-	{
-		skillDirection.y = 0.0f;
-		skillDirection.z = 0.0f;
-		GEnvironmentManager->PlayFireworkEffect( EffectType::FIRE, inPacket.mHitPosition, -skillDirection - DIRECTION_OFFSET, -skillDirection + DIRECTION_OFFSET, FIRE_COLOR_RANGE );
-	}
-	else
-	{
-		ColorRange ec = ( GPlayerManager->GetMyPlayer()->GetTeam() == TeamColor::BLUE ) ? BLUE_TEAM_COLOR : RED_TEAM_COLOR ;
-		GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mHitPosition, EXPLOSION_DIR_MIN, EXPLOSION_DIR_MAX, ec );
-	}
-}
-
-
 void NetworkManager::HandleKineticStateResult( DDPacketHeader& pktBase )
 {
 	KineticStateResult inPacket = reinterpret_cast<KineticStateResult&>( pktBase );
@@ -543,32 +480,6 @@ void NetworkManager::HandleCollisionResult( DDPacketHeader& pktBase )
 	GSoundManager->PlaySoundW( SE_COLLISION );
 }
 
-void NetworkManager::HandleIssStateResult( DDPacketHeader& pktBase )
-{
-	IssStateResult inPacket = reinterpret_cast<IssStateResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	// ISS의 위치와 속도를 바꾼다.
-	GObjectManager->GetISS()->GetTransform().SetPosition( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssPositionZ ) );
-	GObjectManager->GetISS()->SetVelocity( DDVECTOR3( 0.0f, 0.0f, inPacket.mIssVelocityZ ) );
-
-	for ( int i = 0; i < MODULE_NUMBER; ++i )
-	{
-		GObjectManager->GetISS( )->SetOwner( i, inPacket.mModuleOwner[i] );
-		GObjectManager->GetISS( )->SetHP( i, inPacket.mModuleHP[i] );
-	}
-}
-
-void NetworkManager::HandleIssModuleStateResult( DDPacketHeader& pktBase )
-{
-	IssModuleStateResult inPacket = reinterpret_cast<IssModuleStateResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	// ISS의 체력을 바꾼다.
-	GObjectManager->GetISS()->SetOwner( inPacket.mModuleIdx, inPacket.mOwner );
-	GObjectManager->GetISS()->SetHP( inPacket.mModuleIdx, inPacket.mHP );
-}
-
 void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 {
 	GameResultResult inPacket = reinterpret_cast<GameResultResult&>( pktBase );
@@ -582,38 +493,6 @@ void NetworkManager::HandleGameResultResult( DDPacketHeader& pktBase )
 
 	// 일단 다른 씬들이 없으므로 게임을 종료시킨다.
 	DDNetwork::GetInstance()->Disconnect();
-}
-
-
-void NetworkManager::HandleWarningResult( DDPacketHeader& pktBase )
-{
-	WarningResult inPacket = reinterpret_cast<WarningResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	printf_s( "event code : %d / remain time : %f sec", inPacket.mEventType, inPacket.mRemainTime );
-}
-
-void NetworkManager::HandleDisasterOccurrence( DDPacketHeader& pktBase )
-{
-	DisaterOccurrenceResult inPacket = reinterpret_cast<DisaterOccurrenceResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	GEnvironmentManager->PlaySnowEffect( inPacket.direction, inPacket.remainTime );
-
-}
-
-
-
-void NetworkManager::HandleChangeClassResult( DDPacketHeader& pktBase )
-{
-	ChangeClassResult inPacket = reinterpret_cast<ChangeClassResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	if ( !GPlayerManager->GetPlayer( inPacket.mPlayerId ) )
-		return;
-
-	GPlayerManager->GetPlayer( inPacket.mPlayerId )->ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
-	printf_s( "class changed : %d\n", inPacket.mNewClass );
 }
 
 void NetworkManager::HandleSyncServerDebugInfoResult( DDPacketHeader& pktBase )
@@ -658,57 +537,6 @@ void NetworkManager::HandleSyncCharacterDebugInfoResult( DDPacketHeader& pktBase
 
 	GDebugData->mFuel = inPacket.mFuel;
 	GDebugData->mOxygen = inPacket.mOxygen;
-}
-
-void NetworkManager::HandleStructureInstallResult( DDPacketHeader& pktBase )
-{
-	StructureInstallResult inPacket = reinterpret_cast<StructureInstallResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	GObjectManager->InstallStructure( 
-		inPacket.mStructInfo.mStructureId, 
-		static_cast<StructureType>( inPacket.mStructInfo.mStructureType ),
-		inPacket.mStructInfo.mPosition,
-		inPacket.mStructInfo.mDirection,
-		static_cast<TeamColor>( inPacket.mStructInfo.mTeamColor )
-		);
-	GEnvironmentManager->PlayFireworkEffect( EffectType::EXPLOSION, inPacket.mStructInfo.mPosition );
-}
-
-void NetworkManager::HandleStructureUninstallResult( DDPacketHeader& pktBase )
-{
-	StructureUninstallResult inPacket = reinterpret_cast<StructureUninstallResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	GObjectManager->UninstallStructure( inPacket.mStructureId, static_cast<StructureType>( inPacket.mStructureType ) );
-}
-
-void NetworkManager::HandleInstalledStructureResult( DDPacketHeader& pktBase )
-{
-	InstalledStructureResult inPacket = reinterpret_cast<InstalledStructureResult&>( pktBase );
-	DDNetwork::GetInstance()->GetPacketData( (char*)&inPacket, inPacket.mSize );
-
-	for ( int i = 0; i < inPacket.mDispenserCount; ++i )
-	{
-		GObjectManager->InstallStructure(
-			inPacket.mDispenserList[i].mStructureId,
-			static_cast<StructureType>( inPacket.mDispenserList[i].mStructureType ),
-			inPacket.mDispenserList[i].mPosition,
-			inPacket.mDispenserList[i].mDirection,
-			static_cast<TeamColor>( inPacket.mDispenserList[i].mTeamColor )
-			);
-	}
-
-	for ( int i = 0; i < inPacket.mSpaceMineCount; ++i )
-	{
-		GObjectManager->InstallStructure(
-			inPacket.mSpaceMineList[i].mStructureId,
-			static_cast<StructureType>( inPacket.mSpaceMineList[i].mStructureType ),
-			inPacket.mSpaceMineList[i].mPosition,
-			inPacket.mSpaceMineList[i].mDirection,
-			static_cast<TeamColor>( inPacket.mSpaceMineList[i].mTeamColor )
-			);
-	}
 }
 
 CharacterClass NetworkManager::GetMyClass()

@@ -17,13 +17,7 @@ public:
 
 	void Init( );
 
-	virtual void BroadcastIssChange() = 0;
 	virtual void BroadcastCharacterChange( int idx, ChangeType type ) = 0;
-	virtual void BroadcastStructureInstallation( int structureId, StructureType structureType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor ) = 0;
-	virtual void BroadcastStructureUninstallation( int structureId, StructureType structureType ) = 0;
-	virtual void BroadcastDispenserEffect( int idx, bool dispenserEffectFlag ) = 0;
-	virtual void BroadcastDisasterOccurrence(D3DXVECTOR3 direction, float remainTime) = 0;
-	virtual void BroadcastISSSkillResult(D3DXVECTOR3 direction, D3DXVECTOR3 position) = 0;
 	
 	// 	클라이언트 처음 접속하면 클라이언트 세션이 해당 플레이어의 액터-게임 캐릭터-를 등록한다.
 	// 	클라이언트 세션의 멤버 액터의 포인터를 인자로 넣어서 등록하고,
@@ -41,30 +35,12 @@ public:
 	// 입력된 아이디의 캐릭터가 바라보는 방향에 있는 캐릭터 중 가장 가까이 있는 캐릭터의 아이디를 반환	
 	std::tuple<int, D3DXVECTOR3> DetectTarget( int characterId, const D3DXVECTOR3& direction );
 
-	ISS* GetIss() { return &m_ISS; }
-
-	int	InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId );
-	void UninstallDispenser( unsigned int targetId );
-
-	int	InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId );
-	void UninstallMine( unsigned int targetId );
-
-	// 현재 ISS 위치 및 속도 정보 리턴
-	float GetIssPositionZ() { return m_ISS.GetPosition(); }
-	float GetIssVelocityZ() { return m_ISS.GetVelocity(); }
-
-	// 현재 ISS 각 모듈의 소유자 및 체력 정보 반환
-	std::tuple<TeamColor, float> GetModuleState( int moduleIdx );
-
 	const CollisionBox* GetModuleBoundingBox( int moduleIdx );
 
 	const std::array<Debris*, RESOURCE_DEBRIS_NUMBER>& GetResourceDebrisList() const { return m_ResourceDebrisList; }
 	void RemoveResourceDebris( int index );
 
 	const std::array<Character*, REAL_PLAYER_NUM>& GetCharacterList() const { return m_CharacterList; }
-
-	const std::map<unsigned, Dispenser*>& GetDispenserList() { return m_DispenserList; }
-	const std::map<unsigned, SpaceMine*>& GetSpaceMineList() { return m_SpaceMineList; }
 
 	void ClearPlayerStructureList( int playerId );
 
@@ -100,16 +76,8 @@ protected:
 	std::set<int> m_TeamRed;
 
 	InGameEvent*	m_GameEvent = nullptr;
-	ISS				m_ISS;
+	
 	TeamColor		m_WinnerTeam = TeamColor::NO_TEAM;
-
-	std::map<unsigned, Dispenser*>	m_DispenserList;
-	unsigned int					m_DispensereId = 1; // 0은 없는 상태
-	std::array<unsigned int, MAX_DISPENSER_NUMBER * REAL_PLAYER_NUM> m_DispenserSlot;
-
-	std::map<unsigned, SpaceMine*>	m_SpaceMineList;
-	unsigned int					m_SpaceMineId = 1; // 0은 없는 상태
-	std::array<unsigned int, MAX_SPACE_MINE_NUMBER * REAL_PLAYER_NUM> m_SpaceMineSlot;
 
 	bool m_GameEndFlag = false;
 

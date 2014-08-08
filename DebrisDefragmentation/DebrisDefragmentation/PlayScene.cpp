@@ -8,11 +8,10 @@
 #include "Player.h"
 #include "NetworkManager.h"
 #include "PlayerManager.h"
-#include "UIManager.h"
 #include "ObjectManager.h"
+#include "UIManager.h"
 #include "SkyBox.h"
 #include "GameData.h"
-#include "ObjectISS.h"
 #include "InfoPrinter.h"
 #include "EnvironmentManager.h"
 #include "DebugData.h"
@@ -34,7 +33,6 @@ PlayScene::PlayScene( std::wstring sceneName )
 PlayScene::~PlayScene()
 {
 	delete GDebugData;
-	delete GObjectManager;
 	delete GNetworkManager;
 }
 
@@ -46,11 +44,6 @@ void PlayScene::InitModelPool()
 	m_ModelPool.InitModel( ModelType::EARTH, L"earth.x" );
 	m_ModelPool.InitModel( ModelType::PLAYER_MODEL, L"spaceMan.x" );
 	m_ModelPool.InitModel( ModelType::PLAYER_MODEL_ANIMATION, L"x_file\\character_all.x", true );
-	m_ModelPool.InitModel( ModelType::ISS, L"iss.x" );	
-	m_ModelPool.InitModel( ModelType::DISPENSER, L"x_file\\dispenser.x" );
-	m_ModelPool.InitModel( ModelType::SPACE_MINE, L"x_file\\space_mine.x" );
-	m_ModelPool.InitModel( ModelType::PUSHPULL_EFFECT, L"effect1.x" );
-	m_ModelPool.InitModel( ModelType::ACCESS_POINT, L"x_file\\access_point.x" );
 }
 
 
@@ -122,6 +115,8 @@ void PlayScene::Init()
 	// test debris
 	// 이거 할당하느라 느리다. 테스트 끝나면 지울 것
 	
+	GObjectManager = new ObjectManager;
+
 	unsigned int debrisCount = g_GameData->GetDebrisNumber();
 	/*
 	for ( unsigned int i = 0; i < debrisCount; ++i )
@@ -138,12 +133,6 @@ void PlayScene::Init()
 		AddChild( newBackgroundDebris );
 	}
 	*/
-	m_pObjectISS = ObjectISS::Create();
-	m_pObjectISS->Init();
-	AddChild( m_pObjectISS );
-
-	GObjectManager = new ObjectManager;
-	GObjectManager->RegisterObjectISS( m_pObjectISS );
 	
 	// UI
 	GUIManager->Init();
@@ -187,24 +176,6 @@ void PlayScene::UpdateItSelf( float dTime )
 			// 뭘 보낼지 선택하는 부분은 나중에 추가할 것!
 			GNetworkManager->SendRespawnRequest( GNetworkManager->GetMyClass() );
 		}
-		
-		if ( KEY_DOWN == GetKeyState( VK_F5 ) )
-		{
-			// striker로 변신
-			GNetworkManager->SendRespawnRequest( CharacterClass::STRIKER );
-		}
-
-		if ( KEY_DOWN == GetKeyState( VK_F6 ) )
-		{
-			// protector로 변신
-			GNetworkManager->SendRespawnRequest( CharacterClass::PROTECTOR );
-		}
-
-		if ( KEY_DOWN == GetKeyState( VK_F7 ) )
-		{
-			// engineer로 변신
-			GNetworkManager->SendRespawnRequest( CharacterClass::ENGINEER );
-		}
 
 		// player 조정이 playscene에 있으므로 여기서 return 함.
 		// 동시에 player의 updatable을 꺼줘야 player가 계속 sendDeadrequest하는 것을 막을 수 있음..
@@ -237,101 +208,8 @@ void PlayScene::UpdateItSelf( float dTime )
 
 	if ( KEY_DOWN == GetKeyState( VK_2 ) )
 	{
-		// 2 : 점령 스킬 시전!
-		GNetworkManager->SendUsingSkill( ClassSkill::OCCUPY );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_3 ) )
-	{
-		// 3 : 파괴 스킬 시전!
-		GNetworkManager->SendUsingSkill( ClassSkill::DESTROY );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_4 ) )
-	{
-		// 4 : 연료 나눔 시전!
-		GNetworkManager->SendUsingSkill( ClassSkill::SHARE_FUEL );
-	}
-	
-	if ( KEY_DOWN == GetKeyState( VK_5 ) )
-	{
-		GEnvironmentManager->PlaySnowEffect(X_AXIS_VECTOR3, 10.0f);
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_F1 ) )
-	{
-		ClassSkill skill = ClassSkill::NO_SKILL;
-
-		// for debugging
-		D3DXVECTOR3 tmppos = GObjectManager->GetResourceDebris( 0 )->GetTransform().GetPosition();
-
-		// F1 : 특수 스킬 1
-		switch ( GNetworkManager->GetMyClass() )
-		{
-		case CharacterClass::STRIKER:
-			skill = ClassSkill::PULL;
-			break;
-		case CharacterClass::PROTECTOR:
-			skill = ClassSkill::WARNING;
-			break;
-		case CharacterClass::ENGINEER:
-			skill = ClassSkill::GATHER;
-			printf_s( "debirs no 0 pos is : %f %f %f\n", tmppos.x, tmppos.y, tmppos.z );
-			break;
-		default:
-			assert( 0 );
-			break;
-		}
-
-		GNetworkManager->SendUsingSkill( skill );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_F2 ) )
-	{
-		ClassSkill skill = ClassSkill::NO_SKILL;
-
-		// F2 : 특수 스킬 2
-		switch ( GNetworkManager->GetMyClass() )
-		{
-		case CharacterClass::STRIKER:
-			skill = ClassSkill::SET_MINE;
-			break;
-		case CharacterClass::PROTECTOR:
-			skill = ClassSkill::SHARE_OXYGEN;
-			break;
-		case CharacterClass::ENGINEER:
-			skill = ClassSkill::SET_DISPENSER;
-			break;
-		default:
-			assert( 0 );
-			break;
-		}
-
-		GNetworkManager->SendUsingSkill( skill );
-	}
-
-	if ( KEY_DOWN == GetKeyState( VK_F3 ) )
-	{
-		ClassSkill skill = ClassSkill::NO_SKILL;
-
-		// F3 : 특수 스킬 3
-		switch ( GNetworkManager->GetMyClass() )
-		{
-		case CharacterClass::STRIKER:
-			skill = ClassSkill::MOVE_FAST;
-			break;
-		case CharacterClass::PROTECTOR:
-			skill = ClassSkill::EMP;
-			break;
-		case CharacterClass::ENGINEER:
-			skill = ClassSkill::SET_SHELTER;
-			break;
-		default:
-			assert( 0 );
-			break;
-		}
-
-		GNetworkManager->SendUsingSkill( skill );
+		// 2 : 채취 스킬 시전!
+		GNetworkManager->SendUsingSkill( ClassSkill::GATHER );
 	}
 
 	if ( KEY_DOWN == GetKeyState( VK_SPACE ) )

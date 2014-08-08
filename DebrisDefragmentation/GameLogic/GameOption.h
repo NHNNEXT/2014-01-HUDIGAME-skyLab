@@ -7,9 +7,7 @@
 enum class CharacterClass : int
 {
 	NO_CLASS = -1,
-	STRIKER,
 	ENGINEER,
-	PROTECTOR
 };
 
 enum class ChangeType : int
@@ -385,3 +383,11 @@ const std::map<SOUND_LIST, std::string> SoundTable =
 	{ SE_DESPENDER_INSTALL, ".\\Resources\\Sound\\SE_Despenser_Install.mp3" },
 	{ SE_PUSH, ".\\Resources\\Sound\\SE_Push.mp3" },
 };
+
+
+
+
+
+// 새로운 충돌 체크를 위한 변수들입니다
+// 최경욱
+const int COLLISION_ZONE_NUMBER = 1000;

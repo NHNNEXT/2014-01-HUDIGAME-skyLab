@@ -17,23 +17,11 @@ ActorManager::ActorManager()
 	m_CharacterList.fill( nullptr );
 	m_ResourceDebrisList.fill( nullptr );
 	m_GatheredDebrisList.fill( false );
-	m_DispenserSlot.fill( 0 );
-	m_SpaceMineSlot.fill( 0 );
 }
 
 ActorManager::~ActorManager()
 {
 	delete GObjectTable;
-
-	for ( std::map<unsigned, SpaceMine*>::const_iterator it = m_SpaceMineList.begin(); it != m_SpaceMineList.end(); ++it )
-	{
-		delete it->second;
-	}
-
-	for ( std::map<unsigned, Dispenser*>::const_iterator it = m_DispenserList.begin(); it != m_DispenserList.end(); ++it )
-	{
-		delete it->second;
-	}
 
 	for ( auto iter : m_ResourceDebrisList )
 	{
@@ -55,7 +43,6 @@ void ActorManager::Init( )
 
 	SetRandomEvent();
 
-	m_ISS.Init();
 	m_TeamBlue.clear();
 	m_TeamRed.clear();
 
@@ -176,58 +163,8 @@ void ActorManager::Update( )
 	}
 
 	// 게임 내 재난 상황 이벤트 업데이트
-	if ( m_GameEvent->Update( dt ) )
-		SetRandomEvent();
-
-	// ISS 관련 업데이트
-	m_ISS.Update( dt );
-
-	float posIss = m_ISS.GetPosition();
-
-	if ( posIss > WINNING_DISTANCE )
-	{
-		m_WinnerTeam = TeamColor::BLUE;
-	}
-	else if ( posIss < -WINNING_DISTANCE )
-	{
-		m_WinnerTeam = TeamColor::RED;
-	}
-
-	// 조심해!!
-	// 네이밍 이상함
-	std::vector<unsigned int> deleteMine;
-	
-	// space mine 업데이트
-	for ( std::map<unsigned, SpaceMine*>::const_iterator it = m_SpaceMineList.begin( ); it != m_SpaceMineList.end( ); ++it )
-	{
-		SpaceMine* mine = it->second;
-
-		// mine 위치 업데이트 필요
-		// ISS에 설치 되므로 ISS의 이동에 영향을 받으므로 일단은 여기서 업데이트 한다
-		mine->UpdateIssPosition( m_ISS.GetPosition() );
-
-		if ( mine->React() )
-		{
-			deleteMine.push_back( it->first );
-		}
-	}
-
-	// 레알 삭제
-	std::for_each( deleteMine.begin(), deleteMine.end(), [&]( unsigned int each )
-	{
-		UninstallMine( each );
-	}
-	);
-
-	// Dispenser update
-	for ( std::map<unsigned, Dispenser*>::const_iterator it = m_DispenserList.begin(); it != m_DispenserList.end(); ++it )
-	{
-		Dispenser* dispenser = it->second;
-
-		// 업데이트
-		dispenser->UpdateIssPosition( m_ISS.GetPosition() );
-		dispenser->Update( dt );
-	}
+	// if ( m_GameEvent->Update( dt ) )
+	// 	SetRandomEvent();
 
 	// 충돌 체크
 	CheckCollision();
@@ -256,44 +193,6 @@ void ActorManager::CheckCollision()
 
 		const CollisionBox* boxI = m_CharacterList[i]->GetCollisionBox();
 		const CollisionBox* boxJ = nullptr;
-
-		// ISS와의 충돌 확인
-		for ( int j = 0; j < MODULE_NUMBER; ++j )
-		{
-			// 각각의 모듈의 충돌 박스를 가져온다.
-			boxJ = m_ISS.GetModuleCollisionBox( j );
-
-			// 멀면 확인 안 함
-			D3DXVECTOR3 collisionDirection = boxJ->m_CenterPos - boxI->m_CenterPos;
-			if ( D3DXVec3Length( &collisionDirection ) > boxI->m_Radius + boxJ->m_Radius )
-				continue;
-
-			if ( Physics::IsCollide( boxI, boxJ ) )
-			{
-				// 상대 속도가 서로 멀어지는 방향이라면 확인 안 함
-				// D3DXVECTOR3 relativeVelocity = D3DXVECTOR3( 0.0f, 0.0f, m_ISS.GetVelocity() ) - m_CharacterList[i]->GetVelocity();
-				D3DXVECTOR3 relativeVelocity = m_CharacterList[i]->GetVelocity() - D3DXVECTOR3( 0.0f, 0.0f, m_ISS.GetVelocity() );
-				if ( D3DXVec3Dot( &relativeVelocity, &collisionDirection ) < 0 )
-					return;
-
-				// 이 경우에는 ISS는 그대로 있고 플레이어만 튕긴다.
-				// 우선 운동 방향을 구하고
-				D3DXVec3Normalize( &collisionDirection, &m_CharacterList[i]->GetVelocity() );
-
-				// 충돌면의 수직 벡터를 구한 뒤
-				D3DXVECTOR3 normalVec( ZERO_VECTOR3 );
-				Physics::IntersectionCheckRayBox( nullptr, nullptr, &normalVec, collisionDirection, m_CharacterList[i]->GetTransform()->GetPosition(), boxJ );
-
-				// 두 벡터를 이용해서 반사 벡터를 구하고
-				D3DXVECTOR3 reflectionVec = Physics::GetReflectionVector( collisionDirection, normalVec );
-
-				// 원래 운동 속도의 크기로 반사벡터 방향으로 속도를 바꾼다
-				m_CharacterList[i]->SetVelocity( reflectionVec * D3DXVec3Length( &m_CharacterList[i]->GetVelocity() ) );
-
-				// ISS와 충돌한 플레이어의 아이디를 추가한다.
-				m_CollidedPlayers.insert( i );
-			}
-		}
 
 		// 플레이어간 충돌 체크
 		for ( int j = i + 1; j < REAL_PLAYER_NUM; ++j )
@@ -405,166 +304,11 @@ std::vector<int> ActorManager::DetectTargetsInRange( int characterId, float rang
 	return targets;
 }
 
-int	ActorManager::InstallDispenser( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId )
-{
-	int slotIdx = -1;
-
-	for ( int i = playerId * MAX_DISPENSER_NUMBER; i < ( playerId + 1 ) * MAX_DISPENSER_NUMBER; ++i )
-	{
-		if ( m_DispenserSlot[i] == 0 )
-		{
-			slotIdx = i;
-			break;
-		}
-	}
-
-	if ( slotIdx == -1 )
-	{
-		// 슬롯이 가득 찬 상태
-		// 먼저 생성 된 것을 지운다.
-		slotIdx = playerId * MAX_DISPENSER_NUMBER;
-		UninstallDispenser( m_DispenserSlot[slotIdx] );
-	}
-
-	Dispenser* newDispenser = new Dispenser( m_DispensereId, team, m_ISS.GetPosition(), playerId );
-
-	newDispenser->GetTransform()->SetPosition( position );
-	newDispenser->GetTransform()->SetRotation( direction );
-
-	m_DispenserList.insert( std::map<unsigned int, Dispenser*>::value_type( m_DispensereId, newDispenser ) );
-
-	// 슬롯에 등록
-	m_DispenserSlot[slotIdx] = m_DispensereId;
-
-	// 설치 방송
-	BroadcastStructureInstallation( m_DispensereId, StructureType::DISPENSER, position, direction, team );
-
-	return m_DispensereId++;
-}
-
-void ActorManager::UninstallDispenser( unsigned int targetId )
-{
-	std::map<unsigned, Dispenser*>::iterator it = m_DispenserList.find( targetId );
-	assert( it != m_DispenserList.end() );
-
-	// 설치 해제 방송
-	BroadcastStructureUninstallation( targetId, StructureType::DISPENSER );
-
-	// 슬롯에서 지워줘야 한다
-	int slotIdx = it->second->GetSetterId();
-	m_DispenserSlot[slotIdx] = 0;
-
-	// 객체 해제하고 map에서도 삭제
-	delete it->second;
-	m_DispenserList.erase( targetId );
-}
-
-int	ActorManager::InstallMine( const D3DXVECTOR3& position, const D3DXVECTOR3& direction, TeamColor team, int playerId )
-{
-	int slotIdx = -1;
-
-	for ( int i = playerId * MAX_SPACE_MINE_NUMBER; i < ( playerId + 1 ) * MAX_SPACE_MINE_NUMBER; ++i )
-	{
-		if ( m_SpaceMineSlot[i] == 0 )
-		{
-			slotIdx = i;
-			break;
-		}
-	}
-
-	if ( slotIdx == -1 )
-	{
-		// 슬롯이 가득 찬 상태
-		// 먼저 생성 된 것을 지운다.
-		if ( m_SpaceMineSlot[playerId * MAX_SPACE_MINE_NUMBER] < m_SpaceMineSlot[( playerId * MAX_SPACE_MINE_NUMBER ) + 1] )
-		{
-			slotIdx = playerId * MAX_SPACE_MINE_NUMBER;
-		}
-		else
-		{
-			slotIdx = ( playerId * MAX_SPACE_MINE_NUMBER ) + 1;
-		}
-
-		UninstallMine( m_SpaceMineSlot[slotIdx] );
-	}
-
-	SpaceMine* newMine = new SpaceMine( m_SpaceMineId, team, m_ISS.GetPosition(), playerId );
-
-	newMine->GetTransform()->SetPosition( position );
-	newMine->GetTransform()->SetRotation( direction );
-	
-	m_SpaceMineList.insert( std::map<unsigned int, SpaceMine*>::value_type( m_SpaceMineId, newMine ) );
-
-	// 슬롯에 등록
-	m_SpaceMineSlot[slotIdx] = m_SpaceMineId;
-
-	// 설치 방송
-	BroadcastStructureInstallation( m_SpaceMineId, StructureType::SPACE_MINE, position, direction, team );
-
-	return m_SpaceMineId++;
-}
-
-void ActorManager::UninstallMine( unsigned int targetId )
-{
-	std::map<unsigned, SpaceMine*>::iterator it = m_SpaceMineList.find( targetId );
-	assert( it != m_SpaceMineList.end() );
-
-	// 설치 해제 방송
-	BroadcastStructureUninstallation( targetId, StructureType::SPACE_MINE );
-
-	// 슬롯에서 지워줘야 한다
-	int slotIdx = it->second->GetSetterId();
-	for ( int i = slotIdx * MAX_SPACE_MINE_NUMBER; i < ( slotIdx + 1 ) * MAX_SPACE_MINE_NUMBER; ++i )
-	{
-		if ( targetId == m_SpaceMineSlot[i] )
-		{
-			slotIdx = i;
-			break;
-		}
-	}
-	m_SpaceMineSlot[slotIdx] = 0;
-
-	delete it->second;
-	m_SpaceMineList.erase( targetId );
-}
-
-std::tuple<TeamColor, float> ActorManager::GetModuleState( int moduleIdx )
-{
-	return m_ISS.GetModuleState( moduleIdx );
-}
-
-const CollisionBox* ActorManager::GetModuleBoundingBox( int moduleIdx )
-{ 
-	return m_ISS.GetModuleCollisionBox( moduleIdx ); 
-}
-
 void ActorManager::RemoveResourceDebris( int index )
 {
 	if ( m_ResourceDebrisList[index] != nullptr )
 	{
 		delete m_ResourceDebrisList[index];
 		m_ResourceDebrisList[index] = nullptr;
-	}
-}
-
-void ActorManager::ClearPlayerStructureList( int playerId )
-{
-	if ( playerId < 0 || playerId >= REAL_PLAYER_NUM )
-		return;
-
-	for ( int i = playerId * MAX_DISPENSER_NUMBER; i < ( playerId + 1 ) * MAX_DISPENSER_NUMBER; ++i )
-	{
-		if ( m_DispenserSlot[i] != 0 )
-		{
-			UninstallDispenser( m_DispenserSlot[i] );
-		}
-	}
-
-	for ( int i = playerId * MAX_SPACE_MINE_NUMBER; i < ( playerId + 1 ) * MAX_SPACE_MINE_NUMBER; ++i )
-	{
-		if ( m_SpaceMineSlot[i] != 0 )
-		{
-			UninstallMine( m_SpaceMineSlot[i] );
-		}
 	}
 }

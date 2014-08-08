@@ -24,10 +24,7 @@ public:
 	// 적절한 스킬 사용 함수를 호출한다.
 	virtual bool UseSkill( ClassSkill skill, int id, const D3DXVECTOR3& direction ) = 0;
 
-	bool		SkillPush( int id, const D3DXVECTOR3& direction );
-	bool		SkillShareFuel( int id, const D3DXVECTOR3& direction );
-	bool		SkillOccupy( int id, const D3DXVECTOR3& direction );
-	bool		SkillDestroy( int id, const D3DXVECTOR3& direction );
+	bool	SkillPush( int id, const D3DXVECTOR3& direction );
 	
 	float	GetFuel() const { return m_Fuel; }
 	void	SetFuel( float val ) { m_Fuel = val < 0.0f ? 0.0f : val; }
@@ -59,10 +56,6 @@ public:
 	void	SetResource( float val ) { m_Resource = val; }
 	void	IncreaseResource( float val ) { m_Resource += val; }
 
-	// dispenser 관련 flag
-	bool GetDispenserEffectFlag() const { return m_DispenserEffectFlag; }
-	void SetDispenserEffectFlag( bool val ) { m_DispenserEffectFlag = val; }
-
 protected:	
 	void		SetCooldown( ClassSkill skillType );
 	
@@ -70,7 +63,6 @@ protected:
 	float		m_Oxygen = DEFAULT_OXYGEN;
 	float		m_Fuel = DEFAULT_FUEL;
 	float		m_HP = DEFAULT_HP;
-	bool		m_DispenserEffectFlag = false;
 
 	// 엔지니어에 있어야하나..
 	float		m_Resource = .0f;

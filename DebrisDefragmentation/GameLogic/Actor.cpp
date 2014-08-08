@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Actor.h"
-#include "Striker.h"
 #include "Engineer.h"
-#include "Protector.h"
 
 #include "Physics.h"
 #include "GameOption.h"

@@ -163,20 +163,6 @@ void ClientManager::SyncServerDebugInfo()
 		}
 	}
 
-	outPacket.mIssPos = mGameManager.GetIssPositionZ();
-	outPacket.mIssPos = mGameManager.GetIssVelocityZ();
-
-	for ( int i = 0; i < MODULE_NUMBER; ++i )
-	{
-		TeamColor color = TeamColor::NO_TEAM;
-		float hp = 1.0f;
-
-		std::tie( color, hp ) = mGameManager.GetModuleState( i );
-
-		outPacket.mModuleOwner[i] = static_cast<int>( color );
-		outPacket.mModuleHP[i] = hp;
-	}
-
 	BroadcastPacket( nullptr, &outPacket );
 }
 
@@ -200,25 +186,4 @@ void ClientManager::Init()
 {	
 	mGameManager.Init();
 	mClientIdList.fill( nullptr );
-}
-
-void ClientManager::BroadcastModuleState()
-{
-	IssStateResult outPacket;
-
-	outPacket.mIssPositionZ = mGameManager.GetIssPositionZ( );
-	outPacket.mIssVelocityZ = mGameManager.GetIssVelocityZ( );
-
-	for ( int i = 0; i < MODULE_NUMBER; ++i )
-	{
-		TeamColor color = TeamColor::NO_TEAM;
-		float hp = 1.0f;
-
-		std::tie( color, hp ) = mGameManager.GetModuleState( i );
-
-		outPacket.mModuleOwner[i] = static_cast<int>( color );
-		outPacket.mModuleHP[i] = hp;
-	}
-
-	BroadcastPacket( nullptr, &outPacket );
 }

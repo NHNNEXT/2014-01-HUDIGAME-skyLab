@@ -15,7 +15,7 @@ class Player :
 {
 public:
 	Player();
-	Player( int playerId, CharacterClass characterClass = CharacterClass::STRIKER );
+	Player( int playerId, CharacterClass characterClass = CharacterClass::ENGINEER );
 	virtual ~Player();
 
 	//static Player* Create( int playerId );

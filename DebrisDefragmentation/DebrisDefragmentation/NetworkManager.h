@@ -17,9 +17,7 @@ public:
 	void SendStop();
 	void SendTurnBody();
 	void SendUsingSkill( ClassSkill skilType );
-	//void SendDeadRequest();
 	void SendRespawnRequest(CharacterClass characterClass);
-	void SendClassChangeRequest( CharacterClass characterClass );
 	CharacterClass GetMyClass();
 	int GetMyPlayerId() const { return m_MyPlayerId; }
 
@@ -40,19 +38,9 @@ public:
 	static void HandleTurnBodyResult( DDPacketHeader& pktBase );
 
 	static void HandleUsingSkillResult( DDPacketHeader& pktBase );
-	static void HandleChangeClassResult( DDPacketHeader& pktBase );
 	
-	static void HandleDispenserEffectResult( DDPacketHeader& pktBase );
 	static void HandleGatherResult( DDPacketHeader& pktBase );
-	static void HandleIssStateResult( DDPacketHeader& pktBase );
-	static void HandleInstalledStructureResult( DDPacketHeader& pktBase );
-	static void HandleIssModuleStateResult( DDPacketHeader& pktBase );
 	static void HandleGameResultResult( DDPacketHeader& pktBase );
-	static void HandleWarningResult( DDPacketHeader& pktBase );
-	static void HandleDisasterOccurrence( DDPacketHeader& pktBase );
-	static void HandleStructureInstallResult( DDPacketHeader& pktBase );
-	static void HandleStructureUninstallResult( DDPacketHeader& pktBase );
-	static void HandleDestroyISSResult( DDPacketHeader& pktBase );
 	
 
 	static void HandleKineticStateResult( DDPacketHeader& pktBase );

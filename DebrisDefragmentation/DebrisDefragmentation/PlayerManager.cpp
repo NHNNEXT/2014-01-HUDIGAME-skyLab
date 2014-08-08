@@ -5,7 +5,6 @@
 #include "SceneManager.h"
 #include "PlayScene.h"
 #include "MatrixTransform.h"
-#include "CompassUI.h"
 
 std::shared_ptr<PlayerManager> GPlayerManager = nullptr;
 

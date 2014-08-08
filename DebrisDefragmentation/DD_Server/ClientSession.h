@@ -66,7 +66,6 @@ public:
 	void	HandleGameStateRequest( GameStateRequest& inPacket );
 	void	HandleRespawnRequest( RespawnRequest& inPacket );
 	void	HandleUsingSkillRequest( UsingSkillRequest& inPacket );
-	void	HandleChangeClassRequest( ChangeClassRequest& inPacket );
 
 	int					GetPlayerId() const { return mPlayerId; }
 	Character&			GetCharacter() { return m_Character; }

@@ -37,7 +37,7 @@ bool InGameEvent::Update( float dt )
 		m_Timer = 0.0f;
 		if ( m_LifeTime == DS_LIFETIME )
 		{
-			GObjectTable->GetActorManager()->BroadcastDisasterOccurrence( m_Direction, m_LifeTime );
+			// GObjectTable->GetActorManager()->BroadcastDisasterOccurrence( m_Direction, m_LifeTime );
 		}
 
 		m_LifeTime -= dt;

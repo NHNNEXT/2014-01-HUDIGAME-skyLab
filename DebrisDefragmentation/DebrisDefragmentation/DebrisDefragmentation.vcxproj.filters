@@ -62,16 +62,7 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>GameManagers</Filter>
     </ClCompile>
-    <ClCompile Include="CompassUI.cpp">
-      <Filter>Scene\Player</Filter>
-    </ClCompile>
     <ClCompile Include="SkyBox.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectISS.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="ISSModel.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="DDLight.cpp">
@@ -92,14 +83,8 @@
     <ClCompile Include="ModelPool.cpp">
       <Filter>Scene\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="DispenserModel.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="DebrisModel.cpp">
       <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>GameManagers</Filter>
     </ClCompile>
     <ClCompile Include="Exception.cpp">
       <Filter>Win32</Filter>
@@ -112,9 +97,6 @@
     </ClCompile>
     <ClCompile Include="DebugData.cpp">
       <Filter>Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceMineModel.cpp">
-      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="DDBillboardEffect.cpp">
       <Filter>Scene\BaseObjects</Filter>
@@ -152,6 +134,9 @@
     <ClCompile Include="ResultScene.cpp">
       <Filter>Scene\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>GameManagers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -179,16 +164,7 @@
     <ClInclude Include="UIManager.h">
       <Filter>GameManagers</Filter>
     </ClInclude>
-    <ClInclude Include="CompassUI.h">
-      <Filter>Scene\Player</Filter>
-    </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectISS.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="ISSModel.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="DDLight.h">
@@ -209,14 +185,8 @@
     <ClInclude Include="ModelPool.h">
       <Filter>Scene\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="DispenserModel.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="DebrisModel.h">
       <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>GameManagers</Filter>
     </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Win32</Filter>
@@ -229,9 +199,6 @@
     </ClInclude>
     <ClInclude Include="DebugData.h">
       <Filter>Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceMineModel.h">
-      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="DDBillboardEffect.h">
       <Filter>Scene\BaseObjects</Filter>
@@ -271,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>Scene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>GameManagers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -112,7 +112,6 @@ void ClientSession::Disconnect( )
 		return;
 
 	// 내 캐릭터는 내가 지우고 나가자
-	m_GameManager->ClearPlayerStructureList( mPlayerId );
 	m_GameManager->DeregisterCharacter( m_Character.GetCharacterId() );
 	GClientManager->DeregisterSession( mPlayerId, this );
 
@@ -441,22 +440,6 @@ void ClientSession::BroadcastAcceleration()
 	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Accelerate" );
 }
 
-void ClientSession::BroadcastDispenserEffect( bool flag )
-{
-	DispenserEffectResult outPacket;
-
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mDispenserEffectFlag = flag;
-	
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-
-	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Dispenser effect" );
-}
-
-
 void ClientSession::BroadcastGatherResult()
 {
 	GatherResult outPacket;
@@ -484,18 +467,6 @@ void ClientSession::SendCurrentStatus( ClientSession* targetClient )
 
 	// 인자로 받은 클라이언트에게 내 상태를 저장한 패킷을 전송
 	targetClient->SendRequest( &outPacket );
-}
-
-void ClientSession::SendWarning()
-{
-	WarningResult outPacket;
-
-	outPacket.mEventType = static_cast<int>( m_GameManager->GetEvent()->GetEventType() );
-	outPacket.mRemainTime = m_GameManager->GetEvent()->GetRemainTime();
-
-	SendRequest( &outPacket );
-
-	DDLOG_DEBUG( L"[client " << mPlayerId << L"] Warning" );
 }
 
 void ClientSession::SyncCharacterDebugInfo()
@@ -589,69 +560,6 @@ void ClientSession::HandleGameStateRequest( GameStateRequest& inPacket )
 	// 매니저는 sock 기준으로 방송할 세션을 지정할 수 있어
 	// 요청한 아이에게 각자의 상태를 직접 보내도록(방송말고) 하자
 	GClientManager->InitPlayerState( this );
-
-	// ISS state
-	IssStateResult currentIssState;
-
-	currentIssState.mIssPositionZ = m_GameManager->GetIssPositionZ( );
-	currentIssState.mIssVelocityZ = m_GameManager->GetIssVelocityZ( );
-
-	for ( int i = 0; i < MODULE_NUMBER; ++i )
-	{
-		TeamColor color = TeamColor::NO_TEAM;
-		float hp = 1.0f;
-
-		std::tie( color, hp ) = m_GameManager->GetModuleState( i );
-
-		currentIssState.mModuleOwner[i] = static_cast<int>( color );
-		currentIssState.mModuleHP[i] = hp;
-	}
-
-	SendRequest( &currentIssState );
-
-	// 설치된 구조물 정보 전송
-	InstalledStructureResult currentInstalledStructureState;
-
-	// const로 map 참조자를 반환하자!
-	const std::map<unsigned, Dispenser*> currentDispenserList = m_GameManager->GetDispenserList();
-	const std::map<unsigned, SpaceMine*> currentSpaceMineList = m_GameManager->GetSpaceMineList();
-
-	int dispenserIdx = 0;
-	// const로 받고 싶으나 GetTransform에 걸린다...포인터...으으....
-	for ( std::map<unsigned, Dispenser*>::const_iterator it = currentDispenserList.begin(); it != currentDispenserList.end(); ++it )
-	{
-		Dispenser* dispenser = it->second;
-
-		currentInstalledStructureState.mDispenserList[dispenserIdx].mStructureId = dispenser->GetId();
-		currentInstalledStructureState.mDispenserList[dispenserIdx].mStructureType = static_cast<int>( StructureType::DISPENSER );
-		currentInstalledStructureState.mDispenserList[dispenserIdx].mTeamColor = static_cast<int>( dispenser->GetTeamColor() );
-		currentInstalledStructureState.mDispenserList[dispenserIdx].mPosition = dispenser->GetTransform()->GetPosition();
-		currentInstalledStructureState.mDispenserList[dispenserIdx].mDirection = dispenser->GetTransform()->GetRotation();
-
-		++dispenserIdx;
-	}
-
-	// 몇 개 있는지도 저장
-	currentInstalledStructureState.mDispenserCount = dispenserIdx;
-
-	int spaceMineIdx = 0;
-	for ( std::map<unsigned, SpaceMine*>::const_iterator it = currentSpaceMineList.begin(); it != currentSpaceMineList.end(); ++it )
-	{
-		SpaceMine* spaceMine = it->second;
-
-		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mStructureId = spaceMine->GetId();
-		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mStructureType = static_cast<int>( StructureType::SPACE_MINE );
-		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mTeamColor = static_cast<int>( spaceMine->GetTeamColor() );
-		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mPosition = spaceMine->GetTransform()->GetPosition();
-		currentInstalledStructureState.mSpaceMineList[spaceMineIdx].mDirection = spaceMine->GetTransform()->GetRotation();
-
-		++spaceMineIdx;
-	}
-
-	// 몇 개 있는지도 저장
-	currentInstalledStructureState.mSpaceMineCount = spaceMineIdx;
-
-	SendRequest( &currentInstalledStructureState );
 }
 
 REGISTER_HANDLER( PKT_CS_ACCELERATION )
@@ -790,34 +698,6 @@ void ClientSession::HandleRespawnRequest( RespawnRequest& inPacket )
 	}
 }
 
-REGISTER_HANDLER( PKT_CS_CHANGE_CLASS )
-{
-	ChangeClassRequest inPacket = static_cast<ChangeClassRequest&>( pktBase );
-	session->HandleChangeClassRequest( inPacket );
-}
-
-void ClientSession::HandleChangeClassRequest( ChangeClassRequest& inPacket )
-{
-	mRecvBuffer.Read( (char*)&inPacket, inPacket.mSize );
-
-	DDLOG_DEBUG( L"[client " << mPlayerId << L"] request : " << PKT_CS_CHANGE_CLASS );
-
-	if ( mPlayerId != inPacket.mPlayerId )
-		return;
-
-	m_Character.ChangeClass( static_cast<CharacterClass>( inPacket.mNewClass ) );
-
-	// 난 내가 쓴 스킬에 대해서 방송한다.
-	ChangeClassResult outPacket;
-	outPacket.mPlayerId = mPlayerId;
-	outPacket.mNewClass = inPacket.mNewClass;
-
-	/// 다른 애들도 업데이트 해라
-	if ( !Broadcast( &outPacket ) )
-	{
-		Disconnect();
-	}
-}
 REGISTER_HANDLER( PKT_CS_USING_SKILL )
 {
 	UsingSkillRequest inPacket = static_cast<UsingSkillRequest&>( pktBase );

@@ -90,19 +90,15 @@
   <ItemGroup>
     <ClInclude Include="DDMath.h" />
     <ClInclude Include="Debris.h" />
+    <ClInclude Include="DebrisManager.h" />
     <ClInclude Include="DebrisStormEvent.h" />
-    <ClInclude Include="Dispenser.h" />
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameMacro.h" />
     <ClInclude Include="GameOption.h" />
     <ClInclude Include="InGameEvent.h" />
-    <ClInclude Include="ISS.h" />
-    <ClInclude Include="ISSControlPoint.h" />
-    <ClInclude Include="ISSModule.h" />
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="ObjectTable.h" />
-    <ClInclude Include="Protector.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="ClassComponent.h" />
@@ -110,8 +106,6 @@
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="SolarWindEvent.h" />
-    <ClInclude Include="SpaceMine.h" />
-    <ClInclude Include="Striker.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="stdafx.h" />
@@ -121,16 +115,12 @@
   <ItemGroup>
     <ClCompile Include="DDMath.cpp" />
     <ClCompile Include="Debris.cpp" />
+    <ClCompile Include="DebrisManager.cpp" />
     <ClCompile Include="DebrisStormEvent.cpp" />
-    <ClCompile Include="Dispenser.cpp" />
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="InGameEvent.cpp" />
-    <ClCompile Include="ISS.cpp" />
-    <ClCompile Include="ISSControlPoint.cpp" />
-    <ClCompile Include="ISSModule.cpp" />
     <ClCompile Include="ObjectTable.cpp" />
-    <ClCompile Include="Protector.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="ClassComponent.cpp">
@@ -138,8 +128,6 @@
     </ClCompile>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="SolarWindEvent.cpp" />
-    <ClCompile Include="SpaceMine.cpp" />
-    <ClCompile Include="Striker.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

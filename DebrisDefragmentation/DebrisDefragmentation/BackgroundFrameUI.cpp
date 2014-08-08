@@ -5,7 +5,7 @@
 
 BackgroundFrameUI::BackgroundFrameUI()
 {
-	m_IssModuleOwnerList.fill( TeamColor::NO_TEAM );
+
 }
 
 
@@ -276,39 +276,12 @@ void BackgroundFrameUI::Update( float dt )
 			m_UIComponentList[ClientUITag::UI_TAG_SK_PROTECTOR]->SetVisible( false );
 			m_UIComponentList[ClientUITag::UI_TAG_SK_STRIKER]->SetVisible( false );
 			break;
-		case CharacterClass::PROTECTOR:
-			m_UIComponentList[ClientUITag::UI_TAG_SK_ENGINEER]->SetVisible( false );
-			m_UIComponentList[ClientUITag::UI_TAG_SK_PROTECTOR]->SetVisible( true );
-			m_UIComponentList[ClientUITag::UI_TAG_SK_STRIKER]->SetVisible( false );
-			break;
-		case CharacterClass::STRIKER:
-			m_UIComponentList[ClientUITag::UI_TAG_SK_ENGINEER]->SetVisible( false );
-			m_UIComponentList[ClientUITag::UI_TAG_SK_PROTECTOR]->SetVisible( false );
-			m_UIComponentList[ClientUITag::UI_TAG_SK_STRIKER]->SetVisible( true );
-			break;
 		default:
 			break;
 		}
 	}
 
 	// disaster info 가져와서 표시
-
-	// iss 위치 표시
-	m_IssPosition = GObjectManager->GetObjectISSPosition().z;
-	float positionRatio = m_IssPosition / WINNING_DISTANCE;
-
-	m_UIComponentList[ClientUITag::UI_TAG_ISS_POSITION]->GetTransform().SetPosition( UI_ISS_NAV_DEFAULT_POSITION_X + ( positionRatio * UI_ISS_NAV_DEFAULT_RANGE ), UI_ISS_NAV_DEFAULT_POSITION_Y, 0.0f );
-
-	// iss 소유자 표시
-	for ( int i = 0; i < MODULE_NUMBER; ++i )
-	{
-		TeamColor currentModuleOwner = GObjectManager->GetISS()->GetModuleOwner( i );
-		if ( m_IssModuleOwnerList[i] != currentModuleOwner )
-		{
-			m_IssModuleOwnerList[i] = currentModuleOwner;
-			ChangeModuleOwner( i, currentModuleOwner );
-		}
-	}
 
 	// text
 	// infoPrinter에서 표시

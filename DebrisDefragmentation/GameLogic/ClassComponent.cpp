@@ -5,9 +5,7 @@
 #include "ActorManager.h"
 #include "Character.h"
 #include "ObjectTable.h"
-#include"Striker.h"
 #include "Engineer.h"
-#include "Protector.h"
 
 ClassComponent::ClassComponent()
 {
@@ -23,14 +21,8 @@ std::shared_ptr<ClassComponent> ClassComponent::Create( CharacterClass className
 {
 	switch ( className )
 	{
-	case CharacterClass::STRIKER:
-		return Striker::Create();
-		break;
 	case CharacterClass::ENGINEER:
 		return Engineer::Create();
-		break;
-	case CharacterClass::PROTECTOR:
-		return Protector::Create();
 		break;
 	default:
 		assert( false );
@@ -140,81 +132,6 @@ bool ClassComponent::SkillPush( int id, const D3DXVECTOR3& direction )
 	return true;
 }
 
-bool ClassComponent::SkillShareFuel( int id, const D3DXVECTOR3& direction )
-{
-	// 쿨탐 체크
-	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::SHARE_FUEL )] > 0.0f )
-		return false;
-
-	int targetId = NOTHING;
-	D3DXVECTOR3 spinAxis; // 사용은 안 함
-
-	// 나눠 줄 연료가 없다ㅠ
-	if ( m_Fuel < DEFAULT_FUEL_SHARE_AMOUNT )
-		return false;
-
-	std::tie( targetId, spinAxis ) = GObjectTable->GetActorManager()->DetectTarget( id, direction );
-
-	// 타겟이 없으면 그냥 무시
-	if ( targetId == NOTHING )
-		return false;
-
-	Character* skillUserCharacter = GObjectTable->GetCharacter( id );
-	assert( skillUserCharacter );
-
-	Character* targetCharacter = GObjectTable->GetCharacter( targetId );
-	assert( targetCharacter );
-
-	if ( skillUserCharacter->GetTeam() != targetCharacter->GetTeam() )
-		return false;
-
-	m_Fuel -= DEFAULT_FUEL_SHARE_AMOUNT;
-	targetCharacter->GetClassComponent()->IncreaseFuel( DEFAULT_FUEL_SHARE_AMOUNT );
-
-	GObjectTable->GetActorManager()->BroadcastCharacterChange( targetId, ChangeType::CHARACTER_STATE );
-
-	// 스킬 썼으면 쿨 적용시키자
-	SetCooldown( ClassSkill::SHARE_FUEL );
-
-	return true;
-}
-
-bool ClassComponent::SkillOccupy( int id, const D3DXVECTOR3& direction )
-{
-	// 쿨탐 체크
-	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] > 0.0f )
-	{
-		printf_s( "COOLDOWN : %f / %f\n", m_GlobalCooldown, m_CooldownTable[static_cast<int>( ClassSkill::OCCUPY )] );
-		return false;
-	}
-
-	// 판정은 GActorManager에 맞기자
-	// 방송도 GActorManager가 OccupyISS 진행하면서 하는 걸로
-	bool returnVal = GObjectTable->GetActorManager()->GetIss()->Occupy( id, direction );
-
-	// 스킬 썼으면 쿨 적용시키자
-	SetCooldown( ClassSkill::OCCUPY );
-
-	return returnVal;
-}
-
-bool ClassComponent::SkillDestroy( int id, const D3DXVECTOR3& direction )
-{
-	// 쿨탐 체크
-	if ( m_GlobalCooldown > 0.0f || m_CooldownTable[static_cast<int>( ClassSkill::DESTROY )] > 0.0f )
-		return false;
-
-	// 판정은 GActorManager에 맞기자
-	// 방송도 GActorManager가 DestroyISS 진행하면서 하는 걸로
-	bool returnVal = GObjectTable->GetActorManager()->GetIss()->Destroy( id, direction );
-
-	// 스킬 썼으면 쿨 적용시키자
-	// 안맞았더라도 스킬을 사용하는 순간 쿨다운을 적용해야할 듯.
-	SetCooldown( ClassSkill::DESTROY );
-
-	return returnVal;
-}
-
 bool ClassComponent::UseOxygen( float oxygenUse )
 {
 	//printf_s( "oxygen use : %0.2f\n", oxygenUse );
@@ -252,16 +169,6 @@ void ClassComponent::Update( float dt )
 {
 	// 기본 산소 소모
 	UseOxygen( dt * OXYGEN_CONSUMPTION );
-	
-	if ( m_DispenserEffectFlag )
-	{
-		m_Oxygen += dt * DISPENSER_OXYGEN_EFFICIENCY;
-		m_Oxygen = ( m_Oxygen > DEFAULT_OXYGEN ) ? DEFAULT_OXYGEN : m_Oxygen;
-
-		m_Fuel += dt * DISPENSER_FUEL_EFFICIENCY;
-		m_Fuel = ( m_Fuel > DEFAULT_FUEL ) ? DEFAULT_FUEL : m_Fuel;
-
-	}
 
 	// 쿨타임 업데이트
 	m_MovementControlCooldown -= dt;

@@ -161,9 +161,6 @@ void Character::ChangeClass( CharacterClass newClass )
 	// 변신!
 	m_CharacterClass = ClassComponent::Create( newClass );
 
-	// 구조물 초기화
-	GObjectTable->GetActorManager()->ClearPlayerStructureList( m_CharacterId );
-
 	// 조심해!!
 	// 위치 초기화 할까?
 }

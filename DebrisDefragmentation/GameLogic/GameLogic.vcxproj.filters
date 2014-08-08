@@ -20,17 +20,11 @@
     <Filter Include="Component\Class">
       <UniqueIdentifier>{11aeb9fe-4e70-4766-b140-93b317fb36a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\ISS">
-      <UniqueIdentifier>{dcc14623-381a-412e-9f9c-b8105bb33c7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Character">
       <UniqueIdentifier>{d68c1acb-d289-4b1b-b898-a9853506cf78}</UniqueIdentifier>
     </Filter>
     <Filter Include="Event">
       <UniqueIdentifier>{b609d32e-b19f-4817-aa79-28abd8bb127c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Structure">
-      <UniqueIdentifier>{cf755157-8eb3-4d2f-bcff-c0578ab77a9e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Debris">
       <UniqueIdentifier>{6f2b1780-3feb-41a6-bfbe-c11799afca2a}</UniqueIdentifier>
@@ -61,12 +55,6 @@
     <ClInclude Include="Engineer.h">
       <Filter>Component\Class</Filter>
     </ClInclude>
-    <ClInclude Include="Protector.h">
-      <Filter>Component\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Striker.h">
-      <Filter>Component\Class</Filter>
-    </ClInclude>
     <ClInclude Include="BaseObject.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -85,17 +73,8 @@
     <ClInclude Include="ClassComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="ISS.h">
-      <Filter>Object\ISS</Filter>
-    </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="ISSModule.h">
-      <Filter>Object\ISS</Filter>
-    </ClInclude>
-    <ClInclude Include="ISSControlPoint.h">
-      <Filter>Object\ISS</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Component</Filter>
@@ -106,14 +85,8 @@
     <ClInclude Include="GameData.h">
       <Filter>Config</Filter>
     </ClInclude>
-    <ClInclude Include="Dispenser.h">
-      <Filter>Object\Structure</Filter>
-    </ClInclude>
     <ClInclude Include="Debris.h">
       <Filter>Object\Debris</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceMine.h">
-      <Filter>Object\Structure</Filter>
     </ClInclude>
     <ClInclude Include="InGameEvent.h">
       <Filter>Event</Filter>
@@ -127,6 +100,9 @@
     <ClInclude Include="SolarWindEvent.h">
       <Filter>Event</Filter>
     </ClInclude>
+    <ClInclude Include="DebrisManager.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -138,12 +114,6 @@
     <ClCompile Include="Engineer.cpp">
       <Filter>Component\Class</Filter>
     </ClCompile>
-    <ClCompile Include="Protector.cpp">
-      <Filter>Component\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Striker.cpp">
-      <Filter>Component\Class</Filter>
-    </ClCompile>
     <ClCompile Include="BaseObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -153,17 +123,8 @@
     <ClCompile Include="ClassComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="ISS.cpp">
-      <Filter>Object\ISS</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="ISSModule.cpp">
-      <Filter>Object\ISS</Filter>
-    </ClCompile>
-    <ClCompile Include="ISSControlPoint.cpp">
-      <Filter>Object\ISS</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Component</Filter>
@@ -174,14 +135,8 @@
     <ClCompile Include="GameData.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="Dispenser.cpp">
-      <Filter>Object\Structure</Filter>
-    </ClCompile>
     <ClCompile Include="Debris.cpp">
       <Filter>Object\Debris</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceMine.cpp">
-      <Filter>Object\Structure</Filter>
     </ClCompile>
     <ClCompile Include="InGameEvent.cpp">
       <Filter>Event</Filter>
@@ -195,5 +150,6 @@
     <ClCompile Include="SolarWindEvent.cpp">
       <Filter>Event</Filter>
     </ClCompile>
+    <ClCompile Include="DebrisManager.cpp" />
   </ItemGroup>
 </Project>

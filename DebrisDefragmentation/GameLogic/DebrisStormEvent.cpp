@@ -35,31 +35,7 @@ void DebrisStormEvent::Run()
 	// iss는 ActorManager가 멤버로 들고 있으므로 요청할 수 밖에 없을 듯
 
 	// ISS module 충돌박스 정보 갱신
-	std::vector<const CollisionBox*> currentIssModuleBoundingBox;
-	for ( int i = 0; i < MODULE_NUMBER; ++i )
-	{
-		currentIssModuleBoundingBox.push_back( GObjectTable->GetActorManager()->GetModuleBoundingBox( i ) );
-	}
 
-	// 가려지는지 확인
-	for ( int i = 0; i < REAL_PLAYER_NUM; ++i )
-	{
-		Character* tempCharacter = GObjectTable->GetCharacter( i );
-
-		if ( tempCharacter == nullptr )
-			continue;
-
-		if ( !Physics::IsCovered( tempCharacter->GetCollisionBox(), -m_Direction, currentIssModuleBoundingBox ) )
-		{
-			// 캐릭터에 이벤트 적용
-			float oxy = tempCharacter->GetClassComponent()->GetOxygen();
-			tempCharacter->GetClassComponent()->SetOxygen( oxy - OXYGEN_CONSUMPTION_UNDER_DISASTER );			
-
-			// 조심해!!
-			// 따로 함수 만들 것
-			GObjectTable->GetActorManager()->BroadcastCharacterChange( i, ChangeType::CHARACTER_STATE );
-		}
-	}
 
 	printf_s( "Debris storm\n" );
 }

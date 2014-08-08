@@ -3,9 +3,7 @@
 #include "CharacterModel.h"
 #include "NetworkManager.h"
 #include "PlayerManager.h"
-#include "Striker.h"
 #include "Engineer.h"
-#include "Protector.h"
 
 #include "Physics.h"
 #include "MatrixTransform.h"
@@ -124,11 +122,6 @@ void Player::UpdateItSelf( float dTime )
 	}
 
 	m_LastHealingEffectTime += dTime;	
-	if ( m_ClassComponent->GetDispenserEffectFlag() && ( m_LastHealingEffectTime > HEALING_LIFETIME ) )
-	{
-		GEnvironmentManager->PlayFireworkEffect( EffectType::HEALING, m_Transform.GetPosition(), HEALING_DIR_MIN, HEALING_DIR_MAX );
-		m_LastHealingEffectTime = 0.0f;
-	}
 
 	D3DXVECTOR3 tmpVec3 = GetTransform().GetPosition();
 	D3DXVECTOR3 tmpVel = GetVelocity();

@@ -27,45 +27,12 @@ void GameManager::BroadcastCharacterChange( int targetId, ChangeType type )
 	case ChangeType::CHARACTER_STATE:
 		targetSession->BroadcastCharacterState( );
 		break;
-	case ChangeType::DISASTER_EVENT_STATE:
-		// 조심해!
-		// 이건 따로 분리해야 하나...
-		targetSession->SendWarning( );
-		break;
 	case ChangeType::RESOURCE_GATHER:
 		targetSession->BroadcastGatherResult( );
 		break;
 	default:
 		break;
 	}
-}
-
-void GameManager::BroadcastIssChange()
-{
-	GClientManager->BroadcastModuleState();
-}
-
-void GameManager::BroadcastStructureInstallation( int structureId, StructureType structureType, D3DXVECTOR3 position, D3DXVECTOR3 direction, TeamColor teamColor )
-{
-	StructureInstallResult outPacket;
-
-	outPacket.mStructInfo.mStructureId = structureId;
-	outPacket.mStructInfo.mStructureType = static_cast<int>( structureType );
-	outPacket.mStructInfo.mPosition = position;
-	outPacket.mStructInfo.mDirection = direction;
-	outPacket.mStructInfo.mTeamColor = static_cast<int>( teamColor );
-
-	GClientManager->BroadcastPacket( nullptr, &outPacket );
-}
-
-void GameManager::BroadcastStructureUninstallation( int structureId, StructureType structureType )
-{
-	StructureUninstallResult outPacket;
-
-	outPacket.mStructureId = structureId;
-	outPacket.mStructureType = static_cast<int>( structureType );
-
-	GClientManager->BroadcastPacket( nullptr, &outPacket );
 }
 
 void GameManager::DoPeriodWork() 
@@ -121,33 +88,4 @@ void GameManager::DoPeriodWork()
 
 		GClientManager->BroadcastPacket( nullptr, &outPacket );
 	}
-}
-
-void GameManager::BroadcastDispenserEffect( int idx, bool dispenserEffectFlag )
-{
-	ClientSession* targetSession = GClientManager->GetSession( idx );
-	if ( targetSession )
-		targetSession->BroadcastDispenserEffect( dispenserEffectFlag );
-	else
-		DDLOG_WARN( L"invalid index" );
-}
-
-void GameManager::BroadcastDisasterOccurrence( D3DXVECTOR3 direction, float remainTime )
-{
-	DisaterOccurrenceResult outPacket;
-
-	outPacket.direction = direction;
-	outPacket.remainTime = remainTime;
-
-	GClientManager->BroadcastPacket( nullptr, &outPacket );
-}
-
-void GameManager::BroadcastISSSkillResult( D3DXVECTOR3 direction, D3DXVECTOR3 position )
-{
-	DestroyISSResult outPacket;
-
-	outPacket.mDirection = direction;
-	outPacket.mHitPosition = position;
-
-	GClientManager->BroadcastPacket( nullptr, &outPacket );
 }
