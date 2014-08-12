@@ -28,3 +28,10 @@ void Debris::Init()
 	m_CollisionBox.InitRadius();
 	m_Matrix = m_Transform.MatrixTransform();
 }
+
+int Debris::CalculateZoneId()
+{
+	// 현재 위치를 계산해서 zone id 계산, 리턴
+
+	return -1;
+}

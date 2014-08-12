@@ -390,4 +390,5 @@ const std::map<SOUND_LIST, std::string> SoundTable =
 
 // 새로운 충돌 체크를 위한 변수들입니다
 // 최경욱
-const int COLLISION_ZONE_NUMBER = 1000;
+const int DEBRIS_ZONE_NUMBER = 125; // 5 * 5 * 5
+const int DEBRIS_COUNT_IN_EACH_ZONE = 20;

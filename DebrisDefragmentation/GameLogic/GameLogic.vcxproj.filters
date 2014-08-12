@@ -101,7 +101,10 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="DebrisManager.h">
-      <Filter>PCH</Filter>
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DebrisZone.h">
+      <Filter>Object\Debris</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +153,11 @@
     <ClCompile Include="SolarWindEvent.cpp">
       <Filter>Event</Filter>
     </ClCompile>
-    <ClCompile Include="DebrisManager.cpp" />
+    <ClCompile Include="DebrisManager.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DebrisZone.cpp">
+      <Filter>Object\Debris</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

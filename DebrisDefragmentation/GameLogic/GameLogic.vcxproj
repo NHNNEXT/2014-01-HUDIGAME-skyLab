@@ -92,6 +92,7 @@
     <ClInclude Include="Debris.h" />
     <ClInclude Include="DebrisManager.h" />
     <ClInclude Include="DebrisStormEvent.h" />
+    <ClInclude Include="DebrisZone.h" />
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameMacro.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="DebrisManager.cpp" />
     <ClCompile Include="DebrisStormEvent.cpp" />
+    <ClCompile Include="DebrisZone.cpp" />
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="InGameEvent.cpp" />
