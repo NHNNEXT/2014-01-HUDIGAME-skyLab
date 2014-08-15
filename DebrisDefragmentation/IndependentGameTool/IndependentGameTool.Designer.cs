@@ -151,9 +151,9 @@
             this.label28 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ItemDescriptionTxt = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.itemPropertyCombo = new System.Windows.Forms.ComboBox();
             this.label30 = new System.Windows.Forms.Label();
             this.ItemPropertyList = new System.Windows.Forms.ListBox();
             this.AddPropertyBtn = new System.Windows.Forms.Button();
@@ -1349,9 +1349,9 @@
             this.groupBox19.Controls.Add(this.AddPropertyBtn);
             this.groupBox19.Controls.Add(this.ItemPropertyList);
             this.groupBox19.Controls.Add(this.label30);
-            this.groupBox19.Controls.Add(this.comboBox1);
+            this.groupBox19.Controls.Add(this.itemPropertyCombo);
             this.groupBox19.Controls.Add(this.label29);
-            this.groupBox19.Controls.Add(this.textBox1);
+            this.groupBox19.Controls.Add(this.ItemDescriptionTxt);
             this.groupBox19.Location = new System.Drawing.Point(6, 87);
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.Size = new System.Drawing.Size(452, 307);
@@ -1412,30 +1412,30 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.LoadItemData);
             // 
-            // textBox1
+            // ItemDescriptionTxt
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 197);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(430, 95);
-            this.textBox1.TabIndex = 0;
+            this.ItemDescriptionTxt.Location = new System.Drawing.Point(9, 197);
+            this.ItemDescriptionTxt.Multiline = true;
+            this.ItemDescriptionTxt.Name = "ItemDescriptionTxt";
+            this.ItemDescriptionTxt.Size = new System.Drawing.Size(430, 95);
+            this.ItemDescriptionTxt.TabIndex = 0;
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(6, 173);
+            this.label29.Location = new System.Drawing.Point(6, 182);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(69, 12);
             this.label29.TabIndex = 1;
             this.label29.Text = "아이템 설명";
             // 
-            // comboBox1
+            // itemPropertyCombo
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(9, 32);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(135, 20);
-            this.comboBox1.TabIndex = 2;
+            this.itemPropertyCombo.FormattingEnabled = true;
+            this.itemPropertyCombo.Location = new System.Drawing.Point(9, 32);
+            this.itemPropertyCombo.Name = "itemPropertyCombo";
+            this.itemPropertyCombo.Size = new System.Drawing.Size(135, 20);
+            this.itemPropertyCombo.TabIndex = 2;
             // 
             // label30
             // 
@@ -1471,6 +1471,8 @@
             this.GameItemList.Size = new System.Drawing.Size(219, 220);
             this.GameItemList.TabIndex = 3;
             this.GameItemList.UseCompatibleStateImageBehavior = false;
+            this.GameItemList.View = System.Windows.Forms.View.List;
+            this.GameItemList.SelectedIndexChanged += new System.EventHandler(this.ShowItemStat);
             // 
             // IndependentGameTool
             // 
@@ -1661,9 +1663,9 @@
         private System.Windows.Forms.GroupBox groupBox20;
         private System.Windows.Forms.GroupBox groupBox19;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox itemPropertyCombo;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox ItemDescriptionTxt;
         private System.Windows.Forms.Button AddPropertyBtn;
         private System.Windows.Forms.ListBox ItemPropertyList;
         private System.Windows.Forms.ListView GameItemList;

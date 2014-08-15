@@ -74,16 +74,26 @@ namespace GameTool.Class
 
         private void BuildJsonItemDataList(ListView listView, JsonObjectCollection jObj)
         {
+            listView.BeginUpdate();
+
             foreach(var token in jObj)
             {
                 if( token.GetType() == typeof(JsonObjectCollection) && token.Name == "Items" )
                 {
-                    foreach(var gameItem in (JsonArrayCollection)token )
+                    foreach (var gameItem in (JsonObjectCollection)token)
                     {
-
+                        ListViewItem itemObj = new ListViewItem(gameItem.Name);
+                        listView.Items.Add(itemObj);
                     }
                 }
             }
+
+            listView.EndUpdate();
+        }
+
+        public void ShowJsonItemDetailStatus(string itemname)
+        {
+            
         }
 
         private void BuildJsonDataTree(TreeNode treeNode, JsonObjectCollection jObj)

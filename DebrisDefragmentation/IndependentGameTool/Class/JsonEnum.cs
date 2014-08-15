@@ -12,6 +12,12 @@ namespace GameTool.GameEnvironment
             JSON_TOTAL_KEY_COUNT
         };
 
+        static private Dictionary<JsonKeyValues, string> JsonKeyStringList = new Dictionary<JsonKeyValues, string>()
+        {
+            {JsonKeyValues.JSON_DEBRIS_NUMBER, "debrisNumber"},
+            {JsonKeyValues.JSON_ISS, "ISS"}
+        };
+
         public enum JsonISSModule : int
         {
             NO_MODULE = -1,
@@ -27,25 +33,6 @@ namespace GameTool.GameEnvironment
             PART9,
         }
 
-        public enum JsonItemType : int
-        {
-
-        }
-
-        public enum JsonItemProperty : int
-        {
-            CHARACTER_GAS,
-            CHARACTER_OXYGEN,
-            SPACESHIP_SPEED,
-            SPACESHIP_ENERGY,
-        }
-
-        static private Dictionary<JsonKeyValues, string> JsonKeyStringList = new Dictionary<JsonKeyValues, string>()
-        {
-            {JsonKeyValues.JSON_DEBRIS_NUMBER, "debrisNumber"},
-            {JsonKeyValues.JSON_ISS, "ISS"}
-        };
-
         static private Dictionary<JsonISSModule, string> JsonISSModuleList = new Dictionary<JsonISSModule, string>()
         {
             { JsonISSModule.PART0, "0" },
@@ -60,6 +47,27 @@ namespace GameTool.GameEnvironment
             { JsonISSModule.PART9, "9" },
         };
 
+        public enum JsonItemType : int
+        {
+
+        }
+
+        public enum JsonItemProperty : int
+        {
+            CHARACTER_GAS,
+            CHARACTER_OXYGEN,
+            SPACESHIP_SPEED,
+            SPACESHIP_ENERGY,
+        }
+
+        static private Dictionary<JsonItemProperty, string> JsonItemPropertyList = new Dictionary<JsonItemProperty, string>()
+        {
+            { JsonItemProperty.CHARACTER_GAS, "CHARACTER_GAS" },
+            { JsonItemProperty.CHARACTER_OXYGEN, "CHARACTER_OXYGEN" },
+            { JsonItemProperty.SPACESHIP_SPEED, "SPACESHIP_SPEED" },
+            { JsonItemProperty.SPACESHIP_ENERGY, "SPACESHIP_ENERGY" },
+        };
+
         static public string GetJsonKey(JsonKeyValues key)
         {
             return JsonKeyStringList[key];
@@ -69,6 +77,12 @@ namespace GameTool.GameEnvironment
         static public string GetJsonKey(JsonISSModule key)
         {
             return JsonISSModuleList[key];
+        }
+
+        //override
+        static public string GetJsonKey(JsonItemProperty key)
+        {
+            return JsonItemPropertyList[key];
         }
     }
 }

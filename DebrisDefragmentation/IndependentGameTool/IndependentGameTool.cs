@@ -13,6 +13,7 @@ namespace GameTool
     {
         Class.Renderer m_Renderer = new Class.Renderer();
         Class.JSONInOut m_JsonManager = new Class.JSONInOut();
+        Class.ItemManager m_ItemManager = new Class.ItemManager();
 
         public IndependentGameTool()
         {
@@ -21,6 +22,7 @@ namespace GameTool
             this.ObjectView.MouseWheel += new System.Windows.Forms.MouseEventHandler(ObjectCameraZoomInOut);
             m_JsonManager.SearchJsonFiles(this.JsonFileList);
             SearchMesh();
+            m_ItemManager.AddItemPropertiesTo(itemPropertyCombo);
         }
 
         private void ISSRenderStart(object sender, EventArgs e)
@@ -393,6 +395,12 @@ namespace GameTool
         private void LoadItemData(object sender, EventArgs e)
         {
             m_JsonManager.ShowJsonItemData(GameItemList);
+        }
+
+        private void ShowItemStat(object sender, EventArgs e)
+        {
+            string name = GameItemList.FocusedItem.Text;
+            m_JsonManager.ShowJsonItemDetailStatus(name);
         }
 
     }
