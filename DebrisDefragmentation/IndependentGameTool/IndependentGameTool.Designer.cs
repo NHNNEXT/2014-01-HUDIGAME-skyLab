@@ -100,6 +100,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.ResetAccumulatedScaleBtn = new System.Windows.Forms.Button();
             this.AccumScale = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.SetScaleBtn = new System.Windows.Forms.Button();
@@ -143,7 +144,20 @@
             this.tab_ObjectRender = new System.Windows.Forms.TabPage();
             this.ObjectView = new System.Windows.Forms.PictureBox();
             this.tab_GameRender = new System.Windows.Forms.TabPage();
-            this.ResetAccumulatedScaleBtn = new System.Windows.Forms.Button();
+            this.ItemManager = new System.Windows.Forms.TabPage();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.ItemPropertyList = new System.Windows.Forms.ListBox();
+            this.AddPropertyBtn = new System.Windows.Forms.Button();
+            this.GameItemList = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.View)).BeginInit();
             this.CameraConfig.SuspendLayout();
             this.CameraViewVector.SuspendLayout();
@@ -175,6 +189,9 @@
             this.tab_ObjectRender.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).BeginInit();
             this.tab_GameRender.SuspendLayout();
+            this.ItemManager.SuspendLayout();
+            this.groupBox19.SuspendLayout();
+            this.groupBox21.SuspendLayout();
             this.SuspendLayout();
             // 
             // View
@@ -622,6 +639,7 @@
             this.Status.Controls.Add(this.JSONConfig);
             this.Status.Controls.Add(this.CameraModelStat);
             this.Status.Controls.Add(this.ObjectTool);
+            this.Status.Controls.Add(this.ItemManager);
             this.Status.Location = new System.Drawing.Point(779, 28);
             this.Status.Name = "Status";
             this.Status.SelectedIndex = 0;
@@ -892,6 +910,17 @@
             this.groupBox18.TabIndex = 12;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Scale";
+            // 
+            // ResetAccumulatedScaleBtn
+            // 
+            this.ResetAccumulatedScaleBtn.ForeColor = System.Drawing.Color.Crimson;
+            this.ResetAccumulatedScaleBtn.Location = new System.Drawing.Point(140, 103);
+            this.ResetAccumulatedScaleBtn.Name = "ResetAccumulatedScaleBtn";
+            this.ResetAccumulatedScaleBtn.Size = new System.Drawing.Size(22, 25);
+            this.ResetAccumulatedScaleBtn.TabIndex = 16;
+            this.ResetAccumulatedScaleBtn.Text = "R";
+            this.ResetAccumulatedScaleBtn.UseVisualStyleBackColor = true;
+            this.ResetAccumulatedScaleBtn.Click += new System.EventHandler(this.ResetAccumulatedScale);
             // 
             // AccumScale
             // 
@@ -1301,16 +1330,147 @@
             this.tab_GameRender.Text = "GameRender";
             this.tab_GameRender.UseVisualStyleBackColor = true;
             // 
-            // ResetAccumulatedScaleBtn
+            // ItemManager
             // 
-            this.ResetAccumulatedScaleBtn.ForeColor = System.Drawing.Color.Crimson;
-            this.ResetAccumulatedScaleBtn.Location = new System.Drawing.Point(140, 103);
-            this.ResetAccumulatedScaleBtn.Name = "ResetAccumulatedScaleBtn";
-            this.ResetAccumulatedScaleBtn.Size = new System.Drawing.Size(22, 25);
-            this.ResetAccumulatedScaleBtn.TabIndex = 16;
-            this.ResetAccumulatedScaleBtn.Text = "R";
-            this.ResetAccumulatedScaleBtn.UseVisualStyleBackColor = true;
-            this.ResetAccumulatedScaleBtn.Click += new System.EventHandler(this.ResetAccumulatedScale);
+            this.ItemManager.Controls.Add(this.GameItemList);
+            this.ItemManager.Controls.Add(this.groupBox21);
+            this.ItemManager.Controls.Add(this.groupBox20);
+            this.ItemManager.Controls.Add(this.groupBox19);
+            this.ItemManager.Location = new System.Drawing.Point(4, 22);
+            this.ItemManager.Name = "ItemManager";
+            this.ItemManager.Padding = new System.Windows.Forms.Padding(3);
+            this.ItemManager.Size = new System.Drawing.Size(465, 696);
+            this.ItemManager.TabIndex = 3;
+            this.ItemManager.Text = "ItemManager";
+            this.ItemManager.UseVisualStyleBackColor = true;
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.Controls.Add(this.AddPropertyBtn);
+            this.groupBox19.Controls.Add(this.ItemPropertyList);
+            this.groupBox19.Controls.Add(this.label30);
+            this.groupBox19.Controls.Add(this.comboBox1);
+            this.groupBox19.Controls.Add(this.label29);
+            this.groupBox19.Controls.Add(this.textBox1);
+            this.groupBox19.Location = new System.Drawing.Point(6, 87);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(452, 307);
+            this.groupBox19.TabIndex = 1;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "Item Status";
+            // 
+            // groupBox20
+            // 
+            this.groupBox20.Location = new System.Drawing.Point(232, 400);
+            this.groupBox20.Name = "groupBox20";
+            this.groupBox20.Size = new System.Drawing.Size(226, 220);
+            this.groupBox20.TabIndex = 2;
+            this.groupBox20.TabStop = false;
+            this.groupBox20.Text = "이건 뭘로 쓸까";
+            // 
+            // groupBox21
+            // 
+            this.groupBox21.Controls.Add(this.button6);
+            this.groupBox21.Controls.Add(this.button5);
+            this.groupBox21.Controls.Add(this.label28);
+            this.groupBox21.Location = new System.Drawing.Point(6, 6);
+            this.groupBox21.Name = "groupBox21";
+            this.groupBox21.Size = new System.Drawing.Size(452, 75);
+            this.groupBox21.TabIndex = 2;
+            this.groupBox21.TabStop = false;
+            this.groupBox21.Text = "Item File I/O";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(7, 21);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(432, 12);
+            this.label28.TabIndex = 0;
+            this.label28.Text = "Json 파일은 JSONConfig 에서 읽고 쓰세요. 이 탭은 메모리 업데이트만 합니다";
+            // 
+            // button5
+            // 
+            this.button5.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button5.ForeColor = System.Drawing.Color.DarkRed;
+            this.button5.Location = new System.Drawing.Point(301, 37);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(138, 32);
+            this.button5.TabIndex = 1;
+            this.button5.Text = "Update Modify";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("나눔고딕", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button6.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.button6.Location = new System.Drawing.Point(6, 37);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(138, 32);
+            this.button6.TabIndex = 2;
+            this.button6.Text = "Load Item Data";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.LoadItemData);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(9, 197);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(430, 95);
+            this.textBox1.TabIndex = 0;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 173);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(69, 12);
+            this.label29.TabIndex = 1;
+            this.label29.Text = "아이템 설명";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(9, 32);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(135, 20);
+            this.comboBox1.TabIndex = 2;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 17);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(69, 12);
+            this.label30.TabIndex = 3;
+            this.label30.Text = "아이템 속성";
+            // 
+            // ItemPropertyList
+            // 
+            this.ItemPropertyList.FormattingEnabled = true;
+            this.ItemPropertyList.ItemHeight = 12;
+            this.ItemPropertyList.Location = new System.Drawing.Point(9, 59);
+            this.ItemPropertyList.Name = "ItemPropertyList";
+            this.ItemPropertyList.Size = new System.Drawing.Size(210, 112);
+            this.ItemPropertyList.TabIndex = 4;
+            // 
+            // AddPropertyBtn
+            // 
+            this.AddPropertyBtn.Location = new System.Drawing.Point(150, 32);
+            this.AddPropertyBtn.Name = "AddPropertyBtn";
+            this.AddPropertyBtn.Size = new System.Drawing.Size(69, 20);
+            this.AddPropertyBtn.TabIndex = 5;
+            this.AddPropertyBtn.Text = "Add";
+            this.AddPropertyBtn.UseVisualStyleBackColor = true;
+            // 
+            // GameItemList
+            // 
+            this.GameItemList.Location = new System.Drawing.Point(7, 400);
+            this.GameItemList.Name = "GameItemList";
+            this.GameItemList.Size = new System.Drawing.Size(219, 220);
+            this.GameItemList.TabIndex = 3;
+            this.GameItemList.UseCompatibleStateImageBehavior = false;
             // 
             // IndependentGameTool
             // 
@@ -1366,6 +1526,11 @@
             this.tab_ObjectRender.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ObjectView)).EndInit();
             this.tab_GameRender.ResumeLayout(false);
+            this.ItemManager.ResumeLayout(false);
+            this.groupBox19.ResumeLayout(false);
+            this.groupBox19.PerformLayout();
+            this.groupBox21.ResumeLayout(false);
+            this.groupBox21.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1488,6 +1653,20 @@
         private System.Windows.Forms.Label AccumScale;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Button ResetAccumulatedScaleBtn;
+        private System.Windows.Forms.TabPage ItemManager;
+        private System.Windows.Forms.GroupBox groupBox21;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.GroupBox groupBox20;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button AddPropertyBtn;
+        private System.Windows.Forms.ListBox ItemPropertyList;
+        private System.Windows.Forms.ListView GameItemList;
     }
 }
 

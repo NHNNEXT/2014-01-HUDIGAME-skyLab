@@ -27,6 +27,19 @@ namespace GameTool.GameEnvironment
             PART9,
         }
 
+        public enum JsonItemType : int
+        {
+
+        }
+
+        public enum JsonItemProperty : int
+        {
+            CHARACTER_GAS,
+            CHARACTER_OXYGEN,
+            SPACESHIP_SPEED,
+            SPACESHIP_ENERGY,
+        }
+
         static private Dictionary<JsonKeyValues, string> JsonKeyStringList = new Dictionary<JsonKeyValues, string>()
         {
             {JsonKeyValues.JSON_DEBRIS_NUMBER, "debrisNumber"},

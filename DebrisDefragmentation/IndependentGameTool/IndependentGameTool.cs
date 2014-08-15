@@ -384,5 +384,16 @@ namespace GameTool
             AccumScale.Text = "1.0";
         }
 
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        // TAB : Item Manager Tool
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        private void LoadItemData(object sender, EventArgs e)
+        {
+            m_JsonManager.ShowJsonItemData(GameItemList);
+        }
+
     }
 }
